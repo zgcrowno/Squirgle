@@ -7,6 +7,9 @@ import com.screenlooker.squirgle.Squirgle;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
+		config.title = "SQUIRGLE";
+		config.width = 768;
+		config.height = 1024;
 		new LwjglApplication(new Squirgle(), config);
 	}
 }

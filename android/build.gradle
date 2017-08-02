@@ -1,5 +1,5 @@
 android {
-    buildToolsVersion "23.0.3"
+    buildToolsVersion "26"
     compileSdkVersion 26
     sourceSets {
         main {
@@ -19,7 +19,7 @@ android {
     }
     defaultConfig {
         applicationId "com.screenlooker.squirgle"
-        minSdkVersion 9
+        minSdkVersion 15
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
