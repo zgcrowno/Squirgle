@@ -22,6 +22,10 @@ public class Squirgle extends ApplicationAdapter {
 	private float inputDistanceOffset = (float) 1.5;
 	private float initShapeSize = 10;
 	private int inputRadius = 50;
+	private int point = 0;
+	private int line = 1;
+	private int triangle = 2;
+	private int square = 3;
 	
 	@Override
 	public void create () {
