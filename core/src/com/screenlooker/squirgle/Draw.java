@@ -146,16 +146,18 @@ public class Draw {
     }
 
     public void drawPrompt(float x, float y, int promptShape, float promptSize, Color color, ShapeRenderer shapeRenderer) {
-        if(promptShape == 0) {
+        if(promptShape == Shape.CIRCLE) {
+            drawPoint(x, y, promptSize * 2, color, shapeRenderer);
+        } else if(promptShape == Shape.POINT) {
             drawPoint(x, y, promptSize, color, shapeRenderer);
-        } else if(promptShape == 1) {
+        } else if(promptShape == Shape.LINE) {
             drawLine(x, y + (2 * promptSize), x, y - (2 * promptSize), promptSize, color, shapeRenderer);
-        } else if(promptShape == 2) {
+        } else if(promptShape == Shape.TRIANGLE) {
             promptTriangleTop.set(x, y + (1.5f * promptSize));
             promptTriangleLeft.set(x - (1.5f * promptSize), y - (1.5f * promptSize));
             promptTriangleRight.set(x + (1.5f * promptSize), y - (1.5f * promptSize));
             drawTriangle(promptTriangleTop, promptTriangleLeft, promptTriangleRight, promptSize, color, shapeRenderer);
-        } else {
+        } else if(promptShape == Shape.SQUARE) {
             promptSquareTopLeft.set(x - (1.5f * promptSize), y + (1.5f * promptSize));
             promptSquareBottomLeft.set(x - (1.5f * promptSize), y - (1.5f * promptSize));
             promptSquareBottomRight.set(x + (1.5f * promptSize), y - (1.5f * promptSize));
