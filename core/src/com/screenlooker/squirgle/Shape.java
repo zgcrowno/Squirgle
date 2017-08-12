@@ -10,18 +10,18 @@ public class Shape {
     public static final int CIRCLE = 4;
 
     private int shape;
-    private float size;
+    private float radius;
     private Color color;
 
     public Shape() {
         this.shape = this.CIRCLE;
-        this.size = 10;
+        this.radius = 10;
         this.color = Color.WHITE;
     }
 
     public Shape(int shape, int size, Color color) {
         this.shape = shape;
-        this.size = size;
+        this.radius = size;
         this.color = color;
     }
 
@@ -41,11 +41,11 @@ public class Shape {
         this.color = color;
     }
 
-    public float getSize() {
-        return size;
+    public float getRadius() {
+        return radius;
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public void setRadius(int size) {
+        this.radius = size;
     }
 }

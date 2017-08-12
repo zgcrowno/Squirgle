@@ -20,6 +20,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 	private Draw draw;
 	private float inputDistanceOffset;
 	private float promptSize;
+	private float promptIncrease;
 	private int promptShape;
 	private int inputRadius;
 	private List<Shape> priorShapeList;
@@ -56,6 +57,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		draw = new Draw(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		inputDistanceOffset = (float) 1.5;
 		promptSize = 20;
+		promptIncrease = 1.003f;
 		promptShape = MathUtils.random(3);
 		inputRadius = 50;
 		priorShapeList = new ArrayList<Shape>();
@@ -106,6 +108,8 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		draw.drawTarget(targetShapeList, shapeRenderer);
 
 		shapeRenderer.end();
+
+		promptSize *= promptIncrease;
 
 	}
 

@@ -10,12 +10,12 @@ import java.util.List;
 import static com.badlogic.gdx.graphics.Color.BLACK;
 
 public class Draw {
-    private float pointRadius;
     private float lineWidth;
     private int inputRadius;
     private int targetRadius;
     private float inputDistanceOffset;
     private float targetDistanceOffset;
+    private float radiusOffset;
     private Vector2 targetSpawn;
     private Vector2 inputPointSpawn;
     private Vector2 inputLineSpawn;
@@ -23,12 +23,12 @@ public class Draw {
     private Vector2 inputSquareSpawn;
 
     public Draw() {
-        pointRadius = 0;
         lineWidth = 0;
         inputRadius = 0;
         targetRadius = 0;
         inputDistanceOffset = 0;
         targetDistanceOffset = 0;
+        radiusOffset = 0;
         targetSpawn = new Vector2();
         inputPointSpawn = new Vector2();
         inputLineSpawn = new Vector2();
@@ -37,25 +37,17 @@ public class Draw {
     }
 
     public Draw(float screenWidth, float screenHeight) {
-        pointRadius = 10;
         lineWidth = 0;
         inputRadius = 50;
         targetRadius = 150;
         inputDistanceOffset = 1.5f;
-        targetDistanceOffset = targetRadius / 2;
+        targetDistanceOffset = targetRadius / 2.5f;
+        radiusOffset = 1.45f;
         targetSpawn = new Vector2(targetDistanceOffset, screenHeight - targetDistanceOffset);
         inputPointSpawn = new Vector2(screenWidth / 5, (inputDistanceOffset * inputRadius));
         inputLineSpawn = new Vector2((2 * screenWidth) / 5, (inputDistanceOffset * inputRadius));
         inputTriangleSpawn = new Vector2((3 * screenWidth) / 5, (inputDistanceOffset * inputRadius));
         inputSquareSpawn = new Vector2((4 * screenWidth) / 5, (inputDistanceOffset * inputRadius));
-    }
-
-    public float getPointRadius() {
-        return pointRadius;
-    }
-
-    public void setPointRadius(float pointRadius) {
-        this.pointRadius = pointRadius;
     }
 
     public float getLineWidth() {
@@ -66,6 +58,22 @@ public class Draw {
         this.lineWidth = lineWidth;
     }
 
+    public int getInputRadius() {
+        return inputRadius;
+    }
+
+    public void setInputRadius(int inputRadius) {
+        this.inputRadius = inputRadius;
+    }
+
+    public int getTargetRadius() {
+        return targetRadius;
+    }
+
+    public void setTargetRadius(int targetRadius) {
+        this.targetRadius = targetRadius;
+    }
+
     public float getInputDistanceOffset() {
         return inputDistanceOffset;
     }
@@ -74,12 +82,20 @@ public class Draw {
         this.inputDistanceOffset = inputDistanceOffset;
     }
 
-    public int getInputRadius() {
-        return inputRadius;
+    public float getTargetDistanceOffset() {
+        return targetDistanceOffset;
     }
 
-    public void setInputRadius(int inputRadius) {
-        this.inputRadius = inputRadius;
+    public void setTargetDistanceOffset(float targetDistanceOffset) {
+        this.targetDistanceOffset = targetDistanceOffset;
+    }
+
+    public Vector2 getTargetSpawn() {
+        return targetSpawn;
+    }
+
+    public void setTargetSpawn(Vector2 targetSpawn) {
+        this.targetSpawn = targetSpawn;
     }
 
     public Vector2 getInputPointSpawn() {
@@ -139,17 +155,34 @@ public class Draw {
             for(int i = targetShapeList.size() - 1; i >= 0; i--) {
                 Shape shape = targetShapeList.get(i);
                 Color color = null;
+                float xOffset = 0;
+                float yOffset = 0;
                 if(i == 2) {
                     color = Color.BLACK;
-                    shape.setSize(targetRadius / 6);
+                    if(shape.getShape() == Shape.POINT) {
+                        shape.setRadius(targetRadius / 15);
+                        xOffset = targetRadius / 5;
+                    } else if(shape.getShape() == Shape.LINE) {
+                        shape.setRadius(targetRadius / 10);
+                        xOffset = targetRadius / 5;
+                    } else if(shape.getShape() == Shape.TRIANGLE) {
+                        shape.setRadius(targetRadius / 3);
+                        yOffset = targetRadius / 15;
+                    } else if(shape.getShape() == Shape.SQUARE) {
+                        shape.setRadius(targetRadius / 3);
+                    }
                 } else if(i == 1) {
                     color = Color.BLACK;
-                    shape.setSize(targetRadius / 8);
+                    shape.setRadius(targetRadius / 7);
                 } else {
                     color = Color.WHITE;
-                    shape.setSize(targetRadius / 10);
+                    if(shape.getShape() == Shape.POINT) {
+                        shape.setRadius(targetRadius / 15);
+                    } else {
+                        shape.setRadius(targetRadius / 10);
+                    }
                 }
-                drawShape(targetSpawn.x, targetSpawn.y, shape.getSize(), color, shapeRenderer, shape);
+                drawShape(targetSpawn.x - xOffset, targetSpawn.y + yOffset, shape.getRadius(), color, shapeRenderer, shape);
             }
         }
     }
@@ -184,25 +217,25 @@ public class Draw {
     public void drawTriangle(float x, float y, float radius, Color color, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(color);
         lineWidth = radius / 8;
-        shapeRenderer.rectLine(x, y + radius, (float) (x - (radius / 1.45)), (float) (y - (radius / 1.45)), lineWidth);
-        shapeRenderer.rectLine((float) (x - (radius / 1.45)), (float) (y - (radius / 1.45)), (float) (x + (radius / 1.45)), (float) (y - (radius / 1.45)), lineWidth);
-        shapeRenderer.rectLine((float) (x + (radius / 1.45)), (float) (y - (radius / 1.45)), x, y + radius, lineWidth);
-        drawPoint(x, y + radius, lineWidth, color, shapeRenderer);
-        drawPoint((float) (x - (radius / 1.45)), (float) (y - (radius / 1.45)), lineWidth, color, shapeRenderer);
-        drawPoint((float) (x + (radius / 1.45)), (float) (y - (radius / 1.45)), lineWidth, color, shapeRenderer);
+        shapeRenderer.rectLine(x, y + radius - lineWidth, (float) (x - (radius / radiusOffset) + (lineWidth / 2)), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), lineWidth);
+        shapeRenderer.rectLine((float) (x - (radius / radiusOffset) + (lineWidth / 2)), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), (float) (x + (radius / radiusOffset) - (lineWidth / 2)), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), lineWidth);
+        shapeRenderer.rectLine((float) (x + (radius / radiusOffset) - (lineWidth / 2)), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), x, y + radius - lineWidth, lineWidth);
+        drawPoint(x, y + radius - lineWidth, lineWidth, color, shapeRenderer);
+        drawPoint((float) (x - (radius / radiusOffset) + (lineWidth / 2)), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), lineWidth, color, shapeRenderer);
+        drawPoint((float) (x + (radius / radiusOffset) - lineWidth / 2), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), lineWidth, color, shapeRenderer);
     }
 
     public void drawSquare(float x, float y, float radius, Color color, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(color);
         lineWidth = radius / 8;
-        shapeRenderer.rectLine((float) (x - (radius / 1.45)), (float) (y - (radius / 1.45)), (float) (x - (radius / 1.45)), (float) (y + (radius / 1.45)), lineWidth);
-        shapeRenderer.rectLine((float) (x - (radius / 1.45)), (float) (y + (radius / 1.45)), (float) (x + (radius / 1.45)), (float) (y + (radius / 1.45)), lineWidth);
-        shapeRenderer.rectLine((float) (x + (radius / 1.45)), (float) (y + (radius / 1.45)), (float) (x + (radius / 1.45)), (float) (y - (radius / 1.45)), lineWidth);
-        shapeRenderer.rectLine((float) (x + (radius / 1.45)), (float) (y - (radius / 1.45)), (float) (x - (radius / 1.45)), (float) (y - (radius / 1.45)), lineWidth);
-        drawPoint((float) (x - (radius / 1.45)), (float) (y - (radius / 1.45)), lineWidth, color, shapeRenderer);
-        drawPoint((float) (x - (radius / 1.45)), (float) (y + (radius / 1.45)), lineWidth, color, shapeRenderer);
-        drawPoint((float) (x + (radius / 1.45)), (float) (y + (radius / 1.45)), lineWidth, color, shapeRenderer);
-        drawPoint((float) (x + (radius / 1.45)), (float) (y - (radius / 1.45)), lineWidth, color, shapeRenderer);
+        shapeRenderer.rectLine((float) (x - (radius / radiusOffset) + (lineWidth / 2)), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), (float) (x - (radius / radiusOffset) + (lineWidth / 2)), (float) (y + (radius / radiusOffset) - (lineWidth / 2)), lineWidth);
+        shapeRenderer.rectLine((float) (x - (radius / radiusOffset) + (lineWidth / 2)), (float) (y + (radius / radiusOffset) - (lineWidth / 2)), (float) (x + (radius / radiusOffset) - (lineWidth / 2)), (float) (y + (radius / radiusOffset) - (lineWidth / 2)), lineWidth);
+        shapeRenderer.rectLine((float) (x + (radius / radiusOffset) - (lineWidth / 2)), (float) (y + (radius / radiusOffset) - (lineWidth / 2)), (float) (x + (radius / radiusOffset) - (lineWidth / 2)), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), lineWidth);
+        shapeRenderer.rectLine((float) (x + (radius / radiusOffset) - (lineWidth / 2)), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), (float) (x - (radius / radiusOffset) + (lineWidth / 2)), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), lineWidth);
+        drawPoint((float) (x - (radius / radiusOffset) + (lineWidth / 2)), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), lineWidth, color, shapeRenderer);
+        drawPoint((float) (x - (radius / radiusOffset) + (lineWidth / 2)), (float) (y + (radius / radiusOffset) - (lineWidth / 2)), lineWidth, color, shapeRenderer);
+        drawPoint((float) (x + (radius / radiusOffset) - (lineWidth / 2)), (float) (y + (radius / radiusOffset) - (lineWidth / 2)), lineWidth, color, shapeRenderer);
+        drawPoint((float) (x + (radius / radiusOffset) - (lineWidth / 2)), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), lineWidth, color, shapeRenderer);
     }
 
     public void drawInputButtons(float inputRadius, ShapeRenderer shapeRenderer) {
