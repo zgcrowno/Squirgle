@@ -19,9 +19,9 @@ public class Shape {
         this.color = Color.WHITE;
     }
 
-    public Shape(int shape, int size, Color color) {
+    public Shape(int shape, float radius, Color color) {
         this.shape = shape;
-        this.radius = size;
+        this.radius = radius;
         this.color = color;
     }
 
@@ -45,7 +45,7 @@ public class Shape {
         return radius;
     }
 
-    public void setRadius(int size) {
-        this.radius = size;
+    public void setRadius(float radius) {
+        this.radius = radius;
     }
 }
