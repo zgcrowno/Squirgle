@@ -21,7 +21,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 	private float inputDistanceOffset;
 	private float promptSize;
 	private float promptIncrease;
-	private int promptShape;
+	private Shape promptShape;
 	private int inputRadius;
 	private List<Shape> priorShapeList;
 	private List<Shape> targetShapeList;
@@ -60,7 +60,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		inputDistanceOffset = (float) 1.5;
 		promptSize = 20;
 		promptIncrease = 1.0005f;
-		promptShape = MathUtils.random(3);
+		promptShape = new Shape(MathUtils.random(Shape.SQUARE), promptSize, Color.BLACK);
 		inputRadius = 50;
 		priorShapeList = new ArrayList<Shape>();
 		targetShapeList = new ArrayList<Shape>();
@@ -149,51 +149,56 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 				&& screenY < Gdx.graphics.getHeight() - inputSquareSpawn.y + inputRadius;
 
 		if(pointTouched) {
-			if(promptShape == Shape.POINT) {
-				promptShape = Shape.LINE;
-			} else if(promptShape == Shape.LINE) {
-				promptShape = Shape.TRIANGLE;
-			} else if(promptShape == Shape.TRIANGLE) {
-				promptShape = Shape.SQUARE;
+			if(promptShape.getShape() == Shape.POINT) {
+				promptShape.setShape(Shape.LINE);
+			} else if(promptShape.getShape() == Shape.LINE) {
+				promptShape.setShape(Shape.TRIANGLE);
+			} else if(promptShape.getShape() == Shape.TRIANGLE) {
+				promptShape.setShape(Shape.SQUARE);
 			} else {
-				promptShape = Shape.POINT;
+				promptShape.setShape(Shape.POINT);
 			}
 		} else if(lineTouched) {
-			if(promptShape == Shape.POINT) {
-				promptShape = Shape.TRIANGLE;
-			} else if(promptShape == Shape.LINE) {
-				promptShape = Shape.SQUARE;
-			} else if(promptShape == Shape.TRIANGLE) {
-				promptShape = Shape.POINT;
+			if(promptShape.getShape() == Shape.POINT) {
+				promptShape.setShape(Shape.TRIANGLE);
+			} else if(promptShape.getShape() == Shape.LINE) {
+				promptShape.setShape(Shape.SQUARE);
+			} else if(promptShape.getShape() == Shape.TRIANGLE) {
+				promptShape.setShape(Shape.POINT);
 			} else {
-				promptShape = Shape.LINE;
+				promptShape.setShape(Shape.LINE);
 			}
 		} else if(triangleTouched) {
-			if(promptShape == Shape.POINT) {
-				promptShape = Shape.SQUARE;
-			} else if(promptShape == Shape.LINE) {
-				promptShape = Shape.POINT;
-			} else if(promptShape == Shape.TRIANGLE) {
-				promptShape = Shape.LINE;
+			if(promptShape.getShape() == Shape.POINT) {
+				promptShape.setShape(Shape.SQUARE);
+			} else if(promptShape.getShape() == Shape.LINE) {
+				promptShape.setShape(Shape.POINT);
+			} else if(promptShape.getShape() == Shape.TRIANGLE) {
+				promptShape.setShape(Shape.LINE);
 			} else {
-				promptShape = Shape.TRIANGLE;
+				promptShape.setShape(Shape.TRIANGLE);
 			}
 		} else if(squareTouched) {
-			if(promptShape == Shape.POINT) {
-				promptShape = Shape.POINT;
-			} else if(promptShape == Shape.LINE) {
-				promptShape = Shape.LINE;
-			} else if(promptShape == Shape.TRIANGLE) {
-				promptShape = Shape.TRIANGLE;
+			if(promptShape.getShape() == Shape.POINT) {
+				promptShape.setShape(Shape.POINT);
+			} else if(promptShape.getShape() == Shape.LINE) {
+				promptShape.setShape(Shape.LINE);
+			} else if(promptShape.getShape() == Shape.TRIANGLE) {
+				promptShape.setShape(Shape.TRIANGLE);
 			} else {
-				promptShape = Shape.SQUARE;
+				promptShape.setShape(Shape.SQUARE);
 			}
 		}
-		if(promptShape == currentTargetShape) {
+		if(promptShape.getShape() == currentTargetShape) {
 			targetShapesMatched++;
-			priorShapeList.add(new Shape(promptShape, promptSize, Color.WHITE));
-			priorShapeList.add(new Shape(Shape.CIRCLE, promptSize, Color.BLACK));
-			promptShape = MathUtils.random(Shape.SQUARE);
+			Shape circleContainer = new Shape(Shape.CIRCLE, promptSize, Color.BLACK);
+			Shape promptShapeToAdd = new Shape(promptShape.getShape(), promptSize, Color.WHITE);
+			if(promptShapeToAdd.getShape() == Shape.POINT || (promptShapeToAdd.getShape() == Shape.LINE && !priorShapeList.isEmpty())) {
+				promptShapeToAdd.setRadius(circleContainer.getRadius() / 2);
+			}
+			promptShape.setShape(MathUtils.random(Shape.SQUARE));
+			priorShapeList.add(promptShapeToAdd);
+			priorShapeList.add(circleContainer);
 			if(targetShapesMatched == 1) {
 				currentTargetShape = targetShapeList.get(2).getShape();
 			} else {

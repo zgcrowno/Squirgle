@@ -131,51 +131,112 @@ public class Draw {
         this.inputSquareSpawn = inputSquareSpawn;
     }
 
-    public void drawPrompt(float x, float y, int promptShape, float promptSize, List<Shape> priorShapeList, Color color, ShapeRenderer shapeRenderer) {
+    public void drawPrompt(float x, float y, Shape promptShape, float promptSize, List<Shape> priorShapeList, Color color, ShapeRenderer shapeRenderer) {
         float xOffset = 0;
         lineWidth = promptSize / 8;
-        if(promptShape == Shape.CIRCLE) {
+        if(promptShape.getShape() == Shape.CIRCLE) {
             drawPoint(x, y, promptSize, color, shapeRenderer);
-        } else if(promptShape == Shape.POINT) {
+        } else if(promptShape.getShape() == Shape.POINT) {
             if(!priorShapeList.isEmpty()) {
                 xOffset = priorShapeList.get(priorShapeList.size() - 1).getRadius() + promptSize;
             }
             drawPoint(x - xOffset, y, promptSize, color, shapeRenderer);
-        } else if(promptShape == Shape.LINE) {
+        } else if(promptShape.getShape() == Shape.LINE) {
             if(!priorShapeList.isEmpty()) {
                 xOffset = priorShapeList.get(priorShapeList.size() - 1).getRadius() + (lineWidth / 2);
             }
             drawLine(x - xOffset, y, promptSize, color, shapeRenderer);
-        } else if(promptShape == Shape.TRIANGLE) {
+        } else if(promptShape.getShape() == Shape.TRIANGLE) {
             drawTriangle(x, y, promptSize, color, shapeRenderer);
-        } else if(promptShape == Shape.SQUARE) {
+        } else if(promptShape.getShape() == Shape.SQUARE) {
             drawSquare(x, y, promptSize, color, shapeRenderer);
         }
     }
 
-    public void drawPriorShapes(List<Shape> priorShapeList, int promptShape, Vector2 promptShapeSpawn, ShapeRenderer shapeRenderer) {
+    public void drawPriorShapes(List<Shape> priorShapeList, Shape promptShape, Vector2 promptShapeSpawn, ShapeRenderer shapeRenderer) {
         if(!priorShapeList.isEmpty()) {
+            boolean isInSquare = false;
+            boolean isInTriangle = false;
+            boolean shiftToRight = false;
+
             for(int i = priorShapeList.size() - 1; i >= 0; i--) {
                 Shape shape = priorShapeList.get(i);
                 lineWidth = shape.getRadius() / 8;
                 Color color = null;
                 float xOffset = 0;
+
                 if(i % 2 == 0) {
-                    if(i == priorShapeList.size() - 1) {
-                        color = Color.BLACK;
-                    } else {
-                        color = Color.WHITE;
-                        //TODO: Maybe account for point taking up as much space as surrounding circle.
-                    }
-                    if(shape.getShape() == Shape.POINT && i != 0) {
-                        xOffset = shape.getRadius();
+                    color = Color.WHITE;
+                    if(shape.getShape() == Shape.POINT) {
+                        shape.setRadius(priorShapeList.get(i + 1).getRadius() / 2);
+                        if(i != 0) {
+                            if(i != priorShapeList.size() - 1) {
+                                xOffset = priorShapeList.get(i + 1).getRadius() / 2;
+                            } else {
+                                xOffset = promptShape.getRadius() / 2;
+                            }
+                        }
                     } else if(shape.getShape() == Shape.LINE && i != 0) {
-                        xOffset = shape.getRadius() + (lineWidth / 2);
+                        if(i != priorShapeList.size() - 1) {
+                            shape.setRadius(priorShapeList.get(i + 1).getRadius() / 2);
+                            xOffset = (priorShapeList.get(i + 1).getRadius() / 2) + (lineWidth / 2);
+                        } else {
+                            shape.setRadius(promptShape.getRadius() / 2);
+                            xOffset = (promptShape.getRadius() / 2) + (lineWidth / 2);
+                        }
                     }
                 } else {
                     color = Color.BLACK;
+                    if((i != priorShapeList.size() - 1) && priorShapeList.size() > 2) {
+                        if(priorShapeList.get(i + 1).getShape() == Shape.POINT || priorShapeList.get(i + 1).getShape() == Shape.LINE) {
+                            shiftToRight = true;
+                        }
+                    } else if(i == priorShapeList.size() - 1) {
+                        if(promptShape.getShape() == Shape.POINT || promptShape.getShape() == Shape.LINE) {
+                            shiftToRight = true;
+                        }
+                    }
                 }
-                //TODO: Fit prior shapes within prompt.
+
+                if(shape.getShape() != Shape.POINT && shape.getShape() != Shape.LINE) {
+                    if(promptShape.getShape() == Shape.TRIANGLE) {
+                        isInTriangle = true;
+                    } else if(promptShape.getShape() == Shape.SQUARE) {
+                        isInSquare = true;
+                    }
+                    if(i != priorShapeList.size() - 1) {
+                        if(priorShapeList.get(i + 1).getShape() == Shape.TRIANGLE) {
+                            isInTriangle = true;
+                        } else if(priorShapeList.get(i + 1).getShape() == Shape.SQUARE) {
+                            isInSquare = true;
+                        }
+                    }
+                }
+
+                if(isInTriangle) {
+                    if(i == priorShapeList.size() - 1) {
+                        shape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        shape.setRadius(priorShapeList.get(i + 1).getRadius() / 2);
+                    }
+                }
+
+                if(isInSquare) {
+                    if(i == priorShapeList.size() - 1) {
+                        shape.setRadius((float) ((2 * promptShape.getRadius() * MathUtils.sinDeg(180 / 4)) * (Math.sqrt(2) / 2)));
+                    } else {
+                        shape.setRadius((float) (2 * priorShapeList.get(i + 1).getRadius() * MathUtils.sinDeg(180 / 4) * (Math.sqrt(2) / 2)));
+                    }
+                }
+
+                if(shiftToRight) {
+                    if(i % 2 == 0) {
+                        xOffset = shape.getRadius() / 2;
+                    } else {
+                        xOffset = -(shape.getRadius() / 2);
+                    }
+                }
+
                 drawShape(promptShapeSpawn.x - xOffset, promptShapeSpawn.y, shape.getRadius(), color, shapeRenderer, shape);
             }
         }
@@ -228,6 +289,7 @@ public class Draw {
         } else if(shape.getShape() == Shape.SQUARE) {
             drawSquare(x, y, radius, color, shapeRenderer);
         } else {
+            shapeRenderer.setColor(color);
             shapeRenderer.circle(x, y, radius);
         }
     }
