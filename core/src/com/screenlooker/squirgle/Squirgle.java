@@ -115,7 +115,10 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 
 		shapeRenderer.end();
 
+		//TODO: remove this reference, and only set the radius of the prompt (will have to alter other methods as well)
 		promptSize *= promptIncrease;
+
+		promptShape.setRadius(promptSize *= promptIncrease);
 
 	}
 
