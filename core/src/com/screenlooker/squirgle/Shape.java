@@ -1,6 +1,7 @@
 package com.screenlooker.squirgle;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 
 public class Shape {
     public static final int POINT = 0;
@@ -12,17 +13,20 @@ public class Shape {
     private int shape;
     private float radius;
     private Color color;
+    private Vector2 coordinates;
 
     public Shape() {
         this.shape = this.CIRCLE;
         this.radius = 10;
         this.color = Color.WHITE;
+        this.coordinates = new Vector2();
     }
 
-    public Shape(int shape, float radius, Color color) {
+    public Shape(int shape, float radius, Color color, Vector2 coordinates) {
         this.shape = shape;
         this.radius = radius;
         this.color = color;
+        this.coordinates = coordinates;
     }
 
     public int getShape() {
@@ -45,7 +49,9 @@ public class Shape {
         return radius;
     }
 
-    public void setRadius(float radius) {
-        this.radius = radius;
-    }
+    public void setRadius(float radius) { this.radius = radius; }
+
+    public Vector2 getCoordinates() { return coordinates; }
+
+    public void setCoordinates(Vector2 coordinates) { this.coordinates = coordinates; }
 }

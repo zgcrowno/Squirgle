@@ -20,6 +20,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 	private Draw draw;
 	private float inputDistanceOffset;
 	private float promptSize;
+	private float targetRadius;
 	private float promptIncrease;
 	private Shape promptShape;
 	private int inputRadius;
@@ -59,14 +60,15 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		draw = new Draw(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		inputDistanceOffset = (float) 1.5;
 		promptSize = 20;
+		targetRadius = 150;
 		promptIncrease = 1.0005f;
-		promptShape = new Shape(MathUtils.random(Shape.SQUARE), promptSize, Color.BLACK);
+		promptShape = new Shape(MathUtils.random(Shape.SQUARE), promptSize, Color.BLACK, new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2));
 		inputRadius = 50;
 		priorShapeList = new ArrayList<Shape>();
 		targetShapeList = new ArrayList<Shape>();
-		targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE));
-		targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK));
-		targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE));
+		targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, new Vector2(targetRadius / 2, targetRadius / 2)));
+		targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, new Vector2(targetRadius / 2, targetRadius / 2)));
+		targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, new Vector2(targetRadius / 2, targetRadius / 2)));
 		currentTargetShape = targetShapeList.get(0).getShape();
 		targetShapesMatched = 0;
 		promptShapeSpawn = new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
@@ -194,8 +196,8 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		}
 		if(promptShape.getShape() == currentTargetShape) {
 			targetShapesMatched++;
-			Shape circleContainer = new Shape(Shape.CIRCLE, promptSize, Color.BLACK);
-			Shape promptShapeToAdd = new Shape(promptShape.getShape(), promptSize, Color.WHITE);
+			Shape circleContainer = new Shape(Shape.CIRCLE, promptSize, Color.BLACK, promptShape.getCoordinates());
+			Shape promptShapeToAdd = new Shape(promptShape.getShape(), promptSize, Color.WHITE, promptShape.getCoordinates());
 			if(promptShapeToAdd.getShape() == Shape.POINT || (promptShapeToAdd.getShape() == Shape.LINE && !priorShapeList.isEmpty())) {
 				promptShapeToAdd.setRadius(circleContainer.getRadius() / 2);
 			}
@@ -207,9 +209,9 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 			} else {
 				targetShapesMatched = 0;
 				targetShapeList.clear();
-				targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE));
-				targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK));
-				targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE));
+				targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, promptShape.getCoordinates()));
+				targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, promptShape.getCoordinates()));
+				targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, promptShape.getCoordinates()));
 				currentTargetShape = targetShapeList.get(0).getShape();
 			}
 		}
