@@ -125,11 +125,6 @@ public class Draw {
         }
     }
 
-    public void drawTargetSemicircle(ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(0, Gdx.graphics.getHeight(), TARGET_RADIUS);
-    }
-
     public void drawShape(Shape shape, ShapeRenderer shapeRenderer) {
         if(shape.getShape() == Shape.POINT) {
             drawPoint(shape.getCoordinates().x, shape.getCoordinates().y, shape.getRadius(), shape.getColor(), shapeRenderer);
@@ -227,5 +222,29 @@ public class Draw {
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(inputSquareSpawn.x, inputSquareSpawn.y, INPUT_RADIUS);
         drawSquare(inputSquareSpawn.x, inputSquareSpawn.y, INPUT_RADIUS,INPUT_RADIUS / 8, Color.BLACK, shapeRenderer);
+    }
+
+    public void drawBackgroundColorShape(ShapeRenderer shapeRenderer) {
+        //TODO: Write and implement method
+    }
+
+    public void drawBackgroundColorShapeList(List<Shape> backgroundColorShapeList, ShapeRenderer shapeRenderer) {
+        for(int i = 0; i < backgroundColorShapeList.size(); i++) {
+            drawShape(backgroundColorShapeList.get(i), shapeRenderer);
+        }
+    }
+
+    public void drawTargetSemicircle(ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(0, Gdx.graphics.getHeight(), TARGET_RADIUS);
+    }
+
+    public void drawScoreTriangle(ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.triangle(Gdx.graphics.getWidth(),
+                Gdx.graphics.getHeight(),
+                Gdx.graphics.getWidth() - TARGET_RADIUS, Gdx.graphics.getHeight(),
+                Gdx.graphics.getWidth(),
+                Gdx.graphics.getHeight() - TARGET_RADIUS);
     }
 }

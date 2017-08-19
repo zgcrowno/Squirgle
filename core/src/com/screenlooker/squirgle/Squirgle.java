@@ -19,11 +19,13 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 	private ShapeRenderer shapeRenderer;
 	private Draw draw;
 	private float initPromptRadius;
+	private float backgroundColorListElementRadius;
 	private float promptIncrease;
 	private Shape promptShape;
 	private Shape outsideTargetShape;
 	private List<Shape> priorShapeList;
 	private List<Shape> targetShapeList;
+	private List<Shape> backgroundColorShapeList;
 	private int currentTargetShape;
 	private int targetShapesMatched;
 	private Vector2 inputPointSpawn;
@@ -45,13 +47,23 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		shapeRenderer.setProjectionMatrix(camera.combined);
 		draw = new Draw(Gdx.graphics.getHeight());
 		initPromptRadius = 20;
+		backgroundColorListElementRadius = 15;
 		promptIncrease = 1.0005f;
 		promptShape = new Shape(MathUtils.random(Shape.SQUARE), initPromptRadius, Color.BLACK, initPromptRadius / 8, new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2));
 		outsideTargetShape = new Shape(MathUtils.random(Shape.SQUARE), Draw.INPUT_RADIUS, Color.BLACK, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 2.5f, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2.5f)));
 		priorShapeList = new ArrayList<Shape>();
 		targetShapeList = new ArrayList<Shape>();
+		backgroundColorShapeList = new ArrayList<Shape>();
 		targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
 		targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
+		for(int i = 1; i <= 6; i++) {
+			backgroundColorShapeList.add(new Shape(Shape.SQUARE,
+					backgroundColorListElementRadius,
+					Color.WHITE,
+					backgroundColorListElementRadius / 8,
+					new Vector2(Draw.TARGET_RADIUS + (i * ((Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS * 2)) / 7)),
+							Gdx.graphics.getHeight() - (Draw.INPUT_RADIUS / 2))));
+		}
 		currentTargetShape = targetShapeList.get(0).getShape();
 		targetShapesMatched = 0;
 		inputPointSpawn = new Vector2(Gdx.graphics.getWidth() / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
@@ -79,6 +91,10 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		//TODO: Maybe add another shapeRenderer of ShapeType.Unfilled for prompt?
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
+		draw.drawBackgroundColorShape(shapeRenderer);
+
+		draw.drawBackgroundColorShapeList(backgroundColorShapeList, shapeRenderer);
+
 		draw.drawPrompt(promptShape, priorShapeList, shapeRenderer);
 
 		draw.drawShapes(priorShapeList, promptShape, shapeRenderer);
@@ -86,6 +102,8 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		draw.drawInputButtons(inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, shapeRenderer);
 
 		draw.drawTargetSemicircle(shapeRenderer);
+
+		draw.drawScoreTriangle(shapeRenderer);
 
 		draw.drawPrompt(outsideTargetShape, targetShapeList, shapeRenderer);
 
