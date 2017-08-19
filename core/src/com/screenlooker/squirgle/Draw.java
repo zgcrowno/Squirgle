@@ -26,7 +26,7 @@ public class Draw {
 
     public Draw(float screenHeight) {
         radiusOffset = 1.45f;
-        targetSpawn = new Vector2(this.TARGET_DISTANCE_OFFSET, screenHeight - this.TARGET_DISTANCE_OFFSET);
+        targetSpawn = new Vector2(TARGET_DISTANCE_OFFSET, screenHeight - TARGET_DISTANCE_OFFSET);
     }
 
     public float getRadiusOffset() { return radiusOffset; }
@@ -39,16 +39,18 @@ public class Draw {
 
     public void drawPrompt(Shape promptShape, List<Shape> priorShapeList, ShapeRenderer shapeRenderer) {
         float xOffset = 0;
+        float radiusOffset = 1;
         if(promptShape.getShape() == Shape.CIRCLE) {
             drawPoint(promptShape.getCoordinates().x, promptShape.getCoordinates().y, promptShape.getRadius(), promptShape.getColor(), shapeRenderer);
         } else if(promptShape.getShape() == Shape.POINT) {
             if(!priorShapeList.isEmpty()) {
                 xOffset = promptShape.getRadius() / 2;
+                radiusOffset = 2;
             }
-            drawPoint(promptShape.getCoordinates().x - xOffset, promptShape.getCoordinates().y, promptShape.getRadius(), promptShape.getColor(), shapeRenderer);
+            drawPoint(promptShape.getCoordinates().x - xOffset, promptShape.getCoordinates().y, promptShape.getRadius() / radiusOffset, promptShape.getColor(), shapeRenderer);
         } else if(promptShape.getShape() == Shape.LINE) {
             if(!priorShapeList.isEmpty()) {
-                xOffset = priorShapeList.get(priorShapeList.size() - 1).getRadius();
+                xOffset = promptShape.getRadius();
             }
             drawLine(promptShape.getCoordinates().x - xOffset, promptShape.getCoordinates().y, promptShape.getRadius(), promptShape.getLineWidth(), promptShape.getColor(), shapeRenderer);
         } else if(promptShape.getShape() == Shape.TRIANGLE) {
@@ -83,33 +85,39 @@ public class Draw {
                 //Ensure that current element of list initially has same radius and coordinates as prior shape
                 shape.setRadius(priorShape.getRadius());
                 shape.setCoordinates(priorShape.getCoordinates());
-                shape.setLineWidth(priorShape.getLineWidth());
 
                 //Lines and points must be shrunken and re-coordinated when encircled, except if the line is the first member of the list
                 if(shape.getShape() == Shape.POINT) {
-                    if(i == 0) {
-                        shape.setRadius(priorShape.getRadius() / 2);
-                    } else {
-                        shape.setRadius(priorShape.getRadius() / 4);
+                    shape.setRadius(priorShape.getRadius() / 2);
+                    if(i != 0) {
                         shape.setCoordinates(new Vector2(priorShape.getCoordinates().x - shape.getRadius(), shape.getCoordinates().y));
                     }
                 } else if(shape.getShape() == Shape.LINE) {
                     if(i != 0) {
                         shape.setRadius(priorShape.getRadius() / 2);
-                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x - (shape.getLineWidth() / 2), shape.getCoordinates().y));
+                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x - shape.getRadius(), shape.getCoordinates().y));
                     }
                 }
 
                 //Determine radius/coordinates of current shape based on prior one
                 //Also, current shape is guaranteed to be a circle if any of these conditions hold
                 if(priorShape.getShape() == Shape.POINT) {
-                    shape.setCoordinates(new Vector2(priorShape.getCoordinates().x + (shape.getRadius() / 2), priorShape.getCoordinates().y));
+                    if(priorShape == promptShape) {
+                        shape.setRadius(priorShape.getRadius() / 2);
+                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x + shape.getRadius(), priorShape.getCoordinates().y));
+                    } else {
+                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x + (shape.getRadius() * 2), priorShape.getCoordinates().y));
+                    }
                 } else if(priorShape.getShape() == Shape.LINE) {
-                    shape.setCoordinates(new Vector2(priorShape.getCoordinates().x + (priorShape.getLineWidth() / 2), priorShape.getCoordinates().y));
+                    if(priorShape == promptShape) {
+                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x + (priorShape.getLineWidth() / 2), priorShape.getCoordinates().y));
+                    } else {
+                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x + priorShape.getRadius() + (priorShape.getLineWidth() / 2), priorShape.getCoordinates().y));
+                    }
                 } else if(priorShape.getShape() == Shape.TRIANGLE) {
                     shape.setRadius((priorShape.getRadius() / 2) - priorShape.getLineWidth());
                 } else if(priorShape.getShape() == Shape.SQUARE) {
-                    shape.setRadius((float) (priorShape.getRadius() / Math.sqrt(2)) - priorShape.getLineWidth());
+                    shape.setRadius((float) (priorShape.getRadius() / Math.sqrt(2)) - (priorShape.getLineWidth() * 2));
                 }
 
                 drawShape(shape, shapeRenderer);
@@ -119,7 +127,7 @@ public class Draw {
 
     public void drawTargetSemicircle(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(0, Gdx.graphics.getHeight(), this.TARGET_RADIUS);
+        shapeRenderer.circle(0, Gdx.graphics.getHeight(), TARGET_RADIUS);
     }
 
     public void drawShape(Shape shape, ShapeRenderer shapeRenderer) {
@@ -153,71 +161,71 @@ public class Draw {
         shapeRenderer.setColor(color);
         shapeRenderer.rectLine(x,
                 y + radius - lineWidth,
-                (float) (x - (MathUtils.sinDeg(60) * radius)),
-                (float) (y - (MathUtils.cosDeg(60) * radius)),
+                x - (MathUtils.sinDeg(60) * radius),
+                y - (MathUtils.cosDeg(60) * radius),
                 lineWidth);
         shapeRenderer.rectLine((float) (x - (MathUtils.sinDeg(60) * radius)),
-                (float) (y - (MathUtils.cosDeg(60) * radius)),
-                (float) (x + (MathUtils.sinDeg(60) * radius)),
-                (float) (y - (MathUtils.cosDeg(60) * radius)),
+                y - (MathUtils.cosDeg(60) * radius),
+                x + (MathUtils.sinDeg(60) * radius),
+                y - (MathUtils.cosDeg(60) * radius),
                 lineWidth);
         shapeRenderer.rectLine((float) (x + (MathUtils.sinDeg(60) * radius)),
-                (float) (y - (MathUtils.cosDeg(60) * radius)),
+                y - (MathUtils.cosDeg(60) * radius),
                 x,
                 y + radius - lineWidth,
                 lineWidth);
         drawPoint(x, y + radius - lineWidth, lineWidth, color, shapeRenderer);
-        drawPoint((float) (x - (MathUtils.sinDeg(60) * radius)), (float) (y - (MathUtils.cosDeg(60) * radius)), lineWidth, color, shapeRenderer);
-        drawPoint((float) (x + (MathUtils.sinDeg(60) * radius)), (float) (y - (MathUtils.cosDeg(60) * radius)), lineWidth, color, shapeRenderer);
+        drawPoint(x - (MathUtils.sinDeg(60) * radius), y - (MathUtils.cosDeg(60) * radius), lineWidth, color, shapeRenderer);
+        drawPoint(x + (MathUtils.sinDeg(60) * radius), y - (MathUtils.cosDeg(60) * radius), lineWidth, color, shapeRenderer);
     }
 
     public void drawSquare(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(color);
-        shapeRenderer.rectLine((float) (x - (radius / radiusOffset) + (lineWidth / 2)),
-                (float) (y - (radius / radiusOffset) + (lineWidth / 2)),
-                (float) (x - (radius / radiusOffset) + (lineWidth / 2)),
-                (float) (y + (radius / radiusOffset) - (lineWidth / 2)),
+        shapeRenderer.rectLine(x - (radius / radiusOffset) + (lineWidth / 2),
+                y - (radius / radiusOffset) + (lineWidth / 2),
+                x - (radius / radiusOffset) + (lineWidth / 2),
+                y + (radius / radiusOffset) - (lineWidth / 2),
                 lineWidth);
-        shapeRenderer.rectLine((float) (x - (radius / radiusOffset) + (lineWidth / 2)),
-                (float) (y + (radius / radiusOffset) - (lineWidth / 2)),
-                (float) (x + (radius / radiusOffset) - (lineWidth / 2)),
-                (float) (y + (radius / radiusOffset) - (lineWidth / 2)),
+        shapeRenderer.rectLine(x - (radius / radiusOffset) + (lineWidth / 2),
+                y + (radius / radiusOffset) - (lineWidth / 2),
+                x + (radius / radiusOffset) - (lineWidth / 2),
+                y + (radius / radiusOffset) - (lineWidth / 2),
                 lineWidth);
-        shapeRenderer.rectLine((float) (x + (radius / radiusOffset) - (lineWidth / 2)),
-                (float) (y + (radius / radiusOffset) - (lineWidth / 2)),
-                (float) (x + (radius / radiusOffset) - (lineWidth / 2)),
-                (float) (y - (radius / radiusOffset) + (lineWidth / 2)),
+        shapeRenderer.rectLine(x + (radius / radiusOffset) - (lineWidth / 2),
+                y + (radius / radiusOffset) - (lineWidth / 2),
+                x + (radius / radiusOffset) - (lineWidth / 2),
+                y - (radius / radiusOffset) + (lineWidth / 2),
                 lineWidth);
-        shapeRenderer.rectLine((float) (x + (radius / radiusOffset) - (lineWidth / 2)),
-                (float) (y - (radius / radiusOffset) + (lineWidth / 2)),
-                (float) (x - (radius / radiusOffset) + (lineWidth / 2)),
-                (float) (y - (radius / radiusOffset) + (lineWidth / 2)),
+        shapeRenderer.rectLine(x + (radius / radiusOffset) - (lineWidth / 2),
+                y - (radius / radiusOffset) + (lineWidth / 2),
+                x - (radius / radiusOffset) + (lineWidth / 2),
+                y - (radius / radiusOffset) + (lineWidth / 2),
                 lineWidth);
-        drawPoint((float) (x - (radius / radiusOffset) + (lineWidth / 2)), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), lineWidth, color, shapeRenderer);
-        drawPoint((float) (x - (radius / radiusOffset) + (lineWidth / 2)), (float) (y + (radius / radiusOffset) - (lineWidth / 2)), lineWidth, color, shapeRenderer);
-        drawPoint((float) (x + (radius / radiusOffset) - (lineWidth / 2)), (float) (y + (radius / radiusOffset) - (lineWidth / 2)), lineWidth, color, shapeRenderer);
-        drawPoint((float) (x + (radius / radiusOffset) - (lineWidth / 2)), (float) (y - (radius / radiusOffset) + (lineWidth / 2)), lineWidth, color, shapeRenderer);
+        drawPoint(x - (radius / radiusOffset) + (lineWidth / 2), y - (radius / radiusOffset) + (lineWidth / 2), lineWidth, color, shapeRenderer);
+        drawPoint(x - (radius / radiusOffset) + (lineWidth / 2), y + (radius / radiusOffset) - (lineWidth / 2), lineWidth, color, shapeRenderer);
+        drawPoint(x + (radius / radiusOffset) - (lineWidth / 2), y + (radius / radiusOffset) - (lineWidth / 2), lineWidth, color, shapeRenderer);
+        drawPoint(x + (radius / radiusOffset) - (lineWidth / 2), y - (radius / radiusOffset) + (lineWidth / 2), lineWidth, color, shapeRenderer);
     }
 
     public void drawInputButtons(Vector2 inputPointSpawn, Vector2 inputLineSpawn, Vector2 inputTriangleSpawn, Vector2 inputSquareSpawn, ShapeRenderer shapeRenderer) {
         //Point
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(inputPointSpawn.x, inputPointSpawn.y, this.INPUT_RADIUS);
-        drawPoint(inputPointSpawn.x, inputPointSpawn.y, this.INPUT_RADIUS / 2, Color.BLACK, shapeRenderer);
+        shapeRenderer.circle(inputPointSpawn.x, inputPointSpawn.y, INPUT_RADIUS);
+        drawPoint(inputPointSpawn.x, inputPointSpawn.y, INPUT_RADIUS / 2, Color.BLACK, shapeRenderer);
 
         //Line
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(inputLineSpawn.x, inputLineSpawn.y, this.INPUT_RADIUS);
-        drawLine(inputLineSpawn.x, inputLineSpawn.y, this.INPUT_RADIUS, this.INPUT_RADIUS / 8, Color.BLACK, shapeRenderer);
+        shapeRenderer.circle(inputLineSpawn.x, inputLineSpawn.y, INPUT_RADIUS);
+        drawLine(inputLineSpawn.x, inputLineSpawn.y, INPUT_RADIUS, INPUT_RADIUS / 8, Color.BLACK, shapeRenderer);
 
         //Triangle
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(inputTriangleSpawn.x, inputTriangleSpawn.y, this.INPUT_RADIUS);
-        drawTriangle(inputTriangleSpawn.x, inputTriangleSpawn.y, this.INPUT_RADIUS,this.INPUT_RADIUS / 8, Color.BLACK, shapeRenderer);
+        shapeRenderer.circle(inputTriangleSpawn.x, inputTriangleSpawn.y, INPUT_RADIUS);
+        drawTriangle(inputTriangleSpawn.x, inputTriangleSpawn.y, INPUT_RADIUS,INPUT_RADIUS / 8, Color.BLACK, shapeRenderer);
 
         //Square
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(inputSquareSpawn.x, inputSquareSpawn.y, this.INPUT_RADIUS);
-        drawSquare(inputSquareSpawn.x, inputSquareSpawn.y, this.INPUT_RADIUS,this.INPUT_RADIUS / 8, Color.BLACK, shapeRenderer);
+        shapeRenderer.circle(inputSquareSpawn.x, inputSquareSpawn.y, INPUT_RADIUS);
+        drawSquare(inputSquareSpawn.x, inputSquareSpawn.y, INPUT_RADIUS,INPUT_RADIUS / 8, Color.BLACK, shapeRenderer);
     }
 }

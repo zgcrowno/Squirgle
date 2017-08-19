@@ -26,7 +26,6 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 	private List<Shape> targetShapeList;
 	private int currentTargetShape;
 	private int targetShapesMatched;
-	private Vector2 promptShapeSpawn;
 	private Vector2 inputPointSpawn;
 	private Vector2 inputLineSpawn;
 	private Vector2 inputTriangleSpawn;
@@ -36,7 +35,6 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 	boolean lineTouched;
 	boolean triangleTouched;
 	boolean squareTouched;
-	boolean dragging;
 
 	@Override
 	public void create () {
@@ -49,14 +47,13 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		initPromptRadius = 20;
 		promptIncrease = 1.0005f;
 		promptShape = new Shape(MathUtils.random(Shape.SQUARE), initPromptRadius, Color.BLACK, initPromptRadius / 8, new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2));
-		outsideTargetShape = new Shape(MathUtils.random(Shape.SQUARE), Draw.INPUT_RADIUS, Color.BLACK, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2)));
+		outsideTargetShape = new Shape(MathUtils.random(Shape.SQUARE), Draw.INPUT_RADIUS, Color.BLACK, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 2.5f, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2.5f)));
 		priorShapeList = new ArrayList<Shape>();
 		targetShapeList = new ArrayList<Shape>();
 		targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
 		targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
 		currentTargetShape = targetShapeList.get(0).getShape();
 		targetShapesMatched = 0;
-		promptShapeSpawn = new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
 		inputPointSpawn = new Vector2(Gdx.graphics.getWidth() / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
 		inputLineSpawn = new Vector2((2 * Gdx.graphics.getWidth()) / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
 		inputTriangleSpawn = new Vector2((3 * Gdx.graphics.getWidth()) / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
@@ -188,7 +185,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 				targetShapesMatched = 0;
 				targetShapeList.clear();
 				outsideTargetShape.setShape(MathUtils.random(Shape.SQUARE));
-				targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
+				targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 2.5f, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2.5f))));
 				targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
 				currentTargetShape = targetShapeList.get(0).getShape();
 			}

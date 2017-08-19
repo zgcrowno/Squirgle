@@ -17,7 +17,7 @@ public class Shape {
     private Vector2 coordinates;
 
     public Shape() {
-        this.shape = this.CIRCLE;
+        this.shape = CIRCLE;
         this.radius = 10;
         this.color = Color.WHITE;
         this.lineWidth = radius / 8;
