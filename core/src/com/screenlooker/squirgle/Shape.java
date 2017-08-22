@@ -1,6 +1,7 @@
 package com.screenlooker.squirgle;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class Shape {
@@ -13,6 +14,7 @@ public class Shape {
     private int shape;
     private float radius;
     private Color color;
+    private Color fillColor;
     private float lineWidth;
     private Vector2 coordinates;
 
@@ -20,14 +22,16 @@ public class Shape {
         this.shape = CIRCLE;
         this.radius = 10;
         this.color = Color.WHITE;
+        this.fillColor = Color.WHITE;
         this.lineWidth = radius / 8;
         this.coordinates = new Vector2();
     }
 
-    public Shape(int shape, float radius, Color color, float lineWidth, Vector2 coordinates) {
+    public Shape(int shape, float radius, Color color, Color fillColor, float lineWidth, Vector2 coordinates) {
         this.shape = shape;
         this.radius = radius;
         this.color = color;
+        this.fillColor = fillColor;
         this.lineWidth = lineWidth;
         this.coordinates = coordinates;
     }
@@ -44,6 +48,10 @@ public class Shape {
 
     public void setColor(Color color) { this.color = color; }
 
+    public Color getFillColor() { return fillColor; }
+
+    public void setFillColor(Color fillColor) { this.fillColor = fillColor; }
+
     public float getLineWidth() { return this.lineWidth; }
 
     public void setLineWidth(float lineWidth) { this.lineWidth = lineWidth; }
@@ -51,4 +59,12 @@ public class Shape {
     public Vector2 getCoordinates() { return coordinates; }
 
     public void setCoordinates(Vector2 coordinates) { this.coordinates = coordinates; }
+
+    public static int randomBackgroundColorShape() {
+        int val = MathUtils.random(Shape.SQUARE);
+        while(val == Shape.LINE) {
+            val = MathUtils.random(Shape.SQUARE);
+        }
+        return val;
+    }
 }

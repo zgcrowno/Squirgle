@@ -26,6 +26,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 	private List<Shape> priorShapeList;
 	private List<Shape> targetShapeList;
 	private List<Shape> backgroundColorShapeList;
+	private Shape backgroundColorShape;
 	private int currentTargetShape;
 	private int targetShapesMatched;
 	private Vector2 inputPointSpawn;
@@ -49,21 +50,38 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		initPromptRadius = 20;
 		backgroundColorListElementRadius = 15;
 		promptIncrease = 1.0005f;
-		promptShape = new Shape(MathUtils.random(Shape.SQUARE), initPromptRadius, Color.BLACK, initPromptRadius / 8, new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2));
-		outsideTargetShape = new Shape(MathUtils.random(Shape.SQUARE), Draw.INPUT_RADIUS, Color.BLACK, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 2.5f, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2.5f)));
+		promptShape = new Shape(MathUtils.random(Shape.SQUARE), initPromptRadius, Color.BLACK, null, initPromptRadius / 8, new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2));
+		outsideTargetShape = new Shape(MathUtils.random(Shape.SQUARE), Draw.INPUT_RADIUS, Color.BLACK, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 2.5f, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2.5f)));
 		priorShapeList = new ArrayList<Shape>();
 		targetShapeList = new ArrayList<Shape>();
 		backgroundColorShapeList = new ArrayList<Shape>();
-		targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
-		targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
-		for(int i = 1; i <= 6; i++) {
-			backgroundColorShapeList.add(new Shape(Shape.SQUARE,
-					backgroundColorListElementRadius,
-					Color.WHITE,
-					backgroundColorListElementRadius / 8,
-					new Vector2(Draw.TARGET_RADIUS + (i * ((Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS * 2)) / 7)),
-							Gdx.graphics.getHeight() - (Draw.INPUT_RADIUS / 2))));
+		targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
+		targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
+		for(int i = 0; i <= 6; i++) {
+			if(i == 0) {
+				backgroundColorShapeList.add(new Shape(Shape.SQUARE,
+						backgroundColorListElementRadius,
+						Color.WHITE,
+						ColorUtils.randomPrimary(),
+						backgroundColorListElementRadius / 8,
+						new Vector2(Draw.TARGET_RADIUS + ((Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS * 2)) / 7),
+								(Gdx.graphics.getHeight() - (Draw.INPUT_RADIUS / 2)) + ((Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS * 2)) / 7))));
+			} else {
+				backgroundColorShapeList.add(new Shape(Shape.SQUARE,
+						backgroundColorListElementRadius,
+						Color.WHITE,
+						ColorUtils.randomPrimary(),
+						backgroundColorListElementRadius / 8,
+						new Vector2(Draw.TARGET_RADIUS + (i * ((Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS * 2)) / 7)),
+								Gdx.graphics.getHeight() - (Draw.INPUT_RADIUS / 2))));
+			}
 		}
+		backgroundColorShape = new Shape(Shape.randomBackgroundColorShape(),
+										 Gdx.graphics.getWidth() / 2,
+										 backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor(),
+										 backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor(),
+										 Draw.INPUT_RADIUS / 8,
+										 new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() + (Gdx.graphics.getWidth() / 2)));
 		currentTargetShape = targetShapeList.get(0).getShape();
 		targetShapesMatched = 0;
 		inputPointSpawn = new Vector2(Gdx.graphics.getWidth() / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
@@ -91,13 +109,13 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		//TODO: Maybe add another shapeRenderer of ShapeType.Unfilled for prompt?
 		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-		draw.drawBackgroundColorShape(shapeRenderer);
-
-		draw.drawBackgroundColorShapeList(backgroundColorShapeList, shapeRenderer);
+		draw.drawBackgroundColorShape(backgroundColorShape, shapeRenderer);
 
 		draw.drawPrompt(promptShape, priorShapeList, shapeRenderer);
 
 		draw.drawShapes(priorShapeList, promptShape, shapeRenderer);
+
+		draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, shapeRenderer);
 
 		draw.drawInputButtons(inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, shapeRenderer);
 
@@ -189,8 +207,8 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		}
 		if(promptShape.getShape() == currentTargetShape) {
 			targetShapesMatched++;
-			Shape circleContainer = new Shape(Shape.CIRCLE, promptShape.getRadius(), Color.BLACK, promptShape.getLineWidth(), promptShape.getCoordinates());
-			Shape promptShapeToAdd = new Shape(promptShape.getShape(), promptShape.getRadius(), Color.WHITE, promptShape.getLineWidth(), promptShape.getCoordinates());
+			Shape circleContainer = new Shape(Shape.CIRCLE, promptShape.getRadius(), Color.BLACK, null, promptShape.getLineWidth(), promptShape.getCoordinates());
+			Shape promptShapeToAdd = new Shape(promptShape.getShape(), promptShape.getRadius(), Color.WHITE, null, promptShape.getLineWidth(), promptShape.getCoordinates());
 			if(promptShapeToAdd.getShape() == Shape.POINT || (promptShapeToAdd.getShape() == Shape.LINE && !priorShapeList.isEmpty())) {
 				promptShapeToAdd.setRadius(circleContainer.getRadius() / 2);
 			}
@@ -203,8 +221,8 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 				targetShapesMatched = 0;
 				targetShapeList.clear();
 				outsideTargetShape.setShape(MathUtils.random(Shape.SQUARE));
-				targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 2.5f, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2.5f))));
-				targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
+				targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 2.5f, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2.5f))));
+				targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
 				currentTargetShape = targetShapeList.get(0).getShape();
 			}
 		}

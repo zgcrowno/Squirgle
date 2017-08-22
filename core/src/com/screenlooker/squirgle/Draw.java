@@ -17,21 +17,35 @@ public class Draw {
     public static final float TARGET_DISTANCE_OFFSET = TARGET_RADIUS / 2.5f;
 
     private float radiusOffset;
+    private float colorSpeed;
+    private float colorListSpeed;
     private Vector2 targetSpawn;
 
     public Draw() {
         radiusOffset = 0;
+        colorSpeed = 20;
+        colorListSpeed = 0.25f;
         targetSpawn = new Vector2();
     }
 
     public Draw(float screenHeight) {
         radiusOffset = 1.45f;
+        colorSpeed = 100;
+        colorListSpeed = 0.25f;
         targetSpawn = new Vector2(TARGET_DISTANCE_OFFSET, screenHeight - TARGET_DISTANCE_OFFSET);
     }
 
     public float getRadiusOffset() { return radiusOffset; }
 
     public void setRadiusOffset(float radiusOffset) { this.radiusOffset = radiusOffset; }
+
+    public float getColorSpeed() { return colorSpeed; }
+
+    public void setColorSpeed(float colorSpeed) { this.colorSpeed = colorSpeed; }
+
+    public float getColorListSpeed() { return colorListSpeed; }
+
+    public void setColorListSpeed(float colorListSpeed) { this.colorListSpeed = colorListSpeed; }
 
     public Vector2 getTargetSpawn() { return targetSpawn; }
 
@@ -127,12 +141,34 @@ public class Draw {
 
     public void drawShape(Shape shape, ShapeRenderer shapeRenderer) {
         if(shape.getShape() == Shape.POINT) {
+            //TODO: Move these null checks into each shape's respective draw method.
+            if(shape.getFillColor() != null) {
+                drawPoint(shape.getCoordinates().x, shape.getCoordinates().y, shape.getRadius(), shape.getFillColor(), shapeRenderer);
+            }
             drawPoint(shape.getCoordinates().x, shape.getCoordinates().y, shape.getRadius(), shape.getColor(), shapeRenderer);
         } else if(shape.getShape() == Shape.LINE) {
+            if(shape.getFillColor() != null) {
+                drawLine(shape.getCoordinates().x, shape.getCoordinates().y, shape.getRadius(), shape.getLineWidth(), shape.getFillColor(), shapeRenderer);
+            }
             drawLine(shape.getCoordinates().x, shape.getCoordinates().y, shape.getRadius(), shape.getLineWidth(), shape.getColor(), shapeRenderer);
         } else if(shape.getShape() == Shape.TRIANGLE) {
+            if(shape.getFillColor() != null) {
+                shapeRenderer.setColor(shape.getFillColor());
+                shapeRenderer.triangle(shape.getCoordinates().x,
+                                       shape.getCoordinates().y + shape.getRadius() - shape.getLineWidth(),
+                                       shape.getCoordinates().x - (MathUtils.sinDeg(60) * shape.getRadius()),
+                                       shape.getCoordinates().y - (MathUtils.cosDeg(60) * shape.getRadius()),
+                                       shape.getCoordinates().x + (MathUtils.sinDeg(60) * shape.getRadius()),
+                                       shape.getCoordinates().y - (MathUtils.cosDeg(60) * shape.getRadius()));
+            }
             drawTriangle(shape.getCoordinates().x, shape.getCoordinates().y, shape.getRadius(), shape.getLineWidth(), shape.getColor(), shapeRenderer);
         } else if(shape.getShape() == Shape.SQUARE) {
+            if(shape.getFillColor() != null) {
+                shapeRenderer.setColor(shape.getFillColor());
+                shapeRenderer.rectLine(shape.getCoordinates().x, shape.getCoordinates().y + (shape.getRadius() / radiusOffset) - (shape.getLineWidth() / 2),
+                                       shape.getCoordinates().x, shape.getCoordinates().y - (shape.getRadius() / radiusOffset) + (shape.getLineWidth() / 2),
+                                       shape.getRadius() + radiusOffset); //TODO: Figure out why radius offset is required.
+            }
             drawSquare(shape.getCoordinates().x, shape.getCoordinates().y, shape.getRadius(), shape.getLineWidth(), shape.getColor(), shapeRenderer);
         } else {
             shapeRenderer.setColor(shape.getColor());
@@ -224,13 +260,46 @@ public class Draw {
         drawSquare(inputSquareSpawn.x, inputSquareSpawn.y, INPUT_RADIUS,INPUT_RADIUS / 8, Color.BLACK, shapeRenderer);
     }
 
-    public void drawBackgroundColorShape(ShapeRenderer shapeRenderer) {
+    public void drawBackgroundColorShape(Shape backgroundColorShape, ShapeRenderer shapeRenderer) {
         //TODO: Write and implement method
+        drawShape(backgroundColorShape, shapeRenderer);
+        if(backgroundColorShape.getRadius() < Gdx.graphics.getHeight() * 4) {
+            backgroundColorShape.setRadius(backgroundColorShape.getRadius() + colorSpeed);
+        }
+
     }
 
-    public void drawBackgroundColorShapeList(List<Shape> backgroundColorShapeList, ShapeRenderer shapeRenderer) {
+    public void drawBackgroundColorShapeList(List<Shape> backgroundColorShapeList, Shape backgroundColorShape, ShapeRenderer shapeRenderer) {
         for(int i = 0; i < backgroundColorShapeList.size(); i++) {
-            drawShape(backgroundColorShapeList.get(i), shapeRenderer);
+            Shape shape = backgroundColorShapeList.get(i);
+            drawShape(shape, shapeRenderer);
+            if(i == 0) {
+                shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y - colorListSpeed));
+            } else if(i == backgroundColorShapeList.size() - 1) {
+                shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y + colorListSpeed));
+            } else {
+                shape.setCoordinates(new Vector2(shape.getCoordinates().x + colorListSpeed, shape.getCoordinates().y));
+            }
+            if(backgroundColorShapeList.get(0).getCoordinates().y <= backgroundColorShapeList.get(1).getCoordinates().y) {
+                float newRadius = shape.getRadius();
+                backgroundColorShapeList.get(0).setCoordinates(new Vector2(backgroundColorShapeList.get(0).getCoordinates().x, backgroundColorShapeList.get(1).getCoordinates().y));
+
+                backgroundColorShape.setShape(Shape.randomBackgroundColorShape());
+                backgroundColorShape.setRadius(Gdx.graphics.getWidth() / 2);
+                backgroundColorShape.setColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
+                backgroundColorShape.setFillColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
+                backgroundColorShape.setLineWidth(Draw.INPUT_RADIUS / 8);
+                backgroundColorShape.setCoordinates(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() + (Gdx.graphics.getWidth() / 2)));
+
+                backgroundColorShapeList.remove(backgroundColorShapeList.size() - 1);
+                backgroundColorShapeList.add(0, new Shape(Shape.SQUARE,
+                        newRadius,
+                        Color.WHITE,
+                        ColorUtils.randomPrimary(),
+                        newRadius / 8,
+                        new Vector2(Draw.TARGET_RADIUS + ((Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS * 2)) / 7),
+                                (Gdx.graphics.getHeight() - (Draw.INPUT_RADIUS / 2)) + ((Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS * 2)) / 7))));
+            }
         }
     }
 
