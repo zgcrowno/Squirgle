@@ -14,9 +14,11 @@ import com.badlogic.gdx.math.Vector3;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: Many of the variables throughout this entire game will have to be replaced with screen-size dependent alternatives
 public class Squirgle extends ApplicationAdapter implements InputProcessor {
 	private OrthographicCamera camera;
-	private ShapeRenderer shapeRenderer;
+	private ShapeRenderer shapeRendererFilled;
+	private ShapeRenderer shapeRendererLine;
 	private Draw draw;
 	private float initPromptRadius;
 	private float backgroundColorListElementRadius;
@@ -38,14 +40,17 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 	boolean lineTouched;
 	boolean triangleTouched;
 	boolean squareTouched;
+	private Color clearColor;
 
 	@Override
 	public void create () {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 768, 1024);
 		Gdx.input.setInputProcessor(this);
-		shapeRenderer = new ShapeRenderer();
-		shapeRenderer.setProjectionMatrix(camera.combined);
+		shapeRendererFilled = new ShapeRenderer();
+		shapeRendererFilled.setProjectionMatrix(camera.combined);
+		shapeRendererLine = new ShapeRenderer();
+		shapeRendererLine.setProjectionMatrix(camera.combined);
 		draw = new Draw(Gdx.graphics.getHeight());
 		initPromptRadius = 20;
 		backgroundColorListElementRadius = 15;
@@ -93,6 +98,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		lineTouched = false;
 		triangleTouched = false;
 		squareTouched = false;
+		clearColor = new Color();
 	}
 
 	@Override
@@ -102,32 +108,36 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
+		Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
 
 		//TODO: Maybe add another shapeRenderer of ShapeType.Unfilled for prompt?
-		shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+		shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
-		draw.drawBackgroundColorShape(backgroundColorShape, shapeRenderer);
+		shapeRendererLine.begin(ShapeRenderer.ShapeType.Line);
 
-		draw.drawPrompt(promptShape, priorShapeList, shapeRenderer);
+		draw.drawBackgroundColorShape(backgroundColorShape, shapeRendererFilled);
 
-		draw.drawShapes(priorShapeList, promptShape, shapeRenderer);
+		draw.drawPrompt(promptShape, priorShapeList, shapeRendererLine);
 
-		draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, shapeRenderer);
+		draw.drawShapes(priorShapeList, promptShape, shapeRendererFilled);
 
-		draw.drawInputButtons(inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, shapeRenderer);
+		draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, clearColor, shapeRendererFilled);
 
-		draw.drawTargetSemicircle(shapeRenderer);
+		draw.drawInputButtons(inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, shapeRendererFilled);
 
-		draw.drawScoreTriangle(shapeRenderer);
+		draw.drawTargetSemicircle(shapeRendererFilled);
 
-		draw.drawPrompt(outsideTargetShape, targetShapeList, shapeRenderer);
+		draw.drawScoreTriangle(shapeRendererFilled);
 
-		draw.drawShapes(targetShapeList, outsideTargetShape, shapeRenderer);
+		draw.drawPrompt(outsideTargetShape, targetShapeList, shapeRendererFilled);
 
-		shapeRenderer.end();
+		draw.drawShapes(targetShapeList, outsideTargetShape, shapeRendererFilled);
+
+		shapeRendererFilled.end();
+
+		shapeRendererLine.end();
 
 		promptShape.setRadius(promptShape.getRadius() * promptIncrease);
 
@@ -208,7 +218,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		if(promptShape.getShape() == currentTargetShape) {
 			targetShapesMatched++;
 			Shape circleContainer = new Shape(Shape.CIRCLE, promptShape.getRadius(), Color.BLACK, null, promptShape.getLineWidth(), promptShape.getCoordinates());
-			Shape promptShapeToAdd = new Shape(promptShape.getShape(), promptShape.getRadius(), Color.WHITE, null, promptShape.getLineWidth(), promptShape.getCoordinates());
+			Shape promptShapeToAdd = new Shape(promptShape.getShape(), promptShape.getRadius(), backgroundColorShape.getColor(), null, promptShape.getLineWidth(), promptShape.getCoordinates());
 			if(promptShapeToAdd.getShape() == Shape.POINT || (promptShapeToAdd.getShape() == Shape.LINE && !priorShapeList.isEmpty())) {
 				promptShapeToAdd.setRadius(circleContainer.getRadius() / 2);
 			}

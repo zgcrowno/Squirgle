@@ -23,15 +23,15 @@ public class Draw {
 
     public Draw() {
         radiusOffset = 0;
-        colorSpeed = 20;
-        colorListSpeed = 0.25f;
+        colorSpeed = 100;
+        colorListSpeed = 0.5f;
         targetSpawn = new Vector2();
     }
 
     public Draw(float screenHeight) {
         radiusOffset = 1.45f;
         colorSpeed = 100;
-        colorListSpeed = 0.25f;
+        colorListSpeed = 0.5f;
         targetSpawn = new Vector2(TARGET_DISTANCE_OFFSET, screenHeight - TARGET_DISTANCE_OFFSET);
     }
 
@@ -79,13 +79,6 @@ public class Draw {
             for(int i = priorShapeList.size() - 1; i >= 0; i--) {
                 Shape shape = priorShapeList.get(i);
                 Shape priorShape = null;
-
-                //Set the color by determining whether shape is circle or otherwise
-                if(i % 2 == 0) {
-                    shape.setColor(Color.WHITE);
-                } else {
-                    shape.setColor(Color.BLACK);
-                }
 
                 //Determine whether to compare current shape with prompt or next shape in list
                 if(i == priorShapeList.size() - 1) {
@@ -269,7 +262,7 @@ public class Draw {
 
     }
 
-    public void drawBackgroundColorShapeList(List<Shape> backgroundColorShapeList, Shape backgroundColorShape, ShapeRenderer shapeRenderer) {
+    public void drawBackgroundColorShapeList(List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color clearColor, ShapeRenderer shapeRenderer) {
         for(int i = 0; i < backgroundColorShapeList.size(); i++) {
             Shape shape = backgroundColorShapeList.get(i);
             drawShape(shape, shapeRenderer);
@@ -284,7 +277,8 @@ public class Draw {
                 float newRadius = shape.getRadius();
                 backgroundColorShapeList.get(0).setCoordinates(new Vector2(backgroundColorShapeList.get(0).getCoordinates().x, backgroundColorShapeList.get(1).getCoordinates().y));
 
-                backgroundColorShape.setShape(Shape.randomBackgroundColorShape());
+                clearColor.set(backgroundColorShape.getColor().r, backgroundColorShape.getColor().g, backgroundColorShape.getColor().b, backgroundColorShape.getColor().a);
+                backgroundColorShape.setShape(Shape.randomBackgroundColorShape()); //TODO: Enable triangles to be drawn pointing downward, so they're identifiable here.
                 backgroundColorShape.setRadius(Gdx.graphics.getWidth() / 2);
                 backgroundColorShape.setColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
                 backgroundColorShape.setFillColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
