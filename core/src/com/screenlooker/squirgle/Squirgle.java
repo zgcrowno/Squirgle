@@ -29,7 +29,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 	private List<Shape> targetShapeList;
 	private List<Shape> backgroundColorShapeList;
 	private Shape backgroundColorShape;
-	private int currentTargetShape;
+	private Shape currentTargetShape;
 	private int targetShapesMatched;
 	private Vector2 inputPointSpawn;
 	private Vector2 inputLineSpawn;
@@ -87,7 +87,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 										 backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor(),
 										 Draw.INPUT_RADIUS / 8,
 										 new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() + (Gdx.graphics.getWidth() / 2)));
-		currentTargetShape = targetShapeList.get(0).getShape();
+		currentTargetShape = targetShapeList.get(0);
 		targetShapesMatched = 0;
 		inputPointSpawn = new Vector2(Gdx.graphics.getWidth() / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
 		inputLineSpawn = new Vector2((2 * Gdx.graphics.getWidth()) / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
@@ -142,6 +142,8 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		promptShape.setRadius(promptShape.getRadius() * promptIncrease);
 
 		promptShape.setLineWidth(promptShape.getRadius() / 8);
+
+		currentTargetShape.setColor(ColorUtils.randomPrimary());
 
 	}
 
@@ -215,7 +217,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 				promptShape.setShape(Shape.SQUARE);
 			}
 		}
-		if(promptShape.getShape() == currentTargetShape) {
+		if(promptShape.getShape() == currentTargetShape.getShape()) {
 			targetShapesMatched++;
 			Shape circleContainer = new Shape(Shape.CIRCLE, promptShape.getRadius(), Color.BLACK, null, promptShape.getLineWidth(), promptShape.getCoordinates());
 			Shape promptShapeToAdd = new Shape(promptShape.getShape(), promptShape.getRadius(), backgroundColorShape.getColor(), null, promptShape.getLineWidth(), promptShape.getCoordinates());
@@ -226,14 +228,15 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 			priorShapeList.add(promptShapeToAdd);
 			priorShapeList.add(circleContainer);
 			if(targetShapesMatched == 1) {
-				currentTargetShape = outsideTargetShape.getShape();
+				currentTargetShape = outsideTargetShape;
 			} else {
 				targetShapesMatched = 0;
 				targetShapeList.clear();
 				outsideTargetShape.setShape(MathUtils.random(Shape.SQUARE));
+				outsideTargetShape.setColor(Color.BLACK);
 				targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 2.5f, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2.5f))));
 				targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
-				currentTargetShape = targetShapeList.get(0).getShape();
+				currentTargetShape = targetShapeList.get(0);
 			}
 		}
 		return true;
