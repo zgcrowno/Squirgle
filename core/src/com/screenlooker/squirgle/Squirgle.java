@@ -5,9 +5,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -41,6 +43,9 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 	boolean triangleTouched;
 	boolean squareTouched;
 	private Color clearColor;
+	private Score score;
+	private SpriteBatch batch;
+	private BitmapFont font;
 
 	@Override
 	public void create () {
@@ -99,6 +104,10 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		triangleTouched = false;
 		squareTouched = false;
 		clearColor = new Color();
+		score = new Score();
+		batch = new SpriteBatch();
+		batch.setProjectionMatrix(camera.combined);
+		font = new BitmapFont();
 	}
 
 	@Override
@@ -112,7 +121,6 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		camera.update();
 
-		//TODO: Maybe add another shapeRenderer of ShapeType.Unfilled for prompt?
 		shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
 		shapeRendererLine.begin(ShapeRenderer.ShapeType.Line);
@@ -138,6 +146,12 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		shapeRendererFilled.end();
 
 		shapeRendererLine.end();
+
+		batch.begin();
+		font.setColor(Color.BLACK);
+		font.draw(batch, score.scoreString(), Gdx.graphics.getWidth() - Draw.TARGET_RADIUS + (font.getSpaceWidth() * 5), Gdx.graphics.getHeight());
+		font.draw(batch, score.multiplierString(), Gdx.graphics.getWidth() - Draw.TARGET_RADIUS + (font.getSpaceWidth() * 15), Gdx.graphics.getHeight() - font.getLineHeight());
+		batch.end();
 
 		promptShape.setRadius(promptShape.getRadius() * promptIncrease);
 
