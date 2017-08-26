@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
@@ -43,9 +45,12 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 	boolean triangleTouched;
 	boolean squareTouched;
 	private Color clearColor;
-	private Score score;
+	private int score;
+	private long startTime;
 	private SpriteBatch batch;
+	private FreeTypeFontGenerator generator;
 	private BitmapFont font;
+	private GlyphLayout layout;
 
 	@Override
 	public void create () {
@@ -104,10 +109,17 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		triangleTouched = false;
 		squareTouched = false;
 		clearColor = new Color();
-		score = new Score();
+		score = 0;
+		startTime = System.currentTimeMillis();
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
-		font = new BitmapFont();
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = 72;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
+		font = generator.generateFont(parameter);
+		layout = new GlyphLayout();
+		generator.dispose();
 	}
 
 	@Override
@@ -147,11 +159,16 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 
 		shapeRendererLine.end();
 
-		batch.begin();
-		font.setColor(Color.BLACK);
-		font.draw(batch, score.scoreString(), Gdx.graphics.getWidth() - Draw.TARGET_RADIUS + (font.getSpaceWidth() * 5), Gdx.graphics.getHeight());
-		font.draw(batch, score.multiplierString(), Gdx.graphics.getWidth() - Draw.TARGET_RADIUS + (font.getSpaceWidth() * 15), Gdx.graphics.getHeight() - font.getLineHeight());
-		batch.end();
+		FontUtils.printText(batch, font, layout, backgroundColorShape.getColor(), String.valueOf(score), Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS / 3.2f), Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 3.2f), -45);
+
+		//TODO: Make sure you execute the inverse of this given certain player input...Also adjust all of this
+		//TODO: so that the promptIncrease, colorListSpeed and colorSpeed are all increasing by proportional rates.
+		if((System.currentTimeMillis() - startTime) / 1000 > 10) {
+			promptIncrease += .0005;
+			startTime = System.currentTimeMillis();
+			draw.setColorListSpeed(draw.getColorListSpeed() + 0.1f);
+			draw.setColorSpeed(draw.getColorSpeed() + 20);
+		}
 
 		promptShape.setRadius(promptShape.getRadius() * promptIncrease);
 
@@ -245,6 +262,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 				currentTargetShape = outsideTargetShape;
 			} else {
 				targetShapesMatched = 0;
+				score++;
 				targetShapeList.clear();
 				outsideTargetShape.setShape(MathUtils.random(Shape.SQUARE));
 				outsideTargetShape.setColor(Color.BLACK);

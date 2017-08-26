@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Color;
 
 public class ColorUtils {
 
+    //TODO: Use less harsh colors...colors that conflict less with black and white
     public static com.badlogic.gdx.graphics.Color randomPrimary() {
         int blue = 0;
         int green = 1;
