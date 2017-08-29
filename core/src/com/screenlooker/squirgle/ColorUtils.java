@@ -16,13 +16,13 @@ public class ColorUtils {
         int color = MathUtils.random(5);
 
         if(color == blue) {
-            return Color.BLUE;
+            return Color.ROYAL;
         } else if(color == green) {
-            return Color.GREEN;
+            return Color.LIME;
         } else if(color == red) {
-            return Color.RED;
+            return Color.FIREBRICK;
         } else if(color == yellow) {
-            return Color.YELLOW;
+            return Color.ORANGE;
         } else if(color == cyan) {
             return Color.CYAN;
         } else {

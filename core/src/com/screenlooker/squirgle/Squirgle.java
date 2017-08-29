@@ -46,6 +46,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 	boolean squareTouched;
 	private Color clearColor;
 	private int score;
+	private int multiplier;
 	private long startTime;
 	private SpriteBatch batch;
 	private FreeTypeFontGenerator generator;
@@ -72,6 +73,11 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		backgroundColorShapeList = new ArrayList<Shape>();
 		targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
 		targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
+		if(targetShapeList.get(0).getShape() == Shape.SQUARE) {
+			while(outsideTargetShape.getShape() == Shape.TRIANGLE) {
+				outsideTargetShape.setShape(MathUtils.random(Shape.SQUARE));
+			}
+		}
 		for(int i = 0; i <= 6; i++) {
 			if(i == 0) {
 				backgroundColorShapeList.add(new Shape(Shape.SQUARE,
@@ -110,6 +116,7 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		squareTouched = false;
 		clearColor = new Color();
 		score = 0;
+		multiplier = 1;
 		startTime = System.currentTimeMillis();
 		batch = new SpriteBatch();
 		batch.setProjectionMatrix(camera.combined);
@@ -160,14 +167,19 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		shapeRendererLine.end();
 
 		FontUtils.printText(batch, font, layout, backgroundColorShape.getColor(), String.valueOf(score), Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS / 3.2f), Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 3.2f), -45);
+		FontUtils.printText(batch, font, layout, Color.WHITE, "X" + String.valueOf(multiplier), Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS / 2.58f), Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 1.25f), -45);
 
 		//TODO: Make sure you execute the inverse of this given certain player input...Also adjust all of this
 		//TODO: so that the promptIncrease, colorListSpeed and colorSpeed are all increasing by proportional rates.
-		if((System.currentTimeMillis() - startTime) / 1000 > 10) {
-			promptIncrease += .0005;
-			startTime = System.currentTimeMillis();
-			draw.setColorListSpeed(draw.getColorListSpeed() + 0.1f);
-			draw.setColorSpeed(draw.getColorSpeed() + 20);
+		if(!gameOver()) {
+			if ((System.currentTimeMillis() - startTime) / 1000 > 10) {
+				promptIncrease += .0005;
+				startTime = System.currentTimeMillis();
+				draw.setColorListSpeed(draw.getColorListSpeed() + 0.1f);
+				draw.setColorSpeed(draw.getColorSpeed() + 20);
+			}
+		} else {
+			gameOverBehavior();
 		}
 
 		promptShape.setRadius(promptShape.getRadius() * promptIncrease);
@@ -175,7 +187,6 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 		promptShape.setLineWidth(promptShape.getRadius() / 8);
 
 		currentTargetShape.setColor(ColorUtils.randomPrimary());
-
 	}
 
 	@Override public boolean mouseMoved (int screenX, int screenY) {
@@ -262,14 +273,36 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 				currentTargetShape = outsideTargetShape;
 			} else {
 				targetShapesMatched = 0;
-				score++;
+				score += multiplier;
+				if(multiplier < 5) {
+					multiplier++;
+				}
 				targetShapeList.clear();
-				outsideTargetShape.setShape(MathUtils.random(Shape.SQUARE));
-				outsideTargetShape.setColor(Color.BLACK);
-				targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 2.5f, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2.5f))));
-				targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
+				if(priorShapeList.get(priorShapeList.size() - 4).getColor() == priorShapeList.get(priorShapeList.size() - 2).getColor()) {
+					//SQUIRGLE!!!
+					outsideTargetShape.setShape(Shape.TRIANGLE);
+					outsideTargetShape.setColor(Color.BLACK);
+					targetShapeList.add(new Shape(Shape.SQUARE, 0, Color.WHITE, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 2.5f, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2.5f))));
+					targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
+				} else {
+					outsideTargetShape.setShape(MathUtils.random(Shape.SQUARE));
+					outsideTargetShape.setColor(Color.BLACK);
+					targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 2.5f, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2.5f))));
+					targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2))));
+					if(targetShapeList.get(0).getShape() == Shape.SQUARE) {
+						while(outsideTargetShape.getShape() == Shape.TRIANGLE) {
+							outsideTargetShape.setShape(MathUtils.random(Shape.SQUARE));
+						}
+					}
+				}
+				if(priorShapeList.get(priorShapeList.size() - 4).getShape() == Shape.SQUARE && priorShapeList.get(priorShapeList.size() - 2).getShape() == Shape.TRIANGLE) {
+					promptShape.setRadius(promptShape.getRadius() * 0.8f);
+				}
 				currentTargetShape = targetShapeList.get(0);
 			}
+		} else {
+			//The wrong shape was touched
+			multiplier = 1;
 		}
 		return true;
 	}
@@ -307,5 +340,13 @@ public class Squirgle extends ApplicationAdapter implements InputProcessor {
 
 	@Override public boolean scrolled (int amount) {
 		return false;
+	}
+
+	public boolean gameOver() {
+		return promptShape.getRadius() >= Gdx.graphics.getWidth() / 2 || promptShape.getRadius() >= Gdx.graphics.getHeight() / 2;
+	}
+
+	public void gameOverBehavior() {
+		promptIncrease = 1;
 	}
 }
