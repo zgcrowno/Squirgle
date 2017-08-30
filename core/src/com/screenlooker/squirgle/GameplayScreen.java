@@ -49,6 +49,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private int multiplier;
     private long startTime;
     private long endTime;
+    private int destructionIndex;
 
     public GameplayScreen(final Squirgle game) {
         this.game = game;
@@ -112,6 +113,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         gameOver = false;
         startTime = System.currentTimeMillis();
         endTime = 0;
+        destructionIndex = 1;
     }
 
     @Override
@@ -119,6 +121,8 @@ public class GameplayScreen implements Screen, InputProcessor {
         Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.camera.update();
+        game.shapeRendererFilled.setProjectionMatrix(game.camera.combined);
+        game.shapeRendererLine.setProjectionMatrix(game.camera.combined);
 
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -142,12 +146,18 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         game.draw.drawShapes(targetShapeList, outsideTargetShape, game.shapeRendererFilled);
 
-        game.shapeRendererFilled.end();
-
-        game.shapeRendererLine.end();
-
-        FontUtils.printText(game.batch, game.font, game.layout, backgroundColorShape.getColor(), String.valueOf(score), Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS / 3.2f), Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 3.2f), -45);
-        FontUtils.printText(game.batch, game.font, game.layout, Color.WHITE, "X" + String.valueOf(multiplier), Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS / 2.58f), Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 1.25f), -45);
+        //Prevent shapes from getting too large
+        if(promptShape.getRadius() >= Gdx.graphics.getWidth() * 5) {
+            if(priorShapeList.size() > destructionIndex) {
+                promptShape = priorShapeList.get(priorShapeList.size() - destructionIndex);
+                for(int i = 0; i < destructionIndex; i++) {
+                    priorShapeList.remove(priorShapeList.size() - 1);
+                }
+                destructionIndex = 2;
+            } else {
+                //TODO: Account for game ending with empty priorShapeList
+            }
+        }
 
         //TODO: Make sure you execute the inverse of this given certain player input...Also adjust all of this
         //TODO: so that the promptIncrease, colorListSpeed and colorSpeed are all increasing by proportional rates.
@@ -160,10 +170,10 @@ public class GameplayScreen implements Screen, InputProcessor {
             }
         } else {
             if((System.currentTimeMillis() - endTime) / 1000 > 2) {
-                if(priorShapeList.size() > 1) {
-                    if((priorShapeList.get(1).getRadius() * 2) < Gdx.graphics.getWidth()) { //TODO: Also account for height (different screen orientations?)
+                if(priorShapeList.size() > 0) {
+                    if(priorShapeList.get(0).getRadius() < (Gdx.graphics.getWidth() * 3)) { //TODO: Also account for height (different screen orientations?)
                         promptIncrease += .0001;
-                        promptShape.setCoordinates(new Vector2(promptShape.getCoordinates().x, promptShape.getCoordinates().y));
+                        promptShape.setCoordinates(new Vector2(promptShape.getCoordinates().x - (priorShapeList.get(0).getCoordinates().x - (Gdx.graphics.getWidth() / 2)), promptShape.getCoordinates().y));
                     } else {
                         promptIncrease = 1;
                     }
@@ -172,6 +182,13 @@ public class GameplayScreen implements Screen, InputProcessor {
                 }
             }
         }
+
+        game.shapeRendererFilled.end();
+
+        game.shapeRendererLine.end();
+
+        FontUtils.printText(game.batch, game.font, game.layout, backgroundColorShape.getColor(), String.valueOf(score), Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS / 3.2f), Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 3.2f), -45);
+        FontUtils.printText(game.batch, game.font, game.layout, Color.WHITE, "X" + String.valueOf(multiplier), Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS / 2.58f), Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 1.25f), -45);
 
         promptShape.setRadius(promptShape.getRadius() * promptIncrease);
 

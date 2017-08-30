@@ -41,9 +41,7 @@ public class Squirgle extends Game {
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 768, 1024);
 		shapeRendererFilled = new ShapeRenderer();
-		shapeRendererFilled.setProjectionMatrix(camera.combined);
 		shapeRendererLine = new ShapeRenderer();
-		shapeRendererLine.setProjectionMatrix(camera.combined);
 		draw = new Draw(Gdx.graphics.getHeight());
 
 		generator.dispose();
