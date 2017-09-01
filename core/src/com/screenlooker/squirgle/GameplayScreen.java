@@ -128,36 +128,15 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         game.shapeRendererLine.begin(ShapeRenderer.ShapeType.Line);
 
+        promptShape.setRadius(promptShape.getRadius() * promptIncrease);
+
+        promptShape.setLineWidth(promptShape.getRadius() / 8);
+
         game.draw.drawBackgroundColorShape(backgroundColorShape, game.shapeRendererFilled);
 
         game.draw.drawPrompt(promptShape, priorShapeList, game.shapeRendererLine);
 
         game.draw.drawShapes(priorShapeList, promptShape, game.shapeRendererFilled);
-
-        game.draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
-
-        game.draw.drawInputButtons(inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, game.shapeRendererFilled);
-
-        game.draw.drawTargetSemicircle(game.shapeRendererFilled);
-
-        game.draw.drawScoreTriangle(game.shapeRendererFilled);
-
-        game.draw.drawPrompt(outsideTargetShape, targetShapeList, game.shapeRendererFilled);
-
-        game.draw.drawShapes(targetShapeList, outsideTargetShape, game.shapeRendererFilled);
-
-        //Prevent shapes from getting too large
-        if(promptShape.getRadius() >= Gdx.graphics.getWidth() * 5) {
-            if(priorShapeList.size() > destructionIndex) {
-                promptShape = priorShapeList.get(priorShapeList.size() - destructionIndex);
-                for(int i = 0; i < destructionIndex; i++) {
-                    priorShapeList.remove(priorShapeList.size() - 1);
-                }
-                destructionIndex = 2;
-            } else {
-                //TODO: Account for game ending with empty priorShapeList
-            }
-        }
 
         //TODO: Make sure you execute the inverse of this given certain player input...Also adjust all of this
         //TODO: so that the promptIncrease, colorListSpeed and colorSpeed are all increasing by proportional rates.
@@ -173,6 +152,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 if(priorShapeList.size() > 0) {
                     if(priorShapeList.get(0).getRadius() < (Gdx.graphics.getWidth() * 3)) { //TODO: Also account for height (different screen orientations?)
                         promptIncrease += .0001;
+                        System.out.println(priorShapeList.get(0).getCoordinates().x);
                         promptShape.setCoordinates(new Vector2(promptShape.getCoordinates().x - (priorShapeList.get(0).getCoordinates().x - (Gdx.graphics.getWidth() / 2)), promptShape.getCoordinates().y));
                     } else {
                         promptIncrease = 1;
@@ -183,16 +163,44 @@ public class GameplayScreen implements Screen, InputProcessor {
             }
         }
 
+        //This code is being executed twice: once before setting the prompt's end game coordinates, and again afterwards.
+        //This way, the shapes are drawn with their new values, and the first element in priorShapeList doesn't veer off
+        //the screen to the right.
+        //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
+        //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
+        game.draw.drawShapes(priorShapeList, promptShape, game.shapeRendererFilled);
+
+        game.draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
+
+        game.draw.drawInputButtons(inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, game.shapeRendererFilled);
+
+        game.draw.drawTargetSemicircle(game.shapeRendererFilled);
+
+        game.draw.drawScoreTriangle(game.shapeRendererFilled);
+
+        game.draw.drawPrompt(outsideTargetShape, targetShapeList, game.shapeRendererFilled);
+
+        game.draw.drawShapes(targetShapeList, outsideTargetShape, game.shapeRendererFilled);
+
+        //Prevent shapes from getting too large
+        if(promptShape.getRadius() >= Gdx.graphics.getWidth() * 10) {
+            if(priorShapeList.size() > destructionIndex) {
+                promptShape = priorShapeList.get(priorShapeList.size() - destructionIndex);
+                for(int i = 0; i < destructionIndex; i++) {
+                    priorShapeList.remove(priorShapeList.size() - 1);
+                }
+                destructionIndex = 2;
+            } else {
+                //TODO: Account for game ending with empty priorShapeList
+            }
+        }
+
         game.shapeRendererFilled.end();
 
         game.shapeRendererLine.end();
 
         FontUtils.printText(game.batch, game.font, game.layout, backgroundColorShape.getColor(), String.valueOf(score), Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS / 3.2f), Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 3.2f), -45);
         FontUtils.printText(game.batch, game.font, game.layout, Color.WHITE, "X" + String.valueOf(multiplier), Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS / 2.58f), Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 1.25f), -45);
-
-        promptShape.setRadius(promptShape.getRadius() * promptIncrease);
-
-        promptShape.setLineWidth(promptShape.getRadius() / 8);
 
         //Game over condition
         if((promptShape.getRadius() >= Gdx.graphics.getWidth() / 2 || promptShape.getRadius() >= Gdx.graphics.getHeight() / 2) && !gameOver) {

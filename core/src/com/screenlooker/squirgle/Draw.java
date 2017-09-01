@@ -78,7 +78,7 @@ public class Draw {
         if(!priorShapeList.isEmpty()) {
             for(int i = priorShapeList.size() - 1; i >= 0; i--) {
                 Shape shape = priorShapeList.get(i);
-                Shape priorShape = null;
+                Shape priorShape;
 
                 //Determine whether to compare current shape with prompt or next shape in list
                 if(i == priorShapeList.size() - 1) {
