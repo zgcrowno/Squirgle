@@ -1,5 +1,6 @@
 package com.screenlooker.squirgle;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -20,19 +21,22 @@ public class Draw {
     private float colorSpeed;
     private float colorListSpeed;
     private Vector2 targetSpawn;
+    private Squirgle game;
 
     public Draw() {
         radiusOffset = 0;
         colorSpeed = 100;
         colorListSpeed = 0.5f;
         targetSpawn = new Vector2();
+        game = new Squirgle();
     }
 
-    public Draw(float screenHeight) {
+    public Draw(Squirgle game) {
         radiusOffset = 1.45f;
         colorSpeed = 100;
         colorListSpeed = 0.5f;
-        targetSpawn = new Vector2(TARGET_DISTANCE_OFFSET, screenHeight - TARGET_DISTANCE_OFFSET);
+        targetSpawn = new Vector2(TARGET_DISTANCE_OFFSET, game.camera.viewportHeight - TARGET_DISTANCE_OFFSET);
+        this.game = game;
     }
 
     public float getRadiusOffset() { return radiusOffset; }
@@ -295,7 +299,7 @@ public class Draw {
     public void drawBackgroundColorShape(Shape backgroundColorShape, ShapeRenderer shapeRenderer) {
         //TODO: Write and implement method
         drawShape(backgroundColorShape, shapeRenderer);
-        if(backgroundColorShape.getRadius() < Gdx.graphics.getHeight() * 4) {
+        if(backgroundColorShape.getRadius() < game.camera.viewportHeight * 4) {
             backgroundColorShape.setRadius(backgroundColorShape.getRadius() + colorSpeed);
         }
 
@@ -318,11 +322,11 @@ public class Draw {
 
                 clearColor.set(backgroundColorShape.getColor().r, backgroundColorShape.getColor().g, backgroundColorShape.getColor().b, backgroundColorShape.getColor().a);
                 backgroundColorShape.setShape(Shape.randomBackgroundColorShape()); //TODO: Enable triangles to be drawn pointing downward, so they're identifiable here.
-                backgroundColorShape.setRadius(Gdx.graphics.getWidth() / 2);
+                backgroundColorShape.setRadius(game.camera.viewportWidth / 2);
                 backgroundColorShape.setColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
                 backgroundColorShape.setFillColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
                 backgroundColorShape.setLineWidth(Draw.INPUT_RADIUS / 8);
-                backgroundColorShape.setCoordinates(new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() + (Gdx.graphics.getWidth() / 2)));
+                backgroundColorShape.setCoordinates(new Vector2(game.camera.viewportWidth / 2, game.camera.viewportHeight + (game.camera.viewportWidth / 2)));
 
                 backgroundColorShapeList.remove(backgroundColorShapeList.size() - 1);
                 backgroundColorShapeList.add(0, new Shape(Shape.SQUARE,
@@ -330,23 +334,23 @@ public class Draw {
                         Color.WHITE,
                         ColorUtils.randomPrimary(),
                         newRadius / 8,
-                        new Vector2(Draw.TARGET_RADIUS + ((Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS * 2)) / 7),
-                                (Gdx.graphics.getHeight() - (Draw.INPUT_RADIUS / 2)) + ((Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS * 2)) / 7))));
+                        new Vector2(Draw.TARGET_RADIUS + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7),
+                                (game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7))));
             }
         }
     }
 
     public void drawTargetSemicircle(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(0, Gdx.graphics.getHeight(), TARGET_RADIUS);
+        shapeRenderer.circle(0, game.camera.viewportHeight, TARGET_RADIUS);
     }
 
     public void drawScoreTriangle(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.triangle(Gdx.graphics.getWidth(),
-                Gdx.graphics.getHeight(),
-                Gdx.graphics.getWidth() - TARGET_RADIUS, Gdx.graphics.getHeight(),
-                Gdx.graphics.getWidth(),
-                Gdx.graphics.getHeight() - TARGET_RADIUS);
+        shapeRenderer.triangle(game.camera.viewportWidth,
+                game.camera.viewportHeight,
+                game.camera.viewportWidth - TARGET_RADIUS, game.camera.viewportHeight,
+                game.camera.viewportWidth,
+                game.camera.viewportHeight - TARGET_RADIUS);
     }
 }

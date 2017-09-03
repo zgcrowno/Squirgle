@@ -14,18 +14,24 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.*;
+import com.sun.prism.image.ViewPort;
 
 import java.util.ArrayList;
 import java.util.List;
 
 //TODO: Many of the variables throughout this entire game will have to be replaced with screen-size dependent alternatives
 public class Squirgle extends Game {
+	public static final int VIRTUAL_WIDTH = 10;
+	public static final int VIRTUAL_HEIGHT = 16;
+	public static final float ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
 
 	public SpriteBatch batch;
 	public BitmapFont font;
 	public GlyphLayout layout;
 	public FreeTypeFontGenerator generator;
 	public OrthographicCamera camera;
+	public Viewport viewport;
 	public ShapeRenderer shapeRendererFilled;
 	public ShapeRenderer shapeRendererLine;
 	public Draw draw;
@@ -40,9 +46,11 @@ public class Squirgle extends Game {
 		layout = new GlyphLayout();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, 768, 1024);
+		viewport = new StretchViewport(768, 1024, camera);
+		camera.position.set(768/2,1024/2,0);
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();
-		draw = new Draw(Gdx.graphics.getHeight());
+		draw = new Draw(this);
 
 		generator.dispose();
 
@@ -60,7 +68,7 @@ public class Squirgle extends Game {
 	}
 
 	public void resetInstanceData() {
-		draw = new Draw(Gdx.graphics.getHeight());
+		draw = new Draw(this);
 	}
 
 }
