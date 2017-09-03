@@ -25,6 +25,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private float initPromptRadius;
     private float backgroundColorListElementRadius;
     private float promptIncrease;
+    private float endLineWidthIncrease;
     private Shape promptShape;
     private Shape outsideTargetShape;
     private List<Shape> priorShapeList;
@@ -37,27 +38,40 @@ public class GameplayScreen implements Screen, InputProcessor {
     private Vector2 inputLineSpawn;
     private Vector2 inputTriangleSpawn;
     private Vector2 inputSquareSpawn;
+    private Vector2 inputPlaySpawn;
+    private Vector2 inputHomeSpawn;
+    private Vector2 inputExitSpawn;
     private Vector3 touchPoint;
     boolean pointTouched;
     boolean lineTouched;
     boolean triangleTouched;
     boolean squareTouched;
-    boolean inputTouched;
+    boolean playTouched;
+    boolean homeTouched;
+    boolean exitTouched;
+    boolean inputTouchedGameplay;
+    boolean inputTouchedResults;
     private Color clearColor;
     private int score;
     private boolean gameOver;
+    private boolean showResults;
     private int multiplier;
     private long startTime;
     private long endTime;
     private int destructionIndex;
+    private float firstPriorShapePreviousX;
+    private Color resultsColor;
 
     public GameplayScreen(final Squirgle game) {
         this.game = game;
+
+        game.resetInstanceData();
 
         Gdx.input.setInputProcessor(this);
         initPromptRadius = 20;
         backgroundColorListElementRadius = 15;
         promptIncrease = 1.0005f;
+        endLineWidthIncrease = 2;
         promptShape = new Shape(MathUtils.random(Shape.SQUARE), initPromptRadius, Color.BLACK, null, initPromptRadius / 8, new Vector2(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2));
         outsideTargetShape = new Shape(MathUtils.random(Shape.SQUARE), Draw.INPUT_RADIUS, Color.BLACK, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 2.5f, Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 2.5f)));
         priorShapeList = new ArrayList<Shape>();
@@ -101,19 +115,29 @@ public class GameplayScreen implements Screen, InputProcessor {
         inputLineSpawn = new Vector2((2 * Gdx.graphics.getWidth()) / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
         inputTriangleSpawn = new Vector2((3 * Gdx.graphics.getWidth()) / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
         inputSquareSpawn = new Vector2((4 * Gdx.graphics.getWidth()) / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+        inputPlaySpawn = new Vector2(Gdx.graphics.getWidth() / 4, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+        inputHomeSpawn = new Vector2((2 * Gdx.graphics.getWidth()) / 4, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+        inputExitSpawn = new Vector2((3 * Gdx.graphics.getWidth()) / 4, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
         touchPoint = new Vector3();
         pointTouched = false;
         lineTouched = false;
         triangleTouched = false;
         squareTouched = false;
-        inputTouched = false;
+        playTouched = false;
+        homeTouched = false;
+        exitTouched = false;
+        inputTouchedGameplay = false;
+        inputTouchedResults = false;
         clearColor = new Color();
         score = 0;
         multiplier = 1;
         gameOver = false;
+        showResults = false;
         startTime = System.currentTimeMillis();
         endTime = 0;
         destructionIndex = 1;
+        firstPriorShapePreviousX = 0;
+        resultsColor = new Color();
     }
 
     @Override
@@ -132,7 +156,9 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         promptShape.setLineWidth(promptShape.getRadius() / 8);
 
-        game.draw.drawBackgroundColorShape(backgroundColorShape, game.shapeRendererFilled);
+        if(!gameOver) {
+            game.draw.drawBackgroundColorShape(backgroundColorShape, game.shapeRendererFilled);
+        }
 
         game.draw.drawPrompt(promptShape, priorShapeList, game.shapeRendererLine);
 
@@ -152,10 +178,15 @@ public class GameplayScreen implements Screen, InputProcessor {
                 if(priorShapeList.size() > 0) {
                     if(priorShapeList.get(0).getRadius() < (Gdx.graphics.getWidth() * 3)) { //TODO: Also account for height (different screen orientations?)
                         promptIncrease += .0001;
-                        System.out.println(priorShapeList.get(0).getCoordinates().x);
-                        promptShape.setCoordinates(new Vector2(promptShape.getCoordinates().x - (priorShapeList.get(0).getCoordinates().x - (Gdx.graphics.getWidth() / 2)), promptShape.getCoordinates().y));
+                        promptShape.setCoordinates(new Vector2(promptShape.getCoordinates().x - (priorShapeList.get(0).getCoordinates().x - firstPriorShapePreviousX), promptShape.getCoordinates().y));
                     } else {
                         promptIncrease = 1;
+                        if(priorShapeList.get(0).getShape() == Shape.LINE && priorShapeList.get(0).getLineWidth() < (Gdx.graphics.getWidth() * 2)) {
+                            priorShapeList.get(0).setLineWidth(priorShapeList.get(0).getLineWidth() * endLineWidthIncrease);
+                        }
+                        if(priorShapeList.get(0).getShape() != Shape.LINE || priorShapeList.get(0).getLineWidth() >= (Gdx.graphics.getWidth() * 2)) {
+                            showResults = true;
+                        }
                     }
                 } else {
                     //TODO: Account for game ending with empty priorShapeList
@@ -170,20 +201,17 @@ public class GameplayScreen implements Screen, InputProcessor {
         //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
         game.draw.drawShapes(priorShapeList, promptShape, game.shapeRendererFilled);
 
-        game.draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
-
-        game.draw.drawInputButtons(inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, game.shapeRendererFilled);
-
-        game.draw.drawTargetSemicircle(game.shapeRendererFilled);
-
-        game.draw.drawScoreTriangle(game.shapeRendererFilled);
-
-        game.draw.drawPrompt(outsideTargetShape, targetShapeList, game.shapeRendererFilled);
-
-        game.draw.drawShapes(targetShapeList, outsideTargetShape, game.shapeRendererFilled);
+        if(!gameOver) {
+            game.draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
+            game.draw.drawInputButtons(inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, game.shapeRendererFilled);
+            game.draw.drawTargetSemicircle(game.shapeRendererFilled);
+            game.draw.drawScoreTriangle(game.shapeRendererFilled);
+            game.draw.drawPrompt(outsideTargetShape, targetShapeList, game.shapeRendererFilled);
+            game.draw.drawShapes(targetShapeList, outsideTargetShape, game.shapeRendererFilled);
+        }
 
         //Prevent shapes from getting too large
-        if(promptShape.getRadius() >= Gdx.graphics.getWidth() * 10) {
+        if(promptShape.getRadius() >= Gdx.graphics.getWidth() * 15) {
             if(priorShapeList.size() > destructionIndex) {
                 promptShape = priorShapeList.get(priorShapeList.size() - destructionIndex);
                 for(int i = 0; i < destructionIndex; i++) {
@@ -195,12 +223,31 @@ public class GameplayScreen implements Screen, InputProcessor {
             }
         }
 
+        if(priorShapeList.size() > 0) {
+            firstPriorShapePreviousX = priorShapeList.get(0).getCoordinates().x;
+        }
+
+        if(showResults) {
+            game.draw.drawResultsInputButtons(inputPlaySpawn, inputHomeSpawn, inputExitSpawn, game.shapeRendererFilled);
+        }
+
         game.shapeRendererFilled.end();
 
         game.shapeRendererLine.end();
 
-        FontUtils.printText(game.batch, game.font, game.layout, backgroundColorShape.getColor(), String.valueOf(score), Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS / 3.2f), Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 3.2f), -45);
-        FontUtils.printText(game.batch, game.font, game.layout, Color.WHITE, "X" + String.valueOf(multiplier), Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS / 2.58f), Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 1.25f), -45);
+        if(!gameOver) {
+            FontUtils.printText(game.batch, game.font, game.layout, backgroundColorShape.getColor(), String.valueOf(score), Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS / 3.2f), Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 3.2f), -45);
+            FontUtils.printText(game.batch, game.font, game.layout, Color.WHITE, "X" + String.valueOf(multiplier), Gdx.graphics.getWidth() - (Draw.TARGET_RADIUS / 2.58f), Gdx.graphics.getHeight() - (Draw.TARGET_RADIUS / 1.25f), -45);
+        }
+
+        if(showResults) {
+            if(priorShapeList.size() >  0 && (priorShapeList.get(0).getShape() == Shape.LINE || priorShapeList.get(0).getShape() == Shape.POINT)) {
+                resultsColor = Color.BLACK;
+            } else {
+                resultsColor = Color.WHITE;
+            }
+            FontUtils.printText(game.batch, game.font, game.layout, resultsColor, String.valueOf(score), Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
+        }
 
         //Game over condition
         if((promptShape.getRadius() >= Gdx.graphics.getWidth() / 2 || promptShape.getRadius() >= Gdx.graphics.getHeight() / 2) && !gameOver) {
@@ -255,7 +302,6 @@ public class GameplayScreen implements Screen, InputProcessor {
             return false;
         }
 
-        if(!gameOver) {
             game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
             pointTouched = screenX > inputPointSpawn.x - Draw.INPUT_RADIUS
@@ -274,8 +320,22 @@ public class GameplayScreen implements Screen, InputProcessor {
                     && screenX < inputSquareSpawn.x + Draw.INPUT_RADIUS
                     && screenY > Gdx.graphics.getHeight() - inputSquareSpawn.y - Draw.INPUT_RADIUS
                     && screenY < Gdx.graphics.getHeight() - inputSquareSpawn.y + Draw.INPUT_RADIUS;
-            inputTouched = pointTouched || lineTouched || triangleTouched || squareTouched;
+            playTouched = screenX > inputPlaySpawn.x - Draw.INPUT_RADIUS
+                    && screenX < inputPlaySpawn.x + Draw.INPUT_RADIUS
+                    && screenY > Gdx.graphics.getHeight() - inputPlaySpawn.y - Draw.INPUT_RADIUS
+                    && screenY < Gdx.graphics.getHeight() - inputPlaySpawn.y + Draw.INPUT_RADIUS;
+            homeTouched = screenX > inputHomeSpawn.x - Draw.INPUT_RADIUS
+                    && screenX < inputHomeSpawn.x + Draw.INPUT_RADIUS
+                    && screenY > Gdx.graphics.getHeight() - inputHomeSpawn.y - Draw.INPUT_RADIUS
+                    && screenY < Gdx.graphics.getHeight() - inputHomeSpawn.y + Draw.INPUT_RADIUS;
+            exitTouched = screenX > inputExitSpawn.x - Draw.INPUT_RADIUS
+                    && screenX < inputExitSpawn.x + Draw.INPUT_RADIUS
+                    && screenY > Gdx.graphics.getHeight() - inputExitSpawn.y - Draw.INPUT_RADIUS
+                    && screenY < Gdx.graphics.getHeight() - inputExitSpawn.y + Draw.INPUT_RADIUS;
+            inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched;
+            inputTouchedResults = playTouched || homeTouched || exitTouched;
 
+        if(!gameOver) {
             if (pointTouched) {
                 if (promptShape.getShape() == Shape.POINT) {
                     promptShape.setShape(Shape.LINE);
@@ -317,7 +377,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     promptShape.setShape(Shape.SQUARE);
                 }
             }
-            if (inputTouched && promptShape.getShape() == currentTargetShape.getShape()) {
+        }
+            if (inputTouchedGameplay && !gameOver && promptShape.getShape() == currentTargetShape.getShape()) {
                 targetShapesMatched++;
                 Shape circleContainer = new Shape(Shape.CIRCLE, promptShape.getRadius(), Color.BLACK, null, promptShape.getLineWidth(), promptShape.getCoordinates());
                 Shape promptShapeToAdd = new Shape(promptShape.getShape(), promptShape.getRadius(), backgroundColorShape.getColor(), null, promptShape.getLineWidth(), promptShape.getCoordinates());
@@ -362,7 +423,17 @@ public class GameplayScreen implements Screen, InputProcessor {
                 //The wrong shape was touched
                 multiplier = 1;
             }
-        }
+            if(inputTouchedResults && showResults) {
+                if(playTouched) {
+                    game.setScreen(new GameplayScreen(game));
+                } else if(homeTouched) {
+                    game.setScreen(new MainMenuScreen(game));
+                } else {
+                    dispose();
+                    System.exit(0);
+                }
+                dispose();
+            }
         return true;
     }
 

@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.title = "SQUIRGLE";
 		config.width = 768;
 		config.height = 1024;
+		config.forceExit = true;
 		new LwjglApplication(new Squirgle(), config);
 	}
 }

@@ -59,4 +59,8 @@ public class Squirgle extends Game {
 		generator.dispose();
 	}
 
+	public void resetInstanceData() {
+		draw = new Draw(Gdx.graphics.getHeight());
+	}
+
 }

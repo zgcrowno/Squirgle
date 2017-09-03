@@ -253,6 +253,45 @@ public class Draw {
         drawSquare(inputSquareSpawn.x, inputSquareSpawn.y, INPUT_RADIUS,INPUT_RADIUS / 8, Color.BLACK, shapeRenderer);
     }
 
+    public void drawResultsInputButtons(Vector2 inputPlaySpawn, Vector2 inputHomeSpawn, Vector2 inputExitSpawn, ShapeRenderer shapeRenderer) {
+        //Play
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(inputPlaySpawn.x, inputPlaySpawn.y, INPUT_RADIUS);
+
+        //TODO: Make this triangle equilateral (consult the drawTriangle method above)
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.rectLine(inputPlaySpawn.x - (MathUtils.sinDeg(60) * (INPUT_RADIUS / 2)),
+                inputPlaySpawn.y + (MathUtils.cosDeg(60) * (INPUT_RADIUS / 2)),
+                inputPlaySpawn.x - (MathUtils.sinDeg(60) * (INPUT_RADIUS / 2)),
+                inputPlaySpawn.y - (MathUtils.cosDeg(60) * (INPUT_RADIUS / 2)),
+                (INPUT_RADIUS / 2) / 8);
+        shapeRenderer.rectLine((float) (inputPlaySpawn.x - (MathUtils.sinDeg(60) * (INPUT_RADIUS / 2))),
+                inputPlaySpawn.y - (MathUtils.cosDeg(60) * (INPUT_RADIUS / 2)),
+                inputPlaySpawn.x + (INPUT_RADIUS / 2),
+                inputPlaySpawn.y,
+                (INPUT_RADIUS / 2) / 8);
+        shapeRenderer.rectLine(inputPlaySpawn.x + (INPUT_RADIUS / 2),
+                inputPlaySpawn.y,
+                inputPlaySpawn.x - (MathUtils.sinDeg(60) * (INPUT_RADIUS / 2)),
+                inputPlaySpawn.y + (MathUtils.cosDeg(60) * (INPUT_RADIUS / 2)),
+                (INPUT_RADIUS / 2) / 8);
+        drawPoint(inputPlaySpawn.x - (MathUtils.sinDeg(60) * (INPUT_RADIUS / 2)), inputPlaySpawn.y + (MathUtils.cosDeg(60) * (INPUT_RADIUS / 2)), (INPUT_RADIUS / 2) / 8, Color.BLACK, shapeRenderer);
+        drawPoint(inputPlaySpawn.x - (MathUtils.sinDeg(60) * (INPUT_RADIUS / 2)), inputPlaySpawn.y - (MathUtils.cosDeg(60) * (INPUT_RADIUS / 2)), (INPUT_RADIUS / 2) / 8, Color.BLACK, shapeRenderer);
+        drawPoint(inputPlaySpawn.x + (INPUT_RADIUS / 2), inputPlaySpawn.y, (INPUT_RADIUS / 2) / 8, Color.BLACK, shapeRenderer);
+
+        //Home
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(inputHomeSpawn.x, inputHomeSpawn.y, INPUT_RADIUS);
+        drawTriangle(inputHomeSpawn.x, inputHomeSpawn.y + (INPUT_RADIUS / 3.6f), (INPUT_RADIUS / 2), (INPUT_RADIUS / 2) / 8, Color.BLACK, shapeRenderer);
+        drawSquare(inputHomeSpawn.x, inputHomeSpawn.y - (INPUT_RADIUS / 3.6f), (INPUT_RADIUS / 2), (INPUT_RADIUS / 2) / 8, Color.BLACK, shapeRenderer);
+
+        //Exit
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(inputExitSpawn.x, inputExitSpawn.y, INPUT_RADIUS);
+
+        drawSquare(inputExitSpawn.x, inputExitSpawn.y, (INPUT_RADIUS / 2), (INPUT_RADIUS / 2) / 8, Color.BLACK, shapeRenderer);
+    }
+
     public void drawBackgroundColorShape(Shape backgroundColorShape, ShapeRenderer shapeRenderer) {
         //TODO: Write and implement method
         drawShape(backgroundColorShape, shapeRenderer);
