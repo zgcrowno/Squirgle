@@ -78,7 +78,7 @@ public class Draw {
         }
     }
 
-    public void drawShapes(List<Shape> priorShapeList, Shape promptShape, ShapeRenderer shapeRenderer) {
+    public void drawShapes(List<Shape> priorShapeList, Shape promptShape, Squirgle game, ShapeRenderer shapeRenderer) {
         if(!priorShapeList.isEmpty()) {
             for(int i = priorShapeList.size() - 1; i >= 0; i--) {
                 Shape shape = priorShapeList.get(i);
@@ -95,6 +95,10 @@ public class Draw {
 
                 //Ensure that current element of list initially has same radius and coordinates as prior shape
                 shape.setRadius(priorShape.getRadius());
+                //TODO: Remember that this same conditional is used in GamePlayScreen's render method
+                if(priorShapeList.get(0).getRadius() < (game.camera.viewportWidth * 3)) {
+                    shape.setLineWidth(priorShape.getRadius() / 8);
+                }
                 shape.setCoordinates(priorShape.getCoordinates());
 
                 //Lines and points must be shrunken and re-coordinated when encircled, except if the line is the first member of the list
@@ -352,5 +356,17 @@ public class Draw {
                 game.camera.viewportWidth - TARGET_RADIUS, game.camera.viewportHeight,
                 game.camera.viewportWidth,
                 game.camera.viewportHeight - TARGET_RADIUS);
+    }
+
+    public void drawTouchDownPoints(List<Shape> touchDownShapeList, ShapeRenderer shapeRenderer) {
+        for(int i = 0; i < touchDownShapeList.size(); i++) {
+            Shape shape = touchDownShapeList.get(i);
+            if(shape.getRadius() > INPUT_RADIUS) {
+                touchDownShapeList.remove(shape);
+            } else {
+                drawShape(shape, shapeRenderer);
+                shape.setRadius(shape.getRadius() + 1);
+            }
+        }
     }
 }

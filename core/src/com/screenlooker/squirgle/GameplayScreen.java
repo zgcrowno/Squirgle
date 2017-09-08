@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -31,6 +32,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private List<Shape> priorShapeList;
     private List<Shape> targetShapeList;
     private List<Shape> backgroundColorShapeList;
+    private List<Shape> touchDownShapeList;
     private Shape backgroundColorShape;
     private Shape currentTargetShape;
     private int targetShapesMatched;
@@ -77,6 +79,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         priorShapeList = new ArrayList<Shape>();
         targetShapeList = new ArrayList<Shape>();
         backgroundColorShapeList = new ArrayList<Shape>();
+        touchDownShapeList = new ArrayList<Shape>();
         targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE), 0, Color.WHITE, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2))));
         targetShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, null, Draw.INPUT_RADIUS / 8, new Vector2(Draw.TARGET_RADIUS / 3, game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2))));
         if(targetShapeList.get(0).getShape() == Shape.SQUARE) {
@@ -162,7 +165,7 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         game.draw.drawPrompt(promptShape, priorShapeList, game.shapeRendererLine);
 
-        game.draw.drawShapes(priorShapeList, promptShape, game.shapeRendererFilled);
+        game.draw.drawShapes(priorShapeList, promptShape, game, game.shapeRendererFilled);
 
         //TODO: Make sure you execute the inverse of this given certain player input...Also adjust all of this
         //TODO: so that the promptIncrease, colorListSpeed and colorSpeed are all increasing by proportional rates.
@@ -176,6 +179,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         } else {
             if((System.currentTimeMillis() - endTime) / 1000 > 2) {
                 if(priorShapeList.size() > 0) {
+                    //TODO: Remember that this same conditional is used in Draw's drawShapes method
                     if(priorShapeList.get(0).getRadius() < (game.camera.viewportWidth * 3)) { //TODO: Also account for height (different screen orientations?)
                         promptIncrease += .0001;
                         promptShape.setCoordinates(new Vector2(promptShape.getCoordinates().x - (priorShapeList.get(0).getCoordinates().x - firstPriorShapePreviousX), promptShape.getCoordinates().y));
@@ -199,7 +203,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         //the screen to the right.
         //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
         //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
-        game.draw.drawShapes(priorShapeList, promptShape, game.shapeRendererFilled);
+        game.draw.drawShapes(priorShapeList, promptShape, game, game.shapeRendererFilled);
 
         if(!gameOver) {
             game.draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
@@ -207,7 +211,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             game.draw.drawTargetSemicircle(game.shapeRendererFilled);
             game.draw.drawScoreTriangle(game.shapeRendererFilled);
             game.draw.drawPrompt(outsideTargetShape, targetShapeList, game.shapeRendererFilled);
-            game.draw.drawShapes(targetShapeList, outsideTargetShape, game.shapeRendererFilled);
+            game.draw.drawShapes(targetShapeList, outsideTargetShape, game, game.shapeRendererFilled);
         }
 
         //Prevent shapes from getting too large
@@ -230,6 +234,8 @@ public class GameplayScreen implements Screen, InputProcessor {
         if(showResults) {
             game.draw.drawResultsInputButtons(inputPlaySpawn, inputHomeSpawn, inputExitSpawn, game.shapeRendererFilled);
         }
+
+        game.draw.drawTouchDownPoints(touchDownShapeList, game.shapeRendererLine);
 
         game.shapeRendererFilled.end();
 
@@ -294,6 +300,62 @@ public class GameplayScreen implements Screen, InputProcessor {
     }
 
     @Override public boolean touchDown (int screenX, int screenY, int pointer, int button) {
+        if (button != Input.Buttons.LEFT || pointer > 0) {
+            return false;
+        }
+
+        game.camera.unproject(touchPoint.set(screenX, screenY, 0));
+
+        pointTouched = touchPoint.x > inputPointSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputPointSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputPointSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputPointSpawn.y + Draw.INPUT_RADIUS;
+        lineTouched = touchPoint.x > inputLineSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputLineSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputLineSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputLineSpawn.y + Draw.INPUT_RADIUS;
+        triangleTouched = touchPoint.x > inputTriangleSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputTriangleSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputTriangleSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputTriangleSpawn.y + Draw.INPUT_RADIUS;
+        squareTouched = touchPoint.x > inputSquareSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputSquareSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputSquareSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputSquareSpawn.y + Draw.INPUT_RADIUS;
+        playTouched = touchPoint.x > inputPlaySpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputPlaySpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputPlaySpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputPlaySpawn.y + Draw.INPUT_RADIUS;
+        homeTouched = touchPoint.x > inputHomeSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputHomeSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputHomeSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputHomeSpawn.y + Draw.INPUT_RADIUS;
+        exitTouched = touchPoint.x > inputExitSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputExitSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputExitSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputExitSpawn.y + Draw.INPUT_RADIUS;
+
+        for(int i = 1; i < 20; i++) {
+            if(!gameOver) {
+                if (pointTouched) {
+                    touchDownShapeList.add(new Shape(Shape.POINT, i, ColorUtils.randomPrimary(), null, 1, new Vector2(inputPointSpawn.x, inputPointSpawn.y)));
+                } else if (lineTouched) {
+                    touchDownShapeList.add(new Shape(Shape.POINT, i, ColorUtils.randomPrimary(), null, 1, new Vector2(inputLineSpawn.x, inputTriangleSpawn.y)));
+                } else if (triangleTouched) {
+                    touchDownShapeList.add(new Shape(Shape.POINT, i, ColorUtils.randomPrimary(), null, 1, new Vector2(inputTriangleSpawn.x, inputTriangleSpawn.y)));
+                } else if (squareTouched) {
+                    touchDownShapeList.add(new Shape(Shape.POINT, i, ColorUtils.randomPrimary(), null, 1, new Vector2(inputSquareSpawn.x, inputSquareSpawn.y)));
+                }
+            } else if(showResults) {
+                if(playTouched) {
+                    touchDownShapeList.add(new Shape(Shape.POINT, i, ColorUtils.randomPrimary(), null, 1, new Vector2(inputPlaySpawn.x, inputPlaySpawn.y)));
+                } else if(homeTouched) {
+                    touchDownShapeList.add(new Shape(Shape.POINT, i, ColorUtils.randomPrimary(), null, 1, new Vector2(inputHomeSpawn.x, inputHomeSpawn.y)));
+                } else {
+                    touchDownShapeList.add(new Shape(Shape.POINT, i, ColorUtils.randomPrimary(), null, 1, new Vector2(inputExitSpawn.x, inputExitSpawn.y)));
+                }
+            }
+        }
         return true;
     }
 
@@ -437,9 +499,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         return true;
     }
 
-    @Override public boolean touchDragged (int screenX, int screenY, int pointer) {
-        return false;
-    }
+    @Override public boolean touchDragged (int screenX, int screenY, int pointer) { return false; }
 
     @Override public boolean keyDown (int keycode) {
         return false;

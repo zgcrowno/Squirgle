@@ -11,6 +11,7 @@ public class Shape {
     public static final int SQUARE = 3;
     public static final int CIRCLE = 4;
 
+    //TODO: Add an opacity datum for displaying to the user when they're approaching game over
     private int shape;
     private float radius;
     private Color color;

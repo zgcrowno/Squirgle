@@ -22,9 +22,9 @@ import java.util.List;
 
 //TODO: Many of the variables throughout this entire game will have to be replaced with screen-size dependent alternatives
 public class Squirgle extends Game {
-	public static final int VIRTUAL_WIDTH = 10;
-	public static final int VIRTUAL_HEIGHT = 16;
-	public static final float ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
+	private static final int VIRTUAL_WIDTH = 768;
+	private static final int VIRTUAL_HEIGHT = 1024;
+	private static final float ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
 
 	public SpriteBatch batch;
 	public BitmapFont font;
@@ -45,9 +45,9 @@ public class Squirgle extends Game {
 		font = generator.generateFont(parameter);
 		layout = new GlyphLayout();
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, 768, 1024);
-		viewport = new StretchViewport(768, 1024, camera);
-		camera.position.set(768/2,1024/2,0);
+		camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+		viewport = new StretchViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
+		camera.position.set(VIRTUAL_WIDTH/2,VIRTUAL_HEIGHT/2,0);
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);
