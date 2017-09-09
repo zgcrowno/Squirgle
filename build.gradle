@@ -54,7 +54,7 @@ project(":desktop") {
         compile "de.tomgrill.gdxdialogs:gdx-dialogs-desktop:1.2.1"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop"
-        
+
     }
 }
 
@@ -96,7 +96,6 @@ project(":android") {
         natives "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-arm64-v8a"
         natives "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-x86"
         natives "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-x86_64"
-        
     }
 }
 
@@ -180,7 +179,6 @@ project(":core") {
         compile "com.github.czyzby:gdx-lml-vis:1.9.1.9.6"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
-        compile fileTree(dir: 'build/libs', include: '*.jar')
     }
 }
 

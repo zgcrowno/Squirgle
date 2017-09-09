@@ -7,27 +7,24 @@ public class ColorUtils {
 
     //TODO: Use less harsh colors...colors that conflict less with black and white
     public static com.badlogic.gdx.graphics.Color randomPrimary() {
-        int blue = 0;
-        int green = 1;
-        int red = 2;
-        int yellow = 3;
-        int cyan = 4;
-        int magenta = 5;
-        int color = MathUtils.random(5);
+        final int blue = 0;
+        final int green = 1;
+        final int red = 2;
+        final int yellow = 3;
+        final int cyan = 4;
+        final int magenta = 5;
+        final int color = MathUtils.random(5);
 
-        if(color == blue) {
-            return Color.ROYAL;
-        } else if(color == green) {
-            return Color.LIME;
-        } else if(color == red) {
-            return Color.FIREBRICK;
-        } else if(color == yellow) {
-            return Color.ORANGE;
-        } else if(color == cyan) {
-            return Color.CYAN;
-        } else {
-            return Color.MAGENTA;
+        switch(color) {
+            case blue : return Color.ROYAL;
+            case green : return Color.LIME;
+            case red : return Color.FIREBRICK;
+            case yellow : return Color.ORANGE;
+            case cyan : return Color.CYAN;
+            case magenta : return Color.MAGENTA;
         }
+
+        return null;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.screenlooker.squirgle;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,7 +17,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.*;
 import com.sun.prism.image.ViewPort;
-import org.jfugue.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,11 +36,12 @@ public class Squirgle extends Game {
 	public ShapeRenderer shapeRendererFilled;
 	public ShapeRenderer shapeRendererLine;
 	public Draw draw;
-	public Player fugue;
+	public Sound bassDrum;
+	public Sound hiHat;
 
 	public void create() {
 		batch = new SpriteBatch();
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("UltraCondensedSansSerif.ttf"));
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = 72;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
@@ -53,7 +54,8 @@ public class Squirgle extends Game {
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);
-		fugue = new Player();
+		bassDrum = Gdx.audio.newSound(Gdx.files.internal("sounds/bassDrum.wav"));
+		hiHat = Gdx.audio.newSound(Gdx.files.internal("sounds/hiHat.wav"));
 
 		generator.dispose();
 
@@ -67,6 +69,9 @@ public class Squirgle extends Game {
 	public void dispose() {
 		batch.dispose();
 		font.dispose();
+		bassDrum.dispose();
+		hiHat.dispose();
+		//TODO: Make sure I dispose of any sounds I add
 		generator.dispose();
 	}
 
