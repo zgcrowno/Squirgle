@@ -16,6 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.*;
 import com.sun.prism.image.ViewPort;
+import org.jfugue.player.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class Squirgle extends Game {
 	public ShapeRenderer shapeRendererFilled;
 	public ShapeRenderer shapeRendererLine;
 	public Draw draw;
+	public Player fugue;
 
 	public void create() {
 		batch = new SpriteBatch();
@@ -51,6 +53,7 @@ public class Squirgle extends Game {
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);
+		fugue = new Player();
 
 		generator.dispose();
 

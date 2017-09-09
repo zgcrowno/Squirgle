@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import org.jfugue.player.Player;
 
 import java.util.List;
 
@@ -301,7 +302,6 @@ public class Draw {
     }
 
     public void drawBackgroundColorShape(Shape backgroundColorShape, ShapeRenderer shapeRenderer) {
-        //TODO: Write and implement method
         drawShape(backgroundColorShape, shapeRenderer);
         if(backgroundColorShape.getRadius() < game.camera.viewportHeight * 4) {
             backgroundColorShape.setRadius(backgroundColorShape.getRadius() + colorSpeed);
@@ -327,6 +327,14 @@ public class Draw {
                 clearColor.set(backgroundColorShape.getColor().r, backgroundColorShape.getColor().g, backgroundColorShape.getColor().b, backgroundColorShape.getColor().a);
                 backgroundColorShape.setShape(Shape.randomBackgroundColorShape()); //TODO: Enable triangles to be drawn pointing downward, so they're identifiable here.
                 backgroundColorShape.setRadius(game.camera.viewportWidth / 2);
+                //TODO: Put this multithread jfugue execution in its own method
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        game.fugue.getManagedPlayer().finish();
+                        game.fugue.play("[STEEL_DRUMS]q");
+                    }
+                }).start();
                 backgroundColorShape.setColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
                 backgroundColorShape.setFillColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
                 backgroundColorShape.setLineWidth(Draw.INPUT_RADIUS / 8);
