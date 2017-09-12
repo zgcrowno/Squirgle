@@ -24,7 +24,7 @@ public class Shape {
         this.radius = 10;
         this.color = Color.WHITE;
         this.fillColor = Color.WHITE;
-        this.lineWidth = radius / 8;
+        this.lineWidth = radius / Draw.LINE_WIDTH_DIVISOR;
         this.coordinates = new Vector2();
     }
 

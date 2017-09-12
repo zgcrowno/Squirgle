@@ -14,9 +14,6 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(final Squirgle game) {
         this.game = game;
 
-        game.camera = new OrthographicCamera();
-        game.camera.setToOrtho(false, 768, 1024);
-
         game.resetInstanceData();
     }
 
@@ -28,7 +25,14 @@ public class MainMenuScreen implements Screen {
         game.camera.update();
         game.batch.setProjectionMatrix(game.camera.combined);
 
-        FontUtils.printText(game.batch, game.font, game.layout, Color.WHITE, "Tap anywhere to Squirgle", game.camera.viewportWidth / 2, game.camera.viewportHeight / 2, 0);
+        FontUtils.printText(game.batch,
+                game.font,
+                game.layout,
+                Color.WHITE,
+                "Tap anywhere to Squirgle",
+                game.camera.viewportWidth / 2,
+                game.camera.viewportHeight / 2,
+                0);
 
         if(Gdx.input.isTouched()) {
             game.setScreen(new GameplayScreen(game));
