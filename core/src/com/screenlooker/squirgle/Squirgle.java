@@ -38,6 +38,7 @@ public class Squirgle extends Game {
 	public Draw draw;
 	public Sound bassDrum;
 	public Sound hiHat;
+	public Sound snareDrum;
 
 	public void create() {
 		batch = new SpriteBatch();
@@ -54,8 +55,9 @@ public class Squirgle extends Game {
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);
-		bassDrum = Gdx.audio.newSound(Gdx.files.internal("sounds/bassDrum.wav"));
-		hiHat = Gdx.audio.newSound(Gdx.files.internal("sounds/hiHat.wav"));
+		bassDrum = Gdx.audio.newSound(Gdx.files.internal("sounds/percussion/bassDrum.wav"));
+		hiHat = Gdx.audio.newSound(Gdx.files.internal("sounds/percussion/hiHat.wav"));
+		snareDrum = Gdx.audio.newSound(Gdx.files.internal("sounds/percussion/snareDrum.wav"));
 
 		generator.dispose();
 
@@ -71,6 +73,7 @@ public class Squirgle extends Game {
 		font.dispose();
 		bassDrum.dispose();
 		hiHat.dispose();
+		snareDrum.dispose();
 		//TODO: Make sure I dispose of any sounds I add
 		generator.dispose();
 	}
