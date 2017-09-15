@@ -39,6 +39,30 @@ public class Squirgle extends Game {
 	public Sound bassDrum;
 	public Sound hiHat;
 	public Sound snareDrum;
+	public List<Sound> aMajorNotes;
+	public List<Sound> aMinorNotes;
+	public List<Sound> aSharpMajorNotes;
+	public List<Sound> aSharpMinorNotes;
+	public List<Sound> bMajorNotes;
+	public List<Sound> bMinorNotes;
+	public List<Sound> cMajorNotes;
+	public List<Sound> cMinorNotes;
+	public List<Sound> cSharpMajorNotes;
+	public List<Sound> cSharpMinorNotes;
+	public List<Sound> dMajorNotes;
+	public List<Sound> dMinorNotes;
+	public List<Sound> dSharpMajorNotes;
+	public List<Sound> dSharpMinorNotes;
+	public List<Sound> eMajorNotes;
+	public List<Sound> eMinorNotes;
+	public List<Sound> fMajorNotes;
+	public List<Sound> fMinorNotes;
+	public List<Sound> fSharpMajorNotes;
+	public List<Sound> fSharpMinorNotes;
+	public List<Sound> gMajorNotes;
+	public List<Sound> gMinorNotes;
+	public List<Sound> gSharpMajorNotes;
+	public List<Sound> gSharpMinorNotes;
 
 	public void create() {
 		batch = new SpriteBatch();
@@ -58,6 +82,132 @@ public class Squirgle extends Game {
 		bassDrum = Gdx.audio.newSound(Gdx.files.internal("sounds/percussion/bassDrum.wav"));
 		hiHat = Gdx.audio.newSound(Gdx.files.internal("sounds/percussion/hiHat.wav"));
 		snareDrum = Gdx.audio.newSound(Gdx.files.internal("sounds/percussion/snareDrum.wav"));
+
+		//aMajor
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/a1.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/a2.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/a3.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/b1.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/b2.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/b3.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/cSharp1.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/cSharp2.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/cSharp3.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/d1.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/d2.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/d3.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/e1.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/e2.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/e3.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/fSharp1.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/fSharp2.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/fSharp3.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/gSharp1.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/gSharp2.wav")));
+		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/gSharp3.wav")));
+
+		//aMinor
+
+		//aSharpMajor
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/aSharp1.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/aSharp2.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/aSharp3.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/c1.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/c2.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/c3.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/c4.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/d1.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/d2.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/d3.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/dSharp1.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/dSharp2.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/dSharp3.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/f1.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/f2.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/f3.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/g1.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/g2.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/g3.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/a1.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/a2.wav")));
+		aSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/a3.wav")));
+
+		//aSharpMinor
+
+		//bMajor
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/b1.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/b2.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/b3.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/cSharp1.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/cSharp2.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/cSharp3.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/dSharp1.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/dSharp2.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/dSharp3.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/e1.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/e2.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/e3.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/fSharp1.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/fSharp2.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/fSharp3.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/gSharp1.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/gSharp2.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/gSharp3.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/aSharp1.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/aSharp2.wav")));
+		bMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/aSharp3.wav")));
+
+		//bMinor
+
+		//cMajor
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/c1.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/c2.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/c3.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/c4.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/d1.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/d2.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/d3.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/e1.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/e2.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/e3.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/f1.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/f2.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/f3.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/g1.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/g2.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/g3.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/a1.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/a2.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/a3.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/b1.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/b2.wav")));
+		cMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/b3.wav")));
+
+		//cMinor
+
+		//cSharpMajor
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/cSharp1.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/cSharp2.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/cSharp3.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/dSharp1.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/dSharp2.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/dSharp3.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/f1.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/f2.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/f3.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/fSharp1.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/fSharp2.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/fSharp3.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/gSharp1.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/gSharp2.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/gSharp3.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/aSharp1.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/aSharp2.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/aSharp3.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/c1.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/c2.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/c3.wav")));
+		cSharpMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/c4.wav")));
 
 		generator.dispose();
 

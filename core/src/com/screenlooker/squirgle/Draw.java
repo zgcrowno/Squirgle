@@ -435,6 +435,8 @@ public class Draw {
             }
             if (backgroundColorShapeList.get(0).getCoordinates().y <= backgroundColorShapeList.get(1).getCoordinates().y) {
                 float newRadius = shape.getRadius();
+
+                //Prevent backgroundColorShapeList.get(0) from going too low on screen
                 backgroundColorShapeList.get(0).setCoordinates(new Vector2(backgroundColorShapeList.get(0).getCoordinates().x,
                         backgroundColorShapeList.get(1).getCoordinates().y));
 
@@ -444,7 +446,6 @@ public class Draw {
                         backgroundColorShape.getColor().a);
                 backgroundColorShape.setShape(Shape.randomBackgroundColorShape()); //TODO: Enable triangles to be drawn pointing downward, so they're identifiable here.
                 backgroundColorShape.setRadius(game.camera.viewportWidth / 2);
-                game.bassDrum.play();
                 backgroundColorShape.setColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
                 backgroundColorShape.setFillColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
                 backgroundColorShape.setLineWidth(Draw.INPUT_RADIUS / LINE_WIDTH_DIVISOR);

@@ -25,10 +25,13 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     private static final float SQUIRGLE_RADIUS_DECREMENT = 0.8f;
 
+    private int timeSignature;
     private float initPromptRadius;
     private float backgroundColorListElementRadius;
     private float promptIncrease;
     private float endLineWidthIncrease;
+    private float backgroundColorShapeListMaxHeight;
+    private float backgroundColorShapeListMinHeight;
     private Shape promptShape;
     private Shape outsideTargetShape;
     private List<Shape> priorShapeList;
@@ -72,10 +75,13 @@ public class GameplayScreen implements Screen, InputProcessor {
         game.resetInstanceData();
 
         Gdx.input.setInputProcessor(this);
+        timeSignature = 4; //This represents the number of quarter notes per background color change (4 = 4/4, 5 = 5/4, etc.)
         initPromptRadius = 20;
         backgroundColorListElementRadius = 15;
         promptIncrease = 1.0005f;
         endLineWidthIncrease = 2;
+        backgroundColorShapeListMaxHeight = (game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7);
+        backgroundColorShapeListMinHeight = game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2);
         promptShape = new Shape(MathUtils.random(Shape.SQUARE),
                 initPromptRadius, Color.BLACK,
                 null,
@@ -117,7 +123,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         ColorUtils.randomPrimary(),
                         backgroundColorListElementRadius / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(Draw.TARGET_RADIUS + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7),
-                                (game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7))));
+                                backgroundColorShapeListMaxHeight)));
             } else {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
                         backgroundColorListElementRadius,
@@ -125,7 +131,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         ColorUtils.randomPrimary(),
                         backgroundColorListElementRadius / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(Draw.TARGET_RADIUS + (i * ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7)),
-                                game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2))));
+                                backgroundColorShapeListMinHeight)));
             }
         }
         backgroundColorShape = new Shape(Shape.randomBackgroundColorShape(),
@@ -236,6 +242,11 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         if (!gameOver) {
             game.draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
+            SoundUtils.playMusic(timeSignature,
+                    backgroundColorShapeListMaxHeight - backgroundColorShapeListMinHeight,
+                    game.draw.getColorListSpeed(),
+                    backgroundColorShapeList,
+                    game);
             game.draw.drawInputButtons(inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, game.shapeRendererFilled);
             game.draw.drawTargetSemicircle(game.shapeRendererFilled);
             game.draw.drawScoreTriangle(game.shapeRendererFilled);
