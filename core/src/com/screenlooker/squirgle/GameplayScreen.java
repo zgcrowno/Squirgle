@@ -219,14 +219,13 @@ public class GameplayScreen implements Screen, InputProcessor {
                             promptShape.getCoordinates().y));
                 } else {
                     promptIncrease = 1;
-                    if (primaryShape.getShape() == Shape.LINE && primaryShape.getLineWidth() < (game.camera.viewportWidth * 2)) {
-                        System.out.println(primaryShape.getLineWidth());
+                    if (primaryShape.getShape() == Shape.LINE && primaryShape.getLineWidth() < (game.camera.viewportWidth * 4)) {
                         primaryShape.setLineWidth(primaryShape.getLineWidth() * endLineWidthIncrease);
                     } else if (primaryShape.getShape() == Shape.LINE) {
                         //Prevent shape lines from being visible in the event that primaryShape is promptShape
                         primaryShape.setColor(clearColor);
                     }
-                    if (primaryShape.getShape() != Shape.LINE || primaryShape.getLineWidth() >= (game.camera.viewportWidth * 2)) {
+                    if (primaryShape.getShape() != Shape.LINE || primaryShape.getLineWidth() >= (game.camera.viewportWidth * 4)) {
                         showResults = true;
                     }
                 }
