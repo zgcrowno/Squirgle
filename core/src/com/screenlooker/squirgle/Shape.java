@@ -9,7 +9,12 @@ public class Shape {
     public static final int LINE = 1;
     public static final int TRIANGLE = 2;
     public static final int SQUARE = 3;
-    public static final int CIRCLE = 4;
+    public static final int PENTAGON = 4;
+    public static final int HEXAGON = 5;
+    public static final int SEPTAGON = 6;
+    public static final int OCTAGON = 7;
+    public static final int NONAGON = 8;
+    public static final int CIRCLE = 9;
 
     //TODO: Add an opacity datum for displaying to the user when they're approaching game over
     private int shape;
@@ -62,9 +67,9 @@ public class Shape {
     public void setCoordinates(Vector2 coordinates) { this.coordinates = coordinates; }
 
     public static int randomBackgroundColorShape() {
-        int val = MathUtils.random(Shape.SQUARE);
+        int val = MathUtils.random(Shape.NONAGON);
         while(val == Shape.LINE) {
-            val = MathUtils.random(Shape.SQUARE);
+            val = MathUtils.random(Shape.NONAGON);
         }
         return val;
     }

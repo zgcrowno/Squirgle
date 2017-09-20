@@ -45,6 +45,11 @@ public class GameplayScreen implements Screen, InputProcessor {
     private Vector2 inputLineSpawn;
     private Vector2 inputTriangleSpawn;
     private Vector2 inputSquareSpawn;
+    private Vector2 inputPentagonSpawn;
+    private Vector2 inputHexagonSpawn;
+    private Vector2 inputSeptagonSpawn;
+    private Vector2 inputOctagonSpawn;
+    private Vector2 inputNonagonSpawn;
     private Vector2 inputPlaySpawn;
     private Vector2 inputHomeSpawn;
     private Vector2 inputExitSpawn;
@@ -53,6 +58,11 @@ public class GameplayScreen implements Screen, InputProcessor {
     boolean lineTouched;
     boolean triangleTouched;
     boolean squareTouched;
+    boolean pentagonTouched;
+    boolean hexagonTouched;
+    boolean septagonTouched;
+    boolean octagonTouched;
+    boolean nonagonTouched;
     boolean playTouched;
     boolean homeTouched;
     boolean exitTouched;
@@ -82,13 +92,13 @@ public class GameplayScreen implements Screen, InputProcessor {
         endLineWidthIncrease = 2;
         backgroundColorShapeListMaxHeight = (game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7);
         backgroundColorShapeListMinHeight = game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2);
-        promptShape = new Shape(MathUtils.random(Shape.SQUARE),
+        promptShape = new Shape(MathUtils.random(Shape.NONAGON),
                 initPromptRadius, Color.BLACK,
                 null,
                 initPromptRadius / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(game.camera.viewportWidth / 2,
                         game.camera.viewportHeight / 2));
-        outsideTargetShape = new Shape(MathUtils.random(Shape.SQUARE),
+        outsideTargetShape = new Shape(MathUtils.random(Shape.NONAGON),
                 Draw.INPUT_RADIUS,
                 Color.BLACK, null,
                 Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
@@ -98,7 +108,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         targetShapeList = new ArrayList<Shape>();
         backgroundColorShapeList = new ArrayList<Shape>();
         touchDownShapeList = new ArrayList<Shape>();
-        targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE),
+        targetShapeList.add(new Shape(MathUtils.random(Shape.NONAGON),
                 0, Color.WHITE,
                 null,
                 Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
@@ -112,7 +122,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2))));
         if (targetShapeList.get(0).getShape() == Shape.SQUARE) {
             while (outsideTargetShape.getShape() == Shape.TRIANGLE) {
-                outsideTargetShape.setShape(MathUtils.random(Shape.SQUARE));
+                outsideTargetShape.setShape(MathUtils.random(Shape.NONAGON));
             }
         }
         for (int i = 0; i <= 6; i++) {
@@ -143,10 +153,15 @@ public class GameplayScreen implements Screen, InputProcessor {
                         game.camera.viewportHeight + (game.camera.viewportWidth / 2)));
         currentTargetShape = targetShapeList.get(0);
         targetShapesMatched = 0;
-        inputPointSpawn = new Vector2(game.camera.viewportWidth / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
-        inputLineSpawn = new Vector2((2 * game.camera.viewportWidth) / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
-        inputTriangleSpawn = new Vector2((3 * game.camera.viewportWidth) / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
-        inputSquareSpawn = new Vector2((4 * game.camera.viewportWidth) / 5, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+        inputPointSpawn = new Vector2(game.camera.viewportWidth / 10, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+        inputLineSpawn = new Vector2((2 * game.camera.viewportWidth) / 10, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+        inputTriangleSpawn = new Vector2((3 * game.camera.viewportWidth) / 10, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+        inputSquareSpawn = new Vector2((4 * game.camera.viewportWidth) / 10, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+        inputPentagonSpawn = new Vector2((5 * game.camera.viewportWidth) / 10, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+        inputHexagonSpawn = new Vector2((6 * game.camera.viewportWidth) / 10, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+        inputSeptagonSpawn = new Vector2((7 * game.camera.viewportWidth) / 10, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+        inputOctagonSpawn = new Vector2((8 * game.camera.viewportWidth) / 10, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+        inputNonagonSpawn = new Vector2((9 * game.camera.viewportWidth) / 10, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
         inputPlaySpawn = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
         inputHomeSpawn = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
         inputExitSpawn = new Vector2((3 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
@@ -246,7 +261,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.draw.getColorListSpeed(),
                     backgroundColorShapeList,
                     game);
-            game.draw.drawInputButtons(inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, game.shapeRendererFilled);
+            game.draw.drawInputButtons(inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, inputPentagonSpawn, inputHexagonSpawn, inputSeptagonSpawn, inputOctagonSpawn, inputNonagonSpawn, game.shapeRendererFilled);
             game.draw.drawTargetSemicircle(game.shapeRendererFilled);
             game.draw.drawScoreTriangle(game.shapeRendererFilled);
             game.draw.drawPrompt(outsideTargetShape, targetShapeList, false, game.shapeRendererFilled);
@@ -386,6 +401,26 @@ public class GameplayScreen implements Screen, InputProcessor {
                 && touchPoint.x < inputSquareSpawn.x + Draw.INPUT_RADIUS
                 && touchPoint.y > inputSquareSpawn.y - Draw.INPUT_RADIUS
                 && touchPoint.y < inputSquareSpawn.y + Draw.INPUT_RADIUS;
+        pentagonTouched = touchPoint.x > inputPentagonSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputPentagonSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputPentagonSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputPentagonSpawn.y + Draw.INPUT_RADIUS;
+        hexagonTouched = touchPoint.x > inputHexagonSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputHexagonSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputHexagonSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputHexagonSpawn.y + Draw.INPUT_RADIUS;
+        septagonTouched = touchPoint.x > inputSeptagonSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputSeptagonSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputSeptagonSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputSeptagonSpawn.y + Draw.INPUT_RADIUS;
+        octagonTouched = touchPoint.x > inputOctagonSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputOctagonSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputOctagonSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputOctagonSpawn.y + Draw.INPUT_RADIUS;
+        nonagonTouched = touchPoint.x > inputNonagonSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputNonagonSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputNonagonSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputNonagonSpawn.y + Draw.INPUT_RADIUS;
         playTouched = touchPoint.x > inputPlaySpawn.x - Draw.INPUT_RADIUS
                 && touchPoint.x < inputPlaySpawn.x + Draw.INPUT_RADIUS
                 && touchPoint.y > inputPlaySpawn.y - Draw.INPUT_RADIUS
@@ -433,6 +468,46 @@ public class GameplayScreen implements Screen, InputProcessor {
                             1,
                             new Vector2(inputSquareSpawn.x,
                                     inputSquareSpawn.y)));
+                } else if(pentagonTouched) {
+                    touchDownShapeList.add(new Shape(Shape.POINT,
+                            i,
+                            ColorUtils.randomPrimary(),
+                            null,
+                            1,
+                            new Vector2(inputPentagonSpawn.x,
+                                    inputPentagonSpawn.y)));
+                } else if(hexagonTouched) {
+                    touchDownShapeList.add(new Shape(Shape.POINT,
+                            i,
+                            ColorUtils.randomPrimary(),
+                            null,
+                            1,
+                            new Vector2(inputHexagonSpawn.x,
+                                    inputHexagonSpawn.y)));
+                } else if(septagonTouched) {
+                    touchDownShapeList.add(new Shape(Shape.POINT,
+                            i,
+                            ColorUtils.randomPrimary(),
+                            null,
+                            1,
+                            new Vector2(inputSeptagonSpawn.x,
+                                    inputSeptagonSpawn.y)));
+                } else if(octagonTouched) {
+                    touchDownShapeList.add(new Shape(Shape.POINT,
+                            i,
+                            ColorUtils.randomPrimary(),
+                            null,
+                            1,
+                            new Vector2(inputOctagonSpawn.x,
+                                    inputOctagonSpawn.y)));
+                } else if(nonagonTouched) {
+                    touchDownShapeList.add(new Shape(Shape.POINT,
+                            i,
+                            ColorUtils.randomPrimary(),
+                            null,
+                            1,
+                            new Vector2(inputNonagonSpawn.x,
+                                    inputNonagonSpawn.y)));
                 }
             } else if (showResults) {
                 if (playTouched) {
@@ -488,6 +563,26 @@ public class GameplayScreen implements Screen, InputProcessor {
                 && touchPoint.x < inputSquareSpawn.x + Draw.INPUT_RADIUS
                 && touchPoint.y > inputSquareSpawn.y - Draw.INPUT_RADIUS
                 && touchPoint.y < inputSquareSpawn.y + Draw.INPUT_RADIUS;
+        pentagonTouched = touchPoint.x > inputPentagonSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputPentagonSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputPentagonSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputPentagonSpawn.y + Draw.INPUT_RADIUS;
+        hexagonTouched = touchPoint.x > inputHexagonSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputHexagonSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputHexagonSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputHexagonSpawn.y + Draw.INPUT_RADIUS;
+        septagonTouched = touchPoint.x > inputSeptagonSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputSeptagonSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputSeptagonSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputSeptagonSpawn.y + Draw.INPUT_RADIUS;
+        octagonTouched = touchPoint.x > inputOctagonSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputOctagonSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputOctagonSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputOctagonSpawn.y + Draw.INPUT_RADIUS;
+        nonagonTouched = touchPoint.x > inputNonagonSpawn.x - Draw.INPUT_RADIUS
+                && touchPoint.x < inputNonagonSpawn.x + Draw.INPUT_RADIUS
+                && touchPoint.y > inputNonagonSpawn.y - Draw.INPUT_RADIUS
+                && touchPoint.y < inputNonagonSpawn.y + Draw.INPUT_RADIUS;
         playTouched = touchPoint.x > inputPlaySpawn.x - Draw.INPUT_RADIUS
                 && touchPoint.x < inputPlaySpawn.x + Draw.INPUT_RADIUS
                 && touchPoint.y > inputPlaySpawn.y - Draw.INPUT_RADIUS
@@ -500,7 +595,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 && touchPoint.x < inputExitSpawn.x + Draw.INPUT_RADIUS
                 && touchPoint.y > inputExitSpawn.y - Draw.INPUT_RADIUS
                 && touchPoint.y < inputExitSpawn.y + Draw.INPUT_RADIUS;
-        inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched;
+        inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched;
         inputTouchedResults = playTouched || homeTouched || exitTouched;
 
         if (!gameOver) {
@@ -511,6 +606,16 @@ public class GameplayScreen implements Screen, InputProcessor {
                     promptShape.setShape(Shape.TRIANGLE);
                 } else if (promptShape.getShape() == Shape.TRIANGLE) {
                     promptShape.setShape(Shape.SQUARE);
+                } else if(promptShape.getShape() == Shape.SQUARE) {
+                    promptShape.setShape(Shape.PENTAGON);
+                } else if(promptShape.getShape() == Shape.PENTAGON) {
+                    promptShape.setShape(Shape.HEXAGON);
+                } else if(promptShape.getShape() == Shape.HEXAGON) {
+                    promptShape.setShape(Shape.SEPTAGON);
+                } else if(promptShape.getShape() == Shape.SEPTAGON) {
+                    promptShape.setShape(Shape.OCTAGON);
+                } else if(promptShape.getShape() == Shape.OCTAGON) {
+                    promptShape.setShape(Shape.NONAGON);
                 } else {
                     promptShape.setShape(Shape.POINT);
                 }
@@ -520,6 +625,16 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (promptShape.getShape() == Shape.LINE) {
                     promptShape.setShape(Shape.SQUARE);
                 } else if (promptShape.getShape() == Shape.TRIANGLE) {
+                    promptShape.setShape(Shape.PENTAGON);
+                } else if(promptShape.getShape() == Shape.SQUARE) {
+                    promptShape.setShape(Shape.HEXAGON);
+                } else if(promptShape.getShape() == Shape.PENTAGON) {
+                    promptShape.setShape(Shape.SEPTAGON);
+                } else if(promptShape.getShape() == Shape.HEXAGON) {
+                    promptShape.setShape(Shape.OCTAGON);
+                } else if(promptShape.getShape() == Shape.SEPTAGON) {
+                    promptShape.setShape(Shape.NONAGON);
+                } else if(promptShape.getShape() == Shape.OCTAGON) {
                     promptShape.setShape(Shape.POINT);
                 } else {
                     promptShape.setShape(Shape.LINE);
@@ -528,25 +643,147 @@ public class GameplayScreen implements Screen, InputProcessor {
                 if (promptShape.getShape() == Shape.POINT) {
                     promptShape.setShape(Shape.SQUARE);
                 } else if (promptShape.getShape() == Shape.LINE) {
-                    promptShape.setShape(Shape.POINT);
+                    promptShape.setShape(Shape.PENTAGON);
                 } else if (promptShape.getShape() == Shape.TRIANGLE) {
+                    promptShape.setShape(Shape.HEXAGON);
+                } else if(promptShape.getShape() == Shape.SQUARE) {
+                    promptShape.setShape(Shape.SEPTAGON);
+                } else if(promptShape.getShape() == Shape.PENTAGON) {
+                    promptShape.setShape(Shape.OCTAGON);
+                } else if(promptShape.getShape() == Shape.HEXAGON) {
+                    promptShape.setShape(Shape.NONAGON);
+                } else if(promptShape.getShape() == Shape.SEPTAGON) {
+                    promptShape.setShape(Shape.POINT);
+                } else if(promptShape.getShape() == Shape.OCTAGON) {
                     promptShape.setShape(Shape.LINE);
                 } else {
                     promptShape.setShape(Shape.TRIANGLE);
                 }
             } else if (squareTouched) {
                 if (promptShape.getShape() == Shape.POINT) {
+                    promptShape.setShape(Shape.PENTAGON);
+                } else if (promptShape.getShape() == Shape.LINE) {
+                    promptShape.setShape(Shape.HEXAGON);
+                } else if (promptShape.getShape() == Shape.TRIANGLE) {
+                    promptShape.setShape(Shape.SEPTAGON);
+                } else if(promptShape.getShape() == Shape.SQUARE) {
+                    promptShape.setShape(Shape.OCTAGON);
+                } else if(promptShape.getShape() == Shape.PENTAGON) {
+                    promptShape.setShape(Shape.NONAGON);
+                } else if(promptShape.getShape() == Shape.HEXAGON) {
+                    promptShape.setShape(Shape.POINT);
+                } else if(promptShape.getShape() == Shape.SEPTAGON) {
+                    promptShape.setShape(Shape.LINE);
+                } else if(promptShape.getShape() == Shape.OCTAGON) {
+                    promptShape.setShape(Shape.TRIANGLE);
+                } else {
+                    promptShape.setShape(Shape.SQUARE);
+                }
+            } else if(pentagonTouched) {
+                if (promptShape.getShape() == Shape.POINT) {
+                    promptShape.setShape(Shape.HEXAGON);
+                } else if (promptShape.getShape() == Shape.LINE) {
+                    promptShape.setShape(Shape.SEPTAGON);
+                } else if (promptShape.getShape() == Shape.TRIANGLE) {
+                    promptShape.setShape(Shape.OCTAGON);
+                } else if(promptShape.getShape() == Shape.SQUARE) {
+                    promptShape.setShape(Shape.NONAGON);
+                } else if(promptShape.getShape() == Shape.PENTAGON) {
+                    promptShape.setShape(Shape.POINT);
+                } else if(promptShape.getShape() == Shape.HEXAGON) {
+                    promptShape.setShape(Shape.LINE);
+                } else if(promptShape.getShape() == Shape.SEPTAGON) {
+                    promptShape.setShape(Shape.TRIANGLE);
+                } else if(promptShape.getShape() == Shape.OCTAGON) {
+                    promptShape.setShape(Shape.SQUARE);
+                } else {
+                    promptShape.setShape(Shape.PENTAGON);
+                }
+            } else if(hexagonTouched) {
+                if (promptShape.getShape() == Shape.POINT) {
+                    promptShape.setShape(Shape.SEPTAGON);
+                } else if (promptShape.getShape() == Shape.LINE) {
+                    promptShape.setShape(Shape.OCTAGON);
+                } else if (promptShape.getShape() == Shape.TRIANGLE) {
+                    promptShape.setShape(Shape.NONAGON);
+                } else if(promptShape.getShape() == Shape.SQUARE) {
+                    promptShape.setShape(Shape.POINT);
+                } else if(promptShape.getShape() == Shape.PENTAGON) {
+                    promptShape.setShape(Shape.LINE);
+                } else if(promptShape.getShape() == Shape.HEXAGON) {
+                    promptShape.setShape(Shape.TRIANGLE);
+                } else if(promptShape.getShape() == Shape.SEPTAGON) {
+                    promptShape.setShape(Shape.SQUARE);
+                } else if(promptShape.getShape() == Shape.OCTAGON) {
+                    promptShape.setShape(Shape.PENTAGON);
+                } else {
+                    promptShape.setShape(Shape.HEXAGON);
+                }
+            } else if(septagonTouched) {
+                if (promptShape.getShape() == Shape.POINT) {
+                    promptShape.setShape(Shape.OCTAGON);
+                } else if (promptShape.getShape() == Shape.LINE) {
+                    promptShape.setShape(Shape.NONAGON);
+                } else if (promptShape.getShape() == Shape.TRIANGLE) {
+                    promptShape.setShape(Shape.POINT);
+                } else if(promptShape.getShape() == Shape.SQUARE) {
+                    promptShape.setShape(Shape.LINE);
+                } else if(promptShape.getShape() == Shape.PENTAGON) {
+                    promptShape.setShape(Shape.TRIANGLE);
+                } else if(promptShape.getShape() == Shape.HEXAGON) {
+                    promptShape.setShape(Shape.SQUARE);
+                } else if(promptShape.getShape() == Shape.SEPTAGON) {
+                    promptShape.setShape(Shape.PENTAGON);
+                } else if(promptShape.getShape() == Shape.OCTAGON) {
+                    promptShape.setShape(Shape.HEXAGON);
+                } else {
+                    promptShape.setShape(Shape.SEPTAGON);
+                }
+            } else if(octagonTouched) {
+                if (promptShape.getShape() == Shape.POINT) {
+                    promptShape.setShape(Shape.NONAGON);
+                } else if (promptShape.getShape() == Shape.LINE) {
+                    promptShape.setShape(Shape.POINT);
+                } else if (promptShape.getShape() == Shape.TRIANGLE) {
+                    promptShape.setShape(Shape.LINE);
+                } else if(promptShape.getShape() == Shape.SQUARE) {
+                    promptShape.setShape(Shape.TRIANGLE);
+                } else if(promptShape.getShape() == Shape.PENTAGON) {
+                    promptShape.setShape(Shape.SQUARE);
+                } else if(promptShape.getShape() == Shape.HEXAGON) {
+                    promptShape.setShape(Shape.PENTAGON);
+                } else if(promptShape.getShape() == Shape.SEPTAGON) {
+                    promptShape.setShape(Shape.HEXAGON);
+                } else if(promptShape.getShape() == Shape.OCTAGON) {
+                    promptShape.setShape(Shape.SEPTAGON);
+                } else {
+                    promptShape.setShape(Shape.OCTAGON);
+                }
+            } else if(nonagonTouched) {
+                if (promptShape.getShape() == Shape.POINT) {
                     promptShape.setShape(Shape.POINT);
                 } else if (promptShape.getShape() == Shape.LINE) {
                     promptShape.setShape(Shape.LINE);
                 } else if (promptShape.getShape() == Shape.TRIANGLE) {
                     promptShape.setShape(Shape.TRIANGLE);
-                } else {
+                } else if(promptShape.getShape() == Shape.SQUARE) {
                     promptShape.setShape(Shape.SQUARE);
+                } else if(promptShape.getShape() == Shape.PENTAGON) {
+                    promptShape.setShape(Shape.PENTAGON);
+                } else if(promptShape.getShape() == Shape.HEXAGON) {
+                    promptShape.setShape(Shape.HEXAGON);
+                } else if(promptShape.getShape() == Shape.SEPTAGON) {
+                    promptShape.setShape(Shape.SEPTAGON);
+                } else if(promptShape.getShape() == Shape.OCTAGON) {
+                    promptShape.setShape(Shape.OCTAGON);
+                } else {
+                    promptShape.setShape(Shape.NONAGON);
                 }
             }
         }
         if (inputTouchedGameplay && !gameOver && promptShape.getShape() == currentTargetShape.getShape()) {
+            System.out.println(promptShape.getShape());
+            System.out.println(currentTargetShape.getShape());
             targetShapesMatched++;
             Shape circleContainer = new Shape(Shape.CIRCLE,
                     promptShape.getRadius(),
@@ -563,7 +800,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             if (promptShapeToAdd.getShape() == Shape.POINT || (promptShapeToAdd.getShape() == Shape.LINE && !priorShapeList.isEmpty())) {
                 promptShapeToAdd.setRadius(circleContainer.getRadius() / 2);
             }
-            promptShape.setShape(MathUtils.random(Shape.SQUARE));
+            promptShape.setShape(MathUtils.random(Shape.NONAGON));
             priorShapeList.add(promptShapeToAdd);
             priorShapeList.add(circleContainer);
             if (targetShapesMatched == 1) {
@@ -594,9 +831,9 @@ public class GameplayScreen implements Screen, InputProcessor {
                             new Vector2(Draw.TARGET_RADIUS / 3,
                                     game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2))));
                 } else {
-                    outsideTargetShape.setShape(MathUtils.random(Shape.SQUARE));
+                    outsideTargetShape.setShape(MathUtils.random(Shape.NONAGON));
                     outsideTargetShape.setColor(Color.BLACK);
-                    targetShapeList.add(new Shape(MathUtils.random(Shape.SQUARE),
+                    targetShapeList.add(new Shape(MathUtils.random(Shape.NONAGON),
                             0,
                             Color.WHITE,
                             null,
@@ -623,6 +860,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             }
         } else {
             //The wrong shape was touched
+            //TODO: Add wrong shape penalization here.
             multiplier = 1;
         }
         if (inputTouchedResults && showResults) {

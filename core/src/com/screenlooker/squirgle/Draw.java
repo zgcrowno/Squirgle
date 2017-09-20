@@ -19,6 +19,13 @@ public class Draw {
     public static final int NUM_BACKGROUND_COLOR_SHAPE_COLUMNS = 6;
     public static final float INPUT_DISTANCE_OFFSET = 1.5f;
     public static final float TARGET_DISTANCE_OFFSET = TARGET_RADIUS / 2.5f;
+    public static final float THIRD_OF_180 = 180 / 3;
+    public static final float FOURTH_OF_180 = 180 / 4;
+    public static final float FIFTH_OF_180 = 540 / 5;
+    public static final float SIXTH_OF_180 = 180 / 6;
+    public static final float SEVENTH_OF_180 = 180 / 7;
+    public static final float EIGHTH_OF_180 = 180 / 8;
+    public static final float NINTH_OF_180 = 180 / 9;
 
     private float radiusOffset;
     private float colorSpeed;
@@ -117,6 +124,41 @@ public class Draw {
                     promptShape.getLineWidth(),
                     promptShape.getColor(),
                     shapeRenderer);
+        } else if(promptShape.getShape() == Shape.PENTAGON) {
+            drawPentagon(promptShape.getCoordinates().x,
+                    promptShape.getCoordinates().y,
+                    promptShape.getRadius(),
+                    promptShape.getLineWidth(),
+                    promptShape.getColor(),
+                    shapeRenderer);
+        } else if(promptShape.getShape() == Shape.HEXAGON) {
+            drawHexagon(promptShape.getCoordinates().x,
+                    promptShape.getCoordinates().y,
+                    promptShape.getRadius(),
+                    promptShape.getLineWidth(),
+                    promptShape.getColor(),
+                    shapeRenderer);
+        } else if(promptShape.getShape() == Shape.SEPTAGON) {
+            drawSeptagon(promptShape.getCoordinates().x,
+                    promptShape.getCoordinates().y,
+                    promptShape.getRadius(),
+                    promptShape.getLineWidth(),
+                    promptShape.getColor(),
+                    shapeRenderer);
+        } else if(promptShape.getShape() == Shape.OCTAGON) {
+            drawOctagon(promptShape.getCoordinates().x,
+                    promptShape.getCoordinates().y,
+                    promptShape.getRadius(),
+                    promptShape.getLineWidth(),
+                    promptShape.getColor(),
+                    shapeRenderer);
+        } else if(promptShape.getShape() == Shape.NONAGON) {
+            drawNonagon(promptShape.getCoordinates().x,
+                    promptShape.getCoordinates().y,
+                    promptShape.getRadius(),
+                    promptShape.getLineWidth(),
+                    promptShape.getColor(),
+                    shapeRenderer);
         }
     }
 
@@ -178,8 +220,9 @@ public class Draw {
                     }
                 } else if (priorShape.getShape() == Shape.TRIANGLE) {
                     shape.setRadius((priorShape.getRadius() / 2) - priorShape.getLineWidth());
-                } else if (priorShape.getShape() == Shape.SQUARE) {
-                    shape.setRadius((float) (priorShape.getRadius() / Math.sqrt(2)) - (priorShape.getLineWidth() * 2));
+                } else if (priorShape.getShape() != Shape.CIRCLE) {
+                    //The inradius of a regular polygon with n > 3 sides is equal to its apothem, which is defined by [apothem = radius * MathUtils.cos(MathUtils.PI / sides)]
+                    shape.setRadius((float) (priorShape.getRadius() * MathUtils.cos(MathUtils.PI / (priorShape.getShape() + 1))) - (priorShape.getLineWidth() * 2));
                 }
 
                 drawShape(shape, shapeRenderer);
@@ -238,6 +281,76 @@ public class Draw {
                     shape.getLineWidth(),
                     shape.getColor(),
                     shapeRenderer);
+        } else if(shape.getShape() == Shape.PENTAGON) {
+            if (shape.getFillColor() != null) {
+                shapeRenderer.setColor(shape.getFillColor());
+                shapeRenderer.rectLine(shape.getCoordinates().x,
+                        shape.getCoordinates().y + (shape.getRadius() / radiusOffset) - (shape.getLineWidth() / 2),
+                        shape.getCoordinates().x, shape.getCoordinates().y - (shape.getRadius() / radiusOffset) + (shape.getLineWidth() / 2),
+                        shape.getRadius() + radiusOffset); //TODO: Figure out why radius offset is required.
+            }
+            drawPentagon(shape.getCoordinates().x,
+                    shape.getCoordinates().y,
+                    shape.getRadius(),
+                    shape.getLineWidth(),
+                    shape.getColor(),
+                    shapeRenderer);
+        } else if(shape.getShape() == Shape.HEXAGON) {
+            if (shape.getFillColor() != null) {
+                shapeRenderer.setColor(shape.getFillColor());
+                shapeRenderer.rectLine(shape.getCoordinates().x,
+                        shape.getCoordinates().y + (shape.getRadius() / radiusOffset) - (shape.getLineWidth() / 2),
+                        shape.getCoordinates().x, shape.getCoordinates().y - (shape.getRadius() / radiusOffset) + (shape.getLineWidth() / 2),
+                        shape.getRadius() + radiusOffset); //TODO: Figure out why radius offset is required.
+            }
+            drawHexagon(shape.getCoordinates().x,
+                    shape.getCoordinates().y,
+                    shape.getRadius(),
+                    shape.getLineWidth(),
+                    shape.getColor(),
+                    shapeRenderer);
+        } else if(shape.getShape() == Shape.SEPTAGON) {
+            if (shape.getFillColor() != null) {
+                shapeRenderer.setColor(shape.getFillColor());
+                shapeRenderer.rectLine(shape.getCoordinates().x,
+                        shape.getCoordinates().y + (shape.getRadius() / radiusOffset) - (shape.getLineWidth() / 2),
+                        shape.getCoordinates().x, shape.getCoordinates().y - (shape.getRadius() / radiusOffset) + (shape.getLineWidth() / 2),
+                        shape.getRadius() + radiusOffset); //TODO: Figure out why radius offset is required.
+            }
+            drawSeptagon(shape.getCoordinates().x,
+                    shape.getCoordinates().y,
+                    shape.getRadius(),
+                    shape.getLineWidth(),
+                    shape.getColor(),
+                    shapeRenderer);
+        } else if(shape.getShape() == Shape.OCTAGON) {
+            if (shape.getFillColor() != null) {
+                shapeRenderer.setColor(shape.getFillColor());
+                shapeRenderer.rectLine(shape.getCoordinates().x,
+                        shape.getCoordinates().y + (shape.getRadius() / radiusOffset) - (shape.getLineWidth() / 2),
+                        shape.getCoordinates().x, shape.getCoordinates().y - (shape.getRadius() / radiusOffset) + (shape.getLineWidth() / 2),
+                        shape.getRadius() + radiusOffset); //TODO: Figure out why radius offset is required.
+            }
+            drawOctagon(shape.getCoordinates().x,
+                    shape.getCoordinates().y,
+                    shape.getRadius(),
+                    shape.getLineWidth(),
+                    shape.getColor(),
+                    shapeRenderer);
+        } else if(shape.getShape() == Shape.NONAGON) {
+            if (shape.getFillColor() != null) {
+                shapeRenderer.setColor(shape.getFillColor());
+                shapeRenderer.rectLine(shape.getCoordinates().x,
+                        shape.getCoordinates().y + (shape.getRadius() / radiusOffset) - (shape.getLineWidth() / 2),
+                        shape.getCoordinates().x, shape.getCoordinates().y - (shape.getRadius() / radiusOffset) + (shape.getLineWidth() / 2),
+                        shape.getRadius() + radiusOffset); //TODO: Figure out why radius offset is required.
+            }
+            drawNonagon(shape.getCoordinates().x,
+                    shape.getCoordinates().y,
+                    shape.getRadius(),
+                    shape.getLineWidth(),
+                    shape.getColor(),
+                    shapeRenderer);
         } else {
             //TODO: Account for shapes past square (pentagon, hexagon, etc.)
             shapeRenderer.setColor(shape.getColor());
@@ -287,6 +400,7 @@ public class Draw {
                 shapeRenderer);
     }
 
+    //TODO: Consolidate square onward into single method
     public void drawSquare(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(color);
         shapeRenderer.rectLine(x - (radius / radiusOffset) + (lineWidth / 2),
@@ -331,7 +445,98 @@ public class Draw {
                 shapeRenderer);
     }
 
-    public void drawInputButtons(Vector2 inputPointSpawn, Vector2 inputLineSpawn, Vector2 inputTriangleSpawn, Vector2 inputSquareSpawn, ShapeRenderer shapeRenderer) {
+    public void drawPentagon(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        double theta = (float) (2 * Math.PI / 5);
+
+        shapeRenderer.setColor(color);
+        for(int i = 0; i < 5; i++) {
+            //TODO: Consider adding a constant to the (theta * i) portion to alter the rotation of the shape
+            shapeRenderer.rectLine(x + (radius * MathUtils.cos((float)(theta * i))),
+                    y + (radius * MathUtils.sin((float)(theta * i))),
+                    x + (radius * MathUtils.cos((float)(theta * (i + 1)))),
+                    y + (radius * MathUtils.sin((float)(theta * (i + 1)))),
+                    lineWidth);
+            drawPoint(x + (radius * MathUtils.cos((float)(theta * i))),
+                    y + (radius * MathUtils.sin((float)(theta * i))),
+                    lineWidth,
+                    color,
+                    shapeRenderer);
+        }
+    }
+
+    public void drawHexagon(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        double theta = (float) (2 * Math.PI / 6);
+
+        shapeRenderer.setColor(color);
+        for(int i = 0; i < 6; i++) {
+            shapeRenderer.rectLine(x + (radius * MathUtils.cos((float)(theta * i))),
+                    y + (radius * MathUtils.sin((float)(theta * i))),
+                    x + (radius * MathUtils.cos((float)(theta * (i + 1)))),
+                    y + (radius * MathUtils.sin((float)(theta * (i + 1)))),
+                    lineWidth);
+            drawPoint(x + (radius * MathUtils.cos((float)(theta * i))),
+                    y + (radius * MathUtils.sin((float)(theta * i))),
+                    lineWidth,
+                    color,
+                    shapeRenderer);
+        }
+    }
+
+    public void drawSeptagon(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        double theta = (float) (2 * Math.PI / 7);
+
+        shapeRenderer.setColor(color);
+        for(int i = 0; i < 7; i++) {
+            shapeRenderer.rectLine(x + (radius * MathUtils.cos((float)(theta * i))),
+                    y + (radius * MathUtils.sin((float)(theta * i))),
+                    x + (radius * MathUtils.cos((float)(theta * (i + 1)))),
+                    y + (radius * MathUtils.sin((float)(theta * (i + 1)))),
+                    lineWidth);
+            drawPoint(x + (radius * MathUtils.cos((float)(theta * i))),
+                    y + (radius * MathUtils.sin((float)(theta * i))),
+                    lineWidth,
+                    color,
+                    shapeRenderer);
+        }
+    }
+
+    public void drawOctagon(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        double theta = (float) (2 * Math.PI / 8);
+
+        shapeRenderer.setColor(color);
+        for(int i = 0; i < 8; i++) {
+            shapeRenderer.rectLine(x + (radius * MathUtils.cos((float)(theta * i))),
+                    y + (radius * MathUtils.sin((float)(theta * i))),
+                    x + (radius * MathUtils.cos((float)(theta * (i + 1)))),
+                    y + (radius * MathUtils.sin((float)(theta * (i + 1)))),
+                    lineWidth);
+            drawPoint(x + (radius * MathUtils.cos((float)(theta * i))),
+                    y + (radius * MathUtils.sin((float)(theta * i))),
+                    lineWidth,
+                    color,
+                    shapeRenderer);
+        }
+    }
+
+    public void drawNonagon(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        double theta = (float) (2 * Math.PI / 9);
+
+        shapeRenderer.setColor(color);
+        for(int i = 0; i < 9; i++) {
+            shapeRenderer.rectLine(x + (radius * MathUtils.cos((float)(theta * i))),
+                    y + (radius * MathUtils.sin((float)(theta * i))),
+                    x + (radius * MathUtils.cos((float)(theta * (i + 1)))),
+                    y + (radius * MathUtils.sin((float)(theta * (i + 1)))),
+                    lineWidth);
+            drawPoint(x + (radius * MathUtils.cos((float)(theta * i))),
+                    y + (radius * MathUtils.sin((float)(theta * i))),
+                    lineWidth,
+                    color,
+                    shapeRenderer);
+        }
+    }
+
+    public void drawInputButtons(Vector2 inputPointSpawn, Vector2 inputLineSpawn, Vector2 inputTriangleSpawn, Vector2 inputSquareSpawn, Vector2 inputPentagonSpawn, Vector2 inputHexagonSpawn, Vector2 inputSeptagonSpawn, Vector2 inputOctagonSpawn, Vector2 inputNonagonSpawn, ShapeRenderer shapeRenderer) {
         //Point
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(inputPointSpawn.x, inputPointSpawn.y, INPUT_RADIUS);
@@ -351,6 +556,31 @@ public class Draw {
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(inputSquareSpawn.x, inputSquareSpawn.y, INPUT_RADIUS);
         drawSquare(inputSquareSpawn.x, inputSquareSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+
+        //Pentagon
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(inputPentagonSpawn.x, inputPentagonSpawn.y, INPUT_RADIUS);
+        drawPentagon(inputPentagonSpawn.x, inputPentagonSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+
+        //Hexagon
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(inputHexagonSpawn.x, inputHexagonSpawn.y, INPUT_RADIUS);
+        drawHexagon(inputHexagonSpawn.x, inputHexagonSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+
+        //Septagon
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(inputSeptagonSpawn.x, inputSeptagonSpawn.y, INPUT_RADIUS);
+        drawSeptagon(inputSeptagonSpawn.x, inputSeptagonSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+
+        //Octagon
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(inputOctagonSpawn.x, inputOctagonSpawn.y, INPUT_RADIUS);
+        drawOctagon(inputOctagonSpawn.x, inputOctagonSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+
+        //Nonagon
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(inputNonagonSpawn.x, inputNonagonSpawn.y, INPUT_RADIUS);
+        drawNonagon(inputNonagonSpawn.x, inputNonagonSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
     }
 
     public void drawResultsInputButtons(Vector2 inputPlaySpawn, Vector2 inputHomeSpawn, Vector2 inputExitSpawn, ShapeRenderer shapeRenderer) {
