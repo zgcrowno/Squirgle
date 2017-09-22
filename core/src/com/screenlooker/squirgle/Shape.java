@@ -67,9 +67,9 @@ public class Shape {
     public void setCoordinates(Vector2 coordinates) { this.coordinates = coordinates; }
 
     public static int randomBackgroundColorShape() {
-        int val = MathUtils.random(Shape.NONAGON);
+        int val = MathUtils.random(Shape.SQUARE);
         while(val == Shape.LINE) {
-            val = MathUtils.random(Shape.NONAGON);
+            val = MathUtils.random(Shape.SQUARE);
         }
         return val;
     }
