@@ -875,4 +875,43 @@ public class Draw {
             }
         }
     }
+
+    public void drawWrench(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
+        shapeRenderer.rectLine(x - (radius / 2), y - (radius / 2), x + (radius / 2), y + (radius / 2), lineWidth);
+        shapeRenderer.circle(x - (radius / 2), y - (radius / 2), lineWidth);
+        shapeRenderer.circle(x + (radius / 2), y + (radius / 2), lineWidth);
+
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.rect(x - (radius / 2) - (lineWidth / 2), y - (radius / 2) - lineWidth, lineWidth, lineWidth);
+        shapeRenderer.rect(x + (radius / 2) - (lineWidth / 2), y + (radius / 2), lineWidth, lineWidth);
+    }
+
+    public void drawPlayButton(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+
+    }
+
+    public void drawModulo(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+
+    }
+
+    public void drawSoundSymbol(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+
+    }
+
+    public void drawWiFiSymbol(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+
+    }
+
+    public void drawBackButton(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+
+    }
+
+    public void drawFace(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+
+    }
+
+    public void drawX(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+
+    }
 }

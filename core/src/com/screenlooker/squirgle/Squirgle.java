@@ -70,7 +70,7 @@ public class Squirgle extends Game {
 	public Map<Integer, List<Sound>> keyMap;
 
 	public void create() {
-		base = 5;
+		base = 9;
 		batch = new SpriteBatch();
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
