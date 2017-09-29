@@ -11,6 +11,7 @@ import java.util.List;
 
 import static com.badlogic.gdx.graphics.Color.BLACK;
 
+//TODO: Replace all instances of 2.575
 public class Draw {
     public static final int INPUT_RADIUS = 40;
     public static final int TARGET_RADIUS = 150;
@@ -888,30 +889,150 @@ public class Draw {
     }
 
     public void drawPlayButton(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
-
+        shapeRenderer.setColor(color);
+        shapeRenderer.rectLine(x - (MathUtils.sinDeg(60) * radius),
+                y + (MathUtils.cosDeg(60) * radius),
+                x - (MathUtils.sinDeg(60) * radius),
+                y - (MathUtils.cosDeg(60) * radius),
+                lineWidth);
+        shapeRenderer.rectLine(x - (MathUtils.sinDeg(60) * radius),
+                y - (MathUtils.cosDeg(60) * radius),
+                x + radius - lineWidth,
+                y,
+                lineWidth);
+        shapeRenderer.rectLine(x + radius - lineWidth,
+                y,
+                x - (MathUtils.sinDeg(60) * radius),
+                y + (MathUtils.cosDeg(60) * radius),
+                lineWidth);
+        drawPoint(x - (MathUtils.sinDeg(60) * radius),
+                y + (MathUtils.cosDeg(60) * radius),
+                lineWidth,
+                color,
+                shapeRenderer);
+        drawPoint(x - (MathUtils.sinDeg(60) * radius),
+                y - (MathUtils.cosDeg(60) * radius),
+                lineWidth,
+                color,
+                shapeRenderer);
+        drawPoint(x + radius - lineWidth,
+                y,
+                lineWidth,
+                color,
+                shapeRenderer);
     }
 
     public void drawModulo(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
+        shapeRenderer.rectLine(x - (radius / 2), y - (radius / 2), x + (radius / 2), y + (radius / 2), lineWidth);
+        shapeRenderer.circle(x - (radius / 2), y - (radius / 2), lineWidth);
+        shapeRenderer.circle(x + (radius / 2), y + (radius / 2), lineWidth);
 
+        drawPoint(x - (radius / 4),
+                y + (radius / 4),
+                lineWidth,
+                color,
+                shapeRenderer);
+        drawPoint(x + (radius / 4),
+                y - (radius / 4),
+                lineWidth,
+                color,
+                shapeRenderer);
     }
 
     public void drawSoundSymbol(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        drawPoint(x - (radius / 2) + (radius / 8), y, radius, color, shapeRenderer);
+        drawPoint(x - (radius / 2) + (radius / 8) - 5, y, radius, Color.WHITE, shapeRenderer);
 
+        drawPoint(x - (radius / 2) + (radius / 8), y, (3 * radius) / 4, color, shapeRenderer);
+        drawPoint(x - (radius / 2) + (radius / 8) - 5, y, (3 * radius) / 4, Color.WHITE, shapeRenderer);
+
+        drawPoint(x - (radius / 2) + (radius / 8), y, radius / 2, color, shapeRenderer);
+        drawPoint(x - (radius / 2) + (radius / 8) - 5, y, radius / 2, Color.WHITE, shapeRenderer);
+
+        drawPoint(x - (radius / 2) + (radius / 8), y, radius / 4, color, shapeRenderer);
+    }
+
+    public void drawColorSymbol(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        drawPoint(x, y, radius, color, shapeRenderer);
+
+        drawPoint(x - (radius / 2), y + ((3 * radius) / 4), radius / 4, Color.WHITE, shapeRenderer);
+
+        drawPoint(x, y - radius + (radius / 8), radius / 8, Color.FIREBRICK, shapeRenderer);
+        drawPoint(x + radius - (radius / 2.575f), y - radius + (radius / 2.575f), radius / 8, Color.CYAN, shapeRenderer); //TODO: Make this one more accurate
+        drawPoint(x + radius - (radius / 8), y, radius / 8, Color.MAGENTA, shapeRenderer);
     }
 
     public void drawWiFiSymbol(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        drawPoint(x + (radius / 2.575f) - (radius / 8), y - (radius / 2.575f), radius, color, shapeRenderer);
+        drawPoint(x + (radius / 2.575f) - (radius / 8) + 5, y - (radius / 2.575f) - (radius / 8), radius, Color.WHITE, shapeRenderer);
 
+        drawPoint(x + (radius / 2.575f) - (radius / 8), y - (radius / 2.575f), (3 * radius) / 4, color, shapeRenderer);
+        drawPoint(x + (radius / 2.575f) - (radius / 8) + 5, y - (radius / 2.575f) - (radius / 8), (3 * radius) / 4, Color.WHITE, shapeRenderer);
+
+        drawPoint(x + (radius / 2.575f) - (radius / 8), y - (radius / 2.575f), radius / 2, color, shapeRenderer);
+        drawPoint(x + (radius / 2.575f) - (radius / 8) + 5, y - (radius / 2.575f) - (radius / 8), radius / 2, Color.WHITE, shapeRenderer);
+
+        drawPoint(x + (radius / 2.575f) - (radius / 8), y - (radius / 2.575f), radius / 4, color, shapeRenderer);
     }
 
     public void drawBackButton(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
-
+        shapeRenderer.setColor(color);
+        shapeRenderer.rectLine(x + (MathUtils.sinDeg(60) * radius),
+                y + (MathUtils.cosDeg(60) * radius),
+                x - radius + lineWidth,
+                y,
+                lineWidth);
+        shapeRenderer.rectLine(x - radius + lineWidth,
+                y,
+                x + (MathUtils.sinDeg(60) * radius),
+                y - (MathUtils.cosDeg(60) * radius),
+                lineWidth);
+        shapeRenderer.rectLine(x + (MathUtils.sinDeg(60) * radius),
+                y - (MathUtils.cosDeg(60) * radius),
+                x + (MathUtils.sinDeg(60) * radius),
+                y + (MathUtils.cosDeg(60) * radius),
+                lineWidth);
+        drawPoint(x + (MathUtils.sinDeg(60) * radius),
+                y + (MathUtils.cosDeg(60) * radius),
+                lineWidth,
+                color,
+                shapeRenderer);
+        drawPoint(x - radius + lineWidth,
+                y,
+                lineWidth,
+                color,
+                shapeRenderer);
+        drawPoint(x + (MathUtils.sinDeg(60) * radius),
+                y - (MathUtils.cosDeg(60) * radius),
+                lineWidth,
+                color,
+                shapeRenderer);
     }
 
     public void drawFace(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        drawPoint(x, y, radius, color, shapeRenderer);
 
+        drawPoint(x - (radius / 2), y + (radius / 2), radius / 8, Color.WHITE, shapeRenderer);
+        drawPoint(x + (radius / 2), y +(radius / 2), radius / 8, Color.WHITE, shapeRenderer);
     }
 
     public void drawX(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
+        shapeRenderer.rectLine(x + (radius / 2.575f),
+                y + (radius / 2.575f),
+                (float) (x - (radius / 2.575)),
+                (float) (y - (radius / 2.575)),
+                lineWidth);
+        shapeRenderer.rectLine((float) (x - (radius / 2.575f)),
+                y + (radius / 2.575f),
+                x + (radius / 2.575f),
+                (float) (y - (radius / 2.575f)),
+                lineWidth);
 
+        drawPoint(x + (radius / 2.575f), y + (radius / 2.575f), lineWidth, color, shapeRenderer);
+        drawPoint(x - (radius / 2.575f), y + (radius / 2.575f), lineWidth, color, shapeRenderer);
+        drawPoint(x - (radius / 2.575f), y - (radius / 2.575f), lineWidth, color, shapeRenderer);
+        drawPoint(x + (radius / 2.575f), y - (radius / 2.575f), lineWidth, color, shapeRenderer);
     }
 }

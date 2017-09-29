@@ -10,23 +10,45 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 public class MainMenuScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
-    private final static int TOP = 0;
-    private final static int MIDDLE = 1;
-    private final static int BOTTOM = 2;
+    private final static int OPTIONS = 0;
+    private final static int PLAY = 1;
+    private final static int STATS = 2;
 
-    private final static int NUMBER_OF_INPUTS = 3;
     private final static int PARTITION_DIVISOR = 80;
     private final static int LINE_WIDTH = 20;
+
+    private float partitionSize;
+    private float inputWidth;
+    private float inputHeight;
+
+    private Vector3 touchPoint;
+
+    private boolean optionsTouched;
+    private boolean playTouched;
+    private boolean statsTouched;
 
     public MainMenuScreen(final Squirgle game) {
         this.game = game;
 
         game.resetInstanceData();
+
+        Gdx.input.setInputProcessor(this);
+
+        partitionSize = game.camera.viewportHeight / PARTITION_DIVISOR;
+        inputWidth = game.camera.viewportWidth - (partitionSize * 2);
+        inputHeight = (game.camera.viewportHeight - (partitionSize * 4)) / 3;
+
+        touchPoint = new Vector3();
+
+        optionsTouched = false;
+        playTouched = false;
+        statsTouched = false;
     }
 
     @Override
@@ -37,18 +59,11 @@ public class MainMenuScreen implements Screen, InputProcessor {
         game.camera.update();
         game.batch.setProjectionMatrix(game.camera.combined);
 
-        float partitionSize = game.camera.viewportHeight / PARTITION_DIVISOR;
-
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
-        drawInputRectangles(partitionSize);
+        drawInputRectangles();
 
         game.shapeRendererFilled.end();
-
-        if(Gdx.input.isTouched()) {
-            game.setScreen(new GameplayScreen(game));
-            dispose();
-        }
     }
 
     @Override
@@ -101,6 +116,31 @@ public class MainMenuScreen implements Screen, InputProcessor {
             return false;
         }
 
+        game.camera.unproject(touchPoint.set(screenX, screenY, 0));
+
+        optionsTouched = touchPoint.x > partitionSize
+                && touchPoint.x < game.camera.viewportWidth - partitionSize
+                && touchPoint.y > game.camera.viewportHeight - partitionSize - inputHeight
+                && touchPoint.y < game.camera.viewportHeight - partitionSize;
+        playTouched = touchPoint.x > partitionSize
+                && touchPoint.x < game.camera.viewportWidth - partitionSize
+                && touchPoint.y > game.camera.viewportHeight - (2 * partitionSize) - (2 * inputHeight)
+                && touchPoint.y < game.camera.viewportHeight - (2 * partitionSize) - inputHeight;
+        statsTouched = touchPoint.x > partitionSize
+                && touchPoint.x < game.camera.viewportWidth - partitionSize
+                && touchPoint.y > partitionSize
+                && touchPoint.y < partitionSize + inputHeight;
+
+        if(optionsTouched) {
+            game.setScreen(new OptionsScreen(game));
+            dispose();
+        } else if(playTouched) {
+            game.setScreen(new GameplayScreen(game));
+            dispose();
+        } else if(statsTouched) {
+            //TODO: redirect to stats select screen
+        }
+
         return true;
     }
 
@@ -129,45 +169,38 @@ public class MainMenuScreen implements Screen, InputProcessor {
         return false;
     }
 
-    public void drawInputs() {
-
+    public void drawInputRectangles() {
+        drawOptionsInput();
+        drawPlayInput();
+        drawStatsInput();
     }
 
-    public void drawInputRectangles(float partitionSize) {
-        drawOptionsInput(partitionSize);
-        drawPlayInput(partitionSize);
-        drawStatsInput(partitionSize);
-    }
-
-    public void drawInputRectangle(int placement, float partitionSize) {
-        float width = game.camera.viewportWidth - (partitionSize * 2);
-        float height = (game.camera.viewportHeight - (partitionSize * 4)) / 3;
-
+    public void drawInputRectangle(int placement) {
         game.shapeRendererFilled.setColor(Color.WHITE);
         switch(placement) {
-            case TOP : {
+            case OPTIONS : {
                 game.shapeRendererFilled.rect(partitionSize,
-                        game.camera.viewportHeight - partitionSize - height,
-                        width,
-                        height);
+                        game.camera.viewportHeight - partitionSize - inputHeight,
+                        inputWidth,
+                        inputHeight);
             }
-            case MIDDLE : {
+            case PLAY : {
                 game.shapeRendererFilled.rect(partitionSize,
-                        (game.camera.viewportHeight / 2) - (height / 2),
-                        width,
-                        height);
+                        (game.camera.viewportHeight / 2) - (inputHeight / 2),
+                        inputWidth,
+                        inputHeight);
             }
-            case BOTTOM : {
+            case STATS : {
                 game.shapeRendererFilled.rect(partitionSize,
                         partitionSize,
-                        width,
-                        height);
+                        inputWidth,
+                        inputHeight);
             }
         }
     }
 
-    public void drawOptionsInput(float partitionSize) {
-        drawInputRectangle(TOP, partitionSize);
+    public void drawOptionsInput() {
+        drawInputRectangle(OPTIONS);
         game.draw.drawWrench(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 6),
                 game.camera.viewportHeight / 6,
@@ -176,12 +209,24 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 game.shapeRendererFilled);
     }
 
-    public void drawPlayInput(float partitionSize) {
-        drawInputRectangle(MIDDLE, partitionSize);
+    public void drawPlayInput() {
+        drawInputRectangle(PLAY);
+        game.draw.drawPlayButton(game.camera.viewportWidth / 2,
+                game.camera.viewportHeight / 2,
+                game.camera.viewportHeight / 6,
+                LINE_WIDTH,
+                Color.BLACK,
+                game.shapeRendererFilled);
     }
 
-    public void drawStatsInput(float partitionSize) {
-        drawInputRectangle(BOTTOM, partitionSize);
+    public void drawStatsInput() {
+        drawInputRectangle(STATS);
+        game.draw.drawModulo(game.camera.viewportWidth / 2,
+                game.camera.viewportHeight / 6,
+                game.camera.viewportHeight / 6,
+                LINE_WIDTH,
+                Color.BLACK,
+                game.shapeRendererFilled);
     }
 
 }
