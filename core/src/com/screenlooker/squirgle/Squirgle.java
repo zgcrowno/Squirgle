@@ -30,6 +30,8 @@ public class Squirgle extends Game {
 	private static final float ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
 
 	public int base;
+	public int maxBase;
+	public int minBase;
 	public SpriteBatch batch;
 	public BitmapFont font;
 	public GlyphLayout layout;
@@ -71,6 +73,8 @@ public class Squirgle extends Game {
 
 	public void create() {
 		base = 4;
+		maxBase = 9;
+		minBase = 4;
 		batch = new SpriteBatch();
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();

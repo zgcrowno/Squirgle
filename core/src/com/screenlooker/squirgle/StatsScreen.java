@@ -6,19 +6,16 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public class MainMenuScreen implements Screen, InputProcessor {
+public class StatsScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
-    private final static int OPTIONS = 0;
-    private final static int PLAY = 1;
-    private final static int STATS = 2;
+    private final static int PERSONAL = 0;
+    private final static int COMMUNAL = 1;
+    private final static int BACK = 2;
 
     private final static int PARTITION_DIVISOR = 80;
     private final static int LINE_WIDTH = 20;
@@ -29,11 +26,11 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
     private Vector3 touchPoint;
 
-    private boolean optionsTouched;
-    private boolean playTouched;
-    private boolean statsTouched;
+    private boolean personalTouched;
+    private boolean communalTouched;
+    private boolean backTouched;
 
-    public MainMenuScreen(final Squirgle game) {
+    public StatsScreen(final Squirgle game) {
         this.game = game;
 
         game.resetInstanceData();
@@ -41,14 +38,14 @@ public class MainMenuScreen implements Screen, InputProcessor {
         Gdx.input.setInputProcessor(this);
 
         partitionSize = game.camera.viewportHeight / PARTITION_DIVISOR;
-        inputWidth = game.camera.viewportWidth - (partitionSize * 2);
-        inputHeight = (game.camera.viewportHeight - (partitionSize * 4)) / 3;
+        inputWidth = (game.camera.viewportWidth - (partitionSize * 4)) / 3;
+        inputHeight = game.camera.viewportHeight - (partitionSize * 2);
 
         touchPoint = new Vector3();
 
-        optionsTouched = false;
-        playTouched = false;
-        statsTouched = false;
+        personalTouched = false;
+        communalTouched = false;
+        backTouched = false;
     }
 
     @Override
@@ -118,27 +115,25 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        optionsTouched = touchPoint.x > partitionSize
-                && touchPoint.x < game.camera.viewportWidth - partitionSize
-                && touchPoint.y > game.camera.viewportHeight - partitionSize - inputHeight
+        personalTouched = touchPoint.x > partitionSize
+                && touchPoint.x < partitionSize + inputWidth
+                && touchPoint.y > partitionSize
                 && touchPoint.y < game.camera.viewportHeight - partitionSize;
-        playTouched = touchPoint.x > partitionSize
-                && touchPoint.x < game.camera.viewportWidth - partitionSize
-                && touchPoint.y > game.camera.viewportHeight - (2 * partitionSize) - (2 * inputHeight)
-                && touchPoint.y < game.camera.viewportHeight - (2 * partitionSize) - inputHeight;
-        statsTouched = touchPoint.x > partitionSize
+        communalTouched = touchPoint.x > (2 * partitionSize) + inputWidth
+                && touchPoint.x < game.camera.viewportWidth - (2 *partitionSize) - inputWidth
+                && touchPoint.y > partitionSize
+                && touchPoint.y < game.camera.viewportHeight - partitionSize;
+        backTouched = touchPoint.x > game.camera.viewportWidth - partitionSize - inputWidth
                 && touchPoint.x < game.camera.viewportWidth - partitionSize
                 && touchPoint.y > partitionSize
-                && touchPoint.y < partitionSize + inputHeight;
+                && touchPoint.y < game.camera.viewportHeight - partitionSize;
 
-        if(optionsTouched) {
-            game.setScreen(new OptionsScreen(game));
-            dispose();
-        } else if(playTouched) {
-            game.setScreen(new BaseSelectScreen(game));
-            dispose();
-        } else if(statsTouched) {
-            game.setScreen(new StatsScreen(game));
+        if(personalTouched) {
+            //TODO: Redirect to personal stats screen
+        } else if(communalTouched) {
+            //TODO: Redirect to communal stats screen
+        } else if(backTouched) {
+            game.setScreen(new MainMenuScreen(game));
             dispose();
         }
 
@@ -171,28 +166,28 @@ public class MainMenuScreen implements Screen, InputProcessor {
     }
 
     public void drawInputRectangles() {
-        drawOptionsInput();
-        drawPlayInput();
-        drawStatsInput();
+        drawPersonalInput();
+        drawCommunalInput();
+        drawBackInput();
     }
 
     public void drawInputRectangle(int placement) {
         game.shapeRendererFilled.setColor(Color.WHITE);
         switch(placement) {
-            case OPTIONS : {
+            case PERSONAL : {
                 game.shapeRendererFilled.rect(partitionSize,
-                        game.camera.viewportHeight - partitionSize - inputHeight,
+                        partitionSize,
                         inputWidth,
                         inputHeight);
             }
-            case PLAY : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        (game.camera.viewportHeight / 2) - (inputHeight / 2),
+            case COMMUNAL : {
+                game.shapeRendererFilled.rect((2 *partitionSize) + inputWidth,
+                        partitionSize,
                         inputWidth,
                         inputHeight);
             }
-            case STATS : {
-                game.shapeRendererFilled.rect(partitionSize,
+            case BACK : {
+                game.shapeRendererFilled.rect(game.camera.viewportWidth - partitionSize - inputWidth,
                         partitionSize,
                         inputWidth,
                         inputHeight);
@@ -200,31 +195,43 @@ public class MainMenuScreen implements Screen, InputProcessor {
         }
     }
 
-    public void drawOptionsInput() {
-        drawInputRectangle(OPTIONS);
-        game.draw.drawWrench(game.camera.viewportWidth / 2,
+    public void drawPersonalInput() {
+        drawInputRectangle(PERSONAL);
+        game.draw.drawFace(game.camera.viewportWidth / 6,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 6),
-                game.camera.viewportHeight / 6,
+                game.camera.viewportWidth / 12,
                 LINE_WIDTH,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
 
-    public void drawPlayInput() {
-        drawInputRectangle(PLAY);
-        game.draw.drawPlayButton(game.camera.viewportWidth / 2,
+    public void drawCommunalInput() {
+        drawInputRectangle(COMMUNAL);
+        game.draw.drawFace(game.camera.viewportWidth / 2,
+                (2 * game.camera.viewportHeight) / 6,
+                game.camera.viewportWidth / 12,
+                LINE_WIDTH,
+                Color.BLACK,
+                game.shapeRendererFilled);
+        game.draw.drawFace(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 2,
-                game.camera.viewportHeight / 6,
+                game.camera.viewportWidth / 12,
+                LINE_WIDTH,
+                Color.BLACK,
+                game.shapeRendererFilled);
+        game.draw.drawFace(game.camera.viewportWidth / 2,
+                (2 * game.camera.viewportHeight) / 3,
+                game.camera.viewportWidth / 12,
                 LINE_WIDTH,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
 
-    public void drawStatsInput() {
-        drawInputRectangle(STATS);
-        game.draw.drawModulo(game.camera.viewportWidth / 2,
+    public void drawBackInput() {
+        drawInputRectangle(BACK);
+        game.draw.drawBackButton((5 * game.camera.viewportWidth) / 6,
                 game.camera.viewportHeight / 6,
-                game.camera.viewportHeight / 6,
+                game.camera.viewportWidth / 12,
                 LINE_WIDTH,
                 Color.BLACK,
                 game.shapeRendererFilled);
