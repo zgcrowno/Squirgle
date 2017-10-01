@@ -49,9 +49,10 @@ public class SoundUtils {
                     && !(backgroundColorShapeList.get(0).getCoordinates().y - backgroundColorShapeList.get(1).getCoordinates().y - colorListSpeed > ((i * measureLength) / numThirtySeconds) - colorListSpeed);
 
             //Bass drum
-            if (atMeasureStart) {
-                game.bassDrum.play();
-            }
+            //TODO: Figure out why this isn't working correctly on Android
+//            if (atMeasureStart) {
+//                game.bassDrum.play();
+//            }
 
             //Hi-hat
             if (atThirtySecondInterval && i % quarterMeasure == 0) {

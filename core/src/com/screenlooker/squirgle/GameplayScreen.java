@@ -199,6 +199,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         game.camera.update();
         game.shapeRendererFilled.setProjectionMatrix(game.camera.combined);
         game.shapeRendererLine.setProjectionMatrix(game.camera.combined);
+        game.batch.setProjectionMatrix(game.camera.combined);
 
         float primaryShapeThreshold = game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER;
         Shape primaryShape = priorShapeList.size() > 0 ? priorShapeList.get(0) : promptShape;

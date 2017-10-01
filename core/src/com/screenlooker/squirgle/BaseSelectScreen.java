@@ -79,6 +79,8 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.camera.update();
+        game.shapeRendererFilled.setProjectionMatrix(game.camera.combined);
+        game.shapeRendererLine.setProjectionMatrix(game.camera.combined);
         game.batch.setProjectionMatrix(game.camera.combined);
 
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
