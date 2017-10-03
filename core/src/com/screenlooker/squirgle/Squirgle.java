@@ -29,6 +29,16 @@ public class Squirgle extends Game {
 	private static final int VIRTUAL_HEIGHT = 1024;
 	private static final float ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
 
+	//Sound options
+	public float volume;
+	public int musicStyle;
+
+	//Color options
+	public boolean colorblind;
+
+	//Connectivity options
+	public boolean postToLeaderboards;
+
 	public int base;
 	public int maxBase;
 	public int minBase;

@@ -23,8 +23,17 @@ import java.util.List;
 public class GameplayScreen implements Screen, InputProcessor {
     final Squirgle game;
 
+    private final static int PAUSE_BACK = 0;
+    private final static int PAUSE_QUIT = 1;
+
+    private final static int PARTITION_DIVISOR = 80;
+    private final static int LINE_WIDTH = 20;
+
     private static final float SQUIRGLE_RADIUS_DECREMENT = 0.8f;
 
+    private float partitionSize;
+    private float pauseInputWidth;
+    private float pauseInputHeight;
     private int timeSignature;
     private float initPromptRadius;
     private float backgroundColorListElementRadius;
@@ -66,15 +75,21 @@ public class GameplayScreen implements Screen, InputProcessor {
     boolean playTouched;
     boolean homeTouched;
     boolean exitTouched;
+    boolean pauseTouched;
+    boolean pauseBackTouched;
+    boolean pauseQuitTouched;
     boolean inputTouchedGameplay;
     boolean inputTouchedResults;
     private Color clearColor;
     private int score;
     private boolean gameOver;
     private boolean showResults;
+    private boolean paused;
     private int multiplier;
     private long startTime;
     private long endTime;
+    private long pauseStartTime;
+    private long timePaused;
     private int destructionIndex;
     private float firstPriorShapePreviousX;
     private Color resultsColor;
@@ -85,6 +100,11 @@ public class GameplayScreen implements Screen, InputProcessor {
         game.resetInstanceData();
 
         Gdx.input.setInputProcessor(this);
+
+        partitionSize = game.camera.viewportHeight / PARTITION_DIVISOR;
+        pauseInputWidth = game.camera.viewportWidth - (partitionSize * 2);
+        pauseInputHeight = (game.camera.viewportHeight - (partitionSize * 3)) / 2;
+
         timeSignature = 4; //This represents the number of quarter notes per background color change (4 = 4/4, 5 = 5/4, etc.)
         initPromptRadius = 20;
         backgroundColorListElementRadius = 15;
@@ -178,6 +198,9 @@ public class GameplayScreen implements Screen, InputProcessor {
         playTouched = false;
         homeTouched = false;
         exitTouched = false;
+        pauseTouched = false;
+        pauseBackTouched = false;
+        pauseQuitTouched = false;
         inputTouchedGameplay = false;
         inputTouchedResults = false;
         clearColor = new Color();
@@ -185,8 +208,11 @@ public class GameplayScreen implements Screen, InputProcessor {
         multiplier = 1;
         gameOver = false;
         showResults = false;
+        paused = false;
         startTime = System.currentTimeMillis();
         endTime = 0;
+        pauseStartTime = 0;
+        timePaused = 0;
         destructionIndex = 1;
         firstPriorShapePreviousX = 0;
         resultsColor = new Color();
@@ -209,133 +235,140 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         game.shapeRendererLine.begin(ShapeRenderer.ShapeType.Line);
 
-        promptShape.setRadius(promptShape.getRadius() * promptIncrease);
+        if(!paused) {
+            promptShape.setRadius(promptShape.getRadius() * promptIncrease);
 
-        if (!primaryShapeAtThreshold) {
-            promptShape.setLineWidth(promptShape.getRadius() / Draw.LINE_WIDTH_DIVISOR);
-        }
-
-        if (!gameOver) {
-            game.draw.drawBackgroundColorShape(backgroundColorShape, game.shapeRendererFilled);
-        }
-
-        game.draw.drawPrompt(promptShape, priorShapeList, primaryShapeAtThreshold, game.shapeRendererLine);
-
-        game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game, game.shapeRendererFilled);
-
-        //TODO: Make sure you execute the inverse of this given certain player input...Also adjust all of this
-        //TODO: so that the promptIncrease, colorListSpeed and colorSpeed are all increasing by proportional rates.
-        if (!gameOver) {
-            if ((System.currentTimeMillis() - startTime) / 1000 > 10) {
-                promptIncrease += .0005;
-                startTime = System.currentTimeMillis();
-                game.draw.setColorListSpeed(game.draw.getColorListSpeed() + 0.1f);
-                game.draw.setColorSpeed(game.draw.getColorSpeed() + 20);
+            if (!primaryShapeAtThreshold) {
+                promptShape.setLineWidth(promptShape.getRadius() / Draw.LINE_WIDTH_DIVISOR);
             }
-        } else {
-            if ((System.currentTimeMillis() - endTime) / 1000 > 2) {
-                if (!primaryShapeAtThreshold) { //TODO: Also account for height (different screen orientations?)
-                    promptIncrease += .0001;
-                    promptShape.setCoordinates(new Vector2(promptShape.getCoordinates().x - (primaryShape.getCoordinates().x - firstPriorShapePreviousX),
-                            promptShape.getCoordinates().y));
-                } else {
-                    promptIncrease = 1;
-                    if (primaryShape.getShape() == Shape.LINE && primaryShape.getLineWidth() < (game.camera.viewportWidth * 4)) {
-                        primaryShape.setLineWidth(primaryShape.getLineWidth() * endLineWidthIncrease);
-                    } else if (primaryShape.getShape() == Shape.LINE) {
-                        //Prevent shape lines from being visible in the event that primaryShape is promptShape
-                        primaryShape.setColor(clearColor);
-                    }
-                    if (primaryShape.getShape() != Shape.LINE || primaryShape.getLineWidth() >= (game.camera.viewportWidth * 4)) {
-                        showResults = true;
-                    }
-                }
+
+            if (!gameOver) {
+                game.draw.drawBackgroundColorShape(backgroundColorShape, game.shapeRendererFilled);
             }
-        }
 
-        //This code is being executed twice: once before setting the prompt's end game coordinates, and again afterwards.
-        //This way, the shapes are drawn with their new values, and the first element in priorShapeList doesn't veer off
-        //the screen to the right.
-        //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
-        //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
-        game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game, game.shapeRendererFilled);
+            game.draw.drawPrompt(promptShape, priorShapeList, primaryShapeAtThreshold, game.shapeRendererLine);
 
-        if (!gameOver) {
-            game.draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
-            SoundUtils.playMusic(timeSignature,
-                    backgroundColorShapeListMaxHeight - backgroundColorShapeListMinHeight,
-                    game.draw.getColorListSpeed(),
-                    backgroundColorShapeList,
-                    game);
-            game.draw.drawInputButtons(game, inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, inputPentagonSpawn, inputHexagonSpawn, inputSeptagonSpawn, inputOctagonSpawn, inputNonagonSpawn, game.shapeRendererFilled);
-            game.draw.drawTargetSemicircle(game.shapeRendererFilled);
-            game.draw.drawScoreTriangle(game.shapeRendererFilled);
-            game.draw.drawPrompt(outsideTargetShape, targetShapeList, false, game.shapeRendererFilled);
-            game.draw.drawShapes(targetShapeList, outsideTargetShape, false, game, game.shapeRendererFilled);
-        }
+            game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game, game.shapeRendererFilled);
 
-        //Prevent shapes from getting too large
-        if (promptShape.getRadius() >= game.camera.viewportWidth * 15) {
-            if (priorShapeList.size() > destructionIndex) {
-                promptShape = priorShapeList.get(priorShapeList.size() - destructionIndex);
-                for (int i = 0; i < destructionIndex; i++) {
-                    priorShapeList.remove(priorShapeList.size() - 1);
+            //TODO: Make sure you execute the inverse of this given certain player input...Also adjust all of this
+            //TODO: so that the promptIncrease, colorListSpeed and colorSpeed are all increasing by proportional rates.
+            if (!gameOver) {
+                if ((System.currentTimeMillis() - startTime - timePaused) / 1000 > 10) {
+                    promptIncrease += .0005;
+                    startTime = System.currentTimeMillis();
+                    game.draw.setColorListSpeed(game.draw.getColorListSpeed() + 0.1f);
+                    game.draw.setColorSpeed(game.draw.getColorSpeed() + 20);
                 }
-                destructionIndex = 2;
             } else {
-                //TODO: Account for game ending with empty priorShapeList
+                if ((System.currentTimeMillis() - endTime) / 1000 > 2) {
+                    if (!primaryShapeAtThreshold) { //TODO: Also account for height (different screen orientations?)
+                        promptIncrease += .0001;
+                        promptShape.setCoordinates(new Vector2(promptShape.getCoordinates().x - (primaryShape.getCoordinates().x - firstPriorShapePreviousX),
+                                promptShape.getCoordinates().y));
+                    } else {
+                        promptIncrease = 1;
+                        if (primaryShape.getShape() == Shape.LINE && primaryShape.getLineWidth() < (game.camera.viewportWidth * 4)) {
+                            primaryShape.setLineWidth(primaryShape.getLineWidth() * endLineWidthIncrease);
+                        } else if (primaryShape.getShape() == Shape.LINE) {
+                            //Prevent shape lines from being visible in the event that primaryShape is promptShape
+                            primaryShape.setColor(clearColor);
+                        }
+                        if (primaryShape.getShape() != Shape.LINE || primaryShape.getLineWidth() >= (game.camera.viewportWidth * 4)) {
+                            showResults = true;
+                        }
+                    }
+                }
             }
-        }
 
-        if (priorShapeList.size() > 0) {
-            firstPriorShapePreviousX = priorShapeList.get(0).getCoordinates().x;
+            //This code is being executed twice: once before setting the prompt's end game coordinates, and again afterwards.
+            //This way, the shapes are drawn with their new values, and the first element in priorShapeList doesn't veer off
+            //the screen to the right.
+            //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
+            //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
+            game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game, game.shapeRendererFilled);
+
+            if (!gameOver) {
+                game.draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
+                SoundUtils.playMusic(timeSignature,
+                        backgroundColorShapeListMaxHeight - backgroundColorShapeListMinHeight,
+                        game.draw.getColorListSpeed(),
+                        backgroundColorShapeList,
+                        game);
+                game.draw.drawInputButtons(game, inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, inputPentagonSpawn, inputHexagonSpawn, inputSeptagonSpawn, inputOctagonSpawn, inputNonagonSpawn, game.shapeRendererFilled);
+                game.draw.drawTargetSemicircle(game.shapeRendererFilled);
+                game.draw.drawScoreTriangle(game.shapeRendererFilled);
+                game.draw.drawPrompt(outsideTargetShape, targetShapeList, false, game.shapeRendererFilled);
+                game.draw.drawShapes(targetShapeList, outsideTargetShape, false, game, game.shapeRendererFilled);
+                game.draw.drawPauseInput(game);
+            }
+
+            //Prevent shapes from getting too large
+            if (promptShape.getRadius() >= game.camera.viewportWidth * 15) {
+                if (priorShapeList.size() > destructionIndex) {
+                    promptShape = priorShapeList.get(priorShapeList.size() - destructionIndex);
+                    for (int i = 0; i < destructionIndex; i++) {
+                        priorShapeList.remove(priorShapeList.size() - 1);
+                    }
+                    destructionIndex = 2;
+                } else {
+                    //TODO: Account for game ending with empty priorShapeList
+                }
+            }
+
+            if (priorShapeList.size() > 0) {
+                firstPriorShapePreviousX = priorShapeList.get(0).getCoordinates().x;
+            } else {
+                firstPriorShapePreviousX = promptShape.getCoordinates().x;
+            }
+
+            if (showResults) {
+                game.draw.drawResultsInputButtons(inputPlaySpawn, inputHomeSpawn, inputExitSpawn, game.shapeRendererFilled);
+            }
+
+            game.draw.drawTouchDownPoints(touchDownShapeList, game.shapeRendererLine);
         } else {
-            firstPriorShapePreviousX = promptShape.getCoordinates().x;
+            drawInputRectangles();
         }
-
-        if (showResults) {
-            game.draw.drawResultsInputButtons(inputPlaySpawn, inputHomeSpawn, inputExitSpawn, game.shapeRendererFilled);
-        }
-
-        game.draw.drawTouchDownPoints(touchDownShapeList, game.shapeRendererLine);
 
         game.shapeRendererFilled.end();
 
         game.shapeRendererLine.end();
 
-        if (!gameOver) {
-            FontUtils.printText(game.batch,
-                    game.font,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    String.valueOf(score),
-                    game.camera.viewportWidth - (Draw.TARGET_RADIUS / 3.2f),
-                    game.camera.viewportHeight - (Draw.TARGET_RADIUS / 3.2f),
-                    -45);
-            FontUtils.printText(game.batch,
-                    game.font,
-                    game.layout,
-                    Color.WHITE,
-                    "X" + String.valueOf(multiplier),
-                    game.camera.viewportWidth - (Draw.TARGET_RADIUS / 2.58f),
-                    game.camera.viewportHeight - (Draw.TARGET_RADIUS / 1.25f),
-                    -45);
-        }
-
-        if (showResults) {
-            if (priorShapeList.size() > 0 && (priorShapeList.get(0).getShape() == Shape.LINE || priorShapeList.get(0).getShape() == Shape.POINT)) {
-                resultsColor = Color.BLACK;
-            } else {
-                resultsColor = Color.WHITE;
+        if(!paused) {
+            if (!gameOver) {
+                FontUtils.printText(game.batch,
+                        game.font,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        String.valueOf(score),
+                        game.camera.viewportWidth - (Draw.TARGET_RADIUS / 3.2f),
+                        game.camera.viewportHeight - (Draw.TARGET_RADIUS / 3.2f),
+                        -45);
+                FontUtils.printText(game.batch,
+                        game.font,
+                        game.layout,
+                        Color.WHITE,
+                        "X" + String.valueOf(multiplier),
+                        game.camera.viewportWidth - (Draw.TARGET_RADIUS / 2.58f),
+                        game.camera.viewportHeight - (Draw.TARGET_RADIUS / 1.25f),
+                        -45);
             }
-            FontUtils.printText(game.batch,
-                    game.font,
-                    game.layout,
-                    resultsColor,
-                    String.valueOf(score),
-                    game.camera.viewportWidth / 2,
-                    game.camera.viewportHeight / 2,
-                    0);
+
+            if (showResults) {
+                if (priorShapeList.size() > 0 && (priorShapeList.get(0).getShape() == Shape.LINE || priorShapeList.get(0).getShape() == Shape.POINT)) {
+                    resultsColor = Color.BLACK;
+                } else {
+                    resultsColor = Color.WHITE;
+                }
+                FontUtils.printText(game.batch,
+                        game.font,
+                        game.layout,
+                        resultsColor,
+                        String.valueOf(score),
+                        game.camera.viewportWidth / 2,
+                        game.camera.viewportHeight / 2,
+                        0);
+            }
         }
 
         //Game over condition
@@ -365,12 +398,12 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     @Override
     public void pause() {
-
+        paused = true;
     }
 
     @Override
     public void resume() {
-
+        paused = false;
     }
 
     @Override
@@ -601,63 +634,88 @@ public class GameplayScreen implements Screen, InputProcessor {
                 && touchPoint.x < inputExitSpawn.x + Draw.INPUT_RADIUS
                 && touchPoint.y > inputExitSpawn.y - Draw.INPUT_RADIUS
                 && touchPoint.y < inputExitSpawn.y + Draw.INPUT_RADIUS;
-        inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched;
+        //TODO: Set and use variables for these values
+        pauseTouched = touchPoint.x > game.camera.viewportWidth - (2 *(game.camera.viewportWidth / 20))
+                && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
+                && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
+        pauseBackTouched = touchPoint.x > partitionSize
+                && touchPoint.x < partitionSize + pauseInputWidth
+                && touchPoint.y > partitionSize
+                && touchPoint.y < partitionSize + pauseInputHeight;
+        pauseQuitTouched = touchPoint.x > partitionSize
+                && touchPoint.x < partitionSize + pauseInputWidth
+                && touchPoint.y > (2 * partitionSize) + pauseInputHeight
+                && touchPoint.y < game.camera.viewportHeight - partitionSize;
+        inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched || pauseTouched;
         inputTouchedResults = playTouched || homeTouched || exitTouched;
 
         if (!gameOver) {
-            if (pointTouched) {
-                if(promptShape.getShape() + 1 >= game.base) {
-                    promptShape.setShape((promptShape.getShape() + 1) - game.base);
-                } else {
-                    promptShape.setShape(promptShape.getShape() + 1);
+            if(!paused) {
+                if (pointTouched) {
+                    if (promptShape.getShape() + 1 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 1) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 1);
+                    }
+                } else if (lineTouched) {
+                    if (promptShape.getShape() + 2 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 2) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 2);
+                    }
+                } else if (triangleTouched) {
+                    if (promptShape.getShape() + 3 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 3) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 3);
+                    }
+                } else if (squareTouched) {
+                    if (promptShape.getShape() + 4 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 4) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 4);
+                    }
+                } else if (pentagonTouched) {
+                    if (promptShape.getShape() + 5 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 5) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 5);
+                    }
+                } else if (hexagonTouched) {
+                    if (promptShape.getShape() + 6 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 6) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 6);
+                    }
+                } else if (septagonTouched) {
+                    if (promptShape.getShape() + 7 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 7) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 7);
+                    }
+                } else if (octagonTouched) {
+                    if (promptShape.getShape() + 8 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 8) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 8);
+                    }
+                } else if (nonagonTouched) {
+                    if (promptShape.getShape() + 9 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 9) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 9);
+                    }
+                } else if (pauseTouched) {
+                    pauseStartTime = System.currentTimeMillis();
+                    pause();
                 }
-            } else if (lineTouched) {
-                if(promptShape.getShape() + 2 >= game.base) {
-                    promptShape.setShape((promptShape.getShape() + 2) - game.base);
-                } else {
-                    promptShape.setShape(promptShape.getShape() + 2);
-                }
-            } else if (triangleTouched) {
-                if(promptShape.getShape() + 3 >= game.base) {
-                    promptShape.setShape((promptShape.getShape() + 3) - game.base);
-                } else {
-                    promptShape.setShape(promptShape.getShape() + 3);
-                }
-            } else if (squareTouched) {
-                if(promptShape.getShape() + 4 >= game.base) {
-                    promptShape.setShape((promptShape.getShape() + 4) - game.base);
-                } else {
-                    promptShape.setShape(promptShape.getShape() + 4);
-                }
-            } else if(pentagonTouched) {
-                if(promptShape.getShape() + 5 >= game.base) {
-                    promptShape.setShape((promptShape.getShape() + 5) - game.base);
-                } else {
-                    promptShape.setShape(promptShape.getShape() + 5);
-                }
-            } else if(hexagonTouched) {
-                if(promptShape.getShape() + 6 >= game.base) {
-                    promptShape.setShape((promptShape.getShape() + 6) - game.base);
-                } else {
-                    promptShape.setShape(promptShape.getShape() + 6);
-                }
-            } else if(septagonTouched) {
-                if(promptShape.getShape() + 7 >= game.base) {
-                    promptShape.setShape((promptShape.getShape() + 7) - game.base);
-                } else {
-                    promptShape.setShape(promptShape.getShape() + 7);
-                }
-            } else if(octagonTouched) {
-                if(promptShape.getShape() + 8 >= game.base) {
-                    promptShape.setShape((promptShape.getShape() + 8) - game.base);
-                } else {
-                    promptShape.setShape(promptShape.getShape() + 8);
-                }
-            } else if(nonagonTouched) {
-                if(promptShape.getShape() + 9 >= game.base) {
-                    promptShape.setShape((promptShape.getShape() + 9) - game.base);
-                } else {
-                    promptShape.setShape(promptShape.getShape() + 9);
+            } else {
+                if(pauseBackTouched) {
+                    timePaused += System.currentTimeMillis() - pauseStartTime;
+                    resume();
+                } else if(pauseQuitTouched) {
+                    game.setScreen(new MainMenuScreen(game));
+                    dispose();
                 }
             }
         }
@@ -778,6 +836,49 @@ public class GameplayScreen implements Screen, InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    public void drawInputRectangles() {
+        drawPauseBackInput();
+        drawPauseQuitInput();
+    }
+
+    public void drawInputRectangle(int placement) {
+        game.shapeRendererFilled.setColor(Color.WHITE);
+        switch(placement) {
+            case PAUSE_BACK : {
+                game.shapeRendererFilled.rect(partitionSize,
+                        partitionSize,
+                        pauseInputWidth,
+                        pauseInputHeight);
+            }
+            case PAUSE_QUIT : {
+                game.shapeRendererFilled.rect(partitionSize,
+                        (2 * partitionSize) + pauseInputHeight,
+                        pauseInputWidth,
+                        pauseInputHeight);
+            }
+        }
+    }
+
+    public void drawPauseQuitInput() {
+        drawInputRectangle(PAUSE_QUIT);
+        game.draw.drawX(game.camera.viewportWidth / 2,
+                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
+                game.camera.viewportHeight / 4,
+                LINE_WIDTH,
+                Color.BLACK,
+                game.shapeRendererFilled);
+    }
+
+    public void drawPauseBackInput() {
+        drawInputRectangle(PAUSE_BACK);
+        game.draw.drawBackButton(game.camera.viewportWidth / 2,
+                game.camera.viewportHeight / 4,
+                game.camera.viewportHeight / 4,
+                LINE_WIDTH,
+                Color.BLACK,
+                game.shapeRendererFilled);
     }
 
 }

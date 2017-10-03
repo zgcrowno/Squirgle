@@ -865,6 +865,26 @@ public class Draw {
                 game.camera.viewportHeight - TARGET_RADIUS);
     }
 
+    public void drawPauseInput(Squirgle game) {
+        float inputRadius = game.camera.viewportWidth / 20;
+        float lineRadius = inputRadius / 2;
+
+        drawPoint(game.camera.viewportWidth, game.camera.viewportHeight / 2, inputRadius, Color.BLACK, game.shapeRendererFilled);
+        drawLine(game.camera.viewportWidth - (2 * (inputRadius / 3)),
+                game.camera.viewportHeight / 2,
+                lineRadius,
+                lineRadius / 8,
+                Color.WHITE,
+                game.shapeRendererFilled);
+        drawLine(game.camera.viewportWidth - (inputRadius / 3),
+                game.camera.viewportHeight / 2,
+                lineRadius,
+                lineRadius / 8,
+                Color.WHITE,
+                game.shapeRendererFilled);
+
+    }
+
     public void drawTouchDownPoints(List<Shape> touchDownShapeList, ShapeRenderer shapeRenderer) {
         for (int i = 0; i < touchDownShapeList.size(); i++) {
             Shape shape = touchDownShapeList.get(i);
