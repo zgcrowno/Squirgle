@@ -843,7 +843,7 @@ public class Draw {
                         new Shape(Shape.SQUARE,
                                 newRadius,
                                 Color.WHITE,
-                                ColorUtils.randomPrimary(),
+                                ColorUtils.randomColor(),
                                 newRadius / LINE_WIDTH_DIVISOR,
                                 new Vector2(Draw.TARGET_RADIUS + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)),
                                         (game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)))));
@@ -1054,5 +1054,63 @@ public class Draw {
         drawPoint(x - (radius / 2.575f), y + (radius / 2.575f), lineWidth, color, shapeRenderer);
         drawPoint(x - (radius / 2.575f), y - (radius / 2.575f), lineWidth, color, shapeRenderer);
         drawPoint(x + (radius / 2.575f), y - (radius / 2.575f), lineWidth, color, shapeRenderer);
+    }
+
+    public void drawChevronLeft(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
+        shapeRenderer.rectLine(x + (MathUtils.sinDeg(60) * radius),
+                y + (MathUtils.cosDeg(60) * radius),
+                x - radius + lineWidth,
+                y,
+                lineWidth);
+        shapeRenderer.rectLine(x - radius + lineWidth,
+                y,
+                x + (MathUtils.sinDeg(60) * radius),
+                y - (MathUtils.cosDeg(60) * radius),
+                lineWidth);
+        drawPoint(x + (MathUtils.sinDeg(60) * radius),
+                y + (MathUtils.cosDeg(60) * radius),
+                lineWidth,
+                color,
+                shapeRenderer);
+        drawPoint(x - radius + lineWidth,
+                y,
+                lineWidth,
+                color,
+                shapeRenderer);
+        drawPoint(x + (MathUtils.sinDeg(60) * radius),
+                y - (MathUtils.cosDeg(60) * radius),
+                lineWidth,
+                color,
+                shapeRenderer);
+    }
+
+    public void drawChevronRight(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
+        shapeRenderer.rectLine(x - (MathUtils.sinDeg(60) * radius),
+                y - (MathUtils.cosDeg(60) * radius),
+                x + radius - lineWidth,
+                y,
+                lineWidth);
+        shapeRenderer.rectLine(x + radius - lineWidth,
+                y,
+                x - (MathUtils.sinDeg(60) * radius),
+                y + (MathUtils.cosDeg(60) * radius),
+                lineWidth);
+        drawPoint(x - (MathUtils.sinDeg(60) * radius),
+                y + (MathUtils.cosDeg(60) * radius),
+                lineWidth,
+                color,
+                shapeRenderer);
+        drawPoint(x - (MathUtils.sinDeg(60) * radius),
+                y - (MathUtils.cosDeg(60) * radius),
+                lineWidth,
+                color,
+                shapeRenderer);
+        drawPoint(x + radius - lineWidth,
+                y,
+                lineWidth,
+                color,
+                shapeRenderer);
     }
 }

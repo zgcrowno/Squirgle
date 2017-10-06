@@ -150,7 +150,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
                         backgroundColorListElementRadius,
                         Color.WHITE,
-                        ColorUtils.randomPrimary(),
+                        ColorUtils.randomColor(),
                         backgroundColorListElementRadius / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(Draw.TARGET_RADIUS + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7),
                                 backgroundColorShapeListMaxHeight)));
@@ -158,7 +158,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
                         backgroundColorListElementRadius,
                         Color.WHITE,
-                        ColorUtils.randomPrimary(),
+                        ColorUtils.randomColor(),
                         backgroundColorListElementRadius / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(Draw.TARGET_RADIUS + (i * ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7)),
                                 backgroundColorShapeListMinHeight)));
@@ -378,7 +378,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             endTime = System.currentTimeMillis();
         }
 
-        currentTargetShape.setColor(ColorUtils.randomPrimary());
+        currentTargetShape.setColor(ColorUtils.randomColor());
     }
 
     @Override
@@ -478,7 +478,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 if (pointTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomPrimary(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputPointSpawn.x,
@@ -486,7 +486,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (lineTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomPrimary(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputLineSpawn.x,
@@ -494,7 +494,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (triangleTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomPrimary(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputTriangleSpawn.x,
@@ -502,7 +502,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (squareTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomPrimary(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputSquareSpawn.x,
@@ -510,7 +510,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if(pentagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomPrimary(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputPentagonSpawn.x,
@@ -518,7 +518,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if(hexagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomPrimary(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputHexagonSpawn.x,
@@ -526,7 +526,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if(septagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomPrimary(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputSeptagonSpawn.x,
@@ -534,7 +534,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if(octagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomPrimary(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputOctagonSpawn.x,
@@ -542,7 +542,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if(nonagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomPrimary(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputNonagonSpawn.x,
@@ -552,14 +552,14 @@ public class GameplayScreen implements Screen, InputProcessor {
                 if (playTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomPrimary(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputPlaySpawn.x,
                                     inputPlaySpawn.y)));
                 } else if (homeTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
-                            i, ColorUtils.randomPrimary(),
+                            i, ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputHomeSpawn.x,
@@ -567,7 +567,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomPrimary(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputExitSpawn.x,

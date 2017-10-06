@@ -29,15 +29,9 @@ public class Squirgle extends Game {
 	private static final int VIRTUAL_HEIGHT = 1024;
 	private static final float ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
 
-	//Sound options
-	public float volume;
-	public int musicStyle;
-
-	//Color options
-	public boolean colorblind;
-
-	//Connectivity options
-	public boolean postToLeaderboards;
+	//Options
+	public int volume;
+	public boolean upload;
 
 	public int base;
 	public int maxBase;
@@ -82,6 +76,9 @@ public class Squirgle extends Game {
 	public Map<Integer, List<Sound>> keyMap;
 
 	public void create() {
+		volume = 10;
+		upload = false;
+
 		base = 4;
 		maxBase = 9;
 		minBase = 4;
@@ -89,7 +86,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = 72;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>?:";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
 		font = generator.generateFont(parameter);
 		layout = new GlyphLayout();
 		camera = new OrthographicCamera();

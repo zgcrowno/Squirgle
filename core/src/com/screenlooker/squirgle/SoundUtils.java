@@ -49,24 +49,24 @@ public class SoundUtils {
                     && !(backgroundColorShapeList.get(0).getCoordinates().y - backgroundColorShapeList.get(1).getCoordinates().y - colorListSpeed > ((i * measureLength) / numThirtySeconds) - colorListSpeed);
 
             //Bass drum
-            //TODO: Figure out why this isn't working correctly on Android
+            //TODO: Figure out why this isn't working correctly on Android (also not working very well on PC)
 //            if (atMeasureStart) {
-//                game.bassDrum.play();
+//                game.bassDrum.play((float) (game.volume / 10.0));
 //            }
 
             //Hi-hat
             if (atThirtySecondInterval && i % quarterMeasure == 0) {
-                game.hiHat.play();
+                game.hiHat.play((float) (game.volume / 10.0));
             }
 
             //Snare
             if (atThirtySecondInterval && i % halfMeasure == 0) {
-                game.snareDrum.play();
+                game.snareDrum.play((float) (game.volume / 10.0));
             }
 
             //Notes
             if (atThirtySecondInterval && i % eighthMeasure == 0) {
-                game.keyMap.get(game.key).get(MathUtils.random(game.keyMap.get(game.key).size() - 1)).play();
+                game.keyMap.get(game.key).get(MathUtils.random(game.keyMap.get(game.key).size() - 1)).play((float) (game.volume / 10.0));
             }
         }
     }
