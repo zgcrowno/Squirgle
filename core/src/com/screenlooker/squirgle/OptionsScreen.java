@@ -14,8 +14,7 @@ public class OptionsScreen implements Screen, InputProcessor {
     final Squirgle game;
 
     private final static int SOUND = 0;
-    private final static int CONNECTIVITY = 1;
-    private final static int BACK = 2;
+    private final static int BACK = 1;
 
     private final static int PARTITION_DIVISOR = 80;
     private final static int LINE_WIDTH = 20;
@@ -29,7 +28,6 @@ public class OptionsScreen implements Screen, InputProcessor {
 
     private boolean volumeDownChevronTouched;
     private boolean volumeUpChevronTouched;
-    private boolean uploadChevronTouched;
     private boolean backTouched;
 
     public OptionsScreen(final Squirgle game) {
@@ -41,14 +39,13 @@ public class OptionsScreen implements Screen, InputProcessor {
 
         partitionSize = game.camera.viewportHeight / PARTITION_DIVISOR;
         inputWidth = game.camera.viewportWidth - (partitionSize * 2);
-        inputHeight = (game.camera.viewportHeight - (partitionSize * 4)) / 3;
-        symbolRadius = inputWidth > inputHeight ? inputHeight / 6 : inputWidth / 6;
+        inputHeight = (game.camera.viewportHeight - (partitionSize * 3)) / 2;
+        symbolRadius = inputWidth > inputHeight ? inputHeight / 8 : inputWidth / 8;
 
         touchPoint = new Vector3();
 
         volumeDownChevronTouched = false;
         volumeUpChevronTouched = false;
-        uploadChevronTouched = false;
         backTouched = false;
     }
 
@@ -75,17 +72,7 @@ public class OptionsScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 String.valueOf(game.volume),
                 (4 * game.camera.viewportWidth) / 6,
-                game.camera.viewportHeight - (game.camera.viewportHeight / 6),
-                0);
-
-        //Draw upload
-        FontUtils.printText(game.batch,
-                game.font,
-                game.layout,
-                Color.BLACK,
-                game.upload == true ? "YES" : "NO",
-                (4 * game.camera.viewportWidth) / 6,
-                game.camera.viewportHeight / 2,
+                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
                 0);
     }
 
@@ -143,18 +130,12 @@ public class OptionsScreen implements Screen, InputProcessor {
 
         volumeDownChevronTouched = touchPoint.x > ((3 * game.camera.viewportWidth) / 6) - symbolRadius
                 && touchPoint.x < ((3 * game.camera.viewportWidth) / 6) + symbolRadius
-                && touchPoint.y > (game.camera.viewportHeight - (game.camera.viewportHeight / 6)) - symbolRadius
-                && touchPoint.y < (game.camera.viewportHeight - (game.camera.viewportHeight / 6)) + symbolRadius;
+                && touchPoint.y > (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) - symbolRadius
+                && touchPoint.y < (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) + symbolRadius;
         volumeUpChevronTouched = touchPoint.x > ((5 * game.camera.viewportWidth) / 6) - symbolRadius
                 && touchPoint.x < ((5 * game.camera.viewportWidth) / 6) + symbolRadius
-                && touchPoint.y > (game.camera.viewportHeight - (game.camera.viewportHeight / 6)) - symbolRadius
-                && touchPoint.y < (game.camera.viewportHeight - (game.camera.viewportHeight / 6)) + symbolRadius;
-        uploadChevronTouched = ((touchPoint.x > ((3 * game.camera.viewportWidth) / 6) - symbolRadius
-                && touchPoint.x < ((3 * game.camera.viewportWidth) / 6) + symbolRadius)
-        || (touchPoint.x > ((5 * game.camera.viewportWidth) / 6) - symbolRadius
-                && touchPoint.x < ((5 * game.camera.viewportWidth) / 6) + symbolRadius))
-                && touchPoint.y > (game.camera.viewportHeight / 2) - symbolRadius
-                && touchPoint.y < (game.camera.viewportHeight / 2) + symbolRadius;
+                && touchPoint.y > (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) - symbolRadius
+                && touchPoint.y < (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) + symbolRadius;
         backTouched = touchPoint.x > partitionSize
                 && touchPoint.x < game.camera.viewportWidth - partitionSize
                 && touchPoint.y > partitionSize
@@ -172,8 +153,6 @@ public class OptionsScreen implements Screen, InputProcessor {
             } else {
                 game.volume = 0;
             }
-        } else if(uploadChevronTouched) {
-            game.upload = !game.upload;
         } else if(backTouched) {
             game.setScreen(new MainMenuScreen(game));
             dispose();
@@ -209,7 +188,6 @@ public class OptionsScreen implements Screen, InputProcessor {
 
     public void drawInputRectangles() {
         drawSoundInput();
-        drawConnectivityInput();
         drawBackInput();
     }
 
@@ -219,12 +197,6 @@ public class OptionsScreen implements Screen, InputProcessor {
             case SOUND : {
                 game.shapeRendererFilled.rect(partitionSize,
                         game.camera.viewportHeight - partitionSize - inputHeight,
-                        inputWidth,
-                        inputHeight);
-            }
-            case CONNECTIVITY : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        (2 * partitionSize) + inputHeight,
                         inputWidth,
                         inputHeight);
             }
@@ -240,53 +212,25 @@ public class OptionsScreen implements Screen, InputProcessor {
     public void drawSoundInput() {
         drawInputRectangle(SOUND);
         game.draw.drawSoundSymbol(game.camera.viewportWidth / 6,
-                game.camera.viewportHeight - (game.camera.viewportHeight / 6),
+                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
                 symbolRadius,
                 symbolRadius / 8,
                 Color.BLACK,
                 game.shapeRendererFilled);
         game.draw.drawLine(game.camera.viewportWidth / 3,
-                game.camera.viewportHeight - (game.camera.viewportHeight / 6),
+                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
                 symbolRadius,
                 symbolRadius / 8,
                 Color.BLACK,
                 game.shapeRendererFilled);
         game.draw.drawChevronLeft((3 * game.camera.viewportWidth) / 6,
-                game.camera.viewportHeight - (game.camera.viewportHeight / 6),
+                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
                 symbolRadius,
                 symbolRadius / 8,
                 Color.BLACK,
                 game.shapeRendererFilled);
         game.draw.drawChevronRight((5 * game.camera.viewportWidth) / 6,
-                game.camera.viewportHeight - (game.camera.viewportHeight / 6),
-                symbolRadius,
-                symbolRadius / 8,
-                Color.BLACK,
-                game.shapeRendererFilled);
-    }
-
-    public void drawConnectivityInput() {
-        drawInputRectangle(CONNECTIVITY);
-        game.draw.drawWiFiSymbol(game.camera.viewportWidth / 6,
-                game.camera.viewportHeight / 2,
-                symbolRadius,
-                symbolRadius / 8,
-                Color.BLACK,
-                game.shapeRendererFilled);
-        game.draw.drawLine(game.camera.viewportWidth / 3,
-                game.camera.viewportHeight / 2,
-                symbolRadius,
-                symbolRadius / 8,
-                Color.BLACK,
-                game.shapeRendererFilled);
-        game.draw.drawChevronLeft((3 * game.camera.viewportWidth) / 6,
-                game.camera.viewportHeight / 2,
-                symbolRadius,
-                symbolRadius / 8,
-                Color.BLACK,
-                game.shapeRendererFilled);
-        game.draw.drawChevronRight((5 * game.camera.viewportWidth) / 6,
-                game.camera.viewportHeight / 2,
+                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
                 symbolRadius,
                 symbolRadius / 8,
                 Color.BLACK,
@@ -296,7 +240,7 @@ public class OptionsScreen implements Screen, InputProcessor {
     public void drawBackInput() {
         drawInputRectangle(BACK);
         game.draw.drawBackButton(game.camera.viewportWidth / 2,
-                game.camera.viewportHeight / 6,
+                game.camera.viewportHeight / 4,
                 symbolRadius * 2,
                 LINE_WIDTH,
                 Color.BLACK,

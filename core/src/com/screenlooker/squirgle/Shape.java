@@ -16,8 +16,31 @@ public class Shape {
     public static final int NONAGON = 8;
     public static final int CIRCLE = 9;
 
+    public static final String POINT_PREFIX = "P";
+    public static final String POINT_SUFFIX = "T";
+    public static final String LINE_PREFIX = "L";
+    public static final String LINE_SUFFIX = "NE";
+    public static final String TRIANGLE_PREFIX = "TR";
+    public static final String TRIANGLE_SUFFIX = "GLE";
+    public static final String SQUARE_PREFIX = "SQU";
+    public static final String SQUARE_SUFFIX = "E";
+    public static final String PENTAGON_PREFIX = "PENT";
+    public static final String PENTAGON_SUFFIX = "TAGON";
+    public static final String HEXAGON_PREFIX = "HEX";
+    public static final String HEXAGON_SUFFIX = "XAGON";
+    public static final String SEPTAGON_PREFIX = "SEPT";
+    public static final String SEPTAGON_SUFFIX = "PTAGON";
+    public static final String OCTAGON_PREFIX = "OCT";
+    public static final String OCTAGON_SUFFIX = "CTAGON";
+    public static final String NONAGON_PREFIX = "NON";
+    public static final String NONAGON_SUFFIX = "NAGON";
+    public static final String BRIDGE = "IR";
+
     //TODO: Add an opacity datum for displaying to the user when they're approaching game over
     private int shape;
+    private String prefix;
+    private String bridge;
+    private String suffix;
     private float radius;
     private Color color;
     private Color fillColor;
@@ -26,6 +49,9 @@ public class Shape {
 
     public Shape() {
         this.shape = CIRCLE;
+        this.prefix = "";
+        this.bridge = "";
+        this.suffix = "";
         this.radius = 10;
         this.color = Color.WHITE;
         this.fillColor = Color.WHITE;
@@ -35,6 +61,45 @@ public class Shape {
 
     public Shape(int shape, float radius, Color color, Color fillColor, float lineWidth, Vector2 coordinates) {
         this.shape = shape;
+        switch (shape) {
+            case POINT : {
+                this.prefix = POINT_PREFIX;
+                this.suffix = POINT_SUFFIX;
+            }
+            case LINE : {
+                this.prefix = LINE_PREFIX;
+                this.suffix = LINE_SUFFIX;
+            }
+            case TRIANGLE : {
+                this.prefix = TRIANGLE_PREFIX;
+                this.suffix = TRIANGLE_SUFFIX;
+            }
+            case SQUARE : {
+                this.prefix = SQUARE_PREFIX;
+                this.suffix = SQUARE_SUFFIX;
+            }
+            case PENTAGON : {
+                this.prefix = PENTAGON_PREFIX;
+                this.suffix = PENTAGON_SUFFIX;
+            }
+            case HEXAGON : {
+                this.prefix = HEXAGON_PREFIX;
+                this.suffix = HEXAGON_SUFFIX;
+            }
+            case SEPTAGON : {
+                this.prefix = SEPTAGON_PREFIX;
+                this.suffix = SEPTAGON_SUFFIX;
+            }
+            case OCTAGON : {
+                this.prefix = OCTAGON_PREFIX;
+                this.suffix = OCTAGON_SUFFIX;
+            }
+            case NONAGON : {
+                this.prefix = NONAGON_PREFIX;
+                this.suffix = NONAGON_SUFFIX;
+            }
+        }
+        this.bridge = BRIDGE;
         this.radius = radius;
         this.color = color;
         this.fillColor = fillColor;
@@ -45,6 +110,18 @@ public class Shape {
     public int getShape() { return shape; }
 
     public void setShape(int shape) { this.shape = shape; }
+
+    public String getPrefix() { return prefix; }
+
+    public void setPrefix(String prefix) { this.prefix = prefix; }
+
+    public String getBridge() { return bridge; }
+
+    public void setBridge(String bridge) { this.bridge = bridge; }
+
+    public String getSuffix() { return suffix; }
+
+    public void setSuffix(String suffix) { this.suffix = suffix; }
 
     public float getRadius() { return radius; }
 

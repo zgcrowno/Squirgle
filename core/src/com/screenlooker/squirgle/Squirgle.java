@@ -75,6 +75,104 @@ public class Squirgle extends Game {
 	public List<Sound> gSharpMinorNotes;
 	public Map<Integer, List<Sound>> keyMap;
 
+	public int numberOfPirts;
+	public int numberOfPirnes;
+	public int numberOfPirgles;
+	public int numberOfPires;
+	public int numberOfPirtagons;
+	public int numberOfPirxagons;
+	public int numberOfPirptagons;
+	public int numberOfPirctagons;
+	public int numberOfPirnagons;
+	public int numberOfLirts;
+	public int numberOfLirnes;
+	public int numberOfLirgles;
+	public int numberOfLires;
+	public int numberOfLirtagons;
+	public int numberOfLirxagons;
+	public int numberOfLirptagons;
+	public int numberOfLirctagons;
+	public int numberOfLirnagons;
+	public int numberOfTrirts;
+	public int numberOfTrirnes;
+	public int numberOfTrirgles;
+	public int numberOfTrires;
+	public int numberOfTrirtagons;
+	public int numberOfTrirxagons;
+	public int numberOfTrirptagons;
+	public int numberOfTrirctagons;
+	public int numberOfTrirnagons;
+	public int numberOfSquirts;
+	public int numberOfSquirnes;
+	public int numberOfSquirgles;
+	public int numberOfSquires;
+	public int numberOfSquirtagons;
+	public int numberOfSquirxagons;
+	public int numberOfSquirptagons;
+	public int numberOfSquirctagons;
+	public int numberOfSquirnagons;
+	public int numberOfPentirts;
+	public int numberOfPentirnes;
+	public int numberOfPentirgles;
+	public int numberOfPentires;
+	public int numberOfPentirtagons;
+	public int numberOfPentirxagons;
+	public int numberOfPentirptagons;
+	public int numberOfPentirctagons;
+	public int numberOfPentirnagons;
+	public int numberOfHexirts;
+	public int numberOfHexirnes;
+	public int numberOfHexirgles;
+	public int numberOfHexires;
+	public int numberOfHexirtagons;
+	public int numberOfHexirxagons;
+	public int numberOfHexirptagons;
+	public int numberOfHexirctagons;
+	public int numberOfHexirnagons;
+	public int numberOfSeptirts;
+	public int numberOfSeptirnes;
+	public int numberOfSeptirgles;
+	public int numberOfSeptires;
+	public int numberOfSeptirtagons;
+	public int numberOfSeptirxagons;
+	public int numberOfSeptirptagons;
+	public int numberOfSeptirctagons;
+	public int numberOfSeptirnagons;
+	public int numberOfOctirts;
+	public int numberOfOctirnes;
+	public int numberOfOctirgles;
+	public int numberOfOctires;
+	public int numberOfOctirtagons;
+	public int numberOfOctirxagons;
+	public int numberOfOctirptagons;
+	public int numberOfOctirctagons;
+	public int numberOfOctirnagons;
+	public int numberOfNonirts;
+	public int numberOfNonirnes;
+	public int numberOfNonirgles;
+	public int numberOfNonires;
+	public int numberOfNonirtagons;
+	public int numberOfNonirxagons;
+	public int numberOfNonirptagons;
+	public int numberOfNonirctagons;
+	public int numberOfNonirnagons;
+
+	public int numberOfErrors;
+
+	public int highestScore;
+
+	public int favoriteBGM;
+
+	public int favoriteColor;
+
+	public int favoriteShape;
+
+	public int favoriteChain;
+
+	public float longestRun;
+
+
+
 	public void create() {
 		volume = 10;
 		upload = false;
