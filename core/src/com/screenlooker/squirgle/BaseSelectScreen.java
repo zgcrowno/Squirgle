@@ -24,9 +24,6 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     private final static int BASE_9 = 5;
     private final static int BACK = 6;
 
-    private final static int PARTITION_DIVISOR = 80;
-    private final static int LINE_WIDTH = 20;
-
     private int numberOfBaseInputs;
 
     private float partitionSize;
@@ -55,7 +52,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
 
         numberOfBaseInputs = game.maxBase - game.minBase + 1;
 
-        partitionSize = game.camera.viewportHeight / PARTITION_DIVISOR;
+        partitionSize = game.camera.viewportHeight / Squirgle.PARTITION_DIVISOR;
         inputWidth = (game.camera.viewportWidth - (partitionSize * 3)) / 2;
         inputHeightBase = (game.camera.viewportHeight - ((numberOfBaseInputs + 1) * partitionSize)) / numberOfBaseInputs;
         inputHeightBack = game.camera.viewportHeight - (partitionSize * 2);
@@ -363,7 +360,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         game.draw.drawBackButton(game.camera.viewportWidth - (game.camera.viewportWidth / 4),
                 game.camera.viewportHeight / 4,
                 radius,
-                LINE_WIDTH,
+                radius / 8,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }

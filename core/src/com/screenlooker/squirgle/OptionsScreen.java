@@ -16,9 +16,6 @@ public class OptionsScreen implements Screen, InputProcessor {
     private final static int SOUND = 0;
     private final static int BACK = 1;
 
-    private final static int PARTITION_DIVISOR = 80;
-    private final static int LINE_WIDTH = 20;
-
     private float partitionSize;
     private float inputWidth;
     private float inputHeight;
@@ -37,7 +34,7 @@ public class OptionsScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        partitionSize = game.camera.viewportHeight / PARTITION_DIVISOR;
+        partitionSize = game.camera.viewportHeight / Squirgle.PARTITION_DIVISOR;
         inputWidth = game.camera.viewportWidth - (partitionSize * 2);
         inputHeight = (game.camera.viewportHeight - (partitionSize * 3)) / 2;
         symbolRadius = inputWidth > inputHeight ? inputHeight / 8 : inputWidth / 8;
@@ -242,7 +239,7 @@ public class OptionsScreen implements Screen, InputProcessor {
         game.draw.drawBackButton(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 4,
                 symbolRadius * 2,
-                LINE_WIDTH,
+                symbolRadius / 4,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }

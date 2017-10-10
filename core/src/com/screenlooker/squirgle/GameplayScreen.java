@@ -108,6 +108,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         timeSignature = 4; //This represents the number of quarter notes per background color change (4 = 4/4, 5 = 5/4, etc.)
         initPromptRadius = 20;
         backgroundColorListElementRadius = 15;
+        //TODO: Set promptIncrease to be such that game ends after  18 colors (if player doesn't decrease radius)
         promptIncrease = 1.0005f;
         endLineWidthIncrease = 2;
         backgroundColorShapeListMaxHeight = (game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7);
@@ -748,7 +749,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                     multiplier++;
                 }
                 targetShapeList.clear();
-                if (priorShapeList.get(priorShapeList.size() - 4).getColor() == priorShapeList.get(priorShapeList.size() - 2).getColor()) {
+                if (priorShapeList.get(priorShapeList.size() - 4).getColor().equals(priorShapeList.get(priorShapeList.size() - 2).getColor())) {
                     //SQUIRGLE!!!
                     outsideTargetShape.setShape(Shape.TRIANGLE);
                     outsideTargetShape.setColor(Color.BLACK);
@@ -790,7 +791,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     }
                 }
                 if (priorShapeList.get(priorShapeList.size() - 4).getShape() == Shape.SQUARE && priorShapeList.get(priorShapeList.size() - 2).getShape() == Shape.TRIANGLE) {
-                    promptShape.setRadius(promptShape.getRadius() * SQUIRGLE_RADIUS_DECREMENT);
+                    //SQUIRGLE MATCHED!!!
+                    promptShape.setRadius(initPromptRadius);
                 }
                 currentTargetShape = targetShapeList.get(0);
             }

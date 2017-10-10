@@ -20,9 +20,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
     private final static int PLAY = 1;
     private final static int QUIT = 2;
 
-    private final static int PARTITION_DIVISOR = 80;
-    private final static int LINE_WIDTH = 20;
-
     private float partitionSize;
     private float inputWidth;
     private float inputHeight;
@@ -40,7 +37,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        partitionSize = game.camera.viewportHeight / PARTITION_DIVISOR;
+        partitionSize = game.camera.viewportHeight / Squirgle.PARTITION_DIVISOR;
         inputWidth = game.camera.viewportWidth - (partitionSize * 2);
         inputHeight = (game.camera.viewportHeight - (partitionSize * 4)) / 3;
 
@@ -203,31 +200,37 @@ public class MainMenuScreen implements Screen, InputProcessor {
     }
 
     public void drawOptionsInput() {
+        float radius = game.camera.viewportHeight / 6;
+
         drawInputRectangle(OPTIONS);
         game.draw.drawWrench(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 6),
-                game.camera.viewportHeight / 6,
-                LINE_WIDTH,
+                radius,
+                radius / 8,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
 
     public void drawPlayInput() {
+        float radius = game.camera.viewportHeight / 6;
+
         drawInputRectangle(PLAY);
         game.draw.drawPlayButton(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight - ((3 * game.camera.viewportHeight) / 6),
-                game.camera.viewportHeight / 6,
-                LINE_WIDTH,
+                radius,
+                radius / 8,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
 
     public void drawQuitInput() {
+        float radius = game.camera.viewportHeight / 6;
+
         drawInputRectangle(QUIT);
         game.draw.drawX(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 6,
-                game.camera.viewportHeight / 6,
-                LINE_WIDTH,
+                radius,
+                radius / 8,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
