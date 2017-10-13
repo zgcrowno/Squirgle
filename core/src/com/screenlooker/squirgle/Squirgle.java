@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Map;
 
 //TODO: Many of the variables throughout this entire game will have to be replaced with screen-size dependent alternatives
+
+//TODO: Often, when working with game.camera.viewportWidth/Height, we'll want to use one or the other based upon whether or
+//TODO: not the screen widht or screen height is greater.
 public class Squirgle extends Game {
 	private static final int VIRTUAL_WIDTH = 768;
 	private static final int VIRTUAL_HEIGHT = 1024;
@@ -101,6 +104,36 @@ public class Squirgle extends Game {
 		snareDrum = Gdx.audio.newSound(Gdx.files.internal("sounds/percussion/snareDrum.wav"));
 		key = MathUtils.random(SoundUtils.G_SHARP_MINOR);
 
+		setUpMusic();
+
+		generator.dispose();
+
+		this.setScreen(new MainMenuScreen(this));
+	}
+
+	public void render() {
+		super.render();
+	}
+
+	public void dispose() {
+		batch.dispose();
+		font.dispose();
+		bassDrum.dispose();
+		hiHat.dispose();
+		snareDrum.dispose();
+		for(int i = 0; i < keyMap.size(); i++) {
+			for(int j = 0; j < keyMap.get(i).size(); j++) {
+				keyMap.get(i).get(j).dispose();
+			}
+		}
+		generator.dispose();
+	}
+
+	public void resetInstanceData() {
+		draw = new Draw(this);
+	}
+
+	private void setUpMusic() {
 		//aMajor
 		aMajorNotes = new ArrayList<Sound>();
 		aMajorNotes.add(Gdx.audio.newSound(Gdx.files.internal("sounds/notes/a1.wav")));
@@ -716,32 +749,6 @@ public class Squirgle extends Game {
 		keyMap.put(SoundUtils.G_MINOR, gMinorNotes);
 		keyMap.put(SoundUtils.G_SHARP_MAJOR, gSharpMajorNotes);
 		keyMap.put(SoundUtils.G_SHARP_MINOR, gSharpMinorNotes);
-
-		generator.dispose();
-
-		this.setScreen(new MainMenuScreen(this));
-	}
-
-	public void render() {
-		super.render();
-	}
-
-	public void dispose() {
-		batch.dispose();
-		font.dispose();
-		bassDrum.dispose();
-		hiHat.dispose();
-		snareDrum.dispose();
-		for(int i = 0; i < keyMap.size(); i++) {
-			for(int j = 0; j < keyMap.get(i).size(); j++) {
-				keyMap.get(i).get(j).dispose();
-			}
-		}
-		generator.dispose();
-	}
-
-	public void resetInstanceData() {
-		draw = new Draw(this);
 	}
 
 }

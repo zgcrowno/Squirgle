@@ -41,6 +41,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private float endLineWidthIncrease;
     private float backgroundColorShapeListMaxHeight;
     private float backgroundColorShapeListMinHeight;
+    private float backgroundColorShapeListWidth;
     private Shape promptShape;
     private Shape outsideTargetShape;
     private List<Shape> priorShapeList;
@@ -106,46 +107,11 @@ public class GameplayScreen implements Screen, InputProcessor {
         pauseInputHeight = (game.camera.viewportHeight - (partitionSize * 3)) / 2;
 
         timeSignature = 4; //This represents the number of quarter notes per background color change (4 = 4/4, 5 = 5/4, etc.)
-        initPromptRadius = 20;
+        backgroundColorShapeList = new ArrayList<Shape>();
         backgroundColorListElementRadius = 15;
-        //TODO: Set promptIncrease to be such that game ends after  18 colors (if player doesn't decrease radius)
-        promptIncrease = 1.0005f;
-        endLineWidthIncrease = 2;
         backgroundColorShapeListMaxHeight = (game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7);
         backgroundColorShapeListMinHeight = game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2);
-        promptShape = new Shape(MathUtils.random(game.base - 1),
-                initPromptRadius, Color.BLACK,
-                null,
-                initPromptRadius / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(game.camera.viewportWidth / 2,
-                        game.camera.viewportHeight / 2));
-        outsideTargetShape = new Shape(MathUtils.random(game.base - 1),
-                Draw.INPUT_RADIUS,
-                Color.BLACK, null,
-                Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(Draw.TARGET_RADIUS / 2.5f,
-                        game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2.5f)));
-        priorShapeList = new ArrayList<Shape>();
-        targetShapeList = new ArrayList<Shape>();
-        backgroundColorShapeList = new ArrayList<Shape>();
-        touchDownShapeList = new ArrayList<Shape>();
-        targetShapeList.add(new Shape(MathUtils.random(game.base - 1),
-                0, Color.WHITE,
-                null,
-                Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(Draw.TARGET_RADIUS / 3,
-                        game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2))));
-        targetShapeList.add(new Shape(Shape.CIRCLE,
-                0, Color.BLACK,
-                null,
-                Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(Draw.TARGET_RADIUS / 3,
-                        game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2))));
-        if (targetShapeList.get(0).getShape() == Shape.SQUARE) {
-            while (outsideTargetShape.getShape() == Shape.TRIANGLE) {
-                outsideTargetShape.setShape(MathUtils.random(game.base - 1));
-            }
-        }
+        backgroundColorShapeListWidth = (Draw.TARGET_RADIUS + (6 * ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7))) - (Draw.TARGET_RADIUS + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7));
         for (int i = 0; i <= 6; i++) {
             if (i == 0) {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
@@ -163,6 +129,46 @@ public class GameplayScreen implements Screen, InputProcessor {
                         backgroundColorListElementRadius / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(Draw.TARGET_RADIUS + (i * ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7)),
                                 backgroundColorShapeListMinHeight)));
+            }
+        }
+        System.out.println(backgroundColorShapeListWidth);
+
+        //Set this and the prompt increase such that without player input, three passes of backgroundColorShapeList will
+        //occur before game over
+        initPromptRadius = game.camera.viewportWidth * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth));
+        //TODO: Set promptIncrease to be such that game ends after  18 colors (if player doesn't decrease radius)
+        promptIncrease = initPromptRadius;
+        endLineWidthIncrease = 2;
+        promptShape = new Shape(MathUtils.random(game.base - 1),
+                initPromptRadius, Color.BLACK,
+                null,
+                initPromptRadius / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(game.camera.viewportWidth / 2,
+                        game.camera.viewportHeight / 2));
+        outsideTargetShape = new Shape(MathUtils.random(game.base - 1),
+                Draw.INPUT_RADIUS,
+                Color.BLACK, null,
+                Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(Draw.TARGET_RADIUS / 2.5f,
+                        game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2.5f)));
+        priorShapeList = new ArrayList<Shape>();
+        targetShapeList = new ArrayList<Shape>();
+        touchDownShapeList = new ArrayList<Shape>();
+        targetShapeList.add(new Shape(MathUtils.random(game.base - 1),
+                0, Color.WHITE,
+                null,
+                Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(Draw.TARGET_RADIUS / 3,
+                        game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2))));
+        targetShapeList.add(new Shape(Shape.CIRCLE,
+                0, Color.BLACK,
+                null,
+                Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(Draw.TARGET_RADIUS / 3,
+                        game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2))));
+        if (targetShapeList.get(0).getShape() == Shape.SQUARE) {
+            while (outsideTargetShape.getShape() == Shape.TRIANGLE) {
+                outsideTargetShape.setShape(MathUtils.random(game.base - 1));
             }
         }
         backgroundColorShape = new Shape(Shape.randomBackgroundColorShape(),
@@ -237,7 +243,11 @@ public class GameplayScreen implements Screen, InputProcessor {
         game.shapeRendererLine.begin(ShapeRenderer.ShapeType.Line);
 
         if(!paused) {
-            promptShape.setRadius(promptShape.getRadius() * promptIncrease);
+            if(!gameOver) {
+                promptShape.setRadius(promptShape.getRadius() + (promptIncrease / 2));
+            } else {
+                promptShape.setRadius(promptShape.getRadius() * promptIncrease);
+            }
 
             if (!primaryShapeAtThreshold) {
                 promptShape.setLineWidth(promptShape.getRadius() / Draw.LINE_WIDTH_DIVISOR);
@@ -255,10 +265,10 @@ public class GameplayScreen implements Screen, InputProcessor {
             //TODO: so that the promptIncrease, colorListSpeed and colorSpeed are all increasing by proportional rates.
             if (!gameOver) {
                 if ((System.currentTimeMillis() - startTime - timePaused) / 1000 > 10) {
-                    promptIncrease += .0005;
                     startTime = System.currentTimeMillis();
                     game.draw.setColorListSpeed(game.draw.getColorListSpeed() + 0.1f);
                     game.draw.setColorSpeed(game.draw.getColorSpeed() + 20);
+                    promptIncrease = game.camera.viewportWidth * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth));
                 }
             } else {
                 if ((System.currentTimeMillis() - endTime) / 1000 > 2) {
