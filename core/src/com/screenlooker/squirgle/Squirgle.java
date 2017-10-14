@@ -33,6 +33,7 @@ public class Squirgle extends Game {
 	private static final float ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
 
 	public final static int PARTITION_DIVISOR = 80;
+	public final static int LINE_WIDTH = 20;
 
 	//Options
 	public int volume;
@@ -40,6 +41,7 @@ public class Squirgle extends Game {
 	public int base;
 	public int maxBase;
 	public int minBase;
+	public float partitionSize;
 	public SpriteBatch batch;
 	public BitmapFont font;
 	public GlyphLayout layout;
@@ -96,6 +98,7 @@ public class Squirgle extends Game {
 		camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 		viewport = new StretchViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
 		camera.position.set(VIRTUAL_WIDTH/2,VIRTUAL_HEIGHT/2,0);
+		partitionSize = camera.viewportHeight / PARTITION_DIVISOR;
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);

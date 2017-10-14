@@ -26,12 +26,6 @@ public class GameplayScreen implements Screen, InputProcessor {
     private final static int PAUSE_BACK = 0;
     private final static int PAUSE_QUIT = 1;
 
-    private final static int PARTITION_DIVISOR = 80;
-    private final static int LINE_WIDTH = 20;
-
-    private static final float SQUIRGLE_RADIUS_DECREMENT = 0.8f;
-
-    private float partitionSize;
     private float pauseInputWidth;
     private float pauseInputHeight;
     private int timeSignature;
@@ -102,9 +96,8 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        partitionSize = game.camera.viewportHeight / PARTITION_DIVISOR;
-        pauseInputWidth = game.camera.viewportWidth - (partitionSize * 2);
-        pauseInputHeight = (game.camera.viewportHeight - (partitionSize * 3)) / 2;
+        pauseInputWidth = game.camera.viewportWidth - (game.partitionSize * 2);
+        pauseInputHeight = (game.camera.viewportHeight - (game.partitionSize * 3)) / 2;
 
         timeSignature = 4; //This represents the number of quarter notes per background color change (4 = 4/4, 5 = 5/4, etc.)
         backgroundColorShapeList = new ArrayList<Shape>();
@@ -649,14 +642,14 @@ public class GameplayScreen implements Screen, InputProcessor {
         pauseTouched = touchPoint.x > game.camera.viewportWidth - (2 *(game.camera.viewportWidth / 20))
                 && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
                 && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
-        pauseBackTouched = touchPoint.x > partitionSize
-                && touchPoint.x < partitionSize + pauseInputWidth
-                && touchPoint.y > partitionSize
-                && touchPoint.y < partitionSize + pauseInputHeight;
-        pauseQuitTouched = touchPoint.x > partitionSize
-                && touchPoint.x < partitionSize + pauseInputWidth
-                && touchPoint.y > (2 * partitionSize) + pauseInputHeight
-                && touchPoint.y < game.camera.viewportHeight - partitionSize;
+        pauseBackTouched = touchPoint.x > game.partitionSize
+                && touchPoint.x < game.partitionSize + pauseInputWidth
+                && touchPoint.y > game.partitionSize
+                && touchPoint.y < game.partitionSize + pauseInputHeight;
+        pauseQuitTouched = touchPoint.x > game.partitionSize
+                && touchPoint.x < game.partitionSize + pauseInputWidth
+                && touchPoint.y > (2 * game.partitionSize) + pauseInputHeight
+                && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
         inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched || pauseTouched;
         inputTouchedResults = playTouched || homeTouched || exitTouched;
 
@@ -859,14 +852,14 @@ public class GameplayScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.setColor(Color.WHITE);
         switch(placement) {
             case PAUSE_BACK : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        partitionSize,
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        game.partitionSize,
                         pauseInputWidth,
                         pauseInputHeight);
             }
             case PAUSE_QUIT : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        (2 * partitionSize) + pauseInputHeight,
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        (2 * game.partitionSize) + pauseInputHeight,
                         pauseInputWidth,
                         pauseInputHeight);
             }
@@ -878,7 +871,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         game.draw.drawX(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 4),
                 game.camera.viewportHeight / 4,
-                LINE_WIDTH,
+                Squirgle.LINE_WIDTH,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
@@ -888,7 +881,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         game.draw.drawBackButton(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 4,
                 game.camera.viewportHeight / 4,
-                LINE_WIDTH,
+                Squirgle.LINE_WIDTH,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }

@@ -16,7 +16,6 @@ public class OptionsScreen implements Screen, InputProcessor {
     private final static int SOUND = 0;
     private final static int BACK = 1;
 
-    private float partitionSize;
     private float inputWidth;
     private float inputHeight;
     private float symbolRadius;
@@ -34,9 +33,8 @@ public class OptionsScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        partitionSize = game.camera.viewportHeight / Squirgle.PARTITION_DIVISOR;
-        inputWidth = game.camera.viewportWidth - (partitionSize * 2);
-        inputHeight = (game.camera.viewportHeight - (partitionSize * 3)) / 2;
+        inputWidth = game.camera.viewportWidth - (game.partitionSize * 2);
+        inputHeight = (game.camera.viewportHeight - (game.partitionSize * 3)) / 2;
         symbolRadius = inputWidth > inputHeight ? inputHeight / 8 : inputWidth / 8;
 
         touchPoint = new Vector3();
@@ -133,10 +131,10 @@ public class OptionsScreen implements Screen, InputProcessor {
                 && touchPoint.x < ((5 * game.camera.viewportWidth) / 6) + symbolRadius
                 && touchPoint.y > (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) - symbolRadius
                 && touchPoint.y < (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) + symbolRadius;
-        backTouched = touchPoint.x > partitionSize
-                && touchPoint.x < game.camera.viewportWidth - partitionSize
-                && touchPoint.y > partitionSize
-                && touchPoint.y < partitionSize + inputHeight;
+        backTouched = touchPoint.x > game.partitionSize
+                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
+                && touchPoint.y > game.partitionSize
+                && touchPoint.y < game.partitionSize + inputHeight;
 
         if(volumeDownChevronTouched) {
             if(game.volume > 0) {
@@ -192,14 +190,14 @@ public class OptionsScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.setColor(Color.WHITE);
         switch(placement) {
             case SOUND : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        game.camera.viewportHeight - partitionSize - inputHeight,
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        game.camera.viewportHeight - game.partitionSize - inputHeight,
                         inputWidth,
                         inputHeight);
             }
             case BACK : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        partitionSize,
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        game.partitionSize,
                         inputWidth,
                         inputHeight);
             }

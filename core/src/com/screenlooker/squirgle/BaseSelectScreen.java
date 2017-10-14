@@ -26,7 +26,6 @@ public class BaseSelectScreen implements Screen, InputProcessor {
 
     private int numberOfBaseInputs;
 
-    private float partitionSize;
     private float inputWidth;
     private float inputHeightBase;
     private float inputHeightBack;
@@ -52,10 +51,9 @@ public class BaseSelectScreen implements Screen, InputProcessor {
 
         numberOfBaseInputs = game.maxBase - game.minBase + 1;
 
-        partitionSize = game.camera.viewportHeight / Squirgle.PARTITION_DIVISOR;
-        inputWidth = (game.camera.viewportWidth - (partitionSize * 3)) / 2;
-        inputHeightBase = (game.camera.viewportHeight - ((numberOfBaseInputs + 1) * partitionSize)) / numberOfBaseInputs;
-        inputHeightBack = game.camera.viewportHeight - (partitionSize * 2);
+        inputWidth = (game.camera.viewportWidth - (game.partitionSize * 3)) / 2;
+        inputHeightBase = (game.camera.viewportHeight - ((numberOfBaseInputs + 1) * game.partitionSize)) / numberOfBaseInputs;
+        inputHeightBack = game.camera.viewportHeight - (game.partitionSize * 2);
 
         inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 4) : (inputWidth / 4);
 
@@ -139,34 +137,34 @@ public class BaseSelectScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        base4Touched = touchPoint.x > partitionSize
-                && touchPoint.x < partitionSize + inputWidth
-                && touchPoint.y > partitionSize
-                && touchPoint.y < partitionSize + inputHeightBase;
-        base5Touched = touchPoint.x > partitionSize
-                && touchPoint.x < partitionSize + inputWidth
-                && touchPoint.y > (2 * partitionSize) + inputHeightBase
-                && touchPoint.y < (2 * partitionSize) + (2 * inputHeightBase);
-        base6Touched = touchPoint.x > partitionSize
-                && touchPoint.x < partitionSize + inputWidth
-                && touchPoint.y > (3 * partitionSize) + (2 *inputHeightBase)
-                && touchPoint.y < (3 * partitionSize) + (3 * inputHeightBase);
-        base7Touched = touchPoint.x > partitionSize
-                && touchPoint.x < partitionSize + inputWidth
-                && touchPoint.y > (4 * partitionSize) + (3 *inputHeightBase)
-                && touchPoint.y < (4 * partitionSize) + (4 * inputHeightBase);
-        base8Touched = touchPoint.x > partitionSize
-                && touchPoint.x < partitionSize + inputWidth
-                && touchPoint.y > (5 * partitionSize) + (4 *inputHeightBase)
-                && touchPoint.y < (5 * partitionSize) + (5 * inputHeightBase);
-        base9Touched = touchPoint.x > partitionSize
-                && touchPoint.x < partitionSize + inputWidth
-                && touchPoint.y > (6 * partitionSize) + (5 *inputHeightBase)
-                && touchPoint.y < (6 * partitionSize) + (6 * inputHeightBase);
-        backTouched = touchPoint.x > (2 * partitionSize) + inputWidth
-                && touchPoint.x < game.camera.viewportWidth - partitionSize
-                && touchPoint.y > partitionSize
-                && touchPoint.y < game.camera.viewportHeight - partitionSize;
+        base4Touched = touchPoint.x > game.partitionSize
+                && touchPoint.x < game.partitionSize + inputWidth
+                && touchPoint.y > game.partitionSize
+                && touchPoint.y < game.partitionSize + inputHeightBase;
+        base5Touched = touchPoint.x > game.partitionSize
+                && touchPoint.x < game.partitionSize + inputWidth
+                && touchPoint.y > (2 * game.partitionSize) + inputHeightBase
+                && touchPoint.y < (2 * game.partitionSize) + (2 * inputHeightBase);
+        base6Touched = touchPoint.x > game.partitionSize
+                && touchPoint.x < game.partitionSize + inputWidth
+                && touchPoint.y > (3 * game.partitionSize) + (2 *inputHeightBase)
+                && touchPoint.y < (3 * game.partitionSize) + (3 * inputHeightBase);
+        base7Touched = touchPoint.x > game.partitionSize
+                && touchPoint.x < game.partitionSize + inputWidth
+                && touchPoint.y > (4 * game.partitionSize) + (3 *inputHeightBase)
+                && touchPoint.y < (4 * game.partitionSize) + (4 * inputHeightBase);
+        base8Touched = touchPoint.x > game.partitionSize
+                && touchPoint.x < game.partitionSize + inputWidth
+                && touchPoint.y > (5 * game.partitionSize) + (4 *inputHeightBase)
+                && touchPoint.y < (5 * game.partitionSize) + (5 * inputHeightBase);
+        base9Touched = touchPoint.x > game.partitionSize
+                && touchPoint.x < game.partitionSize + inputWidth
+                && touchPoint.y > (6 * game.partitionSize) + (5 *inputHeightBase)
+                && touchPoint.y < (6 * game.partitionSize) + (6 * inputHeightBase);
+        backTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
+                && touchPoint.y > game.partitionSize
+                && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
 
         if(base4Touched) {
             game.base = 4;
@@ -249,44 +247,44 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.setColor(Color.WHITE);
         switch(placement) {
             case BASE_4 : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        partitionSize,
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        game.partitionSize,
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_5 : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        (2 * partitionSize) + inputHeightBase,
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        (2 * game.partitionSize) + inputHeightBase,
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_6 : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        (3 * partitionSize) + (2 *inputHeightBase),
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        (3 * game.partitionSize) + (2 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_7 : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        (4 * partitionSize) + (3 *inputHeightBase),
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        (4 * game.partitionSize) + (3 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_8 : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        (5 * partitionSize) + (4 *inputHeightBase),
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        (5 * game.partitionSize) + (4 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_9 : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        (6 * partitionSize) + (5 *inputHeightBase),
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        (6 * game.partitionSize) + (5 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
             case BACK : {
-                game.shapeRendererFilled.rect((2 * partitionSize) + inputWidth,
-                        partitionSize,
+                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                        game.partitionSize,
                         inputWidth,
                         inputHeightBack);
             }
@@ -296,7 +294,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     public void drawBase4Input() {
         drawInputRectangle(BASE_4);
         game.draw.drawSquare(game.camera.viewportWidth / 4,
-                partitionSize + (inputHeightBase / 2),
+                game.partitionSize + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / 8,
                 Color.BLACK,
@@ -306,7 +304,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     public void drawBase5Input() {
         drawInputRectangle(BASE_5);
         game.draw.drawPentagon(game.camera.viewportWidth / 4,
-                (2 * partitionSize) + inputHeightBase + (inputHeightBase / 2),
+                (2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / 8,
                 Color.BLACK,
@@ -316,7 +314,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     public void drawBase6Input() {
         drawInputRectangle(BASE_6);
         game.draw.drawHexagon(game.camera.viewportWidth / 4,
-                (3 * partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
+                (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / 8,
                 Color.BLACK,
@@ -326,7 +324,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     public void drawBase7Input() {
         drawInputRectangle(BASE_7);
         game.draw.drawSeptagon(game.camera.viewportWidth / 4,
-                (4 * partitionSize) + (3 * inputHeightBase) + (inputHeightBase / 2),
+                (4 * game.partitionSize) + (3 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / 8,
                 Color.BLACK,
@@ -336,7 +334,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     public void drawBase8Input() {
         drawInputRectangle(BASE_8);
         game.draw.drawOctagon(game.camera.viewportWidth / 4,
-                (5 * partitionSize) + (4 * inputHeightBase) + (inputHeightBase / 2),
+                (5 * game.partitionSize) + (4 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / 8,
                 Color.BLACK,
@@ -346,7 +344,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     public void drawBase9Input() {
         drawInputRectangle(BASE_9);
         game.draw.drawNonagon(game.camera.viewportWidth / 4,
-                (6 * partitionSize) + (5 * inputHeightBase) + (inputHeightBase / 2),
+                (6 * game.partitionSize) + (5 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / 8,
                 Color.BLACK,

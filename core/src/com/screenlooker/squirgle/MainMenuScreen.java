@@ -20,7 +20,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
     private final static int PLAY = 1;
     private final static int QUIT = 2;
 
-    private float partitionSize;
     private float inputWidth;
     private float inputHeight;
 
@@ -37,9 +36,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        partitionSize = game.camera.viewportHeight / Squirgle.PARTITION_DIVISOR;
-        inputWidth = game.camera.viewportWidth - (partitionSize * 2);
-        inputHeight = (game.camera.viewportHeight - (partitionSize * 4)) / 3;
+        inputWidth = game.camera.viewportWidth - (game.partitionSize * 2);
+        inputHeight = (game.camera.viewportHeight - (game.partitionSize * 4)) / 3;
 
         touchPoint = new Vector3();
 
@@ -117,18 +115,18 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        optionsTouched = touchPoint.x > partitionSize
-                && touchPoint.x < game.camera.viewportWidth - partitionSize
-                && touchPoint.y > game.camera.viewportHeight - partitionSize - inputHeight
-                && touchPoint.y < game.camera.viewportHeight - partitionSize;
-        playTouched = touchPoint.x > partitionSize
-                && touchPoint.x < game.camera.viewportWidth - partitionSize
-                && touchPoint.y > game.camera.viewportHeight - (2 * partitionSize) - (2 * inputHeight)
-                && touchPoint.y < game.camera.viewportHeight - (2 * partitionSize) - inputHeight;
-        quitTouched = touchPoint.x > partitionSize
-                && touchPoint.x < game.camera.viewportWidth - partitionSize
-                && touchPoint.y > partitionSize
-                && touchPoint.y < partitionSize + inputHeight;
+        optionsTouched = touchPoint.x > game.partitionSize
+                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
+                && touchPoint.y > game.camera.viewportHeight - game.partitionSize - inputHeight
+                && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
+        playTouched = touchPoint.x > game.partitionSize
+                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
+                && touchPoint.y > game.camera.viewportHeight - (2 * game.partitionSize) - (2 * inputHeight)
+                && touchPoint.y < game.camera.viewportHeight - (2 * game.partitionSize) - inputHeight;
+        quitTouched = touchPoint.x > game.partitionSize
+                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
+                && touchPoint.y > game.partitionSize
+                && touchPoint.y < game.partitionSize + inputHeight;
 
         if(optionsTouched) {
             game.setScreen(new OptionsScreen(game));
@@ -179,20 +177,20 @@ public class MainMenuScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.setColor(Color.WHITE);
         switch(placement) {
             case OPTIONS : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        game.camera.viewportHeight - partitionSize - inputHeight,
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        game.camera.viewportHeight - game.partitionSize - inputHeight,
                         inputWidth,
                         inputHeight);
             }
             case PLAY : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        game.camera.viewportHeight - (2 * partitionSize) - (2 * inputHeight),
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        game.camera.viewportHeight - (2 * game.partitionSize) - (2 * inputHeight),
                         inputWidth,
                         inputHeight);
             }
             case QUIT : {
-                game.shapeRendererFilled.rect(partitionSize,
-                        partitionSize,
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        game.partitionSize,
                         inputWidth,
                         inputHeight);
             }
