@@ -22,6 +22,9 @@ public class OptionsScreen implements Screen, InputProcessor {
 
     private Vector3 touchPoint;
 
+    private Color volumeColor;
+    private Color backColor;
+
     private boolean volumeDownChevronTouched;
     private boolean volumeUpChevronTouched;
     private boolean backTouched;
@@ -38,6 +41,9 @@ public class OptionsScreen implements Screen, InputProcessor {
         symbolRadius = inputWidth > inputHeight ? inputHeight / 8 : inputWidth / 8;
 
         touchPoint = new Vector3();
+
+        volumeColor = ColorUtils.randomColor();
+        backColor = ColorUtils.randomColor();
 
         volumeDownChevronTouched = false;
         volumeUpChevronTouched = false;
@@ -186,8 +192,8 @@ public class OptionsScreen implements Screen, InputProcessor {
         drawBackInput();
     }
 
-    public void drawInputRectangle(int placement) {
-        game.shapeRendererFilled.setColor(Color.WHITE);
+    public void drawInputRectangle(int placement, Color color) {
+        game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case SOUND : {
                 game.shapeRendererFilled.rect(game.partitionSize,
@@ -205,12 +211,12 @@ public class OptionsScreen implements Screen, InputProcessor {
     }
 
     public void drawSoundInput() {
-        drawInputRectangle(SOUND);
+        drawInputRectangle(SOUND, volumeColor);
         game.draw.drawSoundSymbol(game.camera.viewportWidth / 6,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 4),
                 symbolRadius,
                 symbolRadius / 8,
-                Color.BLACK,
+                volumeColor,
                 game.shapeRendererFilled);
         game.draw.drawLine(game.camera.viewportWidth / 3,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 4),
@@ -233,7 +239,7 @@ public class OptionsScreen implements Screen, InputProcessor {
     }
 
     public void drawBackInput() {
-        drawInputRectangle(BACK);
+        drawInputRectangle(BACK, backColor);
         game.draw.drawBackButton(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 4,
                 symbolRadius * 2,

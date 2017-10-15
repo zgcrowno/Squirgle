@@ -28,9 +28,9 @@ import java.util.Map;
 //TODO: Often, when working with game.camera.viewportWidth/Height, we'll want to use one or the other based upon whether or
 //TODO: not the screen widht or screen height is greater.
 public class Squirgle extends Game {
-	private static int VIRTUAL_WIDTH = 768;
-	private static int VIRTUAL_HEIGHT = 1024;
-	private static float ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
+	private static int VIRTUAL_WIDTH;
+	private static int VIRTUAL_HEIGHT;
+	private static float ASPECT_RATIO;
 
 	public final static int PARTITION_DIVISOR = 80;
 	public final static int LINE_WIDTH = 20;
@@ -38,6 +38,7 @@ public class Squirgle extends Game {
 	//Options
 	public int volume;
 
+	public boolean widthGreater;
 	public int base;
 	public int maxBase;
 	public int minBase;
@@ -82,11 +83,9 @@ public class Squirgle extends Game {
 	public Map<Integer, List<Sound>> keyMap;
 
 	public void create() {
-		if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
-			VIRTUAL_WIDTH = 1920;
-			VIRTUAL_HEIGHT = 1080;
-			ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
-		}
+		VIRTUAL_WIDTH = Gdx.graphics.getWidth();
+		VIRTUAL_HEIGHT = Gdx.graphics.getHeight();
+		ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
 
 		volume = 10;
 
@@ -101,6 +100,7 @@ public class Squirgle extends Game {
 		camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
 		viewport = new StretchViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
 		camera.position.set(VIRTUAL_WIDTH/2,VIRTUAL_HEIGHT/2,0);
+		widthGreater = camera.viewportWidth > camera.viewportHeight;
 		partitionSize = camera.viewportHeight / PARTITION_DIVISOR;
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();

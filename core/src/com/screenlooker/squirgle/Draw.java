@@ -849,6 +849,73 @@ public class Draw {
         }
     }
 
+    public void drawTimeline(float leftX, float rightX, float y, float lineWidth, ShapeRenderer shapeRenderer) {
+        Color color;
+
+        if(leftX < rightX) {
+            shapeRenderer.setColor(Color.WHITE);
+            color = Color.WHITE;
+        } else {
+            shapeRenderer.setColor(Color.BLACK);
+            color = Color.BLACK;
+            leftX = rightX;
+        }
+
+        shapeRenderer.rectLine(leftX, y, rightX, y, lineWidth);
+
+        drawPoint(leftX, y, lineWidth, color, shapeRenderer);
+        drawPoint(rightX, y, lineWidth, color, shapeRenderer);
+    }
+
+    public void drawTimelines(Shape promptShape, List<Shape> backgroundColorShapeList, ShapeRenderer shapeRenderer) {
+        Shape firstColorShape = backgroundColorShapeList.get(0);
+        Shape lastColorShape = backgroundColorShapeList.get(backgroundColorShapeList.size() - 1);
+        Shape lowColorShape = backgroundColorShapeList.get(3);
+        float widthOrHeight = game.widthGreater ? game.camera.viewportHeight : game.camera.viewportWidth;
+        float fourthOfScreen = game.widthGreater ? game.camera.viewportHeight / 4 : game.camera.viewportWidth / 4;
+        float thirdOfScreen = game.widthGreater ? game.camera.viewportHeight / 3 : game.camera.viewportWidth / 3;
+        float fiveTwelfthsOfScreen = game.widthGreater ? (5 * game.camera.viewportHeight) / 12 : (5 * game.camera.viewportWidth) / 12;
+        float firstX = firstColorShape.getCoordinates().x;
+        float secondX = firstColorShape.getCoordinates().x;
+        float thirdX = firstColorShape.getCoordinates().x;
+
+        //Draw the first timeline
+        if(promptShape.getRadius() <= fourthOfScreen) {
+            firstX = firstColorShape.getCoordinates().x;
+        } else {
+            firstX = firstColorShape.getCoordinates().x + ((lastColorShape.getCoordinates().x - firstColorShape.getCoordinates().x) * ((promptShape.getRadius() - fourthOfScreen) / (thirdOfScreen - fourthOfScreen)));
+        }
+        drawTimeline(firstX,
+                lastColorShape.getCoordinates().x,
+                lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 2),
+                lowColorShape.getLineWidth() * 6,
+                shapeRenderer);
+
+        //Draw the second timeline
+        if(promptShape.getRadius() <= thirdOfScreen) {
+            secondX = firstColorShape.getCoordinates().x;
+        } else {
+            secondX = firstColorShape.getCoordinates().x + ((lastColorShape.getCoordinates().x - firstColorShape.getCoordinates().x) * ((promptShape.getRadius() - thirdOfScreen) / (fiveTwelfthsOfScreen - thirdOfScreen)));
+        }
+        drawTimeline(secondX,
+                lastColorShape.getCoordinates().x,
+                lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 4),
+                lowColorShape.getLineWidth() * 6,
+                shapeRenderer);
+
+        //Draw the third timeline
+        if(promptShape.getRadius() <= fiveTwelfthsOfScreen) {
+            thirdX = firstColorShape.getCoordinates().x;
+        } else {
+            thirdX = firstColorShape.getCoordinates().x + ((lastColorShape.getCoordinates().x - firstColorShape.getCoordinates().x) * ((promptShape.getRadius() - fiveTwelfthsOfScreen) / ((widthOrHeight / 2) - fiveTwelfthsOfScreen)));
+        }
+        drawTimeline(thirdX,
+                lastColorShape.getCoordinates().x,
+                lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 6),
+                lowColorShape.getLineWidth() * 6,
+                shapeRenderer);
+    }
+
     public void drawTargetSemicircle(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(0, game.camera.viewportHeight, GameplayScreen.TARGET_RADIUS);
@@ -896,12 +963,12 @@ public class Draw {
     }
 
     public void drawWrench(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(color);
+        shapeRenderer.setColor(Color.BLACK);
         shapeRenderer.rectLine(x - (radius / 2), y - (radius / 2), x + (radius / 2), y + (radius / 2), lineWidth);
         shapeRenderer.circle(x - (radius / 2), y - (radius / 2), lineWidth);
         shapeRenderer.circle(x + (radius / 2), y + (radius / 2), lineWidth);
 
-        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.setColor(color);
         shapeRenderer.rect(x - (radius / 2) - (lineWidth / 2), y - (radius / 2) - lineWidth, lineWidth, lineWidth);
         shapeRenderer.rect(x + (radius / 2) - (lineWidth / 2), y + (radius / 2), lineWidth, lineWidth);
     }
@@ -959,16 +1026,16 @@ public class Draw {
     }
 
     public void drawSoundSymbol(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
-        drawPoint(x - (radius / 2) + (radius / 8), y, radius, color, shapeRenderer);
-        drawPoint(x - (radius / 2) + (radius / 8) - 5, y, radius, Color.WHITE, shapeRenderer);
+        drawPoint(x - (radius / 2) + (radius / 8), y, radius, Color.BLACK, shapeRenderer);
+        drawPoint(x - (radius / 2) + (radius / 8) - 5, y, radius, color, shapeRenderer);
 
-        drawPoint(x - (radius / 2) + (radius / 8), y, (3 * radius) / 4, color, shapeRenderer);
-        drawPoint(x - (radius / 2) + (radius / 8) - 5, y, (3 * radius) / 4, Color.WHITE, shapeRenderer);
+        drawPoint(x - (radius / 2) + (radius / 8), y, (3 * radius) / 4, Color.BLACK, shapeRenderer);
+        drawPoint(x - (radius / 2) + (radius / 8) - 5, y, (3 * radius) / 4, color, shapeRenderer);
 
-        drawPoint(x - (radius / 2) + (radius / 8), y, radius / 2, color, shapeRenderer);
-        drawPoint(x - (radius / 2) + (radius / 8) - 5, y, radius / 2, Color.WHITE, shapeRenderer);
+        drawPoint(x - (radius / 2) + (radius / 8), y, radius / 2, Color.BLACK, shapeRenderer);
+        drawPoint(x - (radius / 2) + (radius / 8) - 5, y, radius / 2, color, shapeRenderer);
 
-        drawPoint(x - (radius / 2) + (radius / 8), y, radius / 4, color, shapeRenderer);
+        drawPoint(x - (radius / 2) + (radius / 8), y, radius / 4, Color.BLACK, shapeRenderer);
     }
 
     public void drawColorSymbol(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {

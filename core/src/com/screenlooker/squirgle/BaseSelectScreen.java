@@ -34,6 +34,14 @@ public class BaseSelectScreen implements Screen, InputProcessor {
 
     private Vector3 touchPoint;
 
+    private Color base4Color;
+    private Color base5Color;
+    private Color base6Color;
+    private Color base7Color;
+    private Color base8Color;
+    private Color base9Color;
+    private Color backColor;
+
     private boolean base4Touched;
     private boolean base5Touched;
     private boolean base6Touched;
@@ -58,6 +66,14 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 4) : (inputWidth / 4);
 
         touchPoint = new Vector3();
+
+        base4Color = ColorUtils.randomColor();
+        base5Color = ColorUtils.randomColor();
+        base6Color = ColorUtils.randomColor();
+        base7Color = ColorUtils.randomColor();
+        base8Color = ColorUtils.randomColor();
+        base9Color = ColorUtils.randomColor();
+        backColor = ColorUtils.randomColor();
 
         base4Touched = false;
         base5Touched = false;
@@ -243,8 +259,8 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         drawBackInput();
     }
 
-    public void drawInputRectangle(int placement) {
-        game.shapeRendererFilled.setColor(Color.WHITE);
+    public void drawInputRectangle(int placement, Color color) {
+        game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case BASE_4 : {
                 game.shapeRendererFilled.rect(game.partitionSize,
@@ -292,7 +308,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     }
 
     public void drawBase4Input() {
-        drawInputRectangle(BASE_4);
+        drawInputRectangle(BASE_4, base4Color);
         game.draw.drawSquare(game.camera.viewportWidth / 4,
                 game.partitionSize + (inputHeightBase / 2),
                 inputShapeRadius,
@@ -302,7 +318,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     }
 
     public void drawBase5Input() {
-        drawInputRectangle(BASE_5);
+        drawInputRectangle(BASE_5, base5Color);
         game.draw.drawPentagon(game.camera.viewportWidth / 4,
                 (2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2),
                 inputShapeRadius,
@@ -312,7 +328,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     }
 
     public void drawBase6Input() {
-        drawInputRectangle(BASE_6);
+        drawInputRectangle(BASE_6, base6Color);
         game.draw.drawHexagon(game.camera.viewportWidth / 4,
                 (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
@@ -322,7 +338,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     }
 
     public void drawBase7Input() {
-        drawInputRectangle(BASE_7);
+        drawInputRectangle(BASE_7, base7Color);
         game.draw.drawSeptagon(game.camera.viewportWidth / 4,
                 (4 * game.partitionSize) + (3 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
@@ -332,7 +348,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     }
 
     public void drawBase8Input() {
-        drawInputRectangle(BASE_8);
+        drawInputRectangle(BASE_8, base8Color);
         game.draw.drawOctagon(game.camera.viewportWidth / 4,
                 (5 * game.partitionSize) + (4 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
@@ -342,7 +358,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     }
 
     public void drawBase9Input() {
-        drawInputRectangle(BASE_9);
+        drawInputRectangle(BASE_9, base9Color);
         game.draw.drawNonagon(game.camera.viewportWidth / 4,
                 (6 * game.partitionSize) + (5 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
@@ -354,9 +370,9 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     public void drawBackInput() {
         float radius = game.camera.viewportWidth > game.camera.viewportHeight ? game.camera.viewportHeight / 8 : game.camera.viewportWidth / 8;
 
-        drawInputRectangle(BACK);
+        drawInputRectangle(BACK, backColor);
         game.draw.drawBackButton(game.camera.viewportWidth - (game.camera.viewportWidth / 4),
-                game.camera.viewportHeight / 4,
+                game.camera.viewportHeight / 2,
                 radius,
                 radius / 8,
                 Color.BLACK,

@@ -25,6 +25,10 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
     private Vector3 touchPoint;
 
+    private Color optionsColor;
+    private Color playColor;
+    private Color quitColor;
+
     private boolean optionsTouched;
     private boolean playTouched;
     private boolean quitTouched;
@@ -40,6 +44,10 @@ public class MainMenuScreen implements Screen, InputProcessor {
         inputHeight = (game.camera.viewportHeight - (game.partitionSize * 4)) / 3;
 
         touchPoint = new Vector3();
+
+        optionsColor = ColorUtils.randomColor();
+        playColor = ColorUtils.randomColor();
+        quitColor = ColorUtils.randomColor();
 
         optionsTouched = false;
         playTouched = false;
@@ -173,8 +181,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
         drawQuitInput();
     }
 
-    public void drawInputRectangle(int placement) {
-        game.shapeRendererFilled.setColor(Color.WHITE);
+    public void drawInputRectangle(int placement, Color color) {
+        game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case OPTIONS : {
                 game.shapeRendererFilled.rect(game.partitionSize,
@@ -200,19 +208,19 @@ public class MainMenuScreen implements Screen, InputProcessor {
     public void drawOptionsInput() {
         float radius = game.camera.viewportHeight / 6;
 
-        drawInputRectangle(OPTIONS);
+        drawInputRectangle(OPTIONS, optionsColor);
         game.draw.drawWrench(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 6),
                 radius,
                 radius / 8,
-                Color.BLACK,
+                optionsColor,
                 game.shapeRendererFilled);
     }
 
     public void drawPlayInput() {
         float radius = game.camera.viewportHeight / 6;
 
-        drawInputRectangle(PLAY);
+        drawInputRectangle(PLAY, playColor);
         game.draw.drawPlayButton(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight - ((3 * game.camera.viewportHeight) / 6),
                 radius,
@@ -224,7 +232,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
     public void drawQuitInput() {
         float radius = game.camera.viewportHeight / 6;
 
-        drawInputRectangle(QUIT);
+        drawInputRectangle(QUIT, quitColor);
         game.draw.drawX(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 6,
                 radius,

@@ -136,9 +136,18 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         //Set this and the prompt increase such that without player input, three passes of backgroundColorShapeList will
         //occur before game over
-        initPromptRadius = game.camera.viewportWidth * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth));
-        //TODO: Set promptIncrease to be such that game ends after  18 colors (if player doesn't decrease radius)
-        promptIncrease = initPromptRadius;
+        if(game.camera.viewportWidth > game.camera.viewportHeight) {
+            initPromptRadius = game.camera.viewportHeight / 4;
+            //initPromptRadius = game.camera.viewportHeight * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth));
+        } else {
+            initPromptRadius = game.camera.viewportWidth / 4;
+            //initPromptRadius = game.camera.viewportWidth * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth));
+        }
+        if(game.camera.viewportWidth > game.camera.viewportHeight) {
+            promptIncrease = (game.camera.viewportHeight * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth))) / 2;
+        } else {
+            promptIncrease = (game.camera.viewportWidth * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth))) / 2;
+        }
         endLineWidthIncrease = 2;
         promptShape = new Shape(MathUtils.random(game.base - 1),
                 initPromptRadius, Color.BLACK,
@@ -235,7 +244,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         game.shapeRendererLine.setProjectionMatrix(game.camera.combined);
         game.batch.setProjectionMatrix(game.camera.combined);
 
-        float primaryShapeThreshold = game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER;
+        float primaryShapeThreshold = game.widthGreater ? game.camera.viewportHeight * game.draw.THRESHOLD_MULTIPLIER : game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER;
         Shape primaryShape = priorShapeList.size() > 0 ? priorShapeList.get(0) : promptShape;
         boolean primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
 
@@ -269,7 +278,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                     startTime = System.currentTimeMillis();
                     game.draw.setColorListSpeed(game.draw.getColorListSpeed() + 0.1f);
                     game.draw.setColorSpeed(game.draw.getColorSpeed() + 20);
-                    promptIncrease = game.camera.viewportWidth * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth));
+                    if(game.camera.viewportWidth > game.camera.viewportHeight) {
+                        promptIncrease = (game.camera.viewportHeight * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth))) / 2;
+                    } else {
+                        promptIncrease = (game.camera.viewportWidth * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth))) / 2;
+                    }
                 }
             } else {
                 if ((System.currentTimeMillis() - endTime) / 1000 > 2) {
@@ -292,7 +305,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 }
             }
 
-            //This code is being executed twice: once before setting the prompt's end game coordinates, and again afterwards.
+            //This code is being executed three times: once before setting the prompt's end game coordinates, and again afterwards.
             //This way, the shapes are drawn with their new values, and the first element in priorShapeList doesn't veer off
             //the screen to the right.
             //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
@@ -301,11 +314,13 @@ public class GameplayScreen implements Screen, InputProcessor {
 
             if (!gameOver) {
                 game.draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
+                game.draw.drawTimelines(promptShape, backgroundColorShapeList, game.shapeRendererFilled);
                 SoundUtils.playMusic(timeSignature,
                         backgroundColorShapeListMaxHeight - backgroundColorShapeListMinHeight,
                         game.draw.getColorListSpeed(),
                         backgroundColorShapeList,
                         game);
+                //TODO: Maybe remove input buttons when on Desktop, as input will be number key oriented?
                 game.draw.drawInputButtons(game, inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, inputPentagonSpawn, inputHexagonSpawn, inputSeptagonSpawn, inputOctagonSpawn, inputNonagonSpawn, game.shapeRendererFilled);
                 game.draw.drawTargetSemicircle(game.shapeRendererFilled);
                 game.draw.drawScoreTriangle(game.shapeRendererFilled);
@@ -353,8 +368,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                         game.layout,
                         backgroundColorShape.getColor(),
                         String.valueOf(score),
-                        game.camera.viewportWidth - (TARGET_RADIUS / 3.2f),
-                        game.camera.viewportHeight - (TARGET_RADIUS / 3.2f),
+                        game.camera.viewportWidth - (TARGET_RADIUS / 3.16f),
+                        game.camera.viewportHeight - (TARGET_RADIUS / 3.16f),
                         -45);
                 FontUtils.printText(game.batch,
                         game.font,
@@ -430,7 +445,8 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (button != Input.Buttons.LEFT || pointer > 0) {
+        //TODO: Maybe remove gameOver check once I add animations to screen switches
+        if (button != Input.Buttons.LEFT || pointer > 0 || gameOver) {
             return false;
         }
 
@@ -807,9 +823,14 @@ public class GameplayScreen implements Screen, InputProcessor {
                 }
                 currentTargetShape = targetShapeList.get(0);
             }
-        } else {
+        } else if(!gameOver) {
             //The wrong shape was touched
             //TODO: Add wrong shape penalization here.
+            if(game.widthGreater) {
+                promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))));
+            } else {
+                promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportWidth * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))));
+            }
             multiplier = 1;
         }
         if (inputTouchedResults && showResults) {
