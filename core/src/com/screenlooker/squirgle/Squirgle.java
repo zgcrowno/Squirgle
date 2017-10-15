@@ -28,9 +28,9 @@ import java.util.Map;
 //TODO: Often, when working with game.camera.viewportWidth/Height, we'll want to use one or the other based upon whether or
 //TODO: not the screen widht or screen height is greater.
 public class Squirgle extends Game {
-	private static final int VIRTUAL_WIDTH = 768;
-	private static final int VIRTUAL_HEIGHT = 1024;
-	private static final float ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
+	private static int VIRTUAL_WIDTH = 768;
+	private static int VIRTUAL_HEIGHT = 1024;
+	private static float ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
 
 	public final static int PARTITION_DIVISOR = 80;
 	public final static int LINE_WIDTH = 20;
@@ -82,6 +82,12 @@ public class Squirgle extends Game {
 	public Map<Integer, List<Sound>> keyMap;
 
 	public void create() {
+		if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
+			VIRTUAL_WIDTH = 1920;
+			VIRTUAL_HEIGHT = 1080;
+			ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
+		}
+
 		volume = 10;
 
 		base = 4;
@@ -89,10 +95,7 @@ public class Squirgle extends Game {
 		minBase = 4;
 		batch = new SpriteBatch();
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = 72;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
-		font = generator.generateFont(parameter);
+		setUpFont(72);
 		layout = new GlyphLayout();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
@@ -752,6 +755,14 @@ public class Squirgle extends Game {
 		keyMap.put(SoundUtils.G_MINOR, gMinorNotes);
 		keyMap.put(SoundUtils.G_SHARP_MAJOR, gSharpMajorNotes);
 		keyMap.put(SoundUtils.G_SHARP_MINOR, gSharpMinorNotes);
+	}
+
+	public void setUpFont(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
+		font = generator.generateFont(parameter);
 	}
 
 }

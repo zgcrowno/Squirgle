@@ -23,6 +23,9 @@ import java.util.List;
 public class GameplayScreen implements Screen, InputProcessor {
     final Squirgle game;
 
+    public static float INPUT_RADIUS;
+    public static float TARGET_RADIUS;
+
     private final static int PAUSE_BACK = 0;
     private final static int PAUSE_QUIT = 1;
 
@@ -94,17 +97,22 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         game.resetInstanceData();
 
+        game.setUpFont(MathUtils.round(game.camera.viewportWidth / 11.1f));
+
         Gdx.input.setInputProcessor(this);
 
         pauseInputWidth = game.camera.viewportWidth - (game.partitionSize * 2);
         pauseInputHeight = (game.camera.viewportHeight - (game.partitionSize * 3)) / 2;
 
+        INPUT_RADIUS = game.camera.viewportWidth / 19;
+        TARGET_RADIUS = game.camera.viewportWidth / 5.12f;
+
         timeSignature = 4; //This represents the number of quarter notes per background color change (4 = 4/4, 5 = 5/4, etc.)
         backgroundColorShapeList = new ArrayList<Shape>();
-        backgroundColorListElementRadius = 15;
-        backgroundColorShapeListMaxHeight = (game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7);
-        backgroundColorShapeListMinHeight = game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2);
-        backgroundColorShapeListWidth = (Draw.TARGET_RADIUS + (6 * ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7))) - (Draw.TARGET_RADIUS + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7));
+        backgroundColorListElementRadius = game.camera.viewportHeight / 68;
+        backgroundColorShapeListMaxHeight = (game.camera.viewportHeight - (INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
+        backgroundColorShapeListMinHeight = game.camera.viewportHeight - (INPUT_RADIUS / 2);
+        backgroundColorShapeListWidth = (TARGET_RADIUS + (6 * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7))) - (TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7));
         for (int i = 0; i <= 6; i++) {
             if (i == 0) {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
@@ -112,7 +120,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         Color.WHITE,
                         ColorUtils.randomColor(),
                         backgroundColorListElementRadius / Draw.LINE_WIDTH_DIVISOR,
-                        new Vector2(Draw.TARGET_RADIUS + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7),
+                        new Vector2(TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7),
                                 backgroundColorShapeListMaxHeight)));
             } else {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
@@ -120,7 +128,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         Color.WHITE,
                         ColorUtils.randomColor(),
                         backgroundColorListElementRadius / Draw.LINE_WIDTH_DIVISOR,
-                        new Vector2(Draw.TARGET_RADIUS + (i * ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / 7)),
+                        new Vector2(TARGET_RADIUS + (i * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7)),
                                 backgroundColorShapeListMinHeight)));
             }
         }
@@ -139,26 +147,26 @@ public class GameplayScreen implements Screen, InputProcessor {
                 new Vector2(game.camera.viewportWidth / 2,
                         game.camera.viewportHeight / 2));
         outsideTargetShape = new Shape(MathUtils.random(game.base - 1),
-                Draw.INPUT_RADIUS,
+                INPUT_RADIUS,
                 Color.BLACK, null,
-                Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(Draw.TARGET_RADIUS / 2.5f,
-                        game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2.5f)));
+                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(TARGET_RADIUS / 2.5f,
+                        game.camera.viewportHeight - (TARGET_RADIUS / 2.5f)));
         priorShapeList = new ArrayList<Shape>();
         targetShapeList = new ArrayList<Shape>();
         touchDownShapeList = new ArrayList<Shape>();
         targetShapeList.add(new Shape(MathUtils.random(game.base - 1),
                 0, Color.WHITE,
                 null,
-                Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(Draw.TARGET_RADIUS / 3,
-                        game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2))));
+                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(TARGET_RADIUS / 3,
+                        game.camera.viewportHeight - (TARGET_RADIUS / 2))));
         targetShapeList.add(new Shape(Shape.CIRCLE,
                 0, Color.BLACK,
                 null,
-                Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(Draw.TARGET_RADIUS / 3,
-                        game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2))));
+                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(TARGET_RADIUS / 3,
+                        game.camera.viewportHeight - (TARGET_RADIUS / 2))));
         if (targetShapeList.get(0).getShape() == Shape.SQUARE) {
             while (outsideTargetShape.getShape() == Shape.TRIANGLE) {
                 outsideTargetShape.setShape(MathUtils.random(game.base - 1));
@@ -168,13 +176,13 @@ public class GameplayScreen implements Screen, InputProcessor {
                 game.camera.viewportWidth / 2,
                 backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor(),
                 backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor(),
-                Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(game.camera.viewportWidth / 2,
                         game.camera.viewportHeight + (game.camera.viewportWidth / 2)));
         currentTargetShape = targetShapeList.get(0);
         targetShapesMatched = 0;
         for(int i = 1; i <= game.base; i++) {
-            Vector2 inputVector = new Vector2((i * (game.camera.viewportWidth - ((2 * game.base) * Draw.INPUT_RADIUS))) / (game.base + 1) + ((i + i - 1) * Draw.INPUT_RADIUS), (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+            Vector2 inputVector = new Vector2((i * (game.camera.viewportWidth - ((2 * game.base) * INPUT_RADIUS))) / (game.base + 1) + ((i + i - 1) * INPUT_RADIUS), (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
             switch(i) {
                 case 1 : inputPointSpawn = inputVector;
                 case 2 : inputLineSpawn = inputVector;
@@ -187,9 +195,9 @@ public class GameplayScreen implements Screen, InputProcessor {
                 case 9 : inputNonagonSpawn = inputVector;
             }
         }
-        inputPlaySpawn = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
-        inputHomeSpawn = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
-        inputExitSpawn = new Vector2((3 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * Draw.INPUT_RADIUS));
+        inputPlaySpawn = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
+        inputHomeSpawn = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
+        inputExitSpawn = new Vector2((3 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         touchPoint = new Vector3();
         pointTouched = false;
         lineTouched = false;
@@ -345,16 +353,16 @@ public class GameplayScreen implements Screen, InputProcessor {
                         game.layout,
                         backgroundColorShape.getColor(),
                         String.valueOf(score),
-                        game.camera.viewportWidth - (Draw.TARGET_RADIUS / 3.2f),
-                        game.camera.viewportHeight - (Draw.TARGET_RADIUS / 3.2f),
+                        game.camera.viewportWidth - (TARGET_RADIUS / 3.2f),
+                        game.camera.viewportHeight - (TARGET_RADIUS / 3.2f),
                         -45);
                 FontUtils.printText(game.batch,
                         game.font,
                         game.layout,
                         Color.WHITE,
                         "X" + String.valueOf(multiplier),
-                        game.camera.viewportWidth - (Draw.TARGET_RADIUS / 2.58f),
-                        game.camera.viewportHeight - (Draw.TARGET_RADIUS / 1.25f),
+                        game.camera.viewportWidth - (TARGET_RADIUS / 2.68f),
+                        game.camera.viewportHeight - (TARGET_RADIUS / 1.25f),
                         -45);
             }
 
@@ -428,54 +436,54 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        pointTouched = touchPoint.x > inputPointSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputPointSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputPointSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputPointSpawn.y + Draw.INPUT_RADIUS;
-        lineTouched = touchPoint.x > inputLineSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputLineSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputLineSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputLineSpawn.y + Draw.INPUT_RADIUS;
-        triangleTouched = touchPoint.x > inputTriangleSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputTriangleSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputTriangleSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputTriangleSpawn.y + Draw.INPUT_RADIUS;
-        squareTouched = touchPoint.x > inputSquareSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputSquareSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputSquareSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputSquareSpawn.y + Draw.INPUT_RADIUS;
-        pentagonTouched = touchPoint.x > inputPentagonSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputPentagonSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputPentagonSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputPentagonSpawn.y + Draw.INPUT_RADIUS;
-        hexagonTouched = touchPoint.x > inputHexagonSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputHexagonSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputHexagonSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputHexagonSpawn.y + Draw.INPUT_RADIUS;
-        septagonTouched = touchPoint.x > inputSeptagonSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputSeptagonSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputSeptagonSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputSeptagonSpawn.y + Draw.INPUT_RADIUS;
-        octagonTouched = touchPoint.x > inputOctagonSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputOctagonSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputOctagonSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputOctagonSpawn.y + Draw.INPUT_RADIUS;
-        nonagonTouched = touchPoint.x > inputNonagonSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputNonagonSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputNonagonSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputNonagonSpawn.y + Draw.INPUT_RADIUS;
-        playTouched = touchPoint.x > inputPlaySpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputPlaySpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputPlaySpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputPlaySpawn.y + Draw.INPUT_RADIUS;
-        homeTouched = touchPoint.x > inputHomeSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputHomeSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputHomeSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputHomeSpawn.y + Draw.INPUT_RADIUS;
-        exitTouched = touchPoint.x > inputExitSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputExitSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputExitSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputExitSpawn.y + Draw.INPUT_RADIUS;
+        pointTouched = touchPoint.x > inputPointSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputPointSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputPointSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputPointSpawn.y + INPUT_RADIUS;
+        lineTouched = touchPoint.x > inputLineSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputLineSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputLineSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputLineSpawn.y + INPUT_RADIUS;
+        triangleTouched = touchPoint.x > inputTriangleSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputTriangleSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputTriangleSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputTriangleSpawn.y + INPUT_RADIUS;
+        squareTouched = touchPoint.x > inputSquareSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputSquareSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputSquareSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputSquareSpawn.y + INPUT_RADIUS;
+        pentagonTouched = touchPoint.x > inputPentagonSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputPentagonSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputPentagonSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputPentagonSpawn.y + INPUT_RADIUS;
+        hexagonTouched = touchPoint.x > inputHexagonSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputHexagonSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputHexagonSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputHexagonSpawn.y + INPUT_RADIUS;
+        septagonTouched = touchPoint.x > inputSeptagonSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputSeptagonSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputSeptagonSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputSeptagonSpawn.y + INPUT_RADIUS;
+        octagonTouched = touchPoint.x > inputOctagonSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputOctagonSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputOctagonSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputOctagonSpawn.y + INPUT_RADIUS;
+        nonagonTouched = touchPoint.x > inputNonagonSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputNonagonSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputNonagonSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputNonagonSpawn.y + INPUT_RADIUS;
+        playTouched = touchPoint.x > inputPlaySpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputPlaySpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputPlaySpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputPlaySpawn.y + INPUT_RADIUS;
+        homeTouched = touchPoint.x > inputHomeSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputHomeSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputHomeSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputHomeSpawn.y + INPUT_RADIUS;
+        exitTouched = touchPoint.x > inputExitSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputExitSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputExitSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputExitSpawn.y + INPUT_RADIUS;
 
         for (int i = 1; i < 20; i++) {
             if (!gameOver) {
@@ -590,54 +598,54 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        pointTouched = touchPoint.x > inputPointSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputPointSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputPointSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputPointSpawn.y + Draw.INPUT_RADIUS;
-        lineTouched = touchPoint.x > inputLineSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputLineSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputLineSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputLineSpawn.y + Draw.INPUT_RADIUS;
-        triangleTouched = touchPoint.x > inputTriangleSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputTriangleSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputTriangleSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputTriangleSpawn.y + Draw.INPUT_RADIUS;
-        squareTouched = touchPoint.x > inputSquareSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputSquareSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputSquareSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputSquareSpawn.y + Draw.INPUT_RADIUS;
-        pentagonTouched = touchPoint.x > inputPentagonSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputPentagonSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputPentagonSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputPentagonSpawn.y + Draw.INPUT_RADIUS;
-        hexagonTouched = touchPoint.x > inputHexagonSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputHexagonSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputHexagonSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputHexagonSpawn.y + Draw.INPUT_RADIUS;
-        septagonTouched = touchPoint.x > inputSeptagonSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputSeptagonSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputSeptagonSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputSeptagonSpawn.y + Draw.INPUT_RADIUS;
-        octagonTouched = touchPoint.x > inputOctagonSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputOctagonSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputOctagonSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputOctagonSpawn.y + Draw.INPUT_RADIUS;
-        nonagonTouched = touchPoint.x > inputNonagonSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputNonagonSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputNonagonSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputNonagonSpawn.y + Draw.INPUT_RADIUS;
-        playTouched = touchPoint.x > inputPlaySpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputPlaySpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputPlaySpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputPlaySpawn.y + Draw.INPUT_RADIUS;
-        homeTouched = touchPoint.x > inputHomeSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputHomeSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputHomeSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputHomeSpawn.y + Draw.INPUT_RADIUS;
-        exitTouched = touchPoint.x > inputExitSpawn.x - Draw.INPUT_RADIUS
-                && touchPoint.x < inputExitSpawn.x + Draw.INPUT_RADIUS
-                && touchPoint.y > inputExitSpawn.y - Draw.INPUT_RADIUS
-                && touchPoint.y < inputExitSpawn.y + Draw.INPUT_RADIUS;
+        pointTouched = touchPoint.x > inputPointSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputPointSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputPointSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputPointSpawn.y + INPUT_RADIUS;
+        lineTouched = touchPoint.x > inputLineSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputLineSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputLineSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputLineSpawn.y + INPUT_RADIUS;
+        triangleTouched = touchPoint.x > inputTriangleSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputTriangleSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputTriangleSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputTriangleSpawn.y + INPUT_RADIUS;
+        squareTouched = touchPoint.x > inputSquareSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputSquareSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputSquareSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputSquareSpawn.y + INPUT_RADIUS;
+        pentagonTouched = touchPoint.x > inputPentagonSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputPentagonSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputPentagonSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputPentagonSpawn.y + INPUT_RADIUS;
+        hexagonTouched = touchPoint.x > inputHexagonSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputHexagonSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputHexagonSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputHexagonSpawn.y + INPUT_RADIUS;
+        septagonTouched = touchPoint.x > inputSeptagonSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputSeptagonSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputSeptagonSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputSeptagonSpawn.y + INPUT_RADIUS;
+        octagonTouched = touchPoint.x > inputOctagonSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputOctagonSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputOctagonSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputOctagonSpawn.y + INPUT_RADIUS;
+        nonagonTouched = touchPoint.x > inputNonagonSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputNonagonSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputNonagonSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputNonagonSpawn.y + INPUT_RADIUS;
+        playTouched = touchPoint.x > inputPlaySpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputPlaySpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputPlaySpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputPlaySpawn.y + INPUT_RADIUS;
+        homeTouched = touchPoint.x > inputHomeSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputHomeSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputHomeSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputHomeSpawn.y + INPUT_RADIUS;
+        exitTouched = touchPoint.x > inputExitSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputExitSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputExitSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputExitSpawn.y + INPUT_RADIUS;
         //TODO: Set and use variables for these values
         pauseTouched = touchPoint.x > game.camera.viewportWidth - (2 *(game.camera.viewportWidth / 20))
                 && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
@@ -760,16 +768,16 @@ public class GameplayScreen implements Screen, InputProcessor {
                             0,
                             Color.WHITE,
                             null,
-                            Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                            new Vector2(Draw.TARGET_RADIUS / 2.5f,
-                                    game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2.5f))));
+                            INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                            new Vector2(TARGET_RADIUS / 2.5f,
+                                    game.camera.viewportHeight - (TARGET_RADIUS / 2.5f))));
                     targetShapeList.add(new Shape(Shape.CIRCLE,
                             0,
                             Color.BLACK,
                             null,
-                            Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                            new Vector2(Draw.TARGET_RADIUS / 3,
-                                    game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2))));
+                            INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                            new Vector2(TARGET_RADIUS / 3,
+                                    game.camera.viewportHeight - (TARGET_RADIUS / 2))));
                 } else {
                     outsideTargetShape.setShape(MathUtils.random(game.base - 1));
                     outsideTargetShape.setColor(Color.BLACK);
@@ -777,16 +785,16 @@ public class GameplayScreen implements Screen, InputProcessor {
                             0,
                             Color.WHITE,
                             null,
-                            Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                            new Vector2(Draw.TARGET_RADIUS / 2.5f,
-                                    game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2.5f))));
+                            INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                            new Vector2(TARGET_RADIUS / 2.5f,
+                                    game.camera.viewportHeight - (TARGET_RADIUS / 2.5f))));
                     targetShapeList.add(new Shape(Shape.CIRCLE,
                             0,
                             Color.BLACK,
                             null,
-                            Draw.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                            new Vector2(Draw.TARGET_RADIUS / 3,
-                                    game.camera.viewportHeight - (Draw.TARGET_RADIUS / 2))));
+                            INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                            new Vector2(TARGET_RADIUS / 3,
+                                    game.camera.viewportHeight - (TARGET_RADIUS / 2))));
                     if (targetShapeList.get(0).getShape() == Shape.SQUARE) {
                         while (outsideTargetShape.getShape() == Shape.TRIANGLE) {
                             outsideTargetShape.setShape(MathUtils.random(Shape.SQUARE));

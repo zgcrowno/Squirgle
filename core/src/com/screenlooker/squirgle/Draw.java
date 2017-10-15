@@ -13,13 +13,11 @@ import static com.badlogic.gdx.graphics.Color.BLACK;
 
 //TODO: Replace all instances of 2.575
 public class Draw {
-    public static final int INPUT_RADIUS = 40;
-    public static final int TARGET_RADIUS = 150;
     public static final int THRESHOLD_MULTIPLIER = 4;
     public static final int LINE_WIDTH_DIVISOR = 8;
     public static final int NUM_BACKGROUND_COLOR_SHAPE_COLUMNS = 6;
     public static final float INPUT_DISTANCE_OFFSET = 1.5f;
-    public static final float TARGET_DISTANCE_OFFSET = TARGET_RADIUS / 2.5f;
+    public static final float TARGET_DISTANCE_OFFSET = GameplayScreen.TARGET_RADIUS / 2.5f;
 
     private float radiusOffset;
     private float colorSpeed;
@@ -38,7 +36,7 @@ public class Draw {
     public Draw(Squirgle game) {
         radiusOffset = 1.45f;
         colorSpeed = 100;
-        colorListSpeed = 0.5f;
+        colorListSpeed = game.camera.viewportWidth / 1536;
         targetSpawn = new Vector2(TARGET_DISTANCE_OFFSET, game.camera.viewportHeight - TARGET_DISTANCE_OFFSET);
         this.game = game;
     }
@@ -678,126 +676,126 @@ public class Draw {
         if(game.base >= 1) {
             //Point
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputPointSpawn.x, inputPointSpawn.y, INPUT_RADIUS);
-            drawPoint(inputPointSpawn.x, inputPointSpawn.y, INPUT_RADIUS / 2, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(inputPointSpawn.x, inputPointSpawn.y, GameplayScreen.INPUT_RADIUS);
+            drawPoint(inputPointSpawn.x, inputPointSpawn.y, GameplayScreen.INPUT_RADIUS / 2, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 2) {
             //Line
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputLineSpawn.x, inputLineSpawn.y, INPUT_RADIUS);
-            drawLine(inputLineSpawn.x, inputLineSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(inputLineSpawn.x, inputLineSpawn.y, GameplayScreen.INPUT_RADIUS);
+            drawLine(inputLineSpawn.x, inputLineSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 3) {
             //Triangle
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputTriangleSpawn.x, inputTriangleSpawn.y, INPUT_RADIUS);
-            drawTriangle(inputTriangleSpawn.x, inputTriangleSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(inputTriangleSpawn.x, inputTriangleSpawn.y, GameplayScreen.INPUT_RADIUS);
+            drawTriangle(inputTriangleSpawn.x, inputTriangleSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 4) {
             //Square
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputSquareSpawn.x, inputSquareSpawn.y, INPUT_RADIUS);
-            drawSquare(inputSquareSpawn.x, inputSquareSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(inputSquareSpawn.x, inputSquareSpawn.y, GameplayScreen.INPUT_RADIUS);
+            drawSquare(inputSquareSpawn.x, inputSquareSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 5) {
             //Pentagon
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputPentagonSpawn.x, inputPentagonSpawn.y, INPUT_RADIUS);
-            drawPentagon(inputPentagonSpawn.x, inputPentagonSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(inputPentagonSpawn.x, inputPentagonSpawn.y, GameplayScreen.INPUT_RADIUS);
+            drawPentagon(inputPentagonSpawn.x, inputPentagonSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 6) {
             //Hexagon
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputHexagonSpawn.x, inputHexagonSpawn.y, INPUT_RADIUS);
-            drawHexagon(inputHexagonSpawn.x, inputHexagonSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(inputHexagonSpawn.x, inputHexagonSpawn.y, GameplayScreen.INPUT_RADIUS);
+            drawHexagon(inputHexagonSpawn.x, inputHexagonSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 7) {
             //Septagon
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputSeptagonSpawn.x, inputSeptagonSpawn.y, INPUT_RADIUS);
-            drawSeptagon(inputSeptagonSpawn.x, inputSeptagonSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(inputSeptagonSpawn.x, inputSeptagonSpawn.y, GameplayScreen.INPUT_RADIUS);
+            drawSeptagon(inputSeptagonSpawn.x, inputSeptagonSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 8) {
             //Octagon
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputOctagonSpawn.x, inputOctagonSpawn.y, INPUT_RADIUS);
-            drawOctagon(inputOctagonSpawn.x, inputOctagonSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(inputOctagonSpawn.x, inputOctagonSpawn.y, GameplayScreen.INPUT_RADIUS);
+            drawOctagon(inputOctagonSpawn.x, inputOctagonSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 9) {
             //Nonagon
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputNonagonSpawn.x, inputNonagonSpawn.y, INPUT_RADIUS);
-            drawNonagon(inputNonagonSpawn.x, inputNonagonSpawn.y, INPUT_RADIUS, INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(inputNonagonSpawn.x, inputNonagonSpawn.y, GameplayScreen.INPUT_RADIUS);
+            drawNonagon(inputNonagonSpawn.x, inputNonagonSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
     }
 
     public void drawResultsInputButtons(Vector2 inputPlaySpawn, Vector2 inputHomeSpawn, Vector2 inputExitSpawn, ShapeRenderer shapeRenderer) {
         //Play
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(inputPlaySpawn.x, inputPlaySpawn.y, INPUT_RADIUS);
+        shapeRenderer.circle(inputPlaySpawn.x, inputPlaySpawn.y, GameplayScreen.INPUT_RADIUS);
 
         //TODO: Make this triangle equilateral (consult the drawTriangle method above)
         shapeRenderer.setColor(Color.BLACK);
-        shapeRenderer.rectLine(inputPlaySpawn.x - (MathUtils.sinDeg(60) * (INPUT_RADIUS / 2)),
-                inputPlaySpawn.y + (MathUtils.cosDeg(60) * (INPUT_RADIUS / 2)),
-                inputPlaySpawn.x - (MathUtils.sinDeg(60) * (INPUT_RADIUS / 2)),
-                inputPlaySpawn.y - (MathUtils.cosDeg(60) * (INPUT_RADIUS / 2)),
-                (INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR);
-        shapeRenderer.rectLine((float) (inputPlaySpawn.x - (MathUtils.sinDeg(60) * (INPUT_RADIUS / 2))),
-                inputPlaySpawn.y - (MathUtils.cosDeg(60) * (INPUT_RADIUS / 2)),
-                inputPlaySpawn.x + (INPUT_RADIUS / 2),
+        shapeRenderer.rectLine(inputPlaySpawn.x - (MathUtils.sinDeg(60) * (GameplayScreen.INPUT_RADIUS / 2)),
+                inputPlaySpawn.y + (MathUtils.cosDeg(60) * (GameplayScreen.INPUT_RADIUS / 2)),
+                inputPlaySpawn.x - (MathUtils.sinDeg(60) * (GameplayScreen.INPUT_RADIUS / 2)),
+                inputPlaySpawn.y - (MathUtils.cosDeg(60) * (GameplayScreen.INPUT_RADIUS / 2)),
+                (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR);
+        shapeRenderer.rectLine((float) (inputPlaySpawn.x - (MathUtils.sinDeg(60) * (GameplayScreen.INPUT_RADIUS / 2))),
+                inputPlaySpawn.y - (MathUtils.cosDeg(60) * (GameplayScreen.INPUT_RADIUS / 2)),
+                inputPlaySpawn.x + (GameplayScreen.INPUT_RADIUS / 2),
                 inputPlaySpawn.y,
-                (INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR);
-        shapeRenderer.rectLine(inputPlaySpawn.x + (INPUT_RADIUS / 2),
+                (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR);
+        shapeRenderer.rectLine(inputPlaySpawn.x + (GameplayScreen.INPUT_RADIUS / 2),
                 inputPlaySpawn.y,
-                inputPlaySpawn.x - (MathUtils.sinDeg(60) * (INPUT_RADIUS / 2)),
-                inputPlaySpawn.y + (MathUtils.cosDeg(60) * (INPUT_RADIUS / 2)),
-                (INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR);
-        drawPoint(inputPlaySpawn.x - (MathUtils.sinDeg(60) * (INPUT_RADIUS / 2)),
-                inputPlaySpawn.y + (MathUtils.cosDeg(60) * (INPUT_RADIUS / 2)),
-                (INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR,
+                inputPlaySpawn.x - (MathUtils.sinDeg(60) * (GameplayScreen.INPUT_RADIUS / 2)),
+                inputPlaySpawn.y + (MathUtils.cosDeg(60) * (GameplayScreen.INPUT_RADIUS / 2)),
+                (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR);
+        drawPoint(inputPlaySpawn.x - (MathUtils.sinDeg(60) * (GameplayScreen.INPUT_RADIUS / 2)),
+                inputPlaySpawn.y + (MathUtils.cosDeg(60) * (GameplayScreen.INPUT_RADIUS / 2)),
+                (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 shapeRenderer);
-        drawPoint(inputPlaySpawn.x - (MathUtils.sinDeg(60) * (INPUT_RADIUS / 2)),
-                inputPlaySpawn.y - (MathUtils.cosDeg(60) * (INPUT_RADIUS / 2)),
-                (INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR,
+        drawPoint(inputPlaySpawn.x - (MathUtils.sinDeg(60) * (GameplayScreen.INPUT_RADIUS / 2)),
+                inputPlaySpawn.y - (MathUtils.cosDeg(60) * (GameplayScreen.INPUT_RADIUS / 2)),
+                (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 shapeRenderer);
-        drawPoint(inputPlaySpawn.x + (INPUT_RADIUS / 2),
+        drawPoint(inputPlaySpawn.x + (GameplayScreen.INPUT_RADIUS / 2),
                 inputPlaySpawn.y,
-                (INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR,
+                (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 shapeRenderer);
 
         //Home
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(inputHomeSpawn.x, inputHomeSpawn.y, INPUT_RADIUS);
+        shapeRenderer.circle(inputHomeSpawn.x, inputHomeSpawn.y, GameplayScreen.INPUT_RADIUS);
         drawTriangle(inputHomeSpawn.x,
-                inputHomeSpawn.y + (INPUT_RADIUS / 3.6f),
-                (INPUT_RADIUS / 2),
-                (INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR,
+                inputHomeSpawn.y + (GameplayScreen.INPUT_RADIUS / 3.6f),
+                (GameplayScreen.INPUT_RADIUS / 2),
+                (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 shapeRenderer);
         drawSquare(inputHomeSpawn.x,
-                inputHomeSpawn.y - (INPUT_RADIUS / 3.6f),
-                (INPUT_RADIUS / 2),
-                (INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR,
+                inputHomeSpawn.y - (GameplayScreen.INPUT_RADIUS / 3.6f),
+                (GameplayScreen.INPUT_RADIUS / 2),
+                (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 shapeRenderer);
 
         //Exit
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(inputExitSpawn.x, inputExitSpawn.y, INPUT_RADIUS);
+        shapeRenderer.circle(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS);
 
-        drawSquare(inputExitSpawn.x, inputExitSpawn.y, (INPUT_RADIUS / 2), (INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+        drawSquare(inputExitSpawn.x, inputExitSpawn.y, (GameplayScreen.INPUT_RADIUS / 2), (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
     }
 
     public void drawBackgroundColorShape(Shape backgroundColorShape, ShapeRenderer shapeRenderer) {
@@ -834,7 +832,7 @@ public class Draw {
                 backgroundColorShape.setRadius(game.camera.viewportWidth / 2);
                 backgroundColorShape.setColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
                 backgroundColorShape.setFillColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
-                backgroundColorShape.setLineWidth(Draw.INPUT_RADIUS / LINE_WIDTH_DIVISOR);
+                backgroundColorShape.setLineWidth(GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR);
                 backgroundColorShape.setCoordinates(new Vector2(game.camera.viewportWidth / 2,
                         game.camera.viewportHeight + (game.camera.viewportWidth / 2)));
 
@@ -845,24 +843,24 @@ public class Draw {
                                 Color.WHITE,
                                 ColorUtils.randomColor(),
                                 newRadius / LINE_WIDTH_DIVISOR,
-                                new Vector2(Draw.TARGET_RADIUS + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)),
-                                        (game.camera.viewportHeight - (Draw.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (Draw.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)))));
+                                new Vector2(GameplayScreen.TARGET_RADIUS + ((game.camera.viewportWidth - (GameplayScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)),
+                                        (game.camera.viewportHeight - (GameplayScreen.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (GameplayScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)))));
             }
         }
     }
 
     public void drawTargetSemicircle(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(0, game.camera.viewportHeight, TARGET_RADIUS);
+        shapeRenderer.circle(0, game.camera.viewportHeight, GameplayScreen.TARGET_RADIUS);
     }
 
     public void drawScoreTriangle(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.triangle(game.camera.viewportWidth,
                 game.camera.viewportHeight,
-                game.camera.viewportWidth - TARGET_RADIUS, game.camera.viewportHeight,
+                game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS, game.camera.viewportHeight,
                 game.camera.viewportWidth,
-                game.camera.viewportHeight - TARGET_RADIUS);
+                game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS);
     }
 
     public void drawPauseInput(Squirgle game) {
@@ -888,7 +886,7 @@ public class Draw {
     public void drawTouchDownPoints(List<Shape> touchDownShapeList, ShapeRenderer shapeRenderer) {
         for (int i = 0; i < touchDownShapeList.size(); i++) {
             Shape shape = touchDownShapeList.get(i);
-            if (shape.getRadius() > INPUT_RADIUS) {
+            if (shape.getRadius() > GameplayScreen.INPUT_RADIUS) {
                 touchDownShapeList.remove(shape);
             } else {
                 drawShape(shape, shapeRenderer);
