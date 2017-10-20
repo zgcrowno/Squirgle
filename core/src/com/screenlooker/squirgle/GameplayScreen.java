@@ -241,7 +241,6 @@ public class GameplayScreen implements Screen, InputProcessor {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.camera.update();
         game.shapeRendererFilled.setProjectionMatrix(game.camera.combined);
-        game.shapeRendererLine.setProjectionMatrix(game.camera.combined);
         game.batch.setProjectionMatrix(game.camera.combined);
 
         float primaryShapeThreshold = game.widthGreater ? game.camera.viewportHeight * game.draw.THRESHOLD_MULTIPLIER : game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER;
@@ -267,7 +266,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 game.draw.drawBackgroundColorShape(backgroundColorShape, game.shapeRendererFilled);
             }
 
-            game.draw.drawPrompt(promptShape, priorShapeList, primaryShapeAtThreshold, game.shapeRendererLine);
+            game.draw.drawPrompt(promptShape, priorShapeList, primaryShapeAtThreshold, backgroundColorShape, false, game.shapeRendererFilled);
 
             game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game, game.shapeRendererFilled);
 
@@ -324,7 +323,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 game.draw.drawInputButtons(game, inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, inputPentagonSpawn, inputHexagonSpawn, inputSeptagonSpawn, inputOctagonSpawn, inputNonagonSpawn, game.shapeRendererFilled);
                 game.draw.drawTargetSemicircle(game.shapeRendererFilled);
                 game.draw.drawScoreTriangle(game.shapeRendererFilled);
-                game.draw.drawPrompt(outsideTargetShape, targetShapeList, false, game.shapeRendererFilled);
+                game.draw.drawPrompt(outsideTargetShape, targetShapeList, false, backgroundColorShape, true, game.shapeRendererFilled);
                 game.draw.drawShapes(targetShapeList, outsideTargetShape, false, game, game.shapeRendererFilled);
                 game.draw.drawPauseInput(game);
             }
