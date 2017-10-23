@@ -813,7 +813,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                     }
                     currentTargetShape = targetShapeList.get(0);
                 }
-            } else if (!gameOver) {
+            } else if (!gameOver && inputTouchedGameplay) {
                 //The wrong shape was touched
                 if (game.widthGreater) {
                     if (promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))) > (game.camera.viewportHeight / 2)) {
