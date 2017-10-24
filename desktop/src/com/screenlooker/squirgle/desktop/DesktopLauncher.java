@@ -10,6 +10,7 @@ public class DesktopLauncher {
 		config.title = "SQUIRGLE";
 		config.width = 1920;
 		config.height = 1080;
+		config.foregroundFPS = 60;
 		config.fullscreen = true;
 		config.vSyncEnabled = true;
 		config.forceExit = true;

@@ -5,7 +5,6 @@ import com.badlogic.gdx.math.MathUtils;
 import java.util.List;
 
 public class SoundUtils {
-
     public static final int A_MAJOR = 0;
     public static final int A_MINOR = 1;
     public static final int A_SHARP_MAJOR = 2;
@@ -32,7 +31,8 @@ public class SoundUtils {
     public static final int G_SHARP_MINOR = 23;
     public static final int THIRTY_SECOND_MULTIPLIER = 8; //This is multiplied by the time signature in order to allow for 32nd notes
 
-    public static void playMusic(int timeSignature, float measureLength, float colorListSpeed, List<Shape> backgroundColorShapeList, Squirgle game) {
+    //TODO: Maybe replace this with composed music as opposed to computer generated?
+    public static void playMusic(int timeSignature, float measureLength, Shape promptShape, float colorListSpeed, List<Shape> backgroundColorShapeList, Squirgle game) {
         int numThirtySeconds = timeSignature * THIRTY_SECOND_MULTIPLIER;
         int wholeMeasure = numThirtySeconds;
         int halfMeasure = numThirtySeconds / 2;
@@ -41,33 +41,41 @@ public class SoundUtils {
         int sixteenthMeasure = numThirtySeconds / (timeSignature * 4);
         int thirtySecondMeasure = numThirtySeconds / (timeSignature * 8);
 
-        for (int i = 1; i <= numThirtySeconds; i++) {
-            boolean atMeasureStart = backgroundColorShapeList.get(0).getCoordinates().y - backgroundColorShapeList.get(1).getCoordinates().y > 0 - colorListSpeed
-                    && backgroundColorShapeList.get(0).getCoordinates().y - backgroundColorShapeList.get(1).getCoordinates().y < 0 + colorListSpeed;
-            boolean atThirtySecondInterval = backgroundColorShapeList.get(0).getCoordinates().y - backgroundColorShapeList.get(1).getCoordinates().y > ((i * measureLength) / numThirtySeconds) - colorListSpeed
-                    && backgroundColorShapeList.get(0).getCoordinates().y - backgroundColorShapeList.get(1).getCoordinates().y < ((i * measureLength) / numThirtySeconds) + colorListSpeed
-                    && !(backgroundColorShapeList.get(0).getCoordinates().y - backgroundColorShapeList.get(1).getCoordinates().y - colorListSpeed > ((i * measureLength) / numThirtySeconds) - colorListSpeed);
+        boolean phaseOne = promptShape.getRadius() >= game.fourthOfScreen;
+        boolean phaseTwo = promptShape.getRadius() >= game.thirdOfScreen;
+        boolean phaseThree = promptShape.getRadius() >= game.fiveTwelfthsOfScreen;
 
-            //Bass drum
-            //TODO: Figure out why this isn't working correctly on Android (also not working very well on PC)
-//            if (atMeasureStart) {
-//                game.bassDrum.play((float) (game.volume / 10.0));
-//            }
+        if(game.musicStyle == game.ARPEGGIATED) {
+            for (int i = 1; i <= numThirtySeconds; i++) {
+                boolean atMeasureStart = backgroundColorShapeList.get(0).getCoordinates().y - backgroundColorShapeList.get(1).getCoordinates().y > 0 - colorListSpeed
+                        && backgroundColorShapeList.get(0).getCoordinates().y - backgroundColorShapeList.get(1).getCoordinates().y < 0 + colorListSpeed;
+                boolean atThirtySecondInterval = backgroundColorShapeList.get(0).getCoordinates().y - backgroundColorShapeList.get(1).getCoordinates().y > ((i * measureLength) / numThirtySeconds) - colorListSpeed
+                        && backgroundColorShapeList.get(0).getCoordinates().y - backgroundColorShapeList.get(1).getCoordinates().y < ((i * measureLength) / numThirtySeconds) + colorListSpeed
+                        && !(backgroundColorShapeList.get(0).getCoordinates().y - backgroundColorShapeList.get(1).getCoordinates().y - colorListSpeed > ((i * measureLength) / numThirtySeconds) - colorListSpeed);
 
-            //Hi-hat
-            if (atThirtySecondInterval && i % quarterMeasure == 0) {
-                game.hiHat.play((float) (game.volume / 10.0));
+                //Bass drum
+                //TODO: Figure out why this isn't working correctly on Android (also not working very well on PC)
+//                if (atMeasureStart) {
+//                    game.bassDrum.play((float) (game.volume / 10.0));
+//                }
+
+                //Hi-hat
+                if (atThirtySecondInterval && phaseTwo && i % sixteenthMeasure == 0) {
+                    game.hiHat.play((float) (game.volume / 10.0));
+                }
+
+                //Snare
+                if (atThirtySecondInterval && phaseThree && i % quarterMeasure == 0 && MathUtils.random(2) == 0) {
+                    game.snareDrum.play((float) (game.volume / 10.0));
+                }
+
+                //Notes
+                if (atThirtySecondInterval && i % eighthMeasure == 0) {
+                    game.keyMap.get(game.key).get(MathUtils.random(game.keyMap.get(game.key).size() - 1)).play((float) (game.volume / 10.0));
+                }
             }
-
-            //Snare
-            if (atThirtySecondInterval && i % halfMeasure == 0) {
-                game.snareDrum.play((float) (game.volume / 10.0));
-            }
-
-            //Notes
-            if (atThirtySecondInterval && i % eighthMeasure == 0) {
-                game.keyMap.get(game.key).get(MathUtils.random(game.keyMap.get(game.key).size() - 1)).play((float) (game.volume / 10.0));
-            }
+        } else {
+            //TODO: Implement other musical styles
         }
     }
 

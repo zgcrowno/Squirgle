@@ -34,11 +34,17 @@ public class Squirgle extends Game {
 
 	public final static int PARTITION_DIVISOR = 80;
 	public final static int LINE_WIDTH = 20;
+	public final static int ARPEGGIATED = 0;
 
 	//Options
 	public int volume;
+	public int musicStyle;
 
 	public boolean widthGreater;
+	public float widthOrHeight;
+	public float fourthOfScreen;
+	public float thirdOfScreen;
+	public float fiveTwelfthsOfScreen;
 	public int base;
 	public int maxBase;
 	public int minBase;
@@ -55,6 +61,8 @@ public class Squirgle extends Game {
 	public Sound bassDrum;
 	public Sound hiHat;
 	public Sound snareDrum;
+	public Sound confirmSound;
+	public Sound disconfirmSound;
 	public int key;
 	public List<Sound> aMajorNotes;
 	public List<Sound> aMinorNotes;
@@ -88,6 +96,7 @@ public class Squirgle extends Game {
 		ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
 
 		volume = 10;
+		musicStyle = ARPEGGIATED;
 
 		base = 4;
 		maxBase = 9;
@@ -101,6 +110,10 @@ public class Squirgle extends Game {
 		viewport = new StretchViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
 		camera.position.set(VIRTUAL_WIDTH/2,VIRTUAL_HEIGHT/2,0);
 		widthGreater = camera.viewportWidth > camera.viewportHeight;
+		widthOrHeight = widthGreater ? camera.viewportHeight : camera.viewportWidth;
+		fourthOfScreen = widthOrHeight / 4;
+		thirdOfScreen = widthOrHeight / 3;
+		fiveTwelfthsOfScreen = (5 * widthOrHeight) / 12;
 		partitionSize = camera.viewportHeight / PARTITION_DIVISOR;
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();
@@ -108,6 +121,8 @@ public class Squirgle extends Game {
 		bassDrum = Gdx.audio.newSound(Gdx.files.internal("sounds/percussion/bassDrum.wav"));
 		hiHat = Gdx.audio.newSound(Gdx.files.internal("sounds/percussion/hiHat.wav"));
 		snareDrum = Gdx.audio.newSound(Gdx.files.internal("sounds/percussion/snareDrum.wav"));
+		confirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/confirm.wav"));
+		disconfirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/disconfirm.wav"));
 		key = MathUtils.random(SoundUtils.G_SHARP_MINOR);
 
 		setUpMusic();

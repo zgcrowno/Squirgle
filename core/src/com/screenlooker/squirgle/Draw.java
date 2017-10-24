@@ -822,33 +822,29 @@ public class Draw {
         Shape firstColorShape = backgroundColorShapeList.get(0);
         Shape lastColorShape = backgroundColorShapeList.get(backgroundColorShapeList.size() - 1);
         Shape lowColorShape = backgroundColorShapeList.get(3);
-        float widthOrHeight = game.widthGreater ? game.camera.viewportHeight : game.camera.viewportWidth;
-        float fourthOfScreen = game.widthGreater ? game.camera.viewportHeight / 4 : game.camera.viewportWidth / 4;
-        float thirdOfScreen = game.widthGreater ? game.camera.viewportHeight / 3 : game.camera.viewportWidth / 3;
-        float fiveTwelfthsOfScreen = game.widthGreater ? (5 * game.camera.viewportHeight) / 12 : (5 * game.camera.viewportWidth) / 12;
         float firstX = firstColorShape.getCoordinates().x;
         float secondX = firstColorShape.getCoordinates().x;
         float thirdX = firstColorShape.getCoordinates().x;
 
-        if(promptShape.getRadius() <= fourthOfScreen) {
+        if(promptShape.getRadius() <= game.fourthOfScreen) {
             firstX = firstColorShape.getCoordinates().x;
         } else {
-            firstX = firstColorShape.getCoordinates().x + ((lastColorShape.getCoordinates().x - firstColorShape.getCoordinates().x) * ((promptShape.getRadius() - fourthOfScreen) / (thirdOfScreen - fourthOfScreen)));
+            firstX = firstColorShape.getCoordinates().x + ((lastColorShape.getCoordinates().x - firstColorShape.getCoordinates().x) * ((promptShape.getRadius() - game.fourthOfScreen) / (game.thirdOfScreen - game.fourthOfScreen)));
         }
 
-        if(promptShape.getRadius() <= thirdOfScreen) {
+        if(promptShape.getRadius() <= game.thirdOfScreen) {
             secondX = firstColorShape.getCoordinates().x;
         } else {
-            secondX = firstColorShape.getCoordinates().x + ((lastColorShape.getCoordinates().x - firstColorShape.getCoordinates().x) * ((promptShape.getRadius() - thirdOfScreen) / (fiveTwelfthsOfScreen - thirdOfScreen)));
+            secondX = firstColorShape.getCoordinates().x + ((lastColorShape.getCoordinates().x - firstColorShape.getCoordinates().x) * ((promptShape.getRadius() - game.thirdOfScreen) / (game.fiveTwelfthsOfScreen - game.thirdOfScreen)));
         }
 
-        if(promptShape.getRadius() <= fiveTwelfthsOfScreen) {
+        if(promptShape.getRadius() <= game.fiveTwelfthsOfScreen) {
             thirdX = firstColorShape.getCoordinates().x;
         } else {
-            thirdX = firstColorShape.getCoordinates().x + ((lastColorShape.getCoordinates().x - firstColorShape.getCoordinates().x) * ((promptShape.getRadius() - fiveTwelfthsOfScreen) / ((widthOrHeight / 2) - fiveTwelfthsOfScreen)));
+            thirdX = firstColorShape.getCoordinates().x + ((lastColorShape.getCoordinates().x - firstColorShape.getCoordinates().x) * ((promptShape.getRadius() - game.fiveTwelfthsOfScreen) / ((game.widthOrHeight / 2) - game.fiveTwelfthsOfScreen)));
         }
 
-        if(promptShape.getRadius() <= thirdOfScreen) {
+        if(promptShape.getRadius() <= game.thirdOfScreen) {
             drawTimeline(firstX,
                     lastColorShape.getCoordinates().x,
                     lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 2),
@@ -864,7 +860,7 @@ public class Draw {
                     lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 6),
                     lowColorShape.getLineWidth() * 6,
                     shapeRenderer);
-        } else if(promptShape.getRadius() <= fiveTwelfthsOfScreen) {
+        } else if(promptShape.getRadius() <= game.fiveTwelfthsOfScreen) {
             drawTimeline(secondX,
                     lastColorShape.getCoordinates().x,
                     lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 2),

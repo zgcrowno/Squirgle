@@ -137,9 +137,11 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 && touchPoint.y < game.partitionSize + inputHeight;
 
         if(optionsTouched) {
+            game.confirmSound.play((float) (game.volume / 10.0));
             game.setScreen(new OptionsScreen(game));
             dispose();
         } else if(playTouched) {
+            game.confirmSound.play((float) (game.volume / 10.0));
             game.setScreen(new BaseSelectScreen(game));
             dispose();
         } else if(quitTouched) {

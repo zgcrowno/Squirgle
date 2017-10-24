@@ -316,6 +316,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 game.draw.drawTimelines(promptShape, backgroundColorShapeList, game.shapeRendererFilled);
                 SoundUtils.playMusic(timeSignature,
                         backgroundColorShapeListMaxHeight - backgroundColorShapeListMinHeight,
+                        promptShape,
                         game.draw.getColorListSpeed(),
                         backgroundColorShapeList,
                         game);
