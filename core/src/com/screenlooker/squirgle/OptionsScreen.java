@@ -147,7 +147,7 @@ public class OptionsScreen implements Screen, InputProcessor {
             if(game.volume > 0) {
                 game.volume -= 1;
             } else {
-                game.volume = 1;
+                game.volume = 10;
             }
         } else if(volumeUpChevronTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));

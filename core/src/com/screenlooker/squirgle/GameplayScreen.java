@@ -91,6 +91,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private int destructionIndex;
     private float firstPriorShapePreviousX;
     private Color resultsColor;
+    private int numMusicPhases;
 
     public GameplayScreen(final Squirgle game) {
         this.game = game;
@@ -233,6 +234,9 @@ public class GameplayScreen implements Screen, InputProcessor {
         destructionIndex = 1;
         firstPriorShapePreviousX = 0;
         resultsColor = new Color();
+        numMusicPhases = 3;
+
+        playMusic();
     }
 
     @Override
@@ -314,12 +318,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             if (!gameOver) {
                 game.draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
                 game.draw.drawTimelines(promptShape, backgroundColorShapeList, game.shapeRendererFilled);
-                SoundUtils.playMusic(timeSignature,
-                        backgroundColorShapeListMaxHeight - backgroundColorShapeListMinHeight,
-                        promptShape,
-                        game.draw.getColorListSpeed(),
-                        backgroundColorShapeList,
-                        game);
+                SoundUtils.playMusic(promptShape, game);
                 //TODO: Maybe remove input buttons when on Desktop, as input will be number key oriented?
                 game.draw.drawInputButtons(game, inputPointSpawn, inputLineSpawn, inputTriangleSpawn, inputSquareSpawn, inputPentagonSpawn, inputHexagonSpawn, inputSeptagonSpawn, inputOctagonSpawn, inputNonagonSpawn, game.shapeRendererFilled);
                 game.draw.drawTargetSemicircle(game.shapeRendererFilled);
@@ -401,6 +400,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         //Game over condition
         if ((promptShape.getRadius() >= game.camera.viewportWidth / 2 || promptShape.getRadius() >= game.camera.viewportHeight / 2) && !gameOver) {
             gameOver = true;
+            stopMusic();
             promptIncrease = 1;
             endTime = System.currentTimeMillis();
         }
@@ -847,6 +847,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 timePaused += System.currentTimeMillis() - pauseStartTime;
                 resume();
             } else if (pauseQuitTouched) {
+                stopMusic();
                 game.setScreen(new MainMenuScreen(game));
                 dispose();
             }
@@ -920,6 +921,18 @@ public class GameplayScreen implements Screen, InputProcessor {
                 Squirgle.LINE_WIDTH,
                 Color.BLACK,
                 game.shapeRendererFilled);
+    }
+
+    public void playMusic() {
+        for(int i = 0; i < numMusicPhases; i++) {
+            game.trackMap.get(game.track).get(i).play();
+        }
+    }
+
+    public void stopMusic() {
+        for(int i = 0; i < numMusicPhases; i++) {
+            game.trackMap.get(game.track).get(i).stop();
+        }
     }
 
 }
