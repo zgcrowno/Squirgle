@@ -51,6 +51,8 @@ public class Squirgle extends Game {
 	public int volume;
 	public int track;
 
+	public boolean neverPlayed;
+
 	public boolean widthGreater;
 	public float widthOrHeight;
 	public float fourthOfScreen;
@@ -90,6 +92,8 @@ public class Squirgle extends Game {
 		volume = 10;
 		track = MUSIC_EXSEPTION_TO_THE_COOL;
 
+		neverPlayed = true;
+
 		base = 4;
 		maxBase = 9;
 		minBase = 4;
@@ -127,7 +131,11 @@ public class Squirgle extends Game {
 
 		generator.dispose();
 
-		this.setScreen(new MainMenuScreen(this));
+		if(neverPlayed) {
+			this.setScreen(new TutorialScreen(this));
+		} else {
+			this.setScreen(new MainMenuScreen(this));
+		}
 	}
 
 	public void render() {

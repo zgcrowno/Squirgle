@@ -699,6 +699,38 @@ public class Draw {
         }
     }
 
+    public void drawInputButtonsTutorial(int phase, Vector2 inputPointSpawn, Vector2 inputLineSpawn, Vector2 inputTriangleSpawn, Vector2 inputSquareSpawn, Vector2 inputPentagonSpawn, Vector2 inputHexagonSpawn, Vector2 inputSeptagonSpawn, Vector2 inputOctagonSpawn, Vector2 inputNonagonSpawn, ShapeRenderer shapeRenderer) {
+        boolean allInputsVisible = phase > TutorialScreen.PHASE_FIVE;
+
+        if(phase == TutorialScreen.PHASE_TWO || allInputsVisible) {
+            //Point
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(inputPointSpawn.x, inputPointSpawn.y, TutorialScreen.INPUT_RADIUS);
+            drawPoint(inputPointSpawn.x, inputPointSpawn.y, TutorialScreen.INPUT_RADIUS / 2, Color.BLACK, shapeRenderer);
+        }
+
+        if(phase == TutorialScreen.PHASE_THREE || allInputsVisible) {
+            //Line
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(inputLineSpawn.x, inputLineSpawn.y, TutorialScreen.INPUT_RADIUS);
+            drawLine(inputLineSpawn.x, inputLineSpawn.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+        }
+
+        if(phase == TutorialScreen.PHASE_FOUR || allInputsVisible) {
+            //Triangle
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(inputTriangleSpawn.x, inputTriangleSpawn.y, TutorialScreen.INPUT_RADIUS);
+            drawTriangle(inputTriangleSpawn.x, inputTriangleSpawn.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+        }
+
+        if(phase == TutorialScreen.PHASE_FIVE || allInputsVisible) {
+            //Square
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(inputSquareSpawn.x, inputSquareSpawn.y, TutorialScreen.INPUT_RADIUS);
+            drawSquare(inputSquareSpawn.x, inputSquareSpawn.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+        }
+    }
+
     public void drawResultsInputButtons(Vector2 inputPlaySpawn, Vector2 inputHomeSpawn, Vector2 inputExitSpawn, ShapeRenderer shapeRenderer) {
         //Play
         shapeRenderer.setColor(Color.WHITE);
@@ -810,6 +842,48 @@ public class Draw {
             }
         }
     }
+    public void drawBackgroundColorShapeListTutorial(List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color clearColor, ShapeRenderer shapeRenderer) {
+        for (int i = 0; i < backgroundColorShapeList.size(); i++) {
+            Shape shape = backgroundColorShapeList.get(i);
+            drawShape(shape, shapeRenderer);
+            if (i == 0) {
+                shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y - colorListSpeed));
+            } else if (i == backgroundColorShapeList.size() - 1) {
+                shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y + colorListSpeed));
+            } else {
+                shape.setCoordinates(new Vector2(shape.getCoordinates().x + colorListSpeed, shape.getCoordinates().y));
+            }
+            if (backgroundColorShapeList.get(0).getCoordinates().y <= backgroundColorShapeList.get(1).getCoordinates().y) {
+                float newRadius = shape.getRadius();
+
+                //Prevent backgroundColorShapeList.get(0) from going too low on screen
+                backgroundColorShapeList.get(0).setCoordinates(new Vector2(backgroundColorShapeList.get(0).getCoordinates().x,
+                        backgroundColorShapeList.get(1).getCoordinates().y));
+
+                clearColor.set(backgroundColorShape.getColor().r,
+                        backgroundColorShape.getColor().g,
+                        backgroundColorShape.getColor().b,
+                        backgroundColorShape.getColor().a);
+                backgroundColorShape.setShape(Shape.randomBackgroundColorShape()); //TODO: Enable triangles to be drawn pointing downward, so they're identifiable here.
+                backgroundColorShape.setRadius(game.camera.viewportWidth / 2);
+                backgroundColorShape.setColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
+                backgroundColorShape.setFillColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
+                backgroundColorShape.setLineWidth(TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR);
+                backgroundColorShape.setCoordinates(new Vector2(game.camera.viewportWidth / 2,
+                        game.camera.viewportHeight + (game.camera.viewportWidth / 2)));
+
+                backgroundColorShapeList.remove(backgroundColorShapeList.size() - 1);
+                backgroundColorShapeList.add(0,
+                        new Shape(Shape.SQUARE,
+                                newRadius,
+                                Color.WHITE,
+                                ColorUtils.randomColor(),
+                                newRadius / LINE_WIDTH_DIVISOR,
+                                new Vector2(TutorialScreen.TARGET_RADIUS + ((game.camera.viewportWidth - (TutorialScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)),
+                                        (game.camera.viewportHeight - (TutorialScreen.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TutorialScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)))));
+            }
+        }
+    }
 
     public void drawTimeline(float leftX, float rightX, float y, float lineWidth, ShapeRenderer shapeRenderer) {
         shapeRenderer.rectLine(leftX, y, rightX, y, lineWidth);
@@ -885,6 +959,11 @@ public class Draw {
         shapeRenderer.circle(0, game.camera.viewportHeight, GameplayScreen.TARGET_RADIUS);
     }
 
+    public void drawTargetSemicircleTutorial(ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(0, game.camera.viewportHeight, TutorialScreen.TARGET_RADIUS);
+    }
+
     public void drawScoreTriangle(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.triangle(game.camera.viewportWidth,
@@ -892,6 +971,15 @@ public class Draw {
                 game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS, game.camera.viewportHeight,
                 game.camera.viewportWidth,
                 game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS);
+    }
+
+    public void drawScoreTriangleTutorial(ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.triangle(game.camera.viewportWidth,
+                game.camera.viewportHeight,
+                game.camera.viewportWidth - TutorialScreen.TARGET_RADIUS, game.camera.viewportHeight,
+                game.camera.viewportWidth,
+                game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS);
     }
 
     public void drawPauseInput(Squirgle game) {
