@@ -29,14 +29,64 @@ public class TutorialScreen implements Screen, InputProcessor {
     private final static int PAUSE_BACK = 0;
     private final static int PAUSE_QUIT = 1;
 
+    /*
+    -All white or gray screen except for black outlined prompt shape (point)
+    -User taps screen
+     */
     public final static int PHASE_ONE = 0;
+
+    /*
+    -Single input appears (point)
+    -User taps point until prompt shape rolls over from square to point (user has tapped it four times)
+     */
     public final static int PHASE_TWO = 1;
+
+    /*
+    -Second input appears (line), and first disappears
+    -User taps line until prompt shape rolls over from triangle to point (user has tapped it twice)
+     */
     public final static int PHASE_THREE = 2;
+
+    /*
+    -Third input appears (triangle), and second disappears
+    -User taps triangle until prompt shape rolls back over to point (user has tapped it four times)
+     */
     public final static int PHASE_FOUR = 3;
+
+    /*
+    -Fourth input appears (square), and third disappears
+    -User taps square until prompt shape rolls back over to point (user has tapped it once)
+     */
     public final static int PHASE_FIVE = 4;
+
+    /*
+    -Target is now displayed in upper left corner
+    -If user hits wrong shape, disconfirmation sound is played, and phase resets
+    -If user hits correct shape, confirmation sound is played, and new shape is targeted
+    -User hits correct shape four times
+     */
     public final static int PHASE_SIX = 5;
+
+    /*
+    -Score & multiplier are now displayed in upper right-hand corner of screen
+    -Targets are now formed as per usual until multiplier reaches max
+     */
     public final static int PHASE_SEVEN = 6;
+
+    /*
+    -Colors are now displayed @ top of screen
+    -Timelines are now displayed @ top of screen
+    -Pause input is now displayed @ right-hand side of screen
+    -Colors are now sifted through, affecting background, prompt shape & nested shapes
+    -Prompt shape (& nested shapes) also begins to grow now, but it will stop doing so once it reaches 2/3 of its max size
+    -The game remains in this phase until the user gets four squirgles
+     */
     public final static int PHASE_EIGHT = 7;
+
+    /*
+    -User simply plays w/ full mechanics until game over
+    -Tutorial is over, & user is sent to menu
+     */
     public final static int PHASE_NINE = 8;
 
     public final static int PHASE_SIX_REQUIRED_CORRECT_INPUTS = 4;
@@ -305,7 +355,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             //TODO: Make sure you execute the inverse of this given certain player input...Also adjust all of this
             //TODO: so that the promptIncrease, colorListSpeed and colorSpeed are all increasing by proportional rates.
             if (!gameOver) {
-                if ((System.currentTimeMillis() - startTime - timePaused) / 1000 > 10) {
+                if (phase >= PHASE_EIGHT && (System.currentTimeMillis() - startTime - timePaused) / 1000 > 10) {
                     startTime = System.currentTimeMillis();
                     game.draw.setColorListSpeed(game.draw.getColorListSpeed() + 0.1f);
                     game.draw.setColorSpeed(game.draw.getColorSpeed() + 20);
@@ -401,7 +451,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         game.shapeRendererLine.end();
 
         if(!paused) {
-            if (!gameOver && phase == PHASE_SEVEN) {
+            if (!gameOver && phase >= PHASE_SEVEN) {
                 FontUtils.printText(game.batch,
                         game.font,
                         game.layout,
@@ -808,7 +858,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     if (targetShapesMatched == 1) {
                         currentTargetShape = outsideTargetShape;
                     } else {
-                        if(phaseSixCorrectInputs >= PHASE_SIX_REQUIRED_CORRECT_INPUTS) {
+                        if(phase == PHASE_SIX && phaseSixCorrectInputs >= PHASE_SIX_REQUIRED_CORRECT_INPUTS) {
                             phase = PHASE_SEVEN;
                             multiplier = 0;
                         }
