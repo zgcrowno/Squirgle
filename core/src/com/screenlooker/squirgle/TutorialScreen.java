@@ -436,7 +436,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             }
 
             if (showResults) {
-                game.neverPlayed = false;
+                game.updateSave(game.SAVE_PLAYED_BEFORE, true);
                 game.setScreen(new MainMenuScreen(game));
                 dispose();
             }
@@ -703,6 +703,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         }
 
         if(phase == PHASE_ONE) {
+            game.confirmSound.play((float) (game.volume / 10.0));
             phase = PHASE_TWO;
             return true;
         }
@@ -762,6 +763,7 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         if(phase == PHASE_TWO) {
             if(pointTouched) {
+                game.confirmSound.play((float) (game.volume / 10.0));
                 if (promptShape.getShape() + 1 > Shape.SQUARE) {
                     promptShape.setShape((promptShape.getShape() + 1) - game.base);
                     phase = PHASE_THREE;
@@ -771,6 +773,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             }
         } else if(phase == PHASE_THREE) {
             if(lineTouched) {
+                game.confirmSound.play((float) (game.volume / 10.0));
                 if (promptShape.getShape() + 2 >= game.base) {
                     promptShape.setShape((promptShape.getShape() + 2) - game.base);
                     phase = PHASE_FOUR;
@@ -780,6 +783,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             }
         } else if(phase == PHASE_FOUR) {
             if(triangleTouched) {
+                game.confirmSound.play((float) (game.volume / 10.0));
                 if (promptShape.getShape() + 3 >= game.base) {
                     promptShape.setShape((promptShape.getShape() + 3) - game.base);
                     if(promptShape.getShape() == Shape.POINT) {
@@ -791,6 +795,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             }
         } else if(phase == PHASE_FIVE) {
             if(squareTouched) {
+                game.confirmSound.play((float) (game.volume / 10.0));
                 if (promptShape.getShape() + 4 >= game.base) {
                     promptShape.setShape((promptShape.getShape() + 4) - game.base);
                     if(promptShape.getShape() == Shape.POINT) {
@@ -835,6 +840,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     }
                 }
                 if (inputTouchedGameplay && !gameOver && promptShape.getShape() == currentTargetShape.getShape()) {
+                    game.confirmSound.play((float) (game.volume / 10.0));
                     phaseSixCorrectInputs++;
                     targetShapesMatched++;
                     Shape circleContainer = new Shape(Shape.CIRCLE,
@@ -859,6 +865,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                         currentTargetShape = outsideTargetShape;
                     } else {
                         if(phase == PHASE_SIX && phaseSixCorrectInputs >= PHASE_SIX_REQUIRED_CORRECT_INPUTS) {
+                            game.confirmSound.play((float) (game.volume / 10.0));
                             phase = PHASE_SEVEN;
                             multiplier = 0;
                         }
@@ -867,6 +874,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                         if (multiplier < 5) {
                             multiplier++;
                             if(multiplier >= 5) {
+                                game.confirmSound.play((float) (game.volume / 10.0));
                                 phase = PHASE_EIGHT;
                             }
                         }
@@ -917,30 +925,34 @@ public class TutorialScreen implements Screen, InputProcessor {
                             promptShape.setRadius(initPromptRadius);
                             phaseEightSquirgles++;
                             if(phaseEightSquirgles >= PHASE_EIGHT_REQUIRED_SQUIRGLES) {
+                                game.confirmSound.play((float) (game.volume / 10.0));
                                 phase = PHASE_NINE;
                             }
                         }
                         currentTargetShape = targetShapeList.get(0);
                     }
-                } else if (!gameOver && inputTouchedGameplay && phase >= PHASE_EIGHT) {
+                } else if (!gameOver && inputTouchedGameplay) {
                     //The wrong shape was touched
-                    if (game.widthGreater) {
-                        if (promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))) > (game.camera.viewportHeight / 2)) {
-                            promptShape.setRadius(game.camera.viewportHeight / 2);
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    if(phase >= PHASE_EIGHT) {
+                        if (game.widthGreater) {
+                            if (promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))) > (game.camera.viewportHeight / 2)) {
+                                promptShape.setRadius(game.camera.viewportHeight / 2);
+                            } else {
+                                promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))));
+                            }
                         } else {
-                            promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))));
+                            if (promptShape.getRadius() + (game.camera.viewportWidth * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))) > (game.camera.viewportWidth / 2)) {
+                                promptShape.setRadius(game.camera.viewportWidth / 2);
+                            } else {
+                                promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportWidth * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))));
+                            }
                         }
-                    } else {
-                        if (promptShape.getRadius() + (game.camera.viewportWidth * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))) > (game.camera.viewportWidth / 2)) {
-                            promptShape.setRadius(game.camera.viewportWidth / 2);
-                        } else {
-                            promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportWidth * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))));
+                        if (phase == PHASE_SIX) {
+                            phaseSixCorrectInputs = 0;
                         }
+                        multiplier = 1;
                     }
-                    if(phase == PHASE_SIX) {
-                        phaseSixCorrectInputs = 0;
-                    }
-                    multiplier = 1;
                 }
             } else {
                 if (pauseBackTouched) {

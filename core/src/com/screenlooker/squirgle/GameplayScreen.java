@@ -832,6 +832,12 @@ public class GameplayScreen implements Screen, InputProcessor {
                 multiplier = 1;
             }
             if (inputTouchedResults && showResults) {
+                //Unlock new base options
+                if(game.base == game.maxBase && score >= 150 && game.maxBase < 9) {
+                    game.maxBase++;
+                    game.updateSave(game.SAVE_MAX_BASE, game.maxBase);
+                }
+
                 if (playTouched) {
                     game.setScreen(new GameplayScreen(game));
                 } else if (homeTouched) {

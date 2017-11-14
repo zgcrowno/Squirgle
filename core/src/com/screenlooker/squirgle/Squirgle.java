@@ -27,7 +27,7 @@ import java.util.Map;
 //TODO: Many of the variables throughout this entire game will have to be replaced with screen-size dependent alternatives
 
 //TODO: Often, when working with game.camera.viewportWidth/Height, we'll want to use one or the other based upon whether or
-//TODO: not the screen widht or screen height is greater.
+//TODO: not the screen width or screen height is greater.
 public class Squirgle extends Game {
 	private static int VIRTUAL_WIDTH;
 	private static int VIRTUAL_HEIGHT;
@@ -40,18 +40,29 @@ public class Squirgle extends Game {
 	public final static int MUSIC_THE_POINT = 1;
 	public final static int MUSIC_THE_LINE = 2;
 	public final static int MUSIC_NO_TRI = 3;
-	public final static int MUSIC_SQUARE_UP = 4;
+	public final static int MUSIC_SQUARE_OFF = 4;
 	public final static int MUSIC_PENT_UP = 5;
 	public final static int MUSIC_HEX = 6;
 	public final static int MUSIC_EXSEPTION_TO_THE_COOL = 7;
 	public final static int MUSIC_ROCTOPUS = 8;
 	public final static int MUSIC_NON_PLUSSED = 9;
+	public final static int MUSIC_THE_LEARNED_AND_THE_DEAD = 10;
+
+	public final static String SAVE_NAME = "Squirgle Save";
+
+	public final static String SAVE_VOLUME = "volume";
+	public final static String SAVE_TRACK = "track";
+	public final static String SAVE_PLAYED_BEFORE = "playedBefore";
+	public final static String SAVE_MAX_BASE = "maxBase";
+
+	//Saved data
+	public Preferences save;
 
 	//Options
 	public int volume;
 	public int track;
 
-	public boolean neverPlayed;
+	public boolean playedBefore;
 
 	public boolean widthGreater;
 	public float widthOrHeight;
@@ -76,7 +87,7 @@ public class Squirgle extends Game {
 	public List<Music> thePointPhaseList;
 	public List<Music> theLinePhaseList;
 	public List<Music> noTriPhaseList;
-	public List<Music> squareUpPhaseList;
+	public List<Music> squareOffPhaseList;
 	public List<Music> pentUpPhaseList;
 	public List<Music> hexPhaseList;
 	public List<Music> exseptionToTheCoolPhaseList;
@@ -89,13 +100,18 @@ public class Squirgle extends Game {
 		VIRTUAL_HEIGHT = Gdx.graphics.getHeight();
 		ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
 
-		volume = 10;
-		track = MUSIC_EXSEPTION_TO_THE_COOL;
+		save = Gdx.app.getPreferences(SAVE_NAME);
 
-		neverPlayed = true;
+		volume = save.getInteger(SAVE_VOLUME, 10);
+		//volume = 10;
+		track = save.getInteger(SAVE_TRACK, MUSIC_EXSEPTION_TO_THE_COOL);
+		//track = MUSIC_EXSEPTION_TO_THE_COOL;
+
+		playedBefore = save.getBoolean(SAVE_PLAYED_BEFORE, false);
 
 		base = 4;
-		maxBase = 9;
+		maxBase = save.getInteger(SAVE_MAX_BASE, 4);
+		//maxBase = 9;
 		minBase = 4;
 		batch = new SpriteBatch();
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
@@ -119,7 +135,7 @@ public class Squirgle extends Game {
 		thePointPhaseList = new ArrayList<Music>();
 		theLinePhaseList = new ArrayList<Music>();
 		noTriPhaseList = new ArrayList<Music>();
-		squareUpPhaseList = new ArrayList<Music>();
+		squareOffPhaseList = new ArrayList<Music>();
 		pentUpPhaseList = new ArrayList<Music>();
 		hexPhaseList = new ArrayList<Music>();
 		exseptionToTheCoolPhaseList = new ArrayList<Music>();
@@ -131,7 +147,7 @@ public class Squirgle extends Game {
 
 		generator.dispose();
 
-		if(neverPlayed) {
+		if(!playedBefore) {
 			this.setScreen(new TutorialScreen(this));
 		} else {
 			this.setScreen(new MainMenuScreen(this));
@@ -178,4 +194,19 @@ public class Squirgle extends Game {
 		trackMap.put(MUSIC_EXSEPTION_TO_THE_COOL, exseptionToTheCoolPhaseList);
 	}
 
+	public void updateSave(String key, Object val) {
+		System.out.println(val.getClass());
+		if(val.getClass().equals(Boolean.class)) {
+			save.putBoolean(key, (Boolean) val);
+		} else if(val.getClass().equals(Float.class)) {
+			save.putFloat(key, (Float) val);
+		} else if(val.getClass().equals(Integer.class)) {
+			save.putInteger(key, (Integer) val);
+		} else if(val.getClass().equals(Long.class)) {
+			save.putLong(key, (Long) val);
+		} else if(val.getClass().equals(String.class)) {
+			save.putString(key, (String) val);
+		}
+		save.flush();
+	}
 }

@@ -143,21 +143,22 @@ public class OptionsScreen implements Screen, InputProcessor {
                 && touchPoint.y < game.partitionSize + inputHeight;
 
         if(volumeDownChevronTouched) {
-            game.disconfirmSound.play((float) (game.volume / 10.0));
             if(game.volume > 0) {
                 game.volume -= 1;
             } else {
                 game.volume = 10;
             }
+            game.disconfirmSound.play((float) (game.volume / 10.0));
         } else if(volumeUpChevronTouched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
             if(game.volume < 10) {
                 game.volume += 1;
             } else {
                 game.volume = 0;
             }
+            game.confirmSound.play((float) (game.volume / 10.0));
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
+            game.updateSave(game.SAVE_VOLUME, game.volume);
             game.setScreen(new MainMenuScreen(game));
             dispose();
         }
