@@ -1230,4 +1230,15 @@ public class Draw {
                 color,
                 shapeRenderer);
     }
+
+    public void drawQuestionMark(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.circle(x, y + (radius / 4), radius / 4);
+        shapeRenderer.rectLine(x, y + (radius / 4), x, y - (radius / 4), lineWidth);
+        shapeRenderer.rectLine(x, y - ((3 * radius) / 8), x, y - (radius / 2), lineWidth);
+
+        shapeRenderer.setColor(color);
+        shapeRenderer.circle(x, y + (radius / 4), radius / 8);
+        shapeRenderer.rectLine(x - ((5 * lineWidth) / 4), y + (radius / 4), x - ((5 * lineWidth) / 4), y, ((3 * lineWidth) / 2));
+    }
 }

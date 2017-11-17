@@ -1,9 +1,6 @@
 package com.screenlooker.squirgle;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -677,66 +674,179 @@ public class GameplayScreen implements Screen, InputProcessor {
         inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched || pauseTouched;
         inputTouchedResults = playTouched || homeTouched || exitTouched;
 
+        handleInput();
+
+        return true;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
+            //TODO: Somehow activate numlock so numpad is always available for use
+
+            pointTouched = keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1;
+            lineTouched = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2;
+            triangleTouched = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3;
+            squareTouched = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4;
+            pentagonTouched = keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5;
+            hexagonTouched = keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6;
+            septagonTouched = keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7;
+            octagonTouched = keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8;
+            nonagonTouched = keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9;
+            playTouched = pointTouched;
+            homeTouched = lineTouched;
+            exitTouched = triangleTouched;
+            //TODO: Set and use variables for these values
+            pauseTouched = keycode == Input.Keys.ESCAPE;
+            pauseBackTouched = pauseTouched;
+            pauseQuitTouched = keycode == Input.Keys.X;
+            inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched || pauseTouched;
+            inputTouchedResults = playTouched || homeTouched || exitTouched;
+
+            handleInput();
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
+    }
+
+    public void drawInputRectangles() {
+        drawPauseBackInput();
+        drawPauseQuitInput();
+    }
+
+    public void drawInputRectangle(int placement) {
+        game.shapeRendererFilled.setColor(Color.WHITE);
+        switch(placement) {
+            case PAUSE_BACK : {
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        game.partitionSize,
+                        pauseInputWidth,
+                        pauseInputHeight);
+            }
+            case PAUSE_QUIT : {
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        (2 * game.partitionSize) + pauseInputHeight,
+                        pauseInputWidth,
+                        pauseInputHeight);
+            }
+        }
+    }
+
+    public void drawPauseQuitInput() {
+        drawInputRectangle(PAUSE_QUIT);
+        game.draw.drawX(game.camera.viewportWidth / 2,
+                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
+                game.camera.viewportHeight / 4,
+                Squirgle.LINE_WIDTH,
+                Color.BLACK,
+                game.shapeRendererFilled);
+    }
+
+    public void drawPauseBackInput() {
+        drawInputRectangle(PAUSE_BACK);
+        game.draw.drawBackButton(game.camera.viewportWidth / 2,
+                game.camera.viewportHeight / 4,
+                game.camera.viewportHeight / 4,
+                Squirgle.LINE_WIDTH,
+                Color.BLACK,
+                game.shapeRendererFilled);
+    }
+
+    public void playMusic() {
+        for(int i = 0; i < numMusicPhases; i++) {
+            game.trackMap.get(game.track).get(i).play();
+        }
+    }
+
+    public void stopMusic() {
+        for(int i = 0; i < numMusicPhases; i++) {
+            game.trackMap.get(game.track).get(i).stop();
+        }
+    }
+
+    public void handleInput() {
         if(!paused) {
             if (!gameOver) {
-                    if (pointTouched) {
-                        if (promptShape.getShape() + 1 >= game.base) {
-                            promptShape.setShape((promptShape.getShape() + 1) - game.base);
-                        } else {
-                            promptShape.setShape(promptShape.getShape() + 1);
-                        }
-                    } else if (lineTouched) {
-                        if (promptShape.getShape() + 2 >= game.base) {
-                            promptShape.setShape((promptShape.getShape() + 2) - game.base);
-                        } else {
-                            promptShape.setShape(promptShape.getShape() + 2);
-                        }
-                    } else if (triangleTouched) {
-                        if (promptShape.getShape() + 3 >= game.base) {
-                            promptShape.setShape((promptShape.getShape() + 3) - game.base);
-                        } else {
-                            promptShape.setShape(promptShape.getShape() + 3);
-                        }
-                    } else if (squareTouched) {
-                        if (promptShape.getShape() + 4 >= game.base) {
-                            promptShape.setShape((promptShape.getShape() + 4) - game.base);
-                        } else {
-                            promptShape.setShape(promptShape.getShape() + 4);
-                        }
-                    } else if (pentagonTouched) {
-                        if (promptShape.getShape() + 5 >= game.base) {
-                            promptShape.setShape((promptShape.getShape() + 5) - game.base);
-                        } else {
-                            promptShape.setShape(promptShape.getShape() + 5);
-                        }
-                    } else if (hexagonTouched) {
-                        if (promptShape.getShape() + 6 >= game.base) {
-                            promptShape.setShape((promptShape.getShape() + 6) - game.base);
-                        } else {
-                            promptShape.setShape(promptShape.getShape() + 6);
-                        }
-                    } else if (septagonTouched) {
-                        if (promptShape.getShape() + 7 >= game.base) {
-                            promptShape.setShape((promptShape.getShape() + 7) - game.base);
-                        } else {
-                            promptShape.setShape(promptShape.getShape() + 7);
-                        }
-                    } else if (octagonTouched) {
-                        if (promptShape.getShape() + 8 >= game.base) {
-                            promptShape.setShape((promptShape.getShape() + 8) - game.base);
-                        } else {
-                            promptShape.setShape(promptShape.getShape() + 8);
-                        }
-                    } else if (nonagonTouched) {
-                        if (promptShape.getShape() + 9 >= game.base) {
-                            promptShape.setShape((promptShape.getShape() + 9) - game.base);
-                        } else {
-                            promptShape.setShape(promptShape.getShape() + 9);
-                        }
-                    } else if (pauseTouched) {
-                        pauseStartTime = System.currentTimeMillis();
-                        pause();
+                if (pointTouched) {
+                    if (promptShape.getShape() + 1 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 1) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 1);
                     }
+                } else if (lineTouched) {
+                    if (promptShape.getShape() + 2 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 2) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 2);
+                    }
+                } else if (triangleTouched) {
+                    if (promptShape.getShape() + 3 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 3) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 3);
+                    }
+                } else if (squareTouched) {
+                    if (promptShape.getShape() + 4 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 4) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 4);
+                    }
+                } else if (pentagonTouched) {
+                    if (promptShape.getShape() + 5 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 5) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 5);
+                    }
+                } else if (hexagonTouched) {
+                    if (promptShape.getShape() + 6 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 6) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 6);
+                    }
+                } else if (septagonTouched) {
+                    if (promptShape.getShape() + 7 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 7) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 7);
+                    }
+                } else if (octagonTouched) {
+                    if (promptShape.getShape() + 8 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 8) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 8);
+                    }
+                } else if (nonagonTouched) {
+                    if (promptShape.getShape() + 9 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 9) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 9);
+                    }
+                } else if (pauseTouched) {
+                    pauseStartTime = System.currentTimeMillis();
+                    pause();
+                }
             }
             if (inputTouchedGameplay && !gameOver && promptShape.getShape() == currentTargetShape.getShape()) {
                 targetShapesMatched++;
@@ -857,87 +967,6 @@ public class GameplayScreen implements Screen, InputProcessor {
                 game.setScreen(new MainMenuScreen(game));
                 dispose();
             }
-        }
-        return true;
-    }
-
-    @Override
-    public boolean touchDragged(int screenX, int screenY, int pointer) {
-        return false;
-    }
-
-    @Override
-    public boolean keyDown(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyUp(int keycode) {
-        return false;
-    }
-
-    @Override
-    public boolean keyTyped(char character) {
-        return false;
-    }
-
-    @Override
-    public boolean scrolled(int amount) {
-        return false;
-    }
-
-    public void drawInputRectangles() {
-        drawPauseBackInput();
-        drawPauseQuitInput();
-    }
-
-    public void drawInputRectangle(int placement) {
-        game.shapeRendererFilled.setColor(Color.WHITE);
-        switch(placement) {
-            case PAUSE_BACK : {
-                game.shapeRendererFilled.rect(game.partitionSize,
-                        game.partitionSize,
-                        pauseInputWidth,
-                        pauseInputHeight);
-            }
-            case PAUSE_QUIT : {
-                game.shapeRendererFilled.rect(game.partitionSize,
-                        (2 * game.partitionSize) + pauseInputHeight,
-                        pauseInputWidth,
-                        pauseInputHeight);
-            }
-        }
-    }
-
-    public void drawPauseQuitInput() {
-        drawInputRectangle(PAUSE_QUIT);
-        game.draw.drawX(game.camera.viewportWidth / 2,
-                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
-                game.camera.viewportHeight / 4,
-                Squirgle.LINE_WIDTH,
-                Color.BLACK,
-                game.shapeRendererFilled);
-    }
-
-    public void drawPauseBackInput() {
-        drawInputRectangle(PAUSE_BACK);
-        game.draw.drawBackButton(game.camera.viewportWidth / 2,
-                game.camera.viewportHeight / 4,
-                game.camera.viewportHeight / 4,
-                Squirgle.LINE_WIDTH,
-                Color.BLACK,
-                game.shapeRendererFilled);
-    }
-
-    public void playMusic() {
-        for(int i = 0; i < numMusicPhases; i++) {
-            game.trackMap.get(game.track).get(i).play();
-        }
-    }
-
-    public void stopMusic() {
-        for(int i = 0; i < numMusicPhases; i++) {
-            game.trackMap.get(game.track).get(i).stop();
         }
     }
 }

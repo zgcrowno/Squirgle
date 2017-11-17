@@ -18,7 +18,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
     private final static int OPTIONS = 0;
     private final static int PLAY = 1;
-    private final static int QUIT = 2;
+    private final static int TUTORIAL = 2;
+    private final static int QUIT = 3;
 
     private float inputWidth;
     private float inputHeight;
@@ -27,10 +28,12 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
     private Color optionsColor;
     private Color playColor;
+    private Color tutorialColor;
     private Color quitColor;
 
     private boolean optionsTouched;
     private boolean playTouched;
+    private boolean tutorialTouched;
     private boolean quitTouched;
 
     public MainMenuScreen(final Squirgle game) {
@@ -41,16 +44,18 @@ public class MainMenuScreen implements Screen, InputProcessor {
         Gdx.input.setInputProcessor(this);
 
         inputWidth = game.camera.viewportWidth - (game.partitionSize * 2);
-        inputHeight = (game.camera.viewportHeight - (game.partitionSize * 4)) / 3;
+        inputHeight = (game.camera.viewportHeight - (game.partitionSize * 5)) / 4;
 
         touchPoint = new Vector3();
 
         optionsColor = ColorUtils.randomColor();
         playColor = ColorUtils.randomColor();
+        tutorialColor = ColorUtils.randomColor();
         quitColor = ColorUtils.randomColor();
 
         optionsTouched = false;
         playTouched = false;
+        tutorialTouched = false;
         quitTouched = false;
     }
 
@@ -131,6 +136,10 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.camera.viewportHeight - (2 * game.partitionSize) - (2 * inputHeight)
                 && touchPoint.y < game.camera.viewportHeight - (2 * game.partitionSize) - inputHeight;
+        tutorialTouched = touchPoint.x > game.partitionSize
+                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
+                && touchPoint.y > (2 * game.partitionSize) + inputHeight
+                && touchPoint.y < (2 * game.partitionSize) + (2 * inputHeight);
         quitTouched = touchPoint.x > game.partitionSize
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize
@@ -143,6 +152,10 @@ public class MainMenuScreen implements Screen, InputProcessor {
         } else if(playTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
             game.setScreen(new BaseSelectScreen(game));
+            dispose();
+        } else if(tutorialTouched) {
+            game.confirmSound.play((float) (game.volume / 10.0));
+            game.setScreen(new TutorialScreen(game));
             dispose();
         } else if(quitTouched) {
             System.exit(0);
@@ -180,6 +193,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
     public void drawInputRectangles() {
         drawOptionsInput();
         drawPlayInput();
+        drawTutorialInput();
         drawQuitInput();
     }
 
@@ -198,6 +212,12 @@ public class MainMenuScreen implements Screen, InputProcessor {
                         inputWidth,
                         inputHeight);
             }
+            case TUTORIAL : {
+                game.shapeRendererFilled.rect(game.partitionSize,
+                        (2 * game.partitionSize) + inputHeight,
+                        inputWidth,
+                        inputHeight);
+            }
             case QUIT : {
                 game.shapeRendererFilled.rect(game.partitionSize,
                         game.partitionSize,
@@ -208,11 +228,11 @@ public class MainMenuScreen implements Screen, InputProcessor {
     }
 
     public void drawOptionsInput() {
-        float radius = game.camera.viewportHeight / 6;
+        float radius = game.camera.viewportHeight / 8;
 
         drawInputRectangle(OPTIONS, optionsColor);
         game.draw.drawWrench(game.camera.viewportWidth / 2,
-                game.camera.viewportHeight - (game.camera.viewportHeight / 6),
+                game.camera.viewportHeight - (game.camera.viewportHeight / 8),
                 radius,
                 radius / 8,
                 optionsColor,
@@ -220,23 +240,35 @@ public class MainMenuScreen implements Screen, InputProcessor {
     }
 
     public void drawPlayInput() {
-        float radius = game.camera.viewportHeight / 6;
+        float radius = game.camera.viewportHeight / 8;
 
         drawInputRectangle(PLAY, playColor);
         game.draw.drawPlayButton(game.camera.viewportWidth / 2,
-                game.camera.viewportHeight - ((3 * game.camera.viewportHeight) / 6),
+                game.camera.viewportHeight - ((3 * game.camera.viewportHeight) / 8),
                 radius,
                 radius / 8,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
 
+    public void drawTutorialInput() {
+        float radius = inputHeight;
+
+        drawInputRectangle(TUTORIAL, tutorialColor);
+        game.draw.drawQuestionMark(game.camera.viewportWidth / 2,
+                (2 * game.partitionSize) + (inputHeight / 2) + inputHeight,
+                radius,
+                radius / 8,
+                tutorialColor,
+                game.shapeRendererFilled);
+    }
+
     public void drawQuitInput() {
-        float radius = game.camera.viewportHeight / 6;
+        float radius = game.camera.viewportHeight / 8;
 
         drawInputRectangle(QUIT, quitColor);
         game.draw.drawX(game.camera.viewportWidth / 2,
-                game.camera.viewportHeight / 6,
+                game.camera.viewportHeight / 8,
                 radius,
                 radius / 8,
                 Color.BLACK,
