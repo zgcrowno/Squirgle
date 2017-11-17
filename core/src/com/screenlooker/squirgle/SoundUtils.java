@@ -16,7 +16,7 @@ public class SoundUtils {
         int phaseTwoIndex = 1;
         int phaseThreeIndex = 2;
 
-        float maxVolume = game.volume / 10;
+        float maxVolume = game.volume / 10f;
 
         if(phaseOne) {
             game.trackMap.get(game.track).get(phaseOneIndex).setVolume(maxVolume);
@@ -26,7 +26,7 @@ public class SoundUtils {
 
         if(phaseTwo) {
             //TODO: set the volume to maxVolume once I've got .wavs that are of the correct volume
-            game.trackMap.get(game.track).get(phaseTwoIndex).setVolume(maxVolume / 4);
+            game.trackMap.get(game.track).get(phaseTwoIndex).setVolume(maxVolume / 4f);
         } else {
             game.trackMap.get(game.track).get(phaseTwoIndex).setVolume(0);
         }
