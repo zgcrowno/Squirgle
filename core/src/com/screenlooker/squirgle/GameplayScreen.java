@@ -671,7 +671,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 && touchPoint.x < game.partitionSize + pauseInputWidth
                 && touchPoint.y > (2 * game.partitionSize) + pauseInputHeight
                 && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
-        inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched || pauseTouched;
+        inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched;
         inputTouchedResults = playTouched || homeTouched || exitTouched;
 
         handleInput();
@@ -710,7 +710,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             pauseTouched = keycode == Input.Keys.ESCAPE;
             pauseBackTouched = pauseTouched;
             pauseQuitTouched = keycode == Input.Keys.X;
-            inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched || pauseTouched;
+            inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched;
             inputTouchedResults = playTouched || homeTouched || exitTouched;
 
             handleInput();
