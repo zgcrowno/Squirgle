@@ -349,8 +349,6 @@ public class TutorialScreen implements Screen, InputProcessor {
                 game.draw.drawBackgroundColorShape(backgroundColorShape, game.shapeRendererFilled);
             }
 
-            game.draw.drawPerimeter(promptShape, game.shapeRendererLine);
-
             game.draw.drawPrompt(promptShape, priorShapeList, primaryShapeAtThreshold, backgroundColorShape, false, game.shapeRendererFilled);
 
             game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game, game.shapeRendererFilled);
@@ -397,6 +395,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game, game.shapeRendererFilled);
 
             if (!gameOver) {
+                game.draw.drawPerimeter(promptShape, game.shapeRendererLine);
                 if(phase >= PHASE_EIGHT) {
                     game.draw.drawBackgroundColorShapeListTutorial(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
                     game.draw.drawTimelines(promptShape, backgroundColorShapeList, game.shapeRendererFilled);
