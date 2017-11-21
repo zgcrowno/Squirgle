@@ -3,6 +3,7 @@ package com.screenlooker.squirgle;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -71,6 +72,16 @@ public class Draw {
 
     public void setTargetSpawn(Vector2 targetSpawn) {
         this.targetSpawn = targetSpawn;
+    }
+
+    public void drawPerimeter(Shape promptShape, ShapeRenderer shapeRenderer) {
+        float opacity = 0f;
+        float visibilityPoint = (3 * game.widthOrHeight) / 8;
+        if(promptShape.getRadius() >= visibilityPoint) {
+            opacity = (promptShape.getRadius() - visibilityPoint) / (game.widthOrHeight / 4);
+        }
+        shapeRenderer.setColor(new Color(0, 0, 0, opacity));
+        shapeRenderer.circle(game.camera.viewportWidth / 2, game.camera.viewportHeight / 2, promptShape.getRadius());
     }
 
     //TODO: update as I make individual draw[Shape] methods more accurate

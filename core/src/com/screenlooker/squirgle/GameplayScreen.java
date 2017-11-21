@@ -3,6 +3,7 @@ package com.screenlooker.squirgle;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -238,10 +239,13 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glEnable(GL30.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         game.camera.update();
         game.shapeRendererFilled.setProjectionMatrix(game.camera.combined);
+        game.shapeRendererLine.setProjectionMatrix(game.camera.combined);
         game.batch.setProjectionMatrix(game.camera.combined);
 
         float primaryShapeThreshold = game.widthGreater ? game.camera.viewportHeight * game.draw.THRESHOLD_MULTIPLIER : game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER;
@@ -266,6 +270,8 @@ public class GameplayScreen implements Screen, InputProcessor {
             if (!gameOver) {
                 game.draw.drawBackgroundColorShape(backgroundColorShape, game.shapeRendererFilled);
             }
+
+            game.draw.drawPerimeter(promptShape, game.shapeRendererLine);
 
             game.draw.drawPrompt(promptShape, priorShapeList, primaryShapeAtThreshold, backgroundColorShape, false, game.shapeRendererFilled);
 
