@@ -114,11 +114,12 @@ public class Draw {
             }
         } else if (promptShape.getShape() == Shape.LINE) {
             if (!priorShapeList.isEmpty()) {
-                xOffset = promptShape.getRadius();
+                xOffset = promptShape.getRadius() - (promptShape.getLineWidth() * 1.7f);
+                radiusOffset = 2;
             }
             drawLine(promptShape.getCoordinates().x - xOffset,
                     promptShape.getCoordinates().y,
-                    promptShape.getRadius(),
+                    promptShape.getRadius() / radiusOffset,
                     promptShape.getLineWidth(),
                     promptShape.getColor(),
                     shapeRenderer);
@@ -126,7 +127,7 @@ public class Draw {
                 //We're dealing with center prompt shape, so we must set up its inner color
                 drawLine(promptShape.getCoordinates().x - xOffset,
                         promptShape.getCoordinates().y,
-                        promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                        (promptShape.getRadius() / radiusOffset) - (promptShape.getLineWidth() / 2),
                         promptShape.getLineWidth() / 2,
                         backgroundColorShape.getColor(),
                         shapeRenderer);
@@ -296,7 +297,8 @@ public class Draw {
                     }
                 } else if (priorShape.getShape() == Shape.LINE) {
                     if (priorShape == promptShape) {
-                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x + (priorShape.getLineWidth() / 2),
+                        shape.setRadius(priorShape.getRadius() - (priorShape.getLineWidth() * 1.1f));
+                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x + (priorShape.getLineWidth() * 1.7f) + (priorShape.getLineWidth() / 2) - (priorShape.getRadius() - shape.getRadius()),
                                 priorShape.getCoordinates().y));
                     } else {
                         shape.setCoordinates(new Vector2(priorShape.getCoordinates().x + priorShape.getRadius() + (priorShape.getLineWidth() / 2),
