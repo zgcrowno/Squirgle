@@ -108,7 +108,7 @@ public class Draw {
                 //We're dealing with center prompt shape, so we must set up its inner color
                 drawPoint(promptShape.getCoordinates().x - xOffset,
                         promptShape.getCoordinates().y,
-                        (promptShape.getRadius() / radiusOffset) - (promptShape.getLineWidth() / 2),
+                        (promptShape.getRadius() / radiusOffset) / 2,
                         backgroundColorShape.getColor(),
                         shapeRenderer);
             }
@@ -647,100 +647,100 @@ public class Draw {
         }
     }
 
-    public void drawInputButtons(Squirgle game, Vector2 inputPointSpawn, Vector2 inputLineSpawn, Vector2 inputTriangleSpawn, Vector2 inputSquareSpawn, Vector2 inputPentagonSpawn, Vector2 inputHexagonSpawn, Vector2 inputSeptagonSpawn, Vector2 inputOctagonSpawn, Vector2 inputNonagonSpawn, ShapeRenderer shapeRenderer) {
+    public void drawInputButtons(Squirgle game, ShapeRenderer shapeRenderer) {
         if(game.base >= 1) {
             //Point
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputPointSpawn.x, inputPointSpawn.y, GameplayScreen.INPUT_RADIUS);
-            drawPoint(inputPointSpawn.x, inputPointSpawn.y, GameplayScreen.INPUT_RADIUS / 2, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(GameplayScreen.INPUT_POINT_SPAWN.x, GameplayScreen.INPUT_POINT_SPAWN.y, GameplayScreen.INPUT_RADIUS);
+            drawPoint(GameplayScreen.INPUT_POINT_SPAWN.x, GameplayScreen.INPUT_POINT_SPAWN.y, GameplayScreen.INPUT_RADIUS / 2, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 2) {
             //Line
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputLineSpawn.x, inputLineSpawn.y, GameplayScreen.INPUT_RADIUS);
-            drawLine(inputLineSpawn.x, inputLineSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(GameplayScreen.INPUT_LINE_SPAWN.x, GameplayScreen.INPUT_LINE_SPAWN.y, GameplayScreen.INPUT_RADIUS);
+            drawLine(GameplayScreen.INPUT_LINE_SPAWN.x, GameplayScreen.INPUT_LINE_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 3) {
             //Triangle
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputTriangleSpawn.x, inputTriangleSpawn.y, GameplayScreen.INPUT_RADIUS);
-            drawTriangle(inputTriangleSpawn.x, inputTriangleSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(GameplayScreen.INPUT_TRIANGLE_SPAWN.x, GameplayScreen.INPUT_TRIANGLE_SPAWN.y, GameplayScreen.INPUT_RADIUS);
+            drawTriangle(GameplayScreen.INPUT_TRIANGLE_SPAWN.x, GameplayScreen.INPUT_TRIANGLE_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 4) {
             //Square
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputSquareSpawn.x, inputSquareSpawn.y, GameplayScreen.INPUT_RADIUS);
-            drawSquare(inputSquareSpawn.x, inputSquareSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(GameplayScreen.INPUT_SQUARE_SPAWN.x, GameplayScreen.INPUT_SQUARE_SPAWN.y, GameplayScreen.INPUT_RADIUS);
+            drawSquare(GameplayScreen.INPUT_SQUARE_SPAWN.x, GameplayScreen.INPUT_SQUARE_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 5) {
             //Pentagon
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputPentagonSpawn.x, inputPentagonSpawn.y, GameplayScreen.INPUT_RADIUS);
-            drawPentagon(inputPentagonSpawn.x, inputPentagonSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(GameplayScreen.INPUT_PENTAGON_SPAWN.x, GameplayScreen.INPUT_PENTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS);
+            drawPentagon(GameplayScreen.INPUT_PENTAGON_SPAWN.x, GameplayScreen.INPUT_PENTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 6) {
             //Hexagon
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputHexagonSpawn.x, inputHexagonSpawn.y, GameplayScreen.INPUT_RADIUS);
-            drawHexagon(inputHexagonSpawn.x, inputHexagonSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(GameplayScreen.INPUT_HEXAGON_SPAWN.x, GameplayScreen.INPUT_HEXAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS);
+            drawHexagon(GameplayScreen.INPUT_HEXAGON_SPAWN.x, GameplayScreen.INPUT_HEXAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 7) {
             //Septagon
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputSeptagonSpawn.x, inputSeptagonSpawn.y, GameplayScreen.INPUT_RADIUS);
-            drawSeptagon(inputSeptagonSpawn.x, inputSeptagonSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(GameplayScreen.INPUT_SEPTAGON_SPAWN.x, GameplayScreen.INPUT_SEPTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS);
+            drawSeptagon(GameplayScreen.INPUT_SEPTAGON_SPAWN.x, GameplayScreen.INPUT_SEPTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 8) {
             //Octagon
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputOctagonSpawn.x, inputOctagonSpawn.y, GameplayScreen.INPUT_RADIUS);
-            drawOctagon(inputOctagonSpawn.x, inputOctagonSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(GameplayScreen.INPUT_OCTAGON_SPAWN.x, GameplayScreen.INPUT_OCTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS);
+            drawOctagon(GameplayScreen.INPUT_OCTAGON_SPAWN.x, GameplayScreen.INPUT_OCTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(game.base >= 9) {
             //Nonagon
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputNonagonSpawn.x, inputNonagonSpawn.y, GameplayScreen.INPUT_RADIUS);
-            drawNonagon(inputNonagonSpawn.x, inputNonagonSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(GameplayScreen.INPUT_NONAGON_SPAWN.x, GameplayScreen.INPUT_NONAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS);
+            drawNonagon(GameplayScreen.INPUT_NONAGON_SPAWN.x, GameplayScreen.INPUT_NONAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
     }
 
-    public void drawInputButtonsTutorial(int phase, Vector2 inputPointSpawn, Vector2 inputLineSpawn, Vector2 inputTriangleSpawn, Vector2 inputSquareSpawn, Vector2 inputPentagonSpawn, Vector2 inputHexagonSpawn, Vector2 inputSeptagonSpawn, Vector2 inputOctagonSpawn, Vector2 inputNonagonSpawn, ShapeRenderer shapeRenderer) {
+    public void drawInputButtonsTutorial(int phase, ShapeRenderer shapeRenderer) {
         boolean allInputsVisible = phase > TutorialScreen.PHASE_FIVE;
 
         if(phase == TutorialScreen.PHASE_TWO || allInputsVisible) {
             //Point
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputPointSpawn.x, inputPointSpawn.y, TutorialScreen.INPUT_RADIUS);
-            drawPoint(inputPointSpawn.x, inputPointSpawn.y, TutorialScreen.INPUT_RADIUS / 2, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(TutorialScreen.INPUT_POINT_SPAWN.x, TutorialScreen.INPUT_POINT_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+            drawPoint(TutorialScreen.INPUT_POINT_SPAWN.x, TutorialScreen.INPUT_POINT_SPAWN.y, TutorialScreen.INPUT_RADIUS / 2, Color.BLACK, shapeRenderer);
         }
 
         if(phase == TutorialScreen.PHASE_THREE || allInputsVisible) {
             //Line
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputLineSpawn.x, inputLineSpawn.y, TutorialScreen.INPUT_RADIUS);
-            drawLine(inputLineSpawn.x, inputLineSpawn.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(TutorialScreen.INPUT_LINE_SPAWN.x, TutorialScreen.INPUT_LINE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+            drawLine(TutorialScreen.INPUT_LINE_SPAWN.x, TutorialScreen.INPUT_LINE_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(phase == TutorialScreen.PHASE_FOUR || allInputsVisible) {
             //Triangle
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputTriangleSpawn.x, inputTriangleSpawn.y, TutorialScreen.INPUT_RADIUS);
-            drawTriangle(inputTriangleSpawn.x, inputTriangleSpawn.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN.x, TutorialScreen.INPUT_TRIANGLE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+            drawTriangle(TutorialScreen.INPUT_TRIANGLE_SPAWN.x, TutorialScreen.INPUT_TRIANGLE_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(phase == TutorialScreen.PHASE_FIVE || allInputsVisible) {
             //Square
             shapeRenderer.setColor(Color.WHITE);
-            shapeRenderer.circle(inputSquareSpawn.x, inputSquareSpawn.y, TutorialScreen.INPUT_RADIUS);
-            drawSquare(inputSquareSpawn.x, inputSquareSpawn.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            shapeRenderer.circle(TutorialScreen.INPUT_SQUARE_SPAWN.x, TutorialScreen.INPUT_SQUARE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+            drawSquare(TutorialScreen.INPUT_SQUARE_SPAWN.x, TutorialScreen.INPUT_SQUARE_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
     }
 
@@ -803,6 +803,153 @@ public class Draw {
         shapeRenderer.circle(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS);
 
         drawSquare(inputExitSpawn.x, inputExitSpawn.y, (GameplayScreen.INPUT_RADIUS / 2), (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+    }
+
+    public void drawEquation(Shape lastShapeTouched, Shape lastPromptShape, Shape lastTargetShape, float equationWidth, ShapeRenderer shapeRenderer) {
+        Vector2 spawnBegin = new Vector2();
+        Vector2 spawnEnd = new Vector2();
+        Vector2 plusSpawn = new Vector2();
+        Vector2 equalsSpawn = new Vector2();
+        Vector2 equalsTargetSpawn = new Vector2();
+        Shape sum = new Shape(Shape.POINT, GameplayScreen.INPUT_RADIUS, Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / 8, lastPromptShape.getCoordinates());
+
+        //Set up the beginning coordinates and sum shape
+        if(lastShapeTouched.getShape() == Shape.POINT) {
+            spawnBegin = GameplayScreen.INPUT_POINT_SPAWN;
+            if (lastPromptShape.getShape() + 1 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 1) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 1);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.LINE) {
+            spawnBegin = GameplayScreen.INPUT_LINE_SPAWN;
+            if (lastPromptShape.getShape() + 2 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 2) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 2);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.TRIANGLE) {
+            spawnBegin = GameplayScreen.INPUT_TRIANGLE_SPAWN;
+            if (lastPromptShape.getShape() + 3 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 3) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 3);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.SQUARE) {
+            spawnBegin = GameplayScreen.INPUT_SQUARE_SPAWN;
+            if (lastPromptShape.getShape() + 4 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 4) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 4);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.PENTAGON) {
+            spawnBegin = GameplayScreen.INPUT_PENTAGON_SPAWN;
+            if (lastPromptShape.getShape() + 5 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 5) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 5);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.HEXAGON) {
+            spawnBegin = GameplayScreen.INPUT_HEXAGON_SPAWN;
+            if (lastPromptShape.getShape() + 6 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 6) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 6);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.SEPTAGON) {
+            spawnBegin = GameplayScreen.INPUT_SEPTAGON_SPAWN;
+            if (lastPromptShape.getShape() + 7 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 7) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 7);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.OCTAGON) {
+            spawnBegin = GameplayScreen.INPUT_OCTAGON_SPAWN;
+            if (lastPromptShape.getShape() + 8 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 8) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 8);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.NONAGON) {
+            spawnBegin = GameplayScreen.INPUT_NONAGON_SPAWN;
+            if (lastPromptShape.getShape() + 9 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 9) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 9);
+            }
+        }
+
+        //Set up the ending coordinates
+        if(sum.getShape() == Shape.POINT) {
+            spawnEnd = GameplayScreen.INPUT_POINT_SPAWN;
+        } else if(sum.getShape() == Shape.LINE) {
+            spawnEnd = GameplayScreen.INPUT_LINE_SPAWN;
+        } else if(sum.getShape() == Shape.TRIANGLE) {
+            spawnEnd = GameplayScreen.INPUT_TRIANGLE_SPAWN;
+        } else if(sum.getShape() == Shape.SQUARE) {
+            spawnEnd = GameplayScreen.INPUT_SQUARE_SPAWN;
+        } else if(sum.getShape() == Shape.PENTAGON) {
+            spawnEnd = GameplayScreen.INPUT_PENTAGON_SPAWN;
+        } else if(sum.getShape() == Shape.HEXAGON) {
+            spawnEnd = GameplayScreen.INPUT_HEXAGON_SPAWN;
+        } else if(sum.getShape() == Shape.SEPTAGON) {
+            spawnEnd = GameplayScreen.INPUT_SEPTAGON_SPAWN;
+        } else if(sum.getShape() == Shape.OCTAGON) {
+            spawnEnd = GameplayScreen.INPUT_OCTAGON_SPAWN;
+        } else if(sum.getShape() == Shape.NONAGON) {
+            spawnEnd = GameplayScreen.INPUT_NONAGON_SPAWN;
+        }
+
+        //Set up the plusSpawn coordinates
+        if(lastShapeTouched.getShape() == sum.getShape()) {
+            plusSpawn.x = spawnBegin.x + ((lastPromptShape.getCoordinates().x - spawnBegin.x) / 2) - (GameplayScreen.INPUT_RADIUS / 2);
+        } else {
+            plusSpawn.x = spawnBegin.x + ((lastPromptShape.getCoordinates().x - spawnBegin.x) / 2);
+        }
+        plusSpawn.y = spawnBegin.y + ((lastPromptShape.getCoordinates().y - spawnBegin.y) / 2);
+
+        //Set up the equalsSpawn coordinates
+        if(lastShapeTouched.getShape() == sum.getShape()) {
+            equalsSpawn.x = spawnEnd.x + ((lastPromptShape.getCoordinates().x - spawnEnd.x) / 2) + (GameplayScreen.INPUT_RADIUS / 2);
+        } else {
+            equalsSpawn.x = spawnEnd.x + ((lastPromptShape.getCoordinates().x - spawnEnd.x) / 2);
+        }
+        equalsSpawn.y = spawnEnd.y + ((lastPromptShape.getCoordinates().y - spawnEnd.y) / 2);
+
+        //Set up the equalsTargetSpawn coordinates
+        if(sum.getShape() == lastTargetShape.getShape()) {
+            equalsTargetSpawn.x = targetSpawn.x + ((lastPromptShape.getCoordinates().x - targetSpawn.x) / 2);
+            equalsTargetSpawn.y = targetSpawn.y + ((lastPromptShape.getCoordinates().y - targetSpawn.y) / 2);
+        }
+
+        shapeRenderer.setColor(Color.WHITE);
+
+        //Draw the circles
+        shapeRenderer.circle(plusSpawn.x,
+                plusSpawn.y,
+                equationWidth);
+        shapeRenderer.circle(lastPromptShape.getCoordinates().x,
+                lastPromptShape.getCoordinates().y,
+                equationWidth);
+        shapeRenderer.circle(equalsSpawn.x,
+                equalsSpawn.y,
+                equationWidth);
+        if(sum.getShape() == lastTargetShape.getShape()) {
+            shapeRenderer.circle(equalsTargetSpawn.x,
+                    equalsTargetSpawn.y,
+                    equationWidth);
+        }
+
+        //Draw the lines
+        shapeRenderer.rectLine(spawnBegin, plusSpawn, equationWidth * 2);
+        shapeRenderer.rectLine(plusSpawn, lastPromptShape.getCoordinates(), equationWidth * 2);
+        shapeRenderer.rectLine(lastPromptShape.getCoordinates(), equalsSpawn, equationWidth * 2);
+        shapeRenderer.rectLine(equalsSpawn, spawnEnd, equationWidth * 2);
+        if(sum.getShape() == lastTargetShape.getShape()) {
+            shapeRenderer.rectLine(lastPromptShape.getCoordinates(), equalsTargetSpawn, equationWidth * 2);
+            shapeRenderer.rectLine(equalsTargetSpawn, targetSpawn, equationWidth * 2);
+        }
+
     }
 
     public void drawBackgroundColorShape(Shape backgroundColorShape, ShapeRenderer shapeRenderer) {
