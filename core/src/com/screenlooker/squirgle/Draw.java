@@ -902,7 +902,7 @@ public class Draw {
 
         //Set up the plusSpawn coordinates
         if(lastShapeTouched.getShape() == sum.getShape()) {
-            plusSpawn.x = spawnBegin.x + ((lastPromptShape.getCoordinates().x - spawnBegin.x) / 2) - (GameplayScreen.INPUT_RADIUS / 2);
+            plusSpawn.x = spawnBegin.x + ((lastPromptShape.getCoordinates().x - spawnBegin.x) / 2) - (GameplayScreen.INPUT_RADIUS);
         } else {
             plusSpawn.x = spawnBegin.x + ((lastPromptShape.getCoordinates().x - spawnBegin.x) / 2);
         }
@@ -910,7 +910,7 @@ public class Draw {
 
         //Set up the equalsSpawn coordinates
         if(lastShapeTouched.getShape() == sum.getShape()) {
-            equalsSpawn.x = spawnEnd.x + ((lastPromptShape.getCoordinates().x - spawnEnd.x) / 2) + (GameplayScreen.INPUT_RADIUS / 2);
+            equalsSpawn.x = spawnEnd.x + ((lastPromptShape.getCoordinates().x - spawnEnd.x) / 2) + (GameplayScreen.INPUT_RADIUS);
         } else {
             equalsSpawn.x = spawnEnd.x + ((lastPromptShape.getCoordinates().x - spawnEnd.x) / 2);
         }
@@ -950,6 +950,181 @@ public class Draw {
             shapeRenderer.rectLine(equalsTargetSpawn, targetSpawn, equationWidth * 2);
         }
 
+        //Draw the plus symbol
+        drawPlus(plusSpawn.x, plusSpawn.y, equationWidth, equationWidth / 8, Color.BLACK, shapeRenderer);
+
+        //Draw the equals symbol(s)
+        drawEquals(equalsSpawn.x, equalsSpawn.y, equationWidth, equationWidth / 8, Color.BLACK, shapeRenderer);
+        if(sum.getShape() == lastTargetShape.getShape()) {
+            drawEquals(equalsTargetSpawn.x, equalsTargetSpawn.y, equationWidth, equationWidth / 8, Color.BLACK, shapeRenderer);
+        }
+
+        //Draw the last prompt shape
+        lastPromptShape.setRadius(equationWidth);
+        lastPromptShape.setLineWidth(equationWidth / 8);
+        lastPromptShape.setFillColor(Color.WHITE);
+        drawShape(lastPromptShape, shapeRenderer);
+    }
+
+    public void drawEquationTutorial(Shape lastShapeTouched, Shape lastPromptShape, Shape lastTargetShape, float equationWidth, ShapeRenderer shapeRenderer) {
+        Vector2 spawnBegin = new Vector2();
+        Vector2 spawnEnd = new Vector2();
+        Vector2 plusSpawn = new Vector2();
+        Vector2 equalsSpawn = new Vector2();
+        Vector2 equalsTargetSpawn = new Vector2();
+        Shape sum = new Shape(Shape.POINT, TutorialScreen.INPUT_RADIUS, Color.BLACK, Color.BLACK, TutorialScreen.INPUT_RADIUS / 8, lastPromptShape.getCoordinates());
+
+        //Set up the beginning coordinates and sum shape
+        if(lastShapeTouched.getShape() == Shape.POINT) {
+            spawnBegin = TutorialScreen.INPUT_POINT_SPAWN;
+            if (lastPromptShape.getShape() + 1 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 1) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 1);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.LINE) {
+            spawnBegin = TutorialScreen.INPUT_LINE_SPAWN;
+            if (lastPromptShape.getShape() + 2 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 2) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 2);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.TRIANGLE) {
+            spawnBegin = TutorialScreen.INPUT_TRIANGLE_SPAWN;
+            if (lastPromptShape.getShape() + 3 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 3) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 3);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.SQUARE) {
+            spawnBegin = TutorialScreen.INPUT_SQUARE_SPAWN;
+            if (lastPromptShape.getShape() + 4 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 4) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 4);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.PENTAGON) {
+            spawnBegin = TutorialScreen.INPUT_PENTAGON_SPAWN;
+            if (lastPromptShape.getShape() + 5 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 5) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 5);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.HEXAGON) {
+            spawnBegin = TutorialScreen.INPUT_HEXAGON_SPAWN;
+            if (lastPromptShape.getShape() + 6 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 6) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 6);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.SEPTAGON) {
+            spawnBegin = TutorialScreen.INPUT_SEPTAGON_SPAWN;
+            if (lastPromptShape.getShape() + 7 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 7) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 7);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.OCTAGON) {
+            spawnBegin = TutorialScreen.INPUT_OCTAGON_SPAWN;
+            if (lastPromptShape.getShape() + 8 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 8) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 8);
+            }
+        } else if(lastShapeTouched.getShape() == Shape.NONAGON) {
+            spawnBegin = TutorialScreen.INPUT_NONAGON_SPAWN;
+            if (lastPromptShape.getShape() + 9 >= game.base) {
+                sum.setShape((lastPromptShape.getShape() + 9) - game.base);
+            } else {
+                sum.setShape(lastPromptShape.getShape() + 9);
+            }
+        }
+
+        //Set up the ending coordinates
+        if(sum.getShape() == Shape.POINT) {
+            spawnEnd = TutorialScreen.INPUT_POINT_SPAWN;
+        } else if(sum.getShape() == Shape.LINE) {
+            spawnEnd = TutorialScreen.INPUT_LINE_SPAWN;
+        } else if(sum.getShape() == Shape.TRIANGLE) {
+            spawnEnd = TutorialScreen.INPUT_TRIANGLE_SPAWN;
+        } else if(sum.getShape() == Shape.SQUARE) {
+            spawnEnd = TutorialScreen.INPUT_SQUARE_SPAWN;
+        } else if(sum.getShape() == Shape.PENTAGON) {
+            spawnEnd = TutorialScreen.INPUT_PENTAGON_SPAWN;
+        } else if(sum.getShape() == Shape.HEXAGON) {
+            spawnEnd = TutorialScreen.INPUT_HEXAGON_SPAWN;
+        } else if(sum.getShape() == Shape.SEPTAGON) {
+            spawnEnd = TutorialScreen.INPUT_SEPTAGON_SPAWN;
+        } else if(sum.getShape() == Shape.OCTAGON) {
+            spawnEnd = TutorialScreen.INPUT_OCTAGON_SPAWN;
+        } else if(sum.getShape() == Shape.NONAGON) {
+            spawnEnd = TutorialScreen.INPUT_NONAGON_SPAWN;
+        }
+
+        //Set up the plusSpawn coordinates
+        if(lastShapeTouched.getShape() == sum.getShape()) {
+            plusSpawn.x = spawnBegin.x + ((lastPromptShape.getCoordinates().x - spawnBegin.x) / 2) - (TutorialScreen.INPUT_RADIUS);
+        } else {
+            plusSpawn.x = spawnBegin.x + ((lastPromptShape.getCoordinates().x - spawnBegin.x) / 2);
+        }
+        plusSpawn.y = spawnBegin.y + ((lastPromptShape.getCoordinates().y - spawnBegin.y) / 2);
+
+        //Set up the equalsSpawn coordinates
+        if(lastShapeTouched.getShape() == sum.getShape()) {
+            equalsSpawn.x = spawnEnd.x + ((lastPromptShape.getCoordinates().x - spawnEnd.x) / 2) + (TutorialScreen.INPUT_RADIUS);
+        } else {
+            equalsSpawn.x = spawnEnd.x + ((lastPromptShape.getCoordinates().x - spawnEnd.x) / 2);
+        }
+        equalsSpawn.y = spawnEnd.y + ((lastPromptShape.getCoordinates().y - spawnEnd.y) / 2);
+
+        //Set up the equalsTargetSpawn coordinates
+        if(sum.getShape() == lastTargetShape.getShape()) {
+            equalsTargetSpawn.x = targetSpawn.x + ((lastPromptShape.getCoordinates().x - targetSpawn.x) / 2);
+            equalsTargetSpawn.y = targetSpawn.y + ((lastPromptShape.getCoordinates().y - targetSpawn.y) / 2);
+        }
+
+        shapeRenderer.setColor(Color.WHITE);
+
+        //Draw the circles
+        shapeRenderer.circle(plusSpawn.x,
+                plusSpawn.y,
+                equationWidth);
+        shapeRenderer.circle(lastPromptShape.getCoordinates().x,
+                lastPromptShape.getCoordinates().y,
+                equationWidth);
+        shapeRenderer.circle(equalsSpawn.x,
+                equalsSpawn.y,
+                equationWidth);
+        if(sum.getShape() == lastTargetShape.getShape()) {
+            shapeRenderer.circle(equalsTargetSpawn.x,
+                    equalsTargetSpawn.y,
+                    equationWidth);
+        }
+
+        //Draw the lines
+        shapeRenderer.rectLine(spawnBegin, plusSpawn, equationWidth * 2);
+        shapeRenderer.rectLine(plusSpawn, lastPromptShape.getCoordinates(), equationWidth * 2);
+        shapeRenderer.rectLine(lastPromptShape.getCoordinates(), equalsSpawn, equationWidth * 2);
+        shapeRenderer.rectLine(equalsSpawn, spawnEnd, equationWidth * 2);
+        if(sum.getShape() == lastTargetShape.getShape()) {
+            shapeRenderer.rectLine(lastPromptShape.getCoordinates(), equalsTargetSpawn, equationWidth * 2);
+            shapeRenderer.rectLine(equalsTargetSpawn, targetSpawn, equationWidth * 2);
+        }
+
+        //Draw the plus symbol
+        drawPlus(plusSpawn.x, plusSpawn.y, equationWidth, equationWidth / 8, Color.BLACK, shapeRenderer);
+
+        //Draw the equals symbol(s)
+        drawEquals(equalsSpawn.x, equalsSpawn.y, equationWidth, equationWidth / 8, Color.BLACK, shapeRenderer);
+        if(sum.getShape() == lastTargetShape.getShape()) {
+            drawEquals(equalsTargetSpawn.x, equalsTargetSpawn.y, equationWidth, equationWidth / 8, Color.BLACK, shapeRenderer);
+        }
+
+        //Draw the last prompt shape
+        lastPromptShape.setRadius(equationWidth);
+        lastPromptShape.setLineWidth(equationWidth / 8);
+        lastPromptShape.setFillColor(Color.WHITE);
+        drawShape(lastPromptShape, shapeRenderer);
     }
 
     public void drawBackgroundColorShape(Shape backgroundColorShape, ShapeRenderer shapeRenderer) {
@@ -1172,6 +1347,34 @@ public class Draw {
                 shape.setRadius(shape.getRadius() + 1);
             }
         }
+    }
+
+    public void drawPlus(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
+
+        //Draw circular edges
+        shapeRenderer.circle(x - radius + (lineWidth / 2), y, lineWidth / 2);
+        shapeRenderer.circle(x + radius - (lineWidth / 2), y, lineWidth / 2);
+        shapeRenderer.circle(x, y - radius + (lineWidth / 2), lineWidth / 2);
+        shapeRenderer.circle(x, y + radius - (lineWidth / 2), lineWidth / 2);
+
+        //Draw rectangles
+        shapeRenderer.rectLine(x - radius + (lineWidth / 2), y, x + radius - (lineWidth / 2), y, lineWidth);
+        shapeRenderer.rectLine(x, y - radius + (lineWidth / 2), x, y + radius - (lineWidth / 2), lineWidth);
+    }
+
+    public void drawEquals(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
+
+        //Draw circular edges
+        shapeRenderer.circle(x - (radius / 2) + (lineWidth / 2), y - (radius / 2) + (lineWidth / 2), lineWidth / 2);
+        shapeRenderer.circle(x - (radius / 2) + (lineWidth / 2), y + (radius / 2) - (lineWidth / 2), lineWidth / 2);
+        shapeRenderer.circle(x + (radius / 2) - (lineWidth / 2), y - (radius / 2) + (lineWidth / 2), lineWidth / 2);
+        shapeRenderer.circle(x + (radius / 2) - (lineWidth / 2), y + (radius / 2) - (lineWidth / 2), lineWidth / 2);
+
+        //Draw rectangles
+        shapeRenderer.rectLine(x - (radius / 2) + (lineWidth / 2), y - (radius / 2) + (lineWidth / 2), x + (radius / 2) - (lineWidth / 2), y - (radius / 2) + (lineWidth / 2), lineWidth);
+        shapeRenderer.rectLine(x - (radius / 2) + (lineWidth / 2), y + (radius / 2) - (lineWidth / 2), x + (radius / 2) - (lineWidth / 2), y + (radius / 2) - (lineWidth / 2), lineWidth);
     }
 
     public void drawWrench(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {

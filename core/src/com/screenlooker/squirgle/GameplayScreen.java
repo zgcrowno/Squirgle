@@ -331,7 +331,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 game.draw.drawTargetSemicircle(game.shapeRendererFilled);
                 if(equationWidth > 0) {
                     game.draw.drawEquation(lastShapeTouched, lastPromptShape, lastTargetShape, equationWidth, game.shapeRendererFilled);
-                    equationWidth--;
+                    equationWidth -= INPUT_RADIUS / 60;
                 } else {
                     equationWidth = 0;
                 }

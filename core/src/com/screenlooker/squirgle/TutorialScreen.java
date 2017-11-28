@@ -411,8 +411,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if(phase >= PHASE_SIX) {
                     game.draw.drawTargetSemicircleTutorial(game.shapeRendererFilled);
                     if(equationWidth > 0) {
-                        game.draw.drawEquation(lastShapeTouched, lastPromptShape, lastTargetShape, equationWidth, game.shapeRendererFilled);
-                        equationWidth--;
+                        game.draw.drawEquationTutorial(lastShapeTouched, lastPromptShape, lastTargetShape, equationWidth, game.shapeRendererFilled);
+                        equationWidth -= INPUT_RADIUS / 60;
                     } else {
                         equationWidth = 0;
                     }
