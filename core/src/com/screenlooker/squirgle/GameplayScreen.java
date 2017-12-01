@@ -152,13 +152,13 @@ public class GameplayScreen implements Screen, InputProcessor {
         }
         endLineWidthIncrease = 2;
         promptShape = new Shape(MathUtils.random(game.base - 1),
-                initPromptRadius, Color.BLACK,
+                initPromptRadius, Color.WHITE,
                 null,
                 initPromptRadius / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(game.camera.viewportWidth / 2,
                         game.camera.viewportHeight / 2));
         lastShapeTouched = new Shape(Shape.POINT, GameplayScreen.INPUT_RADIUS, Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / 8, promptShape.getCoordinates());
-        lastPromptShape = new Shape(Shape.POINT, GameplayScreen.INPUT_RADIUS, Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / 8, promptShape.getCoordinates());
+        lastPromptShape = new Shape(Shape.POINT, promptShape.getRadius(), Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / 8, promptShape.getCoordinates());
         outsideTargetShape = new Shape(MathUtils.random(game.base - 1),
                 INPUT_RADIUS,
                 Color.BLACK, null,
@@ -810,6 +810,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                 if (pointTouched) {
                     lastShapeTouched.setShape(Shape.POINT);
                     lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
                     lastTargetShape.setShape(currentTargetShape.getShape());
                     equationWidth = INPUT_RADIUS;
                     if (promptShape.getShape() + 1 >= game.base) {
@@ -820,6 +825,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (lineTouched) {
                     lastShapeTouched.setShape(Shape.LINE);
                     lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
                     lastTargetShape.setShape(currentTargetShape.getShape());
                     equationWidth = INPUT_RADIUS;
                     if (promptShape.getShape() + 2 >= game.base) {
@@ -830,6 +840,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (triangleTouched) {
                     lastShapeTouched.setShape(Shape.TRIANGLE);
                     lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
                     lastTargetShape.setShape(currentTargetShape.getShape());
                     equationWidth = INPUT_RADIUS;
                     if (promptShape.getShape() + 3 >= game.base) {
@@ -840,6 +855,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (squareTouched) {
                     lastShapeTouched.setShape(Shape.SQUARE);
                     lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
                     lastTargetShape.setShape(currentTargetShape.getShape());
                     equationWidth = INPUT_RADIUS;
                     if (promptShape.getShape() + 4 >= game.base) {
@@ -850,6 +870,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (pentagonTouched) {
                     lastShapeTouched.setShape(Shape.PENTAGON);
                     lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
                     lastTargetShape.setShape(currentTargetShape.getShape());
                     equationWidth = INPUT_RADIUS;
                     if (promptShape.getShape() + 5 >= game.base) {
@@ -860,6 +885,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (hexagonTouched) {
                     lastShapeTouched.setShape(Shape.HEXAGON);
                     lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
                     lastTargetShape.setShape(currentTargetShape.getShape());
                     equationWidth = INPUT_RADIUS;
                     if (promptShape.getShape() + 6 >= game.base) {
@@ -870,6 +900,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (septagonTouched) {
                     lastShapeTouched.setShape(Shape.SEPTAGON);
                     lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
                     lastTargetShape.setShape(currentTargetShape.getShape());
                     equationWidth = INPUT_RADIUS;
                     if (promptShape.getShape() + 7 >= game.base) {
@@ -880,6 +915,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (octagonTouched) {
                     lastShapeTouched.setShape(Shape.OCTAGON);
                     lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
                     lastTargetShape.setShape(currentTargetShape.getShape());
                     equationWidth = INPUT_RADIUS;
                     if (promptShape.getShape() + 8 >= game.base) {
@@ -890,6 +930,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (nonagonTouched) {
                     lastShapeTouched.setShape(Shape.NONAGON);
                     lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
                     lastTargetShape.setShape(currentTargetShape.getShape());
                     equationWidth = INPUT_RADIUS;
                     if (promptShape.getShape() + 9 >= game.base) {

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
+import java.security.cert.X509Certificate;
 import java.util.List;
 
 import static com.badlogic.gdx.graphics.Color.BLACK;
@@ -811,7 +812,7 @@ public class Draw {
         Vector2 plusSpawn = new Vector2();
         Vector2 equalsSpawn = new Vector2();
         Vector2 equalsTargetSpawn = new Vector2();
-        Shape sum = new Shape(Shape.POINT, GameplayScreen.INPUT_RADIUS, Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / 8, lastPromptShape.getCoordinates());
+        Shape sum = new Shape(Shape.POINT, equationWidth, Color.BLACK, Color.BLACK, equationWidth / 8, lastPromptShape.getCoordinates());
 
         //Set up the beginning coordinates and sum shape
         if(lastShapeTouched.getShape() == Shape.POINT) {
@@ -928,9 +929,15 @@ public class Draw {
         shapeRenderer.circle(plusSpawn.x,
                 plusSpawn.y,
                 equationWidth);
-        shapeRenderer.circle(lastPromptShape.getCoordinates().x,
-                lastPromptShape.getCoordinates().y,
-                equationWidth);
+        if(lastPromptShape.getShape() == Shape.POINT) {
+            shapeRenderer.circle(lastPromptShape.getCoordinates().x,
+                    lastPromptShape.getCoordinates().y,
+                    lastPromptShape.getRadius() * 2);
+        } else {
+            shapeRenderer.circle(lastPromptShape.getCoordinates().x,
+                    lastPromptShape.getCoordinates().y,
+                    lastPromptShape.getRadius());
+        }
         shapeRenderer.circle(equalsSpawn.x,
                 equalsSpawn.y,
                 equationWidth);
@@ -960,8 +967,8 @@ public class Draw {
         }
 
         //Draw the last prompt shape
-        lastPromptShape.setRadius(equationWidth);
-        lastPromptShape.setLineWidth(equationWidth / 8);
+        lastPromptShape.setRadius(lastPromptShape.getRadius() - ((lastPromptShape.getRadius() * (GameplayScreen.INPUT_RADIUS / 60)) / equationWidth));
+        lastPromptShape.setLineWidth((lastPromptShape.getRadius() - (GameplayScreen.INPUT_RADIUS / 60)) / 8);
         lastPromptShape.setFillColor(Color.WHITE);
         drawShape(lastPromptShape, shapeRenderer);
     }
@@ -972,7 +979,7 @@ public class Draw {
         Vector2 plusSpawn = new Vector2();
         Vector2 equalsSpawn = new Vector2();
         Vector2 equalsTargetSpawn = new Vector2();
-        Shape sum = new Shape(Shape.POINT, TutorialScreen.INPUT_RADIUS, Color.BLACK, Color.BLACK, TutorialScreen.INPUT_RADIUS / 8, lastPromptShape.getCoordinates());
+        Shape sum = new Shape(Shape.POINT, equationWidth, Color.BLACK, Color.BLACK, equationWidth / 8, lastPromptShape.getCoordinates());
 
         //Set up the beginning coordinates and sum shape
         if(lastShapeTouched.getShape() == Shape.POINT) {
@@ -1089,9 +1096,15 @@ public class Draw {
         shapeRenderer.circle(plusSpawn.x,
                 plusSpawn.y,
                 equationWidth);
-        shapeRenderer.circle(lastPromptShape.getCoordinates().x,
-                lastPromptShape.getCoordinates().y,
-                equationWidth);
+        if(lastPromptShape.getShape() == Shape.POINT) {
+            shapeRenderer.circle(lastPromptShape.getCoordinates().x,
+                    lastPromptShape.getCoordinates().y,
+                    lastPromptShape.getRadius() * 2);
+        } else {
+            shapeRenderer.circle(lastPromptShape.getCoordinates().x,
+                    lastPromptShape.getCoordinates().y,
+                    lastPromptShape.getRadius());
+        }
         shapeRenderer.circle(equalsSpawn.x,
                 equalsSpawn.y,
                 equationWidth);
@@ -1121,8 +1134,8 @@ public class Draw {
         }
 
         //Draw the last prompt shape
-        lastPromptShape.setRadius(equationWidth);
-        lastPromptShape.setLineWidth(equationWidth / 8);
+        lastPromptShape.setRadius(lastPromptShape.getRadius() - ((lastPromptShape.getRadius() * (TutorialScreen.INPUT_RADIUS / 240)) / equationWidth));
+        lastPromptShape.setLineWidth((lastPromptShape.getRadius() - (TutorialScreen.INPUT_RADIUS / 240)) / 8);
         lastPromptShape.setFillColor(Color.WHITE);
         drawShape(lastPromptShape, shapeRenderer);
     }
