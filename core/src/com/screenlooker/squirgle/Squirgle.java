@@ -3,21 +3,15 @@ package com.screenlooker.squirgle;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Matrix4;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.*;
-import com.sun.prism.image.ViewPort;
+import com.screenlooker.squirgle.screen.MainMenuScreen;
+import com.screenlooker.squirgle.screen.TutorialScreen;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,6 +25,7 @@ public class Squirgle extends Game {
 
 	public final static int PARTITION_DIVISOR = 80;
 	public final static int LINE_WIDTH = 20;
+	public final static int FPS = 60;
 
 	public final static int MUSIC_THEME_FROM_SQUIRGLE = 0;
 	public final static int MUSIC_THE_POINT = 1;

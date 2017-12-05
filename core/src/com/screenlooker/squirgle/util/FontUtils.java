@@ -1,4 +1,4 @@
-package com.screenlooker.squirgle;
+package com.screenlooker.squirgle.util;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;

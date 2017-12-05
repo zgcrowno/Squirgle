@@ -16,6 +16,7 @@ public class Shape {
     public static final int NONAGON = 8;
     public static final int CIRCLE = 9;
 
+    //TODO: Determine whether or not these are actually going to be used, and if so, implement them. If not, get rid of the associated instance data.
     public static final String POINT_PREFIX = "P";
     public static final String POINT_SUFFIX = "T";
     public static final String LINE_PREFIX = "L";
@@ -36,7 +37,6 @@ public class Shape {
     public static final String NONAGON_SUFFIX = "NAGON";
     public static final String BRIDGE = "IR";
 
-    //TODO: Add an opacity datum for displaying to the user when they're approaching game over
     private int shape;
     private String prefix;
     private String bridge;

@@ -1,4 +1,4 @@
-package com.screenlooker.squirgle;
+package com.screenlooker.squirgle.util;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.graphics.Color;

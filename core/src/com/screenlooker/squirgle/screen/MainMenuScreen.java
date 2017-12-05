@@ -1,4 +1,4 @@
-package com.screenlooker.squirgle;
+package com.screenlooker.squirgle.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -6,11 +6,11 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Draw;
+import com.screenlooker.squirgle.Squirgle;
+import com.screenlooker.squirgle.util.ColorUtils;
 
 public class MainMenuScreen implements Screen, InputProcessor {
 
@@ -48,9 +48,9 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        optionsColor = ColorUtils.randomColor();
-        playColor = ColorUtils.randomColor();
-        tutorialColor = ColorUtils.randomColor();
+        optionsColor = com.screenlooker.squirgle.util.ColorUtils.randomColor();
+        playColor = com.screenlooker.squirgle.util.ColorUtils.randomColor();
+        tutorialColor = com.screenlooker.squirgle.util.ColorUtils.randomColor();
         quitColor = ColorUtils.randomColor();
 
         optionsTouched = false;
@@ -228,13 +228,13 @@ public class MainMenuScreen implements Screen, InputProcessor {
     }
 
     public void drawOptionsInput() {
-        float radius = game.camera.viewportHeight / 8;
+        float radius = game.camera.viewportHeight / Draw.LINE_WIDTH_DIVISOR;
 
         drawInputRectangle(OPTIONS, optionsColor);
         game.draw.drawWrench(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 8),
                 radius,
-                radius / 8,
+                radius / Draw.LINE_WIDTH_DIVISOR,
                 optionsColor,
                 game.shapeRendererFilled);
     }
@@ -246,7 +246,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
         game.draw.drawPlayButton(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight - ((3 * game.camera.viewportHeight) / 8),
                 radius,
-                radius / 8,
+                radius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
@@ -258,7 +258,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
         game.draw.drawQuestionMark(game.camera.viewportWidth / 2,
                 (2 * game.partitionSize) + (inputHeight / 2) + inputHeight,
                 radius,
-                radius / 8,
+                radius / Draw.LINE_WIDTH_DIVISOR,
                 tutorialColor,
                 game.shapeRendererFilled);
     }
@@ -270,7 +270,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
         game.draw.drawX(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 8,
                 radius,
-                radius / 8,
+                radius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }

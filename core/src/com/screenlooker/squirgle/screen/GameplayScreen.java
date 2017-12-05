@@ -1,24 +1,24 @@
-package com.screenlooker.squirgle;
+package com.screenlooker.squirgle.screen;
 
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Draw;
+import com.screenlooker.squirgle.Shape;
+import com.screenlooker.squirgle.Squirgle;
+import com.screenlooker.squirgle.util.ColorUtils;
+import com.screenlooker.squirgle.util.FontUtils;
+import com.screenlooker.squirgle.util.SoundUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class TutorialScreen implements Screen, InputProcessor {
+public class GameplayScreen implements Screen, InputProcessor {
     final Squirgle game;
 
     public static float INPUT_RADIUS;
@@ -36,72 +36,6 @@ public class TutorialScreen implements Screen, InputProcessor {
     private final static int PAUSE_BACK = 0;
     private final static int PAUSE_QUIT = 1;
 
-    /*
-    -All white or gray screen except for black outlined prompt shape (point)
-    -User taps screen
-     */
-    public final static int PHASE_ONE = 0;
-
-    /*
-    -Single input appears (point)
-    -User taps point until prompt shape rolls over from square to point (user has tapped it four times)
-     */
-    public final static int PHASE_TWO = 1;
-
-    /*
-    -Second input appears (line), and first disappears
-    -User taps line until prompt shape rolls over from triangle to point (user has tapped it twice)
-     */
-    public final static int PHASE_THREE = 2;
-
-    /*
-    -Third input appears (triangle), and second disappears
-    -User taps triangle until prompt shape rolls back over to point (user has tapped it four times)
-     */
-    public final static int PHASE_FOUR = 3;
-
-    /*
-    -Fourth input appears (square), and third disappears
-    -User taps square until prompt shape rolls back over to point (user has tapped it once)
-     */
-    public final static int PHASE_FIVE = 4;
-
-    /*
-    -Target is now displayed in upper left corner
-    -If user hits wrong shape, disconfirmation sound is played, and phase resets
-    -If user hits correct shape, confirmation sound is played, and new shape is targeted
-    -User hits correct shape four times
-     */
-    public final static int PHASE_SIX = 5;
-
-    /*
-    -Score & multiplier are now displayed in upper right-hand corner of screen
-    -Targets are now formed as per usual until multiplier reaches max
-     */
-    public final static int PHASE_SEVEN = 6;
-
-    /*
-    -Colors are now displayed @ top of screen
-    -Timelines are now displayed @ top of screen
-    -Pause input is now displayed @ right-hand side of screen
-    -Colors are now sifted through, affecting background, prompt shape & nested shapes
-    -Prompt shape (& nested shapes) also begins to grow now, but it will stop doing so once it reaches 2/3 of its max size
-    -The game remains in this phase until the user gets four squirgles
-     */
-    public final static int PHASE_EIGHT = 7;
-
-    /*
-    -User simply plays w/ full mechanics until game over
-    -Tutorial is over, & user is sent to menu
-     */
-    public final static int PHASE_NINE = 8;
-
-    public final static int PHASE_SIX_REQUIRED_CORRECT_INPUTS = 4;
-    public final static int PHASE_EIGHT_REQUIRED_SQUIRGLES = 4;
-
-    private int phase;
-    private int phaseSixCorrectInputs = 0;
-    private int phaseEightSquirgles = 0;
     private float pauseInputWidth;
     private float pauseInputHeight;
     private int timeSignature;
@@ -161,17 +95,14 @@ public class TutorialScreen implements Screen, InputProcessor {
     private Color resultsColor;
     private int numMusicPhases;
 
-    public TutorialScreen(final Squirgle game) {
+    public GameplayScreen(final Squirgle game) {
         this.game = game;
-        game.base = 4;
 
         game.resetInstanceData();
 
         game.setUpFont(MathUtils.round(game.camera.viewportWidth / 11.1f));
 
         Gdx.input.setInputProcessor(this);
-
-        phase = PHASE_ONE;
 
         pauseInputWidth = game.camera.viewportWidth - (game.partitionSize * 2);
         pauseInputHeight = (game.camera.viewportHeight - (game.partitionSize * 3)) / 2;
@@ -190,7 +121,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
                         backgroundColorListElementRadius,
                         Color.WHITE,
-                        ColorUtils.randomColor(),
+                        com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                         backgroundColorListElementRadius / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7),
                                 backgroundColorShapeListMaxHeight)));
@@ -198,7 +129,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
                         backgroundColorListElementRadius,
                         Color.WHITE,
-                        ColorUtils.randomColor(),
+                        com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                         backgroundColorListElementRadius / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(TARGET_RADIUS + (i * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7)),
                                 backgroundColorShapeListMinHeight)));
@@ -220,15 +151,14 @@ public class TutorialScreen implements Screen, InputProcessor {
             promptIncrease = (game.camera.viewportWidth * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth))) / 2;
         }
         endLineWidthIncrease = 2;
-        promptShape = new Shape(Shape.POINT,
-                initPromptRadius,
-                Color.WHITE,
+        promptShape = new Shape(MathUtils.random(game.base - 1),
+                initPromptRadius, Color.WHITE,
                 null,
                 initPromptRadius / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(game.camera.viewportWidth / 2,
                         game.camera.viewportHeight / 2));
-        lastShapeTouched = new Shape(Shape.POINT, GameplayScreen.INPUT_RADIUS, Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / 8, promptShape.getCoordinates());
-        lastPromptShape = new Shape(Shape.POINT, promptShape.getRadius(), Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / 8, promptShape.getCoordinates());
+        lastShapeTouched = new Shape(Shape.POINT, GameplayScreen.INPUT_RADIUS, Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
+        lastPromptShape = new Shape(Shape.POINT, promptShape.getRadius(), Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
         outsideTargetShape = new Shape(MathUtils.random(game.base - 1),
                 INPUT_RADIUS,
                 Color.BLACK, null,
@@ -255,10 +185,10 @@ public class TutorialScreen implements Screen, InputProcessor {
                 outsideTargetShape.setShape(MathUtils.random(game.base - 1));
             }
         }
-        backgroundColorShape = new Shape(Shape.randomBackgroundColorShape(),
+        backgroundColorShape = new Shape(Shape.POINT,
                 game.camera.viewportWidth / 2,
-                Color.GRAY,
-                Color.GRAY,
+                backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor(),
+                backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor(),
                 INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(game.camera.viewportWidth / 2,
                         game.camera.viewportHeight + (game.camera.viewportWidth / 2)));
@@ -295,7 +225,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         pauseQuitTouched = false;
         inputTouchedGameplay = false;
         inputTouchedResults = false;
-        clearColor = Color.GRAY;
+        clearColor = new Color();
         score = 0;
         multiplier = 1;
         gameOver = false;
@@ -334,36 +264,28 @@ public class TutorialScreen implements Screen, InputProcessor {
         game.shapeRendererLine.begin(ShapeRenderer.ShapeType.Line);
 
         if(!paused) {
-            if(phase >= PHASE_EIGHT) {
-                if (!gameOver) {
-                    if(phase == PHASE_EIGHT) {
-                        if(promptShape.getRadius() < ((2 * game.camera.viewportWidth) / 3) && promptShape.getRadius() < ((2 * game.camera.viewportHeight) / 3)) {
-                            promptShape.setRadius(promptShape.getRadius() + (promptIncrease / 2));
-                        }
-                    } else {
-                        promptShape.setRadius(promptShape.getRadius() + (promptIncrease / 2));
-                    }
-                } else {
-                    promptShape.setRadius(promptShape.getRadius() * promptIncrease);
-                }
+            if(!gameOver) {
+                promptShape.setRadius(promptShape.getRadius() + (promptIncrease / 2));
+            } else {
+                promptShape.setRadius(promptShape.getRadius() * promptIncrease);
             }
 
             if (!primaryShapeAtThreshold) {
                 promptShape.setLineWidth(promptShape.getRadius() / Draw.LINE_WIDTH_DIVISOR);
             }
 
-            if (!gameOver && phase >= PHASE_EIGHT) {
+            if (!gameOver) {
                 game.draw.drawBackgroundColorShape(backgroundColorShape, game.shapeRendererFilled);
             }
 
-            game.draw.drawPrompt(promptShape, priorShapeList, primaryShapeAtThreshold, backgroundColorShape, false, game.shapeRendererFilled);
+            game.draw.drawPrompt(promptShape, priorShapeList, backgroundColorShape, false, game.shapeRendererFilled);
 
-            game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game, game.shapeRendererFilled);
+            game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
 
             //TODO: Make sure you execute the inverse of this given certain player input...Also adjust all of this
             //TODO: so that the promptIncrease, colorListSpeed and colorSpeed are all increasing by proportional rates.
             if (!gameOver) {
-                if (phase >= PHASE_EIGHT && (System.currentTimeMillis() - startTime - timePaused) / 1000 > 10) {
+                if ((System.currentTimeMillis() - startTime - timePaused) / 1000 > 10) {
                     startTime = System.currentTimeMillis();
                     game.draw.setColorListSpeed(game.draw.getColorListSpeed() + 0.1f);
                     game.draw.setColorSpeed(game.draw.getColorSpeed() + 20);
@@ -399,36 +321,26 @@ public class TutorialScreen implements Screen, InputProcessor {
             //the screen to the right.
             //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
             //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
-            game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game, game.shapeRendererFilled);
+            game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
 
             if (!gameOver) {
                 game.draw.drawPerimeter(promptShape, game.shapeRendererLine);
-                if(phase >= PHASE_EIGHT) {
-                    game.draw.drawBackgroundColorShapeListTutorial(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
-                    game.draw.drawTimelines(promptShape, backgroundColorShapeList, game.shapeRendererFilled);
-                }
+                game.draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
+                game.draw.drawTimelines(promptShape, backgroundColorShapeList, game.shapeRendererFilled);
                 SoundUtils.playMusic(promptShape, game);
-                if(phase >= PHASE_SIX) {
-                    game.draw.drawTargetSemicircleTutorial(game.shapeRendererFilled);
-                    if(equationWidth > 0) {
-                        game.draw.drawEquationTutorial(lastShapeTouched, lastPromptShape, lastTargetShape, equationWidth, game.shapeRendererFilled);
-                        equationWidth -= INPUT_RADIUS / 240;
-                    } else {
-                        equationWidth = 0;
-                    }
+                game.draw.drawTargetSemicircle(game.shapeRendererFilled);
+                if(equationWidth > 0) {
+                    game.draw.drawEquation(lastShapeTouched, lastPromptShape, lastTargetShape, equationWidth, game.shapeRendererFilled);
+                    equationWidth -= INPUT_RADIUS / 60;
+                } else {
+                    equationWidth = 0;
                 }
                 //TODO: Maybe remove input buttons when on Desktop, as input will be number key oriented?
-                game.draw.drawInputButtonsTutorial(phase, game.shapeRendererFilled);
-                if(phase >= PHASE_SEVEN) {
-                    game.draw.drawScoreTriangleTutorial(game.shapeRendererFilled);
-                }
-                if(phase >= PHASE_SIX) {
-                    game.draw.drawPrompt(outsideTargetShape, targetShapeList, false, backgroundColorShape, true, game.shapeRendererFilled);
-                    game.draw.drawShapes(targetShapeList, outsideTargetShape, false, game, game.shapeRendererFilled);
-                }
-                if(phase >= PHASE_EIGHT) {
-                    game.draw.drawPauseInput(game);
-                }
+                game.draw.drawInputButtons(game, game.shapeRendererFilled);
+                game.draw.drawScoreTriangle(game.shapeRendererFilled);
+                game.draw.drawPrompt(outsideTargetShape, targetShapeList, backgroundColorShape, true, game.shapeRendererFilled);
+                game.draw.drawShapes(targetShapeList, outsideTargetShape, false, game.shapeRendererFilled);
+                game.draw.drawPauseInput(game);
             }
 
             //Prevent shapes from getting too large
@@ -451,9 +363,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             }
 
             if (showResults) {
-                game.updateSave(game.SAVE_PLAYED_BEFORE, true);
-                game.setScreen(new MainMenuScreen(game));
-                dispose();
+                game.draw.drawResultsInputButtons(inputPlaySpawn, inputHomeSpawn, inputExitSpawn, game.shapeRendererFilled);
             }
 
             game.draw.drawTouchDownPoints(touchDownShapeList, game.shapeRendererLine);
@@ -466,8 +376,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         game.shapeRendererLine.end();
 
         if(!paused) {
-            if (!gameOver && phase >= PHASE_SEVEN) {
-                FontUtils.printText(game.batch,
+            if (!gameOver) {
+                com.screenlooker.squirgle.util.FontUtils.printText(game.batch,
                         game.font,
                         game.layout,
                         backgroundColorShape.getColor(),
@@ -475,7 +385,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                         game.camera.viewportWidth - (TARGET_RADIUS / 3.16f),
                         game.camera.viewportHeight - (TARGET_RADIUS / 3.16f),
                         -45);
-                FontUtils.printText(game.batch,
+                com.screenlooker.squirgle.util.FontUtils.printText(game.batch,
                         game.font,
                         game.layout,
                         Color.WHITE,
@@ -510,7 +420,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             endTime = System.currentTimeMillis();
         }
 
-        currentTargetShape.setColor(ColorUtils.randomColor());
+        currentTargetShape.setColor(com.screenlooker.squirgle.util.ColorUtils.randomColor());
     }
 
     @Override
@@ -611,7 +521,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if (pointTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomColor(),
+                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_POINT_SPAWN.x,
@@ -619,7 +529,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 } else if (lineTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomColor(),
+                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_LINE_SPAWN.x,
@@ -627,7 +537,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 } else if (triangleTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomColor(),
+                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_TRIANGLE_SPAWN.x,
@@ -635,7 +545,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 } else if (squareTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomColor(),
+                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_SQUARE_SPAWN.x,
@@ -643,7 +553,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 } else if(pentagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomColor(),
+                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_PENTAGON_SPAWN.x,
@@ -651,7 +561,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 } else if(hexagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomColor(),
+                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_HEXAGON_SPAWN.x,
@@ -659,7 +569,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 } else if(septagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomColor(),
+                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_SEPTAGON_SPAWN.x,
@@ -667,7 +577,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 } else if(octagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomColor(),
+                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_OCTAGON_SPAWN.x,
@@ -675,7 +585,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 } else if(nonagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomColor(),
+                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_NONAGON_SPAWN.x,
@@ -685,14 +595,14 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if (playTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            ColorUtils.randomColor(),
+                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputPlaySpawn.x,
                                     inputPlaySpawn.y)));
                 } else if (homeTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
-                            i, ColorUtils.randomColor(),
+                            i, com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(inputHomeSpawn.x,
@@ -715,12 +625,6 @@ public class TutorialScreen implements Screen, InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if (button != Input.Buttons.LEFT || pointer > 0) {
             return false;
-        }
-
-        if(phase == PHASE_ONE) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            phase = PHASE_TWO;
-            return true;
         }
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
@@ -761,11 +665,22 @@ public class TutorialScreen implements Screen, InputProcessor {
                 && touchPoint.x < INPUT_NONAGON_SPAWN.x + INPUT_RADIUS
                 && touchPoint.y > INPUT_NONAGON_SPAWN.y - INPUT_RADIUS
                 && touchPoint.y < INPUT_NONAGON_SPAWN.y + INPUT_RADIUS;
+        playTouched = touchPoint.x > inputPlaySpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputPlaySpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputPlaySpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputPlaySpawn.y + INPUT_RADIUS;
+        homeTouched = touchPoint.x > inputHomeSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputHomeSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputHomeSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputHomeSpawn.y + INPUT_RADIUS;
+        exitTouched = touchPoint.x > inputExitSpawn.x - INPUT_RADIUS
+                && touchPoint.x < inputExitSpawn.x + INPUT_RADIUS
+                && touchPoint.y > inputExitSpawn.y - INPUT_RADIUS
+                && touchPoint.y < inputExitSpawn.y + INPUT_RADIUS;
         //TODO: Set and use variables for these values
         pauseTouched = touchPoint.x > game.camera.viewportWidth - (2 *(game.camera.viewportWidth / 20))
                 && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
-                && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20)
-                && phase >= PHASE_EIGHT;
+                && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
         pauseBackTouched = touchPoint.x > game.partitionSize
                 && touchPoint.x < game.partitionSize + pauseInputWidth
                 && touchPoint.y > game.partitionSize
@@ -775,6 +690,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 && touchPoint.y > (2 * game.partitionSize) + pauseInputHeight
                 && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
         inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched;
+        inputTouchedResults = playTouched || homeTouched || exitTouched;
 
         handleInput();
 
@@ -795,12 +711,6 @@ public class TutorialScreen implements Screen, InputProcessor {
     public boolean keyUp(int keycode) {
         if(Gdx.app.getType() == Application.ApplicationType.Desktop) {
             //TODO: Somehow activate numlock so numpad is always available for use
-
-            if(phase == PHASE_ONE) {
-                game.confirmSound.play((float) (game.volume / 10.0));
-                phase = PHASE_TWO;
-                return true;
-            }
 
             pointTouched = keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1;
             lineTouched = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2;
@@ -895,244 +805,266 @@ public class TutorialScreen implements Screen, InputProcessor {
     }
 
     public void handleInput() {
-        if(phase == PHASE_TWO) {
-            if(pointTouched) {
-                game.confirmSound.play((float) (game.volume / 10.0));
-                if (promptShape.getShape() + 1 > Shape.SQUARE) {
-                    promptShape.setShape((promptShape.getShape() + 1) - game.base);
-                    phase = PHASE_THREE;
-                } else {
-                    promptShape.setShape(promptShape.getShape() + 1);
-                }
-            }
-        } else if(phase == PHASE_THREE) {
-            if(lineTouched) {
-                game.confirmSound.play((float) (game.volume / 10.0));
-                if (promptShape.getShape() + 2 >= game.base) {
-                    promptShape.setShape((promptShape.getShape() + 2) - game.base);
-                    phase = PHASE_FOUR;
-                } else {
-                    promptShape.setShape(promptShape.getShape() + 2);
-                }
-            }
-        } else if(phase == PHASE_FOUR) {
-            if(triangleTouched) {
-                game.confirmSound.play((float) (game.volume / 10.0));
-                if (promptShape.getShape() + 3 >= game.base) {
-                    promptShape.setShape((promptShape.getShape() + 3) - game.base);
-                    if(promptShape.getShape() == Shape.POINT) {
-                        phase = PHASE_FIVE;
-                    }
-                } else {
-                    promptShape.setShape(promptShape.getShape() + 3);
-                }
-            }
-        } else if(phase == PHASE_FIVE) {
-            if(squareTouched) {
-                game.confirmSound.play((float) (game.volume / 10.0));
-                if (promptShape.getShape() + 4 >= game.base) {
-                    promptShape.setShape((promptShape.getShape() + 4) - game.base);
-                    if(promptShape.getShape() == Shape.POINT) {
-                        phase = PHASE_SIX;
-                    }
-                } else {
-                    promptShape.setShape(promptShape.getShape() + 4);
-                }
-            }
-        }
-
-        if(phase >= PHASE_SIX) {
-            if (!paused) {
-                if (!gameOver) {
-                    if (pointTouched) {
-                        lastShapeTouched.setShape(Shape.POINT);
-                        lastPromptShape.setShape(promptShape.getShape());
-                        if(lastPromptShape.getShape() == Shape.POINT) {
-                            lastPromptShape.setRadius(promptShape.getRadius() / 2);
-                        } else {
-                            lastPromptShape.setRadius(promptShape.getRadius());
-                        }
-                        lastTargetShape.setShape(currentTargetShape.getShape());
-                        equationWidth = INPUT_RADIUS;
-                        if (promptShape.getShape() + 1 >= game.base) {
-                            promptShape.setShape((promptShape.getShape() + 1) - game.base);
-                        } else {
-                            promptShape.setShape(promptShape.getShape() + 1);
-                        }
-                    } else if (lineTouched) {
-                        lastShapeTouched.setShape(Shape.LINE);
-                        lastPromptShape.setShape(promptShape.getShape());
-                        if(lastPromptShape.getShape() == Shape.POINT) {
-                            lastPromptShape.setRadius(promptShape.getRadius() / 2);
-                        } else {
-                            lastPromptShape.setRadius(promptShape.getRadius());
-                        }
-                        lastTargetShape.setShape(currentTargetShape.getShape());
-                        equationWidth = INPUT_RADIUS;
-                        if (promptShape.getShape() + 2 >= game.base) {
-                            promptShape.setShape((promptShape.getShape() + 2) - game.base);
-                        } else {
-                            promptShape.setShape(promptShape.getShape() + 2);
-                        }
-                    } else if (triangleTouched) {
-                        lastShapeTouched.setShape(Shape.TRIANGLE);
-                        lastPromptShape.setShape(promptShape.getShape());
-                        if(lastPromptShape.getShape() == Shape.POINT) {
-                            lastPromptShape.setRadius(promptShape.getRadius() / 2);
-                        } else {
-                            lastPromptShape.setRadius(promptShape.getRadius());
-                        }
-                        lastTargetShape.setShape(currentTargetShape.getShape());
-                        equationWidth = INPUT_RADIUS;
-                        if (promptShape.getShape() + 3 >= game.base) {
-                            promptShape.setShape((promptShape.getShape() + 3) - game.base);
-                        } else {
-                            promptShape.setShape(promptShape.getShape() + 3);
-                        }
-                    } else if (squareTouched) {
-                        lastShapeTouched.setShape(Shape.SQUARE);
-                        lastPromptShape.setShape(promptShape.getShape());
-                        if(lastPromptShape.getShape() == Shape.POINT) {
-                            lastPromptShape.setRadius(promptShape.getRadius() / 2);
-                        } else {
-                            lastPromptShape.setRadius(promptShape.getRadius());
-                        }
-                        lastTargetShape.setShape(currentTargetShape.getShape());
-                        equationWidth = INPUT_RADIUS;
-                        if (promptShape.getShape() + 4 >= game.base) {
-                            promptShape.setShape((promptShape.getShape() + 4) - game.base);
-                        } else {
-                            promptShape.setShape(promptShape.getShape() + 4);
-                        }
-                    } else if (pauseTouched) {
-                        pauseStartTime = System.currentTimeMillis();
-                        pause();
-                    }
-                }
-                if (inputTouchedGameplay && !gameOver && promptShape.getShape() == currentTargetShape.getShape()) {
-                    game.confirmSound.play((float) (game.volume / 10.0));
-                    phaseSixCorrectInputs++;
-                    targetShapesMatched++;
-                    Shape circleContainer = new Shape(Shape.CIRCLE,
-                            promptShape.getRadius(),
-                            Color.BLACK,
-                            null,
-                            promptShape.getLineWidth(),
-                            promptShape.getCoordinates());
-                    Shape promptShapeToAdd = new Shape(promptShape.getShape(),
-                            promptShape.getRadius(),
-                            backgroundColorShape.getColor(),
-                            null,
-                            promptShape.getLineWidth(),
-                            promptShape.getCoordinates());
-                    if (promptShapeToAdd.getShape() == Shape.POINT || (promptShapeToAdd.getShape() == Shape.LINE && !priorShapeList.isEmpty())) {
-                        promptShapeToAdd.setRadius(circleContainer.getRadius() / 2);
-                    }
-                    promptShape.setShape(MathUtils.random(game.base - 1));
-                    priorShapeList.add(promptShapeToAdd);
-                    priorShapeList.add(circleContainer);
-                    if (targetShapesMatched == 1) {
-                        currentTargetShape = outsideTargetShape;
+        if(!paused) {
+            if (!gameOver) {
+                if (pointTouched) {
+                    lastShapeTouched.setShape(Shape.POINT);
+                    lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
                     } else {
-                        if(phase == PHASE_SIX && phaseSixCorrectInputs >= PHASE_SIX_REQUIRED_CORRECT_INPUTS) {
-                            game.confirmSound.play((float) (game.volume / 10.0));
-                            phase = PHASE_SEVEN;
-                            multiplier = 0;
-                        }
-                        targetShapesMatched = 0;
-                        score += multiplier;
-                        if (multiplier < 5) {
-                            multiplier++;
-                            if(multiplier >= 5) {
-                                game.confirmSound.play((float) (game.volume / 10.0));
-                                phase = PHASE_EIGHT;
-                            }
-                        }
-                        targetShapeList.clear();
-                        if (priorShapeList.get(priorShapeList.size() - 4).getColor().equals(priorShapeList.get(priorShapeList.size() - 2).getColor())) {
-                            //SQUIRGLE!!!
-                            outsideTargetShape.setShape(Shape.TRIANGLE);
-                            outsideTargetShape.setColor(Color.BLACK);
-                            targetShapeList.add(new Shape(Shape.SQUARE,
-                                    0,
-                                    Color.WHITE,
-                                    null,
-                                    INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                                    new Vector2(TARGET_RADIUS / 2.5f,
-                                            game.camera.viewportHeight - (TARGET_RADIUS / 2.5f))));
-                            targetShapeList.add(new Shape(Shape.CIRCLE,
-                                    0,
-                                    Color.BLACK,
-                                    null,
-                                    INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                                    new Vector2(TARGET_RADIUS / 3,
-                                            game.camera.viewportHeight - (TARGET_RADIUS / 2))));
-                        } else {
-                            outsideTargetShape.setShape(MathUtils.random(game.base - 1));
-                            outsideTargetShape.setColor(Color.BLACK);
-                            targetShapeList.add(new Shape(MathUtils.random(game.base - 1),
-                                    0,
-                                    Color.WHITE,
-                                    null,
-                                    INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                                    new Vector2(TARGET_RADIUS / 2.5f,
-                                            game.camera.viewportHeight - (TARGET_RADIUS / 2.5f))));
-                            targetShapeList.add(new Shape(Shape.CIRCLE,
-                                    0,
-                                    Color.BLACK,
-                                    null,
-                                    INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                                    new Vector2(TARGET_RADIUS / 3,
-                                            game.camera.viewportHeight - (TARGET_RADIUS / 2))));
-                            if (targetShapeList.get(0).getShape() == Shape.SQUARE) {
-                                while (outsideTargetShape.getShape() == Shape.TRIANGLE) {
-                                    outsideTargetShape.setShape(MathUtils.random(Shape.SQUARE));
-                                }
-                            }
-                        }
-                        if (priorShapeList.get(priorShapeList.size() - 4).getShape() == Shape.SQUARE && priorShapeList.get(priorShapeList.size() - 2).getShape() == Shape.TRIANGLE) {
-                            //SQUIRGLE MATCHED!!!
-                            promptShape.setRadius(initPromptRadius);
-                            phaseEightSquirgles++;
-                            if(phaseEightSquirgles >= PHASE_EIGHT_REQUIRED_SQUIRGLES) {
-                                game.confirmSound.play((float) (game.volume / 10.0));
-                                phase = PHASE_NINE;
-                            }
-                        }
-                        currentTargetShape = targetShapeList.get(0);
+                        lastPromptShape.setRadius(promptShape.getRadius());
                     }
-                } else if (!gameOver && inputTouchedGameplay) {
-                    //The wrong shape was touched
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
-                    if(phase >= PHASE_EIGHT) {
-                        if (game.widthGreater) {
-                            if (promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))) > (game.camera.viewportHeight / 2)) {
-                                promptShape.setRadius(game.camera.viewportHeight / 2);
-                            } else {
-                                promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))));
-                            }
-                        } else {
-                            if (promptShape.getRadius() + (game.camera.viewportWidth * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))) > (game.camera.viewportWidth / 2)) {
-                                promptShape.setRadius(game.camera.viewportWidth / 2);
-                            } else {
-                                promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportWidth * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))));
+                    lastTargetShape.setShape(currentTargetShape.getShape());
+                    equationWidth = INPUT_RADIUS;
+                    if (promptShape.getShape() + 1 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 1) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 1);
+                    }
+                } else if (lineTouched) {
+                    lastShapeTouched.setShape(Shape.LINE);
+                    lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
+                    lastTargetShape.setShape(currentTargetShape.getShape());
+                    equationWidth = INPUT_RADIUS;
+                    if (promptShape.getShape() + 2 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 2) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 2);
+                    }
+                } else if (triangleTouched) {
+                    lastShapeTouched.setShape(Shape.TRIANGLE);
+                    lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
+                    lastTargetShape.setShape(currentTargetShape.getShape());
+                    equationWidth = INPUT_RADIUS;
+                    if (promptShape.getShape() + 3 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 3) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 3);
+                    }
+                } else if (squareTouched) {
+                    lastShapeTouched.setShape(Shape.SQUARE);
+                    lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
+                    lastTargetShape.setShape(currentTargetShape.getShape());
+                    equationWidth = INPUT_RADIUS;
+                    if (promptShape.getShape() + 4 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 4) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 4);
+                    }
+                } else if (pentagonTouched) {
+                    lastShapeTouched.setShape(Shape.PENTAGON);
+                    lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
+                    lastTargetShape.setShape(currentTargetShape.getShape());
+                    equationWidth = INPUT_RADIUS;
+                    if (promptShape.getShape() + 5 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 5) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 5);
+                    }
+                } else if (hexagonTouched) {
+                    lastShapeTouched.setShape(Shape.HEXAGON);
+                    lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
+                    lastTargetShape.setShape(currentTargetShape.getShape());
+                    equationWidth = INPUT_RADIUS;
+                    if (promptShape.getShape() + 6 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 6) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 6);
+                    }
+                } else if (septagonTouched) {
+                    lastShapeTouched.setShape(Shape.SEPTAGON);
+                    lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
+                    lastTargetShape.setShape(currentTargetShape.getShape());
+                    equationWidth = INPUT_RADIUS;
+                    if (promptShape.getShape() + 7 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 7) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 7);
+                    }
+                } else if (octagonTouched) {
+                    lastShapeTouched.setShape(Shape.OCTAGON);
+                    lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
+                    lastTargetShape.setShape(currentTargetShape.getShape());
+                    equationWidth = INPUT_RADIUS;
+                    if (promptShape.getShape() + 8 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 8) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 8);
+                    }
+                } else if (nonagonTouched) {
+                    lastShapeTouched.setShape(Shape.NONAGON);
+                    lastPromptShape.setShape(promptShape.getShape());
+                    if(lastPromptShape.getShape() == Shape.POINT) {
+                        lastPromptShape.setRadius(promptShape.getRadius() / 2);
+                    } else {
+                        lastPromptShape.setRadius(promptShape.getRadius());
+                    }
+                    lastTargetShape.setShape(currentTargetShape.getShape());
+                    equationWidth = INPUT_RADIUS;
+                    if (promptShape.getShape() + 9 >= game.base) {
+                        promptShape.setShape((promptShape.getShape() + 9) - game.base);
+                    } else {
+                        promptShape.setShape(promptShape.getShape() + 9);
+                    }
+                } else if (pauseTouched) {
+                    pauseStartTime = System.currentTimeMillis();
+                    pause();
+                }
+            }
+            if (inputTouchedGameplay && !gameOver && promptShape.getShape() == currentTargetShape.getShape()) {
+                targetShapesMatched++;
+                Shape circleContainer = new Shape(Shape.CIRCLE,
+                        promptShape.getRadius(),
+                        Color.BLACK,
+                        null,
+                        promptShape.getLineWidth(),
+                        promptShape.getCoordinates());
+                Shape promptShapeToAdd = new Shape(promptShape.getShape(),
+                        promptShape.getRadius(),
+                        backgroundColorShape.getColor(),
+                        null,
+                        promptShape.getLineWidth(),
+                        promptShape.getCoordinates());
+                if (promptShapeToAdd.getShape() == Shape.POINT || (promptShapeToAdd.getShape() == Shape.LINE && !priorShapeList.isEmpty())) {
+                    promptShapeToAdd.setRadius(circleContainer.getRadius() / 2);
+                }
+                promptShape.setShape(MathUtils.random(game.base - 1));
+                priorShapeList.add(promptShapeToAdd);
+                priorShapeList.add(circleContainer);
+                if (targetShapesMatched == 1) {
+                    currentTargetShape = outsideTargetShape;
+                } else {
+                    targetShapesMatched = 0;
+                    score += multiplier;
+                    if (multiplier < 5) {
+                        multiplier++;
+                    }
+                    targetShapeList.clear();
+                    if (priorShapeList.get(priorShapeList.size() - 4).getColor().equals(priorShapeList.get(priorShapeList.size() - 2).getColor())) {
+                        //SQUIRGLE!!!
+                        outsideTargetShape.setShape(Shape.TRIANGLE);
+                        outsideTargetShape.setColor(Color.BLACK);
+                        targetShapeList.add(new Shape(Shape.SQUARE,
+                                0,
+                                Color.WHITE,
+                                null,
+                                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                                new Vector2(TARGET_RADIUS / 2.5f,
+                                        game.camera.viewportHeight - (TARGET_RADIUS / 2.5f))));
+                        targetShapeList.add(new Shape(Shape.CIRCLE,
+                                0,
+                                Color.BLACK,
+                                null,
+                                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                                new Vector2(TARGET_RADIUS / 3,
+                                        game.camera.viewportHeight - (TARGET_RADIUS / 2))));
+                    } else {
+                        outsideTargetShape.setShape(MathUtils.random(game.base - 1));
+                        outsideTargetShape.setColor(Color.BLACK);
+                        targetShapeList.add(new Shape(MathUtils.random(game.base - 1),
+                                0,
+                                Color.WHITE,
+                                null,
+                                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                                new Vector2(TARGET_RADIUS / 2.5f,
+                                        game.camera.viewportHeight - (TARGET_RADIUS / 2.5f))));
+                        targetShapeList.add(new Shape(Shape.CIRCLE,
+                                0,
+                                Color.BLACK,
+                                null,
+                                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                                new Vector2(TARGET_RADIUS / 3,
+                                        game.camera.viewportHeight - (TARGET_RADIUS / 2))));
+                        if (targetShapeList.get(0).getShape() == Shape.SQUARE) {
+                            while (outsideTargetShape.getShape() == Shape.TRIANGLE) {
+                                outsideTargetShape.setShape(MathUtils.random(Shape.SQUARE));
                             }
                         }
-                        if (phase == PHASE_SIX) {
-                            phaseSixCorrectInputs = 0;
-                        }
-                        multiplier = 1;
+                    }
+                    if (priorShapeList.get(priorShapeList.size() - 4).getShape() == Shape.SQUARE && priorShapeList.get(priorShapeList.size() - 2).getShape() == Shape.TRIANGLE) {
+                        //SQUIRGLE MATCHED!!!
+                        promptShape.setRadius(initPromptRadius);
+                    }
+                    currentTargetShape = targetShapeList.get(0);
+                }
+            } else if (!gameOver && inputTouchedGameplay) {
+                //The wrong shape was touched
+                if (game.widthGreater) {
+                    if (promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))) > (game.camera.viewportHeight / 2)) {
+                        promptShape.setRadius(game.camera.viewportHeight / 2);
+                    } else {
+                        promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))));
+                    }
+                } else {
+                    if (promptShape.getRadius() + (game.camera.viewportWidth * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))) > (game.camera.viewportWidth / 2)) {
+                        promptShape.setRadius(game.camera.viewportWidth / 2);
+                    } else {
+                        promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportWidth * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))));
                     }
                 }
-            } else {
-                if (pauseBackTouched) {
-                    timePaused += System.currentTimeMillis() - pauseStartTime;
-                    resume();
-                } else if (pauseQuitTouched) {
-                    stopMusic();
+                multiplier = 1;
+            }
+            if (inputTouchedResults && showResults) {
+                //Unlock new base options
+                if(game.base == game.maxBase && score >= 150 && game.maxBase < 9) {
+                    game.maxBase++;
+                    game.updateSave(game.SAVE_MAX_BASE, game.maxBase);
+                }
+
+                if (playTouched) {
+                    game.setScreen(new GameplayScreen(game));
+                } else if (homeTouched) {
                     game.setScreen(new MainMenuScreen(game));
+                } else {
                     dispose();
+                    System.exit(0);
                 }
+                dispose();
+            }
+        } else {
+            if (pauseBackTouched) {
+                timePaused += System.currentTimeMillis() - pauseStartTime;
+                resume();
+            } else if (pauseQuitTouched) {
+                stopMusic();
+                game.setScreen(new MainMenuScreen(game));
+                dispose();
             }
         }
     }

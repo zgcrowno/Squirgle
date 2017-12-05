@@ -1,12 +1,13 @@
-package com.screenlooker.squirgle;
+package com.screenlooker.squirgle.util;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.screenlooker.squirgle.Shape;
+import com.screenlooker.squirgle.Squirgle;
 
 import java.util.List;
 
 public class SoundUtils {
 
-    //TODO: Maybe replace this with composed music as opposed to computer generated?
     public static void playMusic(Shape promptShape, Squirgle game) {
         boolean phaseOne = promptShape.getRadius() >= game.fourthOfScreen;
         boolean phaseTwo = promptShape.getRadius() >= game.thirdOfScreen;

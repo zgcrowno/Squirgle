@@ -1,4 +1,4 @@
-package com.screenlooker.squirgle;
+package com.screenlooker.squirgle.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,9 +8,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.screenlooker.squirgle.Draw;
+import com.screenlooker.squirgle.Squirgle;
+import com.screenlooker.squirgle.util.ColorUtils;
 
 public class BaseSelectScreen implements Screen, InputProcessor {
 
@@ -67,12 +67,12 @@ public class BaseSelectScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        base4Color = ColorUtils.randomColor();
-        base5Color = ColorUtils.randomColor();
-        base6Color = ColorUtils.randomColor();
-        base7Color = ColorUtils.randomColor();
-        base8Color = ColorUtils.randomColor();
-        base9Color = ColorUtils.randomColor();
+        base4Color = com.screenlooker.squirgle.util.ColorUtils.randomColor();
+        base5Color = com.screenlooker.squirgle.util.ColorUtils.randomColor();
+        base6Color = com.screenlooker.squirgle.util.ColorUtils.randomColor();
+        base7Color = com.screenlooker.squirgle.util.ColorUtils.randomColor();
+        base8Color = com.screenlooker.squirgle.util.ColorUtils.randomColor();
+        base9Color = com.screenlooker.squirgle.util.ColorUtils.randomColor();
         backColor = ColorUtils.randomColor();
 
         base4Touched = false;
@@ -319,7 +319,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         game.draw.drawSquare(game.camera.viewportWidth / 4,
                 game.partitionSize + (inputHeightBase / 2),
                 inputShapeRadius,
-                inputShapeRadius / 8,
+                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
@@ -329,7 +329,8 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         game.draw.drawPentagon(game.camera.viewportWidth / 4,
                 (2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2),
                 inputShapeRadius,
-                inputShapeRadius / 8,
+                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
+                0,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
@@ -339,7 +340,8 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         game.draw.drawHexagon(game.camera.viewportWidth / 4,
                 (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
-                inputShapeRadius / 8,
+                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
+                0,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
@@ -349,7 +351,8 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         game.draw.drawSeptagon(game.camera.viewportWidth / 4,
                 (4 * game.partitionSize) + (3 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
-                inputShapeRadius / 8,
+                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
+                0,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
@@ -359,7 +362,8 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         game.draw.drawOctagon(game.camera.viewportWidth / 4,
                 (5 * game.partitionSize) + (4 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
-                inputShapeRadius / 8,
+                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
+                0,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
@@ -369,19 +373,20 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         game.draw.drawNonagon(game.camera.viewportWidth / 4,
                 (6 * game.partitionSize) + (5 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
-                inputShapeRadius / 8,
+                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
+                0,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
 
     public void drawBackInput() {
-        float radius = game.camera.viewportWidth > game.camera.viewportHeight ? game.camera.viewportHeight / 8 : game.camera.viewportWidth / 8;
+        float radius = game.camera.viewportWidth > game.camera.viewportHeight ? game.camera.viewportHeight / Draw.LINE_WIDTH_DIVISOR : game.camera.viewportWidth / Draw.LINE_WIDTH_DIVISOR;
 
         drawInputRectangle(BACK, backColor);
         game.draw.drawBackButton(game.camera.viewportWidth - (game.camera.viewportWidth / 4),
                 game.camera.viewportHeight / 2,
                 radius,
-                radius / 8,
+                radius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }

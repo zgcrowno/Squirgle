@@ -1,4 +1,4 @@
-package com.screenlooker.squirgle;
+package com.screenlooker.squirgle.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -8,6 +8,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Draw;
+import com.screenlooker.squirgle.Squirgle;
+import com.screenlooker.squirgle.screen.MainMenuScreen;
+import com.screenlooker.squirgle.util.ColorUtils;
+import com.screenlooker.squirgle.util.FontUtils;
 
 public class OptionsScreen implements Screen, InputProcessor {
 
@@ -42,7 +47,7 @@ public class OptionsScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        volumeColor = ColorUtils.randomColor();
+        volumeColor = com.screenlooker.squirgle.util.ColorUtils.randomColor();
         backColor = ColorUtils.randomColor();
 
         volumeDownChevronTouched = false;
@@ -219,25 +224,25 @@ public class OptionsScreen implements Screen, InputProcessor {
         game.draw.drawSoundSymbol(game.camera.viewportWidth / 6,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 4),
                 symbolRadius,
-                symbolRadius / 8,
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 volumeColor,
                 game.shapeRendererFilled);
         game.draw.drawLine(game.camera.viewportWidth / 3,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 4),
                 symbolRadius,
-                symbolRadius / 8,
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
         game.draw.drawChevronLeft((3 * game.camera.viewportWidth) / 6,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 4),
                 symbolRadius,
-                symbolRadius / 8,
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
         game.draw.drawChevronRight((5 * game.camera.viewportWidth) / 6,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 4),
                 symbolRadius,
-                symbolRadius / 8,
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
