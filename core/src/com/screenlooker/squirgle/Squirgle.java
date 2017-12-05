@@ -24,10 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//TODO: Many of the variables throughout this entire game will have to be replaced with screen-size dependent alternatives
-
-//TODO: Often, when working with game.camera.viewportWidth/Height, we'll want to use one or the other based upon whether or
-//TODO: not the screen width or screen height is greater.
 public class Squirgle extends Game {
 	private static int VIRTUAL_WIDTH;
 	private static int VIRTUAL_HEIGHT;
@@ -103,15 +99,12 @@ public class Squirgle extends Game {
 		save = Gdx.app.getPreferences(SAVE_NAME);
 
 		volume = save.getInteger(SAVE_VOLUME, 10);
-		//volume = 10;
 		track = save.getInteger(SAVE_TRACK, MUSIC_EXSEPTION_TO_THE_COOL);
-		//track = MUSIC_EXSEPTION_TO_THE_COOL;
 
 		playedBefore = save.getBoolean(SAVE_PLAYED_BEFORE, false);
 
 		base = 4;
 		maxBase = save.getInteger(SAVE_MAX_BASE, 4);
-		//maxBase = 9;
 		minBase = 4;
 		batch = new SpriteBatch();
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
@@ -126,7 +119,7 @@ public class Squirgle extends Game {
 		fourthOfScreen = widthOrHeight / 4;
 		thirdOfScreen = widthOrHeight / 3;
 		fiveTwelfthsOfScreen = (5 * widthOrHeight) / 12;
-		partitionSize = camera.viewportHeight / PARTITION_DIVISOR;
+		partitionSize = widthOrHeight / PARTITION_DIVISOR;
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);
@@ -181,6 +174,7 @@ public class Squirgle extends Game {
 
 	public void setUpTracks() {
 		//TODO: Add the rest of the tracks once they're written/recorded
+
 		//exseptionToTheCool
 		Music exseptionToTheCoolPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Squirgle - Exseption to the Cool (Phase 1).wav"));
 		Music exseptionToTheCoolPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Squirgle - Exseption to the Cool (Phase 2).wav"));
@@ -195,7 +189,7 @@ public class Squirgle extends Game {
 	}
 
 	public void updateSave(String key, Object val) {
-		System.out.println(val.getClass());
+		//Using if-thens because switch statement is incompatible with "class" type
 		if(val.getClass().equals(Boolean.class)) {
 			save.putBoolean(key, (Boolean) val);
 		} else if(val.getClass().equals(Float.class)) {
