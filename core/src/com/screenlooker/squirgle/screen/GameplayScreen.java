@@ -160,11 +160,12 @@ public class GameplayScreen implements Screen, InputProcessor {
         lastShapeTouched = new Shape(Shape.POINT, GameplayScreen.INPUT_RADIUS, Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
         lastPromptShape = new Shape(Shape.POINT, promptShape.getRadius(), Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
         outsideTargetShape = new Shape(MathUtils.random(game.base - 1),
-                INPUT_RADIUS,
-                Color.BLACK, null,
-                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(TARGET_RADIUS / 2.5f,
-                        game.camera.viewportHeight - (TARGET_RADIUS / 2.5f)));
+                TARGET_RADIUS / 2.43f,
+                Color.BLACK,
+                null,
+                (TARGET_RADIUS / 2.43f) / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(TARGET_RADIUS / 2.43f,
+                        game.camera.viewportHeight - (TARGET_RADIUS / 2.43f)));
         priorShapeList = new ArrayList<Shape>();
         targetShapeList = new ArrayList<Shape>();
         touchDownShapeList = new ArrayList<Shape>();
