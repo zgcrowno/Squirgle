@@ -24,11 +24,21 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     private final static int BASE_9 = 5;
     private final static int BACK = 6;
 
+    private final static int NUM_INPUTS_HORIZONTAL = 2;
+    private final static int NUM_RIGHT_HALF_INPUTS_VERTICAL = 1;
+    private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
+    private final static int NUM_RIGHT_HALF_PARTITIONS_VERTICAL = NUM_RIGHT_HALF_INPUTS_VERTICAL + 1;
+
     private int numberOfBaseInputs;
+
+    private int numLeftHalfInputsVertical;
+    private int numLeftHalfPartitionsVertical;
 
     private float inputWidth;
     private float inputHeightBase;
     private float inputHeightBack;
+
+    private float symbolRadius;
 
     private float inputShapeRadius;
 
@@ -59,11 +69,16 @@ public class BaseSelectScreen implements Screen, InputProcessor {
 
         numberOfBaseInputs = game.maxBase - game.minBase + 1;
 
-        inputWidth = (game.camera.viewportWidth - (game.partitionSize * 3)) / 2;
-        inputHeightBase = (game.camera.viewportHeight - ((numberOfBaseInputs + 1) * game.partitionSize)) / numberOfBaseInputs;
-        inputHeightBack = game.camera.viewportHeight - (game.partitionSize * 2);
+        numLeftHalfInputsVertical = numberOfBaseInputs;
+        numLeftHalfPartitionsVertical = numLeftHalfInputsVertical + 1;
 
-        inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 4) : (inputWidth / 4);
+        inputWidth = (game.camera.viewportWidth - (game.partitionSize * NUM_PARTITIONS_HORIZONTAL)) / NUM_INPUTS_HORIZONTAL;
+        inputHeightBase = (game.camera.viewportHeight - (game.partitionSize * numLeftHalfPartitionsVertical)) / numLeftHalfInputsVertical;
+        inputHeightBack = game.camera.viewportHeight - (game.partitionSize * NUM_RIGHT_HALF_PARTITIONS_VERTICAL);
+
+        symbolRadius = inputWidth > inputHeightBack ? inputHeightBack / 2 : inputWidth / 2;
+
+        inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 2) : (inputWidth / 2);
 
         touchPoint = new Vector3();
 
@@ -380,13 +395,11 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     }
 
     public void drawBackInput() {
-        float radius = game.camera.viewportWidth > game.camera.viewportHeight ? game.camera.viewportHeight / Draw.LINE_WIDTH_DIVISOR : game.camera.viewportWidth / Draw.LINE_WIDTH_DIVISOR;
-
         drawInputRectangle(BACK, backColor);
         game.draw.drawBackButton(game.camera.viewportWidth - (game.camera.viewportWidth / 4),
                 game.camera.viewportHeight / 2,
-                radius,
-                radius / Draw.LINE_WIDTH_DIVISOR,
+                symbolRadius,
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }

@@ -512,7 +512,8 @@ public class TutorialScreen implements Screen, InputProcessor {
             endTime = System.currentTimeMillis();
         }
 
-        currentTargetShape.setColor(com.screenlooker.squirgle.util.ColorUtils.randomColor());
+        //Transition color to distinguish current target shape from other
+        ColorUtils.transitionColor(currentTargetShape);
     }
 
     @Override

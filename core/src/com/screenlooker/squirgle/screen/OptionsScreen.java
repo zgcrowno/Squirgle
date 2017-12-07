@@ -21,8 +21,16 @@ public class OptionsScreen implements Screen, InputProcessor {
     private final static int SOUND = 0;
     private final static int BACK = 1;
 
+    private final static int NUM_INPUTS_HORIZONTAL = 1;
+    private final static int NUM_INPUTS_VERTICAL = 2;
+    private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
+    private final static int NUM_PARTITIONS_VERTICAL = NUM_INPUTS_VERTICAL + 1;
+
+    private final static int NUM_SOUND_INPUT_ELEMENTS = 4;
+
     private float inputWidth;
     private float inputHeight;
+
     private float symbolRadius;
 
     private Vector3 touchPoint;
@@ -41,9 +49,10 @@ public class OptionsScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        inputWidth = game.camera.viewportWidth - (game.partitionSize * 2);
-        inputHeight = (game.camera.viewportHeight - (game.partitionSize * 3)) / 2;
-        symbolRadius = inputWidth > inputHeight ? inputHeight / 8 : inputWidth / 8;
+        inputWidth = game.camera.viewportWidth - (game.partitionSize * NUM_PARTITIONS_HORIZONTAL);
+        inputHeight = (game.camera.viewportHeight - (game.partitionSize * NUM_PARTITIONS_VERTICAL)) / NUM_INPUTS_VERTICAL;
+
+        symbolRadius = inputWidth > inputHeight ? inputHeight / 2 : inputWidth / 2;
 
         touchPoint = new Vector3();
 
@@ -77,8 +86,8 @@ public class OptionsScreen implements Screen, InputProcessor {
                 game.layout,
                 Color.BLACK,
                 String.valueOf(game.volume),
-                (4 * game.camera.viewportWidth) / 6,
-                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
+                (3 * game.camera.viewportWidth) / (NUM_SOUND_INPUT_ELEMENTS + 1),
+                game.camera.viewportHeight - (game.camera.viewportHeight / (NUM_INPUTS_VERTICAL * 2)),
                 0);
     }
 
@@ -134,14 +143,14 @@ public class OptionsScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        volumeDownChevronTouched = touchPoint.x > ((3 * game.camera.viewportWidth) / 6) - symbolRadius
-                && touchPoint.x < ((3 * game.camera.viewportWidth) / 6) + symbolRadius
-                && touchPoint.y > (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) - symbolRadius
-                && touchPoint.y < (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) + symbolRadius;
-        volumeUpChevronTouched = touchPoint.x > ((5 * game.camera.viewportWidth) / 6) - symbolRadius
-                && touchPoint.x < ((5 * game.camera.viewportWidth) / 6) + symbolRadius
-                && touchPoint.y > (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) - symbolRadius
-                && touchPoint.y < (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) + symbolRadius;
+        volumeDownChevronTouched = touchPoint.x > ((2 * game.camera.viewportWidth) / 5) - (symbolRadius / NUM_SOUND_INPUT_ELEMENTS)
+                && touchPoint.x < ((2 * game.camera.viewportWidth) / 5) + (symbolRadius / NUM_SOUND_INPUT_ELEMENTS)
+                && touchPoint.y > (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) - (symbolRadius / NUM_SOUND_INPUT_ELEMENTS)
+                && touchPoint.y < (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) + (symbolRadius / NUM_SOUND_INPUT_ELEMENTS);
+        volumeUpChevronTouched = touchPoint.x > ((4 * game.camera.viewportWidth) / 5) - (symbolRadius / NUM_SOUND_INPUT_ELEMENTS)
+                && touchPoint.x < ((4 * game.camera.viewportWidth) / 5) + (symbolRadius / NUM_SOUND_INPUT_ELEMENTS)
+                && touchPoint.y > (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) - (symbolRadius / NUM_SOUND_INPUT_ELEMENTS)
+                && touchPoint.y < (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) + (symbolRadius / NUM_SOUND_INPUT_ELEMENTS);
         backTouched = touchPoint.x > game.partitionSize
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize
@@ -221,28 +230,22 @@ public class OptionsScreen implements Screen, InputProcessor {
 
     public void drawSoundInput() {
         drawInputRectangle(SOUND, volumeColor);
-        game.draw.drawSoundSymbol(game.camera.viewportWidth / 6,
+        game.draw.drawSoundSymbol(game.camera.viewportWidth / 5,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 4),
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                symbolRadius / NUM_SOUND_INPUT_ELEMENTS,
+                (symbolRadius / NUM_SOUND_INPUT_ELEMENTS) / Draw.LINE_WIDTH_DIVISOR,
                 volumeColor,
                 game.shapeRendererFilled);
-        game.draw.drawLine(game.camera.viewportWidth / 3,
+        game.draw.drawChevronLeft((2 * game.camera.viewportWidth) / 5,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 4),
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                symbolRadius / NUM_SOUND_INPUT_ELEMENTS,
+                (symbolRadius / NUM_SOUND_INPUT_ELEMENTS) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
-        game.draw.drawChevronLeft((3 * game.camera.viewportWidth) / 6,
+        game.draw.drawChevronRight((4 * game.camera.viewportWidth) / 5,
                 game.camera.viewportHeight - (game.camera.viewportHeight / 4),
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
-        game.draw.drawChevronRight((5 * game.camera.viewportWidth) / 6,
-                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                symbolRadius / NUM_SOUND_INPUT_ELEMENTS,
+                (symbolRadius / NUM_SOUND_INPUT_ELEMENTS) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
@@ -251,8 +254,8 @@ public class OptionsScreen implements Screen, InputProcessor {
         drawInputRectangle(BACK, backColor);
         game.draw.drawBackButton(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 4,
-                symbolRadius * 2,
-                symbolRadius / 4,
+                symbolRadius,
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
