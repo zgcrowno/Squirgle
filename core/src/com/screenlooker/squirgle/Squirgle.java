@@ -28,6 +28,8 @@ public class Squirgle extends Game {
 	public final static int LINE_WIDTH = 20;
 	public final static int END_LINE_WIDTH_INCREASE = 2;
 	public final static int FPS = 60;
+	public final static int MAX_POSSIBLE_BASE = 9;
+	public final static int SCORE_TO_UNLOCK_NEW_BASE = 150;
 
 	public final static int MUSIC_THEME_FROM_SQUIRGLE = 0;
 	public final static int MUSIC_THE_POINT = 1;

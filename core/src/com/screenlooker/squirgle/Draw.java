@@ -1338,6 +1338,18 @@ public class Draw {
         }
     }
 
+    public void drawTouchDownPointsTutorial(List<Shape> touchDownShapeList, ShapeRenderer shapeRenderer) {
+        for (int i = 0; i < touchDownShapeList.size(); i++) {
+            Shape shape = touchDownShapeList.get(i);
+            if (shape.getRadius() > TutorialScreen.INPUT_RADIUS) {
+                touchDownShapeList.remove(shape);
+            } else {
+                drawShape(shape, shapeRenderer);
+                shape.setRadius(shape.getRadius() + 1);
+            }
+        }
+    }
+
     public void drawPlus(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(color);
 
