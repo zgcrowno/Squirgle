@@ -694,7 +694,7 @@ public class Draw {
     }
 
     public void drawInputButtonsTutorial(int phase, ShapeRenderer shapeRenderer) {
-        boolean allInputsVisible = phase > com.screenlooker.squirgle.screen.TutorialScreen.PHASE_FIVE;
+        boolean allInputsVisible = phase > TutorialScreen.PHASE_FIVE;
 
         if(phase == TutorialScreen.PHASE_TWO || allInputsVisible) {
             //Point
@@ -733,12 +733,12 @@ public class Draw {
 
         //Home
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(inputHomeSpawn.x, inputHomeSpawn.y, com.screenlooker.squirgle.screen.GameplayScreen.INPUT_RADIUS);
+        shapeRenderer.circle(inputHomeSpawn.x, inputHomeSpawn.y, GameplayScreen.INPUT_RADIUS);
         drawBackButton(inputHomeSpawn.x, inputHomeSpawn.y, GameplayScreen.INPUT_RADIUS / 2, (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
 
         //Exit
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(inputExitSpawn.x, inputExitSpawn.y, com.screenlooker.squirgle.screen.GameplayScreen.INPUT_RADIUS);
+        shapeRenderer.circle(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS);
         drawX(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
     }
 
@@ -1157,7 +1157,7 @@ public class Draw {
                         new Shape(Shape.SQUARE,
                                 newRadius,
                                 Color.WHITE,
-                                com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                                ColorUtils.randomColor(),
                                 newRadius / LINE_WIDTH_DIVISOR,
                                 new Vector2(GameplayScreen.TARGET_RADIUS + ((game.camera.viewportWidth - (GameplayScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)),
                                         (game.camera.viewportHeight - (GameplayScreen.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (GameplayScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)))));

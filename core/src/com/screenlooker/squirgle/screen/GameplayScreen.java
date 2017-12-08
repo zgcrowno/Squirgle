@@ -61,6 +61,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private final static int TWO_SHAPES_AGO = 4;
 
     private final static float FONT_SIZE_DIVISOR = 11.1f;
+    private final static float FONT_MULTIPLIER_INPUT = 1.39f;
     private final static float SCORE_DIVISOR = 3.16f;
     private final static float TARGET_RADIUS_DIVISOR = 2.43f;
     private final static float MULTIPLIER_X_DIVISOR = 2.68f;
@@ -372,7 +373,8 @@ public class GameplayScreen implements Screen, InputProcessor {
     public void drawText() {
         if(!paused) {
             if (!gameOver) {
-                com.screenlooker.squirgle.util.FontUtils.printText(game.batch,
+                //Score
+                FontUtils.printText(game.batch,
                         game.font,
                         game.layout,
                         backgroundColorShape.getColor(),
@@ -380,7 +382,9 @@ public class GameplayScreen implements Screen, InputProcessor {
                         game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
                         game.camera.viewportHeight - (TARGET_RADIUS / SCORE_DIVISOR),
                         SCORE_ANGLE);
-                com.screenlooker.squirgle.util.FontUtils.printText(game.batch,
+
+                //Multiplier
+                FontUtils.printText(game.batch,
                         game.font,
                         game.layout,
                         Color.WHITE,
@@ -388,6 +392,18 @@ public class GameplayScreen implements Screen, InputProcessor {
                         game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
                         game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
                         SCORE_ANGLE);
+
+                //Input Numbers
+                for(int i = 1; i <= game.base; i++) {
+                    FontUtils.printText(game.batch,
+                            game.font,
+                            game.layout,
+                            Color.WHITE,
+                            String.valueOf(i),
+                            ((i * (game.camera.viewportWidth - ((2 * game.base) * INPUT_RADIUS))) / (game.base + 1) + ((i + i - 1) * INPUT_RADIUS)) + (INPUT_RADIUS * FONT_MULTIPLIER_INPUT),
+                            (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS) + (INPUT_RADIUS * FONT_MULTIPLIER_INPUT),
+                            SCORE_ANGLE);
+                }
             }
 
             if (showResults) {
@@ -491,8 +507,6 @@ public class GameplayScreen implements Screen, InputProcessor {
                         priorShapeList.remove(priorShapeList.size() - 1);
                     }
                     destructionIndex = 2;
-                } else {
-                    //TODO: Account for game ending with empty priorShapeList (maybe?)
                 }
             }
         }
@@ -522,7 +536,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 if (pointTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_POINT_SPAWN.x,
@@ -530,7 +544,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (lineTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_LINE_SPAWN.x,
@@ -538,7 +552,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (triangleTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_TRIANGLE_SPAWN.x,
@@ -546,7 +560,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (squareTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_SQUARE_SPAWN.x,
@@ -554,7 +568,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if(pentagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_PENTAGON_SPAWN.x,
@@ -562,7 +576,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if(hexagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_HEXAGON_SPAWN.x,
@@ -570,7 +584,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if(septagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_SEPTAGON_SPAWN.x,
@@ -578,7 +592,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if(octagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_OCTAGON_SPAWN.x,
@@ -586,7 +600,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if(nonagonTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_NONAGON_SPAWN.x,
@@ -596,14 +610,15 @@ public class GameplayScreen implements Screen, InputProcessor {
                 if (playTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
-                            com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_PLAY_SPAWN.x,
                                     INPUT_PLAY_SPAWN.y)));
                 } else if (homeTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
-                            i, com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                            i,
+                            ColorUtils.randomColor(),
                             null,
                             1,
                             new Vector2(INPUT_HOME_SPAWN.x,
@@ -922,7 +937,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS,
                         Color.WHITE,
-                        com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                        ColorUtils.randomColor(),
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7),
                                 BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT)));
@@ -930,7 +945,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS,
                         Color.WHITE,
-                        com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                        ColorUtils.randomColor(),
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(TARGET_RADIUS + (i * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7)),
                                 BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT)));

@@ -82,12 +82,12 @@ public class BaseSelectScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        base4Color = com.screenlooker.squirgle.util.ColorUtils.randomColor();
-        base5Color = com.screenlooker.squirgle.util.ColorUtils.randomColor();
-        base6Color = com.screenlooker.squirgle.util.ColorUtils.randomColor();
-        base7Color = com.screenlooker.squirgle.util.ColorUtils.randomColor();
-        base8Color = com.screenlooker.squirgle.util.ColorUtils.randomColor();
-        base9Color = com.screenlooker.squirgle.util.ColorUtils.randomColor();
+        base4Color = ColorUtils.randomColor();
+        base5Color = ColorUtils.randomColor();
+        base6Color = ColorUtils.randomColor();
+        base7Color = ColorUtils.randomColor();
+        base8Color = ColorUtils.randomColor();
+        base9Color = ColorUtils.randomColor();
         backColor = ColorUtils.randomColor();
 
         base4Touched = false;

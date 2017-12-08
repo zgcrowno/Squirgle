@@ -56,7 +56,7 @@ public class OptionsScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        volumeColor = com.screenlooker.squirgle.util.ColorUtils.randomColor();
+        volumeColor = ColorUtils.randomColor();
         backColor = ColorUtils.randomColor();
 
         volumeDownChevronTouched = false;
