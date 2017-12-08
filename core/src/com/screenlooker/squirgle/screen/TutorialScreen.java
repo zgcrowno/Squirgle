@@ -23,8 +23,15 @@ import java.util.List;
 public class TutorialScreen implements Screen, InputProcessor {
     final Squirgle game;
 
+    public static float INIT_PROMPT_RADIUS;
+    public static float BACKGROUND_COLOR_LIST_ELEMENT_RADIUS;
+    public static float BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT;
+    public static float BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT;
+    public static float BACKGROUND_COLOR_SHAPE_LIST_WIDTH;
     public static float INPUT_RADIUS;
     public static float TARGET_RADIUS;
+    public static float PAUSE_INPUT_WIDTH;
+    public static float PAUSE_INPUT_HEIGHT;
     public static Vector2 INPUT_POINT_SPAWN;
     public static Vector2 INPUT_LINE_SPAWN;
     public static Vector2 INPUT_TRIANGLE_SPAWN;
@@ -34,9 +41,15 @@ public class TutorialScreen implements Screen, InputProcessor {
     public static Vector2 INPUT_SEPTAGON_SPAWN;
     public static Vector2 INPUT_OCTAGON_SPAWN;
     public static Vector2 INPUT_NONAGON_SPAWN;
+    public static Vector2 INPUT_PLAY_SPAWN;
+    public static Vector2 INPUT_HOME_SPAWN;
+    public static Vector2 INPUT_EXIT_SPAWN;
 
     private final static int PAUSE_BACK = 0;
     private final static int PAUSE_QUIT = 1;
+
+    private final static int END_LINE_WIDTH_INCREASE = 2;
+    private final static int NUM_MUSIC_PHASES = 3;
 
     /*
     -All white or gray screen except for black outlined prompt shape (point)
@@ -104,16 +117,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private int phase;
     private int phaseSixCorrectInputs = 0;
     private int phaseEightSquirgles = 0;
-    private float pauseInputWidth;
-    private float pauseInputHeight;
-    private int timeSignature;
-    private float initPromptRadius;
-    private float backgroundColorListElementRadius;
     private float promptIncrease;
-    private float endLineWidthIncrease;
-    private float backgroundColorShapeListMaxHeight;
-    private float backgroundColorShapeListMinHeight;
-    private float backgroundColorShapeListWidth;
     private float equationWidth;
     private Shape promptShape;
     private Shape lastShapeTouched;
@@ -127,9 +131,6 @@ public class TutorialScreen implements Screen, InputProcessor {
     private Shape currentTargetShape;
     private Shape lastTargetShape;
     private int targetShapesMatched;
-    private Vector2 inputPlaySpawn;
-    private Vector2 inputHomeSpawn;
-    private Vector2 inputExitSpawn;
     private Vector3 touchPoint;
     boolean pointTouched;
     boolean lineTouched;
@@ -161,10 +162,13 @@ public class TutorialScreen implements Screen, InputProcessor {
     private int destructionIndex;
     private float firstPriorShapePreviousX;
     private Color resultsColor;
-    private int numMusicPhases;
+    Shape primaryShape;
+    float primaryShapeThreshold;
+    boolean primaryShapeAtThreshold;
 
     public TutorialScreen(final Squirgle game) {
         this.game = game;
+
         game.base = 4;
 
         game.resetInstanceData();
@@ -173,167 +177,27 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        phase = PHASE_ONE;
+        setUpNonFinalStaticData();
 
-        pauseInputWidth = game.camera.viewportWidth - (game.partitionSize * 2);
-        pauseInputHeight = (game.camera.viewportHeight - (game.partitionSize * 3)) / 2;
-
-        INPUT_RADIUS = game.camera.viewportWidth / 19;
-        TARGET_RADIUS = game.camera.viewportWidth / 5.12f;
-
-        timeSignature = 4; //This represents the number of quarter notes per background color change (4 = 4/4, 5 = 5/4, etc.)
-        backgroundColorShapeList = new ArrayList<Shape>();
-        backgroundColorListElementRadius = game.camera.viewportHeight / 68;
-        backgroundColorShapeListMaxHeight = (game.camera.viewportHeight - (INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
-        backgroundColorShapeListMinHeight = game.camera.viewportHeight - (INPUT_RADIUS / 2);
-        backgroundColorShapeListWidth = (TARGET_RADIUS + (6 * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7))) - (TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7));
-        for (int i = 0; i <= 6; i++) {
-            if (i == 0) {
-                backgroundColorShapeList.add(new Shape(Shape.SQUARE,
-                        backgroundColorListElementRadius,
-                        Color.WHITE,
-                        com.screenlooker.squirgle.util.ColorUtils.randomColor(),
-                        backgroundColorListElementRadius / Draw.LINE_WIDTH_DIVISOR,
-                        new Vector2(TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7),
-                                backgroundColorShapeListMaxHeight)));
-            } else {
-                backgroundColorShapeList.add(new Shape(Shape.SQUARE,
-                        backgroundColorListElementRadius,
-                        Color.WHITE,
-                        com.screenlooker.squirgle.util.ColorUtils.randomColor(),
-                        backgroundColorListElementRadius / Draw.LINE_WIDTH_DIVISOR,
-                        new Vector2(TARGET_RADIUS + (i * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7)),
-                                backgroundColorShapeListMinHeight)));
-            }
-        }
-
-        //Set this and the prompt increase such that without player input, three passes of backgroundColorShapeList will
-        //occur before game over
-        if(game.camera.viewportWidth > game.camera.viewportHeight) {
-            initPromptRadius = game.camera.viewportHeight / 4;
-            //initPromptRadius = game.camera.viewportHeight * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth));
-        } else {
-            initPromptRadius = game.camera.viewportWidth / 4;
-            //initPromptRadius = game.camera.viewportWidth * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth));
-        }
-        if(game.camera.viewportWidth > game.camera.viewportHeight) {
-            promptIncrease = (game.camera.viewportHeight * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth))) / 2;
-        } else {
-            promptIncrease = (game.camera.viewportWidth * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth))) / 2;
-        }
-        endLineWidthIncrease = 2;
-        promptShape = new Shape(Shape.POINT,
-                initPromptRadius,
-                Color.WHITE,
-                null,
-                initPromptRadius / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(game.camera.viewportWidth / 2,
-                        game.camera.viewportHeight / 2));
-        lastShapeTouched = new Shape(Shape.POINT, com.screenlooker.squirgle.screen.GameplayScreen.INPUT_RADIUS, Color.BLACK, Color.BLACK, com.screenlooker.squirgle.screen.GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
-        lastPromptShape = new Shape(Shape.POINT, promptShape.getRadius(), Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
-        outsideTargetShape = new Shape(MathUtils.random(game.base - 1),
-                INPUT_RADIUS,
-                Color.BLACK, null,
-                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(TARGET_RADIUS / 2.5f,
-                        game.camera.viewportHeight - (TARGET_RADIUS / 2.5f)));
-        priorShapeList = new ArrayList<Shape>();
-        targetShapeList = new ArrayList<Shape>();
-        touchDownShapeList = new ArrayList<Shape>();
-        targetShapeList.add(new Shape(MathUtils.random(game.base - 1),
-                0, Color.WHITE,
-                null,
-                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(TARGET_RADIUS / 3,
-                        game.camera.viewportHeight - (TARGET_RADIUS / 2))));
-        targetShapeList.add(new Shape(Shape.CIRCLE,
-                0, Color.BLACK,
-                null,
-                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(TARGET_RADIUS / 3,
-                        game.camera.viewportHeight - (TARGET_RADIUS / 2))));
-        if (targetShapeList.get(0).getShape() == Shape.SQUARE) {
-            while (outsideTargetShape.getShape() == Shape.TRIANGLE) {
-                outsideTargetShape.setShape(MathUtils.random(game.base - 1));
-            }
-        }
-        backgroundColorShape = new Shape(Shape.POINT,
-                game.camera.viewportWidth / 2,
-                Color.GRAY,
-                Color.GRAY,
-                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(game.camera.viewportWidth / 2,
-                        game.camera.viewportHeight + (game.camera.viewportWidth / 2)));
-        currentTargetShape = targetShapeList.get(0);
-        lastTargetShape = currentTargetShape;
-        targetShapesMatched = 0;
-        for(int i = 1; i <= game.base; i++) {
-            Vector2 inputVector = new Vector2((i * (game.camera.viewportWidth - ((2 * game.base) * INPUT_RADIUS))) / (game.base + 1) + ((i + i - 1) * INPUT_RADIUS), (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
-            switch(i) {
-                case 1 : INPUT_POINT_SPAWN = inputVector;
-                case 2 : INPUT_LINE_SPAWN = inputVector;
-                case 3 : INPUT_TRIANGLE_SPAWN = inputVector;
-                case 4 : INPUT_SQUARE_SPAWN = inputVector;
-                case 5 : INPUT_PENTAGON_SPAWN = inputVector;
-                case 6 : INPUT_HEXAGON_SPAWN = inputVector;
-                case 7 : INPUT_SEPTAGON_SPAWN = inputVector;
-                case 8 : INPUT_OCTAGON_SPAWN = inputVector;
-                case 9 : INPUT_NONAGON_SPAWN = inputVector;
-            }
-        }
-        inputPlaySpawn = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
-        inputHomeSpawn = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
-        inputExitSpawn = new Vector2((3 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
-        touchPoint = new Vector3();
-        pointTouched = false;
-        lineTouched = false;
-        triangleTouched = false;
-        squareTouched = false;
-        playTouched = false;
-        homeTouched = false;
-        exitTouched = false;
-        pauseTouched = false;
-        pauseBackTouched = false;
-        pauseQuitTouched = false;
-        inputTouchedGameplay = false;
-        inputTouchedResults = false;
-        clearColor = Color.GRAY;
-        score = 0;
-        multiplier = 1;
-        gameOver = false;
-        showResults = false;
-        paused = false;
-        startTime = System.currentTimeMillis();
-        endTime = 0;
-        pauseStartTime = 0;
-        timePaused = 0;
-        equationWidth = 0;
-        destructionIndex = 1;
-        firstPriorShapePreviousX = 0;
-        resultsColor = new Color();
-        numMusicPhases = 3;
+        setUpNonFinalNonStaticData();
 
         playMusic();
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glEnable(GL30.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
-        Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        setUpGL();
+
         game.camera.update();
         game.shapeRendererFilled.setProjectionMatrix(game.camera.combined);
         game.shapeRendererLine.setProjectionMatrix(game.camera.combined);
         game.batch.setProjectionMatrix(game.camera.combined);
-
-        float primaryShapeThreshold = game.widthGreater ? game.camera.viewportHeight * game.draw.THRESHOLD_MULTIPLIER : game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER;
-        Shape primaryShape = priorShapeList.size() > 0 ? priorShapeList.get(0) : promptShape;
-        boolean primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
-
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
-
         game.shapeRendererLine.begin(ShapeRenderer.ShapeType.Line);
+
+        primaryShape = priorShapeList.size() > 0 ? priorShapeList.get(0) : promptShape;
+        primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
+        primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
 
         if(!paused) {
             if(phase >= PHASE_EIGHT) {
@@ -369,11 +233,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     startTime = System.currentTimeMillis();
                     game.draw.setColorListSpeed(game.draw.getColorListSpeed() + 0.1f);
                     game.draw.setColorSpeed(game.draw.getColorSpeed() + 20);
-                    if(game.camera.viewportWidth > game.camera.viewportHeight) {
-                        promptIncrease = (game.camera.viewportHeight * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth))) / 2;
-                    } else {
-                        promptIncrease = (game.camera.viewportWidth * (game.draw.getColorListSpeed() / (3 * backgroundColorShapeListWidth))) / 2;
-                    }
+                    promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (3 * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))) / 2;
                 }
             } else {
                 if ((System.currentTimeMillis() - endTime) / 1000 > 2) {
@@ -384,7 +244,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     } else {
                         promptIncrease = 1;
                         if (primaryShape.getShape() == Shape.LINE && primaryShape.getLineWidth() < (game.camera.viewportWidth * 4)) {
-                            primaryShape.setLineWidth(primaryShape.getLineWidth() * endLineWidthIncrease);
+                            primaryShape.setLineWidth(primaryShape.getLineWidth() * END_LINE_WIDTH_INCREASE);
                         } else if (primaryShape.getShape() == Shape.LINE) {
                             //Prevent shape lines from being visible in the event that primaryShape is promptShape
                             primaryShape.setColor(clearColor);
@@ -596,18 +456,18 @@ public class TutorialScreen implements Screen, InputProcessor {
                 && touchPoint.x < INPUT_NONAGON_SPAWN.x + INPUT_RADIUS
                 && touchPoint.y > INPUT_NONAGON_SPAWN.y - INPUT_RADIUS
                 && touchPoint.y < INPUT_NONAGON_SPAWN.y + INPUT_RADIUS;
-        playTouched = touchPoint.x > inputPlaySpawn.x - INPUT_RADIUS
-                && touchPoint.x < inputPlaySpawn.x + INPUT_RADIUS
-                && touchPoint.y > inputPlaySpawn.y - INPUT_RADIUS
-                && touchPoint.y < inputPlaySpawn.y + INPUT_RADIUS;
-        homeTouched = touchPoint.x > inputHomeSpawn.x - INPUT_RADIUS
-                && touchPoint.x < inputHomeSpawn.x + INPUT_RADIUS
-                && touchPoint.y > inputHomeSpawn.y - INPUT_RADIUS
-                && touchPoint.y < inputHomeSpawn.y + INPUT_RADIUS;
-        exitTouched = touchPoint.x > inputExitSpawn.x - INPUT_RADIUS
-                && touchPoint.x < inputExitSpawn.x + INPUT_RADIUS
-                && touchPoint.y > inputExitSpawn.y - INPUT_RADIUS
-                && touchPoint.y < inputExitSpawn.y + INPUT_RADIUS;
+        playTouched = touchPoint.x > INPUT_PLAY_SPAWN.x - INPUT_RADIUS
+                && touchPoint.x < INPUT_PLAY_SPAWN.x + INPUT_RADIUS
+                && touchPoint.y > INPUT_PLAY_SPAWN.y - INPUT_RADIUS
+                && touchPoint.y < INPUT_PLAY_SPAWN.y + INPUT_RADIUS;
+        homeTouched = touchPoint.x > INPUT_HOME_SPAWN.x - INPUT_RADIUS
+                && touchPoint.x < INPUT_HOME_SPAWN.x + INPUT_RADIUS
+                && touchPoint.y > INPUT_HOME_SPAWN.y - INPUT_RADIUS
+                && touchPoint.y < INPUT_HOME_SPAWN.y + INPUT_RADIUS;
+        exitTouched = touchPoint.x > INPUT_EXIT_SPAWN.x - INPUT_RADIUS
+                && touchPoint.x < INPUT_EXIT_SPAWN.x + INPUT_RADIUS
+                && touchPoint.y > INPUT_EXIT_SPAWN.y - INPUT_RADIUS
+                && touchPoint.y < INPUT_EXIT_SPAWN.y + INPUT_RADIUS;
 
         for (int i = 1; i < 20; i++) {
             if (!gameOver) {
@@ -691,23 +551,23 @@ public class TutorialScreen implements Screen, InputProcessor {
                             com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                             null,
                             1,
-                            new Vector2(inputPlaySpawn.x,
-                                    inputPlaySpawn.y)));
+                            new Vector2(INPUT_PLAY_SPAWN.x,
+                                    INPUT_PLAY_SPAWN.y)));
                 } else if (homeTouched) {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i, com.screenlooker.squirgle.util.ColorUtils.randomColor(),
                             null,
                             1,
-                            new Vector2(inputHomeSpawn.x,
-                                    inputHomeSpawn.y)));
+                            new Vector2(INPUT_HOME_SPAWN.x,
+                                    INPUT_HOME_SPAWN.y)));
                 } else {
                     touchDownShapeList.add(new Shape(Shape.POINT,
                             i,
                             ColorUtils.randomColor(),
                             null,
                             1,
-                            new Vector2(inputExitSpawn.x,
-                                    inputExitSpawn.y)));
+                            new Vector2(INPUT_EXIT_SPAWN.x,
+                                    INPUT_EXIT_SPAWN.y)));
                 }
             }
         }
@@ -770,12 +630,12 @@ public class TutorialScreen implements Screen, InputProcessor {
                 && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20)
                 && phase >= PHASE_EIGHT;
         pauseBackTouched = touchPoint.x > game.partitionSize
-                && touchPoint.x < game.partitionSize + pauseInputWidth
+                && touchPoint.x < game.partitionSize + PAUSE_INPUT_WIDTH
                 && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + pauseInputHeight;
+                && touchPoint.y < game.partitionSize + PAUSE_INPUT_HEIGHT;
         pauseQuitTouched = touchPoint.x > game.partitionSize
-                && touchPoint.x < game.partitionSize + pauseInputWidth
-                && touchPoint.y > (2 * game.partitionSize) + pauseInputHeight
+                && touchPoint.x < game.partitionSize + PAUSE_INPUT_WIDTH
+                && touchPoint.y > (2 * game.partitionSize) + PAUSE_INPUT_HEIGHT
                 && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
         inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched;
 
@@ -853,14 +713,14 @@ public class TutorialScreen implements Screen, InputProcessor {
             case PAUSE_BACK : {
                 game.shapeRendererFilled.rect(game.partitionSize,
                         game.partitionSize,
-                        pauseInputWidth,
-                        pauseInputHeight);
+                        PAUSE_INPUT_WIDTH,
+                        PAUSE_INPUT_HEIGHT);
             }
             case PAUSE_QUIT : {
                 game.shapeRendererFilled.rect(game.partitionSize,
-                        (2 * game.partitionSize) + pauseInputHeight,
-                        pauseInputWidth,
-                        pauseInputHeight);
+                        (2 * game.partitionSize) + PAUSE_INPUT_HEIGHT,
+                        PAUSE_INPUT_WIDTH,
+                        PAUSE_INPUT_HEIGHT);
             }
         }
     }
@@ -886,13 +746,13 @@ public class TutorialScreen implements Screen, InputProcessor {
     }
 
     public void playMusic() {
-        for(int i = 0; i < numMusicPhases; i++) {
+        for(int i = 0; i < NUM_MUSIC_PHASES; i++) {
             game.trackMap.get(game.track).get(i).play();
         }
     }
 
     public void stopMusic() {
-        for(int i = 0; i < numMusicPhases; i++) {
+        for(int i = 0; i < NUM_MUSIC_PHASES; i++) {
             game.trackMap.get(game.track).get(i).stop();
         }
     }
@@ -1095,7 +955,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                         }
                         if (priorShapeList.get(priorShapeList.size() - 4).getShape() == Shape.SQUARE && priorShapeList.get(priorShapeList.size() - 2).getShape() == Shape.TRIANGLE) {
                             //SQUIRGLE MATCHED!!!
-                            promptShape.setRadius(initPromptRadius);
+                            promptShape.setRadius(INIT_PROMPT_RADIUS);
                             phaseEightSquirgles++;
                             if(phaseEightSquirgles >= PHASE_EIGHT_REQUIRED_SQUIRGLES) {
                                 game.confirmSound.play((float) (game.volume / 10.0));
@@ -1109,16 +969,16 @@ public class TutorialScreen implements Screen, InputProcessor {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
                     if(phase >= PHASE_EIGHT) {
                         if (game.widthGreater) {
-                            if (promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))) > (game.camera.viewportHeight / 2)) {
+                            if (promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))) > (game.camera.viewportHeight / 2)) {
                                 promptShape.setRadius(game.camera.viewportHeight / 2);
                             } else {
-                                promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))));
+                                promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))));
                             }
                         } else {
-                            if (promptShape.getRadius() + (game.camera.viewportWidth * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))) > (game.camera.viewportWidth / 2)) {
+                            if (promptShape.getRadius() + (game.camera.viewportWidth * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))) > (game.camera.viewportWidth / 2)) {
                                 promptShape.setRadius(game.camera.viewportWidth / 2);
                             } else {
-                                promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportWidth * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * backgroundColorShapeListWidth))));
+                                promptShape.setRadius(promptShape.getRadius() + (game.camera.viewportWidth * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))));
                             }
                         }
                         if (phase == PHASE_SIX) {
@@ -1138,5 +998,145 @@ public class TutorialScreen implements Screen, InputProcessor {
                 }
             }
         }
+    }
+
+    public void setUpNonFinalStaticData() {
+        INPUT_RADIUS = game.camera.viewportWidth / 19;
+        TARGET_RADIUS = game.camera.viewportWidth / 5.12f;
+        PAUSE_INPUT_WIDTH = game.camera.viewportWidth - (game.partitionSize * 2);
+        PAUSE_INPUT_HEIGHT = (game.camera.viewportHeight - (game.partitionSize * 3)) / 2;
+        BACKGROUND_COLOR_LIST_ELEMENT_RADIUS = game.camera.viewportHeight / 68;
+        BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT = (game.camera.viewportHeight - (INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
+        BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT = game.camera.viewportHeight - (INPUT_RADIUS / 2);
+        BACKGROUND_COLOR_SHAPE_LIST_WIDTH = (TARGET_RADIUS + (6 * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7))) - (TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7));
+        INIT_PROMPT_RADIUS = game.widthOrHeight / 4;
+        for(int i = 1; i <= game.base; i++) {
+            Vector2 inputVector = new Vector2((i * (game.camera.viewportWidth - ((2 * game.base) * INPUT_RADIUS))) / (game.base + 1) + ((i + i - 1) * INPUT_RADIUS), (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
+            switch(i) {
+                case 1 : INPUT_POINT_SPAWN = inputVector;
+                case 2 : INPUT_LINE_SPAWN = inputVector;
+                case 3 : INPUT_TRIANGLE_SPAWN = inputVector;
+                case 4 : INPUT_SQUARE_SPAWN = inputVector;
+                case 5 : INPUT_PENTAGON_SPAWN = inputVector;
+                case 6 : INPUT_HEXAGON_SPAWN = inputVector;
+                case 7 : INPUT_SEPTAGON_SPAWN = inputVector;
+                case 8 : INPUT_OCTAGON_SPAWN = inputVector;
+                case 9 : INPUT_NONAGON_SPAWN = inputVector;
+            }
+        }
+        INPUT_PLAY_SPAWN = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
+        INPUT_HOME_SPAWN = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
+        INPUT_EXIT_SPAWN = new Vector2((3 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
+    }
+
+    public void setUpNonFinalNonStaticData() {
+        phase = PHASE_ONE;
+
+        backgroundColorShapeList = new ArrayList<Shape>();
+        for (int i = 0; i <= 6; i++) {
+            if (i == 0) {
+                backgroundColorShapeList.add(new Shape(Shape.SQUARE,
+                        BACKGROUND_COLOR_LIST_ELEMENT_RADIUS,
+                        Color.WHITE,
+                        com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                        BACKGROUND_COLOR_LIST_ELEMENT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                        new Vector2(TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7),
+                                BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT)));
+            } else {
+                backgroundColorShapeList.add(new Shape(Shape.SQUARE,
+                        BACKGROUND_COLOR_LIST_ELEMENT_RADIUS,
+                        Color.WHITE,
+                        com.screenlooker.squirgle.util.ColorUtils.randomColor(),
+                        BACKGROUND_COLOR_LIST_ELEMENT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                        new Vector2(TARGET_RADIUS + (i * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7)),
+                                BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT)));
+            }
+        }
+
+        //Set this and the prompt increase such that without player input, three passes of backgroundColorShapeList will
+        //occur before game over
+        promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (3 * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))) / 2;
+        promptShape = new Shape(Shape.POINT,
+                INIT_PROMPT_RADIUS,
+                Color.WHITE,
+                null,
+                INIT_PROMPT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(game.camera.viewportWidth / 2,
+                        game.camera.viewportHeight / 2));
+        lastShapeTouched = new Shape(Shape.POINT, com.screenlooker.squirgle.screen.GameplayScreen.INPUT_RADIUS, Color.BLACK, Color.BLACK, com.screenlooker.squirgle.screen.GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
+        lastPromptShape = new Shape(Shape.POINT, promptShape.getRadius(), Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
+        outsideTargetShape = new Shape(MathUtils.random(game.base - 1),
+                INPUT_RADIUS,
+                Color.BLACK, null,
+                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(TARGET_RADIUS / 2.5f,
+                        game.camera.viewportHeight - (TARGET_RADIUS / 2.5f)));
+        priorShapeList = new ArrayList<Shape>();
+        targetShapeList = new ArrayList<Shape>();
+        touchDownShapeList = new ArrayList<Shape>();
+        targetShapeList.add(new Shape(MathUtils.random(game.base - 1),
+                0, Color.WHITE,
+                null,
+                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(TARGET_RADIUS / 3,
+                        game.camera.viewportHeight - (TARGET_RADIUS / 2))));
+        targetShapeList.add(new Shape(Shape.CIRCLE,
+                0, Color.BLACK,
+                null,
+                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(TARGET_RADIUS / 3,
+                        game.camera.viewportHeight - (TARGET_RADIUS / 2))));
+        if (targetShapeList.get(0).getShape() == Shape.SQUARE) {
+            while (outsideTargetShape.getShape() == Shape.TRIANGLE) {
+                outsideTargetShape.setShape(MathUtils.random(game.base - 1));
+            }
+        }
+        backgroundColorShape = new Shape(Shape.POINT,
+                game.camera.viewportWidth / 2,
+                Color.GRAY,
+                Color.GRAY,
+                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(game.camera.viewportWidth / 2,
+                        game.camera.viewportHeight + (game.camera.viewportWidth / 2)));
+        currentTargetShape = targetShapeList.get(0);
+        lastTargetShape = currentTargetShape;
+        targetShapesMatched = 0;
+        touchPoint = new Vector3();
+        pointTouched = false;
+        lineTouched = false;
+        triangleTouched = false;
+        squareTouched = false;
+        playTouched = false;
+        homeTouched = false;
+        exitTouched = false;
+        pauseTouched = false;
+        pauseBackTouched = false;
+        pauseQuitTouched = false;
+        inputTouchedGameplay = false;
+        inputTouchedResults = false;
+        clearColor = Color.GRAY;
+        score = 0;
+        multiplier = 1;
+        gameOver = false;
+        showResults = false;
+        paused = false;
+        startTime = System.currentTimeMillis();
+        endTime = 0;
+        pauseStartTime = 0;
+        timePaused = 0;
+        equationWidth = 0;
+        destructionIndex = 1;
+        firstPriorShapePreviousX = 0;
+        resultsColor = new Color();
+        primaryShape = priorShapeList.size() > 0 ? priorShapeList.get(0) : promptShape;
+        primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
+        primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
+    }
+
+    public void setUpGL() {
+        Gdx.gl.glEnable(GL30.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 }

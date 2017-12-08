@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.*;
 import com.screenlooker.squirgle.screen.MainMenuScreen;
 import com.screenlooker.squirgle.screen.TutorialScreen;
@@ -25,6 +26,7 @@ public class Squirgle extends Game {
 
 	public final static int PARTITION_DIVISOR = 80;
 	public final static int LINE_WIDTH = 20;
+	public final static int END_LINE_WIDTH_INCREASE = 2;
 	public final static int FPS = 60;
 
 	public final static int MUSIC_THEME_FROM_SQUIRGLE = 0;
