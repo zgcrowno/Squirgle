@@ -129,55 +129,21 @@ public class GameplayScreen implements Screen, InputProcessor {
         primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
 
+        increasePromptRadius();
+
+        managePrimaryShapeLineWidth();
+
+        drawBackgroundColorShape();
+
         if(!paused) {
-            if(!gameOver) {
-                promptShape.setRadius(promptShape.getRadius() + (promptIncrease / 2));
-            } else {
-                promptShape.setRadius(promptShape.getRadius() * promptIncrease);
-            }
-
-            if (!primaryShapeAtThreshold) {
-                promptShape.setLineWidth(promptShape.getRadius() / Draw.LINE_WIDTH_DIVISOR);
-            }
-
-            if (!gameOver) {
-                game.draw.drawBackgroundColorShape(backgroundColorShape, game.shapeRendererFilled);
-            }
-
             game.draw.drawPrompt(promptShape, priorShapeList, backgroundColorShape, false, game.shapeRendererFilled);
-
             game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
+        }
 
-            //TODO: Make sure you execute the inverse of this given certain player input...Also adjust all of this
-            //TODO: so that the promptIncrease, colorListSpeed and colorSpeed are all increasing by proportional rates.
-            if (!gameOver) {
-                if ((System.currentTimeMillis() - startTime - timePaused) / 1000 > 10) {
-                    startTime = System.currentTimeMillis();
-                    game.draw.setColorListSpeed(game.draw.getColorListSpeed() + 0.1f);
-                    game.draw.setColorSpeed(game.draw.getColorSpeed() + 20);
-                    promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (3 * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))) / 2;
-                }
-            } else {
-                if ((System.currentTimeMillis() - endTime) / 1000 > 2) {
-                    if (!primaryShapeAtThreshold) { //TODO: Also account for height (different screen orientations?)
-                        promptIncrease += .0001;
-                        promptShape.setCoordinates(new Vector2(promptShape.getCoordinates().x - (primaryShape.getCoordinates().x - firstPriorShapePreviousX),
-                                promptShape.getCoordinates().y));
-                    } else {
-                        promptIncrease = 1;
-                        if (primaryShape.getShape() == Shape.LINE && primaryShape.getLineWidth() < (game.camera.viewportWidth * 4)) {
-                            primaryShape.setLineWidth(primaryShape.getLineWidth() * END_LINE_WIDTH_INCREASE);
-                        } else if (primaryShape.getShape() == Shape.LINE) {
-                            //Prevent shape lines from being visible in the event that primaryShape is promptShape
-                            primaryShape.setColor(clearColor);
-                        }
-                        if (primaryShape.getShape() != Shape.LINE || primaryShape.getLineWidth() >= (game.camera.viewportWidth * 4)) {
-                            showResults = true;
-                        }
-                    }
-                }
-            }
+        increaseSpeed();
+        zoomThroughShapes();
 
+        if(!paused) {
             //This code is being executed three times: once before setting the prompt's end game coordinates, and again afterwards.
             //This way, the shapes are drawn with their new values, and the first element in priorShapeList doesn't veer off
             //the screen to the right.
@@ -191,98 +157,42 @@ public class GameplayScreen implements Screen, InputProcessor {
                 game.draw.drawTimelines(promptShape, backgroundColorShapeList, game.shapeRendererFilled);
                 SoundUtils.playMusic(promptShape, game);
                 game.draw.drawTargetSemicircle(game.shapeRendererFilled);
-                if(equationWidth > 0) {
-                    game.draw.drawEquation(lastShapeTouched, lastPromptShape, lastTargetShape, equationWidth, game.shapeRendererFilled);
-                    equationWidth -= INPUT_RADIUS / 60;
-                } else {
-                    equationWidth = 0;
-                }
-                //TODO: Maybe remove input buttons when on Desktop, as input will be number key oriented?
+            }
+        }
+
+        drawEquation();
+
+        if(!paused) {
+            if (!gameOver) {
                 game.draw.drawInputButtons(game, game.shapeRendererFilled);
                 game.draw.drawScoreTriangle(game.shapeRendererFilled);
                 game.draw.drawPrompt(outsideTargetShape, targetShapeList, backgroundColorShape, true, game.shapeRendererFilled);
                 game.draw.drawShapes(targetShapeList, outsideTargetShape, false, game.shapeRendererFilled);
                 game.draw.drawPauseInput(game);
             }
+        }
 
-            //Prevent shapes from getting too large
-            if (promptShape.getRadius() >= game.camera.viewportWidth * 15) {
-                if (priorShapeList.size() > destructionIndex) {
-                    promptShape = priorShapeList.get(priorShapeList.size() - destructionIndex);
-                    for (int i = 0; i < destructionIndex; i++) {
-                        priorShapeList.remove(priorShapeList.size() - 1);
-                    }
-                    destructionIndex = 2;
-                } else {
-                    //TODO: Account for game ending with empty priorShapeList (maybe?)
-                }
-            }
+        destroyOversizedShapes();
 
-            if (priorShapeList.size() > 0) {
-                firstPriorShapePreviousX = priorShapeList.get(0).getCoordinates().x;
-            } else {
-                firstPriorShapePreviousX = promptShape.getCoordinates().x;
-            }
+        if(!paused) {
+            firstPriorShapePreviousX = primaryShape.getCoordinates().x;
+        }
 
-            if (showResults) {
-                game.draw.drawResultsInputButtons(INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN, game.shapeRendererFilled);
-            }
+        drawResultsInputButtons();
 
+        if(!paused) {
             game.draw.drawTouchDownPoints(touchDownShapeList, game.shapeRendererLine);
         } else {
             drawInputRectangles();
         }
 
         game.shapeRendererFilled.end();
-
         game.shapeRendererLine.end();
 
-        if(!paused) {
-            if (!gameOver) {
-                com.screenlooker.squirgle.util.FontUtils.printText(game.batch,
-                        game.font,
-                        game.layout,
-                        backgroundColorShape.getColor(),
-                        String.valueOf(score),
-                        game.camera.viewportWidth - (TARGET_RADIUS / 3.16f),
-                        game.camera.viewportHeight - (TARGET_RADIUS / 3.16f),
-                        -45);
-                com.screenlooker.squirgle.util.FontUtils.printText(game.batch,
-                        game.font,
-                        game.layout,
-                        Color.WHITE,
-                        "X" + String.valueOf(multiplier),
-                        game.camera.viewportWidth - (TARGET_RADIUS / 2.68f),
-                        game.camera.viewportHeight - (TARGET_RADIUS / 1.25f),
-                        -45);
-            }
+        drawText();
 
-            if (showResults) {
-                if (priorShapeList.size() > 0 && (priorShapeList.get(0).getShape() == Shape.LINE || priorShapeList.get(0).getShape() == Shape.POINT)) {
-                    resultsColor = Color.BLACK;
-                } else {
-                    resultsColor = Color.WHITE;
-                }
-                FontUtils.printText(game.batch,
-                        game.font,
-                        game.layout,
-                        resultsColor,
-                        String.valueOf(score),
-                        game.camera.viewportWidth / 2,
-                        game.camera.viewportHeight / 2,
-                        0);
-            }
-        }
+        gameOver();
 
-        //Game over condition
-        if ((promptShape.getRadius() >= game.camera.viewportWidth / 2 || promptShape.getRadius() >= game.camera.viewportHeight / 2) && !gameOver) {
-            gameOver = true;
-            stopMusic();
-            promptIncrease = 1;
-            endTime = System.currentTimeMillis();
-        }
-
-        //Transition color to distinguish current target shape from other
         ColorUtils.transitionColor(currentTargetShape);
     }
 
@@ -664,6 +574,153 @@ public class GameplayScreen implements Screen, InputProcessor {
     public void stopMusic() {
         for(int i = 0; i < NUM_MUSIC_PHASES; i++) {
             game.trackMap.get(game.track).get(i).stop();
+        }
+    }
+
+    public void drawText() {
+        if(!paused) {
+            if (!gameOver) {
+                com.screenlooker.squirgle.util.FontUtils.printText(game.batch,
+                        game.font,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        String.valueOf(score),
+                        game.camera.viewportWidth - (TARGET_RADIUS / 3.16f),
+                        game.camera.viewportHeight - (TARGET_RADIUS / 3.16f),
+                        -45);
+                com.screenlooker.squirgle.util.FontUtils.printText(game.batch,
+                        game.font,
+                        game.layout,
+                        Color.WHITE,
+                        "X" + String.valueOf(multiplier),
+                        game.camera.viewportWidth - (TARGET_RADIUS / 2.68f),
+                        game.camera.viewportHeight - (TARGET_RADIUS / 1.25f),
+                        -45);
+            }
+
+            if (showResults) {
+                if (priorShapeList.size() > 0 && (priorShapeList.get(0).getShape() == Shape.LINE || priorShapeList.get(0).getShape() == Shape.POINT)) {
+                    resultsColor = Color.BLACK;
+                } else {
+                    resultsColor = Color.WHITE;
+                }
+                FontUtils.printText(game.batch,
+                        game.font,
+                        game.layout,
+                        resultsColor,
+                        String.valueOf(score),
+                        game.camera.viewportWidth / 2,
+                        game.camera.viewportHeight / 2,
+                        0);
+            }
+        }
+    }
+
+    public void increasePromptRadius() {
+        if(!paused) {
+            promptShape.setRadius(gameOver ? promptShape.getRadius() * promptIncrease : promptShape.getRadius() + (promptIncrease / 2));
+        }
+    }
+
+    public void managePrimaryShapeLineWidth() {
+        if(!paused) {
+            if (!primaryShapeAtThreshold) {
+                promptShape.setLineWidth(promptShape.getRadius() / Draw.LINE_WIDTH_DIVISOR);
+            }
+        }
+    }
+
+    public void drawBackgroundColorShape() {
+        if(!paused) {
+            if (!gameOver) {
+                game.draw.drawBackgroundColorShape(backgroundColorShape, game.shapeRendererFilled);
+            }
+        }
+    }
+
+    public void increaseSpeed() {
+        if(!gameOver) {
+            if(!paused) {
+                if ((System.currentTimeMillis() - startTime - timePaused) / 1000 > 10) {
+                    startTime = System.currentTimeMillis();
+                    game.draw.setColorListSpeed(game.draw.getColorListSpeed() + 0.1f);
+                    game.draw.setColorSpeed(game.draw.getColorSpeed() + 20);
+                    promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (3 * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))) / 2;
+                }
+            }
+        }
+    }
+
+    public void zoomThroughShapes() {
+        if(!paused) {
+            if(gameOver) {
+                if ((System.currentTimeMillis() - endTime) / 1000 > 2) {
+                    if (!primaryShapeAtThreshold) { //TODO: Also account for height (different screen orientations?)
+                        promptIncrease += .0001;
+                        promptShape.setCoordinates(new Vector2(promptShape.getCoordinates().x - (primaryShape.getCoordinates().x - firstPriorShapePreviousX),
+                                promptShape.getCoordinates().y));
+                    } else {
+                        promptIncrease = 1;
+                        if (primaryShape.getShape() == Shape.LINE && primaryShape.getLineWidth() < (game.camera.viewportWidth * 4)) {
+                            primaryShape.setLineWidth(primaryShape.getLineWidth() * END_LINE_WIDTH_INCREASE);
+                        } else if (primaryShape.getShape() == Shape.LINE) {
+                            //Prevent shape lines from being visible in the event that primaryShape is promptShape
+                            primaryShape.setColor(clearColor);
+                        }
+                        if (primaryShape.getShape() != Shape.LINE || primaryShape.getLineWidth() >= (game.camera.viewportWidth * 4)) {
+                            showResults = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public void drawEquation() {
+        if(!paused) {
+            if(!gameOver) {
+                if(equationWidth > 0) {
+                    game.draw.drawEquation(lastShapeTouched, lastPromptShape, lastTargetShape, equationWidth, game.shapeRendererFilled);
+                    equationWidth -= INPUT_RADIUS / 60;
+                } else {
+                    equationWidth = 0;
+                }
+            }
+        }
+    }
+
+    public void destroyOversizedShapes() {
+        if(!paused) {
+            //Prevent shapes from getting too large
+            if (promptShape.getRadius() >= game.camera.viewportWidth * 15) {
+                if (priorShapeList.size() > destructionIndex) {
+                    promptShape = priorShapeList.get(priorShapeList.size() - destructionIndex);
+                    for (int i = 0; i < destructionIndex; i++) {
+                        priorShapeList.remove(priorShapeList.size() - 1);
+                    }
+                    destructionIndex = 2;
+                } else {
+                    //TODO: Account for game ending with empty priorShapeList (maybe?)
+                }
+            }
+        }
+    }
+
+    public void drawResultsInputButtons() {
+        if(!paused) {
+            if (showResults) {
+                game.draw.drawResultsInputButtons(INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN, game.shapeRendererFilled);
+            }
+        }
+    }
+
+    public void gameOver() {
+        //Game over condition
+        if (promptShape.getRadius() >= game.widthOrHeight / 2 && !gameOver) {
+            gameOver = true;
+            stopMusic();
+            promptIncrease = 1;
+            endTime = System.currentTimeMillis();
         }
     }
 
