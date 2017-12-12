@@ -42,6 +42,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
     private Vector3 touchPoint;
 
     private Color squareColor;
+    private Color circleColor;
     private Color triangleColor;
     private Color optionsColor;
     private Color playColor;
@@ -75,7 +76,14 @@ public class MainMenuScreen implements Screen, InputProcessor {
         touchPoint = new Vector3();
 
         squareColor = ColorUtils.randomTransitionColor();
+        circleColor = ColorUtils.randomTransitionColor();
         triangleColor = ColorUtils.randomTransitionColor();
+        while(circleColor.equals(squareColor)) {
+            circleColor = ColorUtils.randomTransitionColor();
+        }
+        while(triangleColor.equals(circleColor) || triangleColor.equals(squareColor)) {
+            triangleColor = ColorUtils.randomTransitionColor();
+        }
         optionsColor = ColorUtils.randomColor();
         playColor = ColorUtils.randomColor();
         tutorialColor = ColorUtils.randomColor();
@@ -83,7 +91,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
         squirgleShapeList = new ArrayList<Shape>();
         squirgleShapeList.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
-        squirgleShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, null, 0, new Vector2()));
+        squirgleShapeList.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
 
         squirglePrompt = new Shape(Shape.TRIANGLE,
                 squirgleRadius,
@@ -314,6 +322,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
     public void transitionSquirgleColors() {
         ColorUtils.transitionColor(squirglePrompt);
         ColorUtils.transitionColor(squirgleShapeList.get(0));
+        ColorUtils.transitionColor(squirgleShapeList.get(1));
     }
 
 }

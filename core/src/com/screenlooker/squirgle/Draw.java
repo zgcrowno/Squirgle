@@ -929,7 +929,7 @@ public class Draw {
         drawShape(lastPromptShape, shapeRenderer);
     }
 
-    public void drawEquationTutorial(Shape lastShapeTouched, Shape lastPromptShape, Shape lastTargetShape, float equationWidth, ShapeRenderer shapeRenderer) {
+    public void drawEquationTutorial(Shape lastShapeTouched, Shape lastPromptShape, Shape lastTargetShape, float equationWidth, int phase, ShapeRenderer shapeRenderer) {
         Vector2 spawnBegin = new Vector2();
         Vector2 spawnEnd = new Vector2();
         Vector2 plusSpawn = new Vector2();
@@ -1084,10 +1084,20 @@ public class Draw {
         shapeRenderer.circle(equalsSpawn.x,
                 equalsSpawn.y,
                 equationWidth);
-        if(sum.getShape() == lastTargetShape.getShape()) {
+        if(sum.getShape() == lastTargetShape.getShape() && phase >= TutorialScreen.PHASE_SIX) {
             shapeRenderer.circle(equalsTargetSpawn.x,
                     equalsTargetSpawn.y,
                     equationWidth);
+        }
+        if(phase < TutorialScreen.PHASE_SIX) {
+            shapeRenderer.circle(spawnEnd.x,
+                    spawnEnd.y,
+                    equationWidth);
+            if(lastShapeTouched.getShape() + 1 != phase) {
+                shapeRenderer.circle(spawnBegin.x,
+                        spawnBegin.y,
+                        equationWidth);
+            }
         }
 
         //Draw the lines
@@ -1095,7 +1105,7 @@ public class Draw {
         shapeRenderer.rectLine(plusSpawn, lastPromptShape.getCoordinates(), equationWidth * 2);
         shapeRenderer.rectLine(lastPromptShape.getCoordinates(), equalsSpawn, equationWidth * 2);
         shapeRenderer.rectLine(equalsSpawn, spawnEnd, equationWidth * 2);
-        if(sum.getShape() == lastTargetShape.getShape()) {
+        if(sum.getShape() == lastTargetShape.getShape() && phase >= TutorialScreen.PHASE_SIX) {
             shapeRenderer.rectLine(lastPromptShape.getCoordinates(), equalsTargetSpawn, equationWidth * 2);
             shapeRenderer.rectLine(equalsTargetSpawn, targetSpawn, equationWidth * 2);
         }
@@ -1105,8 +1115,28 @@ public class Draw {
 
         //Draw the equals symbol(s)
         drawEquals(equalsSpawn.x, equalsSpawn.y, equationWidth, equationWidth / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
-        if(sum.getShape() == lastTargetShape.getShape()) {
+        if(sum.getShape() == lastTargetShape.getShape() && phase >= TutorialScreen.PHASE_SIX) {
             drawEquals(equalsTargetSpawn.x, equalsTargetSpawn.y, equationWidth, equationWidth / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+        }
+
+        if(phase < TutorialScreen.PHASE_SIX) {
+            //Draw the sum shape (if applicable)
+            float sumRadius = sum.getShape() == Shape.POINT ? sum.getRadius() / 2 : sum.getRadius();
+            sum.setRadius(sumRadius - ((sumRadius * (TutorialScreen.INPUT_RADIUS / (Squirgle.FPS * 4))) / equationWidth));
+            sum.setLineWidth((sum.getRadius() - (TutorialScreen.INPUT_RADIUS / (Squirgle.FPS * 4))) / LINE_WIDTH_DIVISOR);
+            sum.setFillColor(Color.WHITE);
+            sum.setCoordinates(new Vector2(spawnEnd.x, spawnEnd.y));
+            drawShape(sum, shapeRenderer);
+
+            //Draw the last shape touched (if applicable)
+            if(lastShapeTouched.getShape() + 1 != phase) {
+                float lastShapeTouchedRadius = lastShapeTouched.getShape() == Shape.POINT ? lastShapeTouched.getRadius() / 2 : lastShapeTouched.getRadius();
+                lastShapeTouched.setRadius(lastShapeTouchedRadius - ((lastShapeTouchedRadius * (TutorialScreen.INPUT_RADIUS / (Squirgle.FPS * 4))) / equationWidth));
+                lastShapeTouched.setLineWidth((lastShapeTouched.getRadius() - (TutorialScreen.INPUT_RADIUS / (Squirgle.FPS * 4))) / LINE_WIDTH_DIVISOR);
+                lastShapeTouched.setFillColor(Color.WHITE);
+                lastShapeTouched.setCoordinates(new Vector2(spawnBegin.x, spawnBegin.y));
+                drawShape(lastShapeTouched, shapeRenderer);
+            }
         }
 
         //Draw the last prompt shape. Here, we're multiplying the FPS by 4 in order to give the player more time to understand what they're doing.

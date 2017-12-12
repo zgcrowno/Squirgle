@@ -393,6 +393,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
                         SCORE_ANGLE);
 
+                //TODO: Decide if I actually want to instate this behavior
                 //Input Numbers
                 for(int i = 1; i <= game.base; i++) {
                     FontUtils.printText(game.batch,
@@ -824,6 +825,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         priorShapeList.add(promptShapeToAdd);
         priorShapeList.add(circleContainer);
         if (targetShapesMatched == 1) {
+            currentTargetShape.setColor(priorShapeList.get(priorShapeList.size() - ONE_SHAPE_AGO).getColor());
             currentTargetShape = outsideTargetShape;
         } else {
             targetShapesMatched = 0;
@@ -964,12 +966,12 @@ public class GameplayScreen implements Screen, InputProcessor {
         lastShapeTouched = new Shape(Shape.POINT, INPUT_RADIUS, Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
         lastPromptShape = new Shape(Shape.POINT, promptShape.getRadius(), Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
         outsideTargetShape = new Shape(MathUtils.random(game.base - 1),
-                TARGET_RADIUS / 2.43f,
+                TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                 Color.BLACK,
                 null,
-                (TARGET_RADIUS / 2.43f) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(TARGET_RADIUS / 2.43f,
-                        game.camera.viewportHeight - (TARGET_RADIUS / 2.43f)));
+                (TARGET_RADIUS / TARGET_RADIUS_DIVISOR) / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
+                        game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR)));
         priorShapeList = new ArrayList<Shape>();
         targetShapeList = new ArrayList<Shape>();
         touchDownShapeList = new ArrayList<Shape>();

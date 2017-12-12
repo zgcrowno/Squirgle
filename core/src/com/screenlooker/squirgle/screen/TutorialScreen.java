@@ -250,8 +250,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                     game.draw.drawBackgroundColorShapeListTutorial(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
                     game.draw.drawTimelines(promptShape, backgroundColorShapeList, game.shapeRendererFilled);
                 }
-                SoundUtils.playMusic(promptShape, game);
                 if (phase >= PHASE_SIX) {
+                    SoundUtils.playMusic(promptShape, game);
                     game.draw.drawTargetSemicircleTutorial(game.shapeRendererFilled);
                 }
             }
@@ -489,6 +489,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                             SCORE_ANGLE);
                 }
 
+                //TODO: Decide if I actually want to instate this behavior
                 if(phase > PHASE_ONE) {
                     //Input Numbers
                     for (int i = 1; i <= game.base; i++) {
@@ -599,13 +600,11 @@ public class TutorialScreen implements Screen, InputProcessor {
     public void drawEquation() {
         if(!paused) {
             if(!gameOver) {
-                if (phase >= PHASE_SIX) {
-                    if (equationWidth > 0) {
-                        game.draw.drawEquationTutorial(lastShapeTouched, lastPromptShape, lastTargetShape, equationWidth, game.shapeRendererFilled);
-                        equationWidth -= INPUT_RADIUS / EQUATION_WIDTH_DIVISOR;
-                    } else {
-                        equationWidth = 0;
-                    }
+                if (equationWidth > 0) {
+                    game.draw.drawEquationTutorial(lastShapeTouched, lastPromptShape, lastTargetShape, equationWidth, phase, game.shapeRendererFilled);
+                    equationWidth -= INPUT_RADIUS / EQUATION_WIDTH_DIVISOR;
+                } else {
+                    equationWidth = 0;
                 }
             }
         }
@@ -894,29 +893,24 @@ public class TutorialScreen implements Screen, InputProcessor {
     public void transitionShape(int shapeAdded) {
         if(phase > PHASE_ONE && phase < PHASE_SIX) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            if (promptShape.getShape() + (shapeAdded + 1) > Shape.SQUARE) {
-                promptShape.setShape((promptShape.getShape() + (shapeAdded + 1)) - game.base);
-                if(promptShape.getShape() == Shape.POINT) {
-                    phase++;
-                }
-            } else {
-                promptShape.setShape(promptShape.getShape() + (shapeAdded + 1));
+        }
+        lastShapeTouched.setShape(shapeAdded);
+        lastShapeTouched.setRadius(INPUT_RADIUS);
+        lastPromptShape.setShape(promptShape.getShape());
+        if (lastPromptShape.getShape() == Shape.POINT) {
+            lastPromptShape.setRadius(promptShape.getRadius() / 2);
+        } else {
+            lastPromptShape.setRadius(promptShape.getRadius());
+        }
+        lastTargetShape.setShape(currentTargetShape.getShape());
+        equationWidth = INPUT_RADIUS;
+        if (promptShape.getShape() + (shapeAdded + 1) >= game.base) {
+            promptShape.setShape((promptShape.getShape() + (shapeAdded + 1)) - game.base);
+            if(promptShape.getShape() == Shape.POINT && phase > PHASE_ONE && phase < PHASE_SIX) {
+                phase++;
             }
-        } else if(phase >= PHASE_SIX) {
-            lastShapeTouched.setShape(shapeAdded);
-            lastPromptShape.setShape(promptShape.getShape());
-            if (lastPromptShape.getShape() == Shape.POINT) {
-                lastPromptShape.setRadius(promptShape.getRadius() / 2);
-            } else {
-                lastPromptShape.setRadius(promptShape.getRadius());
-            }
-            lastTargetShape.setShape(currentTargetShape.getShape());
-            equationWidth = INPUT_RADIUS;
-            if (promptShape.getShape() + (shapeAdded + 1) >= game.base) {
-                promptShape.setShape((promptShape.getShape() + (shapeAdded + 1)) - game.base);
-            } else {
-                promptShape.setShape(promptShape.getShape() + (shapeAdded + 1));
-            }
+        } else {
+            promptShape.setShape(promptShape.getShape() + (shapeAdded + 1));
         }
     }
 
@@ -943,6 +937,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         priorShapeList.add(promptShapeToAdd);
         priorShapeList.add(circleContainer);
         if (targetShapesMatched == 1) {
+            currentTargetShape.setColor(priorShapeList.get(priorShapeList.size() - ONE_SHAPE_AGO).getColor());
             currentTargetShape = outsideTargetShape;
         } else {
             if(phase == PHASE_SIX && phaseSixCorrectInputs >= PHASE_SIX_REQUIRED_CORRECT_INPUTS) {
@@ -1099,9 +1094,9 @@ public class TutorialScreen implements Screen, InputProcessor {
         lastShapeTouched = new Shape(Shape.POINT, GameplayScreen.INPUT_RADIUS, Color.BLACK, Color.BLACK, com.screenlooker.squirgle.screen.GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
         lastPromptShape = new Shape(Shape.POINT, promptShape.getRadius(), Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
         outsideTargetShape = new Shape(MathUtils.random(game.base - 1),
-                INPUT_RADIUS,
+                TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                 Color.BLACK, null,
-                INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
+                (TARGET_RADIUS / TARGET_RADIUS_DIVISOR) / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                         game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR)));
         priorShapeList = new ArrayList<Shape>();
