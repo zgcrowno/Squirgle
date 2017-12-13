@@ -59,8 +59,12 @@ public class GameplayScreen implements Screen, InputProcessor {
     private final static int MAX_MULTIPLIER = 5;
     private final static int ONE_SHAPE_AGO = 2;
     private final static int TWO_SHAPES_AGO = 4;
+    private final static int THIRTY_DEGREES = 30;
+    private final static int TWO_HUNDRED_AND_SEVENTY_DEGREES = 270;
+    private final static int THREE_HUNDRED_AND_THIRTY_DEGREES = 330;
 
-    private final static float FONT_SIZE_DIVISOR = 11.1f;
+    private final static float FONT_SCORE_SIZE_DIVISOR = 11.1f;
+    private final static float FONT_TARGET_SIZE_DIVISOR = 35.5f;
     private final static float FONT_MULTIPLIER_INPUT = 1.39f;
     private final static float SCORE_DIVISOR = 3.16f;
     private final static float TARGET_RADIUS_DIVISOR = 2.43f;
@@ -125,7 +129,8 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         game.resetInstanceData();
 
-        game.setUpFont(MathUtils.round(game.camera.viewportWidth / FONT_SIZE_DIVISOR));
+        game.setUpFontScore(MathUtils.round(game.camera.viewportWidth / FONT_SCORE_SIZE_DIVISOR));
+        game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
 
         Gdx.input.setInputProcessor(this);
 
@@ -235,6 +240,11 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     @Override
     public void pause() {
+        pauseStartTime = System.currentTimeMillis();
+        clearColor.set(backgroundColorShape.getColor().r,
+                backgroundColorShape.getColor().g,
+                backgroundColorShape.getColor().b,
+                backgroundColorShape.getColor().a);
         paused = true;
     }
 
@@ -373,29 +383,13 @@ public class GameplayScreen implements Screen, InputProcessor {
     public void drawText() {
         if(!paused) {
             if (!gameOver) {
-                //Score
-                FontUtils.printText(game.batch,
-                        game.font,
-                        game.layout,
-                        backgroundColorShape.getColor(),
-                        String.valueOf(score),
-                        game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
-                        game.camera.viewportHeight - (TARGET_RADIUS / SCORE_DIVISOR),
-                        SCORE_ANGLE);
+                drawScoreText();
 
-                //Multiplier
-                FontUtils.printText(game.batch,
-                        game.font,
-                        game.layout,
-                        Color.WHITE,
-                        X + String.valueOf(multiplier),
-                        game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
-                        game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
-                        SCORE_ANGLE);
+                drawTargetText();
 
-                //TODO: Decide if I actually want to instate this behavior
+                //TODO: Decide if I actually want to instate this behavior, and if so, make a new BitmapFont object in Squirgle class
                 //Input Numbers
-                for(int i = 1; i <= game.base; i++) {
+                /*for(int i = 1; i <= game.base; i++) {
                     FontUtils.printText(game.batch,
                             game.font,
                             game.layout,
@@ -404,7 +398,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                             ((i * (game.camera.viewportWidth - ((2 * game.base) * INPUT_RADIUS))) / (game.base + 1) + ((i + i - 1) * INPUT_RADIUS)) + (INPUT_RADIUS * FONT_MULTIPLIER_INPUT),
                             (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS) + (INPUT_RADIUS * FONT_MULTIPLIER_INPUT),
                             SCORE_ANGLE);
-                }
+                }*/
             }
 
             if (showResults) {
@@ -414,7 +408,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                     resultsColor = Color.WHITE;
                 }
                 FontUtils.printText(game.batch,
-                        game.font,
+                        game.fontScore,
                         game.layout,
                         resultsColor,
                         String.valueOf(score),
@@ -422,6 +416,60 @@ public class GameplayScreen implements Screen, InputProcessor {
                         game.camera.viewportHeight / 2,
                         0);
             }
+        }
+    }
+
+    public void drawScoreText() {
+        //Score
+        FontUtils.printText(game.batch,
+                game.fontScore,
+                game.layout,
+                backgroundColorShape.getColor(),
+                String.valueOf(score),
+                game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
+                game.camera.viewportHeight - (TARGET_RADIUS / SCORE_DIVISOR),
+                SCORE_ANGLE);
+
+        //Multiplier
+        FontUtils.printText(game.batch,
+                game.fontScore,
+                game.layout,
+                Color.WHITE,
+                X + String.valueOf(multiplier),
+                game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
+                game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
+                SCORE_ANGLE);
+    }
+
+    public void drawTargetText() {
+        float degree = THIRTY_DEGREES / Squirgle.TARGET.length();
+        float degrees = TWO_HUNDRED_AND_SEVENTY_DEGREES;
+        String shapeText = targetShapeList.get(0).getPrefix() + targetShapeList.get(1).getBridge() + outsideTargetShape.getSuffix();
+
+        //Target Text
+        for(int i = 0; i < Squirgle.TARGET.length(); i++, degrees += degree) {
+            FontUtils.printText(game.batch,
+                    game.fontTarget,
+                    game.layout,
+                    backgroundColorShape.getColor(),
+                    Squirgle.TARGET.substring(i, i + 1),
+                    (float) (TARGET_RADIUS * Math.cos(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth())))),
+                    (float) (game.camera.viewportHeight + ((2 * game.fontTarget.getCapHeight()) / 3) + (TARGET_RADIUS * Math.sin(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth()))))),
+                    degrees - TWO_HUNDRED_AND_SEVENTY_DEGREES);
+        }
+
+        //Shape Text
+        degree = THIRTY_DEGREES / shapeText.length();
+        degrees = THREE_HUNDRED_AND_THIRTY_DEGREES;
+        for(int i = 0; i < shapeText.length(); i++, degrees += degree) {
+            FontUtils.printText(game.batch,
+                    game.fontTarget,
+                    game.layout,
+                    Color.WHITE,
+                    shapeText.substring(i, i + 1),
+                    (float) ((game.fontTarget.getCapHeight() / 3) + TARGET_RADIUS * Math.cos(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3))))),
+                    (float) (game.camera.viewportHeight + (TARGET_RADIUS * Math.sin(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3)))))),
+                    degrees - TWO_HUNDRED_AND_SEVENTY_DEGREES);
         }
     }
 
@@ -745,7 +793,6 @@ public class GameplayScreen implements Screen, InputProcessor {
                 } else if (nonagonTouched) {
                     transitionShape(Shape.NONAGON);
                 } else if (pauseTouched) {
-                    pauseStartTime = System.currentTimeMillis();
                     pause();
                 }
             }
@@ -1015,7 +1062,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         pauseQuitTouched = false;
         inputTouchedGameplay = false;
         inputTouchedResults = false;
-        clearColor = new Color();
+        clearColor = new Color(backgroundColorShape.getColor());
         score = 0;
         multiplier = 1;
         gameOver = false;

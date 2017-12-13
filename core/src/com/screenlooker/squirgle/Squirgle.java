@@ -49,6 +49,7 @@ public class Squirgle extends Game {
 	public final static String SAVE_TRACK = "track";
 	public final static String SAVE_PLAYED_BEFORE = "playedBefore";
 	public final static String SAVE_MAX_BASE = "maxBase";
+	public final static String TARGET = "TARGET";
 
 	//Saved data
 	public Preferences save;
@@ -69,7 +70,8 @@ public class Squirgle extends Game {
 	public int minBase;
 	public float partitionSize;
 	public SpriteBatch batch;
-	public BitmapFont font;
+	public BitmapFont fontScore;
+	public BitmapFont fontTarget;
 	public GlyphLayout layout;
 	public FreeTypeFontGenerator generator;
 	public OrthographicCamera camera;
@@ -107,7 +109,7 @@ public class Squirgle extends Game {
 		minBase = 4;
 		batch = new SpriteBatch();
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
-		setUpFont(72);
+		setUpFontScore(72);
 		layout = new GlyphLayout();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
@@ -152,7 +154,8 @@ public class Squirgle extends Game {
 
 	public void dispose() {
 		batch.dispose();
-		font.dispose();
+		fontScore.dispose();
+		fontTarget.dispose();
 		confirmSound.dispose();
 		disconfirmSound.dispose();
 		//TODO: dispose of all music assets
@@ -163,12 +166,20 @@ public class Squirgle extends Game {
 		draw = new Draw(this);
 	}
 
-	public void setUpFont(int size) {
+	public void setUpFontScore(int size) {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
-		font = generator.generateFont(parameter);
+		fontScore = generator.generateFont(parameter);
+	}
+
+	public void setUpFontTarget(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
+		fontTarget = generator.generateFont(parameter);
 	}
 
 	public void setUpTracks() {

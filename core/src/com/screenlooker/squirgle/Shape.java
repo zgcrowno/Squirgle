@@ -61,44 +61,7 @@ public class Shape {
 
     public Shape(int shape, float radius, Color color, Color fillColor, float lineWidth, Vector2 coordinates) {
         this.shape = shape;
-        switch (shape) {
-            case POINT : {
-                this.prefix = POINT_PREFIX;
-                this.suffix = POINT_SUFFIX;
-            }
-            case LINE : {
-                this.prefix = LINE_PREFIX;
-                this.suffix = LINE_SUFFIX;
-            }
-            case TRIANGLE : {
-                this.prefix = TRIANGLE_PREFIX;
-                this.suffix = TRIANGLE_SUFFIX;
-            }
-            case SQUARE : {
-                this.prefix = SQUARE_PREFIX;
-                this.suffix = SQUARE_SUFFIX;
-            }
-            case PENTAGON : {
-                this.prefix = PENTAGON_PREFIX;
-                this.suffix = PENTAGON_SUFFIX;
-            }
-            case HEXAGON : {
-                this.prefix = HEXAGON_PREFIX;
-                this.suffix = HEXAGON_SUFFIX;
-            }
-            case SEPTAGON : {
-                this.prefix = SEPTAGON_PREFIX;
-                this.suffix = SEPTAGON_SUFFIX;
-            }
-            case OCTAGON : {
-                this.prefix = OCTAGON_PREFIX;
-                this.suffix = OCTAGON_SUFFIX;
-            }
-            case NONAGON : {
-                this.prefix = NONAGON_PREFIX;
-                this.suffix = NONAGON_SUFFIX;
-            }
-        }
+        determineName(shape);
         this.bridge = BRIDGE;
         this.radius = radius;
         this.color = color;
@@ -109,7 +72,10 @@ public class Shape {
 
     public int getShape() { return shape; }
 
-    public void setShape(int shape) { this.shape = shape; }
+    public void setShape(int shape) {
+        this.shape = shape;
+        determineName(shape);
+    }
 
     public String getPrefix() { return prefix; }
 
@@ -142,6 +108,56 @@ public class Shape {
     public Vector2 getCoordinates() { return coordinates; }
 
     public void setCoordinates(Vector2 coordinates) { this.coordinates = coordinates; }
+
+    public void determineName(int shape) {
+        switch (shape) {
+            case POINT : {
+                this.prefix = POINT_PREFIX;
+                this.suffix = POINT_SUFFIX;
+                break;
+            }
+            case LINE : {
+                this.prefix = LINE_PREFIX;
+                this.suffix = LINE_SUFFIX;
+                break;
+            }
+            case TRIANGLE : {
+                this.prefix = TRIANGLE_PREFIX;
+                this.suffix = TRIANGLE_SUFFIX;
+                break;
+            }
+            case SQUARE : {
+                this.prefix = SQUARE_PREFIX;
+                this.suffix = SQUARE_SUFFIX;
+                break;
+            }
+            case PENTAGON : {
+                this.prefix = PENTAGON_PREFIX;
+                this.suffix = PENTAGON_SUFFIX;
+                break;
+            }
+            case HEXAGON : {
+                this.prefix = HEXAGON_PREFIX;
+                this.suffix = HEXAGON_SUFFIX;
+                break;
+            }
+            case SEPTAGON : {
+                this.prefix = SEPTAGON_PREFIX;
+                this.suffix = SEPTAGON_SUFFIX;
+                break;
+            }
+            case OCTAGON : {
+                this.prefix = OCTAGON_PREFIX;
+                this.suffix = OCTAGON_SUFFIX;
+                break;
+            }
+            case NONAGON : {
+                this.prefix = NONAGON_PREFIX;
+                this.suffix = NONAGON_SUFFIX;
+                break;
+            }
+        }
+    }
 
     public static int randomBackgroundColorShape() {
         int val = MathUtils.random(Shape.SQUARE);

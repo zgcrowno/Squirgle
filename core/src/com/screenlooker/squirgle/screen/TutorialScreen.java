@@ -62,8 +62,12 @@ public class TutorialScreen implements Screen, InputProcessor {
     private final static int MAX_MULTIPLIER = 5;
     private final static int ONE_SHAPE_AGO = 2;
     private final static int TWO_SHAPES_AGO = 4;
+    private final static int THIRTY_DEGREES = 30;
+    private final static int TWO_HUNDRED_AND_SEVENTY_DEGREES = 270;
+    private final static int THREE_HUNDRED_AND_THIRTY_DEGREES = 330;
 
-    private final static float FONT_SIZE_DIVISOR = 11.1f;
+    private final static float FONT_SCORE_SIZE_DIVISOR = 11.1f;
+    private final static float FONT_TARGET_SIZE_DIVISOR = 35.5f;
     private final static float FONT_MULTIPLIER_INPUT = 1.39f;
     private final static float SCORE_DIVISOR = 3.16f;
     private final static float TARGET_RADIUS_DIVISOR = 2.43f;
@@ -196,15 +200,14 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         game.resetInstanceData();
 
-        game.setUpFont(MathUtils.round(game.camera.viewportWidth / FONT_SIZE_DIVISOR));
+        game.setUpFontScore(MathUtils.round(game.camera.viewportWidth / FONT_SCORE_SIZE_DIVISOR));
+        game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
 
         Gdx.input.setInputProcessor(this);
 
         setUpNonFinalStaticData();
 
         setUpNonFinalNonStaticData();
-
-        playMusic();
     }
 
     @Override
@@ -317,6 +320,11 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     @Override
     public void pause() {
+        pauseStartTime = System.currentTimeMillis();
+        clearColor.set(backgroundColorShape.getColor().r,
+                backgroundColorShape.getColor().g,
+                backgroundColorShape.getColor().b,
+                backgroundColorShape.getColor().a);
         paused = true;
     }
 
@@ -468,29 +476,13 @@ public class TutorialScreen implements Screen, InputProcessor {
         if(!paused) {
             if (!gameOver) {
                 if(phase >= PHASE_SEVEN) {
-                    //Score
-                    FontUtils.printText(game.batch,
-                            game.font,
-                            game.layout,
-                            backgroundColorShape.getColor(),
-                            String.valueOf(score),
-                            game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
-                            game.camera.viewportHeight - (TARGET_RADIUS / SCORE_DIVISOR),
-                            SCORE_ANGLE);
-
-                    //Multiplier
-                    FontUtils.printText(game.batch,
-                            game.font,
-                            game.layout,
-                            Color.WHITE,
-                            X + String.valueOf(multiplier),
-                            game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
-                            game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
-                            SCORE_ANGLE);
+                    drawScoreText();
                 }
-
-                //TODO: Decide if I actually want to instate this behavior
-                if(phase > PHASE_ONE) {
+                if(phase >= PHASE_SIX) {
+                    drawTargetText();
+                }
+                //TODO: Decide if I actually want to instate this behavior, and if so, make a new BitmapFont object in Squirgle class
+                /*if(phase > PHASE_ONE) {
                     //Input Numbers
                     for (int i = 1; i <= game.base; i++) {
                         if(phase >= PHASE_SIX || phase == i) {
@@ -504,7 +496,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                     SCORE_ANGLE);
                         }
                     }
-                }
+                }*/
             }
 
             if (showResults) {
@@ -514,7 +506,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     resultsColor = Color.WHITE;
                 }
                 FontUtils.printText(game.batch,
-                        game.font,
+                        game.fontScore,
                         game.layout,
                         resultsColor,
                         String.valueOf(score),
@@ -522,6 +514,60 @@ public class TutorialScreen implements Screen, InputProcessor {
                         game.camera.viewportHeight / 2,
                         0);
             }
+        }
+    }
+
+    public void drawScoreText() {
+        //Score
+        FontUtils.printText(game.batch,
+                game.fontScore,
+                game.layout,
+                backgroundColorShape.getColor(),
+                String.valueOf(score),
+                game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
+                game.camera.viewportHeight - (TARGET_RADIUS / SCORE_DIVISOR),
+                SCORE_ANGLE);
+
+        //Multiplier
+        FontUtils.printText(game.batch,
+                game.fontScore,
+                game.layout,
+                Color.WHITE,
+                X + String.valueOf(multiplier),
+                game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
+                game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
+                SCORE_ANGLE);
+    }
+
+    public void drawTargetText() {
+        float degree = THIRTY_DEGREES / Squirgle.TARGET.length();
+        float degrees = TWO_HUNDRED_AND_SEVENTY_DEGREES;
+        String shapeText = targetShapeList.get(0).getPrefix() + targetShapeList.get(1).getBridge() + outsideTargetShape.getSuffix();
+
+        //Target Text
+        for(int i = 0; i < Squirgle.TARGET.length(); i++, degrees += degree) {
+            FontUtils.printText(game.batch,
+                    game.fontTarget,
+                    game.layout,
+                    backgroundColorShape.getColor(),
+                    Squirgle.TARGET.substring(i, i + 1),
+                    (float) (TARGET_RADIUS * Math.cos(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth())))),
+                    (float) (game.camera.viewportHeight + ((2 * game.fontTarget.getCapHeight()) / 3) + (TARGET_RADIUS * Math.sin(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth()))))),
+                    degrees - TWO_HUNDRED_AND_SEVENTY_DEGREES);
+        }
+
+        //Shape Text
+        degree = THIRTY_DEGREES / shapeText.length();
+        degrees = THREE_HUNDRED_AND_THIRTY_DEGREES;
+        for(int i = 0; i < shapeText.length(); i++, degrees += degree) {
+            FontUtils.printText(game.batch,
+                    game.fontTarget,
+                    game.layout,
+                    Color.WHITE,
+                    shapeText.substring(i, i + 1),
+                    (float) ((game.fontTarget.getCapHeight() / 3) + TARGET_RADIUS * Math.cos(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3))))),
+                    (float) (game.camera.viewportHeight + (TARGET_RADIUS * Math.sin(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3)))))),
+                    degrees - TWO_HUNDRED_AND_SEVENTY_DEGREES);
         }
     }
 
@@ -851,17 +897,22 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if(phase == PHASE_TWO || phase >= PHASE_SIX) {
                     transitionShape(Shape.POINT);
                 }
-            }else if (lineTouched) {
+            } else if (lineTouched) {
                 if(phase == PHASE_THREE || phase >= PHASE_SIX) {
                     transitionShape(Shape.LINE);
                 }
-            }else if (triangleTouched) {
+            } else if (triangleTouched) {
                 if(phase == PHASE_FOUR || phase >= PHASE_SIX) {
                     transitionShape(Shape.TRIANGLE);
                 }
-            }else if (squareTouched) {
+            } else if (squareTouched) {
                 if(phase >= PHASE_FIVE) {
+                    //boolean value to determine whether or not disconfirm sound should be played upon mismatch, or if we should just go ahead and return
+                    boolean shouldReturn = phase == PHASE_FIVE;
                     transitionShape(Shape.SQUARE);
+                    if(shouldReturn) {
+                        return;
+                    }
                 }
             }
         }
@@ -877,6 +928,10 @@ public class TutorialScreen implements Screen, InputProcessor {
                 handlePauseInput();
             }
         }
+
+        if (pauseTouched && phase >= PHASE_EIGHT) {
+            pause();
+        }
     }
 
     public void handlePauseInput() {
@@ -885,6 +940,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             resume();
         } else if (pauseQuitTouched) {
             stopMusic();
+            game.updateSave(game.SAVE_PLAYED_BEFORE, true);
             game.setScreen(new MainMenuScreen(game));
             dispose();
         }
@@ -952,10 +1008,11 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if(multiplier >= MAX_MULTIPLIER) {
                     game.confirmSound.play((float) (game.volume / 10.0));
                     phase = PHASE_EIGHT;
+                    playMusic();
                 }
             }
             targetShapeList.clear();
-            if (priorShapeList.get(priorShapeList.size() - TWO_SHAPES_AGO).getColor().equals(priorShapeList.get(priorShapeList.size() - ONE_SHAPE_AGO).getColor())) {
+            if (priorShapeList.get(priorShapeList.size() - TWO_SHAPES_AGO).getColor().equals(priorShapeList.get(priorShapeList.size() - ONE_SHAPE_AGO).getColor()) && phase >= PHASE_EIGHT) {
                 //SQUIRGLE!!!
                 outsideTargetShape.setShape(Shape.TRIANGLE);
                 outsideTargetShape.setColor(Color.BLACK);
@@ -1012,6 +1069,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     public void shapesMismatchedBehavior() {
         //The wrong shape was touched
         game.disconfirmSound.play((float) (game.volume / 10.0));
+        multiplier = 1;
 
         if(phase >= PHASE_EIGHT) {
             float radiusIncrease = game.widthOrHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * BACKGROUND_COLOR_SHAPE_LIST_WIDTH));
@@ -1024,7 +1082,6 @@ public class TutorialScreen implements Screen, InputProcessor {
             if (phase == PHASE_SIX) {
                 phaseSixCorrectInputs = 0;
             }
-            multiplier = 1;
         }
     }
 
@@ -1142,7 +1199,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         pauseQuitTouched = false;
         inputTouchedGameplay = false;
         inputTouchedResults = false;
-        clearColor = Color.GRAY;
+        clearColor = new Color(backgroundColorShape.getColor());
         score = 0;
         multiplier = 1;
         gameOver = false;

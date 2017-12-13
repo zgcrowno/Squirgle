@@ -82,7 +82,7 @@ public class OptionsScreen implements Screen, InputProcessor {
 
         //Draw volume
         FontUtils.printText(game.batch,
-                game.font,
+                game.fontScore,
                 game.layout,
                 Color.BLACK,
                 String.valueOf(game.volume),
