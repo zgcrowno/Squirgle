@@ -86,7 +86,7 @@ public class Draw {
         shapeRenderer.circle(game.camera.viewportWidth / 2, game.camera.viewportHeight / 2, promptShape.getRadius());
     }
 
-    public void drawPrompt(Shape promptShape, List<Shape> priorShapeList, Shape backgroundColorShape, boolean isTarget, ShapeRenderer shapeRenderer) {
+    public void drawPrompt(Shape promptShape, List<Shape> priorShapeList, int targetShapesMatched, Shape backgroundColorShape, boolean isTitleShape, boolean isTarget, ShapeRenderer shapeRenderer) {
         float xOffset = 0;
         float radiusOffset = 1;
         switch(promptShape.getShape()) {
@@ -107,13 +107,21 @@ public class Draw {
                         promptShape.getRadius() / radiusOffset,
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTarget) {
-                    //We're dealing with center prompt shape, so we must set up its inner color
-                    drawPoint(promptShape.getCoordinates().x - xOffset,
-                            promptShape.getCoordinates().y,
-                            (promptShape.getRadius() / radiusOffset) / 2,
-                            backgroundColorShape.getColor(),
-                            shapeRenderer);
+                if(!isTitleShape) {
+                    if(!isTarget) {
+                        //We're dealing with center prompt shape, so we must set up its inner color
+                        drawPoint(promptShape.getCoordinates().x - xOffset,
+                                promptShape.getCoordinates().y,
+                                (promptShape.getRadius() / radiusOffset) / 2,
+                                backgroundColorShape.getColor(),
+                                shapeRenderer);
+                    } else if(targetShapesMatched == 1) {
+                        drawPoint(promptShape.getCoordinates().x - xOffset,
+                                promptShape.getCoordinates().y,
+                                (promptShape.getRadius() / radiusOffset) / 2,
+                                priorShapeList.get(0).getColor(),
+                                shapeRenderer);
+                    }
                 }
                 break;
             case Shape.LINE :
@@ -127,14 +135,23 @@ public class Draw {
                         promptShape.getLineWidth(),
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTarget) {
-                    //We're dealing with center prompt shape, so we must set up its inner color
-                    drawLine(promptShape.getCoordinates().x - xOffset,
-                            promptShape.getCoordinates().y,
-                            (promptShape.getRadius() / radiusOffset) - (promptShape.getLineWidth() / 2),
-                            promptShape.getLineWidth() / 2,
-                            backgroundColorShape.getColor(),
-                            shapeRenderer);
+                if(!isTitleShape) {
+                    if(!isTarget) {
+                        //We're dealing with center prompt shape, so we must set up its inner color
+                        drawLine(promptShape.getCoordinates().x - xOffset,
+                                promptShape.getCoordinates().y,
+                                (promptShape.getRadius() / radiusOffset) - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                backgroundColorShape.getColor(),
+                                shapeRenderer);
+                    } else if(targetShapesMatched == 1) {
+                        drawLine(promptShape.getCoordinates().x - xOffset,
+                                promptShape.getCoordinates().y,
+                                (promptShape.getRadius() / radiusOffset) - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                priorShapeList.get(0).getColor(),
+                                shapeRenderer);
+                    }
                 }
                 break;
             case Shape.TRIANGLE :
@@ -144,14 +161,23 @@ public class Draw {
                         promptShape.getLineWidth(),
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTarget) {
-                    //We're dealing with center prompt shape, so we must set up its inner color
-                    drawTriangle(promptShape.getCoordinates().x,
-                            promptShape.getCoordinates().y,
-                            promptShape.getRadius() - (promptShape.getLineWidth() / 2),
-                            promptShape.getLineWidth() / 2,
-                            backgroundColorShape.getColor(),
-                            shapeRenderer);
+                if(!isTitleShape) {
+                    if(!isTarget) {
+                        //We're dealing with center prompt shape, so we must set up its inner color
+                        drawTriangle(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                backgroundColorShape.getColor(),
+                                shapeRenderer);
+                    } else if(targetShapesMatched == 1) {
+                        drawTriangle(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                priorShapeList.get(0).getColor(),
+                                shapeRenderer);
+                    }
                 }
                 break;
             case Shape.SQUARE :
@@ -161,14 +187,23 @@ public class Draw {
                         promptShape.getLineWidth(),
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTarget) {
-                    //We're dealing with center prompt shape, so we must set up its inner color
-                    drawSquare(promptShape.getCoordinates().x,
-                            promptShape.getCoordinates().y,
-                            promptShape.getRadius() - (promptShape.getLineWidth() / 2),
-                            promptShape.getLineWidth() / 2,
-                            backgroundColorShape.getColor(),
-                            shapeRenderer);
+                if(!isTitleShape) {
+                    if(!isTarget) {
+                        //We're dealing with center prompt shape, so we must set up its inner color
+                        drawSquare(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                backgroundColorShape.getColor(),
+                                shapeRenderer);
+                    } else if(targetShapesMatched == 1) {
+                        drawSquare(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                priorShapeList.get(0).getColor(),
+                                shapeRenderer);
+                    }
                 }
                 break;
             case Shape.PENTAGON :
@@ -179,15 +214,25 @@ public class Draw {
                         0,
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTarget) {
-                    //We're dealing with center prompt shape, so we must set up its inner color
-                    drawPentagon(promptShape.getCoordinates().x,
-                            promptShape.getCoordinates().y,
-                            promptShape.getRadius() - (promptShape.getLineWidth() / 2),
-                            promptShape.getLineWidth() / 2,
-                            0,
-                            backgroundColorShape.getColor(),
-                            shapeRenderer);
+                if(!isTitleShape) {
+                    if(!isTarget) {
+                        //We're dealing with center prompt shape, so we must set up its inner color
+                        drawPentagon(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                0,
+                                backgroundColorShape.getColor(),
+                                shapeRenderer);
+                    } else if(targetShapesMatched == 1) {
+                        drawPentagon(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                0,
+                                priorShapeList.get(0).getColor(),
+                                shapeRenderer);
+                    }
                 }
                 break;
             case Shape.HEXAGON :
@@ -198,15 +243,25 @@ public class Draw {
                         0,
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTarget) {
-                    //We're dealing with center prompt shape, so we must set up its inner color
-                    drawHexagon(promptShape.getCoordinates().x,
-                            promptShape.getCoordinates().y,
-                            promptShape.getRadius() - (promptShape.getLineWidth() / 2),
-                            promptShape.getLineWidth() / 2,
-                            0,
-                            backgroundColorShape.getColor(),
-                            shapeRenderer);
+                if(!isTitleShape) {
+                    if(!isTarget) {
+                        //We're dealing with center prompt shape, so we must set up its inner color
+                        drawHexagon(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                0,
+                                backgroundColorShape.getColor(),
+                                shapeRenderer);
+                    } else if(targetShapesMatched == 1) {
+                        drawHexagon(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                0,
+                                priorShapeList.get(0).getColor(),
+                                shapeRenderer);
+                    }
                 }
                 break;
             case Shape.SEPTAGON :
@@ -217,15 +272,25 @@ public class Draw {
                         0,
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTarget) {
-                    //We're dealing with center prompt shape, so we must set up its inner color
-                    drawSeptagon(promptShape.getCoordinates().x,
-                            promptShape.getCoordinates().y,
-                            promptShape.getRadius() - (promptShape.getLineWidth() / 2),
-                            promptShape.getLineWidth() / 2,
-                            0,
-                            backgroundColorShape.getColor(),
-                            shapeRenderer);
+                if(!isTitleShape) {
+                    if(!isTarget) {
+                        //We're dealing with center prompt shape, so we must set up its inner color
+                        drawSeptagon(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                0,
+                                backgroundColorShape.getColor(),
+                                shapeRenderer);
+                    } else if(targetShapesMatched == 1) {
+                        drawSeptagon(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                0,
+                                priorShapeList.get(0).getColor(),
+                                shapeRenderer);
+                    }
                 }
                 break;
             case Shape.OCTAGON :
@@ -236,15 +301,25 @@ public class Draw {
                         0,
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTarget) {
-                    //We're dealing with center prompt shape, so we must set up its inner color
-                    drawOctagon(promptShape.getCoordinates().x,
-                            promptShape.getCoordinates().y,
-                            promptShape.getRadius() - (promptShape.getLineWidth() / 2),
-                            promptShape.getLineWidth() / 2,
-                            0,
-                            backgroundColorShape.getColor(),
-                            shapeRenderer);
+                if(!isTitleShape) {
+                    if(!isTarget) {
+                        //We're dealing with center prompt shape, so we must set up its inner color
+                        drawOctagon(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                0,
+                                backgroundColorShape.getColor(),
+                                shapeRenderer);
+                    } else if(targetShapesMatched == 1) {
+                        drawOctagon(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                0,
+                                priorShapeList.get(0).getColor(),
+                                shapeRenderer);
+                    }
                 }
                 break;
             case Shape.NONAGON :
@@ -255,15 +330,25 @@ public class Draw {
                         0,
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTarget) {
-                    //We're dealing with center prompt shape, so we must set up its inner color
-                    drawNonagon(promptShape.getCoordinates().x,
-                            promptShape.getCoordinates().y,
-                            promptShape.getRadius() - (promptShape.getLineWidth() / 2),
-                            promptShape.getLineWidth() / 2,
-                            0,
-                            backgroundColorShape.getColor(),
-                            shapeRenderer);
+                if(!isTitleShape) {
+                    if(!isTarget) {
+                        //We're dealing with center prompt shape, so we must set up its inner color
+                        drawNonagon(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                0,
+                                backgroundColorShape.getColor(),
+                                shapeRenderer);
+                    } else if(targetShapesMatched == 1) {
+                        drawNonagon(promptShape.getCoordinates().x,
+                                promptShape.getCoordinates().y,
+                                promptShape.getRadius() - (promptShape.getLineWidth() / 2),
+                                promptShape.getLineWidth() / 2,
+                                0,
+                                priorShapeList.get(0).getColor(),
+                                shapeRenderer);
+                    }
                 }
                 break;
         }

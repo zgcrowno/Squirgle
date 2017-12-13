@@ -232,7 +232,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         drawBackgroundColorShape();
 
         if(!paused) {
-            game.draw.drawPrompt(promptShape, priorShapeList, backgroundColorShape, false, game.shapeRendererFilled);
+            game.draw.drawPrompt(promptShape, priorShapeList, 0, backgroundColorShape, false, false, game.shapeRendererFilled);
             game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
         }
 
@@ -269,7 +269,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     game.draw.drawScoreTriangleTutorial(game.shapeRendererFilled);
                 }
                 if (phase >= PHASE_SIX) {
-                    game.draw.drawPrompt(outsideTargetShape, targetShapeList, backgroundColorShape, true, game.shapeRendererFilled);
+                    game.draw.drawPrompt(outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true, game.shapeRendererFilled);
                     game.draw.drawShapes(targetShapeList, outsideTargetShape, false, game.shapeRendererFilled);
                 }
                 if (phase >= PHASE_EIGHT) {
@@ -505,14 +505,6 @@ public class TutorialScreen implements Screen, InputProcessor {
                 } else {
                     resultsColor = Color.WHITE;
                 }
-                FontUtils.printText(game.batch,
-                        game.fontScore,
-                        game.layout,
-                        resultsColor,
-                        String.valueOf(score),
-                        game.camera.viewportWidth / 2,
-                        game.camera.viewportHeight / 2,
-                        0);
             }
         }
     }
@@ -576,7 +568,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             if (phase >= PHASE_EIGHT) {
                 if (!gameOver) {
                     if (phase == PHASE_EIGHT) {
-                        if (promptShape.getRadius() < ((2 * game.camera.viewportWidth) / 3) && promptShape.getRadius() < ((2 * game.camera.viewportHeight) / 3)) {
+                        if (promptShape.getRadius() < game.widthOrHeight / 3) {
                             promptShape.setRadius(promptShape.getRadius() + (promptIncrease / 2));
                         }
                     } else {
@@ -1000,6 +992,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 game.confirmSound.play((float) (game.volume / 10.0));
                 phase = PHASE_SEVEN;
                 multiplier = 0;
+                score = 0;
             }
             targetShapesMatched = 0;
             score += multiplier;
@@ -1008,7 +1001,6 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if(multiplier >= MAX_MULTIPLIER) {
                     game.confirmSound.play((float) (game.volume / 10.0));
                     phase = PHASE_EIGHT;
-                    playMusic();
                 }
             }
             targetShapeList.clear();
@@ -1071,16 +1063,23 @@ public class TutorialScreen implements Screen, InputProcessor {
         game.disconfirmSound.play((float) (game.volume / 10.0));
         multiplier = 1;
 
-        if(phase >= PHASE_EIGHT) {
+        if (phase == PHASE_SIX) {
+            phaseSixCorrectInputs = 0;
+        }else if(phase == PHASE_EIGHT) {
+            float radiusIncrease = game.widthOrHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * BACKGROUND_COLOR_SHAPE_LIST_WIDTH));
+
+            if(promptShape.getRadius() + radiusIncrease > (game.widthOrHeight / 3)) {
+                promptShape.setRadius(game.widthOrHeight / 3);
+            } else {
+                promptShape.setRadius(promptShape.getRadius() + radiusIncrease);
+            }
+        }else if(phase == PHASE_NINE) {
             float radiusIncrease = game.widthOrHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (3 * BACKGROUND_COLOR_SHAPE_LIST_WIDTH));
 
             if(promptShape.getRadius() + radiusIncrease > (game.widthOrHeight / 2)) {
                 promptShape.setRadius(game.widthOrHeight / 2);
             } else {
                 promptShape.setRadius(promptShape.getRadius() + radiusIncrease);
-            }
-            if (phase == PHASE_SIX) {
-                phaseSixCorrectInputs = 0;
             }
         }
     }

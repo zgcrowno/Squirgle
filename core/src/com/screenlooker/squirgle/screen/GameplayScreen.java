@@ -163,7 +163,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         drawBackgroundColorShape();
 
         if(!paused) {
-            game.draw.drawPrompt(promptShape, priorShapeList, backgroundColorShape, false, game.shapeRendererFilled);
+            game.draw.drawPrompt(promptShape, priorShapeList, 0, backgroundColorShape, false, false, game.shapeRendererFilled);
             game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
         }
 
@@ -193,7 +193,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             if (!gameOver) {
                 game.draw.drawInputButtons(game, game.shapeRendererFilled);
                 game.draw.drawScoreTriangle(game.shapeRendererFilled);
-                game.draw.drawPrompt(outsideTargetShape, targetShapeList, backgroundColorShape, true, game.shapeRendererFilled);
+                game.draw.drawPrompt(outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true, game.shapeRendererFilled);
                 game.draw.drawShapes(targetShapeList, outsideTargetShape, false, game.shapeRendererFilled);
                 game.draw.drawPauseInput(game);
             }
