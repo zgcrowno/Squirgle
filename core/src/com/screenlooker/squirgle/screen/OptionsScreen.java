@@ -88,7 +88,8 @@ public class OptionsScreen implements Screen, InputProcessor {
                 String.valueOf(game.volume),
                 (3 * game.camera.viewportWidth) / (NUM_SOUND_INPUT_ELEMENTS + 1),
                 game.camera.viewportHeight - (game.camera.viewportHeight / (NUM_INPUTS_VERTICAL * 2)),
-                0);
+                0,
+                1);
     }
 
     @Override

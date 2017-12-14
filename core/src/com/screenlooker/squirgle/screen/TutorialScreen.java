@@ -56,6 +56,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private final static int ONE_THOUSAND = 1000;
     private final static int TWO_SECONDS = 2;
     private final static int TEN_SECONDS = 10;
+    private final static int TARGET_ARC_SPEED = 5;
     private final static int COLOR_SPEED_ADDITIVE = 20;
     private final static int EQUATION_WIDTH_DIVISOR = 240;
     private final static int SHAPE_SIZE_LIMIT_MULTIPLIER = 15;
@@ -68,6 +69,7 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     private final static float FONT_SCORE_SIZE_DIVISOR = 11.1f;
     private final static float FONT_TARGET_SIZE_DIVISOR = 35.5f;
+    private final static float FONT_SQUIRGLE_SIZE_DIVISOR = 5;
     private final static float FONT_MULTIPLIER_INPUT = 1.39f;
     private final static float SCORE_DIVISOR = 3.16f;
     private final static float TARGET_RADIUS_DIVISOR = 2.43f;
@@ -75,8 +77,10 @@ public class TutorialScreen implements Screen, InputProcessor {
     private final static float MULTIPLIER_Y_DIVISOR = 1.25f;
     private final static float COLOR_LIST_SPEED_ADDITIVE = 0.1f;
     private final static float PROMPT_INCREASE_ADDITIVE = .0001f;
+    private final static float SQUIRGLE_OPACITY_DECREMENT = .03f;
 
     private final static String X = "X";
+    private final static String SQUIRGLE = "SQUIRGLE";
 
     /*
     -All white or gray screen except for black outlined prompt shape (point)
@@ -146,6 +150,8 @@ public class TutorialScreen implements Screen, InputProcessor {
     private int phaseEightSquirgles = 0;
     private float promptIncrease;
     private float equationWidth;
+    private float targetArcStart;
+    private float squirgleOpacity;
     private Shape promptShape;
     private Shape lastShapeTouched;
     private Shape lastPromptShape;
@@ -176,6 +182,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     boolean pauseQuitTouched;
     boolean inputTouchedGameplay;
     boolean inputTouchedResults;
+    private Color targetArcColor;
     private Color clearColor;
     private int score;
     private boolean gameOver;
@@ -202,6 +209,7 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         game.setUpFontScore(MathUtils.round(game.camera.viewportWidth / FONT_SCORE_SIZE_DIVISOR));
         game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
+        game.setUpFontSquirgle(MathUtils.round(game.camera.viewportWidth / FONT_SQUIRGLE_SIZE_DIVISOR));
 
         Gdx.input.setInputProcessor(this);
 
@@ -237,6 +245,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         }
 
         increaseSpeed();
+        decrementSquirgleOpacity();
         zoomThroughShapes();
 
         if(!paused) {
@@ -275,6 +284,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if (phase >= PHASE_EIGHT) {
                     game.draw.drawPauseInput(game);
                 }
+                drawTargetArc();
             }
         }
 
@@ -481,6 +491,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if(phase >= PHASE_SIX) {
                     drawTargetText();
                 }
+                drawSquirgleText();
                 //TODO: Decide if I actually want to instate this behavior, and if so, make a new BitmapFont object in Squirgle class
                 /*if(phase > PHASE_ONE) {
                     //Input Numbers
@@ -493,7 +504,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                                     String.valueOf(i),
                                     ((i * (game.camera.viewportWidth - ((2 * game.base) * INPUT_RADIUS))) / (game.base + 1) + ((i + i - 1) * INPUT_RADIUS)) + (INPUT_RADIUS * FONT_MULTIPLIER_INPUT),
                                     (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS) + (INPUT_RADIUS * FONT_MULTIPLIER_INPUT),
-                                    SCORE_ANGLE);
+                                    SCORE_ANGLE,
+                                    1);
                         }
                     }
                 }*/
@@ -518,7 +530,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                 String.valueOf(score),
                 game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
                 game.camera.viewportHeight - (TARGET_RADIUS / SCORE_DIVISOR),
-                SCORE_ANGLE);
+                SCORE_ANGLE,
+                1);
 
         //Multiplier
         FontUtils.printText(game.batch,
@@ -528,7 +541,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                 X + String.valueOf(multiplier),
                 game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
                 game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
-                SCORE_ANGLE);
+                SCORE_ANGLE,
+                1);
     }
 
     public void drawTargetText() {
@@ -545,7 +559,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                     Squirgle.TARGET.substring(i, i + 1),
                     (float) (TARGET_RADIUS * Math.cos(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth())))),
                     (float) (game.camera.viewportHeight + ((2 * game.fontTarget.getCapHeight()) / 3) + (TARGET_RADIUS * Math.sin(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth()))))),
-                    degrees - TWO_HUNDRED_AND_SEVENTY_DEGREES);
+                    degrees - TWO_HUNDRED_AND_SEVENTY_DEGREES,
+                    1);
         }
 
         //Shape Text
@@ -559,7 +574,29 @@ public class TutorialScreen implements Screen, InputProcessor {
                     shapeText.substring(i, i + 1),
                     (float) ((game.fontTarget.getCapHeight() / 3) + TARGET_RADIUS * Math.cos(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3))))),
                     (float) (game.camera.viewportHeight + (TARGET_RADIUS * Math.sin(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3)))))),
-                    degrees - TWO_HUNDRED_AND_SEVENTY_DEGREES);
+                    degrees - TWO_HUNDRED_AND_SEVENTY_DEGREES,
+                    1);
+        }
+    }
+
+    public void drawSquirgleText() {
+        for(int i = 1; i <= SQUIRGLE.length(); i++) {
+            FontUtils.printText(game.batch,
+                    game.fontSquirgle,
+                    game.layout,
+                    Color.WHITE,
+                    SQUIRGLE.substring(i - 1, i),
+                    (i * (game.camera.viewportWidth - ((2 * SQUIRGLE.length()) * INPUT_RADIUS))) / (SQUIRGLE.length() + 1) + ((i + i - 1) * INPUT_RADIUS),
+                    game.camera.viewportHeight / 2,
+                    0,
+                    squirgleOpacity);
+        }
+    }
+
+    public void drawTargetArc() {
+        game.draw.drawArcTutorial(targetArcStart, targetArcColor, game.shapeRendererFilled);
+        if(targetArcStart > -Draw.NINETY_ONE_DEGREES) {
+            targetArcStart -= TARGET_ARC_SPEED;
         }
     }
 
@@ -607,6 +644,14 @@ public class TutorialScreen implements Screen, InputProcessor {
                     promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))) / 2;
                 }
             }
+        }
+    }
+
+    public void decrementSquirgleOpacity() {
+        if(squirgleOpacity > 0) {
+            squirgleOpacity -= SQUIRGLE_OPACITY_DECREMENT;
+        } else {
+            squirgleOpacity = 0;
         }
     }
 
@@ -1004,7 +1049,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 }
             }
             targetShapeList.clear();
-            if (priorShapeList.get(priorShapeList.size() - TWO_SHAPES_AGO).getColor().equals(priorShapeList.get(priorShapeList.size() - ONE_SHAPE_AGO).getColor()) && phase >= PHASE_EIGHT) {
+            if (priorShapeList.get(priorShapeList.size() - TWO_SHAPES_AGO).getColor().equals(priorShapeList.get(priorShapeList.size() - ONE_SHAPE_AGO).getColor()) && priorShapeList.get(priorShapeList.size() - TWO_SHAPES_AGO).getColor() != Color.GRAY) {
                 //SQUIRGLE!!!
                 outsideTargetShape.setShape(Shape.TRIANGLE);
                 outsideTargetShape.setColor(Color.BLACK);
@@ -1022,6 +1067,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                         INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                                 game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
+                targetArcStart = Draw.NINETY_ONE_DEGREES;
+                targetArcColor = priorShapeList.get(priorShapeList.size() - TWO_SHAPES_AGO).getColor();
             } else {
                 outsideTargetShape.setShape(MathUtils.random(game.base - 1));
                 outsideTargetShape.setColor(Color.BLACK);
@@ -1053,6 +1100,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     game.confirmSound.play((float) (game.volume / 10.0));
                     phase = PHASE_NINE;
                 }
+                squirgleOpacity = 1;
             }
             currentTargetShape = targetShapeList.get(0);
         }
@@ -1140,6 +1188,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         //Set this and the prompt increase such that without player input, three passes of backgroundColorShapeList will
         //occur before game over
         promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (3 * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))) / 2;
+        targetArcStart = -Draw.NINETY_ONE_DEGREES;
+        squirgleOpacity = 0;
         promptShape = new Shape(Shape.POINT,
                 INIT_PROMPT_RADIUS,
                 Color.WHITE,
@@ -1198,6 +1248,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         pauseQuitTouched = false;
         inputTouchedGameplay = false;
         inputTouchedResults = false;
+        targetArcColor = new Color();
         clearColor = new Color(backgroundColorShape.getColor());
         score = 0;
         multiplier = 1;

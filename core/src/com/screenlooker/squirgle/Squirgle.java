@@ -72,6 +72,7 @@ public class Squirgle extends Game {
 	public SpriteBatch batch;
 	public BitmapFont fontScore;
 	public BitmapFont fontTarget;
+	public BitmapFont fontSquirgle;
 	public GlyphLayout layout;
 	public FreeTypeFontGenerator generator;
 	public OrthographicCamera camera;
@@ -156,6 +157,7 @@ public class Squirgle extends Game {
 		batch.dispose();
 		fontScore.dispose();
 		fontTarget.dispose();
+		fontSquirgle.dispose();
 		confirmSound.dispose();
 		disconfirmSound.dispose();
 		//TODO: dispose of all music assets
@@ -180,6 +182,14 @@ public class Squirgle extends Game {
 		parameter.size = size;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
 		fontTarget = generator.generateFont(parameter);
+	}
+
+	public void setUpFontSquirgle(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
+		fontSquirgle = generator.generateFont(parameter);
 	}
 
 	public void setUpTracks() {

@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 public class FontUtils {
 
     public static void printText(SpriteBatch spriteBatch,
-                                 BitmapFont bitmapFont, GlyphLayout layout, Color color, String text, float posX, float posY, float angle)
+                                 BitmapFont bitmapFont, GlyphLayout layout, Color color, String text, float posX, float posY, float angle, float opacity)
     {
         Matrix4 oldTransformMatrix = spriteBatch.getTransformMatrix().cpy();
 
@@ -21,7 +21,7 @@ public class FontUtils {
         layout.setText(bitmapFont, text);
 
         spriteBatch.begin();
-        bitmapFont.setColor(color);
+        bitmapFont.setColor(color.r, color.g, color.b, opacity);
         bitmapFont.draw(spriteBatch, text, -(layout.width / 2), layout.height / 2);
         spriteBatch.end();
 

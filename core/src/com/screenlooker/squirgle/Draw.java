@@ -16,7 +16,9 @@ public class Draw {
     public static final int THRESHOLD_MULTIPLIER = 4;
     public static final int LINE_WIDTH_DIVISOR = 8;
     public static final int NUM_BACKGROUND_COLOR_SHAPE_COLUMNS = 6;
+    public static final int NUM_ARC_SEGMENTS = 90;
     public static final int SIXTY_DEGREES = 60;
+    public static final int NINETY_ONE_DEGREES = 91;
     public static final int SOUND_WAVE_DISTANCE = 5;
     public static final int FORTY_FIVE_DEGREES = 45;
     public static final float INPUT_DISTANCE_OFFSET = 1.5f;
@@ -1399,6 +1401,16 @@ public class Draw {
     public void drawTargetSemicircleTutorial(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(0, game.camera.viewportHeight, TutorialScreen.TARGET_RADIUS);
+    }
+
+    public void drawArc(float start, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
+        shapeRenderer.arc(0, game.camera.viewportHeight, GameplayScreen.TARGET_RADIUS, start, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
+    }
+
+    public void drawArcTutorial(float start, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
+        shapeRenderer.arc(0, game.camera.viewportHeight, TutorialScreen.TARGET_RADIUS, start, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
     }
 
     public void drawScoreTriangle(ShapeRenderer shapeRenderer) {
