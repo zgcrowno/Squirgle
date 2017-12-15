@@ -88,7 +88,7 @@ public class Draw {
         shapeRenderer.circle(game.camera.viewportWidth / 2, game.camera.viewportHeight / 2, promptShape.getRadius());
     }
 
-    public void drawPrompt(Shape promptShape, List<Shape> priorShapeList, int targetShapesMatched, Shape backgroundColorShape, boolean isTitleShape, boolean isTarget, ShapeRenderer shapeRenderer) {
+    public void drawPrompt(Shape promptShape, List<Shape> priorShapeList, int targetShapesMatched, Shape backgroundColorShape, boolean isNonGameplay, boolean isTarget, ShapeRenderer shapeRenderer) {
         float xOffset = 0;
         float radiusOffset = 1;
         switch(promptShape.getShape()) {
@@ -109,7 +109,7 @@ public class Draw {
                         promptShape.getRadius() / radiusOffset,
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTitleShape) {
+                if(!isNonGameplay) {
                     if(!isTarget) {
                         //We're dealing with center prompt shape, so we must set up its inner color
                         drawPoint(promptShape.getCoordinates().x - xOffset,
@@ -137,7 +137,7 @@ public class Draw {
                         promptShape.getLineWidth(),
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTitleShape) {
+                if(!isNonGameplay) {
                     if(!isTarget) {
                         //We're dealing with center prompt shape, so we must set up its inner color
                         drawLine(promptShape.getCoordinates().x - xOffset,
@@ -163,7 +163,7 @@ public class Draw {
                         promptShape.getLineWidth(),
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTitleShape) {
+                if(!isNonGameplay) {
                     if(!isTarget) {
                         //We're dealing with center prompt shape, so we must set up its inner color
                         drawTriangle(promptShape.getCoordinates().x,
@@ -189,7 +189,7 @@ public class Draw {
                         promptShape.getLineWidth(),
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTitleShape) {
+                if(!isNonGameplay) {
                     if(!isTarget) {
                         //We're dealing with center prompt shape, so we must set up its inner color
                         drawSquare(promptShape.getCoordinates().x,
@@ -216,7 +216,7 @@ public class Draw {
                         0,
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTitleShape) {
+                if(!isNonGameplay) {
                     if(!isTarget) {
                         //We're dealing with center prompt shape, so we must set up its inner color
                         drawPentagon(promptShape.getCoordinates().x,
@@ -245,7 +245,7 @@ public class Draw {
                         0,
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTitleShape) {
+                if(!isNonGameplay) {
                     if(!isTarget) {
                         //We're dealing with center prompt shape, so we must set up its inner color
                         drawHexagon(promptShape.getCoordinates().x,
@@ -274,7 +274,7 @@ public class Draw {
                         0,
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTitleShape) {
+                if(!isNonGameplay) {
                     if(!isTarget) {
                         //We're dealing with center prompt shape, so we must set up its inner color
                         drawSeptagon(promptShape.getCoordinates().x,
@@ -303,7 +303,7 @@ public class Draw {
                         0,
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTitleShape) {
+                if(!isNonGameplay) {
                     if(!isTarget) {
                         //We're dealing with center prompt shape, so we must set up its inner color
                         drawOctagon(promptShape.getCoordinates().x,
@@ -332,7 +332,7 @@ public class Draw {
                         0,
                         promptShape.getColor(),
                         shapeRenderer);
-                if(!isTitleShape) {
+                if(!isNonGameplay) {
                     if(!isTarget) {
                         //We're dealing with center prompt shape, so we must set up its inner color
                         drawNonagon(promptShape.getCoordinates().x,
@@ -1477,6 +1477,12 @@ public class Draw {
         }
     }
 
+    public void drawDash(float x, float y, float width, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
+
+        shapeRenderer.rect(x - (width / 2), y - (width / 4), width, width / 2);
+    }
+
     public void drawPlus(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(color);
 
@@ -1701,6 +1707,79 @@ public class Draw {
         drawPoint(x, y - radius + lineWidth, lineWidth, Color.FIREBRICK, shapeRenderer);
         drawPoint(x + radius - (radius / 2.575f), y - radius + (radius / 2.575f), lineWidth, Color.CYAN, shapeRenderer);
         drawPoint(x + radius - lineWidth, y, lineWidth, Color.MAGENTA, shapeRenderer);
+    }
+
+    public void drawColorWheel(float x, float y, float radius, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.circle(x, y, radius);
+
+        shapeRenderer.setColor(new Color(230/ColorUtils.MAX_RGB_VALUE, 159/ColorUtils.MAX_RGB_VALUE, 0, 1));
+        shapeRenderer.arc(x, y, (9 * radius) / 10, SIXTY_DEGREES, SIXTY_DEGREES, NUM_ARC_SEGMENTS);
+
+        shapeRenderer.setColor(new Color(213/ColorUtils.MAX_RGB_VALUE, 94/ColorUtils.MAX_RGB_VALUE, 0, 1));
+        shapeRenderer.arc(x, y, (9 * radius) / 10, 0, SIXTY_DEGREES, NUM_ARC_SEGMENTS);
+
+        shapeRenderer.setColor(new Color(204/ColorUtils.MAX_RGB_VALUE, 121/ColorUtils.MAX_RGB_VALUE, 167/ColorUtils.MAX_RGB_VALUE, 1));
+        shapeRenderer.arc(x, y, (9 * radius) / 10, -SIXTY_DEGREES, SIXTY_DEGREES, NUM_ARC_SEGMENTS);
+
+        shapeRenderer.setColor(new Color(0, 114/ColorUtils.MAX_RGB_VALUE, 178/ColorUtils.MAX_RGB_VALUE, 1));
+        shapeRenderer.arc(x, y, (9 * radius) / 10, -(2 * SIXTY_DEGREES), SIXTY_DEGREES, NUM_ARC_SEGMENTS);
+
+        shapeRenderer.setColor(new Color(86/ColorUtils.MAX_RGB_VALUE, 180/ColorUtils.MAX_RGB_VALUE, 233/ColorUtils.MAX_RGB_VALUE, 1));
+        shapeRenderer.arc(x, y, (9 * radius) / 10, -(3 * SIXTY_DEGREES), SIXTY_DEGREES, NUM_ARC_SEGMENTS);
+
+        shapeRenderer.setColor(new Color(0, 158/ColorUtils.MAX_RGB_VALUE, 115/ColorUtils.MAX_RGB_VALUE, 1));
+        shapeRenderer.arc(x, y, (9 * radius) / 10, -(4 * SIXTY_DEGREES), SIXTY_DEGREES, NUM_ARC_SEGMENTS);
+    }
+
+    public void drawColor(float x, float y, float radius, int color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.circle(x, y, radius);
+
+        switch(color) {
+            case ColorUtils.ORANGE : {
+                shapeRenderer.arc(x, y, radius, 0, -300, NUM_ARC_SEGMENTS);
+
+                shapeRenderer.setColor(new Color(230/ColorUtils.MAX_RGB_VALUE, 159/ColorUtils.MAX_RGB_VALUE, 0, 1));
+                shapeRenderer.arc(x, y, (9 * radius) / 10, SIXTY_DEGREES, SIXTY_DEGREES, NUM_ARC_SEGMENTS);
+                break;
+            }
+            case ColorUtils.SKY_BLUE : {
+                shapeRenderer.arc(x, y, radius, -60, -300, NUM_ARC_SEGMENTS);
+
+                shapeRenderer.setColor(new Color(213/ColorUtils.MAX_RGB_VALUE, 94/ColorUtils.MAX_RGB_VALUE, 0, 1));
+                shapeRenderer.arc(x, y, (9 * radius) / 10, 0, SIXTY_DEGREES, NUM_ARC_SEGMENTS);
+                break;
+            }
+            case ColorUtils.BLUISH_GREEN : {
+                shapeRenderer.arc(x, y, radius, -120, -300, NUM_ARC_SEGMENTS);
+
+                shapeRenderer.setColor(new Color(204/ColorUtils.MAX_RGB_VALUE, 121/ColorUtils.MAX_RGB_VALUE, 167/ColorUtils.MAX_RGB_VALUE, 1));
+                shapeRenderer.arc(x, y, (9 * radius) / 10, -SIXTY_DEGREES, SIXTY_DEGREES, NUM_ARC_SEGMENTS);
+                break;
+            }
+            case ColorUtils.BLUE : {
+                shapeRenderer.arc(x, y, radius, -180, -300, NUM_ARC_SEGMENTS);
+
+                shapeRenderer.setColor(new Color(0, 114/ColorUtils.MAX_RGB_VALUE, 178/ColorUtils.MAX_RGB_VALUE, 1));
+                shapeRenderer.arc(x, y, (9 * radius) / 10, -(2 * SIXTY_DEGREES), SIXTY_DEGREES, NUM_ARC_SEGMENTS);
+                break;
+            }
+            case ColorUtils.VERMILLION : {
+                shapeRenderer.arc(x, y, radius, -240, -300, NUM_ARC_SEGMENTS);
+
+                shapeRenderer.setColor(new Color(86/ColorUtils.MAX_RGB_VALUE, 180/ColorUtils.MAX_RGB_VALUE, 233/ColorUtils.MAX_RGB_VALUE, 1));
+                shapeRenderer.arc(x, y, (9 * radius) / 10, -(3 * SIXTY_DEGREES), SIXTY_DEGREES, NUM_ARC_SEGMENTS);
+                break;
+            }
+            case ColorUtils.REDDISH_PURPLE : {
+                shapeRenderer.arc(x, y, radius, -300, -300, NUM_ARC_SEGMENTS);
+
+                shapeRenderer.setColor(new Color(0, 158/ColorUtils.MAX_RGB_VALUE, 115/ColorUtils.MAX_RGB_VALUE, 1));
+                shapeRenderer.arc(x, y, (9 * radius) / 10, -(4 * SIXTY_DEGREES), SIXTY_DEGREES, NUM_ARC_SEGMENTS);
+                break;
+            }
+        }
     }
 
     public void drawWiFiSymbol(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {

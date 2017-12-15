@@ -23,7 +23,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
     private final static int OPTIONS = 0;
     private final static int PLAY = 1;
-    private final static int TUTORIAL = 2;
+    private final static int HELP = 2;
     private final static int QUIT = 3;
 
     private final static int NUM_INPUTS_HORIZONTAL = 2;
@@ -55,7 +55,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
     private boolean optionsTouched;
     private boolean playTouched;
-    private boolean tutorialTouched;
+    private boolean helpTouched;
     private boolean quitTouched;
 
     public MainMenuScreen(final Squirgle game) {
@@ -71,7 +71,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
         symbolRadius = inputWidth > inputHeight ? inputHeight / 2 : inputWidth / 2;
 
         squirgleRadius = game.camera.viewportHeight / 4;
-        squirgleHeightOffset = game.camera.viewportHeight / 16;
+        squirgleHeightOffset = squirgleRadius / 4;
 
         touchPoint = new Vector3();
 
@@ -102,7 +102,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
         optionsTouched = false;
         playTouched = false;
-        tutorialTouched = false;
+        helpTouched = false;
         quitTouched = false;
     }
 
@@ -188,7 +188,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > (2 * game.partitionSize) + inputHeight
                 && touchPoint.y < (2 * game.partitionSize) + (2 * inputHeight);
-        tutorialTouched = touchPoint.x > game.partitionSize
+        helpTouched = touchPoint.x > game.partitionSize
                 && touchPoint.x < game.partitionSize + inputWidth
                 && touchPoint.y > game.partitionSize
                 && touchPoint.y < game.partitionSize + inputHeight;
@@ -205,9 +205,9 @@ public class MainMenuScreen implements Screen, InputProcessor {
             game.confirmSound.play((float) (game.volume / 10.0));
             game.setScreen(new BaseSelectScreen(game));
             dispose();
-        } else if(tutorialTouched) {
+        } else if(helpTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new TutorialScreen(game));
+            game.setScreen(new HelpScreen(game));
             dispose();
         } else if(quitTouched) {
             System.exit(0);
@@ -264,7 +264,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
                         inputWidth,
                         inputHeight);
             }
-            case TUTORIAL : {
+            case HELP : {
                 game.shapeRendererFilled.rect(game.partitionSize,
                         game.partitionSize,
                         inputWidth,
@@ -300,7 +300,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
     }
 
     public void drawTutorialInput() {
-        drawInputRectangle(TUTORIAL, tutorialColor);
+        drawInputRectangle(HELP, tutorialColor);
         game.draw.drawQuestionMark(game.camera.viewportWidth / 4,
                 game.camera.viewportHeight / 8,
                 symbolRadius,
