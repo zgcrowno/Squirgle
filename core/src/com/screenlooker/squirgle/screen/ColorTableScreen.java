@@ -39,6 +39,9 @@ public class ColorTableScreen implements Screen, InputProcessor {
 
     private Vector3 touchPoint;
 
+    private Color squareColor;
+    private Color circleColor;
+    private Color triangleColor;
     private Color backColor;
 
     private List<Shape> squirgleShapeList;
@@ -62,15 +65,24 @@ public class ColorTableScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
+        squareColor = ColorUtils.randomTransitionColor();
+        circleColor = ColorUtils.randomTransitionColor();
+        triangleColor = ColorUtils.randomTransitionColor();
+        while(circleColor.equals(squareColor)) {
+            circleColor = ColorUtils.randomTransitionColor();
+        }
+        while(triangleColor.equals(circleColor) || triangleColor.equals(squareColor)) {
+            triangleColor = ColorUtils.randomTransitionColor();
+        }
         backColor = ColorUtils.randomColor();
 
         squirgleShapeList = new ArrayList<Shape>();
-        squirgleShapeList.add(new Shape(Shape.SQUARE, 0, Color.WHITE, null, 0, new Vector2()));
-        squirgleShapeList.add(new Shape(Shape.CIRCLE, 0, Color.BLACK, null, 0, new Vector2()));
+        squirgleShapeList.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
+        squirgleShapeList.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
 
         squirglePrompt = new Shape(Shape.TRIANGLE,
                 symbolRadius,
-                Color.BLACK,
+                triangleColor,
                 null,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2());
