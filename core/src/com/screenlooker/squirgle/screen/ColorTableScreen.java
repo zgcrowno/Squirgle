@@ -23,17 +23,20 @@ public class ColorTableScreen implements Screen, InputProcessor {
 
     private final static int BACK = 0;
 
-    private final static int NUM_LOWER_INPUTS_HORIZONTAL = 1;
-    private final static int NUM_LOWER_PARTITIONS_HORIZONTAL = NUM_LOWER_INPUTS_HORIZONTAL + 1;
-    private final static int NUM_UPPER_INPUTS_HORIZONTAL = 7;
-    private final static int NUM_UPPER_PARTITIONS_HORIZONTAL = NUM_UPPER_INPUTS_HORIZONTAL + 1;
-    private final static int NUM_INPUTS_VERTICAL = 8;
-    private final static int NUM_PARTITIONS_VERTICAL = NUM_INPUTS_VERTICAL + 1;
+    private final static int NUM_INPUTS_HORIZONTAL = 9;
+    private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
+    private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
+    private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
+    private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
+    private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
     private final static int NUM_COLORS = 6;
 
-    private float inputWidthBack;
-    private float inputWidthTable;
-    private float inputHeight;
+    private int numMiddleInputsVertical;
+    private int numMiddlePartitionsVertical;
+
+    private float inputWidth;
+    private float inputHeightTable;
+    private float inputHeightBack;
 
     private float symbolRadius;
 
@@ -57,11 +60,14 @@ public class ColorTableScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        inputWidthBack = game.camera.viewportWidth - (game.partitionSize * NUM_LOWER_PARTITIONS_HORIZONTAL);
-        inputWidthTable = (game.camera.viewportWidth - (game.partitionSize * NUM_UPPER_PARTITIONS_HORIZONTAL)) / NUM_UPPER_INPUTS_HORIZONTAL;
-        inputHeight = (game.camera.viewportHeight - (game.partitionSize * NUM_PARTITIONS_VERTICAL)) / NUM_INPUTS_VERTICAL;
+        numMiddleInputsVertical = NUM_COLORS + 1; //Adding one for plus
+        numMiddlePartitionsVertical = numMiddleInputsVertical + 1;
 
-        symbolRadius = inputWidthTable > inputHeight ? inputHeight / 2 : inputWidthTable / 2;
+        inputWidth = (game.camera.viewportWidth - (game.partitionSize * NUM_PARTITIONS_HORIZONTAL)) / NUM_INPUTS_HORIZONTAL;
+        inputHeightTable = (game.camera.viewportHeight - (game.partitionSize * numMiddlePartitionsVertical)) / numMiddleInputsVertical;
+        inputHeightBack = (game.camera.viewportHeight - (game.partitionSize * NUM_RIGHT_PARTITIONS_VERTICAL)) / NUM_RIGHT_INPUTS_VERTICAL;
+
+        symbolRadius = inputWidth > inputHeightTable ? inputHeightTable / 2 : inputWidth / 2;
 
         touchPoint = new Vector3();
 
@@ -162,10 +168,10 @@ public class ColorTableScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        backTouched = touchPoint.x > game.partitionSize
+        backTouched = touchPoint.x > game.camera.viewportWidth - game.partitionSize - inputWidth
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + inputHeight;
+                && touchPoint.y < game.partitionSize + inputHeightBack;
 
         if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
@@ -205,15 +211,15 @@ public class ColorTableScreen implements Screen, InputProcessor {
         for(int i = 1; i <= NUM_COLORS + 1; i++) {
             for(int j = 1; j <= NUM_COLORS + 1; j++) {
                 game.shapeRendererFilled.setColor(Color.WHITE);
-                game.shapeRendererFilled.rect((i * game.partitionSize) + ((i - 1) * inputWidthTable),
-                        game.camera.viewportHeight - ((j * game.partitionSize) + (j * inputHeight)),
-                        inputWidthTable,
-                        inputHeight);
+                game.shapeRendererFilled.rect(inputWidth + game.partitionSize + (i * game.partitionSize) + ((i - 1) * inputWidth),
+                        game.camera.viewportHeight - ((j * game.partitionSize) + (j * inputHeightTable)),
+                        inputWidth,
+                        inputHeightTable);
                 game.shapeRendererFilled.setColor(Color.BLACK);
                 if(i == 1 && j == 1) {
                     //Draw plus symbol
-                    game.draw.drawPlus(game.partitionSize + (inputWidthTable / 2),
-                            game.camera.viewportHeight - (game.partitionSize + (inputHeight / 2)),
+                    game.draw.drawPlus(inputWidth + (2 * game.partitionSize) + (inputWidth / 2),
+                            game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2)),
                             symbolRadius / 2,
                             (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                             Color.BLACK,
@@ -227,21 +233,21 @@ public class ColorTableScreen implements Screen, InputProcessor {
                         //j == 1
                         color = i - 2;
                     }
-                    game.draw.drawColor(game.partitionSize + (inputWidthTable / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidthTable),
-                            game.camera.viewportHeight - (game.partitionSize + (inputHeight / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeight)),
+                    game.draw.drawColor(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),
+                            game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)),
                             symbolRadius / 2,
                     color,
                     game.shapeRendererFilled);
                 } else if(i == j) {
                     //Draw squirgles
-                    squirglePrompt.setCoordinates(new Vector2(game.partitionSize + (inputWidthTable / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidthTable),
-                            game.camera.viewportHeight - (game.partitionSize + (inputHeight / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeight)) - (symbolRadius / 4)));
+                    squirglePrompt.setCoordinates(new Vector2(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),
+                            game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)) - (symbolRadius / 4)));
                     game.draw.drawPrompt(squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
                     game.draw.drawShapes(squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
                 } else {
                     //Draw dash
-                    game.draw.drawDash(game.partitionSize + (inputWidthTable / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidthTable),
-                            game.camera.viewportHeight - (game.partitionSize + (inputHeight / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeight)),
+                    game.draw.drawDash(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),
+                            game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)),
                             symbolRadius / 4,
                             Color.BLACK,
                             game.shapeRendererFilled);
@@ -251,6 +257,7 @@ public class ColorTableScreen implements Screen, InputProcessor {
     }
 
     public void drawInputRectangles() {
+        drawTitle();
         drawBackInput();
     }
 
@@ -258,18 +265,18 @@ public class ColorTableScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case BACK : {
-                game.shapeRendererFilled.rect(game.partitionSize,
+                game.shapeRendererFilled.rect(game.camera.viewportWidth - game.partitionSize - inputWidth,
                         game.partitionSize,
-                        inputWidthBack,
-                        inputHeight);
+                        inputWidth,
+                        inputHeightBack);
             }
         }
     }
 
     public void drawBackInput() {
         drawInputRectangle(BACK, backColor);
-        game.draw.drawBackButton(game.camera.viewportWidth / 2,
-                game.partitionSize + (inputHeight / 2),
+        game.draw.drawBackButton(game.camera.viewportWidth - game.partitionSize - (inputWidth / 2),
+                inputHeightBack / 2,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
@@ -280,6 +287,21 @@ public class ColorTableScreen implements Screen, InputProcessor {
         ColorUtils.transitionColor(squirglePrompt);
         ColorUtils.transitionColor(squirgleShapeList.get(0));
         ColorUtils.transitionColor(squirgleShapeList.get(1));
+    }
+
+    public void drawTitle() {
+        game.draw.drawQuestionMark(game.partitionSize + (inputWidth / 2),
+                (3 * game.camera.viewportHeight) / 4,
+                symbolRadius,
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                Color.WHITE,
+                Color.BLACK,
+                game.shapeRendererFilled);
+        game.draw.drawColorWheel(game.partitionSize + (inputWidth / 2),
+                game.camera.viewportHeight / 4,
+                symbolRadius,
+                Color.WHITE,
+                game.shapeRendererFilled);
     }
 
 }

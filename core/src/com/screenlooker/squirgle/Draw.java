@@ -1438,18 +1438,7 @@ public class Draw {
         float lineRadius = inputRadius / 2;
 
         drawPoint(game.camera.viewportWidth, game.camera.viewportHeight / 2, inputRadius, Color.BLACK, game.shapeRendererFilled);
-        drawLine(game.camera.viewportWidth - (2 * (inputRadius / 3)),
-                game.camera.viewportHeight / 2,
-                lineRadius,
-                lineRadius / LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                game.shapeRendererFilled);
-        drawLine(game.camera.viewportWidth - (inputRadius / 3),
-                game.camera.viewportHeight / 2,
-                lineRadius,
-                lineRadius / LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                game.shapeRendererFilled);
+        drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), game.camera.viewportHeight / 2, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.WHITE, game.shapeRendererFilled);
 
     }
 
@@ -1511,13 +1500,13 @@ public class Draw {
         shapeRenderer.rectLine(x - (radius / 2) + (lineWidth / 2), y + (radius / 2) - (lineWidth / 2), x + (radius / 2) - (lineWidth / 2), y + (radius / 2) - (lineWidth / 2), lineWidth);
     }
 
-    public void drawWrench(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(Color.BLACK);
+    public void drawWrench(float x, float y, float radius, float lineWidth, Color primaryColor, Color secondaryColor, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(primaryColor);
         shapeRenderer.rectLine(x - (radius / 2), y - (radius / 2), x + (radius / 2), y + (radius / 2), lineWidth);
         shapeRenderer.circle(x - (radius / 2), y - (radius / 2), lineWidth);
         shapeRenderer.circle(x + (radius / 2), y + (radius / 2), lineWidth);
 
-        shapeRenderer.setColor(color);
+        shapeRenderer.setColor(secondaryColor);
         shapeRenderer.rect(x - (radius / 2) - (lineWidth / 2), y - (radius / 2) - lineWidth, lineWidth, lineWidth);
         shapeRenderer.rect(x + (radius / 2) - (lineWidth / 2), y + (radius / 2), lineWidth, lineWidth);
     }
@@ -1551,6 +1540,21 @@ public class Draw {
                 shapeRenderer);
         drawPoint(x + radius - lineWidth,
                 y,
+                lineWidth,
+                color,
+                shapeRenderer);
+    }
+
+    public void drawPauseSymbol(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        drawLine(x - (radius / 4),
+                y,
+                radius / 2,
+                lineWidth,
+                color,
+                shapeRenderer);
+        drawLine(x + (radius / 4),
+                y,
+                radius / 2,
                 lineWidth,
                 color,
                 shapeRenderer);
@@ -1681,13 +1685,13 @@ public class Draw {
                 shapeRenderer);
     }
 
-    public void drawQuestionMark(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(Color.BLACK);
+    public void drawQuestionMark(float x, float y, float radius, float lineWidth, Color primaryColor, Color secondaryColor, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(primaryColor);
         shapeRenderer.circle(x, y + (radius / 4), radius / 4);
         shapeRenderer.rectLine(x, y + (radius / 4), x, y - (radius / 4), lineWidth);
         shapeRenderer.rectLine(x, y - ((3 * radius) / 8), x, y - (radius / 2), lineWidth);
 
-        shapeRenderer.setColor(color);
+        shapeRenderer.setColor(secondaryColor);
         shapeRenderer.circle(x, y + (radius / 4), lineWidth);
         shapeRenderer.rectLine(x - ((5 * lineWidth) / 4), y + (radius / 4), x - ((5 * lineWidth) / 4), y, ((3 * lineWidth) / 2));
     }
@@ -1709,8 +1713,8 @@ public class Draw {
         drawPoint(x + radius - lineWidth, y, lineWidth, Color.MAGENTA, shapeRenderer);
     }
 
-    public void drawColorWheel(float x, float y, float radius, ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(Color.BLACK);
+    public void drawColorWheel(float x, float y, float radius, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
         shapeRenderer.circle(x, y, radius);
 
         shapeRenderer.setColor(new Color(230/ColorUtils.MAX_RGB_VALUE, 159/ColorUtils.MAX_RGB_VALUE, 0, 1));

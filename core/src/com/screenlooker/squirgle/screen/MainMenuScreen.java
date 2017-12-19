@@ -295,6 +295,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 (3 * game.camera.viewportHeight) / 8,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                Color.BLACK,
                 optionsColor,
                 game.shapeRendererFilled);
     }
@@ -305,6 +306,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 8,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                Color.BLACK,
                 tutorialColor,
                 game.shapeRendererFilled);
     }

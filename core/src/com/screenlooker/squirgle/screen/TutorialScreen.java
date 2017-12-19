@@ -428,6 +428,12 @@ public class TutorialScreen implements Screen, InputProcessor {
     }
 
     public void drawInputRectangles() {
+        game.draw.drawPauseSymbol(game.partitionSize + (PAUSE_INPUT_WIDTH / 2),
+                game.camera.viewportHeight / 2,
+                PAUSE_INPUT_WIDTH / 2,
+                (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
+                Color.BLACK,
+                game.shapeRendererFilled);
         drawPauseBackInput();
         drawPauseQuitInput();
     }
@@ -436,14 +442,14 @@ public class TutorialScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.setColor(Color.WHITE);
         switch(placement) {
             case PAUSE_BACK : {
-                game.shapeRendererFilled.rect(game.partitionSize,
+                game.shapeRendererFilled.rect(game.camera.viewportWidth - game.partitionSize - PAUSE_INPUT_WIDTH,
                         game.partitionSize,
                         PAUSE_INPUT_WIDTH,
                         PAUSE_INPUT_HEIGHT);
             }
             case PAUSE_QUIT : {
-                game.shapeRendererFilled.rect(game.partitionSize,
-                        (2 * game.partitionSize) + PAUSE_INPUT_HEIGHT,
+                game.shapeRendererFilled.rect((2 * game.partitionSize) + PAUSE_INPUT_WIDTH,
+                        game.partitionSize,
                         PAUSE_INPUT_WIDTH,
                         PAUSE_INPUT_HEIGHT);
             }
@@ -453,19 +459,19 @@ public class TutorialScreen implements Screen, InputProcessor {
     public void drawPauseQuitInput() {
         drawInputRectangle(PAUSE_QUIT);
         game.draw.drawX(game.camera.viewportWidth / 2,
-                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
-                game.camera.viewportHeight / 4,
-                Squirgle.LINE_WIDTH,
+                game.camera.viewportHeight / 2,
+                PAUSE_INPUT_WIDTH / 2,
+                (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
 
     public void drawPauseBackInput() {
         drawInputRectangle(PAUSE_BACK);
-        game.draw.drawBackButton(game.camera.viewportWidth / 2,
-                game.camera.viewportHeight / 4,
-                game.camera.viewportHeight / 4,
-                Squirgle.LINE_WIDTH,
+        game.draw.drawBackButton(game.camera.viewportWidth - game.partitionSize - (PAUSE_INPUT_WIDTH / 2),
+                game.camera.viewportHeight / 2,
+                PAUSE_INPUT_WIDTH / 2,
+                (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
@@ -896,13 +902,13 @@ public class TutorialScreen implements Screen, InputProcessor {
         pauseTouched = touchPoint.x > game.camera.viewportWidth - (2 *(game.camera.viewportWidth / 20))
                 && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
                 && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
-        pauseBackTouched = touchPoint.x > game.partitionSize
-                && touchPoint.x < game.partitionSize + PAUSE_INPUT_WIDTH
+        pauseBackTouched = touchPoint.x > game.camera.viewportWidth - game.partitionSize - PAUSE_INPUT_WIDTH
+                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize
                 && touchPoint.y < game.partitionSize + PAUSE_INPUT_HEIGHT;
-        pauseQuitTouched = touchPoint.x > game.partitionSize
-                && touchPoint.x < game.partitionSize + PAUSE_INPUT_WIDTH
-                && touchPoint.y > (2 * game.partitionSize) + PAUSE_INPUT_HEIGHT
+        pauseQuitTouched = touchPoint.x > (2 * game.partitionSize) + PAUSE_INPUT_WIDTH
+                && touchPoint.x < (2 * game.partitionSize) + (2 * PAUSE_INPUT_WIDTH)
+                && touchPoint.y > game.partitionSize
                 && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
         inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched;
         inputTouchedResults = playTouched || homeTouched || exitTouched;
@@ -1135,8 +1141,8 @@ public class TutorialScreen implements Screen, InputProcessor {
     public void setUpNonFinalStaticData() {
         INPUT_RADIUS = game.camera.viewportWidth / 19;
         TARGET_RADIUS = game.camera.viewportWidth / 5.12f;
-        PAUSE_INPUT_WIDTH = game.camera.viewportWidth - (game.partitionSize * 2);
-        PAUSE_INPUT_HEIGHT = (game.camera.viewportHeight - (game.partitionSize * 3)) / 2;
+        PAUSE_INPUT_WIDTH = (game.camera.viewportWidth - (4 * game.partitionSize)) / 3;
+        PAUSE_INPUT_HEIGHT = game.camera.viewportHeight - (2 * game.partitionSize);
         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS = game.camera.viewportHeight / 68;
         BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT = (game.camera.viewportHeight - (INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
         BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT = game.camera.viewportHeight - (INPUT_RADIUS / 2);

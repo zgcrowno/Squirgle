@@ -21,17 +21,19 @@ public class AdditionTableScreen implements Screen, InputProcessor {
 
     private final static int BACK = 0;
 
-    private final static int NUM_LOWER_INPUTS_HORIZONTAL = 1;
-    private final static int NUM_LOWER_PARTITIONS_HORIZONTAL = NUM_LOWER_INPUTS_HORIZONTAL + 1;
+    private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
+    private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
+    private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
+    private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
 
-    private int numInputsVertical;
-    private int numPartitionsVertical;
-    private int numUpperInputsHorizontal;
-    private int numUpperPartitionsHorizontal;
+    private int numMiddleInputsVertical;
+    private int numMiddlePartitionsVertical;
+    private int numInputsHorizontal;
+    private int numPartitionsHorizontal;
 
-    private float inputWidthBack;
-    private float inputWidthTable;
-    private float inputHeight;
+    private float inputWidth;
+    private float inputHeightBack;
+    private float inputHeightTable;
 
     private float symbolRadius;
 
@@ -48,16 +50,16 @@ public class AdditionTableScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        numInputsVertical = game.base + 2; //Adding one for plus and one for back button
-        numPartitionsVertical = numInputsVertical + 1;
-        numUpperInputsHorizontal = game.base + 1;
-        numUpperPartitionsHorizontal = numUpperInputsHorizontal + 1;
+        numMiddleInputsVertical = game.base + 1; //Adding one for plus
+        numMiddlePartitionsVertical = numMiddleInputsVertical + 1;
+        numInputsHorizontal = game.base + 3; //Adding one for plus, one for title, and one for back
+        numPartitionsHorizontal = numInputsHorizontal + 1;
 
-        inputWidthBack = game.camera.viewportWidth - (game.partitionSize * NUM_LOWER_PARTITIONS_HORIZONTAL);
-        inputWidthTable = (game.camera.viewportWidth - (game.partitionSize * numUpperPartitionsHorizontal)) / numUpperInputsHorizontal;
-        inputHeight = (game.camera.viewportHeight - (game.partitionSize * numPartitionsVertical)) / numInputsVertical;
+        inputWidth = (game.camera.viewportWidth - (game.partitionSize * numPartitionsHorizontal)) / numInputsHorizontal;
+        inputHeightBack = (game.camera.viewportHeight - (game.partitionSize * NUM_RIGHT_PARTITIONS_VERTICAL)) / NUM_RIGHT_INPUTS_VERTICAL;
+        inputHeightTable = (game.camera.viewportHeight - (game.partitionSize * numMiddlePartitionsVertical)) / numMiddleInputsVertical;
 
-        symbolRadius = inputWidthTable > inputHeight ? inputHeight / 2 : inputWidthTable / 2;
+        symbolRadius = inputWidth > inputHeightTable ? inputHeightTable / 2 : inputWidth / 2;
 
         touchPoint = new Vector3();
 
@@ -136,10 +138,10 @@ public class AdditionTableScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        backTouched = touchPoint.x > game.partitionSize
+        backTouched = touchPoint.x > game.camera.viewportWidth - game.partitionSize - inputWidth
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + inputHeight;
+                && touchPoint.y < game.partitionSize + inputHeightBack;
 
         if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
@@ -179,14 +181,14 @@ public class AdditionTableScreen implements Screen, InputProcessor {
         for(int i = 1; i <= game.base + 1; i++) {
             for(int j = 1; j <= game.base + 1; j++) {
                 game.shapeRendererFilled.setColor(Color.WHITE);
-                game.shapeRendererFilled.rect((i * game.partitionSize) + ((i - 1) * inputWidthTable),
-                        game.camera.viewportHeight - ((j * game.partitionSize) + (j * inputHeight)),
-                        inputWidthTable,
-                        inputHeight);
+                game.shapeRendererFilled.rect(game.partitionSize + inputWidth + (i * game.partitionSize) + ((i - 1) * inputWidth),
+                        game.camera.viewportHeight - ((j * game.partitionSize) + (j * inputHeightTable)),
+                        inputWidth,
+                        inputHeightTable);
                 game.shapeRendererFilled.setColor(Color.BLACK);
                 if(i == 1 && j == 1) {
-                    game.draw.drawPlus(game.partitionSize + (inputWidthTable / 2),
-                            game.camera.viewportHeight - (game.partitionSize + (inputHeight / 2)),
+                    game.draw.drawPlus(game.partitionSize + inputWidth + game.partitionSize + (inputWidth / 2),
+                            game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2)),
                             symbolRadius / 2,
                             (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                             Color.BLACK,
@@ -197,8 +199,8 @@ public class AdditionTableScreen implements Screen, InputProcessor {
                             Color.BLACK,
                             null,
                                     (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                            new Vector2(game.partitionSize + (inputWidthTable / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidthTable),
-                                    game.camera.viewportHeight - (game.partitionSize + (inputHeight / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeight)))),
+                            new Vector2(game.partitionSize + inputWidth + (inputWidth / 2) + (i * game.partitionSize) + ((i - 1) * inputWidth),
+                                    game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)))),
                             game.shapeRendererFilled);
                 }
             }
@@ -206,6 +208,7 @@ public class AdditionTableScreen implements Screen, InputProcessor {
     }
 
     public void drawInputRectangles() {
+        drawTitle();
         drawBackInput();
     }
 
@@ -213,21 +216,39 @@ public class AdditionTableScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case BACK : {
-                game.shapeRendererFilled.rect(game.partitionSize,
+                game.shapeRendererFilled.rect(game.camera.viewportWidth - game.partitionSize - inputWidth,
                         game.partitionSize,
-                        inputWidthBack,
-                        inputHeight);
+                        inputWidth,
+                        inputHeightBack);
             }
         }
     }
 
     public void drawBackInput() {
         drawInputRectangle(BACK, backColor);
-        game.draw.drawBackButton(game.camera.viewportWidth / 2,
-                game.partitionSize + (inputHeight / 2),
+        game.draw.drawBackButton(game.camera.viewportWidth - game.partitionSize - (inputWidth / 2),
+                inputHeightBack / 2,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
+                game.shapeRendererFilled);
+    }
+
+    public void drawTitle() {
+        game.draw.drawQuestionMark(game.partitionSize + (inputWidth / 2),
+                (3 * game.camera.viewportHeight) / 4,
+                symbolRadius,
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                Color.WHITE,
+                Color.BLACK,
+                game.shapeRendererFilled);
+        game.draw.drawShape(new Shape(game.base - 1,
+                        symbolRadius,
+                        Color.WHITE,
+                        null,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        new Vector2(game.partitionSize + (inputWidth / 2),
+                                game.camera.viewportHeight / 4)),
                 game.shapeRendererFilled);
     }
 

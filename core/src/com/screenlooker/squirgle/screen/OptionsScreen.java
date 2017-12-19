@@ -21,8 +21,8 @@ public class OptionsScreen implements Screen, InputProcessor {
     private final static int SOUND = 0;
     private final static int BACK = 1;
 
-    private final static int NUM_INPUTS_HORIZONTAL = 1;
-    private final static int NUM_INPUTS_VERTICAL = 2;
+    private final static int NUM_INPUTS_HORIZONTAL = 3;
+    private final static int NUM_INPUTS_VERTICAL = 1;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_PARTITIONS_VERTICAL = NUM_INPUTS_VERTICAL + 1;
 
@@ -42,6 +42,7 @@ public class OptionsScreen implements Screen, InputProcessor {
     private boolean volumeUpChevronTouched;
     private boolean backTouched;
 
+    //TODO: Set up fontScore
     public OptionsScreen(final Squirgle game) {
         this.game = game;
 
@@ -49,7 +50,7 @@ public class OptionsScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        inputWidth = game.camera.viewportWidth - (game.partitionSize * NUM_PARTITIONS_HORIZONTAL);
+        inputWidth = (game.camera.viewportWidth - (game.partitionSize * NUM_PARTITIONS_HORIZONTAL)) / NUM_INPUTS_HORIZONTAL;
         inputHeight = (game.camera.viewportHeight - (game.partitionSize * NUM_PARTITIONS_VERTICAL)) / NUM_INPUTS_VERTICAL;
 
         symbolRadius = inputWidth > inputHeight ? inputHeight / 2 : inputWidth / 2;
@@ -86,8 +87,8 @@ public class OptionsScreen implements Screen, InputProcessor {
                 game.layout,
                 Color.BLACK,
                 String.valueOf(game.volume),
-                (3 * game.camera.viewportWidth) / (NUM_SOUND_INPUT_ELEMENTS + 1),
-                game.camera.viewportHeight - (game.camera.viewportHeight / (NUM_INPUTS_VERTICAL * 2)),
+                (2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 5),
+                game.camera.viewportHeight / 2,
                 0,
                 1);
     }
@@ -144,15 +145,15 @@ public class OptionsScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        volumeDownChevronTouched = touchPoint.x > ((2 * game.camera.viewportWidth) / 5) - (symbolRadius / NUM_SOUND_INPUT_ELEMENTS)
-                && touchPoint.x < ((2 * game.camera.viewportWidth) / 5) + (symbolRadius / NUM_SOUND_INPUT_ELEMENTS)
-                && touchPoint.y > (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) - (symbolRadius / NUM_SOUND_INPUT_ELEMENTS)
-                && touchPoint.y < (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) + (symbolRadius / NUM_SOUND_INPUT_ELEMENTS);
-        volumeUpChevronTouched = touchPoint.x > ((4 * game.camera.viewportWidth) / 5) - (symbolRadius / NUM_SOUND_INPUT_ELEMENTS)
-                && touchPoint.x < ((4 * game.camera.viewportWidth) / 5) + (symbolRadius / NUM_SOUND_INPUT_ELEMENTS)
-                && touchPoint.y > (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) - (symbolRadius / NUM_SOUND_INPUT_ELEMENTS)
-                && touchPoint.y < (game.camera.viewportHeight - (game.camera.viewportHeight / 4)) + (symbolRadius / NUM_SOUND_INPUT_ELEMENTS);
-        backTouched = touchPoint.x > game.partitionSize
+        volumeDownChevronTouched = touchPoint.x > ((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5)) - (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
+                && touchPoint.x < ((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5)) + (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
+                && touchPoint.y > (game.camera.viewportHeight / 2) - (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
+                && touchPoint.y < (game.camera.viewportHeight / 2) + (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1));
+        volumeUpChevronTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5) - (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
+                && touchPoint.x < (2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5) + (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
+                && touchPoint.y > (game.camera.viewportHeight / 2) - (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
+                && touchPoint.y < (game.camera.viewportHeight / 2) + (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1));
+        backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize
                 && touchPoint.y < game.partitionSize + inputHeight;
@@ -207,6 +208,7 @@ public class OptionsScreen implements Screen, InputProcessor {
     }
 
     public void drawInputRectangles() {
+        drawTitle();
         drawSoundInput();
         drawBackInput();
     }
@@ -215,13 +217,13 @@ public class OptionsScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case SOUND : {
-                game.shapeRendererFilled.rect(game.partitionSize,
+                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
                         game.camera.viewportHeight - game.partitionSize - inputHeight,
                         inputWidth,
                         inputHeight);
             }
             case BACK : {
-                game.shapeRendererFilled.rect(game.partitionSize,
+                game.shapeRendererFilled.rect((3 * game.partitionSize) + (2 * inputWidth),
                         game.partitionSize,
                         inputWidth,
                         inputHeight);
@@ -231,32 +233,42 @@ public class OptionsScreen implements Screen, InputProcessor {
 
     public void drawSoundInput() {
         drawInputRectangle(SOUND, volumeColor);
-        game.draw.drawSoundSymbol(game.camera.viewportWidth / 5,
-                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
-                symbolRadius / NUM_SOUND_INPUT_ELEMENTS,
-                (symbolRadius / NUM_SOUND_INPUT_ELEMENTS) / Draw.LINE_WIDTH_DIVISOR,
+        game.draw.drawSoundSymbol((2 * game.partitionSize) + inputWidth + (inputWidth / 5),
+                game.camera.viewportHeight / 2,
+                symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1),
+                (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
                 volumeColor,
                 game.shapeRendererFilled);
-        game.draw.drawChevronLeft((2 * game.camera.viewportWidth) / 5,
-                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
-                symbolRadius / NUM_SOUND_INPUT_ELEMENTS,
-                (symbolRadius / NUM_SOUND_INPUT_ELEMENTS) / Draw.LINE_WIDTH_DIVISOR,
+        game.draw.drawChevronLeft((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5),
+                game.camera.viewportHeight / 2,
+                symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1),
+                (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
-        game.draw.drawChevronRight((4 * game.camera.viewportWidth) / 5,
-                game.camera.viewportHeight - (game.camera.viewportHeight / 4),
-                symbolRadius / NUM_SOUND_INPUT_ELEMENTS,
-                (symbolRadius / NUM_SOUND_INPUT_ELEMENTS) / Draw.LINE_WIDTH_DIVISOR,
+        game.draw.drawChevronRight((2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5),
+                game.camera.viewportHeight / 2,
+                symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1),
+                (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
 
     public void drawBackInput() {
         drawInputRectangle(BACK, backColor);
-        game.draw.drawBackButton(game.camera.viewportWidth / 2,
-                game.camera.viewportHeight / 4,
+        game.draw.drawBackButton(game.camera.viewportWidth - game.partitionSize - (inputWidth / 2),
+                game.camera.viewportHeight / 2,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                Color.BLACK,
+                game.shapeRendererFilled);
+    }
+
+    public void drawTitle() {
+        game.draw.drawWrench(game.partitionSize + (inputWidth / 2),
+                game.camera.viewportHeight / 2,
+                symbolRadius,
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                Color.WHITE,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }

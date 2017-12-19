@@ -158,6 +158,9 @@ public class Squirgle extends Game {
 		fontScore.dispose();
 		fontTarget.dispose();
 		fontSquirgle.dispose();
+		generator.dispose();
+		shapeRendererFilled.dispose();
+		shapeRendererLine.dispose();
 		confirmSound.dispose();
 		disconfirmSound.dispose();
 		//TODO: dispose of all music assets
