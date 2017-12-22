@@ -1,5 +1,4 @@
 buildscript {
-    
 
     repositories {
         mavenLocal()
@@ -10,7 +9,7 @@ buildscript {
     dependencies {
         classpath 'de.richsource.gradle.plugins:gwt-gradle-plugin:0.6'
         classpath 'com.android.tools.build:gradle:2.3.0'
-        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.1'
+        classpath 'com.mobidevelop.robovm:robovm-gradle-plugin:2.3.3'
         
 
     }
@@ -24,7 +23,7 @@ allprojects {
     ext {
         appName = "squirgle"
         gdxVersion = '1.9.6'
-        roboVMVersion = '2.3.1'
+        roboVMVersion = '2.3.3'
         box2DLightsVersion = '1.4'
         ashleyVersion = '1.7.0'
         aiVersion = '1.8.0'
@@ -50,7 +49,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
-        compile "de.tomgrill.gdxfacebook:gdx-facebook-desktop:1.4.0"
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-desktop:1.4.1"
         compile "de.tomgrill.gdxdialogs:gdx-dialogs-desktop:1.2.1"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop"
@@ -82,7 +81,7 @@ project(":android") {
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
         compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
-        compile "de.tomgrill.gdxfacebook:gdx-facebook-android:1.4.0"
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-android:1.4.1"
         compile "de.tomgrill.gdxdialogs:gdx-dialogs-android:1.2.1"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
         natives "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-armeabi"
@@ -111,11 +110,10 @@ project(":ios") {
         compile "com.badlogicgames.gdx:gdx-backend-robovm:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-ios"
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
-        compile "de.tomgrill.gdxfacebook:gdx-facebook-ios:1.4.0"
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-ios:1.4.1"
         compile "de.tomgrill.gdxdialogs:gdx-dialogs-ios:1.2.1"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
         compile "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-ios"
-        
     }
 }
 
@@ -141,8 +139,8 @@ project(":html") {
         compile "net.dermetfan.libgdx-utils:libgdx-utils:0.13.4:sources"
         compile "net.dermetfan.libgdx-utils:libgdx-utils:0.13.4:sources"
         compile "net.dermetfan.libgdx-utils:libgdx-utils-box2d:0.13.4:sources"
-        compile "de.tomgrill.gdxfacebook:gdx-facebook-core:1.4.0:sources"
-        compile "de.tomgrill.gdxfacebook:gdx-facebook-html:1.4.0:sources"
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-core:1.4.1:sources"
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-html:1.4.1:sources"
         compile "de.tomgrill.gdxdialogs:gdx-dialogs-html:1.2.1"
         compile "de.tomgrill.gdxdialogs:gdx-dialogs-html:1.2.1:sources"
         compile "de.tomgrill.gdxdialogs:gdx-dialogs-core:1.2.1:sources"
@@ -172,7 +170,7 @@ project(":core") {
         compile "com.kotcrab.vis:vis-ui:1.3.0"
         compile "net.dermetfan.libgdx-utils:libgdx-utils:0.13.4"
         compile "net.dermetfan.libgdx-utils:libgdx-utils-box2d:0.13.4"
-        compile "de.tomgrill.gdxfacebook:gdx-facebook-core:1.4.0"
+        compile "de.tomgrill.gdxfacebook:gdx-facebook-core:1.4.1"
         compile "de.tomgrill.gdxdialogs:gdx-dialogs-core:1.2.1"
         compile "com.github.czyzby:gdx-kiwi:1.9.1.9.6"
         compile "com.github.czyzby:gdx-lml:1.9.1.9.6"
