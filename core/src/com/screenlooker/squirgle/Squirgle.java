@@ -82,6 +82,7 @@ public class Squirgle extends Game {
 	public Draw draw;
 	public Sound confirmSound;
 	public Sound disconfirmSound;
+	public List<Music> themeFromSquirglePhaseList;
 	public List<Music> thePointPhaseList;
 	public List<Music> theLinePhaseList;
 	public List<Music> noTriPhaseList;
@@ -127,6 +128,7 @@ public class Squirgle extends Game {
 		draw = new Draw(this);
 		confirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/confirm.wav"));
 		disconfirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/disconfirm.wav"));
+		themeFromSquirglePhaseList = new ArrayList<Music>();
 		thePointPhaseList = new ArrayList<Music>();
 		theLinePhaseList = new ArrayList<Music>();
 		noTriPhaseList = new ArrayList<Music>();
@@ -197,6 +199,12 @@ public class Squirgle extends Game {
 
 	public void setUpTracks() {
 		//TODO: Add the rest of the tracks once they're written/recorded
+
+		//themeFromSquirgle
+		Music themeFromSquirgle = Gdx.audio.newMusic(Gdx.files.internal("music/Squirgle - Theme from Squirgle.wav"));
+		themeFromSquirgle.setLooping(true);
+		themeFromSquirglePhaseList.add(themeFromSquirgle);
+		trackMap.put(MUSIC_THEME_FROM_SQUIRGLE, themeFromSquirglePhaseList);
 
 		//exseptionToTheCool
 		Music exseptionToTheCoolPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Squirgle - Exseption to the Cool (Phase 1).wav"));

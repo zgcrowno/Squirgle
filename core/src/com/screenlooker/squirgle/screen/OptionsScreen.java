@@ -164,6 +164,7 @@ public class OptionsScreen implements Screen, InputProcessor {
             } else {
                 game.volume = 10;
             }
+            game.trackMap.get(game.MUSIC_THEME_FROM_SQUIRGLE).get(0).setVolume((float) (game.volume / 10.0));
             game.disconfirmSound.play((float) (game.volume / 10.0));
         } else if(volumeUpChevronTouched) {
             if(game.volume < 10) {
@@ -171,6 +172,7 @@ public class OptionsScreen implements Screen, InputProcessor {
             } else {
                 game.volume = 0;
             }
+            game.trackMap.get(game.MUSIC_THEME_FROM_SQUIRGLE).get(0).setVolume((float) (game.volume / 10.0));
             game.confirmSound.play((float) (game.volume / 10.0));
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));

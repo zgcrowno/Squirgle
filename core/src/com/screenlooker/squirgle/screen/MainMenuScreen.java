@@ -104,6 +104,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
         playTouched = false;
         helpTouched = false;
         quitTouched = false;
+
+        playMusic();
     }
 
     @Override
@@ -325,6 +327,11 @@ public class MainMenuScreen implements Screen, InputProcessor {
         ColorUtils.transitionColor(squirglePrompt);
         ColorUtils.transitionColor(squirgleShapeList.get(0));
         ColorUtils.transitionColor(squirgleShapeList.get(1));
+    }
+
+    public void playMusic() {
+        game.trackMap.get(game.MUSIC_THEME_FROM_SQUIRGLE).get(0).setVolume((float) (game.volume / 10.0));
+        game.trackMap.get(game.MUSIC_THEME_FROM_SQUIRGLE).get(0).play();
     }
 
 }

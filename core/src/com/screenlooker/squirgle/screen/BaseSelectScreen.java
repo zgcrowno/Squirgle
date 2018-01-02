@@ -200,31 +200,37 @@ public class BaseSelectScreen implements Screen, InputProcessor {
                 && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
 
         if(base4Touched) {
+            game.trackMap.get(game.MUSIC_THEME_FROM_SQUIRGLE).get(0).stop();
             game.confirmSound.play((float) (game.volume / 10.0));
             game.base = 4;
             game.setScreen(new GameplayScreen(game));
             dispose();
         } else if(base5Touched) {
+            game.trackMap.get(game.MUSIC_THEME_FROM_SQUIRGLE).get(0).stop();
             game.confirmSound.play((float) (game.volume / 10.0));
             game.base = 5;
             game.setScreen(new GameplayScreen(game));
             dispose();
         } else if(base6Touched) {
+            game.trackMap.get(game.MUSIC_THEME_FROM_SQUIRGLE).get(0).stop();
             game.confirmSound.play((float) (game.volume / 10.0));
             game.base = 6;
             game.setScreen(new GameplayScreen(game));
             dispose();
         } else if(base7Touched) {
+            game.trackMap.get(game.MUSIC_THEME_FROM_SQUIRGLE).get(0).stop();
             game.confirmSound.play((float) (game.volume / 10.0));
             game.base = 7;
             game.setScreen(new GameplayScreen(game));
             dispose();
         } else if(base8Touched) {
+            game.trackMap.get(game.MUSIC_THEME_FROM_SQUIRGLE).get(0).stop();
             game.confirmSound.play((float) (game.volume / 10.0));
             game.base = 8;
             game.setScreen(new GameplayScreen(game));
             dispose();
         } else if(base9Touched) {
+            game.trackMap.get(game.MUSIC_THEME_FROM_SQUIRGLE).get(0).stop();
             game.confirmSound.play((float) (game.volume / 10.0));
             game.base = 9;
             game.setScreen(new GameplayScreen(game));
