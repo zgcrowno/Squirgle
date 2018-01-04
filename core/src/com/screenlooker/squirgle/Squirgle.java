@@ -32,7 +32,7 @@ public class Squirgle extends Game {
 	public final static int SCORE_TO_UNLOCK_NEW_BASE = 150;
 
 	public final static int MUSIC_THEME_FROM_SQUIRGLE = 0;
-	public final static int MUSIC_THE_POINT = 1;
+	public final static int MUSIC_POINTILLISM = 1;
 	public final static int MUSIC_THE_LINE = 2;
 	public final static int MUSIC_NO_TRI = 3;
 	public final static int MUSIC_SQUARE_OFF = 4;
