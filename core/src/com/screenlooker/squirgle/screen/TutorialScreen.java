@@ -477,14 +477,22 @@ public class TutorialScreen implements Screen, InputProcessor {
     }
 
     public void playMusic() {
-        for(int i = 0; i < NUM_MUSIC_PHASES; i++) {
-            game.trackMap.get(game.track).get(i).play();
+        if(game.usePhases) {
+            for (int i = 0; i < NUM_MUSIC_PHASES; i++) {
+                game.trackMapPhase.get(game.track).get(i).play();
+            }
+        } else {
+            game.trackMapFull.get(game.track).play();
         }
     }
 
     public void stopMusic() {
-        for(int i = 0; i < NUM_MUSIC_PHASES; i++) {
-            game.trackMap.get(game.track).get(i).stop();
+        if(game.usePhases) {
+            for (int i = 0; i < NUM_MUSIC_PHASES; i++) {
+                game.trackMapPhase.get(game.track).get(i).stop();
+            }
+        } else {
+            game.trackMapFull.get(game.track).stop();
         }
     }
 

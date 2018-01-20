@@ -330,8 +330,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
     }
 
     public void playMusic() {
-        game.trackMap.get(game.MUSIC_THEME_FROM_SQUIRGLE).get(0).setVolume((float) (game.volume / 10.0));
-        game.trackMap.get(game.MUSIC_THEME_FROM_SQUIRGLE).get(0).play();
+        game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).setVolume((float) (game.volume / 10.0));
+        game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).play();
     }
 
 }

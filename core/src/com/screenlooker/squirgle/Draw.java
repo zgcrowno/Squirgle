@@ -1696,6 +1696,13 @@ public class Draw {
         shapeRenderer.rectLine(x - ((5 * lineWidth) / 4), y + (radius / 4), x - ((5 * lineWidth) / 4), y, ((3 * lineWidth) / 2));
     }
 
+    public void drawQuarterNote(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
+        shapeRenderer.circle(x, y - ((3 * radius) / 4), radius / 4);
+        shapeRenderer.circle(x + (radius / 4) - (lineWidth / 2), y + radius - (lineWidth / 2), lineWidth / 2);
+        shapeRenderer.rectLine(x + (radius / 4) - (lineWidth / 2), y + radius - (lineWidth / 2), x + (radius / 4) - (lineWidth / 2), y - ((3 * radius) / 4), lineWidth);
+    }
+
     public void drawFace(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
         drawPoint(x, y, radius, color, shapeRenderer);
 

@@ -218,7 +218,7 @@ public class HelpScreen implements Screen, InputProcessor {
                 && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
 
         if(playTouched) {
-            game.trackMap.get(game.MUSIC_THEME_FROM_SQUIRGLE).get(0).stop();
+            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
             game.confirmSound.play((float) (game.volume / 10.0));
             game.setScreen(new TutorialScreen(game));
             dispose();
