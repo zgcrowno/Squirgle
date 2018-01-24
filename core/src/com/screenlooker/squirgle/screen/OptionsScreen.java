@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
@@ -25,8 +26,9 @@ public class OptionsScreen implements Screen, InputProcessor {
     private final static int NUM_INPUTS_VERTICAL = 1;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_PARTITIONS_VERTICAL = NUM_INPUTS_VERTICAL + 1;
-
     private final static int NUM_SOUND_INPUT_ELEMENTS = 4;
+
+    private final static float FONT_VOLUME_SIZE_DIVISOR = 11.1f;
 
     private float inputWidth;
     private float inputHeight;
@@ -47,6 +49,8 @@ public class OptionsScreen implements Screen, InputProcessor {
         this.game = game;
 
         game.resetInstanceData();
+
+        game.setUpFontVolume(MathUtils.round(game.camera.viewportWidth / FONT_VOLUME_SIZE_DIVISOR));
 
         Gdx.input.setInputProcessor(this);
 
@@ -83,7 +87,7 @@ public class OptionsScreen implements Screen, InputProcessor {
 
         //Draw volume
         FontUtils.printText(game.batch,
-                game.fontScore,
+                game.fontVolume,
                 game.layout,
                 Color.BLACK,
                 String.valueOf(game.volume),

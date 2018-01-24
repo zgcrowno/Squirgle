@@ -27,8 +27,7 @@ public class SoundUtils {
             }
 
             if (phaseTwo) {
-                //TODO: set the volume to maxVolume once I've got .wavs that are of the correct volume
-                game.trackMapPhase.get(game.track).get(phaseTwoIndex).setVolume(maxVolume / 4f);
+                game.trackMapPhase.get(game.track).get(phaseTwoIndex).setVolume(maxVolume);
             } else {
                 game.trackMapPhase.get(game.track).get(phaseTwoIndex).setVolume(0);
             }
