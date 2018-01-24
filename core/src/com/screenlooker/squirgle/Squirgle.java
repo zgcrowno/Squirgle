@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.*;
 import com.screenlooker.squirgle.screen.MainMenuScreen;
+import com.screenlooker.squirgle.screen.SplashScreen;
 import com.screenlooker.squirgle.screen.TutorialScreen;
 
 import java.util.ArrayList;
@@ -164,11 +165,7 @@ public class Squirgle extends Game {
 
 		generator.dispose();
 
-		if(!playedBefore) {
-			this.setScreen(new TutorialScreen(this));
-		} else {
-			this.setScreen(new MainMenuScreen(this));
-		}
+		this.setScreen(new SplashScreen(this));
 	}
 
 	public void render() {
