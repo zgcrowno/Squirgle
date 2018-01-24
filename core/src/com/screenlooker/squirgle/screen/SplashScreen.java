@@ -13,13 +13,20 @@ public class SplashScreen implements Screen, InputProcessor {
     final Squirgle game;
 
     private Texture splashTexture;
-
     private long startTime;
+    private float logoOriginX;
+    private float logoOriginY;
+    private float logoWidth;
+    private float logoHeight;
 
     public SplashScreen(final Squirgle game) {
         this.game = game;
         this.splashTexture = new Texture(Gdx.files.internal("images/planarGazerLogo1920.png"));
         this.startTime = System.currentTimeMillis();
+        this.logoOriginX = 0;
+        this.logoOriginY = (game.camera.viewportHeight - (game.camera.viewportWidth / 2)) / 2;
+        this.logoWidth = game.camera.viewportWidth;
+        this.logoHeight = game.camera.viewportWidth / 2;
 
         game.resetInstanceData();
 
@@ -74,7 +81,7 @@ public class SplashScreen implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-
+        splashTexture.dispose();
     }
 
     @Override
