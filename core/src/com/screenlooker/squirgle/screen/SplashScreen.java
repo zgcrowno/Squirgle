@@ -35,7 +35,7 @@ public class SplashScreen implements Screen, InputProcessor {
         game.batch.setProjectionMatrix(game.camera.combined);
 
         game.batch.begin();
-        game.batch.draw(splashTexture, 0, 0, game.camera.viewportWidth, game.camera.viewportHeight);
+        game.batch.draw(splashTexture, 0, (game.camera.viewportHeight - (game.camera.viewportWidth / 2)) / 2, game.camera.viewportWidth, game.camera.viewportWidth / 2);
         game.batch.end();
 
         if((System.currentTimeMillis() - startTime) / 1000 > 5) {
