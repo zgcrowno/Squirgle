@@ -1,16 +1,19 @@
 package com.screenlooker.squirgle;
 
 import com.badlogic.gdx.*;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.*;
+import com.screenlooker.squirgle.screen.LoadingScreen;
 import com.screenlooker.squirgle.screen.MainMenuScreen;
 import com.screenlooker.squirgle.screen.SplashScreen;
 import com.screenlooker.squirgle.screen.TutorialScreen;
@@ -64,6 +67,8 @@ public class Squirgle extends Game {
 	public final static String SAVE_MAX_BASE = "maxBase";
 	public final static String TARGET = "TARGET";
 
+	public AssetManager manager;
+
 	//Saved data
 	public Preferences save;
 
@@ -84,6 +89,7 @@ public class Squirgle extends Game {
 	public int minBase;
 	public float partitionSize;
 	public SpriteBatch batch;
+	public BitmapFont fontLoading;
 	public BitmapFont fontVolume;
 	public BitmapFont fontScore;
 	public BitmapFont fontTarget;
@@ -116,6 +122,8 @@ public class Squirgle extends Game {
 		VIRTUAL_WIDTH = Gdx.graphics.getWidth();
 		VIRTUAL_HEIGHT = Gdx.graphics.getHeight();
 		ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
+
+		manager = new AssetManager();
 
 		save = Gdx.app.getPreferences(SAVE_NAME);
 
@@ -159,21 +167,22 @@ public class Squirgle extends Game {
 		trackMapFull = new HashMap<Integer, Music>();
 		trackMapPhase = new HashMap<Integer, List<Music>>();
 
+		manager.load("images/planarGazerLogoSpritesheet.atlas", TextureAtlas.class);
+
 		setUpMusicTitleList();
 
 		setUpTracks();
 
 		generator.dispose();
 
-		this.setScreen(new SplashScreen(this));
+		this.setScreen(new LoadingScreen(this));
 	}
 
-	public void render() {
-		super.render();
-	}
+	public void render() { super.render(); }
 
 	public void dispose() {
 		batch.dispose();
+		fontLoading.dispose();
 		fontVolume.dispose();
 		fontScore.dispose();
 		fontTarget.dispose();
@@ -187,10 +196,20 @@ public class Squirgle extends Game {
 		disconfirmSound.dispose();
 		//TODO: dispose of all music assets
 		generator.dispose();
+		manager.unload("images/planarGazerLogoSpritesheet.atlas");
 	}
 
 	public void resetInstanceData() {
 		draw = new Draw(this);
+	}
+
+	//TODO: Collapse all of these font methods into one
+	public void setUpFontLoading(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
+		fontLoading = generator.generateFont(parameter);
 	}
 
 	public void setUpFontVolume(int size) {
