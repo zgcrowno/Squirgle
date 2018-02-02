@@ -194,9 +194,17 @@ public class Squirgle extends Game {
 		shapeRendererLine.dispose();
 		confirmSound.dispose();
 		disconfirmSound.dispose();
-		//TODO: dispose of all music assets
 		generator.dispose();
 		manager.unload("images/planarGazerLogoSpritesheet.atlas");
+		manager.dispose();
+		for(int i = 0; i < trackMapFull.size(); i++) {
+			trackMapFull.get(i).dispose();
+		}
+		for(int i = 0; i < trackMapPhase.size(); i++) {
+			for(int j = 0; j < trackMapPhase.get(i).size(); j++) {
+				trackMapPhase.get(i).get(j).dispose();
+			}
+		}
 	}
 
 	public void resetInstanceData() {

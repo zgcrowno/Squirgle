@@ -320,7 +320,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
             dispose();
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MainMenuScreen(game));
+            game.setScreen(new GameplaySelectionScreen(game));
             dispose();
         } else if(musicTypeFullTouched) {
             game.usePhases = false;
