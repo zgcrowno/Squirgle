@@ -146,6 +146,9 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         setUpNonFinalNonStaticData();
 
+        //TODO: Eventually set this in render using delta? See maintainSpeed() in TimeAttackScreen
+        game.draw.setColorListSpeed(game.camera.viewportWidth / 1536);
+
         playMusic();
     }
 

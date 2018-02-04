@@ -123,7 +123,7 @@ public class Draw {
                         drawPoint(promptShape.getCoordinates().x - xOffset,
                                 promptShape.getCoordinates().y,
                                 (promptShape.getRadius() / radiusOffset) / 2,
-                                priorShapeList.get(0).getColor(),
+                                backgroundColorShape.getColor(),
                                 shapeRenderer);
                     }
                 }
@@ -153,7 +153,7 @@ public class Draw {
                                 promptShape.getCoordinates().y,
                                 (promptShape.getRadius() / radiusOffset) - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
-                                priorShapeList.get(0).getColor(),
+                                backgroundColorShape.getColor(),
                                 shapeRenderer);
                     }
                 }
@@ -179,7 +179,7 @@ public class Draw {
                                 promptShape.getCoordinates().y,
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
-                                priorShapeList.get(0).getColor(),
+                                backgroundColorShape.getColor(),
                                 shapeRenderer);
                     }
                 }
@@ -205,7 +205,7 @@ public class Draw {
                                 promptShape.getCoordinates().y,
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
-                                priorShapeList.get(0).getColor(),
+                                backgroundColorShape.getColor(),
                                 shapeRenderer);
                     }
                 }
@@ -234,7 +234,7 @@ public class Draw {
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
                                 0,
-                                priorShapeList.get(0).getColor(),
+                                backgroundColorShape.getColor(),
                                 shapeRenderer);
                     }
                 }
@@ -263,7 +263,7 @@ public class Draw {
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
                                 0,
-                                priorShapeList.get(0).getColor(),
+                                backgroundColorShape.getColor(),
                                 shapeRenderer);
                     }
                 }
@@ -292,7 +292,7 @@ public class Draw {
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
                                 0,
-                                priorShapeList.get(0).getColor(),
+                                backgroundColorShape.getColor(),
                                 shapeRenderer);
                     }
                 }
@@ -321,7 +321,7 @@ public class Draw {
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
                                 0,
-                                priorShapeList.get(0).getColor(),
+                                backgroundColorShape.getColor(),
                                 shapeRenderer);
                     }
                 }
@@ -350,7 +350,7 @@ public class Draw {
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
                                 0,
-                                priorShapeList.get(0).getColor(),
+                                backgroundColorShape.getColor(),
                                 shapeRenderer);
                     }
                 }

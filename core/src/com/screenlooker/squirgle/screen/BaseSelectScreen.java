@@ -8,11 +8,16 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Draw;
+import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //TODO: Refactor all the music input behavior (create easier to read variables and such)
 public class BaseSelectScreen implements Screen, InputProcessor {
@@ -50,6 +55,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     private float inputHeightBack;
 
     private float symbolRadius;
+    private float squirgleHeightOffset;
 
     private float inputShapeRadius;
 
@@ -63,6 +69,13 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     private Color base9Color;
     private Color backColor;
     private Color musicColor;
+    private Color squareColor;
+    private Color circleColor;
+    private Color triangleColor;
+
+    private List<Shape> squirgleShapeList;
+
+    private Shape squirglePrompt;
 
     private boolean base4Touched;
     private boolean base5Touched;
@@ -100,6 +113,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         inputHeightBack = game.camera.viewportHeight - (game.partitionSize * NUM_RIGHT_PARTITIONS_VERTICAL);
 
         symbolRadius = inputWidth > inputHeightBack ? inputHeightBack / 2 : inputWidth / 2;
+        squirgleHeightOffset = symbolRadius / 4;
 
         inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 2) : (inputWidth / 2);
 
@@ -122,6 +136,27 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         base9Touched = false;
         backTouched = false;
 
+        squareColor = ColorUtils.randomTransitionColor();
+        circleColor = ColorUtils.randomTransitionColor();
+        triangleColor = ColorUtils.randomTransitionColor();
+        while(circleColor.equals(squareColor)) {
+            circleColor = ColorUtils.randomTransitionColor();
+        }
+        while(triangleColor.equals(circleColor) || triangleColor.equals(squareColor)) {
+            triangleColor = ColorUtils.randomTransitionColor();
+        }
+
+        squirgleShapeList = new ArrayList<Shape>();
+        squirgleShapeList.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
+        squirgleShapeList.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
+
+        squirglePrompt = new Shape(Shape.TRIANGLE,
+                symbolRadius,
+                triangleColor,
+                null,
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(game.partitionSize + (inputWidth / 2), (game.camera.viewportHeight / 4) - squirgleHeightOffset));
+
         game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
         game.setUpFontTrackType(MathUtils.round(inputShapeRadius / FONT_TRACK_TYPE_DIVISOR));
     }
@@ -143,6 +178,8 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.end();
 
         drawMusicText();
+
+        transitionSquirgleColors();
     }
 
     @Override
@@ -612,11 +649,19 @@ public class BaseSelectScreen implements Screen, InputProcessor {
 
     public void drawTitle() {
         game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
-                game.camera.viewportHeight / 2,
+                (3 * game.camera.viewportHeight) / 4,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
                 game.shapeRendererFilled);
+
+        game.draw.drawPrompt(squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
+        game.draw.drawShapes(squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
     }
 
+    public void transitionSquirgleColors() {
+        ColorUtils.transitionColor(squirglePrompt);
+        ColorUtils.transitionColor(squirgleShapeList.get(0));
+        ColorUtils.transitionColor(squirgleShapeList.get(1));
+    }
 }

@@ -34,6 +34,10 @@ public class Squirgle extends Game {
 	public final static int FPS = 60;
 	public final static int MAX_POSSIBLE_BASE = 9;
 	public final static int SCORE_TO_UNLOCK_NEW_BASE = 120;
+	public final static int ONE_MINUTE = 60;
+	public final static int THREE_MINUTES = 180;
+	public final static int FIVE_MINUTES = 300;
+	public final static int TEN_MINUTES = 600;
 
 	public final static int MUSIC_POINTILLISM = 0;
 	public final static int MUSIC_LINEAGE = 1;
@@ -65,6 +69,7 @@ public class Squirgle extends Game {
 	public final static String SAVE_PLAYED_BEFORE = "playedBefore";
 	public final static String SAVE_USE_PHASES = "usePhases";
 	public final static String SAVE_MAX_BASE = "maxBase";
+	public final static String SAVE_TIME_ATTACK_NUM_SECONDS = "timeAttackNumSeconds";
 	public final static String TARGET = "TARGET";
 
 	public AssetManager manager;
@@ -87,6 +92,7 @@ public class Squirgle extends Game {
 	public int base;
 	public int maxBase;
 	public int minBase;
+	public int timeAttackNumSeconds;
 	public float partitionSize;
 	public SpriteBatch batch;
 	public BitmapFont fontLoading;
@@ -136,6 +142,7 @@ public class Squirgle extends Game {
 		base = 4;
 		maxBase = save.getInteger(SAVE_MAX_BASE, 4);
 		minBase = 4;
+		timeAttackNumSeconds = save.getInteger(SAVE_TIME_ATTACK_NUM_SECONDS, ONE_MINUTE);
 		batch = new SpriteBatch();
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		layout = new GlyphLayout();

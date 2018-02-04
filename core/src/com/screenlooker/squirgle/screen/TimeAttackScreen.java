@@ -175,8 +175,7 @@ public class TimeAttackScreen implements Screen, InputProcessor {
             game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
         }
 
-        //Commenting out increaseSpeed() for time attack mode
-        //increaseSpeed();
+        maintainSpeed();
         decrementSquirgleOpacity();
         zoomThroughShapes();
 
@@ -341,7 +340,7 @@ public class TimeAttackScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
                 (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
+                Color.WHITE,
                 game.shapeRendererFilled);
         drawPauseBackInput();
         drawPauseQuitInput();
@@ -549,15 +548,12 @@ public class TimeAttackScreen implements Screen, InputProcessor {
         }
     }
 
-    public void increaseSpeed() {
+    public void maintainSpeed() {
         if(!gameOver) {
             if(!paused) {
-                if ((System.currentTimeMillis() - startTime - timePaused) / ONE_THOUSAND > TEN_SECONDS) {
-                    startTime = System.currentTimeMillis();
-                    game.draw.setColorListSpeed(game.draw.getColorListSpeed() + COLOR_LIST_SPEED_ADDITIVE);
-                    game.draw.setColorSpeed(game.draw.getColorSpeed() + COLOR_SPEED_ADDITIVE);
-                    promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))) / 2;
-                }
+                float actualFPS = Gdx.graphics.getRawDeltaTime() * game.FPS;
+                game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_WIDTH) / (game.timeAttackNumSeconds * actualFPS * game.FPS));
+                promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))) / 2;
             }
         }
     }
@@ -964,6 +960,9 @@ public class TimeAttackScreen implements Screen, InputProcessor {
     public void shapesMismatchedBehavior() {
         //The wrong shape was touched
         multiplier = 1;
+        if(score > 0) {
+            score--;
+        }
     }
 
     public void setUpNonFinalStaticData() {
