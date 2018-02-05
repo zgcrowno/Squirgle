@@ -102,6 +102,7 @@ public class Squirgle extends Game {
 	public BitmapFont fontSquirgle;
 	public BitmapFont fontTrackName;
 	public BitmapFont fontTrackType;
+	public BitmapFont fontTime;
 	public GlyphLayout layout;
 	public FreeTypeFontGenerator generator;
 	public OrthographicCamera camera;
@@ -196,13 +197,13 @@ public class Squirgle extends Game {
 		fontSquirgle.dispose();
 		fontTrackName.dispose();
 		fontTrackType.dispose();
+		fontTime.dispose();
 		generator.dispose();
 		shapeRendererFilled.dispose();
 		shapeRendererLine.dispose();
 		confirmSound.dispose();
 		disconfirmSound.dispose();
 		generator.dispose();
-		manager.unload("images/planarGazerLogoSpritesheet.atlas");
 		manager.dispose();
 		for(int i = 0; i < trackMapFull.size(); i++) {
 			trackMapFull.get(i).dispose();
@@ -273,6 +274,14 @@ public class Squirgle extends Game {
 		parameter.size = size;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
 		fontTrackType = generator.generateFont(parameter);
+	}
+
+	public void setUpFontTime(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
+		fontTime = generator.generateFont(parameter);
 	}
 
 	public void setUpMusicTitleList() {

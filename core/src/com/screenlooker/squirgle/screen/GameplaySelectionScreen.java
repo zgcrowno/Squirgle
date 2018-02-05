@@ -203,9 +203,7 @@ public class GameplaySelectionScreen implements Screen, InputProcessor {
             dispose();
         } else if(timeAttackTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            //TODO:Set screen to time attack base select screen (and don't stop theme) once that screen's code is written
-            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-            game.setScreen(new TimeAttackScreen(game));
+            game.setScreen(new TimeAttackBaseSelectScreen(game));
             dispose();
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
