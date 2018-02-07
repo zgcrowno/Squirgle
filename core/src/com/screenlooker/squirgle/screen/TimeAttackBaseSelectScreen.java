@@ -8,16 +8,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Draw;
-import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 //TODO: Refactor all the music input behavior (create easier to read variables and such)
 public class TimeAttackBaseSelectScreen implements Screen, InputProcessor {
@@ -342,7 +337,7 @@ public class TimeAttackBaseSelectScreen implements Screen, InputProcessor {
             dispose();
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new GameplaySelectionScreen(game));
+            game.setScreen(new GameplaySelectionSinglePlayerScreen(game));
             dispose();
         } else if(musicTypeFullTouched) {
             game.usePhases = false;
@@ -695,13 +690,20 @@ public class TimeAttackBaseSelectScreen implements Screen, InputProcessor {
     public void drawTitle() {
         game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
                 (3 * game.camera.viewportHeight) / 4,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                symbolRadius / 3,
+                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
+                game.shapeRendererFilled);
+        game.draw.drawFace(game.partitionSize + (inputWidth / 2),
+                game.camera.viewportHeight / 2,
+                symbolRadius / 3,
+                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                Color.WHITE,
+                Color.BLACK,
                 game.shapeRendererFilled);
         game.draw.drawClock(game.partitionSize + (inputWidth / 2),
                 game.camera.viewportHeight / 4,
-                symbolRadius,
+                symbolRadius / 3,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }

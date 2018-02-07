@@ -24,6 +24,8 @@ public class Draw {
     public static final int SOUND_WAVE_DISTANCE = 5;
     public static final int FORTY_FIVE_DEGREES = 45;
     public static final float INPUT_DISTANCE_OFFSET = 1.5f;
+    public static final float SHAPE_VISIBLE_DIVISOR = 1000;
+    public static final float TRANCE_ARC_RADIUS_DIVISOR = 40;
     public static final float TARGET_DISTANCE_OFFSET = GameplayScreen.TARGET_RADIUS / 2.5f;
 
     private float radiusOffset;
@@ -515,7 +517,10 @@ public class Draw {
                     shape.setRadius((priorShape.getRadius() * MathUtils.cos(MathUtils.PI / (priorShape.getShape() + 1))) - (1.4f * priorShape.getLineWidth()));
                 }
 
-                drawShape(shape, shapeRenderer);
+                //Only draw the shape if it's large enough to be relevant
+                if(shape.getRadius() >= game.widthOrHeight / SHAPE_VISIBLE_DIVISOR) {
+                    drawShape(shape, shapeRenderer);
+                }
             }
         }
     }
@@ -2061,11 +2066,11 @@ public class Draw {
         shapeRenderer.rectLine(x + (radius / 4) - (lineWidth / 2), y + radius - (lineWidth / 2), x + (radius / 4) - (lineWidth / 2), y - ((3 * radius) / 4), lineWidth);
     }
 
-    public void drawFace(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
-        drawPoint(x, y, radius, color, shapeRenderer);
+    public void drawFace(float x, float y, float radius, float lineWidth, Color primaryColor, Color secondaryColor, ShapeRenderer shapeRenderer) {
+        drawPoint(x, y, radius, primaryColor, shapeRenderer);
 
-        drawPoint(x - (radius / 2), y + (radius / 2), lineWidth, Color.WHITE, shapeRenderer);
-        drawPoint(x + (radius / 2), y +(radius / 2), lineWidth, Color.WHITE, shapeRenderer);
+        drawPoint(x - (radius / 2), y + (radius / 2), lineWidth, secondaryColor, shapeRenderer);
+        drawPoint(x + (radius / 2), y +(radius / 2), lineWidth, secondaryColor, shapeRenderer);
     }
 
     public void drawColorSymbol(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
@@ -2151,17 +2156,17 @@ public class Draw {
         }
     }
 
-    public void drawWiFiSymbol(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
-        drawPoint(x + (radius / 2.575f) - lineWidth, y - (radius / 2.575f), radius, color, shapeRenderer);
-        drawPoint(x + (radius / 2.575f) - lineWidth + 5, y - (radius / 2.575f) - lineWidth, radius, Color.WHITE, shapeRenderer);
+    public void drawWiFiSymbol(float x, float y, float radius, float lineWidth, Color primaryColor, Color secondaryColor, ShapeRenderer shapeRenderer) {
+        drawPoint(x + (radius / 2.575f) - lineWidth, y - (radius / 2.575f), radius, primaryColor, shapeRenderer);
+        drawPoint(x + (radius / 2.575f) - lineWidth + 5, y - (radius / 2.575f) - lineWidth, radius, secondaryColor, shapeRenderer);
 
-        drawPoint(x + (radius / 2.575f) - lineWidth, y - (radius / 2.575f), (3 * radius) / 4, color, shapeRenderer);
-        drawPoint(x + (radius / 2.575f) - lineWidth + 5, y - (radius / 2.575f) - lineWidth, (3 * radius) / 4, Color.WHITE, shapeRenderer);
+        drawPoint(x + (radius / 2.575f) - lineWidth, y - (radius / 2.575f), (3 * radius) / 4, primaryColor, shapeRenderer);
+        drawPoint(x + (radius / 2.575f) - lineWidth + 5, y - (radius / 2.575f) - lineWidth, (3 * radius) / 4, secondaryColor, shapeRenderer);
 
-        drawPoint(x + (radius / 2.575f) - lineWidth, y - (radius / 2.575f), radius / 2, color, shapeRenderer);
-        drawPoint(x + (radius / 2.575f) - lineWidth + 5, y - (radius / 2.575f) - lineWidth, radius / 2, Color.WHITE, shapeRenderer);
+        drawPoint(x + (radius / 2.575f) - lineWidth, y - (radius / 2.575f), radius / 2, primaryColor, shapeRenderer);
+        drawPoint(x + (radius / 2.575f) - lineWidth + 5, y - (radius / 2.575f) - lineWidth, radius / 2, secondaryColor, shapeRenderer);
 
-        drawPoint(x + (radius / 2.575f) - lineWidth, y - (radius / 2.575f), radius / 4, color, shapeRenderer);
+        drawPoint(x + (radius / 2.575f) - lineWidth, y - (radius / 2.575f), radius / 4, primaryColor, shapeRenderer);
     }
 
     public void drawModulo(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
@@ -2183,8 +2188,6 @@ public class Draw {
     }
 
     public void drawClock(float x, float y, float radius, Color color, ShapeRenderer shapeRenderer) {
-        double theta = (float) (2 * Math.PI / 12);
-
         shapeRenderer.setColor(color);
         shapeRenderer.circle(x, y, radius);
 
@@ -2204,5 +2207,42 @@ public class Draw {
                 y + ((3 * radius) / 5),
                 (radius / LINE_WIDTH_DIVISOR) / 2);
         shapeRenderer.circle(x, y, radius / LINE_WIDTH_DIVISOR);
+    }
+
+    public void drawTranceSymbol(float x, float y, float radius, Color primaryColor, Color secondaryColor, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(primaryColor);
+        shapeRenderer.circle(x, y + radius, game.partitionSize / 2);
+        shapeRenderer.rectLine(x, y + radius, x, y - (radius / 2), game.partitionSize);
+        shapeRenderer.rectLine(x, y + radius, x - radius, y, game.partitionSize);
+        shapeRenderer.rectLine(x, y + radius, x + radius, y, game.partitionSize);
+
+        shapeRenderer.circle(x, y - (radius / 2), 2 * game.partitionSize);
+        shapeRenderer.circle(x - radius, y, 2 * game.partitionSize);
+        shapeRenderer.circle(x + radius, y, 2 * game.partitionSize);
+
+        shapeRenderer.setColor(secondaryColor);
+        shapeRenderer.circle(x, y - (radius / 2), game.partitionSize / 2);
+        shapeRenderer.circle(x - radius, y, game.partitionSize / 2);
+        shapeRenderer.circle(x + radius, y, game.partitionSize / 2);
+
+        shapeRenderer.setColor(primaryColor);
+        shapeRenderer.circle(x, y - (radius / 2), game.partitionSize / 4);
+        shapeRenderer.circle(x - radius, y, game.partitionSize / 4);
+        shapeRenderer.circle(x + radius, y, game.partitionSize / 4);
+
+        shapeRenderer.arc(x - (radius / 2), y - (radius / 8), radius / 2, -157.5f, 90, NUM_ARC_SEGMENTS);
+        shapeRenderer.arc(x + (radius / 2), y - (radius / 8), radius / 2, -112.5f, 90, NUM_ARC_SEGMENTS);
+
+        shapeRenderer.setColor(secondaryColor);
+        shapeRenderer.arc(x - (radius / 2) + (radius / TRANCE_ARC_RADIUS_DIVISOR), y - (radius / 8) + (radius / TRANCE_ARC_RADIUS_DIVISOR), radius / 2, -157.5f, 90, NUM_ARC_SEGMENTS);
+        shapeRenderer.arc(x + (radius / 2) - (radius / TRANCE_ARC_RADIUS_DIVISOR), y - (radius / 8) + (radius / TRANCE_ARC_RADIUS_DIVISOR), radius / 2, -112.5f, 90, NUM_ARC_SEGMENTS);
+
+        shapeRenderer.setColor(primaryColor);
+        shapeRenderer.arc(x - (radius / 2) + (2 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 8) + (2 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 2, -157.5f, 90, NUM_ARC_SEGMENTS);
+        shapeRenderer.arc(x + (radius / 2) - (2 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 8) + (2 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 2, -112.5f, 90, NUM_ARC_SEGMENTS);
+
+        shapeRenderer.setColor(secondaryColor);
+        shapeRenderer.arc(x - (radius / 2) + (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 8) + (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 2, -157.5f, 90, NUM_ARC_SEGMENTS);
+        shapeRenderer.arc(x + (radius / 2) - (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 8) + (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 2, -112.5f, 90, NUM_ARC_SEGMENTS);
     }
 }

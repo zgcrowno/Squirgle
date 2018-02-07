@@ -151,10 +151,10 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         squirgleShapeList.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
 
         squirglePrompt = new Shape(Shape.TRIANGLE,
-                symbolRadius,
+                symbolRadius / 3,
                 triangleColor,
                 null,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(game.partitionSize + (inputWidth / 2), (game.camera.viewportHeight / 4) - squirgleHeightOffset));
 
         game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
@@ -357,7 +357,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
             dispose();
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new GameplaySelectionScreen(game));
+            game.setScreen(new GameplaySelectionSinglePlayerScreen(game));
             dispose();
         } else if(musicTypeFullTouched) {
             game.usePhases = false;
@@ -650,9 +650,17 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     public void drawTitle() {
         game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
                 (3 * game.camera.viewportHeight) / 4,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                symbolRadius / 3,
+                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
+                game.shapeRendererFilled);
+
+        game.draw.drawFace(game.partitionSize + (inputWidth / 2),
+                game.camera.viewportHeight / 2,
+                symbolRadius / 3,
+                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                Color.WHITE,
+                Color.BLACK,
                 game.shapeRendererFilled);
 
         game.draw.drawPrompt(squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);

@@ -237,16 +237,16 @@ public class AdditionTableScreen implements Screen, InputProcessor {
     public void drawTitle() {
         game.draw.drawQuestionMark(game.partitionSize + (inputWidth / 2),
                 (3 * game.camera.viewportHeight) / 4,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                symbolRadius / 2,
+                (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
                 Color.BLACK,
                 game.shapeRendererFilled);
         game.draw.drawShape(new Shape(game.base - 1,
-                        symbolRadius,
+                        symbolRadius / 2,
                         Color.WHITE,
                         null,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(game.partitionSize + (inputWidth / 2),
                                 game.camera.viewportHeight / 4)),
                 game.shapeRendererFilled);
