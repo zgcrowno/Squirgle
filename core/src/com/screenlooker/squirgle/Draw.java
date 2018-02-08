@@ -2213,36 +2213,36 @@ public class Draw {
         shapeRenderer.setColor(primaryColor);
         shapeRenderer.circle(x, y + radius, game.partitionSize / 2);
         shapeRenderer.rectLine(x, y + radius, x, y - (radius / 2), game.partitionSize);
-        shapeRenderer.rectLine(x, y + radius, x - radius, y, game.partitionSize);
-        shapeRenderer.rectLine(x, y + radius, x + radius, y, game.partitionSize);
+        shapeRenderer.rectLine(x, y + radius, x - radius + (2 * game.partitionSize), y - (2 * game.partitionSize), game.partitionSize);
+        shapeRenderer.rectLine(x, y + radius, x + radius - (2 * game.partitionSize), y - (2 * game.partitionSize), game.partitionSize);
 
         shapeRenderer.circle(x, y - (radius / 2), 2 * game.partitionSize);
-        shapeRenderer.circle(x - radius, y, 2 * game.partitionSize);
-        shapeRenderer.circle(x + radius, y, 2 * game.partitionSize);
+        shapeRenderer.circle(x - radius + (2 * game.partitionSize), y - (2 * game.partitionSize), 2 * game.partitionSize);
+        shapeRenderer.circle(x + radius - (2 * game.partitionSize), y - (2 * game.partitionSize), 2 * game.partitionSize);
 
         shapeRenderer.setColor(secondaryColor);
         shapeRenderer.circle(x, y - (radius / 2), game.partitionSize / 2);
-        shapeRenderer.circle(x - radius, y, game.partitionSize / 2);
-        shapeRenderer.circle(x + radius, y, game.partitionSize / 2);
+        shapeRenderer.circle(x - radius + (2 * game.partitionSize), y - (2 * game.partitionSize), game.partitionSize / 2);
+        shapeRenderer.circle(x + radius - (2 * game.partitionSize), y - (2 * game.partitionSize), game.partitionSize / 2);
 
         shapeRenderer.setColor(primaryColor);
         shapeRenderer.circle(x, y - (radius / 2), game.partitionSize / 4);
-        shapeRenderer.circle(x - radius, y, game.partitionSize / 4);
-        shapeRenderer.circle(x + radius, y, game.partitionSize / 4);
+        shapeRenderer.circle(x - radius + (2 * game.partitionSize), y - (2 * game.partitionSize), game.partitionSize / 4);
+        shapeRenderer.circle(x + radius - (2 * game.partitionSize), y - (2 * game.partitionSize), game.partitionSize / 4);
 
-        shapeRenderer.arc(x - (radius / 2), y - (radius / 8), radius / 2, -157.5f, 90, NUM_ARC_SEGMENTS);
-        shapeRenderer.arc(x + (radius / 2), y - (radius / 8), radius / 2, -112.5f, 90, NUM_ARC_SEGMENTS);
+        shapeRenderer.arc(x - (radius / 2.5f), y - (radius / 3), radius / 4, -157.5f, 90, NUM_ARC_SEGMENTS);
+        shapeRenderer.arc(x + (radius / 2.5f), y - (radius / 3), radius / 4, -112.5f, 90, NUM_ARC_SEGMENTS);
 
         shapeRenderer.setColor(secondaryColor);
-        shapeRenderer.arc(x - (radius / 2) + (radius / TRANCE_ARC_RADIUS_DIVISOR), y - (radius / 8) + (radius / TRANCE_ARC_RADIUS_DIVISOR), radius / 2, -157.5f, 90, NUM_ARC_SEGMENTS);
-        shapeRenderer.arc(x + (radius / 2) - (radius / TRANCE_ARC_RADIUS_DIVISOR), y - (radius / 8) + (radius / TRANCE_ARC_RADIUS_DIVISOR), radius / 2, -112.5f, 90, NUM_ARC_SEGMENTS);
+        shapeRenderer.arc(x - (radius / 2.5f) + (radius / TRANCE_ARC_RADIUS_DIVISOR), y - (radius / 3) + (radius / TRANCE_ARC_RADIUS_DIVISOR), radius / 4, -157.5f, 90, NUM_ARC_SEGMENTS);
+        shapeRenderer.arc(x + (radius / 2.5f) - (radius / TRANCE_ARC_RADIUS_DIVISOR), y - (radius / 3) + (radius / TRANCE_ARC_RADIUS_DIVISOR), radius / 4, -112.5f, 90, NUM_ARC_SEGMENTS);
 
         shapeRenderer.setColor(primaryColor);
-        shapeRenderer.arc(x - (radius / 2) + (2 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 8) + (2 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 2, -157.5f, 90, NUM_ARC_SEGMENTS);
-        shapeRenderer.arc(x + (radius / 2) - (2 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 8) + (2 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 2, -112.5f, 90, NUM_ARC_SEGMENTS);
+        shapeRenderer.arc(x - (radius / 2.5f) + (2 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 3) + (2 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 4, -157.5f, 90, NUM_ARC_SEGMENTS);
+        shapeRenderer.arc(x + (radius / 2.5f) - (2 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 3) + (2 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 4, -112.5f, 90, NUM_ARC_SEGMENTS);
 
         shapeRenderer.setColor(secondaryColor);
-        shapeRenderer.arc(x - (radius / 2) + (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 8) + (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 2, -157.5f, 90, NUM_ARC_SEGMENTS);
-        shapeRenderer.arc(x + (radius / 2) - (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 8) + (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 2, -112.5f, 90, NUM_ARC_SEGMENTS);
+        shapeRenderer.arc(x - (radius / 2.5f) + (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 3) + (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 4, -157.5f, 90, NUM_ARC_SEGMENTS);
+        shapeRenderer.arc(x + (radius / 2.5f) - (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 3) + (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 4, -112.5f, 90, NUM_ARC_SEGMENTS);
     }
 }

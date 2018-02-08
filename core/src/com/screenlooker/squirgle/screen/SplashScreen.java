@@ -18,10 +18,11 @@ import java.util.ArrayList;
 public class SplashScreen implements Screen, InputProcessor {
     final Squirgle game;
 
-    private TextureAtlas atlas;
-    private Animation<TextureRegion> splashAnimation;
+    private Texture splashTexture;
+    //private TextureAtlas atlas;
+    //private Animation<TextureRegion> splashAnimation;
     private long startTime;
-    private float stateTime;
+    //private float stateTime;
     private float logoOriginX;
     private float logoOriginY;
     private float logoWidth;
@@ -29,10 +30,11 @@ public class SplashScreen implements Screen, InputProcessor {
 
     public SplashScreen(final Squirgle game) {
         this.game = game;
-        this.atlas = game.manager.get("images/planarGazerLogoSpritesheet.atlas", TextureAtlas.class);
-        this.splashAnimation = new Animation<TextureRegion>((float) 1 / Squirgle.FPS, atlas.findRegions("planarGazerLogoKeyframe1920"), Animation.PlayMode.NORMAL);
+        this.splashTexture = new Texture(Gdx.files.internal("images/planarGazerLogo1920.png"));
+        //this.atlas = game.manager.get("images/planarGazerLogoSpritesheet.atlas", TextureAtlas.class);
+        //this.splashAnimation = new Animation<TextureRegion>((float) 1 / Squirgle.FPS, atlas.findRegions("planarGazerLogoKeyframe1920"), Animation.PlayMode.NORMAL);
         this.startTime = System.currentTimeMillis();
-        this.stateTime = 0f;
+        //this.stateTime = 0f;
         this.logoOriginX = 0;
         this.logoOriginY = (game.camera.viewportHeight - (game.camera.viewportWidth / 2)) / 2;
         this.logoWidth = game.camera.viewportWidth;
@@ -51,10 +53,11 @@ public class SplashScreen implements Screen, InputProcessor {
         game.camera.update();
         game.batch.setProjectionMatrix(game.camera.combined);
 
-        stateTime += Gdx.graphics.getDeltaTime();
+        //stateTime += Gdx.graphics.getDeltaTime();
 
         game.batch.begin();
-        game.batch.draw(splashAnimation.getKeyFrame(stateTime, false), logoOriginX, logoOriginY, logoWidth, logoHeight);
+        //game.batch.draw(splashAnimation.getKeyFrame(stateTime, false), logoOriginX, logoOriginY, logoWidth, logoHeight);
+        game.batch.draw(splashTexture, logoOriginX, logoOriginY, logoWidth, logoHeight);
         game.batch.end();
 
         if((System.currentTimeMillis() - startTime) / 1000 > 5) {
@@ -94,7 +97,7 @@ public class SplashScreen implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-        atlas.dispose();
+        //atlas.dispose();
     }
 
     @Override

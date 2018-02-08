@@ -175,7 +175,7 @@ public class Squirgle extends Game {
 		trackMapFull = new HashMap<Integer, Music>();
 		trackMapPhase = new HashMap<Integer, List<Music>>();
 
-		manager.load("images/planarGazerLogoSpritesheet.atlas", TextureAtlas.class);
+		//manager.load("images/planarGazerLogoSpritesheet.atlas", TextureAtlas.class);
 
 		setUpMusicTitleList();
 
@@ -183,7 +183,7 @@ public class Squirgle extends Game {
 
 		generator.dispose();
 
-		this.setScreen(new LoadingScreen(this));
+		this.setScreen(new SplashScreen(this));
 	}
 
 	public void render() { super.render(); }
@@ -204,7 +204,7 @@ public class Squirgle extends Game {
 		confirmSound.dispose();
 		disconfirmSound.dispose();
 		generator.dispose();
-		manager.dispose();
+		//manager.dispose();
 		for(int i = 0; i < trackMapFull.size(); i++) {
 			trackMapFull.get(i).dispose();
 		}
