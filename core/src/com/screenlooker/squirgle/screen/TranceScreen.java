@@ -18,7 +18,6 @@ import com.screenlooker.squirgle.util.SoundUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-//TODO: The shapes are skipping for the first couple of seconds of this screen. Figure out why and rectify. Also, the shapes are occasionally off-center.
 public class TranceScreen implements Screen, InputProcessor {
     final Squirgle game;
 
@@ -294,11 +293,8 @@ public class TranceScreen implements Screen, InputProcessor {
     }
 
     public void managePrimaryShapeLineWidth() {
-        if(!paused) {
-            if (!primaryShapeAtThreshold) {
-                promptShape.setLineWidth(promptShape.getRadius() / Draw.LINE_WIDTH_DIVISOR);
-            }
-        }
+        //TODO: Maybe remove the conditionals that were here on other screens as well?
+        promptShape.setLineWidth(promptShape.getRadius() / Draw.LINE_WIDTH_DIVISOR);
     }
 
     public void zoomThroughShapes() {
@@ -306,7 +302,8 @@ public class TranceScreen implements Screen, InputProcessor {
             if (!primaryShapeAtThreshold) { //TODO: Also account for height (different screen orientations?)
                 //firstPriorShapePreviousX will be equal to 0 on first call of render(); this will move all shapes to the left side of the screen
                 if(firstPriorShapePreviousX != 0) {
-                    promptShape.setCoordinates(new Vector2(promptShape.getCoordinates().x - (primaryShape.getCoordinates().x - firstPriorShapePreviousX), promptShape.getCoordinates().y));
+                    //TODO: Maybe use this methodology in other screens as well?
+                    promptShape.setCoordinates(new Vector2(promptShape.getCoordinates().x - (primaryShape.getCoordinates().x - (game.camera.viewportWidth / 2)), promptShape.getCoordinates().y));
                 }
             }
         }
@@ -315,7 +312,7 @@ public class TranceScreen implements Screen, InputProcessor {
     public void destroyOversizedShapesAndAddNewOnes() {
         if(!paused) {
             //Prevent shapes from getting too large
-            //TODO: Account for radius getting larget than width or height. Do this on other relevant screens as well.
+            //TODO: Account for radius getting larger than width or height. Do this on other relevant screens as well.
             if (promptShape.getRadius() >= game.camera.viewportWidth * SHAPE_SIZE_LIMIT_MULTIPLIER) {
                 if (priorShapeList.size() > destructionIndex) {
                     promptShape = priorShapeList.get(priorShapeList.size() - destructionIndex);
@@ -392,18 +389,18 @@ public class TranceScreen implements Screen, InputProcessor {
         priorShapeList = new ArrayList<Shape>();
         for(int i = 0; i < 40; i++) {
             if(i % 2 == 0) {
-                priorShapeList.add(new Shape(Shape.CIRCLE,
-                        0,
-                        Color.BLACK,
-                        null,
-                        0,
-                        new Vector2()));
-            } else {
                 priorShapeList.add(new Shape(MathUtils.random(Shape.NONAGON),
-                        0,
+                        promptShape.getRadius(),
                         ColorUtils.randomColor(),
                         null,
-                        0,
+                        promptShape.getLineWidth(),
+                        new Vector2()));
+            } else {
+                priorShapeList.add(new Shape(Shape.CIRCLE,
+                        promptShape.getRadius(),
+                        Color.BLACK,
+                        null,
+                        promptShape.getLineWidth(),
                         new Vector2()));
             }
         }
