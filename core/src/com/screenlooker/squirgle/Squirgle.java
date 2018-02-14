@@ -62,6 +62,13 @@ public class Squirgle extends Game {
 	public final static String MUSIC_TITLE_ROCTOPUS = "ROCTOPUS";
 	public final static String MUSIC_TITLE_NONPLUSSED = "NONPLUSSED";
 
+	public final static String DIFFICULTY_EASY = "EASY";
+	public final static String DIFFICULTY_MEDIUM = "MEDIUM";
+	public final static String DIFFICULTY_HARD = "HARD";
+	public final static String RESULTS_VICTORY = "VICTORY";
+	public final static String RESULTS_DEFEAT = "DEFEAT";
+	public final static String RESULTS_TIE = "TIE";
+
 	public final static String SAVE_NAME = "Squirgle Save";
 
 	public final static String SAVE_VOLUME = "volume";
@@ -70,6 +77,7 @@ public class Squirgle extends Game {
 	public final static String SAVE_USE_PHASES = "usePhases";
 	public final static String SAVE_MAX_BASE = "maxBase";
 	public final static String SAVE_TIME_ATTACK_NUM_SECONDS = "timeAttackNumSeconds";
+	public final static String SAVE_DIFFICULTY = "difficulty";
 	public final static String TARGET = "TARGET";
 
 	public AssetManager manager;
@@ -80,6 +88,7 @@ public class Squirgle extends Game {
 	//Options
 	public int volume;
 	public int track;
+	public String difficulty;
 
 	public boolean playedBefore;
 	public boolean usePhases;
@@ -103,6 +112,8 @@ public class Squirgle extends Game {
 	public BitmapFont fontTrackName;
 	public BitmapFont fontTrackType;
 	public BitmapFont fontTime;
+	public BitmapFont fontDifficulty;
+	public BitmapFont fontPlayer;
 	public GlyphLayout layout;
 	public FreeTypeFontGenerator generator;
 	public OrthographicCamera camera;
@@ -136,6 +147,7 @@ public class Squirgle extends Game {
 
 		volume = save.getInteger(SAVE_VOLUME, 10);
 		track = save.getInteger(SAVE_TRACK, MUSIC_POINTILLISM);
+		difficulty = save.getString(SAVE_DIFFICULTY, DIFFICULTY_MEDIUM);
 
 		playedBefore = save.getBoolean(SAVE_PLAYED_BEFORE, false);
 		usePhases = save.getBoolean(SAVE_USE_PHASES, true);
@@ -198,6 +210,8 @@ public class Squirgle extends Game {
 		fontTrackName.dispose();
 		fontTrackType.dispose();
 		fontTime.dispose();
+		fontDifficulty.dispose();
+		fontPlayer.dispose();
 		generator.dispose();
 		shapeRendererFilled.dispose();
 		shapeRendererLine.dispose();
@@ -282,6 +296,22 @@ public class Squirgle extends Game {
 		parameter.size = size;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
 		fontTime = generator.generateFont(parameter);
+	}
+
+	public void setUpFontDifficulty(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
+		fontDifficulty = generator.generateFont(parameter);
+	}
+
+	public void setUpFontPlayer(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
+		fontPlayer = generator.generateFont(parameter);
 	}
 
 	public void setUpMusicTitleList() {

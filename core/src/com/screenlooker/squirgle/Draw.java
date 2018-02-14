@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.screenlooker.squirgle.screen.BattleSinglePlayerScreen;
 import com.screenlooker.squirgle.screen.GameplayScreen;
 import com.screenlooker.squirgle.screen.TimeAttackScreen;
 import com.screenlooker.squirgle.screen.TutorialScreen;
@@ -90,6 +91,11 @@ public class Draw {
         }
         shapeRenderer.setColor(new Color(0, 0, 0, opacity));
         shapeRenderer.circle(game.camera.viewportWidth / 2, game.camera.viewportHeight / 2, promptShape.getRadius());
+    }
+
+    public void drawScreenDivision(ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.BLACK);
+        shapeRenderer.line(0, game.camera.viewportHeight / 2, game.camera.viewportWidth, game.camera.viewportHeight / 2);
     }
 
     public void drawPrompt(Shape promptShape, List<Shape> priorShapeList, int targetShapesMatched, Shape backgroundColorShape, boolean isNonGameplay, boolean isTarget, ShapeRenderer shapeRenderer) {
@@ -787,6 +793,89 @@ public class Draw {
         }
     }
 
+    public void drawInputButtonsBattleSinglePlayer(Squirgle game, ShapeRenderer shapeRenderer) {
+        if(game.base >= 1) {
+            //Point
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_POINT_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_POINT_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_POINT_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_POINT_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            drawPoint(BattleSinglePlayerScreen.INPUT_POINT_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_POINT_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS / 2, Color.BLACK, shapeRenderer);
+            drawPoint(BattleSinglePlayerScreen.INPUT_POINT_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_POINT_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS / 2, Color.BLACK, shapeRenderer);
+        }
+
+        if(game.base >= 2) {
+            //Line
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_LINE_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_LINE_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_LINE_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_LINE_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            drawLine(BattleSinglePlayerScreen.INPUT_LINE_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_LINE_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            drawLine(BattleSinglePlayerScreen.INPUT_LINE_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_LINE_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+        }
+
+        if(game.base >= 3) {
+            //Triangle
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_TRIANGLE_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_TRIANGLE_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_TRIANGLE_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_TRIANGLE_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            drawTriangle(BattleSinglePlayerScreen.INPUT_TRIANGLE_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_TRIANGLE_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            drawTriangle(BattleSinglePlayerScreen.INPUT_TRIANGLE_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_TRIANGLE_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+        }
+
+        if(game.base >= 4) {
+            //Square
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_SQUARE_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_SQUARE_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_SQUARE_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_SQUARE_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            drawSquare(BattleSinglePlayerScreen.INPUT_SQUARE_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_SQUARE_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            drawSquare(BattleSinglePlayerScreen.INPUT_SQUARE_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_SQUARE_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+        }
+
+        if(game.base >= 5) {
+            //Pentagon
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_PENTAGON_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_PENTAGON_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_PENTAGON_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_PENTAGON_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            drawPentagon(BattleSinglePlayerScreen.INPUT_PENTAGON_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_PENTAGON_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK, shapeRenderer);
+            drawPentagon(BattleSinglePlayerScreen.INPUT_PENTAGON_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_PENTAGON_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK, shapeRenderer);
+        }
+
+        if(game.base >= 6) {
+            //Hexagon
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_HEXAGON_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_HEXAGON_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_HEXAGON_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_HEXAGON_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            drawHexagon(BattleSinglePlayerScreen.INPUT_HEXAGON_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_HEXAGON_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK, shapeRenderer);
+            drawHexagon(BattleSinglePlayerScreen.INPUT_HEXAGON_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_HEXAGON_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK, shapeRenderer);
+        }
+
+        if(game.base >= 7) {
+            //Septagon
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_SEPTAGON_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_SEPTAGON_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_SEPTAGON_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_SEPTAGON_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            drawSeptagon(BattleSinglePlayerScreen.INPUT_SEPTAGON_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_SEPTAGON_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK, shapeRenderer);
+            drawSeptagon(BattleSinglePlayerScreen.INPUT_SEPTAGON_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_SEPTAGON_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK, shapeRenderer);
+        }
+
+        if(game.base >= 8) {
+            //Octagon
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_OCTAGON_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_OCTAGON_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_OCTAGON_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_OCTAGON_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            drawOctagon(BattleSinglePlayerScreen.INPUT_OCTAGON_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_OCTAGON_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK, shapeRenderer);
+            drawOctagon(BattleSinglePlayerScreen.INPUT_OCTAGON_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_OCTAGON_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK, shapeRenderer);
+        }
+
+        if(game.base >= 9) {
+            //Nonagon
+            shapeRenderer.setColor(Color.WHITE);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_NONAGON_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_NONAGON_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            shapeRenderer.circle(BattleSinglePlayerScreen.INPUT_NONAGON_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_NONAGON_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+            drawNonagon(BattleSinglePlayerScreen.INPUT_NONAGON_SPAWN_P1.x, BattleSinglePlayerScreen.INPUT_NONAGON_SPAWN_P1.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK, shapeRenderer);
+            drawNonagon(BattleSinglePlayerScreen.INPUT_NONAGON_SPAWN_P2.x, BattleSinglePlayerScreen.INPUT_NONAGON_SPAWN_P2.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK, shapeRenderer);
+        }
+    }
+
     public void drawInputButtonsTimeAttack(Squirgle game, ShapeRenderer shapeRenderer) {
         if(game.base >= 1) {
             //Point
@@ -1112,6 +1201,310 @@ public class Draw {
         //Draw the last prompt shape
         lastPromptShape.setRadius(lastPromptShape.getRadius() - ((lastPromptShape.getRadius() * (GameplayScreen.INPUT_RADIUS / Squirgle.FPS)) / equationWidth));
         lastPromptShape.setLineWidth((lastPromptShape.getRadius() - (GameplayScreen.INPUT_RADIUS / Squirgle.FPS)) / LINE_WIDTH_DIVISOR);
+        lastPromptShape.setFillColor(null);
+        drawShape(lastPromptShape, shapeRenderer);
+    }
+
+    public void drawEquationBattleSinglePlayer(String player, Shape lastShapeTouched, Shape lastPromptShape, Shape lastTargetShape, float equationWidth, ShapeRenderer shapeRenderer) {
+        Vector2 spawnBegin = new Vector2();
+        Vector2 spawnEnd = new Vector2();
+        Vector2 plusSpawn = new Vector2();
+        Vector2 equalsSpawn = new Vector2();
+        Vector2 equalsTargetSpawn = new Vector2();
+        Shape sum = new Shape(Shape.POINT, equationWidth, Color.BLACK, Color.BLACK, equationWidth / LINE_WIDTH_DIVISOR, lastPromptShape.getCoordinates());
+
+        //Set up the beginning coordinates and sum shape
+        if(player.equals(BattleSinglePlayerScreen.P1)) {
+            switch (lastShapeTouched.getShape()) {
+                case Shape.POINT:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_POINT_SPAWN_P1;
+                    if (lastPromptShape.getShape() + 1 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 1) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 1);
+                    }
+                    break;
+                case Shape.LINE:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_LINE_SPAWN_P1;
+                    if (lastPromptShape.getShape() + 2 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 2) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 2);
+                    }
+                    break;
+                case Shape.TRIANGLE:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_TRIANGLE_SPAWN_P1;
+                    if (lastPromptShape.getShape() + 3 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 3) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 3);
+                    }
+                    break;
+                case Shape.SQUARE:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_SQUARE_SPAWN_P1;
+                    if (lastPromptShape.getShape() + 4 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 4) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 4);
+                    }
+                    break;
+                case Shape.PENTAGON:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_PENTAGON_SPAWN_P1;
+                    if (lastPromptShape.getShape() + 5 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 5) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 5);
+                    }
+                    break;
+                case Shape.HEXAGON:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_HEXAGON_SPAWN_P1;
+                    if (lastPromptShape.getShape() + 6 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 6) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 6);
+                    }
+                    break;
+                case Shape.SEPTAGON:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_SEPTAGON_SPAWN_P1;
+                    if (lastPromptShape.getShape() + 7 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 7) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 7);
+                    }
+                    break;
+                case Shape.OCTAGON:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_OCTAGON_SPAWN_P1;
+                    if (lastPromptShape.getShape() + 8 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 8) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 8);
+                    }
+                    break;
+                case Shape.NONAGON:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_NONAGON_SPAWN_P1;
+                    if (lastPromptShape.getShape() + 9 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 9) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 9);
+                    }
+                    break;
+            }
+
+            //Set up the ending coordinates
+            switch (sum.getShape()) {
+                case Shape.POINT:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_POINT_SPAWN_P1;
+                    break;
+                case Shape.LINE:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_LINE_SPAWN_P1;
+                    break;
+                case Shape.TRIANGLE:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_TRIANGLE_SPAWN_P1;
+                    break;
+                case Shape.SQUARE:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_SQUARE_SPAWN_P1;
+                    break;
+                case Shape.PENTAGON:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_PENTAGON_SPAWN_P1;
+                    break;
+                case Shape.HEXAGON:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_HEXAGON_SPAWN_P1;
+                    break;
+                case Shape.SEPTAGON:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_SEPTAGON_SPAWN_P1;
+                    break;
+                case Shape.OCTAGON:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_OCTAGON_SPAWN_P1;
+                    break;
+                case Shape.NONAGON:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_NONAGON_SPAWN_P1;
+                    break;
+            }
+        } else {
+            switch (lastShapeTouched.getShape()) {
+                case Shape.POINT:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_POINT_SPAWN_P2;
+                    if (lastPromptShape.getShape() + 1 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 1) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 1);
+                    }
+                    break;
+                case Shape.LINE:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_LINE_SPAWN_P2;
+                    if (lastPromptShape.getShape() + 2 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 2) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 2);
+                    }
+                    break;
+                case Shape.TRIANGLE:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_TRIANGLE_SPAWN_P2;
+                    if (lastPromptShape.getShape() + 3 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 3) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 3);
+                    }
+                    break;
+                case Shape.SQUARE:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_SQUARE_SPAWN_P2;
+                    if (lastPromptShape.getShape() + 4 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 4) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 4);
+                    }
+                    break;
+                case Shape.PENTAGON:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_PENTAGON_SPAWN_P2;
+                    if (lastPromptShape.getShape() + 5 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 5) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 5);
+                    }
+                    break;
+                case Shape.HEXAGON:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_HEXAGON_SPAWN_P2;
+                    if (lastPromptShape.getShape() + 6 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 6) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 6);
+                    }
+                    break;
+                case Shape.SEPTAGON:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_SEPTAGON_SPAWN_P2;
+                    if (lastPromptShape.getShape() + 7 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 7) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 7);
+                    }
+                    break;
+                case Shape.OCTAGON:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_OCTAGON_SPAWN_P2;
+                    if (lastPromptShape.getShape() + 8 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 8) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 8);
+                    }
+                    break;
+                case Shape.NONAGON:
+                    spawnBegin = BattleSinglePlayerScreen.INPUT_NONAGON_SPAWN_P2;
+                    if (lastPromptShape.getShape() + 9 >= game.base) {
+                        sum.setShape((lastPromptShape.getShape() + 9) - game.base);
+                    } else {
+                        sum.setShape(lastPromptShape.getShape() + 9);
+                    }
+                    break;
+            }
+
+            //Set up the ending coordinates
+            switch (sum.getShape()) {
+                case Shape.POINT:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_POINT_SPAWN_P2;
+                    break;
+                case Shape.LINE:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_LINE_SPAWN_P2;
+                    break;
+                case Shape.TRIANGLE:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_TRIANGLE_SPAWN_P2;
+                    break;
+                case Shape.SQUARE:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_SQUARE_SPAWN_P2;
+                    break;
+                case Shape.PENTAGON:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_PENTAGON_SPAWN_P2;
+                    break;
+                case Shape.HEXAGON:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_HEXAGON_SPAWN_P2;
+                    break;
+                case Shape.SEPTAGON:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_SEPTAGON_SPAWN_P2;
+                    break;
+                case Shape.OCTAGON:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_OCTAGON_SPAWN_P2;
+                    break;
+                case Shape.NONAGON:
+                    spawnEnd = BattleSinglePlayerScreen.INPUT_NONAGON_SPAWN_P2;
+                    break;
+            }
+        }
+
+        //Set up the plusSpawn coordinates
+        if(lastShapeTouched.getShape() == sum.getShape()) {
+            plusSpawn.x = spawnBegin.x + ((lastPromptShape.getCoordinates().x - spawnBegin.x) / 2) - (BattleSinglePlayerScreen.INPUT_RADIUS);
+        } else {
+            plusSpawn.x = spawnBegin.x + ((lastPromptShape.getCoordinates().x - spawnBegin.x) / 2);
+        }
+        plusSpawn.y = spawnBegin.y + ((lastPromptShape.getCoordinates().y - spawnBegin.y) / 2);
+
+        //Set up the equalsSpawn coordinates
+        if(lastShapeTouched.getShape() == sum.getShape()) {
+            equalsSpawn.x = spawnEnd.x + ((lastPromptShape.getCoordinates().x - spawnEnd.x) / 2) + (BattleSinglePlayerScreen.INPUT_RADIUS);
+        } else {
+            equalsSpawn.x = spawnEnd.x + ((lastPromptShape.getCoordinates().x - spawnEnd.x) / 2);
+        }
+        equalsSpawn.y = spawnEnd.y + ((lastPromptShape.getCoordinates().y - spawnEnd.y) / 2);
+
+        //Set up the equalsTargetSpawn coordinates
+        if(sum.getShape() == lastTargetShape.getShape()) {
+            if(player.equals(BattleSinglePlayerScreen.P1)) {
+                equalsTargetSpawn.x = targetSpawn.x + (BattleSinglePlayerScreen.TARGET_RADIUS / 2) + ((lastPromptShape.getCoordinates().x - (targetSpawn.x + (BattleSinglePlayerScreen.TARGET_RADIUS / 2))) / 2);
+                equalsTargetSpawn.y = (targetSpawn.y / 2) - (BattleSinglePlayerScreen.TARGET_RADIUS / 2) + ((lastPromptShape.getCoordinates().y - ((targetSpawn.y / 2) - (BattleSinglePlayerScreen.TARGET_RADIUS / 2))) / 2);
+            } else {
+                equalsTargetSpawn.x = targetSpawn.x + ((lastPromptShape.getCoordinates().x - targetSpawn.x) / 2);
+                equalsTargetSpawn.y = targetSpawn.y + ((lastPromptShape.getCoordinates().y - targetSpawn.y) / 2);
+            }
+        }
+
+        shapeRenderer.setColor(Color.WHITE);
+
+        //Draw the circles
+        shapeRenderer.circle(plusSpawn.x,
+                plusSpawn.y,
+                equationWidth);
+        if(lastPromptShape.getShape() == Shape.POINT) {
+            shapeRenderer.circle(lastPromptShape.getCoordinates().x,
+                    lastPromptShape.getCoordinates().y,
+                    lastPromptShape.getRadius() * 2);
+        } else {
+            shapeRenderer.circle(lastPromptShape.getCoordinates().x,
+                    lastPromptShape.getCoordinates().y,
+                    lastPromptShape.getRadius());
+        }
+        shapeRenderer.circle(equalsSpawn.x,
+                equalsSpawn.y,
+                equationWidth);
+        if(sum.getShape() == lastTargetShape.getShape()) {
+            shapeRenderer.circle(equalsTargetSpawn.x,
+                    equalsTargetSpawn.y,
+                    equationWidth);
+        }
+
+        //Draw the lines
+        shapeRenderer.rectLine(spawnBegin, plusSpawn, equationWidth * 2);
+        shapeRenderer.rectLine(plusSpawn, lastPromptShape.getCoordinates(), equationWidth * 2);
+        shapeRenderer.rectLine(lastPromptShape.getCoordinates(), equalsSpawn, equationWidth * 2);
+        shapeRenderer.rectLine(equalsSpawn, spawnEnd, equationWidth * 2);
+        if(sum.getShape() == lastTargetShape.getShape()) {
+            shapeRenderer.rectLine(lastPromptShape.getCoordinates(), equalsTargetSpawn, equationWidth * 2);
+            if(player.equals(BattleSinglePlayerScreen.P1)) {
+                shapeRenderer.rectLine(equalsTargetSpawn.x, equalsTargetSpawn.y, targetSpawn.x + (BattleSinglePlayerScreen.TARGET_RADIUS / 2), (targetSpawn.y / 2) - (BattleSinglePlayerScreen.TARGET_RADIUS / 2), equationWidth * 2);
+            } else {
+                shapeRenderer.rectLine(equalsTargetSpawn, targetSpawn, equationWidth * 2);
+            }
+        }
+
+        //Draw the plus symbol
+        drawPlus(plusSpawn.x, plusSpawn.y, equationWidth, equationWidth / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+
+        //Draw the equals symbol(s)
+        drawEquals(equalsSpawn.x, equalsSpawn.y, equationWidth, equationWidth / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+        if(sum.getShape() == lastTargetShape.getShape()) {
+            drawEquals(equalsTargetSpawn.x, equalsTargetSpawn.y, equationWidth, equationWidth / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+        }
+
+        //Draw the last prompt shape
+        lastPromptShape.setRadius(lastPromptShape.getRadius() - ((lastPromptShape.getRadius() * (BattleSinglePlayerScreen.INPUT_RADIUS / Squirgle.FPS)) / equationWidth));
+        lastPromptShape.setLineWidth((lastPromptShape.getRadius() - (BattleSinglePlayerScreen.INPUT_RADIUS / Squirgle.FPS)) / LINE_WIDTH_DIVISOR);
         lastPromptShape.setFillColor(null);
         drawShape(lastPromptShape, shapeRenderer);
     }
@@ -1569,6 +1962,48 @@ public class Draw {
         }
     }
 
+    public void drawBackgroundColorShapeListBattleSinglePlayer(List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color clearColor, ShapeRenderer shapeRenderer) {
+        for (int i = 0; i < backgroundColorShapeList.size(); i++) {
+            Shape shape = backgroundColorShapeList.get(i);
+            drawShape(shape, shapeRenderer);
+            if (i == 0) {
+                shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y - colorListSpeed));
+            } else if (i == backgroundColorShapeList.size() - 1) {
+                shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y + colorListSpeed));
+            } else {
+                shape.setCoordinates(new Vector2(shape.getCoordinates().x + colorListSpeed, shape.getCoordinates().y));
+            }
+            if (backgroundColorShapeList.get(0).getCoordinates().y <= backgroundColorShapeList.get(1).getCoordinates().y) {
+                float newRadius = shape.getRadius();
+
+                //Prevent backgroundColorShapeList.get(0) from going too low on screen
+                backgroundColorShapeList.get(0).setCoordinates(new Vector2(backgroundColorShapeList.get(0).getCoordinates().x,
+                        backgroundColorShapeList.get(1).getCoordinates().y));
+
+                clearColor.set(backgroundColorShape.getColor().r,
+                        backgroundColorShape.getColor().g,
+                        backgroundColorShape.getColor().b,
+                        backgroundColorShape.getColor().a);
+                backgroundColorShape.setRadius(game.camera.viewportWidth / 2);
+                backgroundColorShape.setColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
+                backgroundColorShape.setFillColor(backgroundColorShapeList.get(backgroundColorShapeList.size() - 1).getFillColor());
+                backgroundColorShape.setLineWidth(BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR);
+                backgroundColorShape.setCoordinates(new Vector2(game.camera.viewportWidth / 2,
+                        game.camera.viewportHeight + (game.camera.viewportWidth / 2)));
+
+                backgroundColorShapeList.remove(backgroundColorShapeList.size() - 1);
+                backgroundColorShapeList.add(0,
+                        new Shape(Shape.SQUARE,
+                                newRadius,
+                                Color.WHITE,
+                                ColorUtils.randomColor(),
+                                newRadius / LINE_WIDTH_DIVISOR,
+                                new Vector2(BattleSinglePlayerScreen.TARGET_RADIUS + ((game.camera.viewportWidth - (BattleSinglePlayerScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)),
+                                        (game.camera.viewportHeight - (BattleSinglePlayerScreen.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (BattleSinglePlayerScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)))));
+            }
+        }
+    }
+
     public void drawBackgroundColorShapeListTimeAttack(List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color clearColor, ShapeRenderer shapeRenderer) {
         for (int i = 0; i < backgroundColorShapeList.size(); i++) {
             Shape shape = backgroundColorShapeList.get(i);
@@ -1729,6 +2164,12 @@ public class Draw {
         shapeRenderer.circle(0, game.camera.viewportHeight, GameplayScreen.TARGET_RADIUS);
     }
 
+    public void drawTargetSemicirclesBattleSinglePlayer(ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(0, game.camera.viewportHeight, BattleSinglePlayerScreen.TARGET_RADIUS);
+        shapeRenderer.arc(0, game.camera.viewportHeight / 2, BattleSinglePlayerScreen.TARGET_RADIUS, 0, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
+    }
+
     public void drawTargetSemicircleTimeAttack(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(0, game.camera.viewportHeight, TimeAttackScreen.TARGET_RADIUS);
@@ -1742,6 +2183,11 @@ public class Draw {
     public void drawArc(float start, Color color, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(color);
         shapeRenderer.arc(0, game.camera.viewportHeight, GameplayScreen.TARGET_RADIUS, start, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
+    }
+
+    public void drawArcBattleSinglePlayer(float y, float start, Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
+        shapeRenderer.arc(0, y, BattleSinglePlayerScreen.TARGET_RADIUS, start, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
     }
 
     public void drawArcTimeAttack(float start, Color color, ShapeRenderer shapeRenderer) {
@@ -1784,12 +2230,75 @@ public class Draw {
                 game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS);
     }
 
+    public void drawSaturationTrianglesBattleSinglePlayer(ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.triangle(game.camera.viewportWidth,
+                game.camera.viewportHeight,
+                game.camera.viewportWidth - BattleSinglePlayerScreen.TARGET_RADIUS,
+                game.camera.viewportHeight,
+                game.camera.viewportWidth,
+                game.camera.viewportHeight - BattleSinglePlayerScreen.TARGET_RADIUS);
+        shapeRenderer.triangle(game.camera.viewportWidth,
+                game.camera.viewportHeight / 2,
+                game.camera.viewportWidth - BattleSinglePlayerScreen.TARGET_RADIUS,
+                game.camera.viewportHeight / 2,
+                game.camera.viewportWidth,
+                (game.camera.viewportHeight / 2) - BattleSinglePlayerScreen.TARGET_RADIUS);
+    }
+
+    public void drawSaturationIncrementsBattleSinglePlayer(Color color, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(color);
+        for(int i = 1; i < BattleSinglePlayerScreen.MAX_SATURATION; i++) {
+            //P1
+            shapeRenderer.rectLine(game.camera.viewportWidth - BattleSinglePlayerScreen.TARGET_RADIUS + (i * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    (game.camera.viewportHeight / 2) - (i * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    game.camera.viewportWidth - BattleSinglePlayerScreen.TARGET_RADIUS + ((i + 0.5f) * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    (game.camera.viewportHeight / 2) - ((i - 0.5f) * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION) / 4);
+
+            //P2
+            shapeRenderer.rectLine(game.camera.viewportWidth - BattleSinglePlayerScreen.TARGET_RADIUS + (i * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    game.camera.viewportHeight - (i * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    game.camera.viewportWidth - BattleSinglePlayerScreen.TARGET_RADIUS + ((i + 0.5f) * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    game.camera.viewportHeight - ((i - 0.5f) * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION) / 4);
+        }
+    }
+
+    public void drawSaturationBattleSinglePlayer(String player, int saturation, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(Color.BLACK);
+        if(player.equals(BattleSinglePlayerScreen.P1)) {
+            shapeRenderer.triangle(game.camera.viewportWidth - BattleSinglePlayerScreen.TARGET_RADIUS,
+                    game.camera.viewportHeight / 2,
+                    game.camera.viewportWidth - BattleSinglePlayerScreen.TARGET_RADIUS + (saturation * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    (game.camera.viewportHeight / 2) - (saturation * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    game.camera.viewportWidth - BattleSinglePlayerScreen.TARGET_RADIUS + ((2 * saturation) * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    game.camera.viewportHeight / 2);
+        } else {
+            shapeRenderer.triangle(game.camera.viewportWidth - BattleSinglePlayerScreen.TARGET_RADIUS,
+                    game.camera.viewportHeight,
+                    game.camera.viewportWidth - BattleSinglePlayerScreen.TARGET_RADIUS + (saturation * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    game.camera.viewportHeight - (saturation * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    game.camera.viewportWidth - BattleSinglePlayerScreen.TARGET_RADIUS + ((2 * saturation) * (BattleSinglePlayerScreen.TARGET_RADIUS / BattleSinglePlayerScreen.MAX_SATURATION)),
+                    game.camera.viewportHeight);
+        }
+    }
+
     public void drawPauseInput(Squirgle game) {
         float inputRadius = game.camera.viewportWidth / 20;
         float lineRadius = inputRadius / 2;
 
         drawPoint(game.camera.viewportWidth, game.camera.viewportHeight / 2, inputRadius, Color.WHITE, game.shapeRendererFilled);
         drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), game.camera.viewportHeight / 2, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, game.shapeRendererFilled);
+
+    }
+
+    public void drawPauseInputBattleSinglePlayer(Squirgle game) {
+        float inputRadius = game.camera.viewportWidth / 40;
+        float lineRadius = inputRadius / 2;
+
+        drawPoint(game.camera.viewportWidth, ((game.camera.viewportHeight / 2) - BattleSinglePlayerScreen.TARGET_RADIUS) / 2, inputRadius, Color.WHITE, game.shapeRendererFilled);
+        drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), ((game.camera.viewportHeight / 2) - BattleSinglePlayerScreen.TARGET_RADIUS) / 2, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, game.shapeRendererFilled);
 
     }
 
@@ -2245,5 +2754,21 @@ public class Draw {
         shapeRenderer.setColor(secondaryColor);
         shapeRenderer.arc(x - (radius / 2.5f) + (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 3) + (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 4, -157.5f, 90, NUM_ARC_SEGMENTS);
         shapeRenderer.arc(x + (radius / 2.5f) - (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), y - (radius / 3) + (3 * (radius / TRANCE_ARC_RADIUS_DIVISOR)), radius / 4, -112.5f, 90, NUM_ARC_SEGMENTS);
+    }
+
+    public void drawDifficultySymbol(float x, float y, float radius, Color primaryColor, Color secondaryColor, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(primaryColor);
+        shapeRenderer.circle(x, y - (radius / 2), radius);
+
+        shapeRenderer.setColor(secondaryColor);
+        shapeRenderer.circle(x, y - (radius / 2), (9 * radius) / 10);
+
+        shapeRenderer.setColor(primaryColor);
+        shapeRenderer.circle(x, y - (radius / 2), radius / 5);
+        shapeRenderer.triangle(x - (radius / 10), y - (radius / 2) - (radius / 10), x + (radius / 10), y - (radius / 2) + (radius / 10), x - (radius / 2), y - (radius / 2) + (radius / 2));
+
+        shapeRenderer.setColor(secondaryColor);
+        shapeRenderer.rect(x - radius, y - (radius / 2) - radius, radius * 2, radius);
+
     }
 }

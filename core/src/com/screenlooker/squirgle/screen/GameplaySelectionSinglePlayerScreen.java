@@ -246,7 +246,9 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
             game.setScreen(new BaseSelectScreen(game));
             dispose();
         } else if(battleTouched) {
-            //TODO: Set screen and whatnot once screen is coded
+            game.confirmSound.play((float) (game.volume / 10.0));
+            game.setScreen(new BattleBaseSelectSinglePlayerScreen(game));
+            dispose();
         } else if(timeAttackTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
             game.setScreen(new TimeAttackBaseSelectScreen(game));
