@@ -219,11 +219,14 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
         drawBackgroundColorShape();
 
         if(!paused) {
-            game.draw.drawPrompt(promptShapeP1, priorShapeListP1, 0, backgroundColorShape, false, false, game.shapeRendererFilled);
-            game.draw.drawShapes(priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1, game.shapeRendererFilled);
-
-            game.draw.drawPrompt(promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false, game.shapeRendererFilled);
-            game.draw.drawShapes(priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2, game.shapeRendererFilled);
+            if(!(gameOver && saturationP1 > saturationP2)) {
+                game.draw.drawPrompt(promptShapeP1, priorShapeListP1, 0, backgroundColorShape, false, false, game.shapeRendererFilled);
+                game.draw.drawShapes(priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1, game.shapeRendererFilled);
+            }
+            if(!(gameOver && saturationP2 >= saturationP1)) {
+                game.draw.drawPrompt(promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false, game.shapeRendererFilled);
+                game.draw.drawShapes(priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2, game.shapeRendererFilled);
+            }
         }
 
         maintainSpeed();
@@ -236,12 +239,16 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
             //the screen to the right.
             //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
             //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
-            game.draw.drawShapes(priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1, game.shapeRendererFilled);
-            game.draw.drawShapes(priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2, game.shapeRendererFilled);
+            if(!(gameOver && saturationP1 > saturationP2)) {
+                game.draw.drawShapes(priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1, game.shapeRendererFilled);
+            }
+            if(!(gameOver && saturationP2 >= saturationP1)) {
+                game.draw.drawShapes(priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2, game.shapeRendererFilled);
+            }
 
             if (!gameOver) {
-                game.draw.drawPerimeter(promptShapeP1, game.shapeRendererLine);
-                game.draw.drawPerimeter(promptShapeP2, game.shapeRendererLine);
+                game.draw.drawPerimeterBattleSinglePlayer(game.camera.viewportHeight / 4, promptShapeP1, game.shapeRendererLine);
+                game.draw.drawPerimeterBattleSinglePlayer((3 * game.camera.viewportHeight) / 4, promptShapeP2, game.shapeRendererLine);
                 game.draw.drawScreenDivision(game.shapeRendererLine);
                 game.draw.drawBackgroundColorShapeListBattleSinglePlayer(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
                 game.draw.drawTimelines(dummyPromptForTimelines, backgroundColorShapeList, game.shapeRendererFilled);
@@ -637,10 +644,10 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
 
     public void managePromptRadii() {
         if(!paused) {
-            float screenRemainderP1 = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth - (2 * promptShapeP1.getRadius()) : (game.camera.viewportHeight / 2) - (2 * promptShapeP1.getRadius());
-            float screenRemainderP2 = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth - (2 * promptShapeP2.getRadius()) : (game.camera.viewportHeight / 2) - (2 * promptShapeP2.getRadius());
-            promptShapeP1.setRadius(gameOver ? promptShapeP1.getRadius() * promptIncrease : INIT_PROMPT_RADIUS + (((saturationP1 / MAX_SATURATION) * screenRemainderP1) / 2));
-            promptShapeP2.setRadius(gameOver ? promptShapeP2.getRadius() * promptIncrease : INIT_PROMPT_RADIUS + (((saturationP2 / MAX_SATURATION) * screenRemainderP2) / 2));
+            float screenRemainderP1 = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth / 4 : (game.camera.viewportHeight / 8);
+            float screenRemainderP2 = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth / 4 : (game.camera.viewportHeight / 8);
+            promptShapeP1.setRadius(gameOver ? promptShapeP1.getRadius() * promptIncrease : INIT_PROMPT_RADIUS + ((float) saturationP1 / MAX_SATURATION) * screenRemainderP1);
+            promptShapeP2.setRadius(gameOver ? promptShapeP2.getRadius() * promptIncrease : INIT_PROMPT_RADIUS + ((float) saturationP2 / MAX_SATURATION) * screenRemainderP2);
         }
     }
 
@@ -790,7 +797,7 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
     public void drawResultsInputButtons() {
         if(!paused) {
             if (showResults) {
-                game.draw.drawResultsInputButtons(INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN, game.shapeRendererFilled);
+                game.draw.drawResultsInputButtonsBattleSinglePlayer(INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN, game.shapeRendererFilled);
             }
         }
     }
@@ -798,7 +805,7 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
     public void gameOver() {
         //Game over condition
         //TODO: Update these conditionals when horizontal or vertical splitscreen is an option
-        if ((promptShapeP1.getRadius() >= game.widthOrHeight / 4 || promptShapeP2.getRadius() >= game.widthOrHeight / 4 || dummyPromptForTimelines.getRadius() >= game.widthOrHeight / 2) && !gameOver) {
+        if ((saturationP1 >= MAX_SATURATION || saturationP2 >= MAX_SATURATION || dummyPromptForTimelines.getRadius() >= game.widthOrHeight / 2) && !gameOver) {
             gameOver = true;
             stopMusic();
             promptIncrease = 1;
@@ -1036,9 +1043,9 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
                 && touchPoint.x < INPUT_EXIT_SPAWN.x + INPUT_RADIUS
                 && touchPoint.y > INPUT_EXIT_SPAWN.y - INPUT_RADIUS
                 && touchPoint.y < INPUT_EXIT_SPAWN.y + INPUT_RADIUS;
-        pauseTouched = touchPoint.x > game.camera.viewportWidth - (2 *(game.camera.viewportWidth / 20))
-                && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
-                && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
+        pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 40)
+                && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 40)
+                && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) + (game.camera.viewportWidth / 40);
         pauseBackTouched = touchPoint.x > game.camera.viewportWidth - game.partitionSize - PAUSE_INPUT_WIDTH
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize

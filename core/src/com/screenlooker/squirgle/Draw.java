@@ -93,6 +93,16 @@ public class Draw {
         shapeRenderer.circle(game.camera.viewportWidth / 2, game.camera.viewportHeight / 2, promptShape.getRadius());
     }
 
+    public void drawPerimeterBattleSinglePlayer(float y, Shape promptShape, ShapeRenderer shapeRenderer) {
+        float opacity = 0f;
+        float visibilityPoint = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? (3 * game.camera.viewportWidth) / 8 : (3 * (game.camera.viewportHeight / 2)) / 8;
+        if(promptShape.getRadius() >= visibilityPoint) {
+            opacity = (promptShape.getRadius() - visibilityPoint) / (game.widthOrHeight / 4);
+        }
+        shapeRenderer.setColor(new Color(0, 0, 0, opacity));
+        shapeRenderer.circle(game.camera.viewportWidth / 2, y, promptShape.getRadius());
+    }
+
     public void drawScreenDivision(ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.BLACK);
         shapeRenderer.line(0, game.camera.viewportHeight / 2, game.camera.viewportWidth, game.camera.viewportHeight / 2);
@@ -988,6 +998,23 @@ public class Draw {
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS);
         drawX(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+    }
+
+    public void drawResultsInputButtonsBattleSinglePlayer(Vector2 inputPlaySpawn, Vector2 inputHomeSpawn, Vector2 inputExitSpawn, ShapeRenderer shapeRenderer) {
+        //Play
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(inputPlaySpawn.x, inputPlaySpawn.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+        drawPlayButton(inputPlaySpawn.x, inputPlaySpawn.y, BattleSinglePlayerScreen.INPUT_RADIUS / 2, (BattleSinglePlayerScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+
+        //Home
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(inputHomeSpawn.x, inputHomeSpawn.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+        drawBackButton(inputHomeSpawn.x, inputHomeSpawn.y, BattleSinglePlayerScreen.INPUT_RADIUS / 2, (BattleSinglePlayerScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+
+        //Exit
+        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.circle(inputExitSpawn.x, inputExitSpawn.y, BattleSinglePlayerScreen.INPUT_RADIUS);
+        drawX(inputExitSpawn.x, inputExitSpawn.y, BattleSinglePlayerScreen.INPUT_RADIUS, BattleSinglePlayerScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
     }
 
     public void drawResultsInputButtonsTimeAttack(Vector2 inputPlaySpawn, Vector2 inputHomeSpawn, Vector2 inputExitSpawn, List<Shape> priorShapeList, ShapeRenderer shapeRenderer) {

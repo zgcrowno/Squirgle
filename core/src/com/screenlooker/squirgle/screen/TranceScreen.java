@@ -330,7 +330,7 @@ public class TranceScreen implements Screen, InputProcessor {
     public void determineTouchedInput(int screenX, int screenY) {
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        pauseTouched = touchPoint.x > game.camera.viewportWidth - (2 *(game.camera.viewportWidth / 20))
+        pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
                 && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
                 && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
         pauseBackTouched = touchPoint.x > game.camera.viewportWidth - game.partitionSize - PAUSE_INPUT_WIDTH

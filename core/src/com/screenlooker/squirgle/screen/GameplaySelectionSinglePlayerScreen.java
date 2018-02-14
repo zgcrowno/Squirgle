@@ -26,13 +26,14 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
     private final static int SQUIRGLE = 0;
     private final static int BATTLE = 1;
     private final static int TIME_ATTACK = 2;
-    private final static int TRANCE = 3;
-    private final static int BACK = 4;
+    private final static int TIME_BATTLE = 3;
+    private final static int TRANCE = 4;
+    private final static int BACK = 5;
 
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
-    private final static int NUM_MIDDLE_INPUTS_VERTICAL = 4;
+    private final static int NUM_MIDDLE_INPUTS_VERTICAL = 5;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
@@ -52,6 +53,7 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
     private Color squirgleColor;
     private Color battleColor;
     private Color timeAttackColor;
+    private Color timeBattleColor;
     private Color tranceColor;
     private Color backColor;
     private Color squareColor;
@@ -69,6 +71,7 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
     private boolean squirgleTouched;
     private boolean battleTouched;
     private boolean timeAttackTouched;
+    private boolean timeBattleTouched;
     private boolean tranceTouched;
     private boolean backTouched;
 
@@ -93,12 +96,14 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
         squirgleColor = ColorUtils.randomColor();
         battleColor = ColorUtils.randomColor();
         timeAttackColor = ColorUtils.randomColor();
+        timeBattleColor = ColorUtils.randomColor();
         tranceColor = ColorUtils.randomColor();
         backColor = ColorUtils.randomColor();
 
         squirgleTouched = false;
         battleTouched = false;
         timeAttackTouched = false;
+        timeBattleTouched = false;
         tranceTouched = false;
         backTouched = false;
 
@@ -127,19 +132,19 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
                 triangleColor,
                 null,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(game.camera.viewportWidth / 2, ((7 * game.camera.viewportHeight) / 8) - squirgleHeightOffset));
+                new Vector2(game.camera.viewportWidth / 2, ((9 * game.camera.viewportHeight) / 10) - squirgleHeightOffset));
         squirglePromptBattleOne = new Shape(Shape.TRIANGLE,
                 inputShapeRadius / 2,
                 triangleColor,
                 null,
                 (inputShapeRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2((game.camera.viewportWidth / 2) - (inputWidth / 4), ((5 * game.camera.viewportHeight) / 8) + (inputHeightType / 4) - squirgleHeightOffset));
+                new Vector2((game.camera.viewportWidth / 2) - (inputWidth / 4), ((7 * game.camera.viewportHeight) / 10) + (inputHeightType / 4) - squirgleHeightOffset));
         squirglePromptBattleTwo = new Shape(Shape.TRIANGLE,
                 inputShapeRadius / 2,
                 triangleColor,
                 null,
                 (inputShapeRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2((game.camera.viewportWidth / 2) + (inputWidth / 4), ((5 * game.camera.viewportHeight) / 8) - (inputHeightType / 4)));
+                new Vector2((game.camera.viewportWidth / 2) + (inputWidth / 4), ((7 * game.camera.viewportHeight) / 10) - (inputHeightType / 4)));
     }
 
     @Override
@@ -222,13 +227,17 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
 
         squirgleTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (4 * game.partitionSize) + (3 * inputHeightType)
+                && touchPoint.y > (5 * game.partitionSize) + (4 * inputHeightType)
                 && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
         battleTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
+                && touchPoint.y > (4 * game.partitionSize) + (3 * inputHeightType)
+                && touchPoint.y < (4 * game.partitionSize) + (4 * inputHeightType);
+        timeAttackTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (3 * game.partitionSize) + (2 * inputHeightType)
                 && touchPoint.y < (3 * game.partitionSize) + (3 * inputHeightType);
-        timeAttackTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+        timeBattleTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (2 * game.partitionSize) + inputHeightType
                 && touchPoint.y < (2 * game.partitionSize) + (2 * inputHeightType);
@@ -252,6 +261,11 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
         } else if(timeAttackTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
             game.setScreen(new TimeAttackBaseSelectScreen(game));
+            dispose();
+        } else if(timeBattleTouched) {
+            game.confirmSound.play((float) (game.volume / 10.0));
+            //TODO: Set this screen when its code is written.
+            //game.setScreen(new TimeBattleSinglePlayer(game));
             dispose();
         } else if(tranceTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
@@ -296,6 +310,7 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
         drawSquirgleInput();
         drawBattleInput();
         drawTimeAttackInput();
+        drawTimeBattleInput();
         drawTranceInput();
         drawBackInput();
     }
@@ -305,17 +320,23 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
         switch(placement) {
             case SQUIRGLE : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (4 * game.partitionSize) + (3 * inputHeightType),
+                        (5 * game.partitionSize) + (4 * inputHeightType),
                         inputWidth,
                         inputHeightType);
             }
             case BATTLE : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (3 * game.partitionSize) + (2 * inputHeightType),
+                        (4 * game.partitionSize) + (3 * inputHeightType),
                         inputWidth,
                         inputHeightType);
             }
             case TIME_ATTACK : {
+                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                        (3 * game.partitionSize) + (2 * inputHeightType),
+                        inputWidth,
+                        inputHeightType);
+            }
+            case TIME_BATTLE : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
                         (2 * game.partitionSize) + inputHeightType,
                         inputWidth,
@@ -353,8 +374,28 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
     public void drawTimeAttackInput() {
         drawInputRectangle(TIME_ATTACK, timeAttackColor);
         game.draw.drawClock(game.camera.viewportWidth / 2,
-                (3 * game.camera.viewportHeight) / 8,
+                (5 * game.camera.viewportHeight) / 10,
                 inputShapeRadius,
+                Color.BLACK,
+                game.shapeRendererFilled);
+    }
+
+    public void drawTimeBattleInput() {
+        drawInputRectangle(TIME_BATTLE, timeBattleColor);
+        game.shapeRendererFilled.setColor(Color.BLACK);
+        game.shapeRendererFilled.rectLine((2 * game.partitionSize) + inputWidth,
+                (2 * game.partitionSize) + inputHeightType,
+                (2 * game.partitionSize) + (2 * inputWidth),
+                (2 * game.partitionSize) + (2 * inputHeightType),
+                game.partitionSize);
+        game.draw.drawClock((game.camera.viewportWidth / 2) - (inputWidth / 4),
+                ((3 * game.camera.viewportHeight) / 10) + (inputHeightType / 6),
+                inputShapeRadius / 2,
+                Color.BLACK,
+                game.shapeRendererFilled);
+        game.draw.drawClock((game.camera.viewportWidth / 2) + (inputWidth / 4),
+                ((3 * game.camera.viewportHeight) / 10) - (inputHeightType / 6),
+                inputShapeRadius / 2,
                 Color.BLACK,
                 game.shapeRendererFilled);
     }
@@ -362,7 +403,7 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
     public void drawTranceInput() {
         drawInputRectangle(TRANCE, tranceColor);
         game.draw.drawTranceSymbol(game.camera.viewportWidth / 2,
-                game.camera.viewportHeight / 8,
+                game.camera.viewportHeight / 10,
                 inputShapeRadius,
                 Color.BLACK,
                 tranceColor,

@@ -794,7 +794,7 @@ public class TimeAttackScreen implements Screen, InputProcessor {
                 && touchPoint.x < INPUT_EXIT_SPAWN.x + INPUT_RADIUS
                 && touchPoint.y > INPUT_EXIT_SPAWN.y - INPUT_RADIUS
                 && touchPoint.y < INPUT_EXIT_SPAWN.y + INPUT_RADIUS;
-        pauseTouched = touchPoint.x > game.camera.viewportWidth - (2 *(game.camera.viewportWidth / 20))
+        pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
                 && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
                 && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
         pauseBackTouched = touchPoint.x > game.camera.viewportWidth - game.partitionSize - PAUSE_INPUT_WIDTH
