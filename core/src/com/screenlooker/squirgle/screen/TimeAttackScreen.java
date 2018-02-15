@@ -188,7 +188,7 @@ public class TimeAttackScreen implements Screen, InputProcessor {
             game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
 
             if (!gameOver) {
-                game.draw.drawPerimeter(promptShape, game.shapeRendererLine);
+                game.draw.drawPerimeterTimeAttack(promptShape, game.shapeRendererLine);
                 game.draw.drawBackgroundColorShapeListTimeAttack(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
                 game.draw.drawTimelines(promptShape, backgroundColorShapeList, game.shapeRendererFilled);
                 SoundUtils.playMusic(promptShape, game);

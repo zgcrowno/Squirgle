@@ -18,6 +18,7 @@ import com.screenlooker.squirgle.util.SoundUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+//TODO: Probably get rid of touchdown behavior wherever it's used (here and elsewhere).
 public class GameplayScreen implements Screen, InputProcessor {
     final Squirgle game;
 

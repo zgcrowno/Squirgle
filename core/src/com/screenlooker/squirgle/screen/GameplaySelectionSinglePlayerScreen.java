@@ -264,8 +264,7 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
             dispose();
         } else if(timeBattleTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            //TODO: Set this screen when its code is written.
-            //game.setScreen(new TimeBattleSinglePlayer(game));
+            game.setScreen(new TimeBattleBaseSelectSinglePlayerScreen(game));
             dispose();
         } else if(tranceTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
@@ -377,6 +376,7 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
                 (5 * game.camera.viewportHeight) / 10,
                 inputShapeRadius,
                 Color.BLACK,
+                timeAttackColor,
                 game.shapeRendererFilled);
     }
 
@@ -392,11 +392,13 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
                 ((3 * game.camera.viewportHeight) / 10) + (inputHeightType / 6),
                 inputShapeRadius / 2,
                 Color.BLACK,
+                timeBattleColor,
                 game.shapeRendererFilled);
         game.draw.drawClock((game.camera.viewportWidth / 2) + (inputWidth / 4),
                 ((3 * game.camera.viewportHeight) / 10) - (inputHeightType / 6),
                 inputShapeRadius / 2,
                 Color.BLACK,
+                timeBattleColor,
                 game.shapeRendererFilled);
     }
 

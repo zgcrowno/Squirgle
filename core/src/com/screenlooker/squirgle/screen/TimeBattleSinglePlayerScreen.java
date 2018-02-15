@@ -18,7 +18,7 @@ import com.screenlooker.squirgle.util.SoundUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BattleSinglePlayerScreen implements Screen, InputProcessor {
+public class TimeBattleSinglePlayerScreen implements Screen, InputProcessor {
     final Squirgle game;
 
     public static float INIT_PROMPT_RADIUS;
@@ -68,6 +68,7 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
     private final static int COLOR_SPEED_ADDITIVE = 20;
     private final static int EQUATION_WIDTH_DIVISOR = 60;
     private final static int SHAPE_SIZE_LIMIT_MULTIPLIER = 15;
+    private final static int MAX_MULTIPLIER = 5;
     private final static int ONE_SHAPE_AGO = 2;
     private final static int TWO_SHAPES_AGO = 4;
     private final static int THIRTY_DEGREES = 30;
@@ -77,16 +78,20 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
     private final static float FONT_PLAYER_SIZE_DIVISOR = 22.2f;
     private final static float FONT_TARGET_SIZE_DIVISOR = 71f;
     private final static float FONT_SQUIRGLE_SIZE_DIVISOR = 10;
+    private final static float SCORE_DIVISOR = 3.16f;
     private final static float TARGET_RADIUS_DIVISOR = 2.43f;
     private final static float PLAYER_X_DIVISOR = 2.68f;
     private final static float PLAYER_Y_DIVISOR = 1.25f;
+    private final static float MULTIPLIER_X_DIVISOR = 2.68f;
+    private final static float MULTIPLIER_Y_DIVISOR = 1.25f;
     private final static float COLOR_LIST_SPEED_ADDITIVE = 0.1f;
     private final static float PROMPT_INCREASE_ADDITIVE = .0001f;
     private final static float SQUIRGLE_OPACITY_DECREMENT = .03f;
 
     public final static String P1 = "P1";
     public final static String P2 = "P2";
-    public final static int MAX_SATURATION = 15;
+    private final static String X = "X";
+    private final static String COLON = ":";
     private final static String SQUIRGLE = "SQUIRGLE";
 
     private float promptIncrease;
@@ -151,6 +156,8 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
     private boolean gameOver;
     private boolean showResults;
     private boolean paused;
+    private int multiplierP1;
+    private int multiplierP2;
     private long startTime;
     private long endTime;
     private long pauseStartTime;
@@ -165,10 +172,10 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
     float primaryShapeThreshold;
     boolean primaryShapeAtThresholdP1;
     boolean primaryShapeAtThresholdP2;
-    private int saturationP1;
-    private int saturationP2;
+    private int scoreP1;
+    private int scoreP2;
 
-    public BattleSinglePlayerScreen(final Squirgle game) {
+    public TimeBattleSinglePlayerScreen(final Squirgle game) {
         this.game = game;
 
         game.resetInstanceData();
@@ -209,7 +216,7 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
         primaryShapeAtThresholdP1 = primaryShapeP1.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP2 = primaryShapeP2.getRadius() >= primaryShapeThreshold;
 
-        managePromptRadii();
+        increasePromptRadii();
 
         increaseDummyPromptRadius();
 
@@ -218,11 +225,11 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
         drawBackgroundColorShape();
 
         if(!paused) {
-            if(!(gameOver && saturationP1 > saturationP2)) {
+            if(!(gameOver && scoreP1 < scoreP2)) {
                 game.draw.drawPrompt(promptShapeP1, priorShapeListP1, 0, backgroundColorShape, false, false, game.shapeRendererFilled);
                 game.draw.drawShapes(priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1, game.shapeRendererFilled);
             }
-            if(!(gameOver && saturationP2 >= saturationP1)) {
+            if(!(gameOver && scoreP2 <= scoreP1)) {
                 game.draw.drawPrompt(promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false, game.shapeRendererFilled);
                 game.draw.drawShapes(priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2, game.shapeRendererFilled);
             }
@@ -238,21 +245,21 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
             //the screen to the right.
             //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
             //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
-            if(!(gameOver && saturationP1 > saturationP2)) {
+            if(!(gameOver && scoreP1 < scoreP2)) {
                 game.draw.drawShapes(priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1, game.shapeRendererFilled);
             }
-            if(!(gameOver && saturationP2 >= saturationP1)) {
+            if(!(gameOver && scoreP2 <= scoreP1)) {
                 game.draw.drawShapes(priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2, game.shapeRendererFilled);
             }
 
             if (!gameOver) {
-                game.draw.drawPerimeterBattleSinglePlayer(game.camera.viewportHeight / 4, promptShapeP1, game.shapeRendererLine);
-                game.draw.drawPerimeterBattleSinglePlayer((3 * game.camera.viewportHeight) / 4, promptShapeP2, game.shapeRendererLine);
-                game.draw.drawScreenDivision(Color.BLACK, game.shapeRendererLine);
-                game.draw.drawBackgroundColorShapeListBattleSinglePlayer(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
+                game.draw.drawPerimeterTimeBattleSinglePlayer(game.camera.viewportHeight / 4, promptShapeP1, game.shapeRendererLine);
+                game.draw.drawPerimeterTimeBattleSinglePlayer((3 * game.camera.viewportHeight) / 4, promptShapeP2, game.shapeRendererLine);
+                game.draw.drawScreenDivision(Color.WHITE, game.shapeRendererLine);
+                game.draw.drawBackgroundColorShapeListTimeBattleSinglePlayer(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
                 game.draw.drawTimelines(dummyPromptForTimelines, backgroundColorShapeList, game.shapeRendererFilled);
                 SoundUtils.playMusic(promptShapeP1, game);
-                game.draw.drawTargetSemicirclesBattleSinglePlayer(game.shapeRendererFilled);
+                game.draw.drawTargetSemicirclesTimeBattleSinglePlayer(game.shapeRendererFilled);
             }
         }
 
@@ -262,20 +269,13 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
 
         if(!paused) {
             if (!gameOver) {
-                game.draw.drawInputButtonsBattleSinglePlayer(game, game.shapeRendererFilled);
-                game.draw.drawSaturationTrianglesBattleSinglePlayer(game.shapeRendererFilled);
-                if(saturationP1 > 0) {
-                    game.draw.drawSaturationBattleSinglePlayer(P1, saturationP1, game.shapeRendererFilled);
-                }
-                if(saturationP2 > 0) {
-                    game.draw.drawSaturationBattleSinglePlayer(P2, saturationP2, game.shapeRendererFilled);
-                }
-                game.draw.drawSaturationIncrementsBattleSinglePlayer(backgroundColorShape.getColor(), game.shapeRendererFilled);
+                game.draw.drawInputButtonsTimeBattleSinglePlayer(game, game.shapeRendererFilled);
+                game.draw.drawScoreTrianglesTimeBattleSinglePlayer(game.shapeRendererFilled);
                 game.draw.drawPrompt(outsideTargetShapeP1, targetShapeListP1, targetShapesMatchedP1, backgroundColorShape, false, true, game.shapeRendererFilled);
                 game.draw.drawShapes(targetShapeListP1, outsideTargetShapeP1, false, game.shapeRendererFilled);
                 game.draw.drawPrompt(outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true, game.shapeRendererFilled);
                 game.draw.drawShapes(targetShapeListP2, outsideTargetShapeP2, false, game.shapeRendererFilled);
-                game.draw.drawPauseInputBattleSinglePlayer(game);
+                game.draw.drawPauseInputTimeBattleSinglePlayer(game);
                 drawTargetArcs();
             }
         }
@@ -503,12 +503,12 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
 
             if (showResults) {
                 List<Shape> priorShapeListToUse = new ArrayList<Shape>();
-                if(saturationP1 > saturationP2) {
-                    priorShapeListToUse = priorShapeListP2;
-                } else if(saturationP1 < saturationP2 || saturationP1 == saturationP2) {
+                if(scoreP1 >= scoreP2) {
                     priorShapeListToUse = priorShapeListP1;
+                } else if(scoreP1 < scoreP2) {
+                    priorShapeListToUse = priorShapeListP2;
                 }
-                if (priorShapeListToUse.size() > 0 && (priorShapeListToUse.get(0).getShape() == Shape.LINE || priorShapeListToUse.get(0).getShape() == Shape.POINT)) {
+                if (priorShapeListToUse.size() > 0 && (priorShapeListToUse.get(0).getShape() != Shape.LINE || priorShapeListToUse.get(0).getShape() != Shape.POINT)) {
                     resultsColor = Color.BLACK;
                 } else {
                     resultsColor = Color.WHITE;
@@ -517,9 +517,27 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
                         game.fontPlayer,
                         game.layout,
                         resultsColor,
-                        saturationP1 > saturationP2 ? Squirgle.RESULTS_DEFEAT : saturationP1 < saturationP2 ? Squirgle.RESULTS_VICTORY : Squirgle.RESULTS_TIE,
+                        scoreP1 > scoreP2 ? Squirgle.RESULTS_VICTORY : scoreP1 < scoreP2 ? Squirgle.RESULTS_DEFEAT : Squirgle.RESULTS_TIE,
                         game.camera.viewportWidth / 2,
                         game.camera.viewportHeight / 2,
+                        0,
+                        1);
+                FontUtils.printText(game.batch,
+                        game.fontPlayer,
+                        game.layout,
+                        resultsColor,
+                        P1 + COLON + scoreP1,
+                        game.camera.viewportWidth / 2,
+                        game.camera.viewportHeight / 4,
+                        0,
+                        1);
+                FontUtils.printText(game.batch,
+                        game.fontPlayer,
+                        game.layout,
+                        resultsColor,
+                        P2 + COLON + scoreP2,
+                        game.camera.viewportWidth / 2,
+                        (3 * game.camera.viewportHeight) / 4,
                         0,
                         1);
             }
@@ -527,23 +545,43 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
     }
 
     public void drawPlayerText() {
-        //Player Designations
+        //Scores
+        FontUtils.printText(game.batch,
+                game.fontPlayer,
+                game.layout,
+                backgroundColorShape.getColor(),
+                String.valueOf(scoreP1),
+                game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
+                (game.camera.viewportHeight / 2) - (TARGET_RADIUS / SCORE_DIVISOR),
+                PLAYER_ANGLE,
+                1);
+        FontUtils.printText(game.batch,
+                game.fontPlayer,
+                game.layout,
+                backgroundColorShape.getColor(),
+                String.valueOf(scoreP2),
+                game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
+                game.camera.viewportHeight - (TARGET_RADIUS / SCORE_DIVISOR),
+                PLAYER_ANGLE,
+                1);
+
+        //Designations and multipliers
         FontUtils.printText(game.batch,
                 game.fontPlayer,
                 game.layout,
                 Color.WHITE,
-                P2,
-                game.camera.viewportWidth - (TARGET_RADIUS / PLAYER_X_DIVISOR),
-                game.camera.viewportHeight - (TARGET_RADIUS / PLAYER_Y_DIVISOR),
+                P1 + COLON + X + multiplierP1,
+                game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
+                (game.camera.viewportHeight / 2) - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
                 PLAYER_ANGLE,
                 1);
         FontUtils.printText(game.batch,
                 game.fontPlayer,
                 game.layout,
                 Color.WHITE,
-                P1,
-                game.camera.viewportWidth - (TARGET_RADIUS / PLAYER_X_DIVISOR),
-                (game.camera.viewportHeight / 2) - (TARGET_RADIUS / PLAYER_Y_DIVISOR),
+                P2 + COLON + X + multiplierP2,
+                game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
+                game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
                 PLAYER_ANGLE,
                 1);
     }
@@ -631,22 +669,20 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
     }
 
     public void drawTargetArcs() {
-        game.draw.drawArcBattleSinglePlayer(game.camera.viewportHeight / 2, targetArcStartP1, targetArcColor, game.shapeRendererFilled);
+        game.draw.drawArcTimeBattleSinglePlayer(game.camera.viewportHeight / 2, targetArcStartP1, targetArcColor, game.shapeRendererFilled);
         if(targetArcStartP1 > -Draw.NINETY_ONE_DEGREES) {
             targetArcStartP1 -= TARGET_ARC_SPEED;
         }
-        game.draw.drawArcBattleSinglePlayer(game.camera.viewportHeight, targetArcStartP2, targetArcColor, game.shapeRendererFilled);
+        game.draw.drawArcTimeBattleSinglePlayer(game.camera.viewportHeight, targetArcStartP2, targetArcColor, game.shapeRendererFilled);
         if(targetArcStartP2 > -Draw.NINETY_ONE_DEGREES) {
             targetArcStartP2 -= TARGET_ARC_SPEED;
         }
     }
 
-    public void managePromptRadii() {
+    public void increasePromptRadii() {
         if(!paused) {
-            float screenRemainderP1 = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth / 4 : (game.camera.viewportHeight / 8);
-            float screenRemainderP2 = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth / 4 : (game.camera.viewportHeight / 8);
-            promptShapeP1.setRadius(gameOver ? promptShapeP1.getRadius() * promptIncrease : INIT_PROMPT_RADIUS + ((float) saturationP1 / MAX_SATURATION) * screenRemainderP1);
-            promptShapeP2.setRadius(gameOver ? promptShapeP2.getRadius() * promptIncrease : INIT_PROMPT_RADIUS + ((float) saturationP2 / MAX_SATURATION) * screenRemainderP2);
+            promptShapeP1.setRadius(gameOver ? promptShapeP1.getRadius() * promptIncrease : promptShapeP1.getRadius() + (promptIncrease / 4));
+            promptShapeP2.setRadius(gameOver ? promptShapeP2.getRadius() * promptIncrease : promptShapeP2.getRadius() + (promptIncrease / 4));
         }
     }
 
@@ -703,12 +739,10 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
             if(gameOver) {
                 if ((System.currentTimeMillis() - endTime) / ONE_THOUSAND > TWO_SECONDS) {
                     Shape promptShapeToUse = new Shape();
-                    if(saturationP1 > saturationP2) {
+                    if(scoreP1 >= scoreP2) {
+                        promptShapeToUse = promptShapeP1;
+                    } else if(scoreP1 < scoreP2) {
                         promptShapeToUse = promptShapeP2;
-                    } else if(saturationP1 < saturationP2) {
-                        promptShapeToUse = promptShapeP1;
-                    } else {
-                        promptShapeToUse = promptShapeP1;
                     }
                     if(promptShapeToUse == promptShapeP1) {
                         if (!primaryShapeAtThresholdP1) { //TODO: Also account for height (different screen orientations?)
@@ -754,13 +788,13 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
         if(!paused) {
             if(!gameOver) {
                 if(equationWidthP1 > 0) {
-                    game.draw.drawEquationBattleSinglePlayer(P1, lastShapeTouchedP1, lastPromptShapeP1, lastTargetShapeP1, equationWidthP1, game.shapeRendererFilled);
+                    game.draw.drawEquationTimeBattleSinglePlayer(P1, lastShapeTouchedP1, lastPromptShapeP1, lastTargetShapeP1, equationWidthP1, game.shapeRendererFilled);
                     equationWidthP1 -= INPUT_RADIUS / EQUATION_WIDTH_DIVISOR;
                 } else {
                     equationWidthP1 = 0;
                 }
                 if(equationWidthP2 > 0) {
-                    game.draw.drawEquationBattleSinglePlayer(P2, lastShapeTouchedP2, lastPromptShapeP2, lastTargetShapeP2, equationWidthP2, game.shapeRendererFilled);
+                    game.draw.drawEquationTimeBattleSinglePlayer(P2, lastShapeTouchedP2, lastPromptShapeP2, lastTargetShapeP2, equationWidthP2, game.shapeRendererFilled);
                     equationWidthP2 -= INPUT_RADIUS / EQUATION_WIDTH_DIVISOR;
                 } else {
                     equationWidthP2 = 0;
@@ -796,7 +830,13 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
     public void drawResultsInputButtons() {
         if(!paused) {
             if (showResults) {
-                game.draw.drawResultsInputButtonsBattleSinglePlayer(INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN, game.shapeRendererFilled);
+                List<Shape> priorShapeListToUse = new ArrayList<Shape>();
+                if(scoreP1 >= scoreP2) {
+                    priorShapeListToUse = priorShapeListP1;
+                } else if(scoreP1 < scoreP2) {
+                    priorShapeListToUse = priorShapeListP2;
+                }
+                game.draw.drawResultsInputButtonsTimeBattleSinglePlayer(INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN, priorShapeListToUse, game.shapeRendererFilled);
             }
         }
     }
@@ -804,7 +844,7 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
     public void gameOver() {
         //Game over condition
         //TODO: Update these conditionals when horizontal or vertical splitscreen is an option
-        if ((saturationP1 >= MAX_SATURATION || saturationP2 >= MAX_SATURATION || dummyPromptForTimelines.getRadius() >= game.widthOrHeight / 2) && !gameOver) {
+        if (promptShapeP1.getRadius() >= 2 * INIT_PROMPT_RADIUS && !gameOver) {
             gameOver = true;
             stopMusic();
             promptIncrease = 1;
@@ -1147,7 +1187,7 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
 
     public void handleResultsInput() {
         if (playTouched) {
-            game.setScreen(new BattleSinglePlayerScreen(game));
+            game.setScreen(new TimeBattleSinglePlayerScreen(game));
         } else if (homeTouched) {
             game.setScreen(new MainMenuScreen(game));
         } else {
@@ -1207,7 +1247,7 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
             targetShapesMatchedP1++;
             Shape circleContainer = new Shape(Shape.CIRCLE,
                     promptShapeP1.getRadius(),
-                    Color.BLACK,
+                    Color.WHITE,
                     null,
                     promptShapeP1.getLineWidth(),
                     promptShapeP1.getCoordinates());
@@ -1224,69 +1264,38 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
             priorShapeListP1.add(promptShapeToAdd);
             priorShapeListP1.add(circleContainer);
             if (targetShapesMatchedP1 == 1) {
-                currentTargetShapeP1.setColor(priorShapeListP1.get(priorShapeListP1.size() - ONE_SHAPE_AGO).getColor());
+                currentTargetShapeP1.setColor(Color.WHITE);
                 currentTargetShapeP1 = outsideTargetShapeP1;
             } else {
                 targetShapesMatchedP1 = 0;
+                scoreP1 += multiplierP1;
+                if (multiplierP1 < MAX_MULTIPLIER) {
+                    multiplierP1++;
+                }
                 targetShapeListP1.clear();
-                if (priorShapeListP1.get(priorShapeListP1.size() - TWO_SHAPES_AGO).getColor().equals(priorShapeListP1.get(priorShapeListP1.size() - ONE_SHAPE_AGO).getColor())) {
-                    //SQUIRGLE!!!
-                    outsideTargetShapeP1.setShape(Shape.TRIANGLE);
-                    outsideTargetShapeP1.setColor(Color.BLACK);
-                    targetShapeListP1.add(new Shape(Shape.SQUARE,
+                outsideTargetShapeP1.setShape(MathUtils.random(game.base - 1));
+                outsideTargetShapeP1.setColor(Color.BLACK);
+                targetShapeListP1.add(new Shape(MathUtils.random(game.base - 1),
                             0,
                             Color.WHITE,
                             null,
                             INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                             new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                                     game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
-                    targetShapeListP1.add(new Shape(Shape.CIRCLE,
+                targetShapeListP1.add(new Shape(Shape.CIRCLE,
                             0,
                             Color.BLACK,
                             null,
                             INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                             new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                                     game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
-                    targetArcStartP1 = Draw.NINETY_ONE_DEGREES;
-                    targetArcColor = priorShapeListP1.get(priorShapeListP1.size() - TWO_SHAPES_AGO).getColor();
-                } else {
-                    outsideTargetShapeP1.setShape(MathUtils.random(game.base - 1));
-                    outsideTargetShapeP1.setColor(Color.BLACK);
-                    targetShapeListP1.add(new Shape(MathUtils.random(game.base - 1),
-                            0,
-                            Color.WHITE,
-                            null,
-                            INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                            new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
-                                    game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
-                    targetShapeListP1.add(new Shape(Shape.CIRCLE,
-                            0,
-                            Color.BLACK,
-                            null,
-                            INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                            new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
-                                    game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
-                    if (targetShapeListP1.get(0).getShape() == Shape.SQUARE) {
-                        while (outsideTargetShapeP1.getShape() == Shape.TRIANGLE) {
-                            outsideTargetShapeP1.setShape(MathUtils.random(Shape.SQUARE));
-                        }
-                    }
-                }
-                if (priorShapeListP1.get(priorShapeListP1.size() - TWO_SHAPES_AGO).getShape() == Shape.SQUARE && priorShapeListP1.get(priorShapeListP1.size() - ONE_SHAPE_AGO).getShape() == Shape.TRIANGLE) {
-                    //SQUIRGLE MATCHED!!!
-                    saturationP1 -= 5;
-                    saturationP2 += 3;
-                    squirgleOpacityP1 = 1;
-                } else {
-                    saturationP2++;
-                }
                 currentTargetShapeP1 = targetShapeListP1.get(0);
             }
         } else {
             targetShapesMatchedP2++;
             Shape circleContainer = new Shape(Shape.CIRCLE,
                     promptShapeP2.getRadius(),
-                    Color.BLACK,
+                    Color.WHITE,
                     null,
                     promptShapeP2.getLineWidth(),
                     promptShapeP2.getCoordinates());
@@ -1307,84 +1316,44 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
                 currentTargetShapeP2 = outsideTargetShapeP2;
             } else {
                 targetShapesMatchedP2 = 0;
+                scoreP2 += multiplierP2;
+                if (multiplierP2 < MAX_MULTIPLIER) {
+                    multiplierP2++;
+                }
                 targetShapeListP2.clear();
-                if (priorShapeListP2.get(priorShapeListP2.size() - TWO_SHAPES_AGO).getColor().equals(priorShapeListP2.get(priorShapeListP2.size() - ONE_SHAPE_AGO).getColor())) {
-                    //SQUIRGLE!!!
-                    outsideTargetShapeP2.setShape(Shape.TRIANGLE);
-                    outsideTargetShapeP2.setColor(Color.BLACK);
-                    targetShapeListP2.add(new Shape(Shape.SQUARE,
+                outsideTargetShapeP2.setShape(MathUtils.random(game.base - 1));
+                outsideTargetShapeP2.setColor(Color.BLACK);
+                targetShapeListP2.add(new Shape(MathUtils.random(game.base - 1),
                             0,
                             Color.WHITE,
                             null,
                             INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                             new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                                     game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
-                    targetShapeListP2.add(new Shape(Shape.CIRCLE,
+                targetShapeListP2.add(new Shape(Shape.CIRCLE,
                             0,
                             Color.BLACK,
                             null,
                             INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                             new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                                     game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
-                    targetArcStartP2 = Draw.NINETY_ONE_DEGREES;
-                    targetArcColor = priorShapeListP2.get(priorShapeListP2.size() - TWO_SHAPES_AGO).getColor();
-                } else {
-                    outsideTargetShapeP2.setShape(MathUtils.random(game.base - 1));
-                    outsideTargetShapeP2.setColor(Color.BLACK);
-                    targetShapeListP2.add(new Shape(MathUtils.random(game.base - 1),
-                            0,
-                            Color.WHITE,
-                            null,
-                            INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                            new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
-                                    game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
-                    targetShapeListP2.add(new Shape(Shape.CIRCLE,
-                            0,
-                            Color.BLACK,
-                            null,
-                            INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                            new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
-                                    game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
-                    if (targetShapeListP2.get(0).getShape() == Shape.SQUARE) {
-                        while (outsideTargetShapeP2.getShape() == Shape.TRIANGLE) {
-                            outsideTargetShapeP2.setShape(MathUtils.random(Shape.SQUARE));
-                        }
-                    }
-                }
-                if (priorShapeListP2.get(priorShapeListP2.size() - TWO_SHAPES_AGO).getShape() == Shape.SQUARE && priorShapeListP2.get(priorShapeListP2.size() - ONE_SHAPE_AGO).getShape() == Shape.TRIANGLE) {
-                    //SQUIRGLE MATCHED!!!
-                    saturationP2 -= 5;
-                    saturationP1 += 3;
-                    squirgleOpacityP2 = 1;
-                } else {
-                    saturationP1++;
-                }
                 currentTargetShapeP2 = targetShapeListP2.get(0);
             }
         }
-        keepSaturationsInBounds();
     }
 
     public void shapesMismatchedBehavior(String player) {
         //The wrong shape was touched
         if(player.equals(P1)) {
-            saturationP1++;
+            multiplierP1 = 1;
+            if(scoreP1 > 0) {
+                scoreP1--;
+            }
         } else {
-            saturationP2++;
-        }
-        keepSaturationsInBounds();
-    }
-
-    public void keepSaturationsInBounds() {
-        if(saturationP1 < 0) {
-            saturationP1 = 0;
-        } else if(saturationP1 > MAX_SATURATION) {
-            saturationP1 = MAX_SATURATION;
-        }
-        if(saturationP2 < 0) {
-            saturationP2 = 0;
-        } else if(saturationP2 > MAX_SATURATION) {
-            saturationP2 = MAX_SATURATION;
+            multiplierP2 = 1;
+            if(scoreP2 > 0) {
+                scoreP2--;
+            }
         }
     }
 
@@ -1401,57 +1370,57 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
             //50% chance the player's opponent will do anything
             if(MathUtils.random(1) > 0) {
                 inputTouchedGameplayP2 = true;
-                    if(currentTargetShapeP2.getShape() > promptShapeP2.getShape()) {
-                        if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 1) {
-                            pointTouchedP2 = true;
-                        } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 2) {
-                            lineTouchedP2 = true;
-                        } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 3) {
-                            triangleTouchedP2 = true;
-                        } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 4) {
-                            squareTouchedP2 = true;
-                        } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 5) {
-                            pentagonTouchedP2 = true;
-                        } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 6) {
-                            hexagonTouchedP2 = true;
-                        } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 7) {
-                            septagonTouchedP2 = true;
-                        } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 8) {
-                            octagonTouchedP2 = true;
-                        }
-                    } else if(currentTargetShapeP2.getShape() < promptShapeP2.getShape()) {
-                        if(promptShapeP2.getShape() + Shape.POINT - (game.base - 1) == currentTargetShapeP2.getShape()) {
-                            pointTouchedP2 = true;
-                        } else if(promptShapeP2.getShape() + Shape.LINE - (game.base - 1) == currentTargetShapeP2.getShape()) {
-                            lineTouchedP2 = true;
-                        } else if(promptShapeP2.getShape() + Shape.TRIANGLE - (game.base - 1) == currentTargetShapeP2.getShape()) {
-                            triangleTouchedP2 = true;
-                        } else if(promptShapeP2.getShape() + Shape.SQUARE - (game.base - 1) == currentTargetShapeP2.getShape()) {
-                            squareTouchedP2 = true;
-                        } else if(promptShapeP2.getShape() + Shape.PENTAGON - (game.base - 1) == currentTargetShapeP2.getShape()) {
-                            pentagonTouchedP2 = true;
-                        } else if(promptShapeP2.getShape() + Shape.HEXAGON - (game.base - 1) == currentTargetShapeP2.getShape()) {
-                            hexagonTouchedP2 = true;
-                        } else if(promptShapeP2.getShape() + Shape.SEPTAGON - (game.base - 1) == currentTargetShapeP2.getShape()) {
-                            septagonTouchedP2 = true;
-                        } else if(promptShapeP2.getShape() + Shape.OCTAGON - (game.base - 1) == currentTargetShapeP2.getShape()) {
-                            octagonTouchedP2 = true;
-                        }
-                    } else {
-                        if(game.base == 4) {
-                            squareTouchedP2 = true;
-                        } else if(game.base == 5) {
-                            pentagonTouchedP2 = true;
-                        } else if(game.base == 6) {
-                            hexagonTouchedP2 = true;
-                        } else if(game.base == 7) {
-                            septagonTouchedP2 = true;
-                        } else if(game.base == 8) {
-                            octagonTouchedP2 = true;
-                        } else if(game.base == 9) {
-                            nonagonTouchedP2 = true;
-                        }
+                if(currentTargetShapeP2.getShape() > promptShapeP2.getShape()) {
+                    if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 1) {
+                        pointTouchedP2 = true;
+                    } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 2) {
+                        lineTouchedP2 = true;
+                    } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 3) {
+                        triangleTouchedP2 = true;
+                    } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 4) {
+                        squareTouchedP2 = true;
+                    } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 5) {
+                        pentagonTouchedP2 = true;
+                    } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 6) {
+                        hexagonTouchedP2 = true;
+                    } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 7) {
+                        septagonTouchedP2 = true;
+                    } else if(currentTargetShapeP2.getShape() - promptShapeP2.getShape() == 8) {
+                        octagonTouchedP2 = true;
                     }
+                } else if(currentTargetShapeP2.getShape() < promptShapeP2.getShape()) {
+                    if(promptShapeP2.getShape() + Shape.POINT - (game.base - 1) == currentTargetShapeP2.getShape()) {
+                        pointTouchedP2 = true;
+                    } else if(promptShapeP2.getShape() + Shape.LINE - (game.base - 1) == currentTargetShapeP2.getShape()) {
+                        lineTouchedP2 = true;
+                    } else if(promptShapeP2.getShape() + Shape.TRIANGLE - (game.base - 1) == currentTargetShapeP2.getShape()) {
+                        triangleTouchedP2 = true;
+                    } else if(promptShapeP2.getShape() + Shape.SQUARE - (game.base - 1) == currentTargetShapeP2.getShape()) {
+                        squareTouchedP2 = true;
+                    } else if(promptShapeP2.getShape() + Shape.PENTAGON - (game.base - 1) == currentTargetShapeP2.getShape()) {
+                        pentagonTouchedP2 = true;
+                    } else if(promptShapeP2.getShape() + Shape.HEXAGON - (game.base - 1) == currentTargetShapeP2.getShape()) {
+                        hexagonTouchedP2 = true;
+                    } else if(promptShapeP2.getShape() + Shape.SEPTAGON - (game.base - 1) == currentTargetShapeP2.getShape()) {
+                        septagonTouchedP2 = true;
+                    } else if(promptShapeP2.getShape() + Shape.OCTAGON - (game.base - 1) == currentTargetShapeP2.getShape()) {
+                        octagonTouchedP2 = true;
+                    }
+                } else {
+                    if(game.base == 4) {
+                        squareTouchedP2 = true;
+                    } else if(game.base == 5) {
+                        pentagonTouchedP2 = true;
+                    } else if(game.base == 6) {
+                        hexagonTouchedP2 = true;
+                    } else if(game.base == 7) {
+                        septagonTouchedP2 = true;
+                    } else if(game.base == 8) {
+                        octagonTouchedP2 = true;
+                    } else if(game.base == 9) {
+                        nonagonTouchedP2 = true;
+                    }
+                }
                 handleInput(P2);
                 resetOpponentTouch();
             }
@@ -1478,10 +1447,10 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
         PAUSE_INPUT_WIDTH = (game.camera.viewportWidth - (4 * game.partitionSize)) / 3;
         PAUSE_INPUT_HEIGHT = game.camera.viewportHeight - (2 * game.partitionSize);
         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS = game.camera.viewportHeight / 68;
-        BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P1 = ((game.camera.viewportHeight / 2) - (INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
-        BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT_P1 = (game.camera.viewportHeight / 2) - (INPUT_RADIUS / 2);
-        BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P2 = (game.camera.viewportHeight - (INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
-        BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT_P2 = game.camera.viewportHeight - (INPUT_RADIUS / 2);
+        BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P1 = ((game.camera.viewportHeight / 2) + BACKGROUND_COLOR_LIST_ELEMENT_RADIUS) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
+        BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT_P1 = (game.camera.viewportHeight / 2) + BACKGROUND_COLOR_LIST_ELEMENT_RADIUS;
+        BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P2 = (game.camera.viewportHeight + BACKGROUND_COLOR_LIST_ELEMENT_RADIUS) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
+        BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT_P2 = game.camera.viewportHeight + BACKGROUND_COLOR_LIST_ELEMENT_RADIUS;
         BACKGROUND_COLOR_SHAPE_LIST_WIDTH = (TARGET_RADIUS + (6 * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7))) - (TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7));
         INIT_PROMPT_RADIUS = game.widthOrHeight / 8;
         for(int i = 1; i <= game.base; i++) {
@@ -1524,16 +1493,16 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
             if (i == 0) {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS,
-                        Color.WHITE,
-                        ColorUtils.randomColor(),
+                        Color.BLACK,
+                        Color.BLACK,
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7),
                                 BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P2)));
             } else {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS,
-                        Color.WHITE,
-                        ColorUtils.randomColor(),
+                        Color.BLACK,
+                        Color.BLACK,
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(TARGET_RADIUS + (i * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7)),
                                 BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT_P2)));
@@ -1671,6 +1640,8 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
         gameOver = false;
         showResults = false;
         paused = false;
+        multiplierP1 = 1;
+        multiplierP2 = 1;
         startTime = System.currentTimeMillis();
         endTime = 0;
         pauseStartTime = 0;
@@ -1690,8 +1661,8 @@ public class BattleSinglePlayerScreen implements Screen, InputProcessor {
 
         primaryShapeAtThresholdP1 = primaryShapeP1.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP2 = primaryShapeP2.getRadius() >= primaryShapeThreshold;
-        saturationP1 = 0;
-        saturationP2 = 0;
+        scoreP1 = 0;
+        scoreP2 = 0;
     }
 
     public void setUpGL() {
