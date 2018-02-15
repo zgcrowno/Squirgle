@@ -50,6 +50,15 @@ public class Squirgle extends Game {
 	public final static int MUSIC_NONPLUSSED = 8;
 	public final static int MUSIC_THEME_FROM_SQUIRGLE = 9;
 
+	public final static int GAMEPLAY_SQUIRGLE = 0;
+	public final static int GAMEPLAY_BATTLE = 1;
+	public final static int GAMEPLAY_TIME_ATTACK = 2;
+	public final static int GAMEPLAY_TIME_BATTLE = 3;
+	public final static int GAMEPLAY_BATTLE_LOCAL = 4;
+	public final static int GAMEPLAY_TIME_BATTLE_LOCAL = 5;
+	public final static int GAMEPLAY_BATTLE_ONLINE = 6;
+	public final static int GAMEPLAY_TIME_BATTLE_ONLINE = 7;
+
 	public final static String MUSIC_TYPE_FULL = "FULL";
 	public final static String MUSIC_TYPE_SPLIT = "SPLIT";
 	public final static String MUSIC_TITLE_POINTILLISM = "POINTILLISM";

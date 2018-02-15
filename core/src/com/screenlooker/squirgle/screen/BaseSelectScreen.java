@@ -313,7 +313,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
             game.base = 4;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
             dispose();
         } else if(base5Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -321,7 +321,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
             game.base = 5;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
             dispose();
         } else if(base6Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -329,7 +329,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
             game.base = 6;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
             dispose();
         } else if(base7Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -337,7 +337,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
             game.base = 7;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
             dispose();
         } else if(base8Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -345,7 +345,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
             game.base = 8;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
             dispose();
         } else if(base9Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -353,7 +353,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
             game.base = 9;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
             dispose();
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
