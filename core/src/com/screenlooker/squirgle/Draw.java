@@ -884,21 +884,23 @@ public class Draw {
         }
     }
 
-    public void drawResultsInputButtons(Vector2 inputPlaySpawn, Vector2 inputHomeSpawn, Vector2 inputExitSpawn, ShapeRenderer shapeRenderer) {
+    public void drawResultsInputButtons(Color resultsColor, Vector2 inputPlaySpawn, Vector2 inputHomeSpawn, Vector2 inputExitSpawn, ShapeRenderer shapeRenderer) {
+        Color symbolColor = resultsColor.equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
+
         //Play
-        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.setColor(resultsColor);
         shapeRenderer.circle(inputPlaySpawn.x, inputPlaySpawn.y, GameplayScreen.INPUT_RADIUS);
-        drawPlayButton(inputPlaySpawn.x, inputPlaySpawn.y, GameplayScreen.INPUT_RADIUS / 2, (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+        drawPlayButton(inputPlaySpawn.x, inputPlaySpawn.y, GameplayScreen.INPUT_RADIUS / 2, (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, symbolColor, shapeRenderer);
 
         //Home
-        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.setColor(resultsColor);
         shapeRenderer.circle(inputHomeSpawn.x, inputHomeSpawn.y, GameplayScreen.INPUT_RADIUS);
-        drawBackButton(inputHomeSpawn.x, inputHomeSpawn.y, GameplayScreen.INPUT_RADIUS / 2, (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+        drawBackButton(inputHomeSpawn.x, inputHomeSpawn.y, GameplayScreen.INPUT_RADIUS / 2, (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, symbolColor, shapeRenderer);
 
         //Exit
-        shapeRenderer.setColor(Color.WHITE);
+        shapeRenderer.setColor(resultsColor);
         shapeRenderer.circle(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS);
-        drawX(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+        drawX(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, symbolColor, shapeRenderer);
     }
 
     public void drawEquation(String player, Shape lastShapeTouched, Shape lastPromptShape, Shape lastTargetShape, float equationWidth, ShapeRenderer shapeRenderer) {
@@ -1538,7 +1540,8 @@ public class Draw {
         }
     }
 
-    public void drawBackgroundColorShapeList(List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color clearColor, ShapeRenderer shapeRenderer) {
+    //TODO: Configure this to draw two lists for two players (or one player and CPU; we've already got the unused parameter for it)
+    public void drawBackgroundColorShapeList(String player, boolean blackAndWhite, List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color clearColor, ShapeRenderer shapeRenderer) {
         for (int i = 0; i < backgroundColorShapeList.size(); i++) {
             Shape shape = backgroundColorShapeList.get(i);
             drawShape(shape, shapeRenderer);
@@ -1567,15 +1570,24 @@ public class Draw {
                 backgroundColorShape.setCoordinates(new Vector2(game.camera.viewportWidth / 2,
                         game.camera.viewportHeight + (game.camera.viewportWidth / 2)));
 
+                float newElementY = 0;
+                if(player == null) {
+                    newElementY = GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT;
+                } else if(player.equals(GameplayScreen.P1)) {
+                    newElementY = GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P1;
+                } else {
+                    newElementY = GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P2;
+                }
+
                 backgroundColorShapeList.remove(backgroundColorShapeList.size() - 1);
                 backgroundColorShapeList.add(0,
                         new Shape(Shape.SQUARE,
                                 newRadius,
-                                Color.WHITE,
-                                ColorUtils.randomColor(),
+                                blackAndWhite ? Color.BLACK : Color.WHITE,
+                                blackAndWhite ? Color.BLACK : ColorUtils.randomColor(),
                                 newRadius / LINE_WIDTH_DIVISOR,
                                 new Vector2(GameplayScreen.TARGET_RADIUS + ((game.camera.viewportWidth - (GameplayScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)),
-                                        (game.camera.viewportHeight - (GameplayScreen.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (GameplayScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)))));
+                                        newElementY)));
             }
         }
     }
@@ -1708,7 +1720,7 @@ public class Draw {
 
     public void drawArc(float x, float y, float start, Color color, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(color);
-        shapeRenderer.arc(0, game.camera.viewportHeight, GameplayScreen.TARGET_RADIUS, start, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
+        shapeRenderer.arc(x, y, GameplayScreen.TARGET_RADIUS, start, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
     }
 
     public void drawArcTutorial(float start, Color color, ShapeRenderer shapeRenderer) {

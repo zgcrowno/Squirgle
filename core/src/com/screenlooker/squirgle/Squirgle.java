@@ -365,6 +365,7 @@ public class Squirgle extends Game {
 		lineage.setLooping(true);
 		trackMapFull.put(MUSIC_LINEAGE, lineage);
 
+		//TODO: Figure out why Pointillism is playing when Lineage is chosen as phased.
 		//lineage (phases)
 		Music lineagePhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Phase 1).wav"));
 		Music lineagePhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Phase 2).wav"));
@@ -372,9 +373,9 @@ public class Squirgle extends Game {
 		lineagePhase1.setLooping(true);
 		lineagePhase2.setLooping(true);
 		lineagePhase3.setLooping(true);
-		lineagePhaseList.add(pointillismPhase1);
-		lineagePhaseList.add(pointillismPhase2);
-		lineagePhaseList.add(pointillismPhase3);
+		lineagePhaseList.add(lineagePhase1);
+		lineagePhaseList.add(lineagePhase2);
+		lineagePhaseList.add(lineagePhase3);
 		trackMapPhase.put(MUSIC_LINEAGE, lineagePhaseList);
 
 		//triTheWaltz (full)

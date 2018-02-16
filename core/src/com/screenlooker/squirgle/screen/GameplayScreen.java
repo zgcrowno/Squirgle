@@ -35,6 +35,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     public static float TARGET_RADIUS;
     public static float PAUSE_INPUT_WIDTH;
     public static float PAUSE_INPUT_HEIGHT;
+    public static float FONT_SCORE_SIZE_DIVISOR;
     public static float FONT_TARGET_SIZE_DIVISOR;
     public static float FONT_SQUIRGLE_SIZE_DIVISOR;
     public static Vector2 INPUT_POINT_SPAWN;
@@ -89,7 +90,6 @@ public class GameplayScreen implements Screen, InputProcessor {
     private final static int TWO_HUNDRED_AND_SEVENTY_DEGREES = 270;
     private final static int THREE_HUNDRED_AND_THIRTY_DEGREES = 330;
 
-    private final static float FONT_SCORE_SIZE_DIVISOR = 11.1f;
     private final static float FONT_MULTIPLIER_INPUT = 1.39f;
     private final static float SCORE_DIVISOR = 3.16f;
     private final static float TARGET_RADIUS_DIVISOR = 2.43f;
@@ -361,11 +361,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                             game.camera.viewportHeight / 4,
                             blackAndWhite ? Color.WHITE : Color.BLACK,
                             game.camera.viewportHeight / 2 > game.camera.viewportWidth ? (3 * game.camera.viewportWidth) / 8 : (3 * (game.camera.viewportHeight / 2)) / 8,
-                            promptShapeP2,
+                            promptShapeP1,
                             game.shapeRendererLine);
                     game.draw.drawScreenDivision(blackAndWhite ? Color.WHITE : Color.BLACK, game.shapeRendererLine);
                 }
-                game.draw.drawBackgroundColorShapeList(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
+                game.draw.drawBackgroundColorShapeList(splitScreen ? null : P2, blackAndWhite, backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
                 game.draw.drawTimelines(splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList, game.shapeRendererFilled);
                 SoundUtils.playMusic(splitScreen ? dummyPromptForTimelines : promptShape, game);
                 game.draw.drawTargetSemicircles(splitScreen, game.shapeRendererFilled);
@@ -548,7 +548,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
                 (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
+                blackAndWhite ? Color.WHITE : Color.BLACK,
                 game.shapeRendererFilled);
         drawPauseBackInput();
         drawPauseQuitInput();
@@ -677,16 +677,26 @@ public class GameplayScreen implements Screen, InputProcessor {
                             0,
                             1);
                 } else {
-                    FontUtils.printText(game.batch,
-                            game.fontScore,
-                            game.layout,
-                            resultsColor,
-                            saturationP1 > saturationP2 ? Squirgle.RESULTS_DEFEAT : saturationP1 < saturationP2 ? Squirgle.RESULTS_VICTORY : Squirgle.RESULTS_TIE,
-                            game.camera.viewportWidth / 2,
-                            game.camera.viewportHeight / 2,
-                            0,
-                            1);
-                    if(!useSaturation) {
+                    if(useSaturation) {
+                        FontUtils.printText(game.batch,
+                                game.fontScore,
+                                game.layout,
+                                resultsColor,
+                                saturationP1 > saturationP2 ? Squirgle.RESULTS_DEFEAT : saturationP1 < saturationP2 ? Squirgle.RESULTS_VICTORY : Squirgle.RESULTS_TIE,
+                                game.camera.viewportWidth / 2,
+                                game.camera.viewportHeight / 2,
+                                0,
+                                1);
+                    } else {
+                        FontUtils.printText(game.batch,
+                                game.fontScore,
+                                game.layout,
+                                resultsColor,
+                                scoreP1 < scoreP2 ? Squirgle.RESULTS_DEFEAT : scoreP1 > scoreP2 ? Squirgle.RESULTS_VICTORY : Squirgle.RESULTS_TIE,
+                                game.camera.viewportWidth / 2,
+                                game.camera.viewportHeight / 2,
+                                0,
+                                1);
                         FontUtils.printText(game.batch,
                                 game.fontScore,
                                 game.layout,
@@ -954,10 +964,15 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     public void managePromptRadii() {
         if(!paused) {
-            float screenRemainderP1 = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth / 4 : (game.camera.viewportHeight / 8);
-            float screenRemainderP2 = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth / 4 : (game.camera.viewportHeight / 8);
-            promptShapeP1.setRadius(gameOver ? promptShapeP1.getRadius() * promptIncrease : INIT_PROMPT_RADIUS + ((float) saturationP1 / MAX_SATURATION) * screenRemainderP1);
-            promptShapeP2.setRadius(gameOver ? promptShapeP2.getRadius() * promptIncrease : INIT_PROMPT_RADIUS + ((float) saturationP2 / MAX_SATURATION) * screenRemainderP2);
+            if(useSaturation) {
+                float screenRemainderP1 = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth / 4 : (game.camera.viewportHeight / 8);
+                float screenRemainderP2 = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth / 4 : (game.camera.viewportHeight / 8);
+                promptShapeP1.setRadius(gameOver ? promptShapeP1.getRadius() * promptIncrease : INIT_PROMPT_RADIUS + ((float) saturationP1 / MAX_SATURATION) * screenRemainderP1);
+                promptShapeP2.setRadius(gameOver ? promptShapeP2.getRadius() * promptIncrease : INIT_PROMPT_RADIUS + ((float) saturationP2 / MAX_SATURATION) * screenRemainderP2);
+            } else {
+                promptShapeP1.setRadius(gameOver ? promptShapeP1.getRadius() * promptIncrease : promptShapeP1.getRadius() + (promptIncrease / 4));
+                promptShapeP2.setRadius(gameOver ? promptShapeP2.getRadius() * promptIncrease : promptShapeP2.getRadius() + (promptIncrease / 4));
+            }
         }
     }
 
@@ -1180,7 +1195,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     public void drawResultsInputButtons() {
         if(!paused) {
             if (showResults) {
-                game.draw.drawResultsInputButtons(INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN, game.shapeRendererFilled);
+                game.draw.drawResultsInputButtons(resultsColor, INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN, game.shapeRendererFilled);
             }
         }
     }
@@ -1243,6 +1258,9 @@ public class GameplayScreen implements Screen, InputProcessor {
                     && touchPoint.x < INPUT_NONAGON_SPAWN.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_NONAGON_SPAWN.y - INPUT_RADIUS
                     && touchPoint.y < INPUT_NONAGON_SPAWN.y + INPUT_RADIUS;
+            pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
+                    && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
+                    && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
         } else {
             pointTouchedP1 = touchPoint.x > INPUT_POINT_SPAWN_P1.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_POINT_SPAWN_P1.x + INPUT_RADIUS
@@ -1280,6 +1298,9 @@ public class GameplayScreen implements Screen, InputProcessor {
                     && touchPoint.x < INPUT_NONAGON_SPAWN_P1.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_NONAGON_SPAWN_P1.y - INPUT_RADIUS
                     && touchPoint.y < INPUT_NONAGON_SPAWN_P1.y + INPUT_RADIUS;
+            pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 40)
+                    && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 40)
+                    && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) + (game.camera.viewportWidth / 40);
         }
         playTouched = touchPoint.x > INPUT_PLAY_SPAWN.x - INPUT_RADIUS
                 && touchPoint.x < INPUT_PLAY_SPAWN.x + INPUT_RADIUS
@@ -1293,9 +1314,6 @@ public class GameplayScreen implements Screen, InputProcessor {
                 && touchPoint.x < INPUT_EXIT_SPAWN.x + INPUT_RADIUS
                 && touchPoint.y > INPUT_EXIT_SPAWN.y - INPUT_RADIUS
                 && touchPoint.y < INPUT_EXIT_SPAWN.y + INPUT_RADIUS;
-        pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
-                && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
-                && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
         pauseBackTouched = touchPoint.x > game.camera.viewportWidth - game.partitionSize - PAUSE_INPUT_WIDTH
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize
@@ -1375,6 +1393,9 @@ public class GameplayScreen implements Screen, InputProcessor {
                         transitionShape(null, Shape.NONAGON);
                     } else if (pauseTouched) {
                         pause();
+                        pauseTouched = false;
+                        pauseBackTouched = false;
+                        pauseQuitTouched = false;
                     }
                 } else if(player.equals(P1)) {
                     if (pointTouchedP1) {
@@ -1397,6 +1418,9 @@ public class GameplayScreen implements Screen, InputProcessor {
                         transitionShape(P1, Shape.NONAGON);
                     } else if (pauseTouched) {
                         pause();
+                        pauseTouched = false;
+                        pauseBackTouched = false;
+                        pauseQuitTouched = false;
                     }
                 } else if(player.equals(P2)) {
                     if (pointTouchedP2) {
@@ -1784,6 +1808,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 currentTargetShapeP2 = targetShapeListP2.get(0);
             }
         }
+        keepSaturationsInBounds();
     }
 
     public void shapesMismatchedBehavior(String player) {
@@ -1937,22 +1962,21 @@ public class GameplayScreen implements Screen, InputProcessor {
         PAUSE_INPUT_WIDTH = (game.camera.viewportWidth - (4 * game.partitionSize)) / 3;
         PAUSE_INPUT_HEIGHT = game.camera.viewportHeight - (2 * game.partitionSize);
         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS = game.camera.viewportHeight / 68;
-        BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT = (game.camera.viewportHeight - (INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
-        BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT = game.camera.viewportHeight - (INPUT_RADIUS / 2);
-        BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P1 = ((game.camera.viewportHeight / 2) - (INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
-        BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT_P1 = (game.camera.viewportHeight / 2) - (INPUT_RADIUS / 2);
-        BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P2 = (game.camera.viewportHeight - (INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
-        BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT_P2 = game.camera.viewportHeight - (INPUT_RADIUS / 2);
+        BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT = blackAndWhite ? (game.camera.viewportHeight + BACKGROUND_COLOR_LIST_ELEMENT_RADIUS) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7) : (game.camera.viewportHeight - (INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
+        BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT = blackAndWhite ? game.camera.viewportHeight + BACKGROUND_COLOR_LIST_ELEMENT_RADIUS : game.camera.viewportHeight - (INPUT_RADIUS / 2);
+        BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P1 = blackAndWhite ? ((game.camera.viewportHeight / 2) + BACKGROUND_COLOR_LIST_ELEMENT_RADIUS) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7) : ((game.camera.viewportHeight / 2) - (INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
+        BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT_P1 = blackAndWhite ? (game.camera.viewportHeight / 2) + BACKGROUND_COLOR_LIST_ELEMENT_RADIUS : (game.camera.viewportHeight / 2) - (INPUT_RADIUS / 2);
+        BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P2 = blackAndWhite ? (game.camera.viewportHeight + BACKGROUND_COLOR_LIST_ELEMENT_RADIUS) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7) : (game.camera.viewportHeight - (INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
+        BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT_P2 = blackAndWhite ? game.camera.viewportHeight + BACKGROUND_COLOR_LIST_ELEMENT_RADIUS : game.camera.viewportHeight - (INPUT_RADIUS / 2);
         BACKGROUND_COLOR_SHAPE_LIST_WIDTH = (TARGET_RADIUS + (6 * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7))) - (TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7));
         INIT_PROMPT_RADIUS = splitScreen ? game.widthOrHeight / 8 : game.widthOrHeight / 4;
         if(!splitScreen) {
+            FONT_SCORE_SIZE_DIVISOR = 11.1f;
             FONT_TARGET_SIZE_DIVISOR = 35.5f;
-        } else {
-            FONT_TARGET_SIZE_DIVISOR = 71f;
-        }
-        if(!splitScreen) {
             FONT_SQUIRGLE_SIZE_DIVISOR = 5f;
         } else {
+            FONT_SCORE_SIZE_DIVISOR = 22.2f;
+            FONT_TARGET_SIZE_DIVISOR = 71f;
             FONT_SQUIRGLE_SIZE_DIVISOR = 10f;
         }
         for(int i = 1; i <= game.base; i++) {
@@ -2013,7 +2037,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         blackAndWhite ? Color.BLACK : ColorUtils.randomColor(),
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7),
-                                BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT)));
+                                splitScreen ? BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P2 : BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT)));
             } else {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS,
@@ -2021,7 +2045,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         blackAndWhite ? Color.BLACK : ColorUtils.randomColor(),
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(TARGET_RADIUS + (i * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7)),
-                                BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT)));
+                                splitScreen ? BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT_P2 : BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT)));
             }
         }
 
