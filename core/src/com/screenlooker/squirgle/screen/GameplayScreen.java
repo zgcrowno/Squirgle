@@ -365,8 +365,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                             game.shapeRendererLine);
                     game.draw.drawScreenDivision(blackAndWhite ? Color.WHITE : Color.BLACK, game.shapeRendererLine);
                 }
-                game.draw.drawBackgroundColorShapeList(splitScreen ? null : P2, blackAndWhite, backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
-                game.draw.drawTimelines(splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList, game.shapeRendererFilled);
+                game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
+                game.draw.drawTimelines(splitScreen, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList, game.shapeRendererFilled);
                 SoundUtils.playMusic(splitScreen ? dummyPromptForTimelines : promptShape, game);
                 game.draw.drawTargetSemicircles(splitScreen, game.shapeRendererFilled);
             }

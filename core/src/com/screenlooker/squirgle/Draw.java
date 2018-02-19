@@ -1541,10 +1541,15 @@ public class Draw {
     }
 
     //TODO: Configure this to draw two lists for two players (or one player and CPU; we've already got the unused parameter for it)
-    public void drawBackgroundColorShapeList(String player, boolean blackAndWhite, List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color clearColor, ShapeRenderer shapeRenderer) {
+    public void drawBackgroundColorShapeList(boolean splitScreen, boolean blackAndWhite, List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color clearColor, ShapeRenderer shapeRenderer) {
         for (int i = 0; i < backgroundColorShapeList.size(); i++) {
             Shape shape = backgroundColorShapeList.get(i);
             drawShape(shape, shapeRenderer);
+            if(splitScreen) {
+                Shape p1Shape = new Shape(shape.getShape(), shape.getRadius(), shape.getColor(), shape.getFillColor(), shape.getLineWidth(), shape.getCoordinates());
+                p1Shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y - (game.camera.viewportHeight / 2)));
+                drawShape(p1Shape, shapeRenderer);
+            }
             if (i == 0) {
                 shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y - colorListSpeed));
             } else if (i == backgroundColorShapeList.size() - 1) {
@@ -1570,15 +1575,6 @@ public class Draw {
                 backgroundColorShape.setCoordinates(new Vector2(game.camera.viewportWidth / 2,
                         game.camera.viewportHeight + (game.camera.viewportWidth / 2)));
 
-                float newElementY = 0;
-                if(player == null) {
-                    newElementY = GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT;
-                } else if(player.equals(GameplayScreen.P1)) {
-                    newElementY = GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P1;
-                } else {
-                    newElementY = GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P2;
-                }
-
                 backgroundColorShapeList.remove(backgroundColorShapeList.size() - 1);
                 backgroundColorShapeList.add(0,
                         new Shape(Shape.SQUARE,
@@ -1587,7 +1583,7 @@ public class Draw {
                                 blackAndWhite ? Color.BLACK : ColorUtils.randomColor(),
                                 newRadius / LINE_WIDTH_DIVISOR,
                                 new Vector2(GameplayScreen.TARGET_RADIUS + ((game.camera.viewportWidth - (GameplayScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)),
-                                        newElementY)));
+                                        GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT)));
             }
         }
     }
@@ -1642,7 +1638,7 @@ public class Draw {
         drawPoint(rightX, y, lineWidth, Color.WHITE, shapeRenderer);
     }
 
-    public void drawTimelines(Shape promptShape, List<Shape> backgroundColorShapeList, ShapeRenderer shapeRenderer) {
+    public void drawTimelines(boolean splitScreen, Shape promptShape, List<Shape> backgroundColorShapeList, ShapeRenderer shapeRenderer) {
         Shape firstColorShape = backgroundColorShapeList.get(0);
         Shape lastColorShape = backgroundColorShapeList.get(backgroundColorShapeList.size() - 1);
         Shape lowColorShape = backgroundColorShapeList.get(3);
@@ -1685,6 +1681,23 @@ public class Draw {
                     lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 6), //Multiplying by six to get desired distance from color shapes
                     lowColorShape.getLineWidth() * lineWidthMultiplier,
                     shapeRenderer);
+            if(splitScreen) {
+                drawTimeline(firstX,
+                        lastColorShape.getCoordinates().x,
+                        lowColorShape.getCoordinates().y - (game.camera.viewportHeight / 2) - (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+                        lowColorShape.getLineWidth() * lineWidthMultiplier,
+                        shapeRenderer);
+                drawTimeline(secondX,
+                        lastColorShape.getCoordinates().x,
+                        lowColorShape.getCoordinates().y - (game.camera.viewportHeight / 2) - (lowColorShape.getRadius() * 4), //Multiplying by four to get desired distance from color shapes
+                        lowColorShape.getLineWidth() * lineWidthMultiplier,
+                        shapeRenderer);
+                drawTimeline(thirdX,
+                        lastColorShape.getCoordinates().x,
+                        lowColorShape.getCoordinates().y - (game.camera.viewportHeight / 2) - (lowColorShape.getRadius() * 6), //Multiplying by six to get desired distance from color shapes
+                        lowColorShape.getLineWidth() * lineWidthMultiplier,
+                        shapeRenderer);
+            }
         } else if(promptShape.getRadius() <= game.fiveTwelfthsOfScreen) {
             drawTimeline(secondX,
                     lastColorShape.getCoordinates().x,
@@ -1696,12 +1709,31 @@ public class Draw {
                     lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 4), //Multiplying by four to get desired distance from color shapes
                     lowColorShape.getLineWidth() * lineWidthMultiplier,
                     shapeRenderer);
+            if(splitScreen) {
+                drawTimeline(secondX,
+                        lastColorShape.getCoordinates().x,
+                        lowColorShape.getCoordinates().y - (game.camera.viewportHeight / 2) - (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+                        lowColorShape.getLineWidth() * lineWidthMultiplier,
+                        shapeRenderer);
+                drawTimeline(thirdX,
+                        lastColorShape.getCoordinates().x,
+                        lowColorShape.getCoordinates().y - (game.camera.viewportHeight / 2) - (lowColorShape.getRadius() * 4), //Multiplying by four to get desired distance from color shapes
+                        lowColorShape.getLineWidth() * lineWidthMultiplier,
+                        shapeRenderer);
+            }
         } else {
             drawTimeline(thirdX,
                     lastColorShape.getCoordinates().x,
                     lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
                     lowColorShape.getLineWidth() * lineWidthMultiplier,
                     shapeRenderer);
+            if(splitScreen) {
+                drawTimeline(thirdX,
+                        lastColorShape.getCoordinates().x,
+                        lowColorShape.getCoordinates().y - (game.camera.viewportHeight / 2) - (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+                        lowColorShape.getLineWidth() * lineWidthMultiplier,
+                        shapeRenderer);
+            }
         }
     }
 

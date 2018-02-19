@@ -265,7 +265,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                         game.shapeRendererLine);
                 if (phase >= PHASE_EIGHT) {
                     game.draw.drawBackgroundColorShapeListTutorial(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
-                    game.draw.drawTimelines(promptShape, backgroundColorShapeList, game.shapeRendererFilled);
+                    game.draw.drawTimelines(false, promptShape, backgroundColorShapeList, game.shapeRendererFilled);
                 }
                 if (phase >= PHASE_SIX) {
                     SoundUtils.playMusic(promptShape, game);
