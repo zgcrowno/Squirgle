@@ -282,6 +282,37 @@ public class GameplayScreen implements Screen, InputProcessor {
         drawBackgroundColorShape();
 
         if(!paused) {
+            if (!gameOver) {
+                if(!splitScreen) {
+                    game.draw.drawPerimeter(game.camera.viewportWidth / 2,
+                            game.camera.viewportHeight / 2,
+                            blackAndWhite ? Color.WHITE : Color.BLACK,
+                            (3 * game.widthOrHeight) / 8,
+                            promptShape,
+                            game.shapeRendererLine);
+                } else {
+                    game.draw.drawPerimeter(game.camera.viewportWidth / 2,
+                            (3 * game.camera.viewportHeight) / 4,
+                            blackAndWhite ? Color.WHITE : Color.BLACK,
+                            game.camera.viewportHeight / 2 > game.camera.viewportWidth ? (3 * game.camera.viewportWidth) / 8 : (3 * (game.camera.viewportHeight / 2)) / 8,
+                            promptShapeP2,
+                            game.shapeRendererLine);
+                    game.draw.drawPerimeter(game.camera.viewportWidth / 2,
+                            game.camera.viewportHeight / 4,
+                            blackAndWhite ? Color.WHITE : Color.BLACK,
+                            game.camera.viewportHeight / 2 > game.camera.viewportWidth ? (3 * game.camera.viewportWidth) / 8 : (3 * (game.camera.viewportHeight / 2)) / 8,
+                            promptShapeP1,
+                            game.shapeRendererLine);
+                    game.draw.drawScreenDivision(blackAndWhite ? Color.WHITE : Color.BLACK, game.shapeRendererLine);
+                }
+                game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
+                game.draw.drawTimelines(splitScreen, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList, game.shapeRendererFilled);
+                if(splitScreen) {
+                    game.draw.drawBackgroundColorShapeConcealer(backgroundColorShape.getRadius() >= (game.camera.viewportWidth / 2) + (game.camera.viewportHeight / 2) ? backgroundColorShape.getColor() : clearColor, game.shapeRendererFilled);
+                }
+                SoundUtils.playMusic(splitScreen ? dummyPromptForTimelines : promptShape, game);
+                game.draw.drawTargetSemicircles(splitScreen, game.shapeRendererFilled);
+            }
             if(!splitScreen) {
                 game.draw.drawPrompt(promptShape, priorShapeList, 0, backgroundColorShape, false, false, game.shapeRendererFilled);
                 game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
@@ -340,35 +371,6 @@ public class GameplayScreen implements Screen, InputProcessor {
                 if(!(gameOver && scoreP2 <= scoreP1)) {
                     game.draw.drawShapes(priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2, game.shapeRendererFilled);
                 }
-            }
-
-            if (!gameOver) {
-                if(!splitScreen) {
-                    game.draw.drawPerimeter(game.camera.viewportWidth / 2,
-                            game.camera.viewportHeight / 2,
-                            blackAndWhite ? Color.WHITE : Color.BLACK,
-                            (3 * game.widthOrHeight) / 8,
-                            promptShape,
-                            game.shapeRendererLine);
-                } else {
-                    game.draw.drawPerimeter(game.camera.viewportWidth / 2,
-                            (3 * game.camera.viewportHeight) / 4,
-                            blackAndWhite ? Color.WHITE : Color.BLACK,
-                            game.camera.viewportHeight / 2 > game.camera.viewportWidth ? (3 * game.camera.viewportWidth) / 8 : (3 * (game.camera.viewportHeight / 2)) / 8,
-                            promptShapeP2,
-                            game.shapeRendererLine);
-                    game.draw.drawPerimeter(game.camera.viewportWidth / 2,
-                            game.camera.viewportHeight / 4,
-                            blackAndWhite ? Color.WHITE : Color.BLACK,
-                            game.camera.viewportHeight / 2 > game.camera.viewportWidth ? (3 * game.camera.viewportWidth) / 8 : (3 * (game.camera.viewportHeight / 2)) / 8,
-                            promptShapeP1,
-                            game.shapeRendererLine);
-                    game.draw.drawScreenDivision(blackAndWhite ? Color.WHITE : Color.BLACK, game.shapeRendererLine);
-                }
-                game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
-                game.draw.drawTimelines(splitScreen, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList, game.shapeRendererFilled);
-                SoundUtils.playMusic(splitScreen ? dummyPromptForTimelines : promptShape, game);
-                game.draw.drawTargetSemicircles(splitScreen, game.shapeRendererFilled);
             }
         }
 

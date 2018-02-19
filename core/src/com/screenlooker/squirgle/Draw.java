@@ -1737,6 +1737,14 @@ public class Draw {
         }
     }
 
+    public void drawBackgroundColorShapeConcealer(Color color, ShapeRenderer shapeRenderer) {
+        game.shapeRendererFilled.setColor(color);
+        game.shapeRendererFilled.rect((game.camera.viewportWidth / 2) - (GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_WIDTH / 2) - GameplayScreen.BACKGROUND_COLOR_LIST_ELEMENT_RADIUS,
+                game.camera.viewportHeight / 2,
+                GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_WIDTH + (3 * GameplayScreen.BACKGROUND_COLOR_LIST_ELEMENT_RADIUS),
+                GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P1 - GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT_P1);
+    }
+
     public void drawTargetSemicircles(boolean splitScreen, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
         shapeRenderer.circle(0, game.camera.viewportHeight, GameplayScreen.TARGET_RADIUS);
