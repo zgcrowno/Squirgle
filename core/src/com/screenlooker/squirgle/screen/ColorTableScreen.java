@@ -242,8 +242,8 @@ public class ColorTableScreen implements Screen, InputProcessor {
                     //Draw squirgles
                     squirglePrompt.setCoordinates(new Vector2(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),
                             game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)) - (symbolRadius / 4)));
-                    game.draw.drawPrompt(squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
-                    game.draw.drawShapes(squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
+                    game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
+                    game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
                 } else {
                     //Draw dash
                     game.draw.drawDash(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),

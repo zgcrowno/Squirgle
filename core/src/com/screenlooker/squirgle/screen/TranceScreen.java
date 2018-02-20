@@ -87,8 +87,8 @@ public class TranceScreen implements Screen, InputProcessor {
         managePrimaryShapeLineWidth();
 
         if(!paused) {
-            game.draw.drawPrompt(promptShape, priorShapeList, 0, null, true, false, game.shapeRendererFilled);
-            game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
+            game.draw.drawPrompt(false, promptShape, priorShapeList, 0, null, true, false, game.shapeRendererFilled);
+            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
         }
 
         zoomThroughShapes();
@@ -99,7 +99,7 @@ public class TranceScreen implements Screen, InputProcessor {
             //the screen to the right.
             //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
             //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
-            game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
+            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
 
             SoundUtils.playMusic(promptShape, game);
         }

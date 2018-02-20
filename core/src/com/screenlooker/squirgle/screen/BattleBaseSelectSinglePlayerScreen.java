@@ -768,10 +768,10 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
         game.shapeRendererFilled.circle((game.camera.viewportWidth / 6) - (symbolRadius / 3), (game.camera.viewportHeight / 6) - (symbolRadius / 3), (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
         game.shapeRendererFilled.circle((game.camera.viewportWidth / 6) + (symbolRadius / 3), (game.camera.viewportHeight / 6) + (symbolRadius / 3), (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
 
-        game.draw.drawPrompt(squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(squirgleShapeListBattleOne, squirglePromptBattleOne, false, game.shapeRendererFilled);
-        game.draw.drawPrompt(squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(squirgleShapeListBattleTwo, squirglePromptBattleTwo, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false, game.shapeRendererFilled);
+        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false, game.shapeRendererFilled);
+        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false, game.shapeRendererFilled);
     }
 
     public void transitionSquirgleColors() {

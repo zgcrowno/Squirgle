@@ -133,10 +133,10 @@ public class GameplaySelectionMultiplayerLocalScreen implements Screen, InputPro
 
         drawInputRectangles();
 
-        game.draw.drawPrompt(squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(squirgleShapeListBattleOne, squirglePromptBattleOne, false, game.shapeRendererFilled);
-        game.draw.drawPrompt(squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(squirgleShapeListBattleTwo, squirglePromptBattleTwo, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false, game.shapeRendererFilled);
+        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false, game.shapeRendererFilled);
+        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false, game.shapeRendererFilled);
 
         game.shapeRendererFilled.end();
 

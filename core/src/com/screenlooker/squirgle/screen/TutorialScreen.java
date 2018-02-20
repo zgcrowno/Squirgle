@@ -240,8 +240,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         drawBackgroundColorShape();
 
         if(!paused) {
-            game.draw.drawPrompt(promptShape, priorShapeList, 0, backgroundColorShape, false, false, game.shapeRendererFilled);
-            game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
+            game.draw.drawPrompt(false, promptShape, priorShapeList, 0, backgroundColorShape, false, false, game.shapeRendererFilled);
+            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
         }
 
         increaseSpeed();
@@ -254,7 +254,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             //the screen to the right.
             //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
             //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
-            game.draw.drawShapes(priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
+            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
 
             if (!gameOver) {
                 game.draw.drawPerimeter(game.camera.viewportWidth / 2,
@@ -283,8 +283,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                     game.draw.drawScoreTriangleTutorial(game.shapeRendererFilled);
                 }
                 if (phase >= PHASE_SIX) {
-                    game.draw.drawPrompt(outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true, game.shapeRendererFilled);
-                    game.draw.drawShapes(targetShapeList, outsideTargetShape, false, game.shapeRendererFilled);
+                    game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true, game.shapeRendererFilled);
+                    game.draw.drawShapes(false, targetShapeList, outsideTargetShape, false, game.shapeRendererFilled);
                 }
                 if (phase >= PHASE_EIGHT) {
                     game.draw.drawPauseInput(false, false, game);

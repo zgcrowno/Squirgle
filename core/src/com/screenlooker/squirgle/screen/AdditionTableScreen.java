@@ -194,7 +194,8 @@ public class AdditionTableScreen implements Screen, InputProcessor {
                             Color.BLACK,
                             game.shapeRendererFilled);
                 } else {
-                    game.draw.drawShape(new Shape(i + j - 3 <= (game.base - 1) ? i + j - 3 : (i + j - 3) - game.base,
+                    game.draw.drawShape(false,
+                            new Shape(i + j - 3 <= (game.base - 1) ? i + j - 3 : (i + j - 3) - game.base,
                             symbolRadius / 2,
                             Color.BLACK,
                             null,
@@ -242,7 +243,8 @@ public class AdditionTableScreen implements Screen, InputProcessor {
                 Color.WHITE,
                 Color.BLACK,
                 game.shapeRendererFilled);
-        game.draw.drawShape(new Shape(game.base - 1,
+        game.draw.drawShape(false,
+                new Shape(game.base - 1,
                         symbolRadius / 2,
                         Color.WHITE,
                         null,

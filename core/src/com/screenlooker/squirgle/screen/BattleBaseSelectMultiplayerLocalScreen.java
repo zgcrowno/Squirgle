@@ -676,8 +676,8 @@ public class BattleBaseSelectMultiplayerLocalScreen implements Screen, InputProc
                 game.camera.viewportHeight / 2,
                 ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR);
 
-        game.draw.drawPrompt(squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
+        game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
     }
 
     public void transitionSquirgleColors() {

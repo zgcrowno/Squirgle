@@ -161,12 +161,12 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
 
         drawInputRectangles();
 
-        game.draw.drawPrompt(squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
-        game.draw.drawPrompt(squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(squirgleShapeListBattleOne, squirglePromptBattleOne, false, game.shapeRendererFilled);
-        game.draw.drawPrompt(squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(squirgleShapeListBattleTwo, squirglePromptBattleTwo, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
+        game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false, game.shapeRendererFilled);
+        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false, game.shapeRendererFilled);
+        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false, game.shapeRendererFilled);
 
         game.shapeRendererFilled.end();
 

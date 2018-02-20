@@ -95,7 +95,7 @@ public class Draw {
         shapeRenderer.line(0, game.camera.viewportHeight / 2, game.camera.viewportWidth, game.camera.viewportHeight / 2);
     }
 
-    public void drawPrompt(Shape promptShape, List<Shape> priorShapeList, int targetShapesMatched, Shape backgroundColorShape, boolean isNonGameplay, boolean isTarget, ShapeRenderer shapeRenderer) {
+    public void drawPrompt(boolean localPlayer2, Shape promptShape, List<Shape> priorShapeList, int targetShapesMatched, Shape backgroundColorShape, boolean isNonGameplay, boolean isTarget, ShapeRenderer shapeRenderer) {
         float xOffset = 0;
         float radiusOffset = 1;
         switch(promptShape.getShape()) {
@@ -111,7 +111,7 @@ public class Draw {
                     xOffset = promptShape.getRadius() / 2;
                     radiusOffset = 2;
                 }
-                drawPoint(promptShape.getCoordinates().x - xOffset,
+                drawPoint(localPlayer2 ? promptShape.getCoordinates().x + xOffset : promptShape.getCoordinates().x - xOffset,
                         promptShape.getCoordinates().y,
                         promptShape.getRadius() / radiusOffset,
                         promptShape.getColor(),
@@ -119,13 +119,13 @@ public class Draw {
                 if(!isNonGameplay) {
                     if(!isTarget) {
                         //We're dealing with center prompt shape, so we must set up its inner color
-                        drawPoint(promptShape.getCoordinates().x - xOffset,
+                        drawPoint(localPlayer2 ? promptShape.getCoordinates().x + xOffset : promptShape.getCoordinates().x - xOffset,
                                 promptShape.getCoordinates().y,
                                 (promptShape.getRadius() / radiusOffset) / 2,
                                 backgroundColorShape.getColor(),
                                 shapeRenderer);
                     } else if(targetShapesMatched == 1) {
-                        drawPoint(promptShape.getCoordinates().x - xOffset,
+                        drawPoint(localPlayer2 ? promptShape.getCoordinates().x + xOffset : promptShape.getCoordinates().x - xOffset,
                                 promptShape.getCoordinates().y,
                                 (promptShape.getRadius() / radiusOffset) / 2,
                                 backgroundColorShape.getColor(),
@@ -138,7 +138,7 @@ public class Draw {
                     xOffset = promptShape.getRadius() - (promptShape.getLineWidth() * 1.7f);
                     radiusOffset = 2;
                 }
-                drawLine(promptShape.getCoordinates().x - xOffset,
+                drawLine(localPlayer2 ? promptShape.getCoordinates().x + xOffset : promptShape.getCoordinates().x - xOffset,
                         promptShape.getCoordinates().y,
                         promptShape.getRadius() / radiusOffset,
                         promptShape.getLineWidth(),
@@ -147,14 +147,14 @@ public class Draw {
                 if(!isNonGameplay) {
                     if(!isTarget) {
                         //We're dealing with center prompt shape, so we must set up its inner color
-                        drawLine(promptShape.getCoordinates().x - xOffset,
+                        drawLine(localPlayer2 ? promptShape.getCoordinates().x + xOffset : promptShape.getCoordinates().x - xOffset,
                                 promptShape.getCoordinates().y,
                                 (promptShape.getRadius() / radiusOffset) - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
                                 backgroundColorShape.getColor(),
                                 shapeRenderer);
                     } else if(targetShapesMatched == 1) {
-                        drawLine(promptShape.getCoordinates().x - xOffset,
+                        drawLine(localPlayer2 ? promptShape.getCoordinates().x + xOffset : promptShape.getCoordinates().x - xOffset,
                                 promptShape.getCoordinates().y,
                                 (promptShape.getRadius() / radiusOffset) - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
@@ -164,7 +164,8 @@ public class Draw {
                 }
                 break;
             case Shape.TRIANGLE :
-                drawTriangle(promptShape.getCoordinates().x,
+                drawTriangle(localPlayer2,
+                        promptShape.getCoordinates().x,
                         promptShape.getCoordinates().y,
                         promptShape.getRadius(),
                         promptShape.getLineWidth(),
@@ -173,14 +174,16 @@ public class Draw {
                 if(!isNonGameplay) {
                     if(!isTarget) {
                         //We're dealing with center prompt shape, so we must set up its inner color
-                        drawTriangle(promptShape.getCoordinates().x,
+                        drawTriangle(localPlayer2,
+                                promptShape.getCoordinates().x,
                                 promptShape.getCoordinates().y,
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
                                 backgroundColorShape.getColor(),
                                 shapeRenderer);
                     } else if(targetShapesMatched == 1) {
-                        drawTriangle(promptShape.getCoordinates().x,
+                        drawTriangle(localPlayer2,
+                                promptShape.getCoordinates().x,
                                 promptShape.getCoordinates().y,
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
@@ -363,7 +366,7 @@ public class Draw {
         }
     }
 
-    public void drawShape(Shape shape, ShapeRenderer shapeRenderer) {
+    public void drawShape(boolean localPlayer2, Shape shape, ShapeRenderer shapeRenderer) {
         switch(shape.getShape()) {
             case Shape.CIRCLE :
                 shapeRenderer.setColor(shape.getColor());
@@ -385,7 +388,8 @@ public class Draw {
                         shapeRenderer);
                 break;
             case Shape.TRIANGLE :
-                drawTriangle(shape.getCoordinates().x,
+                drawTriangle(localPlayer2,
+                        shape.getCoordinates().x,
                         shape.getCoordinates().y,
                         shape.getRadius(),
                         shape.getLineWidth(),
@@ -456,7 +460,7 @@ public class Draw {
         }
     }
 
-    public void drawShapes(List<Shape> priorShapeList, Shape promptShape, boolean primaryShapeAtThreshold, ShapeRenderer shapeRenderer) {
+    public void drawShapes(boolean localPlayer2, List<Shape> priorShapeList, Shape promptShape, boolean primaryShapeAtThreshold, ShapeRenderer shapeRenderer) {
         if (!priorShapeList.isEmpty()) {
             //We go through the priorShapeList "backwards" because we want to draw the smaller shapes (those added earliest) last
             //so that they'll overlay the larger shapes.
@@ -484,12 +488,12 @@ public class Draw {
                 if (shape.getShape() == Shape.POINT) {
                     shape.setRadius(priorShape.getRadius() / 2);
                     if (i != 0) {
-                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x - shape.getRadius(), shape.getCoordinates().y));
+                        shape.setCoordinates(new Vector2(localPlayer2 ? priorShape.getCoordinates().x + shape.getRadius() : priorShape.getCoordinates().x - shape.getRadius(), shape.getCoordinates().y));
                     }
                 } else if (shape.getShape() == Shape.LINE) {
                     if (i != 0) {
                         shape.setRadius(priorShape.getRadius() / 2);
-                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x - shape.getRadius(), shape.getCoordinates().y));
+                        shape.setCoordinates(new Vector2(localPlayer2 ? priorShape.getCoordinates().x + shape.getRadius() : priorShape.getCoordinates().x - shape.getRadius(), shape.getCoordinates().y));
                     }
                 }
 
@@ -498,19 +502,19 @@ public class Draw {
                 if (priorShape.getShape() == Shape.POINT) {
                     if (priorShape == promptShape) {
                         shape.setRadius(priorShape.getRadius() / 2);
-                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x + shape.getRadius(),
+                        shape.setCoordinates(new Vector2(localPlayer2 ? priorShape.getCoordinates().x - shape.getRadius() : priorShape.getCoordinates().x + shape.getRadius(),
                                 priorShape.getCoordinates().y));
                     } else {
-                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x + (shape.getRadius() * 2),
+                        shape.setCoordinates(new Vector2(localPlayer2 ? priorShape.getCoordinates().x - (shape.getRadius() * 2) : priorShape.getCoordinates().x + (shape.getRadius() * 2),
                                 priorShape.getCoordinates().y));
                     }
                 } else if (priorShape.getShape() == Shape.LINE) {
                     if (priorShape == promptShape) {
                         shape.setRadius(priorShape.getRadius() - (priorShape.getLineWidth() * 1.1f));
-                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x + (priorShape.getLineWidth() * 1.7f) + (priorShape.getLineWidth() / 2) - (priorShape.getRadius() - shape.getRadius()),
+                        shape.setCoordinates(new Vector2(localPlayer2 ? priorShape.getCoordinates().x - (priorShape.getLineWidth() * 1.7f) - (priorShape.getLineWidth() / 2) + (priorShape.getRadius() - shape.getRadius()) : priorShape.getCoordinates().x + (priorShape.getLineWidth() * 1.7f) + (priorShape.getLineWidth() / 2) - (priorShape.getRadius() - shape.getRadius()),
                                 priorShape.getCoordinates().y));
                     } else {
-                        shape.setCoordinates(new Vector2(priorShape.getCoordinates().x + priorShape.getRadius() + (priorShape.getLineWidth() / 2),
+                        shape.setCoordinates(new Vector2(localPlayer2 ? priorShape.getCoordinates().x - priorShape.getRadius() - (priorShape.getLineWidth() / 2) : priorShape.getCoordinates().x + priorShape.getRadius() + (priorShape.getLineWidth() / 2),
                                 priorShape.getCoordinates().y));
                     }
                 } else if (priorShape.getShape() == Shape.TRIANGLE) {
@@ -522,7 +526,7 @@ public class Draw {
 
                 //Only draw the shape if it's large enough to be relevant
                 if(shape.getRadius() >= game.widthOrHeight / SHAPE_VISIBLE_DIVISOR) {
-                    drawShape(shape, shapeRenderer);
+                    drawShape(localPlayer2, shape, shapeRenderer);
                 }
             }
         }
@@ -540,34 +544,63 @@ public class Draw {
         shapeRenderer.circle(x, y + radius - lineWidth, lineWidth);
     }
 
-    public void drawTriangle(float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
+    public void drawTriangle(boolean inverted, float x, float y, float radius, float lineWidth, Color color, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(color);
-        shapeRenderer.rectLine(x,
-                y + radius - lineWidth,
-                x - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth)),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
-                lineWidth);
-        shapeRenderer.rectLine((float) (x - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth))),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
-                x + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth)),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
-                lineWidth);
-        shapeRenderer.rectLine((float) (x + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth))),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
-                x,
-                y + radius - lineWidth,
-                lineWidth);
-        drawPoint(x, y + radius - lineWidth, lineWidth, color, shapeRenderer);
-        drawPoint(x - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth)),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
-                lineWidth,
-                color,
-                shapeRenderer);
-        drawPoint(x + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth)),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
-                lineWidth,
-                color,
-                shapeRenderer);
+        if(inverted) {
+            shapeRenderer.rectLine(x,
+                    y - radius + lineWidth,
+                    x - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    y + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    lineWidth);
+            shapeRenderer.rectLine((float) (x - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth))),
+                    y + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    x + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    y + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    lineWidth);
+            shapeRenderer.rectLine((float) (x + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth))),
+                    y + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    x,
+                    y - radius + lineWidth,
+                    lineWidth);
+            drawPoint(x, y - radius + lineWidth, lineWidth, color, shapeRenderer);
+            drawPoint(x - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    y + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    lineWidth,
+                    color,
+                    shapeRenderer);
+            drawPoint(x + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    y + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    lineWidth,
+                    color,
+                    shapeRenderer);
+        } else {
+            shapeRenderer.rectLine(x,
+                    y + radius - lineWidth,
+                    x - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    y - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    lineWidth);
+            shapeRenderer.rectLine((float) (x - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth))),
+                    y - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    x + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    y - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    lineWidth);
+            shapeRenderer.rectLine((float) (x + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth))),
+                    y - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    x,
+                    y + radius - lineWidth,
+                    lineWidth);
+            drawPoint(x, y + radius - lineWidth, lineWidth, color, shapeRenderer);
+            drawPoint(x - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    y - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    lineWidth,
+                    color,
+                    shapeRenderer);
+            drawPoint(x + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    y - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius - lineWidth)),
+                    lineWidth,
+                    color,
+                    shapeRenderer);
+        }
     }
 
     //TODO: Consolidate square onward into single method
@@ -725,7 +758,7 @@ public class Draw {
         }
     }
 
-    public void drawInputButtons(boolean splitScreen, boolean local, Squirgle game, ShapeRenderer shapeRenderer) {
+    public void drawInputButtons(boolean splitScreen, boolean localPlayer2, Squirgle game, ShapeRenderer shapeRenderer) {
         if(game.base >= 1) {
             //Point
             shapeRenderer.setColor(Color.WHITE);
@@ -759,12 +792,12 @@ public class Draw {
             shapeRenderer.setColor(Color.WHITE);
             if(!splitScreen) {
                 shapeRenderer.circle(GameplayScreen.INPUT_TRIANGLE_SPAWN.x, GameplayScreen.INPUT_TRIANGLE_SPAWN.y, GameplayScreen.INPUT_RADIUS);
-                drawTriangle(GameplayScreen.INPUT_TRIANGLE_SPAWN.x, GameplayScreen.INPUT_TRIANGLE_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+                drawTriangle(false, GameplayScreen.INPUT_TRIANGLE_SPAWN.x, GameplayScreen.INPUT_TRIANGLE_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
             } else {
                 shapeRenderer.circle(GameplayScreen.INPUT_TRIANGLE_SPAWN_P1.x, GameplayScreen.INPUT_TRIANGLE_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS);
                 shapeRenderer.circle(GameplayScreen.INPUT_TRIANGLE_SPAWN_P2.x, GameplayScreen.INPUT_TRIANGLE_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS);
-                drawTriangle(GameplayScreen.INPUT_TRIANGLE_SPAWN_P1.x, GameplayScreen.INPUT_TRIANGLE_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
-                drawTriangle(GameplayScreen.INPUT_TRIANGLE_SPAWN_P2.x, GameplayScreen.INPUT_TRIANGLE_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+                drawTriangle(false, GameplayScreen.INPUT_TRIANGLE_SPAWN_P1.x, GameplayScreen.INPUT_TRIANGLE_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+                drawTriangle(localPlayer2, GameplayScreen.INPUT_TRIANGLE_SPAWN_P2.x, GameplayScreen.INPUT_TRIANGLE_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
             }
         }
 
@@ -874,7 +907,7 @@ public class Draw {
             //Triangle
             shapeRenderer.setColor(Color.WHITE);
             shapeRenderer.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN.x, TutorialScreen.INPUT_TRIANGLE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-            drawTriangle(TutorialScreen.INPUT_TRIANGLE_SPAWN.x, TutorialScreen.INPUT_TRIANGLE_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
+            drawTriangle(false, TutorialScreen.INPUT_TRIANGLE_SPAWN.x, TutorialScreen.INPUT_TRIANGLE_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK, shapeRenderer);
         }
 
         if(phase == TutorialScreen.PHASE_FIVE || allInputsVisible) {
@@ -904,7 +937,7 @@ public class Draw {
         drawX(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, symbolColor, shapeRenderer);
     }
 
-    public void drawEquation(String player, Shape lastShapeTouched, Shape lastPromptShape, Shape lastTargetShape, float equationWidth, ShapeRenderer shapeRenderer) {
+    public void drawEquation(boolean localPlayer2, String player, Shape lastShapeTouched, Shape lastPromptShape, Shape lastTargetShape, float equationWidth, ShapeRenderer shapeRenderer) {
         Vector2 spawnBegin = new Vector2();
         Vector2 spawnEnd = new Vector2();
         Vector2 plusSpawn = new Vector2();
@@ -1314,7 +1347,7 @@ public class Draw {
         lastPromptShape.setRadius(lastPromptShape.getRadius() - ((lastPromptShape.getRadius() * (GameplayScreen.INPUT_RADIUS / Squirgle.FPS)) / equationWidth));
         lastPromptShape.setLineWidth((lastPromptShape.getRadius() - (GameplayScreen.INPUT_RADIUS / Squirgle.FPS)) / LINE_WIDTH_DIVISOR);
         lastPromptShape.setFillColor(null);
-        drawShape(lastPromptShape, shapeRenderer);
+        drawShape(localPlayer2, lastPromptShape, shapeRenderer);
     }
 
     public void drawEquationTutorial(Shape lastShapeTouched, Shape lastPromptShape, Shape lastTargetShape, float equationWidth, int phase, ShapeRenderer shapeRenderer) {
@@ -1514,7 +1547,7 @@ public class Draw {
             sum.setLineWidth((sum.getRadius() - (TutorialScreen.INPUT_RADIUS / (Squirgle.FPS * 4))) / LINE_WIDTH_DIVISOR);
             sum.setFillColor(Color.WHITE);
             sum.setCoordinates(new Vector2(spawnEnd.x, spawnEnd.y));
-            drawShape(sum, shapeRenderer);
+            drawShape(false, sum, shapeRenderer);
 
             //Draw the last shape touched (if applicable)
             if(lastShapeTouched.getShape() + 1 != phase) {
@@ -1523,7 +1556,7 @@ public class Draw {
                 lastShapeTouched.setLineWidth((lastShapeTouched.getRadius() - (TutorialScreen.INPUT_RADIUS / (Squirgle.FPS * 4))) / LINE_WIDTH_DIVISOR);
                 lastShapeTouched.setFillColor(Color.WHITE);
                 lastShapeTouched.setCoordinates(new Vector2(spawnBegin.x, spawnBegin.y));
-                drawShape(lastShapeTouched, shapeRenderer);
+                drawShape(false, lastShapeTouched, shapeRenderer);
             }
         }
 
@@ -1531,39 +1564,43 @@ public class Draw {
         lastPromptShape.setRadius(lastPromptShape.getRadius() - ((lastPromptShape.getRadius() * (TutorialScreen.INPUT_RADIUS / (Squirgle.FPS * 4))) / equationWidth));
         lastPromptShape.setLineWidth((lastPromptShape.getRadius() - (TutorialScreen.INPUT_RADIUS / (Squirgle.FPS * 4))) / LINE_WIDTH_DIVISOR);
         lastPromptShape.setFillColor(Color.WHITE);
-        drawShape(lastPromptShape, shapeRenderer);
+        drawShape(false, lastPromptShape, shapeRenderer);
     }
 
     public void drawBackgroundColorShape(Shape backgroundColorShape, ShapeRenderer shapeRenderer) {
-        drawShape(backgroundColorShape, shapeRenderer);
+        drawShape(false, backgroundColorShape, shapeRenderer);
         if (backgroundColorShape.getRadius() < game.camera.viewportHeight * THRESHOLD_MULTIPLIER) {
             backgroundColorShape.setRadius(backgroundColorShape.getRadius() + colorSpeed);
         }
     }
 
-    //TODO: Configure this for local multiplayer
+    //TODO: Clean this up such that the timelines always have the same max length
     public void drawBackgroundColorShapeList(boolean splitScreen, boolean blackAndWhite, boolean local, List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color clearColor, ShapeRenderer shapeRenderer) {
         for (int i = 0; i < backgroundColorShapeList.size(); i++) {
             Shape shape = backgroundColorShapeList.get(i);
-            drawShape(shape, shapeRenderer);
+            drawShape(false, shape, shapeRenderer);
             if(splitScreen) {
-                Shape p1Shape = new Shape(shape.getShape(), shape.getRadius(), shape.getColor(), shape.getFillColor(), shape.getLineWidth(), shape.getCoordinates());
-                p1Shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y - (game.camera.viewportHeight / 2)));
-                drawShape(p1Shape, shapeRenderer);
+                Shape p2Shape = new Shape(shape.getShape(), shape.getRadius(), shape.getColor(), shape.getFillColor(), shape.getLineWidth(), shape.getCoordinates());
+                if(local) {
+                    p2Shape.setCoordinates(new Vector2((game.camera.viewportWidth / 2) - (shape.getCoordinates().x - (game.camera.viewportWidth / 2)), (game.camera.viewportHeight / 2) - (shape.getCoordinates().y - (game.camera.viewportHeight / 2))));
+                } else {
+                    p2Shape.setCoordinates(new Vector2(game.camera.viewportWidth - shape.getCoordinates().x, (game.camera.viewportHeight / 2) + ((game.camera.viewportHeight / 2) - shape.getCoordinates().y)));
+                }
+                drawShape(false, p2Shape, shapeRenderer);
             }
             if (i == 0) {
-                shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y - colorListSpeed));
-            } else if (i == backgroundColorShapeList.size() - 1) {
-                shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y + colorListSpeed));
-            } else {
                 shape.setCoordinates(new Vector2(shape.getCoordinates().x + colorListSpeed, shape.getCoordinates().y));
+            } else if (i == backgroundColorShapeList.size() - 1) {
+                shape.setCoordinates(new Vector2(shape.getCoordinates().x - colorListSpeed, shape.getCoordinates().y));
+            } else {
+                shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y - colorListSpeed));
             }
-            if (backgroundColorShapeList.get(0).getCoordinates().y <= backgroundColorShapeList.get(1).getCoordinates().y) {
+            if (backgroundColorShapeList.get(0).getCoordinates().x >= backgroundColorShapeList.get(1).getCoordinates().x) {
                 float newRadius = shape.getRadius();
 
-                //Prevent backgroundColorShapeList.get(0) from going too low on screen
-                backgroundColorShapeList.get(0).setCoordinates(new Vector2(backgroundColorShapeList.get(0).getCoordinates().x,
-                        backgroundColorShapeList.get(1).getCoordinates().y));
+                //Prevent backgroundColorShapeList.get(0) from going too far to the left or right
+                backgroundColorShapeList.get(0).setCoordinates(new Vector2(backgroundColorShapeList.get(1).getCoordinates().x,
+                        backgroundColorShapeList.get(0).getCoordinates().y));
 
                 clearColor.set(backgroundColorShape.getColor().r,
                         backgroundColorShape.getColor().g,
@@ -1583,8 +1620,8 @@ public class Draw {
                                 blackAndWhite ? Color.BLACK : Color.WHITE,
                                 blackAndWhite ? Color.BLACK : ColorUtils.randomColor(),
                                 newRadius / LINE_WIDTH_DIVISOR,
-                                new Vector2(GameplayScreen.TARGET_RADIUS + ((game.camera.viewportWidth - (GameplayScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)),
-                                        GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT)));
+                                new Vector2(GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MIN_X,
+                                        GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_Y)));
             }
         }
     }
@@ -1592,7 +1629,7 @@ public class Draw {
     public void drawBackgroundColorShapeListTutorial(List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color clearColor, ShapeRenderer shapeRenderer) {
         for (int i = 0; i < backgroundColorShapeList.size(); i++) {
             Shape shape = backgroundColorShapeList.get(i);
-            drawShape(shape, shapeRenderer);
+            drawShape(false, shape, shapeRenderer);
             if (i == 0) {
                 shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y - colorListSpeed));
             } else if (i == backgroundColorShapeList.size() - 1) {
@@ -1631,12 +1668,12 @@ public class Draw {
         }
     }
 
-    public void drawTimeline(float leftX, float rightX, float y, float lineWidth, ShapeRenderer shapeRenderer) {
+    public void drawTimeline(float x, float topY, float bottomY, float lineWidth, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.rectLine(leftX, y, rightX, y, lineWidth);
+        shapeRenderer.rectLine(x, topY, x, bottomY, lineWidth);
 
-        drawPoint(leftX, y, lineWidth, Color.WHITE, shapeRenderer);
-        drawPoint(rightX, y, lineWidth, Color.WHITE, shapeRenderer);
+        drawPoint(x, topY, lineWidth, Color.WHITE, shapeRenderer);
+        drawPoint(x, bottomY, lineWidth, Color.WHITE, shapeRenderer);
     }
 
     //TODO: Configure this for local multiplayer
@@ -1644,108 +1681,138 @@ public class Draw {
         Shape firstColorShape = backgroundColorShapeList.get(0);
         Shape lastColorShape = backgroundColorShapeList.get(backgroundColorShapeList.size() - 1);
         Shape lowColorShape = backgroundColorShapeList.get(3);
-        float firstX = firstColorShape.getCoordinates().x;
-        float secondX = firstColorShape.getCoordinates().x;
-        float thirdX = firstColorShape.getCoordinates().x;
+        float firstY = firstColorShape.getCoordinates().x;
+        float secondY = firstColorShape.getCoordinates().x;
+        float thirdY = firstColorShape.getCoordinates().x;
         int lineWidthMultiplier = 6;
 
         if(promptShape.getRadius() <= game.fourthOfScreen) {
-            firstX = firstColorShape.getCoordinates().x;
+            firstY = firstColorShape.getCoordinates().y;
         } else {
-            firstX = firstColorShape.getCoordinates().x + ((lastColorShape.getCoordinates().x - firstColorShape.getCoordinates().x) * ((promptShape.getRadius() - game.fourthOfScreen) / (game.thirdOfScreen - game.fourthOfScreen)));
+            firstY = firstColorShape.getCoordinates().y + ((lastColorShape.getCoordinates().y - firstColorShape.getCoordinates().y) * ((promptShape.getRadius() - game.fourthOfScreen) / (game.thirdOfScreen - game.fourthOfScreen)));
         }
 
         if(promptShape.getRadius() <= game.thirdOfScreen) {
-            secondX = firstColorShape.getCoordinates().x;
+            secondY = firstColorShape.getCoordinates().y;
         } else {
-            secondX = firstColorShape.getCoordinates().x + ((lastColorShape.getCoordinates().x - firstColorShape.getCoordinates().x) * ((promptShape.getRadius() - game.thirdOfScreen) / (game.fiveTwelfthsOfScreen - game.thirdOfScreen)));
+            secondY = firstColorShape.getCoordinates().y + ((lastColorShape.getCoordinates().y - firstColorShape.getCoordinates().y) * ((promptShape.getRadius() - game.thirdOfScreen) / (game.fiveTwelfthsOfScreen - game.thirdOfScreen)));
         }
 
         if(promptShape.getRadius() <= game.fiveTwelfthsOfScreen) {
-            thirdX = firstColorShape.getCoordinates().x;
+            thirdY = firstColorShape.getCoordinates().y;
         } else {
-            thirdX = firstColorShape.getCoordinates().x + ((lastColorShape.getCoordinates().x - firstColorShape.getCoordinates().x) * ((promptShape.getRadius() - game.fiveTwelfthsOfScreen) / ((game.widthOrHeight / 2) - game.fiveTwelfthsOfScreen)));
+            thirdY = firstColorShape.getCoordinates().y + ((lastColorShape.getCoordinates().y - firstColorShape.getCoordinates().y) * ((promptShape.getRadius() - game.fiveTwelfthsOfScreen) / ((game.widthOrHeight / 2) - game.fiveTwelfthsOfScreen)));
         }
 
         if(promptShape.getRadius() <= game.thirdOfScreen) {
-            drawTimeline(firstX,
-                    lastColorShape.getCoordinates().x,
-                    lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+            drawTimeline(lowColorShape.getCoordinates().x + (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+                    firstY,
+                    lastColorShape.getCoordinates().y,
                     lowColorShape.getLineWidth() * lineWidthMultiplier,
                     shapeRenderer);
-            drawTimeline(secondX,
-                    lastColorShape.getCoordinates().x,
-                    lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 4), //Multiplying by four to get desired distance from color shapes
+            drawTimeline(lowColorShape.getCoordinates().x + (lowColorShape.getRadius() * 4), //Multiplying by two to get desired distance from color shapes
+                    secondY,
+                    lastColorShape.getCoordinates().y,
                     lowColorShape.getLineWidth() * lineWidthMultiplier,
                     shapeRenderer);
-            drawTimeline(thirdX,
-                    lastColorShape.getCoordinates().x,
-                    lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 6), //Multiplying by six to get desired distance from color shapes
+            drawTimeline(lowColorShape.getCoordinates().x + (lowColorShape.getRadius() * 6), //Multiplying by two to get desired distance from color shapes
+                    thirdY,
+                    lastColorShape.getCoordinates().y,
                     lowColorShape.getLineWidth() * lineWidthMultiplier,
                     shapeRenderer);
             if(splitScreen) {
-                drawTimeline(firstX,
-                        lastColorShape.getCoordinates().x,
-                        lowColorShape.getCoordinates().y - (game.camera.viewportHeight / 2) - (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
-                        lowColorShape.getLineWidth() * lineWidthMultiplier,
-                        shapeRenderer);
-                drawTimeline(secondX,
-                        lastColorShape.getCoordinates().x,
-                        lowColorShape.getCoordinates().y - (game.camera.viewportHeight / 2) - (lowColorShape.getRadius() * 4), //Multiplying by four to get desired distance from color shapes
-                        lowColorShape.getLineWidth() * lineWidthMultiplier,
-                        shapeRenderer);
-                drawTimeline(thirdX,
-                        lastColorShape.getCoordinates().x,
-                        lowColorShape.getCoordinates().y - (game.camera.viewportHeight / 2) - (lowColorShape.getRadius() * 6), //Multiplying by six to get desired distance from color shapes
-                        lowColorShape.getLineWidth() * lineWidthMultiplier,
-                        shapeRenderer);
+                if(local) {
+                    drawTimeline(game.camera.viewportWidth - lowColorShape.getCoordinates().x - (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+                            (game.camera.viewportHeight / 2) + ((game.camera.viewportHeight / 2) - firstY),
+                            game.camera.viewportHeight - lastColorShape.getCoordinates().y,
+                            lowColorShape.getLineWidth() * lineWidthMultiplier,
+                            shapeRenderer);
+                    drawTimeline(game.camera.viewportWidth - lowColorShape.getCoordinates().x - (lowColorShape.getRadius() * 4), //Multiplying by two to get desired distance from color shapes
+                            (game.camera.viewportHeight / 2) + ((game.camera.viewportHeight / 2) - secondY),
+                            game.camera.viewportHeight - lastColorShape.getCoordinates().y,
+                            lowColorShape.getLineWidth() * lineWidthMultiplier,
+                            shapeRenderer);
+                    drawTimeline(game.camera.viewportWidth - lowColorShape.getCoordinates().x - (lowColorShape.getRadius() * 6), //Multiplying by two to get desired distance from color shapes
+                            (game.camera.viewportHeight / 2) + ((game.camera.viewportHeight / 2) - thirdY),
+                            game.camera.viewportHeight - lastColorShape.getCoordinates().y,
+                            lowColorShape.getLineWidth() * lineWidthMultiplier,
+                            shapeRenderer);
+                } else {
+                    drawTimeline(lowColorShape.getCoordinates().x + (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+                            (game.camera.viewportHeight / 2) + firstY,
+                            (game.camera.viewportHeight / 2) + lastColorShape.getCoordinates().y,
+                            lowColorShape.getLineWidth() * lineWidthMultiplier,
+                            shapeRenderer);
+                    drawTimeline(lowColorShape.getCoordinates().x + (lowColorShape.getRadius() * 4), //Multiplying by two to get desired distance from color shapes
+                            (game.camera.viewportHeight / 2) + secondY,
+                            (game.camera.viewportHeight / 2) + lastColorShape.getCoordinates().y,
+                            lowColorShape.getLineWidth() * lineWidthMultiplier,
+                            shapeRenderer);
+                    drawTimeline(lowColorShape.getCoordinates().x + (lowColorShape.getRadius() * 6), //Multiplying by two to get desired distance from color shapes
+                            (game.camera.viewportHeight / 2) + thirdY,
+                            (game.camera.viewportHeight / 2) + lastColorShape.getCoordinates().y,
+                            lowColorShape.getLineWidth() * lineWidthMultiplier,
+                            shapeRenderer);
+                }
             }
         } else if(promptShape.getRadius() <= game.fiveTwelfthsOfScreen) {
-            drawTimeline(secondX,
-                    lastColorShape.getCoordinates().x,
-                    lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+            drawTimeline(lowColorShape.getCoordinates().x + (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+                    secondY,
+                    lastColorShape.getCoordinates().y,
                     lowColorShape.getLineWidth() * lineWidthMultiplier,
                     shapeRenderer);
-            drawTimeline(thirdX,
-                    lastColorShape.getCoordinates().x,
-                    lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 4), //Multiplying by four to get desired distance from color shapes
+            drawTimeline(lowColorShape.getCoordinates().x + (lowColorShape.getRadius() * 4), //Multiplying by two to get desired distance from color shapes
+                    thirdY,
+                    lastColorShape.getCoordinates().y,
                     lowColorShape.getLineWidth() * lineWidthMultiplier,
                     shapeRenderer);
             if(splitScreen) {
-                drawTimeline(secondX,
-                        lastColorShape.getCoordinates().x,
-                        lowColorShape.getCoordinates().y - (game.camera.viewportHeight / 2) - (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
-                        lowColorShape.getLineWidth() * lineWidthMultiplier,
-                        shapeRenderer);
-                drawTimeline(thirdX,
-                        lastColorShape.getCoordinates().x,
-                        lowColorShape.getCoordinates().y - (game.camera.viewportHeight / 2) - (lowColorShape.getRadius() * 4), //Multiplying by four to get desired distance from color shapes
-                        lowColorShape.getLineWidth() * lineWidthMultiplier,
-                        shapeRenderer);
+                if(local) {
+                    drawTimeline(game.camera.viewportWidth - lowColorShape.getCoordinates().x - (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+                            (game.camera.viewportHeight / 2) + ((game.camera.viewportHeight / 2) - secondY),
+                            game.camera.viewportHeight - lastColorShape.getCoordinates().y,
+                            lowColorShape.getLineWidth() * lineWidthMultiplier,
+                            shapeRenderer);
+                    drawTimeline(game.camera.viewportWidth - lowColorShape.getCoordinates().x - (lowColorShape.getRadius() * 4), //Multiplying by two to get desired distance from color shapes
+                            (game.camera.viewportHeight / 2) + ((game.camera.viewportHeight / 2) - thirdY),
+                            game.camera.viewportHeight - lastColorShape.getCoordinates().y,
+                            lowColorShape.getLineWidth() * lineWidthMultiplier,
+                            shapeRenderer);
+                } else {
+                    drawTimeline(lowColorShape.getCoordinates().x + (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+                            (game.camera.viewportHeight / 2) + secondY,
+                            (game.camera.viewportHeight / 2) + lastColorShape.getCoordinates().y,
+                            lowColorShape.getLineWidth() * lineWidthMultiplier,
+                            shapeRenderer);
+                    drawTimeline(lowColorShape.getCoordinates().x + (lowColorShape.getRadius() * 4), //Multiplying by two to get desired distance from color shapes
+                            (game.camera.viewportHeight / 2) + thirdY,
+                            (game.camera.viewportHeight / 2) + lastColorShape.getCoordinates().y,
+                            lowColorShape.getLineWidth() * lineWidthMultiplier,
+                            shapeRenderer);
+                }
             }
         } else {
-            drawTimeline(thirdX,
-                    lastColorShape.getCoordinates().x,
-                    lowColorShape.getCoordinates().y - (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+            drawTimeline(lowColorShape.getCoordinates().x + (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+                    thirdY,
+                    lastColorShape.getCoordinates().y,
                     lowColorShape.getLineWidth() * lineWidthMultiplier,
                     shapeRenderer);
             if(splitScreen) {
-                drawTimeline(thirdX,
-                        lastColorShape.getCoordinates().x,
-                        lowColorShape.getCoordinates().y - (game.camera.viewportHeight / 2) - (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
-                        lowColorShape.getLineWidth() * lineWidthMultiplier,
-                        shapeRenderer);
+                if(local) {
+                    drawTimeline(game.camera.viewportWidth - lowColorShape.getCoordinates().x - (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+                            (game.camera.viewportHeight / 2) + ((game.camera.viewportHeight / 2) - thirdY),
+                            game.camera.viewportHeight - lastColorShape.getCoordinates().y,
+                            lowColorShape.getLineWidth() * lineWidthMultiplier,
+                            shapeRenderer);
+                } else {
+                    drawTimeline(lowColorShape.getCoordinates().x + (lowColorShape.getRadius() * 2), //Multiplying by two to get desired distance from color shapes
+                            (game.camera.viewportHeight / 2) + thirdY,
+                            (game.camera.viewportHeight / 2) + lastColorShape.getCoordinates().y,
+                            lowColorShape.getLineWidth() * lineWidthMultiplier,
+                            shapeRenderer);
+                }
             }
         }
-    }
-
-    //TODO: Configure this for local multiplayer
-    public void drawBackgroundColorShapeConcealer(boolean local, Color color, ShapeRenderer shapeRenderer) {
-        game.shapeRendererFilled.setColor(color);
-        game.shapeRendererFilled.rect((game.camera.viewportWidth / 2) - (GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_WIDTH / 2) - GameplayScreen.BACKGROUND_COLOR_LIST_ELEMENT_RADIUS,
-                game.camera.viewportHeight / 2,
-                GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_WIDTH + (3 * GameplayScreen.BACKGROUND_COLOR_LIST_ELEMENT_RADIUS),
-                GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P1 - GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT_P1);
     }
 
     public void drawTargetSemicircles(boolean splitScreen, boolean local, ShapeRenderer shapeRenderer) {
@@ -1887,7 +1954,7 @@ public class Draw {
             if (shape.getRadius() > TutorialScreen.INPUT_RADIUS) {
                 touchDownShapeList.remove(shape);
             } else {
-                drawShape(shape, shapeRenderer);
+                drawShape(false, shape, shapeRenderer);
                 shape.setRadius(shape.getRadius() + 1);
             }
         }

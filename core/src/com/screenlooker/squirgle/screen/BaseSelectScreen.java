@@ -663,8 +663,8 @@ public class BaseSelectScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 game.shapeRendererFilled);
 
-        game.draw.drawPrompt(squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
+        game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
     }
 
     public void transitionSquirgleColors() {
