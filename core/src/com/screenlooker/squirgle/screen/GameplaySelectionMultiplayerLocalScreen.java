@@ -210,12 +210,10 @@ public class GameplaySelectionMultiplayerLocalScreen implements Screen, InputPro
 
         if(battleTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
+            game.setScreen(new BattleBaseSelectMultiplayerLocalScreen(game));
             dispose();
         } else if(timeBattleTouched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
-            dispose();
+            //TODO: Code this when screen is written
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
             game.setScreen(new GameplaySelectionScreen(game));

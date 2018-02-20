@@ -211,16 +211,26 @@ public class Squirgle extends Game {
 
 	public void dispose() {
 		batch.dispose();
-		fontLoading.dispose();
-		fontVolume.dispose();
-		fontScore.dispose();
-		fontTarget.dispose();
-		fontSquirgle.dispose();
-		fontTrackName.dispose();
-		fontTrackType.dispose();
-		fontTime.dispose();
-		fontDifficulty.dispose();
-		fontPlayer.dispose();
+		if(fontLoading != null)
+			fontLoading.dispose();
+		if(fontVolume != null)
+			fontVolume.dispose();
+		if(fontScore != null)
+			fontScore.dispose();
+		if(fontTarget != null)
+			fontTarget.dispose();
+		if(fontSquirgle != null)
+			fontSquirgle.dispose();
+		if(fontTrackName != null)
+			fontTrackName.dispose();
+		if(fontTrackType != null)
+			fontTrackType.dispose();
+		if(fontTime != null)
+			fontTime.dispose();
+		if(fontDifficulty != null)
+			fontDifficulty.dispose();
+		if(fontPlayer != null)
+			fontPlayer.dispose();
 		generator.dispose();
 		shapeRendererFilled.dispose();
 		shapeRendererLine.dispose();

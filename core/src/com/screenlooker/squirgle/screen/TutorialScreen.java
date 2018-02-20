@@ -265,7 +265,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                         game.shapeRendererLine);
                 if (phase >= PHASE_EIGHT) {
                     game.draw.drawBackgroundColorShapeListTutorial(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
-                    game.draw.drawTimelines(false, promptShape, backgroundColorShapeList, game.shapeRendererFilled);
+                    game.draw.drawTimelines(false, false, promptShape, backgroundColorShapeList, game.shapeRendererFilled);
                 }
                 if (phase >= PHASE_SIX) {
                     SoundUtils.playMusic(promptShape, game);
@@ -287,7 +287,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     game.draw.drawShapes(targetShapeList, outsideTargetShape, false, game.shapeRendererFilled);
                 }
                 if (phase >= PHASE_EIGHT) {
-                    game.draw.drawPauseInput(false, game);
+                    game.draw.drawPauseInput(false, false, game);
                 }
                 drawTargetArc();
             }

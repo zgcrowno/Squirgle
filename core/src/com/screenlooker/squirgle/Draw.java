@@ -19,6 +19,7 @@ public class Draw {
     public static final int NUM_ARC_SEGMENTS = 90;
     public static final int SIXTY_DEGREES = 60;
     public static final int NINETY_ONE_DEGREES = 91;
+    public static final int ONE_HUNDRED_AND_EIGHTY_DEGREES = 180;
     public static final int SOUND_WAVE_DISTANCE = 5;
     public static final int FORTY_FIVE_DEGREES = 45;
     public static final float INPUT_DISTANCE_OFFSET = 1.5f;
@@ -724,7 +725,7 @@ public class Draw {
         }
     }
 
-    public void drawInputButtons(boolean splitScreen, Squirgle game, ShapeRenderer shapeRenderer) {
+    public void drawInputButtons(boolean splitScreen, boolean local, Squirgle game, ShapeRenderer shapeRenderer) {
         if(game.base >= 1) {
             //Point
             shapeRenderer.setColor(Color.WHITE);
@@ -1540,8 +1541,8 @@ public class Draw {
         }
     }
 
-    //TODO: Configure this to draw two lists for two players (or one player and CPU; we've already got the unused parameter for it)
-    public void drawBackgroundColorShapeList(boolean splitScreen, boolean blackAndWhite, List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color clearColor, ShapeRenderer shapeRenderer) {
+    //TODO: Configure this for local multiplayer
+    public void drawBackgroundColorShapeList(boolean splitScreen, boolean blackAndWhite, boolean local, List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color clearColor, ShapeRenderer shapeRenderer) {
         for (int i = 0; i < backgroundColorShapeList.size(); i++) {
             Shape shape = backgroundColorShapeList.get(i);
             drawShape(shape, shapeRenderer);
@@ -1638,7 +1639,8 @@ public class Draw {
         drawPoint(rightX, y, lineWidth, Color.WHITE, shapeRenderer);
     }
 
-    public void drawTimelines(boolean splitScreen, Shape promptShape, List<Shape> backgroundColorShapeList, ShapeRenderer shapeRenderer) {
+    //TODO: Configure this for local multiplayer
+    public void drawTimelines(boolean splitScreen, boolean local, Shape promptShape, List<Shape> backgroundColorShapeList, ShapeRenderer shapeRenderer) {
         Shape firstColorShape = backgroundColorShapeList.get(0);
         Shape lastColorShape = backgroundColorShapeList.get(backgroundColorShapeList.size() - 1);
         Shape lowColorShape = backgroundColorShapeList.get(3);
@@ -1737,7 +1739,8 @@ public class Draw {
         }
     }
 
-    public void drawBackgroundColorShapeConcealer(Color color, ShapeRenderer shapeRenderer) {
+    //TODO: Configure this for local multiplayer
+    public void drawBackgroundColorShapeConcealer(boolean local, Color color, ShapeRenderer shapeRenderer) {
         game.shapeRendererFilled.setColor(color);
         game.shapeRendererFilled.rect((game.camera.viewportWidth / 2) - (GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_WIDTH / 2) - GameplayScreen.BACKGROUND_COLOR_LIST_ELEMENT_RADIUS,
                 game.camera.viewportHeight / 2,
@@ -1745,9 +1748,13 @@ public class Draw {
                 GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT_P1 - GameplayScreen.BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT_P1);
     }
 
-    public void drawTargetSemicircles(boolean splitScreen, ShapeRenderer shapeRenderer) {
+    public void drawTargetSemicircles(boolean splitScreen, boolean local, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.circle(0, game.camera.viewportHeight, GameplayScreen.TARGET_RADIUS);
+        if(!local) {
+            shapeRenderer.circle(0, game.camera.viewportHeight, GameplayScreen.TARGET_RADIUS);
+        } else {
+            shapeRenderer.arc(game.camera.viewportWidth, game.camera.viewportHeight / 2, GameplayScreen.TARGET_RADIUS, -ONE_HUNDRED_AND_EIGHTY_DEGREES, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
+        }
         if(splitScreen) {
             shapeRenderer.arc(0, game.camera.viewportHeight / 2, GameplayScreen.TARGET_RADIUS, 0, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
         }
@@ -1768,14 +1775,23 @@ public class Draw {
         shapeRenderer.arc(0, game.camera.viewportHeight, TutorialScreen.TARGET_RADIUS, start, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
     }
 
-    public void drawScoreTriangles(boolean splitScreen, ShapeRenderer shapeRenderer) {
+    public void drawScoreTriangles(boolean splitScreen, boolean local, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.WHITE);
-        shapeRenderer.triangle(game.camera.viewportWidth,
-                game.camera.viewportHeight,
-                game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
-                game.camera.viewportHeight,
-                game.camera.viewportWidth,
-                game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS);
+        if(!local) {
+            shapeRenderer.triangle(game.camera.viewportWidth,
+                    game.camera.viewportHeight,
+                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
+                    game.camera.viewportHeight,
+                    game.camera.viewportWidth,
+                    game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS);
+        } else {
+            shapeRenderer.triangle(0,
+                    game.camera.viewportHeight / 2,
+                    GameplayScreen.TARGET_RADIUS,
+                    game.camera.viewportHeight / 2,
+                    0,
+                    (game.camera.viewportHeight / 2) + GameplayScreen.TARGET_RADIUS);
+        }
         if(splitScreen) {
             shapeRenderer.triangle(game.camera.viewportWidth,
                     game.camera.viewportHeight / 2,
@@ -1796,7 +1812,7 @@ public class Draw {
                 game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS);
     }
 
-    public void drawSaturationIncrements(Color color, ShapeRenderer shapeRenderer) {
+    public void drawSaturationIncrements(boolean local, Color color, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(color);
         for(int i = 1; i < GameplayScreen.MAX_SATURATION; i++) {
             //P1
@@ -1807,15 +1823,23 @@ public class Draw {
                     (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION) / 4);
 
             //P2
-            shapeRenderer.rectLine(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + (i * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
-                    game.camera.viewportHeight - (i * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
-                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + ((i + 0.5f) * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
-                    game.camera.viewportHeight - ((i - 0.5f) * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
-                    (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION) / 4);
+            if(local) {
+                shapeRenderer.rectLine(GameplayScreen.TARGET_RADIUS - (i * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        (game.camera.viewportHeight / 2) + (i * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        GameplayScreen.TARGET_RADIUS - ((i + 0.5f) * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        (game.camera.viewportHeight / 2) + ((i - 0.5f) * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION) / 4);
+            } else {
+                shapeRenderer.rectLine(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + (i * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        game.camera.viewportHeight - (i * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + ((i + 0.5f) * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        game.camera.viewportHeight - ((i - 0.5f) * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION) / 4);
+            }
         }
     }
 
-    public void drawSaturationTriangles(String player, int saturation, ShapeRenderer shapeRenderer) {
+    public void drawSaturationTriangles(String player, boolean local, int saturation, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(Color.BLACK);
         if(player.equals(GameplayScreen.P1)) {
             shapeRenderer.triangle(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
@@ -1825,16 +1849,25 @@ public class Draw {
                     game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + ((2 * saturation) * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
                     game.camera.viewportHeight / 2);
         } else {
-            shapeRenderer.triangle(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
-                    game.camera.viewportHeight,
-                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + (saturation * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
-                    game.camera.viewportHeight - (saturation * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
-                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + ((2 * saturation) * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
-                    game.camera.viewportHeight);
+            if(local) {
+                shapeRenderer.triangle(GameplayScreen.TARGET_RADIUS,
+                        game.camera.viewportHeight / 2,
+                        GameplayScreen.TARGET_RADIUS - (saturation * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        (game.camera.viewportHeight / 2) + (saturation * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        GameplayScreen.TARGET_RADIUS - ((2 * saturation) * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        game.camera.viewportHeight / 2);
+            } else {
+                shapeRenderer.triangle(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
+                        game.camera.viewportHeight,
+                        game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + (saturation * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        game.camera.viewportHeight - (saturation * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + ((2 * saturation) * (GameplayScreen.TARGET_RADIUS / GameplayScreen.MAX_SATURATION)),
+                        game.camera.viewportHeight);
+            }
         }
     }
 
-    public void drawPauseInput(boolean splitScreen, Squirgle game) {
+    public void drawPauseInput(boolean splitScreen, boolean local, Squirgle game) {
         float inputRadius = splitScreen ? game.camera.viewportWidth / 40 : game.camera.viewportWidth / 20;
         float lineRadius = inputRadius / 2;
 

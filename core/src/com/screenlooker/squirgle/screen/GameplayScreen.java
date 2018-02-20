@@ -218,6 +218,9 @@ public class GameplayScreen implements Screen, InputProcessor {
     private boolean useSaturation;
     private boolean blackAndWhite;
     private boolean admitsOfSquirgle;
+    private boolean multiplayer;
+    private boolean local;
+    private boolean online;
 
     public GameplayScreen(final Squirgle game, final int gameplayType) {
         this.game = game;
@@ -226,6 +229,10 @@ public class GameplayScreen implements Screen, InputProcessor {
         this.useSaturation = gameplayType == Squirgle.GAMEPLAY_BATTLE || gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL || gameplayType == Squirgle.GAMEPLAY_BATTLE_ONLINE;
         this.blackAndWhite = gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_ONLINE;
         this.admitsOfSquirgle = gameplayType == Squirgle.GAMEPLAY_SQUIRGLE || gameplayType == Squirgle.GAMEPLAY_BATTLE || gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL || gameplayType == Squirgle.GAMEPLAY_BATTLE_ONLINE;
+        this.multiplayer = gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL || gameplayType == Squirgle.GAMEPLAY_BATTLE_ONLINE || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_ONLINE;
+        this.local = gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL;
+        this.online = multiplayer && !local;
+
 
         game.resetInstanceData();
 
@@ -305,13 +312,13 @@ public class GameplayScreen implements Screen, InputProcessor {
                             game.shapeRendererLine);
                     game.draw.drawScreenDivision(blackAndWhite ? Color.WHITE : Color.BLACK, game.shapeRendererLine);
                 }
-                game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
-                game.draw.drawTimelines(splitScreen, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList, game.shapeRendererFilled);
+                game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
+                game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList, game.shapeRendererFilled);
                 if(splitScreen) {
-                    game.draw.drawBackgroundColorShapeConcealer(backgroundColorShape.getRadius() >= (game.camera.viewportWidth / 2) + (game.camera.viewportHeight / 2) ? backgroundColorShape.getColor() : clearColor, game.shapeRendererFilled);
+                    game.draw.drawBackgroundColorShapeConcealer(local, backgroundColorShape.getRadius() >= (game.camera.viewportWidth / 2) + (game.camera.viewportHeight / 2) ? backgroundColorShape.getColor() : clearColor, game.shapeRendererFilled);
                 }
                 SoundUtils.playMusic(splitScreen ? dummyPromptForTimelines : promptShape, game);
-                game.draw.drawTargetSemicircles(splitScreen, game.shapeRendererFilled);
+                game.draw.drawTargetSemicircles(splitScreen, local, game.shapeRendererFilled);
             }
             if(!splitScreen) {
                 game.draw.drawPrompt(promptShape, priorShapeList, 0, backgroundColorShape, false, false, game.shapeRendererFilled);
@@ -380,16 +387,16 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         if(!paused) {
             if (!gameOver) {
-                game.draw.drawInputButtons(splitScreen, game, game.shapeRendererFilled);
-                game.draw.drawScoreTriangles(splitScreen, game.shapeRendererFilled);
+                game.draw.drawInputButtons(splitScreen, local, game, game.shapeRendererFilled);
+                game.draw.drawScoreTriangles(splitScreen, local, game.shapeRendererFilled);
                 if(useSaturation) {
                     if(saturationP1 > 0) {
-                        game.draw.drawSaturationTriangles(P1, saturationP1, game.shapeRendererFilled);
+                        game.draw.drawSaturationTriangles(P1, local, saturationP1, game.shapeRendererFilled);
                     }
                     if(saturationP2 > 0) {
-                        game.draw.drawSaturationTriangles(P2, saturationP2, game.shapeRendererFilled);
+                        game.draw.drawSaturationTriangles(P2, local, saturationP2, game.shapeRendererFilled);
                     }
-                    game.draw.drawSaturationIncrements(backgroundColorShape.getColor(), game.shapeRendererFilled);
+                    game.draw.drawSaturationIncrements(local, backgroundColorShape.getColor(), game.shapeRendererFilled);
                 }
                 if(!splitScreen) {
                     game.draw.drawPrompt(outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true, game.shapeRendererFilled);
@@ -400,7 +407,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.draw.drawPrompt(outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true, game.shapeRendererFilled);
                     game.draw.drawShapes(targetShapeListP2, outsideTargetShapeP2, false, game.shapeRendererFilled);
                 }
-                game.draw.drawPauseInput(splitScreen, game);
+                //TODO: Draw another pause input for local multiplayer
+                game.draw.drawPauseInput(splitScreen, local, game);
                 drawTargetArcs();
             }
         }
@@ -419,6 +427,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         drawResultsInputButtons();
 
         if(paused) {
+            //TODO: Configure this for local multiplayer
             drawInputRectangles();
         }
 
@@ -797,9 +806,9 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     Color.WHITE,
                     P2,
-                    game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
-                    game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
-                    SCORE_ANGLE,
+                    local ? (TARGET_RADIUS / MULTIPLIER_X_DIVISOR) : game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
+                    local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR) : game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
+                    local ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
                     1);
             FontUtils.printText(game.batch,
                     game.fontScore,
@@ -848,15 +857,27 @@ public class GameplayScreen implements Screen, InputProcessor {
                         (float) ((game.camera.viewportHeight / 2) + ((2 * game.fontTarget.getCapHeight()) / 3) + (TARGET_RADIUS * Math.sin(Math.toRadians(degreesP1 + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth()))))),
                         degreesP1 - TWO_HUNDRED_AND_SEVENTY_DEGREES,
                         1);
-                FontUtils.printText(game.batch,
-                        game.fontTarget,
-                        game.layout,
-                        backgroundColorShape.getColor(),
-                        Squirgle.TARGET.substring(i, i + 1),
-                        (float) (TARGET_RADIUS * Math.cos(Math.toRadians(degreesP2 + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth())))),
-                        (float) (game.camera.viewportHeight + ((2 * game.fontTarget.getCapHeight()) / 3) + (TARGET_RADIUS * Math.sin(Math.toRadians(degreesP2 + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth()))))),
-                        degreesP2 - TWO_HUNDRED_AND_SEVENTY_DEGREES,
-                        1);
+                if(local) {
+                    FontUtils.printText(game.batch,
+                            game.fontTarget,
+                            game.layout,
+                            backgroundColorShape.getColor(),
+                            Squirgle.TARGET.substring(i, i + 1),
+                            (float) (game.camera.viewportWidth - (TARGET_RADIUS * Math.cos(Math.toRadians(degreesP2 + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth()))))),
+                            (float) ((game.camera.viewportHeight / 2) - ((2 * game.fontTarget.getCapHeight()) / 3) - (TARGET_RADIUS * Math.sin(Math.toRadians(degreesP2 + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth()))))),
+                            degreesP2 + TWO_HUNDRED_AND_SEVENTY_DEGREES,
+                            1);
+                } else {
+                    FontUtils.printText(game.batch,
+                            game.fontTarget,
+                            game.layout,
+                            backgroundColorShape.getColor(),
+                            Squirgle.TARGET.substring(i, i + 1),
+                            (float) (TARGET_RADIUS * Math.cos(Math.toRadians(degreesP2 + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth())))),
+                            (float) (game.camera.viewportHeight + ((2 * game.fontTarget.getCapHeight()) / 3) + (TARGET_RADIUS * Math.sin(Math.toRadians(degreesP2 + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth()))))),
+                            degreesP2 - TWO_HUNDRED_AND_SEVENTY_DEGREES,
+                            1);
+                }
             }
         }
 
@@ -892,15 +913,27 @@ public class GameplayScreen implements Screen, InputProcessor {
                         1);
             }
             for(int i = 0; i < shapeTextP2.length(); i++, degreesP2 += degreeP2) {
-                FontUtils.printText(game.batch,
-                        game.fontTarget,
-                        game.layout,
-                        Color.WHITE,
-                        shapeTextP2.substring(i, i + 1),
-                        (float) ((game.fontTarget.getCapHeight() / 3) + TARGET_RADIUS * Math.cos(Math.toRadians(degreesP2 + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3))))),
-                        (float) (game.camera.viewportHeight + (TARGET_RADIUS * Math.sin(Math.toRadians(degreesP2 + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3)))))),
-                        degreesP2 - TWO_HUNDRED_AND_SEVENTY_DEGREES,
-                        1);
+                if(local) {
+                    FontUtils.printText(game.batch,
+                            game.fontTarget,
+                            game.layout,
+                            Color.WHITE,
+                            shapeTextP2.substring(i, i + 1),
+                            (float) (game.camera.viewportWidth - (game.fontTarget.getCapHeight() / 3) - TARGET_RADIUS * Math.cos(Math.toRadians(degreesP2 + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3))))),
+                            (float) ((game.camera.viewportHeight / 2) - (TARGET_RADIUS * Math.sin(Math.toRadians(degreesP2 + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3)))))),
+                            degreesP2 + TWO_HUNDRED_AND_SEVENTY_DEGREES,
+                            1);
+                } else {
+                    FontUtils.printText(game.batch,
+                            game.fontTarget,
+                            game.layout,
+                            Color.WHITE,
+                            shapeTextP2.substring(i, i + 1),
+                            (float) ((game.fontTarget.getCapHeight() / 3) + TARGET_RADIUS * Math.cos(Math.toRadians(degreesP2 + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3))))),
+                            (float) (game.camera.viewportHeight + (TARGET_RADIUS * Math.sin(Math.toRadians(degreesP2 + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3)))))),
+                            degreesP2 - TWO_HUNDRED_AND_SEVENTY_DEGREES,
+                            1);
+                }
             }
         }
     }
@@ -940,6 +973,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         }
     }
 
+    //TODO: Configure this for local multiplayer
     public void drawTargetArcs() {
         if(!splitScreen) {
             game.draw.drawArc(0, game.camera.viewportHeight, targetArcStart, targetArcColor, game.shapeRendererFilled);
@@ -2112,8 +2146,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 null,
                 (TARGET_RADIUS / TARGET_RADIUS_DIVISOR) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
-                        game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR)));
+                new Vector2(local ? game.camera.viewportWidth - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR) : TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
+                        local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / TARGET_RADIUS_DIVISOR) : game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR)));
         priorShapeList = new ArrayList<Shape>();
         priorShapeListP1 = new ArrayList<Shape>();
         priorShapeListP2 = new ArrayList<Shape>();
