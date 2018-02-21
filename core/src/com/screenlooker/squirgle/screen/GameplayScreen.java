@@ -741,8 +741,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     backgroundColorShape.getColor(),
                     String.valueOf(score),
-                    game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
-                    game.camera.viewportHeight - (TARGET_RADIUS / SCORE_DIVISOR),
+                    game.camera.viewportWidth - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
+                    game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
                     SCORE_ANGLE,
                     1);
 
@@ -752,8 +752,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     Color.WHITE,
                     X + String.valueOf(multiplier),
-                    game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
-                    game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
+                    game.camera.viewportWidth - (TARGET_RADIUS / 4),
+                    game.camera.viewportHeight - TARGET_RADIUS + (game.fontScore.getCapHeight() / 5.5f),
                     SCORE_ANGLE,
                     1);
         } else if(blackAndWhite) {
@@ -765,8 +765,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     backgroundColorShape.getColor(),
                     String.valueOf(scoreP1),
-                    game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
-                    (game.camera.viewportHeight / 2) - (TARGET_RADIUS / SCORE_DIVISOR),
+                    game.camera.viewportWidth - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
+                    (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
                     SCORE_ANGLE,
                     1);
             FontUtils.printText(game.batch,
@@ -774,8 +774,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     backgroundColorShape.getColor(),
                     String.valueOf(scoreP2),
-                    local ? (TARGET_RADIUS / SCORE_DIVISOR) : game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
-                    local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / SCORE_DIVISOR) : game.camera.viewportHeight - (TARGET_RADIUS / SCORE_DIVISOR),
+                    local ? (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 2.1f) : game.camera.viewportWidth - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
+                    local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 2.1f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
                     local ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
                     1);
 
@@ -785,8 +785,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     Color.WHITE,
                     P1 + COLON + X + multiplierP1,
-                    game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
-                    (game.camera.viewportHeight / 2) - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
+                    game.camera.viewportWidth - (TARGET_RADIUS / 4) - (game.fontScore.getCapHeight() / 4.7f),
+                    (game.camera.viewportHeight / 2) - ((3 * TARGET_RADIUS) / 4) - (game.fontScore.getCapHeight() / 4.7f),
                     SCORE_ANGLE,
                     1);
             FontUtils.printText(game.batch,
@@ -794,8 +794,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     Color.WHITE,
                     P2 + COLON + X + multiplierP2,
-                    local ? (TARGET_RADIUS / MULTIPLIER_X_DIVISOR) : game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
-                    local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR) : game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
+                    local ? (TARGET_RADIUS / 4) + (game.fontScore.getCapHeight() / 4.7f) : game.camera.viewportWidth - (TARGET_RADIUS / 4) - (game.fontScore.getCapHeight() / 4.7f),
+                    local ? (game.camera.viewportHeight / 2) + ((3 * TARGET_RADIUS) / 4) + (game.fontScore.getCapHeight() / 4.7f) : game.camera.viewportHeight - ((3 * TARGET_RADIUS) / 4) - (game.fontScore.getCapHeight() / 4.7f),
                     local ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
                     1);
         } else {
@@ -807,8 +807,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     Color.WHITE,
                     P2,
-                    local ? (TARGET_RADIUS / MULTIPLIER_X_DIVISOR) : game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
-                    local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR) : game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
+                    local ? (TARGET_RADIUS / 4) + (game.fontScore.getCapHeight() / 4.7f) : game.camera.viewportWidth - (TARGET_RADIUS / 4) - (game.fontScore.getCapHeight() / 4.7f),
+                    local ? (game.camera.viewportHeight / 2) + ((3 * TARGET_RADIUS) / 4) + (game.fontScore.getCapHeight() / 4.7f) : game.camera.viewportHeight - ((3 * TARGET_RADIUS) / 4) - (game.fontScore.getCapHeight() / 4.7f),
                     local ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
                     1);
             FontUtils.printText(game.batch,
@@ -816,8 +816,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     Color.WHITE,
                     P1,
-                    game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
-                    (game.camera.viewportHeight / 2) - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
+                    game.camera.viewportWidth - (TARGET_RADIUS / 4) - (game.fontScore.getCapHeight() / 4.7f),
+                    (game.camera.viewportHeight / 2) - ((3 * TARGET_RADIUS) / 4) - (game.fontScore.getCapHeight() / 4.7f),
                     SCORE_ANGLE,
                     1);
         }
@@ -2160,14 +2160,14 @@ public class GameplayScreen implements Screen, InputProcessor {
         }
         BACKGROUND_COLOR_SHAPE_LIST_WIDTH = BACKGROUND_COLOR_SHAPE_LIST_MAX_X - BACKGROUND_COLOR_SHAPE_LIST_MIN_X;
         INIT_PROMPT_RADIUS = splitScreen ? game.widthOrHeight / 8 : game.widthOrHeight / 4;
-        if(!splitScreen) {
+        if(splitScreen && game.widthGreater) {
+            FONT_SCORE_SIZE_DIVISOR = 30f;
+            FONT_TARGET_SIZE_DIVISOR = 71f;
+            FONT_SQUIRGLE_SIZE_DIVISOR = 10f;
+        } else {
             FONT_SCORE_SIZE_DIVISOR = 11.1f;
             FONT_TARGET_SIZE_DIVISOR = 35.5f;
             FONT_SQUIRGLE_SIZE_DIVISOR = 5f;
-        } else {
-            FONT_SCORE_SIZE_DIVISOR = 22.2f;
-            FONT_TARGET_SIZE_DIVISOR = 71f;
-            FONT_SQUIRGLE_SIZE_DIVISOR = 10f;
         }
         INPUT_PLAY_SPAWN = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         INPUT_HOME_SPAWN = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
