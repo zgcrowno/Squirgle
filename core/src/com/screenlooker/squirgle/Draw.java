@@ -90,9 +90,14 @@ public class Draw {
         shapeRenderer.circle(x, y, promptShape.getRadius());
     }
 
-    public void drawScreenDivision(Color color, ShapeRenderer shapeRenderer) {
-        shapeRenderer.setColor(color);
+    public void drawScreenDivision(boolean blackAndWhite, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(blackAndWhite ? Color.WHITE : Color.BLACK);
         shapeRenderer.line(0, game.camera.viewportHeight / 2, game.camera.viewportWidth, game.camera.viewportHeight / 2);
+        if(blackAndWhite) {
+            shapeRenderer.setColor(Color.BLACK);
+            shapeRenderer.line(0, game.camera.viewportHeight / 2, GameplayScreen.TARGET_RADIUS, game.camera.viewportHeight / 2);
+            shapeRenderer.line(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS, game.camera.viewportHeight / 2, game.camera.viewportWidth, game.camera.viewportHeight / 2);
+        }
     }
 
     public void drawPrompt(boolean localPlayer2, Shape promptShape, List<Shape> priorShapeList, int targetShapesMatched, Shape backgroundColorShape, boolean isNonGameplay, boolean isTarget, ShapeRenderer shapeRenderer) {
@@ -1291,8 +1296,13 @@ public class Draw {
                 equalsTargetSpawn.x = targetSpawn.x + (GameplayScreen.TARGET_RADIUS / 2) + ((lastPromptShape.getCoordinates().x - (targetSpawn.x + (GameplayScreen.TARGET_RADIUS / 2))) / 2);
                 equalsTargetSpawn.y = (targetSpawn.y / 2) - (GameplayScreen.TARGET_RADIUS / 2) + ((lastPromptShape.getCoordinates().y - ((targetSpawn.y / 2) - (GameplayScreen.TARGET_RADIUS / 2))) / 2);
             } else {
-                equalsTargetSpawn.x = targetSpawn.x + ((lastPromptShape.getCoordinates().x - targetSpawn.x) / 2);
-                equalsTargetSpawn.y = targetSpawn.y + ((lastPromptShape.getCoordinates().y - targetSpawn.y) / 2);
+                if(localPlayer2) {
+                    equalsTargetSpawn.x = game.camera.viewportWidth - (GameplayScreen.TARGET_RADIUS / 2) - ((lastPromptShape.getCoordinates().x - GameplayScreen.TARGET_RADIUS) / 2);
+                    equalsTargetSpawn.y = (game.camera.viewportHeight / 2) + (GameplayScreen.TARGET_RADIUS / 2) + ((lastPromptShape.getCoordinates().y - ((game.camera.viewportHeight / 2) + (GameplayScreen.TARGET_RADIUS / 2))) / 2);
+                } else {
+                    equalsTargetSpawn.x = targetSpawn.x + ((lastPromptShape.getCoordinates().x - targetSpawn.x) / 2);
+                    equalsTargetSpawn.y = targetSpawn.y + ((lastPromptShape.getCoordinates().y - targetSpawn.y) / 2);
+                }
             }
         }
 
@@ -1329,6 +1339,8 @@ public class Draw {
             shapeRenderer.rectLine(lastPromptShape.getCoordinates(), equalsTargetSpawn, equationWidth * 2);
             if(player != null && player.equals(GameplayScreen.P1)) {
                 shapeRenderer.rectLine(equalsTargetSpawn.x, equalsTargetSpawn.y, targetSpawn.x + (GameplayScreen.TARGET_RADIUS / 2), (targetSpawn.y / 2) - (GameplayScreen.TARGET_RADIUS / 2), equationWidth * 2);
+            } else if(player != null && player.equals(GameplayScreen.P2) && localPlayer2) {
+                shapeRenderer.rectLine(equalsTargetSpawn.x, equalsTargetSpawn.y, game.camera.viewportWidth - (GameplayScreen.TARGET_RADIUS / 2), (game.camera.viewportHeight / 2) + (GameplayScreen.TARGET_RADIUS / 2), equationWidth * 2);
             } else {
                 shapeRenderer.rectLine(equalsTargetSpawn, targetSpawn, equationWidth * 2);
             }
@@ -1584,7 +1596,7 @@ public class Draw {
                 if(local) {
                     p2Shape.setCoordinates(new Vector2((game.camera.viewportWidth / 2) - (shape.getCoordinates().x - (game.camera.viewportWidth / 2)), (game.camera.viewportHeight / 2) - (shape.getCoordinates().y - (game.camera.viewportHeight / 2))));
                 } else {
-                    p2Shape.setCoordinates(new Vector2(game.camera.viewportWidth - shape.getCoordinates().x, (game.camera.viewportHeight / 2) + ((game.camera.viewportHeight / 2) - shape.getCoordinates().y)));
+                    p2Shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y + game.camera.viewportHeight / 2));
                 }
                 drawShape(false, p2Shape, shapeRenderer);
             }
@@ -1935,7 +1947,7 @@ public class Draw {
     }
 
     public void drawPauseInput(boolean splitScreen, boolean local, Squirgle game) {
-        float inputRadius = splitScreen ? game.camera.viewportWidth / 40 : game.camera.viewportWidth / 20;
+        float inputRadius = splitScreen && game.widthGreater ? game.camera.viewportWidth / 40 : game.camera.viewportWidth / 20;
         float lineRadius = inputRadius / 2;
 
         if(!splitScreen) {

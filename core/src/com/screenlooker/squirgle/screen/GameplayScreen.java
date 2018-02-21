@@ -242,7 +242,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         setUpNonFinalNonStaticData();
 
         //TODO: Eventually set this in render using delta? See maintainSpeed() in TimeAttackScreen
-        game.draw.setColorListSpeed(game.camera.viewportWidth / 1536);
+        game.draw.setColorListSpeed(splitScreen ? game.camera.viewportWidth / 768 : game.camera.viewportWidth / 1536);
 
         game.setUpFontScore(MathUtils.round(game.camera.viewportWidth / FONT_SCORE_SIZE_DIVISOR));
         game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
@@ -309,7 +309,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                             game.camera.viewportHeight / 2 > game.camera.viewportWidth ? (3 * game.camera.viewportWidth) / 8 : (3 * (game.camera.viewportHeight / 2)) / 8,
                             promptShapeP1,
                             game.shapeRendererLine);
-                    game.draw.drawScreenDivision(blackAndWhite ? Color.WHITE : Color.BLACK, game.shapeRendererLine);
+                    game.draw.drawScreenDivision(blackAndWhite, game.shapeRendererLine);
                 }
                 game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
                 game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList, game.shapeRendererFilled);
@@ -377,7 +377,9 @@ public class GameplayScreen implements Screen, InputProcessor {
             }
         }
 
-        executeOpponenentAI();
+        if(splitScreen && !multiplayer) {
+            executeOpponenentAI();
+        }
 
         drawEquations();
 
@@ -506,6 +508,9 @@ public class GameplayScreen implements Screen, InputProcessor {
             handleInput(null);
         } else {
             handleInput(P1);
+            if(multiplayer) {
+                handleInput(P2);
+            }
         }
 
         return true;
@@ -769,9 +774,9 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     backgroundColorShape.getColor(),
                     String.valueOf(scoreP2),
-                    game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
-                    game.camera.viewportHeight - (TARGET_RADIUS / SCORE_DIVISOR),
-                    SCORE_ANGLE,
+                    local ? (TARGET_RADIUS / SCORE_DIVISOR) : game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
+                    local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / SCORE_DIVISOR) : game.camera.viewportHeight - (TARGET_RADIUS / SCORE_DIVISOR),
+                    local ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
                     1);
 
             //Designations and multipliers
@@ -789,9 +794,9 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     Color.WHITE,
                     P2 + COLON + X + multiplierP2,
-                    game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
-                    game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
-                    SCORE_ANGLE,
+                    local ? (TARGET_RADIUS / MULTIPLIER_X_DIVISOR) : game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
+                    local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR) : game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
+                    local ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
                     1);
         } else {
             //We're in a non-time battle mode
@@ -947,15 +952,27 @@ public class GameplayScreen implements Screen, InputProcessor {
                         0,
                         squirgleOpacity);
             } else {
-                FontUtils.printText(game.batch,
-                        game.fontSquirgle,
-                        game.layout,
-                        Color.WHITE,
-                        SQUIRGLE.substring(i - 1, i),
-                        (i * (game.camera.viewportWidth - ((2 * SQUIRGLE.length()) * INPUT_RADIUS))) / (SQUIRGLE.length() + 1) + ((i + i - 1) * INPUT_RADIUS),
-                        (3 * game.camera.viewportHeight) / 4,
-                        0,
-                        squirgleOpacityP2);
+                if(local) {
+                    FontUtils.printText(game.batch,
+                            game.fontSquirgle,
+                            game.layout,
+                            Color.WHITE,
+                            SQUIRGLE.substring(i - 1, i),
+                            game.camera.viewportWidth - ((i * (game.camera.viewportWidth - ((2 * SQUIRGLE.length()) * INPUT_RADIUS))) / (SQUIRGLE.length() + 1) + ((i + i - 1) * INPUT_RADIUS)),
+                            (3 * game.camera.viewportHeight) / 4,
+                            Draw.ONE_HUNDRED_AND_EIGHTY_DEGREES,
+                            squirgleOpacityP2);
+                } else {
+                    FontUtils.printText(game.batch,
+                            game.fontSquirgle,
+                            game.layout,
+                            Color.WHITE,
+                            SQUIRGLE.substring(i - 1, i),
+                            (i * (game.camera.viewportWidth - ((2 * SQUIRGLE.length()) * INPUT_RADIUS))) / (SQUIRGLE.length() + 1) + ((i + i - 1) * INPUT_RADIUS),
+                            (3 * game.camera.viewportHeight) / 4,
+                            0,
+                            squirgleOpacityP2);
+                }
                 FontUtils.printText(game.batch,
                         game.fontSquirgle,
                         game.layout,
@@ -981,9 +998,16 @@ public class GameplayScreen implements Screen, InputProcessor {
             if(targetArcStartP1 > -Draw.NINETY_ONE_DEGREES) {
                 targetArcStartP1 -= TARGET_ARC_SPEED;
             }
-            game.draw.drawArc(0, game.camera.viewportHeight, targetArcStartP2, targetArcColor, game.shapeRendererFilled);
-            if(targetArcStartP2 > -Draw.NINETY_ONE_DEGREES) {
-                targetArcStartP2 -= TARGET_ARC_SPEED;
+            if(local) {
+                game.draw.drawArc(game.camera.viewportWidth, game.camera.viewportHeight / 2, targetArcStartP2, targetArcColor, game.shapeRendererFilled);
+                if(targetArcStartP2 > Draw.NINETY_ONE_DEGREES) {
+                    targetArcStartP2 -= TARGET_ARC_SPEED;
+                }
+            } else {
+                game.draw.drawArc(0, game.camera.viewportHeight, targetArcStartP2, targetArcColor, game.shapeRendererFilled);
+                if(targetArcStartP2 > -Draw.NINETY_ONE_DEGREES) {
+                    targetArcStartP2 -= TARGET_ARC_SPEED;
+                }
             }
         }
     }
@@ -1330,9 +1354,54 @@ public class GameplayScreen implements Screen, InputProcessor {
                     && touchPoint.x < INPUT_NONAGON_SPAWN_P1.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_NONAGON_SPAWN_P1.y - INPUT_RADIUS
                     && touchPoint.y < INPUT_NONAGON_SPAWN_P1.y + INPUT_RADIUS;
-            pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 40)
-                    && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 40)
-                    && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) + (game.camera.viewportWidth / 40);
+            if(game.widthGreater) {
+                pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 40)
+                        && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 40)
+                        && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) + (game.camera.viewportWidth / 40);
+            } else {
+                pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
+                        && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 20)
+                        && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) + (game.camera.viewportWidth / 20);
+            }
+            if(multiplayer) {
+                pointTouchedP2 = touchPoint.x > INPUT_POINT_SPAWN_P2.x - INPUT_RADIUS
+                        && touchPoint.x < INPUT_POINT_SPAWN_P2.x + INPUT_RADIUS
+                        && touchPoint.y > INPUT_POINT_SPAWN_P2.y - INPUT_RADIUS
+                        && touchPoint.y < INPUT_POINT_SPAWN_P2.y + INPUT_RADIUS;
+                lineTouchedP2 = touchPoint.x > INPUT_LINE_SPAWN_P2.x - INPUT_RADIUS
+                        && touchPoint.x < INPUT_LINE_SPAWN_P2.x + INPUT_RADIUS
+                        && touchPoint.y > INPUT_LINE_SPAWN_P2.y - INPUT_RADIUS
+                        && touchPoint.y < INPUT_LINE_SPAWN_P2.y + INPUT_RADIUS;
+                triangleTouchedP2 = touchPoint.x > INPUT_TRIANGLE_SPAWN_P2.x - INPUT_RADIUS
+                        && touchPoint.x < INPUT_TRIANGLE_SPAWN_P2.x + INPUT_RADIUS
+                        && touchPoint.y > INPUT_TRIANGLE_SPAWN_P2.y - INPUT_RADIUS
+                        && touchPoint.y < INPUT_TRIANGLE_SPAWN_P2.y + INPUT_RADIUS;
+                squareTouchedP2 = touchPoint.x > INPUT_SQUARE_SPAWN_P2.x - INPUT_RADIUS
+                        && touchPoint.x < INPUT_SQUARE_SPAWN_P2.x + INPUT_RADIUS
+                        && touchPoint.y > INPUT_SQUARE_SPAWN_P2.y - INPUT_RADIUS
+                        && touchPoint.y < INPUT_SQUARE_SPAWN_P2.y + INPUT_RADIUS;
+                pentagonTouchedP2 = touchPoint.x > INPUT_PENTAGON_SPAWN_P2.x - INPUT_RADIUS
+                        && touchPoint.x < INPUT_PENTAGON_SPAWN_P2.x + INPUT_RADIUS
+                        && touchPoint.y > INPUT_PENTAGON_SPAWN_P2.y - INPUT_RADIUS
+                        && touchPoint.y < INPUT_PENTAGON_SPAWN_P2.y + INPUT_RADIUS;
+                hexagonTouchedP2 = touchPoint.x > INPUT_HEXAGON_SPAWN_P2.x - INPUT_RADIUS
+                        && touchPoint.x < INPUT_HEXAGON_SPAWN_P2.x + INPUT_RADIUS
+                        && touchPoint.y > INPUT_HEXAGON_SPAWN_P2.y - INPUT_RADIUS
+                        && touchPoint.y < INPUT_HEXAGON_SPAWN_P2.y + INPUT_RADIUS;
+                septagonTouchedP2 = touchPoint.x > INPUT_SEPTAGON_SPAWN_P2.x - INPUT_RADIUS
+                        && touchPoint.x < INPUT_SEPTAGON_SPAWN_P2.x + INPUT_RADIUS
+                        && touchPoint.y > INPUT_SEPTAGON_SPAWN_P2.y - INPUT_RADIUS
+                        && touchPoint.y < INPUT_SEPTAGON_SPAWN_P2.y + INPUT_RADIUS;
+                octagonTouchedP2 = touchPoint.x > INPUT_OCTAGON_SPAWN_P2.x - INPUT_RADIUS
+                        && touchPoint.x < INPUT_OCTAGON_SPAWN_P2.x + INPUT_RADIUS
+                        && touchPoint.y > INPUT_OCTAGON_SPAWN_P2.y - INPUT_RADIUS
+                        && touchPoint.y < INPUT_OCTAGON_SPAWN_P2.y + INPUT_RADIUS;
+                nonagonTouchedP2 = touchPoint.x > INPUT_NONAGON_SPAWN_P2.x - INPUT_RADIUS
+                        && touchPoint.x < INPUT_NONAGON_SPAWN_P2.x + INPUT_RADIUS
+                        && touchPoint.y > INPUT_NONAGON_SPAWN_P2.y - INPUT_RADIUS
+                        && touchPoint.y < INPUT_NONAGON_SPAWN_P2.y + INPUT_RADIUS;
+                inputTouchedGameplayP2 = pointTouchedP2 || lineTouchedP2 || triangleTouchedP2 || squareTouchedP2 || pentagonTouchedP2 || hexagonTouchedP2 || septagonTouchedP2 || octagonTouchedP2 || nonagonTouchedP2;
+            }
         }
         playTouched = touchPoint.x > INPUT_PLAY_SPAWN.x - INPUT_RADIUS
                 && touchPoint.x < INPUT_PLAY_SPAWN.x + INPUT_RADIUS
@@ -1800,7 +1869,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                             INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                             new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                                     game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
-                    targetArcStartP2 = Draw.NINETY_ONE_DEGREES;
+                    if(local) {
+                        targetArcStartP2 = 3 * Draw.NINETY_ONE_DEGREES;
+                    } else {
+                        targetArcStartP2 = Draw.NINETY_ONE_DEGREES;
+                    }
                     targetArcColor = priorShapeListP2.get(priorShapeListP2.size() - TWO_SHAPES_AGO).getColor();
                 } else {
                     outsideTargetShapeP2.setShape(MathUtils.random(game.base - 1));
@@ -1989,7 +2062,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     }
 
     public void setUpNonFinalStaticData() {
-        INPUT_RADIUS = splitScreen ? game.camera.viewportWidth / 38 : game.camera.viewportWidth / 19;
+        INPUT_RADIUS = splitScreen && game.widthGreater ? game.camera.viewportWidth / 38 : game.camera.viewportWidth / 19;
         for(int i = 1; i <= game.base; i++) {
             //P
             Vector2 inputVector = new Vector2((i * (game.camera.viewportWidth - ((2 * game.base) * INPUT_RADIUS))) / (game.base + 1) + ((i + i - 1) * INPUT_RADIUS), (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
@@ -2066,7 +2139,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 }
             }
         }
-        TARGET_RADIUS = splitScreen ? game.camera.viewportWidth / 10.24f : game.camera.viewportWidth / 5.12f;
+        TARGET_RADIUS = splitScreen && game.widthGreater ? game.camera.viewportWidth / 10.24f : game.camera.viewportWidth / 5.12f;
         PAUSE_INPUT_WIDTH = (game.camera.viewportWidth - (4 * game.partitionSize)) / 3;
         PAUSE_INPUT_HEIGHT = game.camera.viewportHeight - (2 * game.partitionSize);
         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS = game.camera.viewportHeight / 68;
@@ -2128,7 +2201,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
         targetArcStart = -Draw.NINETY_ONE_DEGREES;
         targetArcStartP1 = -Draw.NINETY_ONE_DEGREES;
-        targetArcStartP2 = -Draw.NINETY_ONE_DEGREES;
+        targetArcStartP2 = local ? Draw.NINETY_ONE_DEGREES : -Draw.NINETY_ONE_DEGREES;
         squirgleOpacity = 0;
         squirgleOpacityP1 = 0;
         squirgleOpacityP2 = 0;

@@ -213,7 +213,9 @@ public class GameplaySelectionMultiplayerLocalScreen implements Screen, InputPro
             game.setScreen(new BattleBaseSelectMultiplayerLocalScreen(game));
             dispose();
         } else if(timeBattleTouched) {
-            //TODO: Code this when screen is written
+            game.confirmSound.play((float) (game.volume / 10.0));
+            game.setScreen(new TimeBattleBaseSelectMultiplayerLocalScreen(game));
+            dispose();
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
             game.setScreen(new GameplaySelectionScreen(game));
