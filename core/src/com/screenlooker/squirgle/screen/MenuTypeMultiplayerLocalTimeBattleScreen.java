@@ -15,7 +15,7 @@ import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
 
 //TODO: Refactor all the music input behavior (create easier to read variables and such)
-public class TimeAttackBaseSelectScreen implements Screen, InputProcessor {
+public class MenuTypeMultiplayerLocalTimeBattleScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
@@ -89,7 +89,7 @@ public class TimeAttackBaseSelectScreen implements Screen, InputProcessor {
     private boolean timeDownChevronTouched;
     private boolean timeUpChevronTouched;
 
-    public TimeAttackBaseSelectScreen(final Squirgle game) {
+    public MenuTypeMultiplayerLocalTimeBattleScreen(final Squirgle game) {
         this.game = game;
 
         game.resetInstanceData();
@@ -293,7 +293,7 @@ public class TimeAttackBaseSelectScreen implements Screen, InputProcessor {
             game.base = 4;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
             dispose();
         } else if(base5Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -301,7 +301,7 @@ public class TimeAttackBaseSelectScreen implements Screen, InputProcessor {
             game.base = 5;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
             dispose();
         } else if(base6Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -309,7 +309,7 @@ public class TimeAttackBaseSelectScreen implements Screen, InputProcessor {
             game.base = 6;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
             dispose();
         } else if(base7Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -317,7 +317,7 @@ public class TimeAttackBaseSelectScreen implements Screen, InputProcessor {
             game.base = 7;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
             dispose();
         } else if(base8Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -325,7 +325,7 @@ public class TimeAttackBaseSelectScreen implements Screen, InputProcessor {
             game.base = 8;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
             dispose();
         } else if(base9Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -333,11 +333,11 @@ public class TimeAttackBaseSelectScreen implements Screen, InputProcessor {
             game.base = 9;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
             dispose();
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new GameplaySelectionSinglePlayerScreen(game));
+            game.setScreen(new MenuTypeMultiplayerLocalScreen(game));
             dispose();
         } else if(musicTypeFullTouched) {
             game.usePhases = false;
@@ -695,16 +695,46 @@ public class TimeAttackBaseSelectScreen implements Screen, InputProcessor {
                 (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
                 game.shapeRendererFilled);
-        game.draw.drawFace(game.partitionSize + (inputWidth / 2),
+
+        game.draw.drawFace((game.camera.viewportWidth / 6) - (symbolRadius / 3) + ((symbolRadius / 3) / 3),
                 game.camera.viewportHeight / 2,
-                symbolRadius / 3,
-                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                (symbolRadius / 3) / 3,
+                ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
                 Color.BLACK,
                 game.shapeRendererFilled);
-        game.draw.drawClock(game.partitionSize + (inputWidth / 2),
-                game.camera.viewportHeight / 4,
-                symbolRadius / 3,
+        game.draw.drawFace((game.camera.viewportWidth / 6) + (symbolRadius / 3) - ((symbolRadius / 3) / 3),
+                game.camera.viewportHeight / 2,
+                (symbolRadius / 3) / 3,
+                ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR,
+                Color.WHITE,
+                Color.BLACK,
+                game.shapeRendererFilled);
+        game.shapeRendererFilled.setColor(Color.WHITE);
+        game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 6) - (symbolRadius / 3) + ((symbolRadius / 3) / 3),
+                game.camera.viewportHeight / 2,
+                (game.camera.viewportWidth / 6) + (symbolRadius / 3) - ((symbolRadius / 3) / 3),
+                game.camera.viewportHeight / 2,
+                ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR);
+
+        game.shapeRendererFilled.setColor(Color.WHITE);
+        game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 6) - (symbolRadius / 3),
+                (game.camera.viewportHeight / 6) - (symbolRadius / 3),
+                (game.camera.viewportWidth / 6) + (symbolRadius / 3),
+                (game.camera.viewportHeight / 6) + (symbolRadius / 3),
+                ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
+        game.shapeRendererFilled.circle((game.camera.viewportWidth / 6) - (symbolRadius / 3), (game.camera.viewportHeight / 6) - (symbolRadius / 3), (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+        game.shapeRendererFilled.circle((game.camera.viewportWidth / 6) + (symbolRadius / 3), (game.camera.viewportHeight / 6) + (symbolRadius / 3), (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+
+        game.draw.drawClock((game.camera.viewportWidth / 6) - (symbolRadius / 6),
+                (game.camera.viewportHeight / 6) + (symbolRadius / 6),
+                (symbolRadius / 2) / 3,
+                Color.WHITE,
+                Color.BLACK,
+                game.shapeRendererFilled);
+        game.draw.drawClock((game.camera.viewportWidth / 6) + (symbolRadius / 6),
+                (game.camera.viewportHeight / 6) - (symbolRadius / 6),
+                (symbolRadius / 2) / 3,
                 Color.WHITE,
                 Color.BLACK,
                 game.shapeRendererFilled);

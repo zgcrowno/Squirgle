@@ -8,19 +8,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Draw;
-import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //TODO: Refactor all the music input behavior (create easier to read variables and such)
-public class MusicSelectTranceScreen implements Screen, InputProcessor {
+public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
@@ -66,7 +61,7 @@ public class MusicSelectTranceScreen implements Screen, InputProcessor {
     private boolean musicNameRoctopusTouched;
     private boolean musicNameNonplussedTouched;
 
-    public MusicSelectTranceScreen(final Squirgle game) {
+    public MenuTypeSinglePlayerTranceScreen(final Squirgle game) {
         this.game = game;
 
         game.resetInstanceData();
@@ -211,7 +206,7 @@ public class MusicSelectTranceScreen implements Screen, InputProcessor {
 
         if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new GameplaySelectionSinglePlayerScreen(game));
+            game.setScreen(new MenuTypeSinglePlayerScreen(game));
             dispose();
         } else if(musicNamePointillismTouched) {
             game.track = game.MUSIC_POINTILLISM;

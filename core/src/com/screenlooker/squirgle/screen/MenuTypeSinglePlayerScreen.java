@@ -7,19 +7,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
-import com.screenlooker.squirgle.util.FontUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcessor {
+public class MenuTypeSinglePlayerScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
@@ -75,7 +73,7 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
     private boolean tranceTouched;
     private boolean backTouched;
 
-    public GameplaySelectionSinglePlayerScreen(final Squirgle game) {
+    public MenuTypeSinglePlayerScreen(final Squirgle game) {
         this.game = game;
 
         game.resetInstanceData();
@@ -252,27 +250,27 @@ public class GameplaySelectionSinglePlayerScreen implements Screen, InputProcess
 
         if(squirgleTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new BaseSelectScreen(game));
+            game.setScreen(new MenuTypeSinglePlayerSquirgleScreen(game));
             dispose();
         } else if(battleTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new BattleBaseSelectSinglePlayerScreen(game));
+            game.setScreen(new MenuTypeSinglePlayerBattleScreen(game));
             dispose();
         } else if(timeAttackTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new TimeAttackBaseSelectScreen(game));
+            game.setScreen(new MenuTypeSinglePlayerTimeAttackScreen(game));
             dispose();
         } else if(timeBattleTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new TimeBattleBaseSelectSinglePlayerScreen(game));
+            game.setScreen(new MenuTypeSinglePlayerTimeBattleScreen(game));
             dispose();
         } else if(tranceTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MusicSelectTranceScreen(game));
+            game.setScreen(new MenuTypeSinglePlayerTranceScreen(game));
             dispose();
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new GameplaySelectionScreen(game));
+            game.setScreen(new MenuTypeScreen(game));
             dispose();
         }
 

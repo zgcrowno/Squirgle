@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //TODO: Refactor all the music input behavior (create easier to read variables and such)
-public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcessor {
+public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
@@ -34,7 +34,6 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
     private final static int MUSIC = 7;
     private final static int MUSIC_TYPE = 8;
     private final static int MUSIC_NAME = 9;
-    private final static int DIFFICULTY = 10;
 
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
@@ -42,9 +41,6 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
-    private final static int NUM_DIFFICULTY_INPUT_ELEMENTS = 4;
-
-    private final static float FONT_DIFFICULTY_SIZE_DIVISOR = 35f;
 
     private final static float FONT_TRACK_NAME_DIVISOR = 6.5f;
     private final static float FONT_TRACK_TYPE_DIVISOR = 2f;
@@ -76,13 +72,10 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
     private Color squareColor;
     private Color circleColor;
     private Color triangleColor;
-    private Color difficultyColor;
 
-    private List<Shape> squirgleShapeListBattleOne;
-    private List<Shape> squirgleShapeListBattleTwo;
+    private List<Shape> squirgleShapeList;
 
-    private Shape squirglePromptBattleOne;
-    private Shape squirglePromptBattleTwo;
+    private Shape squirglePrompt;
 
     private boolean base4Touched;
     private boolean base5Touched;
@@ -102,21 +95,17 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
     private boolean musicNameInterseptorTouched;
     private boolean musicNameRoctopusTouched;
     private boolean musicNameNonplussedTouched;
-    private boolean difficultyDownChevronTouched;
-    private boolean difficultyUpChevronTouched;
 
-    public BattleBaseSelectSinglePlayerScreen(final Squirgle game) {
+    public MenuTypeMultiplayerLocalBattleScreen(final Squirgle game) {
         this.game = game;
 
         game.resetInstanceData();
-
-        game.setUpFontDifficulty(MathUtils.round(game.camera.viewportWidth / FONT_DIFFICULTY_SIZE_DIVISOR));
 
         Gdx.input.setInputProcessor(this);
 
         numberOfBaseInputs = game.maxBase - game.minBase + 1;
 
-        numMiddleInputsVertical = numberOfBaseInputs + 2; //Adding 2 to account for music and difficulty inputs
+        numMiddleInputsVertical = numberOfBaseInputs + 1; //Adding 1 to account for music input
         numMiddlePartitionsVertical = numMiddleInputsVertical + 1;
 
         inputWidth = (game.camera.viewportWidth - (game.partitionSize * NUM_PARTITIONS_HORIZONTAL)) / NUM_INPUTS_HORIZONTAL;
@@ -138,7 +127,6 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
         base9Color = ColorUtils.randomColor();
         backColor = ColorUtils.randomColor();
         musicColor = ColorUtils.randomColor();
-        difficultyColor = ColorUtils.randomColor();
 
         base4Touched = false;
         base5Touched = false;
@@ -147,8 +135,6 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
         base8Touched = false;
         base9Touched = false;
         backTouched = false;
-        difficultyDownChevronTouched = false;
-        difficultyUpChevronTouched = false;
 
         squareColor = ColorUtils.randomTransitionColor();
         circleColor = ColorUtils.randomTransitionColor();
@@ -160,26 +146,16 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
             triangleColor = ColorUtils.randomTransitionColor();
         }
 
-        squirgleShapeListBattleOne = new ArrayList<Shape>();
-        squirgleShapeListBattleOne.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
-        squirgleShapeListBattleOne.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
+        squirgleShapeList = new ArrayList<Shape>();
+        squirgleShapeList.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
+        squirgleShapeList.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
 
-        squirgleShapeListBattleTwo = new ArrayList<Shape>();
-        squirgleShapeListBattleTwo.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
-        squirgleShapeListBattleTwo.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
-
-        squirglePromptBattleOne = new Shape(Shape.TRIANGLE,
-                (symbolRadius / 2) / 3,
+        squirglePrompt = new Shape(Shape.TRIANGLE,
+                symbolRadius / 3,
                 triangleColor,
                 null,
-                ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2((game.camera.viewportWidth / 6) - (symbolRadius / 6), (game.camera.viewportHeight / 6) + (symbolRadius / 6)));
-        squirglePromptBattleTwo = new Shape(Shape.TRIANGLE,
-                (symbolRadius / 2) / 3,
-                triangleColor,
-                null,
-                ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2((game.camera.viewportWidth / 6) + (symbolRadius / 6), (game.camera.viewportHeight / 6) - (symbolRadius / 6)));
+                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(game.partitionSize + (inputWidth / 2), (game.camera.viewportHeight / 4) - squirgleHeightOffset));
 
         game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
         game.setUpFontTrackType(MathUtils.round(inputShapeRadius / FONT_TRACK_TYPE_DIVISOR));
@@ -204,17 +180,6 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
         drawMusicText();
 
         transitionSquirgleColors();
-
-        //Draw difficulty
-        FontUtils.printText(game.batch,
-                game.fontDifficulty,
-                game.layout,
-                Color.BLACK,
-                game.difficulty,
-                (2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 5),
-                (2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2),
-                0,
-                1);
     }
 
     @Override
@@ -271,28 +236,28 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
 
         base4Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (3 * game.partitionSize) + (2 * inputHeightBase)
-                && touchPoint.y < (3 * game.partitionSize) + (3 * inputHeightBase);
+                && touchPoint.y > (2 * game.partitionSize) + inputHeightBase
+                && touchPoint.y < (2 * game.partitionSize) + (2 * inputHeightBase);
         base5Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
+                && touchPoint.y > (3 * game.partitionSize) + (2 *inputHeightBase)
+                && touchPoint.y < (3 * game.partitionSize) + (3 * inputHeightBase);
+        base6Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (4 * game.partitionSize) + (3 *inputHeightBase)
                 && touchPoint.y < (4 * game.partitionSize) + (4 * inputHeightBase);
-        base6Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+        base7Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (5 * game.partitionSize) + (4 *inputHeightBase)
                 && touchPoint.y < (5 * game.partitionSize) + (5 * inputHeightBase);
-        base7Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+        base8Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (6 * game.partitionSize) + (5 *inputHeightBase)
                 && touchPoint.y < (6 * game.partitionSize) + (6 * inputHeightBase);
-        base8Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (7 * game.partitionSize) + (6 *inputHeightBase)
-                && touchPoint.y < (7 * game.partitionSize) + (7 * inputHeightBase);
         base9Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (8 * game.partitionSize) + (7 *inputHeightBase)
-                && touchPoint.y < (8 * game.partitionSize) + (8 * inputHeightBase);
+                && touchPoint.y > (6 * game.partitionSize) + (5 *inputHeightBase)
+                && touchPoint.y < (6 * game.partitionSize) + (6 * inputHeightBase);
         backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize
@@ -341,14 +306,6 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
                 && touchPoint.x < game.partitionSize + (2 * inputWidth)
                 && touchPoint.y > game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (8 * ((3 * game.fontTrackName.getCapHeight()) / 2))
                 && touchPoint.y < game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (8 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        difficultyDownChevronTouched = touchPoint.x > ((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5)) - (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1))
-                && touchPoint.x < ((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5)) + (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1))
-                && touchPoint.y > ((2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2)) - (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1))
-                && touchPoint.y < ((2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2)) + (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1));
-        difficultyUpChevronTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5) - (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1))
-                && touchPoint.x < (2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5) + (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1))
-                && touchPoint.y > ((2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2)) - (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1))
-                && touchPoint.y < ((2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2)) + (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1));
 
         if(base4Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -356,8 +313,7 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
             game.base = 4;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.updateSave(game.SAVE_DIFFICULTY, game.difficulty);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
             dispose();
         } else if(base5Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -365,8 +321,7 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
             game.base = 5;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.updateSave(game.SAVE_DIFFICULTY, game.difficulty);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
             dispose();
         } else if(base6Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -374,8 +329,7 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
             game.base = 6;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.updateSave(game.SAVE_DIFFICULTY, game.difficulty);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
             dispose();
         } else if(base7Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -383,8 +337,7 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
             game.base = 7;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.updateSave(game.SAVE_DIFFICULTY, game.difficulty);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
             dispose();
         } else if(base8Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -392,8 +345,7 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
             game.base = 8;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.updateSave(game.SAVE_DIFFICULTY, game.difficulty);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
             dispose();
         } else if(base9Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -401,12 +353,11 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
             game.base = 9;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.updateSave(game.SAVE_DIFFICULTY, game.difficulty);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
             dispose();
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new GameplaySelectionSinglePlayerScreen(game));
+            game.setScreen(new MenuTypeMultiplayerLocalScreen(game));
             dispose();
         } else if(musicTypeFullTouched) {
             game.usePhases = false;
@@ -439,22 +390,6 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
         } else if(musicNameNonplussedTouched) {
             if(game.maxBase > 8) {
                 game.track = game.MUSIC_NONPLUSSED;
-            }
-        } else if(difficultyDownChevronTouched) {
-            if(game.difficulty == Squirgle.DIFFICULTY_EASY) {
-                game.difficulty = Squirgle.DIFFICULTY_HARD;
-            } else if(game.difficulty == Squirgle.DIFFICULTY_MEDIUM) {
-                game.difficulty = Squirgle.DIFFICULTY_EASY;
-            } else {
-                game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
-            }
-        } else if(difficultyUpChevronTouched) {
-            if(game.difficulty == Squirgle.DIFFICULTY_EASY) {
-                game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
-            } else if(game.difficulty == Squirgle.DIFFICULTY_MEDIUM) {
-                game.difficulty = Squirgle.DIFFICULTY_HARD;
-            } else {
-                game.difficulty = Squirgle.DIFFICULTY_EASY;
             }
         }
 
@@ -506,7 +441,6 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
         }
         drawBackInput();
         drawMusicInput();
-        drawDifficultyInput();
     }
 
     public void drawInputRectangle(int placement, Color color) {
@@ -514,37 +448,37 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
         switch(placement) {
             case BASE_4 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (3 * game.partitionSize) + (2 * inputHeightBase),
+                        (2 * game.partitionSize) + inputHeightBase,
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_5 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (4 * game.partitionSize) + (3 *inputHeightBase),
+                        (3 * game.partitionSize) + (2 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_6 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (5 * game.partitionSize) + (4 *inputHeightBase),
+                        (4 * game.partitionSize) + (3 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_7 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (6 * game.partitionSize) + (5 *inputHeightBase),
+                        (5 * game.partitionSize) + (4 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_8 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (7 * game.partitionSize) + (6 *inputHeightBase),
+                        (6 * game.partitionSize) + (5 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_9 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (8 * game.partitionSize) + (7 * inputHeightBase),
+                        (7 * game.partitionSize) + (6 * inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
@@ -583,19 +517,13 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
                     }
                 }
             }
-            case DIFFICULTY : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (2 * game.partitionSize) + inputHeightBase,
-                        inputWidth,
-                        inputHeightBase);
-            }
         }
     }
 
     public void drawBase4Input() {
         drawInputRectangle(BASE_4, base4Color);
         game.draw.drawSquare(game.camera.viewportWidth / 2,
-                (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
+                (2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
@@ -605,7 +533,7 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
     public void drawBase5Input() {
         drawInputRectangle(BASE_5, base5Color);
         game.draw.drawPentagon(game.camera.viewportWidth / 2,
-                (4 * game.partitionSize) + (3 * inputHeightBase) + (inputHeightBase / 2),
+                (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -616,7 +544,7 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
     public void drawBase6Input() {
         drawInputRectangle(BASE_6, base6Color);
         game.draw.drawHexagon(game.camera.viewportWidth / 2,
-                (5 * game.partitionSize) + (4 * inputHeightBase) + (inputHeightBase / 2),
+                (4 * game.partitionSize) + (3 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -627,7 +555,7 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
     public void drawBase7Input() {
         drawInputRectangle(BASE_7, base7Color);
         game.draw.drawSeptagon(game.camera.viewportWidth / 2,
-                (6 * game.partitionSize) + (5 * inputHeightBase) + (inputHeightBase / 2),
+                (5 * game.partitionSize) + (4 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -638,7 +566,7 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
     public void drawBase8Input() {
         drawInputRectangle(BASE_8, base8Color);
         game.draw.drawOctagon(game.camera.viewportWidth / 2,
-                (7 * game.partitionSize) + (6 * inputHeightBase) + (inputHeightBase / 2),
+                (6 * game.partitionSize) + (5 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -649,7 +577,7 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
     public void drawBase9Input() {
         drawInputRectangle(BASE_9, base9Color);
         game.draw.drawNonagon(game.camera.viewportWidth / 2,
-                (8 * game.partitionSize) + (7 * inputHeightBase) + (inputHeightBase / 2),
+                (7 * game.partitionSize) + (6 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -685,30 +613,6 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
 
     public void drawMusicNameInput() {
         drawInputRectangle(MUSIC_NAME, Color.BLACK);
-    }
-
-    public void drawDifficultyInput() {
-        drawInputRectangle(DIFFICULTY, difficultyColor);
-
-        game.draw.drawDifficultySymbol((2 * game.partitionSize) + inputWidth + (inputWidth / 5),
-                (2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2),
-                symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1),
-                Color.BLACK,
-                difficultyColor,
-                game.shapeRendererFilled);
-
-        game.draw.drawChevronLeft((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5),
-                (2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2),
-                symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1),
-                (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
-        game.draw.drawChevronRight((2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5),
-                (2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2),
-                symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1),
-                (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
     }
 
     public void drawMusicText() {
@@ -751,32 +655,34 @@ public class BattleBaseSelectSinglePlayerScreen implements Screen, InputProcesso
                 Color.WHITE,
                 game.shapeRendererFilled);
 
-        game.draw.drawFace(game.partitionSize + (inputWidth / 2),
+        game.draw.drawFace((game.camera.viewportWidth / 6) - (symbolRadius / 3) + ((symbolRadius / 3) / 3),
                 game.camera.viewportHeight / 2,
-                symbolRadius / 3,
-                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                (symbolRadius / 3) / 3,
+                ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
                 Color.BLACK,
                 game.shapeRendererFilled);
-
+        game.draw.drawFace((game.camera.viewportWidth / 6) + (symbolRadius / 3) - ((symbolRadius / 3) / 3),
+                game.camera.viewportHeight / 2,
+                (symbolRadius / 3) / 3,
+                ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR,
+                Color.WHITE,
+                Color.BLACK,
+                game.shapeRendererFilled);
         game.shapeRendererFilled.setColor(Color.WHITE);
-        game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 6) - (symbolRadius / 3),
-                (game.camera.viewportHeight / 6) - (symbolRadius / 3),
-                (game.camera.viewportWidth / 6) + (symbolRadius / 3),
-                (game.camera.viewportHeight / 6) + (symbolRadius / 3),
-                ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
-        game.shapeRendererFilled.circle((game.camera.viewportWidth / 6) - (symbolRadius / 3), (game.camera.viewportHeight / 6) - (symbolRadius / 3), (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
-        game.shapeRendererFilled.circle((game.camera.viewportWidth / 6) + (symbolRadius / 3), (game.camera.viewportHeight / 6) + (symbolRadius / 3), (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+        game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 6) - (symbolRadius / 3) + ((symbolRadius / 3) / 3),
+                game.camera.viewportHeight / 2,
+                (game.camera.viewportWidth / 6) + (symbolRadius / 3) - ((symbolRadius / 3) / 3),
+                game.camera.viewportHeight / 2,
+                ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR);
 
-        game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false, game.shapeRendererFilled);
-        game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
+        game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
     }
 
     public void transitionSquirgleColors() {
-        ColorUtils.transitionColor(squirglePromptBattleOne);
-        ColorUtils.transitionColor(squirgleShapeListBattleOne.get(0));
-        ColorUtils.transitionColor(squirgleShapeListBattleOne.get(1));
+        ColorUtils.transitionColor(squirglePrompt);
+        ColorUtils.transitionColor(squirgleShapeList.get(0));
+        ColorUtils.transitionColor(squirgleShapeList.get(1));
     }
 }

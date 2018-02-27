@@ -59,6 +59,7 @@ public class Squirgle extends Game {
 	public final static int GAMEPLAY_BATTLE_ONLINE = 6;
 	public final static int GAMEPLAY_TIME_BATTLE_ONLINE = 7;
 
+
 	public final static String MUSIC_TYPE_FULL = "FULL";
 	public final static String MUSIC_TYPE_SPLIT = "SPLIT";
 	public final static String MUSIC_TITLE_POINTILLISM = "POINTILLISM";
@@ -74,12 +75,12 @@ public class Squirgle extends Game {
 	public final static String DIFFICULTY_EASY = "EASY";
 	public final static String DIFFICULTY_MEDIUM = "MEDIUM";
 	public final static String DIFFICULTY_HARD = "HARD";
+
 	public final static String RESULTS_VICTORY = "VICTORY";
 	public final static String RESULTS_DEFEAT = "DEFEAT";
 	public final static String RESULTS_TIE = "TIE";
 
 	public final static String SAVE_NAME = "Squirgle Save";
-
 	public final static String SAVE_VOLUME = "volume";
 	public final static String SAVE_TRACK = "track";
 	public final static String SAVE_PLAYED_BEFORE = "playedBefore";
@@ -87,6 +88,7 @@ public class Squirgle extends Game {
 	public final static String SAVE_MAX_BASE = "maxBase";
 	public final static String SAVE_TIME_ATTACK_NUM_SECONDS = "timeAttackNumSeconds";
 	public final static String SAVE_DIFFICULTY = "difficulty";
+
 	public final static String TARGET = "TARGET";
 
 	public AssetManager manager;

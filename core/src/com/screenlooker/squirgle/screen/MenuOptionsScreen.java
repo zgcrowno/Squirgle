@@ -15,7 +15,7 @@ import com.screenlooker.squirgle.screen.MainMenuScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
 
-public class OptionsScreen implements Screen, InputProcessor {
+public class MenuOptionsScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
@@ -45,7 +45,7 @@ public class OptionsScreen implements Screen, InputProcessor {
     private boolean backTouched;
 
     //TODO: Set up fontScore
-    public OptionsScreen(final Squirgle game) {
+    public MenuOptionsScreen(final Squirgle game) {
         this.game = game;
 
         game.resetInstanceData();

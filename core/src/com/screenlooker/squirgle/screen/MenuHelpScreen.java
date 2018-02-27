@@ -12,7 +12,7 @@ import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
 
-public class HelpScreen implements Screen, InputProcessor {
+public class MenuHelpScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
@@ -68,7 +68,7 @@ public class HelpScreen implements Screen, InputProcessor {
     private boolean playTouched;
     private boolean backTouched;
 
-    public HelpScreen(final Squirgle game) {
+    public MenuHelpScreen(final Squirgle game) {
         this.game = game;
 
         game.resetInstanceData();
@@ -224,37 +224,37 @@ public class HelpScreen implements Screen, InputProcessor {
             dispose();
         } else if(colorTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new ColorTableScreen(game));
+            game.setScreen(new MenuHelpColorScreen(game));
             dispose();
         } else if(base4Touched) {
             game.confirmSound.play((float) (game.volume / 10.0));
             game.base = 4;
-            game.setScreen(new AdditionTableScreen(game));
+            game.setScreen(new MenuHelpBaseScreen(game));
             dispose();
         } else if(base5Touched) {
             game.confirmSound.play((float) (game.volume / 10.0));
             game.base = 5;
-            game.setScreen(new AdditionTableScreen(game));
+            game.setScreen(new MenuHelpBaseScreen(game));
             dispose();
         } else if(base6Touched) {
             game.confirmSound.play((float) (game.volume / 10.0));
             game.base = 6;
-            game.setScreen(new AdditionTableScreen(game));
+            game.setScreen(new MenuHelpBaseScreen(game));
             dispose();
         } else if(base7Touched) {
             game.confirmSound.play((float) (game.volume / 10.0));
             game.base = 7;
-            game.setScreen(new AdditionTableScreen(game));
+            game.setScreen(new MenuHelpBaseScreen(game));
             dispose();
         } else if(base8Touched) {
             game.confirmSound.play((float) (game.volume / 10.0));
             game.base = 8;
-            game.setScreen(new AdditionTableScreen(game));
+            game.setScreen(new MenuHelpBaseScreen(game));
             dispose();
         } else if(base9Touched) {
             game.confirmSound.play((float) (game.volume / 10.0));
             game.base = 9;
-            game.setScreen(new AdditionTableScreen(game));
+            game.setScreen(new MenuHelpBaseScreen(game));
             dispose();
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
