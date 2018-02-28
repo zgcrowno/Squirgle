@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.esotericsoftware.kryonet.Connection;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
@@ -21,7 +20,7 @@ import java.util.List;
 
 public class GameplayScreen implements Screen, InputProcessor {
     final Squirgle game;
-    final int gameplayType;
+    public final int gameplayType;
 
     public static float INIT_PROMPT_RADIUS;
     public static float BACKGROUND_COLOR_LIST_ELEMENT_RADIUS;
@@ -232,7 +231,6 @@ public class GameplayScreen implements Screen, InputProcessor {
         this.multiplayer = gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL || gameplayType == Squirgle.GAMEPLAY_BATTLE_ONLINE || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_ONLINE;
         this.local = gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL;
         this.online = multiplayer && !local;
-
 
         game.resetInstanceData();
 
