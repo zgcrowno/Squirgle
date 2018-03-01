@@ -1297,7 +1297,7 @@ public class Draw {
                 equalsTargetSpawn.y = (targetSpawn.y / 2) - (GameplayScreen.TARGET_RADIUS / 2) + ((lastPromptShape.getCoordinates().y - ((targetSpawn.y / 2) - (GameplayScreen.TARGET_RADIUS / 2))) / 2);
             } else {
                 if(localPlayer2) {
-                    equalsTargetSpawn.x = game.camera.viewportWidth - (GameplayScreen.TARGET_RADIUS / 2) - ((lastPromptShape.getCoordinates().x - GameplayScreen.TARGET_RADIUS) / 2);
+                    equalsTargetSpawn.x = game.camera.viewportWidth - (GameplayScreen.TARGET_RADIUS / 2) - ((lastPromptShape.getCoordinates().x - (GameplayScreen.TARGET_RADIUS / 2)) / 2);
                     equalsTargetSpawn.y = (game.camera.viewportHeight / 2) + (GameplayScreen.TARGET_RADIUS / 2) + ((lastPromptShape.getCoordinates().y - ((game.camera.viewportHeight / 2) + (GameplayScreen.TARGET_RADIUS / 2))) / 2);
                 } else {
                     equalsTargetSpawn.x = targetSpawn.x + ((lastPromptShape.getCoordinates().x - targetSpawn.x) / 2);

@@ -133,6 +133,7 @@ public class Squirgle extends Game {
 	public ShapeRenderer shapeRendererFilled;
 	public ShapeRenderer shapeRendererLine;
 	public Draw draw;
+	public Stats stats;
 	public Sound confirmSound;
 	public Sound disconfirmSound;
 	public List<Music> pointillismPhaseList;
@@ -184,6 +185,7 @@ public class Squirgle extends Game {
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);
+		stats = new Stats(this);
 		confirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/confirm.wav"));
 		disconfirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/disconfirm.wav"));
 		pointillismPhaseList = new ArrayList<Music>();

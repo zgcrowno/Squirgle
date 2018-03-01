@@ -30,6 +30,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
     private final static int MUSIC_TYPE = 8;
     private final static int MUSIC_NAME = 9;
     private final static int TIME = 10;
+    private final static int DIFFICULTY = 11;
 
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
@@ -38,7 +39,9 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
     private final static int NUM_TIME_INPUT_ELEMENTS = 4;
+    private final static int NUM_DIFFICULTY_INPUT_ELEMENTS = 4;
 
+    private final static float FONT_DIFFICULTY_SIZE_DIVISOR = 35f;
     private final static float FONT_TRACK_NAME_DIVISOR = 6.5f;
     private final static float FONT_TRACK_TYPE_DIVISOR = 2f;
     private final static float FONT_TIME_DIVISOR = 1.2f;
@@ -67,6 +70,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
     private Color backColor;
     private Color musicColor;
     private Color timeColor;
+    private Color difficultyColor;
 
     private boolean base4Touched;
     private boolean base5Touched;
@@ -88,6 +92,8 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
     private boolean musicNameNonplussedTouched;
     private boolean timeDownChevronTouched;
     private boolean timeUpChevronTouched;
+    private boolean difficultyDownChevronTouched;
+    private boolean difficultyUpChevronTouched;
 
     public MenuTypeSinglePlayerTimeBattleScreen(final Squirgle game) {
         this.game = game;
@@ -98,7 +104,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
 
         numberOfBaseInputs = game.maxBase - game.minBase + 1;
 
-        numMiddleInputsVertical = numberOfBaseInputs + 2; //Adding 2 to account for music and time inputs
+        numMiddleInputsVertical = numberOfBaseInputs + 3; //Adding 3 to account for music, difficulty and time inputs
         numMiddlePartitionsVertical = numMiddleInputsVertical + 1;
 
         inputWidth = (game.camera.viewportWidth - (game.partitionSize * NUM_PARTITIONS_HORIZONTAL)) / NUM_INPUTS_HORIZONTAL;
@@ -120,6 +126,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
         backColor = ColorUtils.randomColor();
         musicColor = ColorUtils.randomColor();
         timeColor = ColorUtils.randomColor();
+        difficultyColor = ColorUtils.randomColor();
 
         base4Touched = false;
         base5Touched = false;
@@ -128,10 +135,13 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
         base8Touched = false;
         base9Touched = false;
         backTouched = false;
+        difficultyDownChevronTouched = false;
+        difficultyUpChevronTouched = false;
 
         game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
         game.setUpFontTrackType(MathUtils.round(inputShapeRadius / FONT_TRACK_TYPE_DIVISOR));
         game.setUpFontTime(MathUtils.round(inputShapeRadius / FONT_TIME_DIVISOR));
+        game.setUpFontDifficulty(MathUtils.round(game.camera.viewportWidth / FONT_DIFFICULTY_SIZE_DIVISOR));
     }
 
     @Override
@@ -152,6 +162,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
 
         drawMusicText();
         drawTimeText();
+        drawDifficultyText();
     }
 
     @Override
@@ -208,28 +219,28 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
 
         base4Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (3 * game.partitionSize) + (2 * inputHeightBase)
-                && touchPoint.y < (3 * game.partitionSize) + (3 * inputHeightBase);
-        base5Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (4 * game.partitionSize) + (3 *inputHeightBase)
+                && touchPoint.y > (4 * game.partitionSize) + (3 * inputHeightBase)
                 && touchPoint.y < (4 * game.partitionSize) + (4 * inputHeightBase);
-        base6Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+        base5Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (5 * game.partitionSize) + (4 *inputHeightBase)
                 && touchPoint.y < (5 * game.partitionSize) + (5 * inputHeightBase);
-        base7Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+        base6Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (6 * game.partitionSize) + (5 *inputHeightBase)
                 && touchPoint.y < (6 * game.partitionSize) + (6 * inputHeightBase);
-        base8Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+        base7Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (7 * game.partitionSize) + (6 *inputHeightBase)
                 && touchPoint.y < (7 * game.partitionSize) + (7 * inputHeightBase);
+        base8Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
+                && touchPoint.y > (8 * game.partitionSize) + (7 *inputHeightBase)
+                && touchPoint.y < (8 * game.partitionSize) + (8 * inputHeightBase);
         base9Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (8 * game.partitionSize) + (57 *inputHeightBase)
-                && touchPoint.y < (8 * game.partitionSize) + (8 * inputHeightBase);
+                && touchPoint.y > (9 * game.partitionSize) + (8 *inputHeightBase)
+                && touchPoint.y < (9 * game.partitionSize) + (9 * inputHeightBase);
         backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize
@@ -286,6 +297,14 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
                 && touchPoint.x < (2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5) + (symbolRadius / (NUM_TIME_INPUT_ELEMENTS + 1))
                 && touchPoint.y > ((2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2)) - (symbolRadius / (NUM_TIME_INPUT_ELEMENTS + 1))
                 && touchPoint.y < ((2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2)) + (symbolRadius / (NUM_TIME_INPUT_ELEMENTS + 1));
+        difficultyDownChevronTouched = touchPoint.x > ((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5)) - (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1))
+                && touchPoint.x < ((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5)) + (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1))
+                && touchPoint.y > ((3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2)) - (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1))
+                && touchPoint.y < ((3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2)) + (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1));
+        difficultyUpChevronTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5) - (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1))
+                && touchPoint.x < (2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5) + (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1))
+                && touchPoint.y > ((3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2)) - (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1))
+                && touchPoint.y < ((3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2)) + (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1));
 
         if(base4Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -391,6 +410,22 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
             } else {
                 game.timeAttackNumSeconds = game.ONE_MINUTE;
             }
+        } else if(difficultyDownChevronTouched) {
+            if(game.difficulty == Squirgle.DIFFICULTY_EASY) {
+                game.difficulty = Squirgle.DIFFICULTY_HARD;
+            } else if(game.difficulty == Squirgle.DIFFICULTY_MEDIUM) {
+                game.difficulty = Squirgle.DIFFICULTY_EASY;
+            } else {
+                game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
+            }
+        } else if(difficultyUpChevronTouched) {
+            if(game.difficulty == Squirgle.DIFFICULTY_EASY) {
+                game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
+            } else if(game.difficulty == Squirgle.DIFFICULTY_MEDIUM) {
+                game.difficulty = Squirgle.DIFFICULTY_HARD;
+            } else {
+                game.difficulty = Squirgle.DIFFICULTY_EASY;
+            }
         }
 
         return true;
@@ -442,6 +477,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
         drawBackInput();
         drawMusicInput();
         drawTimeInput();
+        drawDifficultyInput();
     }
 
     public void drawInputRectangle(int placement, Color color) {
@@ -449,37 +485,37 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
         switch(placement) {
             case BASE_4 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (3 * game.partitionSize) + (2 * inputHeightBase),
+                        (4 * game.partitionSize) + (3 * inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_5 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (4 * game.partitionSize) + (3 *inputHeightBase),
+                        (5 * game.partitionSize) + (4 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_6 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (5 * game.partitionSize) + (4 *inputHeightBase),
+                        (6 * game.partitionSize) + (5 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_7 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (6 * game.partitionSize) + (5 *inputHeightBase),
+                        (7 * game.partitionSize) + (6 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_8 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (7 * game.partitionSize) + (6 *inputHeightBase),
+                        (8 * game.partitionSize) + (7 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
             case BASE_9 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (8 * game.partitionSize) + (7 * inputHeightBase),
+                        (9 * game.partitionSize) + (8 * inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
@@ -524,13 +560,19 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
                         inputWidth,
                         inputHeightBase);
             }
+            case DIFFICULTY : {
+                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                        (3 * game.partitionSize) + (2 * inputHeightBase),
+                        inputWidth,
+                        inputHeightBase);
+            }
         }
     }
 
     public void drawBase4Input() {
         drawInputRectangle(BASE_4, base4Color);
         game.draw.drawSquare(game.camera.viewportWidth / 2,
-                (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
+                (4 * game.partitionSize) + (3 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
@@ -540,7 +582,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
     public void drawBase5Input() {
         drawInputRectangle(BASE_5, base5Color);
         game.draw.drawPentagon(game.camera.viewportWidth / 2,
-                (4 * game.partitionSize) + (3 * inputHeightBase) + (inputHeightBase / 2),
+                (5 * game.partitionSize) + (4 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -551,7 +593,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
     public void drawBase6Input() {
         drawInputRectangle(BASE_6, base6Color);
         game.draw.drawHexagon(game.camera.viewportWidth / 2,
-                (5 * game.partitionSize) + (4 * inputHeightBase) + (inputHeightBase / 2),
+                (6 * game.partitionSize) + (5 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -562,7 +604,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
     public void drawBase7Input() {
         drawInputRectangle(BASE_7, base7Color);
         game.draw.drawSeptagon(game.camera.viewportWidth / 2,
-                (6 * game.partitionSize) + (5 * inputHeightBase) + (inputHeightBase / 2),
+                (7 * game.partitionSize) + (6 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -573,7 +615,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
     public void drawBase8Input() {
         drawInputRectangle(BASE_8, base8Color);
         game.draw.drawOctagon(game.camera.viewportWidth / 2,
-                (7 * game.partitionSize) + (6 * inputHeightBase) + (inputHeightBase / 2),
+                (8 * game.partitionSize) + (7 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -584,7 +626,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
     public void drawBase9Input() {
         drawInputRectangle(BASE_9, base9Color);
         game.draw.drawNonagon(game.camera.viewportWidth / 2,
-                (8 * game.partitionSize) + (7 * inputHeightBase) + (inputHeightBase / 2),
+                (9 * game.partitionSize) + (8 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -644,6 +686,30 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
                 game.shapeRendererFilled);
     }
 
+    public void drawDifficultyInput() {
+        drawInputRectangle(DIFFICULTY, difficultyColor);
+
+        game.draw.drawDifficultySymbol((2 * game.partitionSize) + inputWidth + (inputWidth / 5),
+                (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
+                symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1),
+                Color.BLACK,
+                difficultyColor,
+                game.shapeRendererFilled);
+
+        game.draw.drawChevronLeft((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5),
+                (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
+                symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1),
+                (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
+                Color.BLACK,
+                game.shapeRendererFilled);
+        game.draw.drawChevronRight((2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5),
+                (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
+                symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1),
+                (symbolRadius / (NUM_DIFFICULTY_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
+                Color.BLACK,
+                game.shapeRendererFilled);
+    }
+
     public void drawMusicText() {
         FontUtils.printText(game.batch,
                 game.fontTrackType,
@@ -684,6 +750,18 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
                 String.valueOf(game.timeAttackNumSeconds / Squirgle.ONE_MINUTE),
                 (2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 5),
                 (2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2),
+                0,
+                1);
+    }
+
+    public void drawDifficultyText() {
+        FontUtils.printText(game.batch,
+                game.fontDifficulty,
+                game.layout,
+                Color.BLACK,
+                game.difficulty,
+                (2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 5),
+                (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
                 0,
                 1);
     }

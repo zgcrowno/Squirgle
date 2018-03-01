@@ -110,6 +110,7 @@ public class MenuTypeSinglePlayerBattleScreen implements Screen, InputProcessor 
 
         game.resetInstanceData();
 
+        //TODO: Make sure this is being determined by inputShapeRadius instead of viewport width in ALL screens
         game.setUpFontDifficulty(MathUtils.round(game.camera.viewportWidth / FONT_DIFFICULTY_SIZE_DIVISOR));
 
         Gdx.input.setInputProcessor(this);
