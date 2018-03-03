@@ -37,7 +37,6 @@ public class Squirgle extends Game {
 	public final static int ONE_MINUTE = 60;
 	public final static int THREE_MINUTES = 180;
 	public final static int FIVE_MINUTES = 300;
-	public final static int TEN_MINUTES = 600;
 
 	public final static int MUSIC_POINTILLISM = 0;
 	public final static int MUSIC_LINEAGE = 1;

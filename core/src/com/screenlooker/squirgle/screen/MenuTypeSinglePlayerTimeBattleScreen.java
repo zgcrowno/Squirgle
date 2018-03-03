@@ -392,13 +392,11 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
             }
         } else if(timeDownChevronTouched) {
             if(game.timeAttackNumSeconds == game.ONE_MINUTE) {
-                game.timeAttackNumSeconds = game.TEN_MINUTES;
+                game.timeAttackNumSeconds = game.FIVE_MINUTES;
             } else if(game.timeAttackNumSeconds == game.THREE_MINUTES) {
                 game.timeAttackNumSeconds = game.ONE_MINUTE;
             } else if(game.timeAttackNumSeconds == game.FIVE_MINUTES) {
                 game.timeAttackNumSeconds = game.THREE_MINUTES;
-            } else {
-                game.timeAttackNumSeconds = game.FIVE_MINUTES;
             }
         } else if(timeUpChevronTouched) {
             if(game.timeAttackNumSeconds == game.ONE_MINUTE) {
@@ -406,8 +404,6 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
             } else if(game.timeAttackNumSeconds == game.THREE_MINUTES) {
                 game.timeAttackNumSeconds = game.FIVE_MINUTES;
             } else if(game.timeAttackNumSeconds == game.FIVE_MINUTES) {
-                game.timeAttackNumSeconds = game.TEN_MINUTES;
-            } else {
                 game.timeAttackNumSeconds = game.ONE_MINUTE;
             }
         } else if(difficultyDownChevronTouched) {
