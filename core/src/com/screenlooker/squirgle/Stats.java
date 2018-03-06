@@ -1225,13 +1225,13 @@ public class Stats {
         if (gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
             timePlayedSquirgle += amountToAdd;
             game.updateSave(SAVE_TIME_PLAYED_SQUIRGLE, timePlayedSquirgle);
-        } else if (gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+        } else if (gameplayType == Squirgle.GAMEPLAY_BATTLE || gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL) {
             timePlayedBattle += amountToAdd;
             game.updateSave(SAVE_TIME_PLAYED_BATTLE, timePlayedBattle);
         } else if (gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
             timePlayedTimeAttack += amountToAdd;
             game.updateSave(SAVE_TIME_PLAYED_TIME_ATTACK, timePlayedTimeAttack);
-        } else if (gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+        } else if (gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
             timePlayedTimeBattle += amountToAdd;
             game.updateSave(SAVE_TIME_PLAYED_TIME_BATTLE, timePlayedTimeBattle);
         } else if(gameplayType == Squirgle.GAMEPLAY_TRANCE) {
@@ -1246,13 +1246,13 @@ public class Stats {
         if (gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
             numTimesPlayedSquirgle++;
             game.updateSave(SAVE_NUM_TIMES_PLAYED_SQUIRGLE, numTimesPlayedSquirgle);
-        } else if (gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+        } else if (gameplayType == Squirgle.GAMEPLAY_BATTLE || gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL) {
             numTimesPlayedBattle++;
             game.updateSave(SAVE_NUM_TIMES_PLAYED_BATTLE, numTimesPlayedBattle);
         } else if (gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
             numTimesPlayedTimeAttack++;
             game.updateSave(SAVE_NUM_TIMES_PLAYED_TIME_ATTACK, numTimesPlayedTimeAttack);
-        } else if (gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+        } else if (gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
             numTimesPlayedTimeBattle++;
             game.updateSave(SAVE_NUM_TIMES_PLAYED_TIME_BATTLE, numTimesPlayedTimeBattle);
         } else if(gameplayType == Squirgle.GAMEPLAY_TRANCE) {
@@ -1282,7 +1282,7 @@ public class Stats {
                 numSquirglesSquirgleNonagon++;
                 game.updateSave(SAVE_NUM_SQUIRGLES_SQUIRGLE_NONAGON, numSquirglesSquirgleNonagon);
             }
-        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE || gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL) {
             if(base == 4) {
                 if(difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
                     numSquirglesBattleSquareEasy++;
@@ -1655,7 +1655,7 @@ public class Stats {
                     }
                 }
             }
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
             if(base == 4) {
                 if(difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
                     if(gameLength == Squirgle.ONE_MINUTE) {
@@ -1978,8 +1978,9 @@ public class Stats {
         }
     }
 
+    //TODO: Maybe update this to account for ties?
     public void incrementNumTimesWonOrLost(boolean won, int gameplayType, int base, int gameLength, String difficulty) {
-        if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+        if(gameplayType == Squirgle.GAMEPLAY_BATTLE || gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL) {
             if(base == 4) {
                 if(difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
                     if(won) {
@@ -2137,7 +2138,7 @@ public class Stats {
                     }
                 }
             }
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
             if(base == 4) {
                 if(difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
                     if(gameLength == Squirgle.ONE_MINUTE) {
@@ -2623,7 +2624,7 @@ public class Stats {
     }
 
     public void incrementNumTimesPlayedDifficulty(String difficulty, int gameplayType) {
-        if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+        if(gameplayType == Squirgle.GAMEPLAY_BATTLE || gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL) {
             if(difficulty == Squirgle.DIFFICULTY_EASY) {
                 numTimesPlayedEasyBattle++;
                 game.updateSave(SAVE_NUM_TIMES_PLAYED_EASY_BATTLE, numTimesPlayedEasyBattle);
@@ -2645,7 +2646,7 @@ public class Stats {
                 favoriteDifficultyBattle = Squirgle.DIFFICULTY_HARD;
             }
             game.updateSave(SAVE_FAVORITE_DIFFICULTY_BATTLE, favoriteDifficultyBattle);
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
             if(difficulty == Squirgle.DIFFICULTY_EASY) {
                 numTimesPlayedEasyTimeBattle++;
                 game.updateSave(SAVE_NUM_TIMES_PLAYED_EASY_TIME_BATTLE, numTimesPlayedEasyTimeBattle);
@@ -2693,7 +2694,7 @@ public class Stats {
                 favoriteGameLengthTimeAttack = Squirgle.FIVE_MINUTES;
             }
             game.updateSave(SAVE_FAVORITE_GAME_LENGTH_TIME_ATTACK, favoriteGameLengthTimeAttack);
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
             if(numSeconds == Squirgle.ONE_MINUTE) {
                 numTimesPlayedOneMinuteTimeBattle++;
                 game.updateSave(SAVE_NUM_TIMES_PLAYED_ONE_MINUTE_TIME_BATTLE, numTimesPlayedOneMinuteTimeBattle);
@@ -2722,13 +2723,13 @@ public class Stats {
         if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
             numTimesPlayedSquirgle++;
             game.updateSave(SAVE_NUM_TIMES_PLAYED_SQUIRGLE, numTimesPlayedSquirgle);
-        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE || gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL) {
             numTimesPlayedBattle++;
             game.updateSave(SAVE_NUM_TIMES_PLAYED_BATTLE, numTimesPlayedBattle);
         } else if(gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
             numTimesPlayedTimeAttack++;
             game.updateSave(SAVE_NUM_TIMES_PLAYED_TIME_ATTACK, numTimesPlayedTimeAttack);
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
             numTimesPlayedTimeBattle++;
             game.updateSave(SAVE_NUM_TIMES_PLAYED_TIME_BATTLE, numTimesPlayedTimeBattle);
         } else if(gameplayType == Squirgle.GAMEPLAY_TRANCE) {
@@ -2855,7 +2856,7 @@ public class Stats {
                 }
                 game.updateSave(SAVE_FAVORITE_TRACK_SQUIRGLE, favoriteTrackSquirgle);
             }
-        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE || gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL) {
             if(base) {
                 if (baseOrTrack == Shape.SQUARE) {
                     numTimesPlayedSquareBattle++;
@@ -3055,7 +3056,7 @@ public class Stats {
                 }
                 game.updateSave(SAVE_FAVORITE_TRACK_TIME_ATTACK, favoriteTrackTimeAttack);
             }
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
             if(base) {
                 if (baseOrTrack == Shape.SQUARE) {
                     numTimesPlayedSquareTimeBattle++;

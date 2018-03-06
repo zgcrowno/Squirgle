@@ -272,15 +272,15 @@ public class MenuHelpStatsScreen implements Screen, InputProcessor {
             dispose();
         } else if(timeAttackTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuTypeSinglePlayerTimeAttackScreen(game));
+            game.setScreen(new MenuHelpStatsTimeAttackScreen(game));
             dispose();
         } else if(timeBattleTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuTypeSinglePlayerTimeBattleScreen(game));
+            game.setScreen(new MenuHelpStatsTimeBattleScreen(game));
             dispose();
         } else if(tranceTouched) {
             game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuTypeSinglePlayerTranceScreen(game));
+            game.setScreen(new MenuHelpStatsTranceScreen(game));
             dispose();
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));

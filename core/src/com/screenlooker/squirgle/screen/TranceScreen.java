@@ -65,6 +65,8 @@ public class TranceScreen implements Screen, InputProcessor {
         setUpNonFinalNonStaticData();
 
         playMusic();
+
+        game.stats.incrementNumTimesPlayedBaseOrTrack(false, game.track, Squirgle.GAMEPLAY_TRANCE);
     }
 
     @Override
@@ -364,7 +366,9 @@ public class TranceScreen implements Screen, InputProcessor {
             timePaused += System.currentTimeMillis() - pauseStartTime;
             resume();
         } else if (pauseQuitTouched) {
+            endTime = System.currentTimeMillis();
             stopMusic();
+            game.stats.updateTimePlayed(endTime - startTime, Squirgle.GAMEPLAY_TRANCE);
             game.setScreen(new MainMenuScreen(game));
             dispose();
         }

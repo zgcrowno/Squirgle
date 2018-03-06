@@ -196,6 +196,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private int multiplierP2;
     private long startTime;
     private long endTime;
+    private long lastSpeedIncreaseTime;
     private long pauseStartTime;
     private long timePaused;
     private long opponentTime;
@@ -248,6 +249,10 @@ public class GameplayScreen implements Screen, InputProcessor {
         game.setUpFontSquirgle(MathUtils.round(game.camera.viewportWidth / FONT_SQUIRGLE_SIZE_DIVISOR));
 
         playMusic();
+
+        game.stats.incrementNumTimesPlayedMode(gameplayType);
+        game.stats.incrementNumTimesPlayedBaseOrTrack(true, game.base, gameplayType);
+        game.stats.incrementNumTimesPlayedBaseOrTrack(false, game.track, gameplayType);
     }
 
     @Override
@@ -1065,8 +1070,8 @@ public class GameplayScreen implements Screen, InputProcessor {
     public void increaseSpeed() {
         if(!gameOver) {
             if(!paused) {
-                if ((System.currentTimeMillis() - startTime - timePaused) / ONE_THOUSAND > TEN_SECONDS) {
-                    startTime = System.currentTimeMillis();
+                if ((System.currentTimeMillis() - lastSpeedIncreaseTime - timePaused) / ONE_THOUSAND > TEN_SECONDS) {
+                    lastSpeedIncreaseTime = System.currentTimeMillis();
                     game.draw.setColorListSpeed(game.draw.getColorListSpeed() + COLOR_LIST_SPEED_ADDITIVE);
                     game.draw.setColorSpeed(game.draw.getColorSpeed() + COLOR_SPEED_ADDITIVE);
                     promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
@@ -1079,7 +1084,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         if(!gameOver) {
             if(!paused) {
                 float actualFPS = Gdx.graphics.getRawDeltaTime() * game.FPS;
-                game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (60 * actualFPS * game.FPS));
+                game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.timeAttackNumSeconds * actualFPS * game.FPS));
                 promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
             }
         }
@@ -1270,6 +1275,14 @@ public class GameplayScreen implements Screen, InputProcessor {
             stopMusic();
             promptIncrease = 1;
             endTime = System.currentTimeMillis();
+            game.stats.updateTimePlayed(endTime - startTime, gameplayType);
+            game.stats.updateHighestScore(splitScreen ? scoreP1 : score, gameplayType, game.base, game.timeAttackNumSeconds, game.difficulty);
+            game.stats.incrementNumTimesWonOrLost(scoreP1 > scoreP2 || saturationP1 < saturationP2, gameplayType, game.base, game.timeAttackNumSeconds, game.difficulty);
+            if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+                game.stats.updateLongestRun(endTime - startTime, game.base);
+            } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+                game.stats.updateFastestVictory(endTime - startTime, game.base, game.difficulty);
+            }
         }
     }
 
@@ -1593,6 +1606,8 @@ public class GameplayScreen implements Screen, InputProcessor {
             timePaused += System.currentTimeMillis() - pauseStartTime;
             resume();
         } else if (pauseQuitTouched) {
+            endTime = System.currentTimeMillis();
+            game.stats.updateTimePlayed(endTime - startTime, gameplayType);
             stopMusic();
             game.setScreen(new MainMenuScreen(game));
             dispose();
@@ -1728,6 +1743,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         promptShape.setRadius(INIT_PROMPT_RADIUS);
                         squirgleOpacity = 1;
                     }
+                    game.stats.incrementNumSquirgles(gameplayType, game.base, game.difficulty);
                 }
                 currentTargetShape = targetShapeList.get(0);
             }
@@ -1813,6 +1829,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         saturationP2 += 3;
                         squirgleOpacityP1 = 1;
                     }
+                    game.stats.incrementNumSquirgles(gameplayType, game.base, game.difficulty);
                 } else if(useSaturation) {
                     saturationP2++;
                 }
@@ -1904,6 +1921,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         saturationP1 += 3;
                         squirgleOpacityP2 = 1;
                     }
+                    game.stats.incrementNumSquirgles(gameplayType, game.base, game.difficulty);
                 } else {
                     if(useSaturation) {
                         saturationP1++;
@@ -2382,6 +2400,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         paused = false;
         startTime = System.currentTimeMillis();
         endTime = 0;
+        lastSpeedIncreaseTime = System.currentTimeMillis();
         pauseStartTime = 0;
         timePaused = 0;
         opponentTime = System.currentTimeMillis();

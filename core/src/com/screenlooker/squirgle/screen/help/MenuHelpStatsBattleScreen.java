@@ -723,128 +723,128 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
             long minutesPlayedSquare = MathUtils.floor(game.stats.fastestVictorySquareEasy / 1000 / 60);
             long secondsPlayedSquare = MathUtils.floor(game.stats.fastestVictorySquareEasy / 1000 - (minutesPlayedSquare * 60));
             numSquirglesSquareString = NUM_SQUIRGLES + game.stats.numSquirglesBattleSquareEasy;
-            fastestVictorySquareString = FASTEST_VICTORY + game.stats.fastestVictorySquareEasy;
+            fastestVictorySquareString = FASTEST_VICTORY + minutesPlayedSquare + MINUTES + secondsPlayedSquare + SECONDS;
             numWinsSquareString = NUM_WINS + game.stats.numTimesWonBattleSquareEasy;
-            numLossesSquareString = NUM_LOSSES + minutesPlayedSquare + MINUTES + secondsPlayedSquare + SECONDS;
+            numLossesSquareString = NUM_LOSSES + game.stats.numTimesLostBattleSquareEasy;
 
             long minutesPlayedPentagon = MathUtils.floor(game.stats.fastestVictoryPentagonEasy / 1000 / 60);
             long secondsPlayedPentagon = MathUtils.floor(game.stats.fastestVictoryPentagonEasy / 1000 - (minutesPlayedPentagon * 60));
             numSquirglesPentagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattlePentagonEasy;
-            fastestVictoryPentagonString = FASTEST_VICTORY + game.stats.fastestVictoryPentagonEasy;
+            fastestVictoryPentagonString = FASTEST_VICTORY + minutesPlayedPentagon + MINUTES + secondsPlayedPentagon + SECONDS;
             numWinsPentagonString = NUM_WINS + game.stats.numTimesWonBattlePentagonEasy;
-            numLossesPentagonString = NUM_LOSSES + minutesPlayedPentagon + MINUTES + secondsPlayedPentagon + SECONDS;
+            numLossesPentagonString = NUM_LOSSES + game.stats.numTimesLostBattlePentagonEasy;
 
             long minutesPlayedHexagon = MathUtils.floor(game.stats.fastestVictoryHexagonEasy / 1000 / 60);
             long secondsPlayedHexagon = MathUtils.floor(game.stats.fastestVictoryHexagonEasy / 1000 - (minutesPlayedHexagon * 60));
             numSquirglesHexagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattleHexagonEasy;
-            fastestVictoryHexagonString = FASTEST_VICTORY + game.stats.fastestVictoryHexagonEasy;
+            fastestVictoryHexagonString = FASTEST_VICTORY + minutesPlayedHexagon + MINUTES + secondsPlayedHexagon + SECONDS;
             numWinsHexagonString = NUM_WINS + game.stats.numTimesWonBattleHexagonEasy;
-            numLossesHexagonString = NUM_LOSSES + minutesPlayedHexagon + MINUTES + secondsPlayedHexagon + SECONDS;
+            numLossesHexagonString = NUM_LOSSES + game.stats.numTimesLostBattleHexagonEasy;
 
             long minutesPlayedSeptagon = MathUtils.floor(game.stats.fastestVictorySeptagonEasy / 1000 / 60);
             long secondsPlayedSeptagon = MathUtils.floor(game.stats.fastestVictorySeptagonEasy / 1000 - (minutesPlayedSeptagon * 60));
             numSquirglesSeptagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattleSeptagonEasy;
-            fastestVictorySeptagonString = FASTEST_VICTORY + game.stats.fastestVictorySeptagonEasy;
+            fastestVictorySeptagonString = FASTEST_VICTORY + minutesPlayedSeptagon + MINUTES + secondsPlayedSeptagon + SECONDS;
             numWinsSeptagonString = NUM_WINS + game.stats.numTimesWonBattleSeptagonEasy;
-            numLossesSeptagonString = NUM_LOSSES + minutesPlayedSeptagon + MINUTES + secondsPlayedSeptagon + SECONDS;
+            numLossesSeptagonString = NUM_LOSSES + game.stats.numTimesLostBattleSeptagonEasy;
 
             long minutesPlayedOctagon = MathUtils.floor(game.stats.fastestVictoryOctagonEasy / 1000 / 60);
             long secondsPlayedOctagon = MathUtils.floor(game.stats.fastestVictoryOctagonEasy / 1000 - (minutesPlayedOctagon * 60));
             numSquirglesOctagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattleOctagonEasy;
-            fastestVictoryOctagonString = FASTEST_VICTORY + game.stats.fastestVictoryOctagonEasy;
+            fastestVictoryOctagonString = FASTEST_VICTORY + minutesPlayedOctagon + MINUTES + secondsPlayedOctagon + SECONDS;
             numWinsOctagonString = NUM_WINS + game.stats.numTimesWonBattleOctagonEasy;
-            numLossesOctagonString = NUM_LOSSES + minutesPlayedOctagon + MINUTES + secondsPlayedOctagon + SECONDS;
+            numLossesOctagonString = NUM_LOSSES + game.stats.numTimesLostBattleOctagonEasy;
 
             long minutesPlayedNonagon = MathUtils.floor(game.stats.fastestVictoryNonagonEasy / 1000 / 60);
             long secondsPlayedNonagon = MathUtils.floor(game.stats.fastestVictoryNonagonEasy / 1000 - (minutesPlayedNonagon * 60));
             numSquirglesNonagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattleNonagonEasy;
-            fastestVictoryNonagonString = FASTEST_VICTORY + game.stats.fastestVictoryNonagonEasy;
+            fastestVictoryNonagonString = FASTEST_VICTORY + minutesPlayedNonagon + MINUTES + secondsPlayedNonagon + SECONDS;
             numWinsNonagonString = NUM_WINS + game.stats.numTimesWonBattleNonagonEasy;
-            numLossesNonagonString = NUM_LOSSES + minutesPlayedNonagon + MINUTES + secondsPlayedNonagon + SECONDS;
+            numLossesNonagonString = NUM_LOSSES + game.stats.numTimesLostBattleNonagonEasy;
         } else if(game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
             long minutesPlayedSquare = MathUtils.floor(game.stats.fastestVictorySquareMedium / 1000 / 60);
             long secondsPlayedSquare = MathUtils.floor(game.stats.fastestVictorySquareMedium / 1000 - (minutesPlayedSquare * 60));
             numSquirglesSquareString = NUM_SQUIRGLES + game.stats.numSquirglesBattleSquareMedium;
-            fastestVictorySquareString = FASTEST_VICTORY + game.stats.fastestVictorySquareMedium;
+            fastestVictorySquareString = FASTEST_VICTORY + minutesPlayedSquare + MINUTES + secondsPlayedSquare + SECONDS;
             numWinsSquareString = NUM_WINS + game.stats.numTimesWonBattleSquareMedium;
-            numLossesSquareString = NUM_LOSSES + minutesPlayedSquare + MINUTES + secondsPlayedSquare + SECONDS;
+            numLossesSquareString = NUM_LOSSES + game.stats.numTimesLostBattleSquareMedium;
 
             long minutesPlayedPentagon = MathUtils.floor(game.stats.fastestVictoryPentagonMedium / 1000 / 60);
             long secondsPlayedPentagon = MathUtils.floor(game.stats.fastestVictoryPentagonMedium / 1000 - (minutesPlayedPentagon * 60));
             numSquirglesPentagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattlePentagonMedium;
-            fastestVictoryPentagonString = FASTEST_VICTORY + game.stats.fastestVictoryPentagonMedium;
+            fastestVictoryPentagonString = FASTEST_VICTORY + minutesPlayedPentagon + MINUTES + secondsPlayedPentagon + SECONDS;
             numWinsPentagonString = NUM_WINS + game.stats.numTimesWonBattlePentagonMedium;
-            numLossesPentagonString = NUM_LOSSES + minutesPlayedPentagon + MINUTES + secondsPlayedPentagon + SECONDS;
+            numLossesPentagonString = NUM_LOSSES + game.stats.numTimesLostBattlePentagonMedium;
 
             long minutesPlayedHexagon = MathUtils.floor(game.stats.fastestVictoryHexagonMedium / 1000 / 60);
             long secondsPlayedHexagon = MathUtils.floor(game.stats.fastestVictoryHexagonMedium / 1000 - (minutesPlayedHexagon * 60));
             numSquirglesHexagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattleHexagonMedium;
-            fastestVictoryHexagonString = FASTEST_VICTORY + game.stats.fastestVictoryHexagonMedium;
+            fastestVictoryHexagonString = FASTEST_VICTORY + minutesPlayedHexagon + MINUTES + secondsPlayedHexagon + SECONDS;
             numWinsHexagonString = NUM_WINS + game.stats.numTimesWonBattleHexagonMedium;
-            numLossesHexagonString = NUM_LOSSES + minutesPlayedHexagon + MINUTES + secondsPlayedHexagon + SECONDS;
+            numLossesHexagonString = NUM_LOSSES + game.stats.numTimesLostBattleHexagonMedium;
 
             long minutesPlayedSeptagon = MathUtils.floor(game.stats.fastestVictorySeptagonMedium / 1000 / 60);
             long secondsPlayedSeptagon = MathUtils.floor(game.stats.fastestVictorySeptagonMedium / 1000 - (minutesPlayedSeptagon * 60));
             numSquirglesSeptagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattleSeptagonMedium;
-            fastestVictorySeptagonString = FASTEST_VICTORY + game.stats.fastestVictorySeptagonMedium;
+            fastestVictorySeptagonString = FASTEST_VICTORY + minutesPlayedSeptagon + MINUTES + secondsPlayedSeptagon + SECONDS;
             numWinsSeptagonString = NUM_WINS + game.stats.numTimesWonBattleSeptagonMedium;
-            numLossesSeptagonString = NUM_LOSSES + minutesPlayedSeptagon + MINUTES + secondsPlayedSeptagon + SECONDS;
+            numLossesSeptagonString = NUM_LOSSES + game.stats.numTimesLostBattleSeptagonMedium;
 
             long minutesPlayedOctagon = MathUtils.floor(game.stats.fastestVictoryOctagonMedium / 1000 / 60);
             long secondsPlayedOctagon = MathUtils.floor(game.stats.fastestVictoryOctagonMedium / 1000 - (minutesPlayedOctagon * 60));
             numSquirglesOctagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattleOctagonMedium;
-            fastestVictoryOctagonString = FASTEST_VICTORY + game.stats.fastestVictoryOctagonMedium;
+            fastestVictoryOctagonString = FASTEST_VICTORY + minutesPlayedOctagon + MINUTES + secondsPlayedOctagon + SECONDS;
             numWinsOctagonString = NUM_WINS + game.stats.numTimesWonBattleOctagonMedium;
-            numLossesOctagonString = NUM_LOSSES + minutesPlayedOctagon + MINUTES + secondsPlayedOctagon + SECONDS;
+            numLossesOctagonString = NUM_LOSSES + game.stats.numTimesLostBattleOctagonMedium;
 
             long minutesPlayedNonagon = MathUtils.floor(game.stats.fastestVictoryNonagonMedium / 1000 / 60);
             long secondsPlayedNonagon = MathUtils.floor(game.stats.fastestVictoryNonagonMedium / 1000 - (minutesPlayedNonagon * 60));
             numSquirglesNonagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattleNonagonMedium;
-            fastestVictoryNonagonString = FASTEST_VICTORY + game.stats.fastestVictoryNonagonMedium;
+            fastestVictoryNonagonString = FASTEST_VICTORY + minutesPlayedNonagon + MINUTES + secondsPlayedNonagon + SECONDS;
             numWinsNonagonString = NUM_WINS + game.stats.numTimesWonBattleNonagonMedium;
-            numLossesNonagonString = NUM_LOSSES + minutesPlayedNonagon + MINUTES + secondsPlayedNonagon + SECONDS;
+            numLossesNonagonString = NUM_LOSSES + game.stats.numTimesLostBattleNonagonMedium;
         } else if(game.difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
             long minutesPlayedSquare = MathUtils.floor(game.stats.fastestVictorySquareHard / 1000 / 60);
             long secondsPlayedSquare = MathUtils.floor(game.stats.fastestVictorySquareHard / 1000 - (minutesPlayedSquare * 60));
             numSquirglesSquareString = NUM_SQUIRGLES + game.stats.numSquirglesBattleSquareHard;
-            fastestVictorySquareString = FASTEST_VICTORY + game.stats.fastestVictorySquareHard;
+            fastestVictorySquareString = FASTEST_VICTORY + minutesPlayedSquare + MINUTES + secondsPlayedSquare + SECONDS;
             numWinsSquareString = NUM_WINS + game.stats.numTimesWonBattleSquareHard;
-            numLossesSquareString = NUM_LOSSES + minutesPlayedSquare + MINUTES + secondsPlayedSquare + SECONDS;
+            numLossesSquareString = NUM_LOSSES + game.stats.numTimesLostBattleSquareHard;
 
             long minutesPlayedPentagon = MathUtils.floor(game.stats.fastestVictoryPentagonHard / 1000 / 60);
             long secondsPlayedPentagon = MathUtils.floor(game.stats.fastestVictoryPentagonHard / 1000 - (minutesPlayedPentagon * 60));
             numSquirglesPentagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattlePentagonHard;
-            fastestVictoryPentagonString = FASTEST_VICTORY + game.stats.fastestVictoryPentagonHard;
+            fastestVictoryPentagonString = FASTEST_VICTORY + minutesPlayedPentagon + MINUTES + secondsPlayedPentagon + SECONDS;
             numWinsPentagonString = NUM_WINS + game.stats.numTimesWonBattlePentagonHard;
-            numLossesPentagonString = NUM_LOSSES + minutesPlayedPentagon + MINUTES + secondsPlayedPentagon + SECONDS;
+            numLossesPentagonString = NUM_LOSSES + game.stats.numTimesLostBattlePentagonHard;
 
             long minutesPlayedHexagon = MathUtils.floor(game.stats.fastestVictoryHexagonHard / 1000 / 60);
             long secondsPlayedHexagon = MathUtils.floor(game.stats.fastestVictoryHexagonHard / 1000 - (minutesPlayedHexagon * 60));
             numSquirglesHexagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattleHexagonHard;
-            fastestVictoryHexagonString = FASTEST_VICTORY + game.stats.fastestVictoryHexagonHard;
+            fastestVictoryHexagonString = FASTEST_VICTORY + minutesPlayedHexagon + MINUTES + secondsPlayedHexagon + SECONDS;
             numWinsHexagonString = NUM_WINS + game.stats.numTimesWonBattleHexagonHard;
-            numLossesHexagonString = NUM_LOSSES + minutesPlayedHexagon + MINUTES + secondsPlayedHexagon + SECONDS;
+            numLossesHexagonString = NUM_LOSSES + game.stats.numTimesLostBattleHexagonHard;
 
             long minutesPlayedSeptagon = MathUtils.floor(game.stats.fastestVictorySeptagonHard / 1000 / 60);
             long secondsPlayedSeptagon = MathUtils.floor(game.stats.fastestVictorySeptagonHard / 1000 - (minutesPlayedSeptagon * 60));
             numSquirglesSeptagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattleSeptagonHard;
-            fastestVictorySeptagonString = FASTEST_VICTORY + game.stats.fastestVictorySeptagonHard;
+            fastestVictorySeptagonString = FASTEST_VICTORY + minutesPlayedSeptagon + MINUTES + secondsPlayedSeptagon + SECONDS;
             numWinsSeptagonString = NUM_WINS + game.stats.numTimesWonBattleSeptagonHard;
-            numLossesSeptagonString = NUM_LOSSES + minutesPlayedSeptagon + MINUTES + secondsPlayedSeptagon + SECONDS;
+            numLossesSeptagonString = NUM_LOSSES + game.stats.numTimesLostBattleSeptagonHard;
 
             long minutesPlayedOctagon = MathUtils.floor(game.stats.fastestVictoryOctagonHard / 1000 / 60);
             long secondsPlayedOctagon = MathUtils.floor(game.stats.fastestVictoryOctagonHard / 1000 - (minutesPlayedOctagon * 60));
             numSquirglesOctagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattleOctagonHard;
-            fastestVictoryOctagonString = FASTEST_VICTORY + game.stats.fastestVictoryOctagonHard;
+            fastestVictoryOctagonString = FASTEST_VICTORY + minutesPlayedOctagon + MINUTES + secondsPlayedOctagon + SECONDS;
             numWinsOctagonString = NUM_WINS + game.stats.numTimesWonBattleOctagonHard;
-            numLossesOctagonString = NUM_LOSSES + minutesPlayedOctagon + MINUTES + secondsPlayedOctagon + SECONDS;
+            numLossesOctagonString = NUM_LOSSES + game.stats.numTimesLostBattleOctagonHard;
 
             long minutesPlayedNonagon = MathUtils.floor(game.stats.fastestVictoryNonagonHard / 1000 / 60);
             long secondsPlayedNonagon = MathUtils.floor(game.stats.fastestVictoryNonagonHard / 1000 - (minutesPlayedNonagon * 60));
             numSquirglesNonagonString = NUM_SQUIRGLES + game.stats.numSquirglesBattleNonagonHard;
-            fastestVictoryNonagonString = FASTEST_VICTORY + game.stats.fastestVictoryNonagonHard;
+            fastestVictoryNonagonString = FASTEST_VICTORY + minutesPlayedNonagon + MINUTES + secondsPlayedNonagon + SECONDS;
             numWinsNonagonString = NUM_WINS + game.stats.numTimesWonBattleNonagonHard;
-            numLossesNonagonString = NUM_LOSSES + minutesPlayedNonagon + MINUTES + secondsPlayedNonagon + SECONDS;
+            numLossesNonagonString = NUM_LOSSES + game.stats.numTimesLostBattleNonagonHard;
         }
     }
 
