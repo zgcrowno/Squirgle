@@ -1,4 +1,4 @@
-package com.screenlooker.squirgle.screen;
+package com.screenlooker.squirgle.screen.type;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
+import com.screenlooker.squirgle.screen.GameplayScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
 
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 //TODO: Refactor all the music input behavior (create easier to read variables and such)
-public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcessor {
+public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
@@ -96,7 +97,7 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
     private boolean musicNameRoctopusTouched;
     private boolean musicNameNonplussedTouched;
 
-    public MenuTypeSinglePlayerSquirgleScreen(final Squirgle game) {
+    public MenuTypeMultiplayerLocalBattleScreen(final Squirgle game) {
         this.game = game;
 
         game.resetInstanceData();
@@ -313,7 +314,7 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
             game.base = 4;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
             dispose();
         } else if(base5Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -321,7 +322,7 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
             game.base = 5;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
             dispose();
         } else if(base6Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -329,7 +330,7 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
             game.base = 6;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
             dispose();
         } else if(base7Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -337,7 +338,7 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
             game.base = 7;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
             dispose();
         } else if(base8Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -345,7 +346,7 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
             game.base = 8;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
             dispose();
         } else if(base9Touched) {
             game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
@@ -353,11 +354,11 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
             game.base = 9;
             game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
             game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
+            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
             dispose();
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuTypeSinglePlayerScreen(game));
+            game.setScreen(new MenuTypeMultiplayerLocalScreen(game));
             dispose();
         } else if(musicTypeFullTouched) {
             game.usePhases = false;
@@ -655,13 +656,26 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
                 Color.WHITE,
                 game.shapeRendererFilled);
 
-        game.draw.drawFace(game.partitionSize + (inputWidth / 2),
+        game.draw.drawFace((game.camera.viewportWidth / 6) - (symbolRadius / 3) + ((symbolRadius / 3) / 3),
                 game.camera.viewportHeight / 2,
-                symbolRadius / 3,
-                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                (symbolRadius / 3) / 3,
+                ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
                 Color.BLACK,
                 game.shapeRendererFilled);
+        game.draw.drawFace((game.camera.viewportWidth / 6) + (symbolRadius / 3) - ((symbolRadius / 3) / 3),
+                game.camera.viewportHeight / 2,
+                (symbolRadius / 3) / 3,
+                ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR,
+                Color.WHITE,
+                Color.BLACK,
+                game.shapeRendererFilled);
+        game.shapeRendererFilled.setColor(Color.WHITE);
+        game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 6) - (symbolRadius / 3) + ((symbolRadius / 3) / 3),
+                game.camera.viewportHeight / 2,
+                (game.camera.viewportWidth / 6) + (symbolRadius / 3) - ((symbolRadius / 3) / 3),
+                game.camera.viewportHeight / 2,
+                ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR);
 
         game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
         game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);

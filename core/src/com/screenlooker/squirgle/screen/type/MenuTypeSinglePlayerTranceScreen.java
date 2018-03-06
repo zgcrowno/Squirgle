@@ -1,4 +1,4 @@
-package com.screenlooker.squirgle.screen;
+package com.screenlooker.squirgle.screen.type;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
+import com.screenlooker.squirgle.screen.TranceScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
 

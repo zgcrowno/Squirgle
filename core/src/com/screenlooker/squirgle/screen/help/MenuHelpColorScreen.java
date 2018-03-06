@@ -1,4 +1,4 @@
-package com.screenlooker.squirgle.screen;
+package com.screenlooker.squirgle.screen.help;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -14,55 +14,84 @@ import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
 
-public class MenuHelpBaseScreen implements Screen, InputProcessor {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MenuHelpColorScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
     private final static int BACK = 0;
 
+    private final static int NUM_INPUTS_HORIZONTAL = 9;
+    private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
-    private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
+    private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
+    private final static int NUM_COLORS = 6;
 
     private int numMiddleInputsVertical;
     private int numMiddlePartitionsVertical;
-    private int numInputsHorizontal;
-    private int numPartitionsHorizontal;
 
     private float inputWidth;
-    private float inputHeightBack;
     private float inputHeightTable;
+    private float inputHeightBack;
 
     private float symbolRadius;
 
     private Vector3 touchPoint;
 
+    private Color squareColor;
+    private Color circleColor;
+    private Color triangleColor;
     private Color backColor;
+
+    private List<Shape> squirgleShapeList;
+
+    private Shape squirglePrompt;
 
     private boolean backTouched;
 
-    public MenuHelpBaseScreen(final Squirgle game) {
+    public MenuHelpColorScreen(final Squirgle game) {
         this.game = game;
 
         game.resetInstanceData();
 
         Gdx.input.setInputProcessor(this);
 
-        numMiddleInputsVertical = game.base + 1; //Adding one for plus
+        numMiddleInputsVertical = NUM_COLORS + 1; //Adding one for plus
         numMiddlePartitionsVertical = numMiddleInputsVertical + 1;
-        numInputsHorizontal = game.base + 3; //Adding one for plus, one for title, and one for back
-        numPartitionsHorizontal = numInputsHorizontal + 1;
 
-        inputWidth = (game.camera.viewportWidth - (game.partitionSize * numPartitionsHorizontal)) / numInputsHorizontal;
-        inputHeightBack = (game.camera.viewportHeight - (game.partitionSize * NUM_RIGHT_PARTITIONS_VERTICAL)) / NUM_RIGHT_INPUTS_VERTICAL;
+        inputWidth = (game.camera.viewportWidth - (game.partitionSize * NUM_PARTITIONS_HORIZONTAL)) / NUM_INPUTS_HORIZONTAL;
         inputHeightTable = (game.camera.viewportHeight - (game.partitionSize * numMiddlePartitionsVertical)) / numMiddleInputsVertical;
+        inputHeightBack = (game.camera.viewportHeight - (game.partitionSize * NUM_RIGHT_PARTITIONS_VERTICAL)) / NUM_RIGHT_INPUTS_VERTICAL;
 
         symbolRadius = inputWidth > inputHeightTable ? inputHeightTable / 2 : inputWidth / 2;
 
         touchPoint = new Vector3();
 
+        squareColor = ColorUtils.randomTransitionColor();
+        circleColor = ColorUtils.randomTransitionColor();
+        triangleColor = ColorUtils.randomTransitionColor();
+        while(circleColor.equals(squareColor)) {
+            circleColor = ColorUtils.randomTransitionColor();
+        }
+        while(triangleColor.equals(circleColor) || triangleColor.equals(squareColor)) {
+            triangleColor = ColorUtils.randomTransitionColor();
+        }
         backColor = ColorUtils.randomColor();
+
+        squirgleShapeList = new ArrayList<Shape>();
+        squirgleShapeList.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
+        squirgleShapeList.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
+
+        squirglePrompt = new Shape(Shape.TRIANGLE,
+                symbolRadius,
+                triangleColor,
+                null,
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2());
 
         backTouched = false;
     }
@@ -78,6 +107,8 @@ public class MenuHelpBaseScreen implements Screen, InputProcessor {
         game.batch.setProjectionMatrix(game.camera.combined);
 
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+
+        transitionSquirgleColors();
 
         drawAdditionTable();
         drawInputRectangles();
@@ -177,30 +208,48 @@ public class MenuHelpBaseScreen implements Screen, InputProcessor {
     }
 
     public void drawAdditionTable() {
-        for(int i = 1; i <= game.base + 1; i++) {
-            for(int j = 1; j <= game.base + 1; j++) {
+        for(int i = 1; i <= NUM_COLORS + 1; i++) {
+            for(int j = 1; j <= NUM_COLORS + 1; j++) {
                 game.shapeRendererFilled.setColor(Color.WHITE);
-                game.shapeRendererFilled.rect(game.partitionSize + inputWidth + (i * game.partitionSize) + ((i - 1) * inputWidth),
+                game.shapeRendererFilled.rect(inputWidth + game.partitionSize + (i * game.partitionSize) + ((i - 1) * inputWidth),
                         game.camera.viewportHeight - ((j * game.partitionSize) + (j * inputHeightTable)),
                         inputWidth,
                         inputHeightTable);
                 game.shapeRendererFilled.setColor(Color.BLACK);
                 if(i == 1 && j == 1) {
-                    game.draw.drawPlus(game.partitionSize + inputWidth + game.partitionSize + (inputWidth / 2),
+                    //Draw plus symbol
+                    game.draw.drawPlus(inputWidth + (2 * game.partitionSize) + (inputWidth / 2),
                             game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2)),
                             symbolRadius / 2,
                             (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                             Color.BLACK,
                             game.shapeRendererFilled);
-                } else {
-                    game.draw.drawShape(false,
-                            new Shape(i + j - 3 <= (game.base - 1) ? i + j - 3 : (i + j - 3) - game.base,
+                } else if(i == 1 || j == 1) {
+                    //Draw color
+                    int color = 0;
+                    if(i == 1) {
+                        color = j - 2;
+                    } else {
+                        //j == 1
+                        color = i - 2;
+                    }
+                    game.draw.drawColor(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),
+                            game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)),
                             symbolRadius / 2,
+                    color,
+                    game.shapeRendererFilled);
+                } else if(i == j) {
+                    //Draw squirgles
+                    squirglePrompt.setCoordinates(new Vector2(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),
+                            game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)) - (symbolRadius / 4)));
+                    game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
+                    game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
+                } else {
+                    //Draw dash
+                    game.draw.drawDash(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),
+                            game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)),
+                            symbolRadius / 4,
                             Color.BLACK,
-                            null,
-                                    (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                            new Vector2(game.partitionSize + inputWidth + (inputWidth / 2) + (i * game.partitionSize) + ((i - 1) * inputWidth),
-                                    game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)))),
                             game.shapeRendererFilled);
                 }
             }
@@ -234,6 +283,12 @@ public class MenuHelpBaseScreen implements Screen, InputProcessor {
                 game.shapeRendererFilled);
     }
 
+    public void transitionSquirgleColors() {
+        ColorUtils.transitionColor(squirglePrompt);
+        ColorUtils.transitionColor(squirgleShapeList.get(0));
+        ColorUtils.transitionColor(squirgleShapeList.get(1));
+    }
+
     public void drawTitle() {
         game.draw.drawQuestionMark(game.partitionSize + (inputWidth / 2),
                 (3 * game.camera.viewportHeight) / 4,
@@ -242,14 +297,10 @@ public class MenuHelpBaseScreen implements Screen, InputProcessor {
                 Color.WHITE,
                 Color.BLACK,
                 game.shapeRendererFilled);
-        game.draw.drawShape(false,
-                new Shape(game.base - 1,
-                        symbolRadius / 2,
-                        Color.WHITE,
-                        null,
-                        (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                        new Vector2(game.partitionSize + (inputWidth / 2),
-                                game.camera.viewportHeight / 4)),
+        game.draw.drawColorWheel(game.partitionSize + (inputWidth / 2),
+                game.camera.viewportHeight / 4,
+                symbolRadius / 2,
+                Color.WHITE,
                 game.shapeRendererFilled);
     }
 

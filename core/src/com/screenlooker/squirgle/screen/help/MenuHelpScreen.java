@@ -1,4 +1,4 @@
-package com.screenlooker.squirgle.screen;
+package com.screenlooker.squirgle.screen.help;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
+import com.screenlooker.squirgle.screen.MainMenuScreen;
+import com.screenlooker.squirgle.screen.TutorialScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
 
 public class MenuHelpScreen implements Screen, InputProcessor {
@@ -23,8 +25,9 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     private final static int BASE_8 = 4;
     private final static int BASE_9 = 5;
     private final static int COLOR = 6;
-    private final static int PLAY = 7;
-    private final static int BACK = 8;
+    private final static int STATS = 7;
+    private final static int PLAY = 8;
+    private final static int BACK = 9;
 
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
@@ -55,6 +58,7 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     private Color base8Color;
     private Color base9Color;
     private Color colorColor;
+    private Color statsColor;
     private Color playColor;
     private Color backColor;
 
@@ -65,6 +69,7 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     private boolean base8Touched;
     private boolean base9Touched;
     private boolean colorTouched;
+    private boolean statsTouched;
     private boolean playTouched;
     private boolean backTouched;
 
@@ -75,7 +80,7 @@ public class MenuHelpScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        numberOfBaseInputs = game.maxBase - game.minBase + 3; //Adding two more than expected here because of color and play inputs
+        numberOfBaseInputs = game.maxBase - game.minBase + 4; //Adding three more than expected here because of color, play and stats inputs
 
         numMiddleInputsVertical = numberOfBaseInputs;
         numMiddlePartitionsVertical = numMiddleInputsVertical + 1;
@@ -97,6 +102,7 @@ public class MenuHelpScreen implements Screen, InputProcessor {
         base8Color = ColorUtils.randomColor();
         base9Color = ColorUtils.randomColor();
         colorColor = ColorUtils.randomColor();
+        statsColor = ColorUtils.randomColor();
         playColor = ColorUtils.randomColor();
         backColor = ColorUtils.randomColor();
 
@@ -107,6 +113,7 @@ public class MenuHelpScreen implements Screen, InputProcessor {
         base8Touched = false;
         base9Touched = false;
         colorTouched = false;
+        statsTouched = false;
         playTouched = false;
         backTouched = false;
     }
@@ -184,34 +191,38 @@ public class MenuHelpScreen implements Screen, InputProcessor {
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > game.partitionSize
                 && touchPoint.y < game.partitionSize + inputHeightBase;
-        colorTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+        statsTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (2 * game.partitionSize) + inputHeightBase
                 && touchPoint.y < (2 * game.partitionSize) + (2 * inputHeightBase);
-        base4Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+        colorTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (3 * game.partitionSize) + (2 *inputHeightBase)
+                && touchPoint.y > (3 * game.partitionSize) + (2 * inputHeightBase)
                 && touchPoint.y < (3 * game.partitionSize) + (3 * inputHeightBase);
-        base5Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+        base4Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (4 * game.partitionSize) + (3 *inputHeightBase)
                 && touchPoint.y < (4 * game.partitionSize) + (4 * inputHeightBase);
-        base6Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+        base5Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (5 * game.partitionSize) + (4 *inputHeightBase)
                 && touchPoint.y < (5 * game.partitionSize) + (5 * inputHeightBase);
-        base7Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+        base6Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (6 * game.partitionSize) + (5 *inputHeightBase)
                 && touchPoint.y < (6 * game.partitionSize) + (6 * inputHeightBase);
-        base8Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+        base7Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (7 * game.partitionSize) + (6 *inputHeightBase)
                 && touchPoint.y < (7 * game.partitionSize) + (7 * inputHeightBase);
-        base9Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+        base8Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > (8 * game.partitionSize) + (7 *inputHeightBase)
                 && touchPoint.y < (8 * game.partitionSize) + (8 * inputHeightBase);
+        base9Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
+                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
+                && touchPoint.y > (9 * game.partitionSize) + (8 *inputHeightBase)
+                && touchPoint.y < (9 * game.partitionSize) + (9 * inputHeightBase);
         backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize
@@ -256,6 +267,10 @@ public class MenuHelpScreen implements Screen, InputProcessor {
             game.base = 9;
             game.setScreen(new MenuHelpBaseScreen(game));
             dispose();
+        } else if(statsTouched) {
+            game.confirmSound.play((float) (game.volume / 10.0));
+            game.setScreen(new MenuHelpStatsScreen(game));
+            dispose();
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
             game.setScreen(new MainMenuScreen(game));
@@ -293,6 +308,7 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     public void drawInputRectangles() {
         drawTitle();
         drawPlayInput();
+        drawStatsInput();
         drawColorInput();
         drawBase4Input();
         if(game.maxBase >= 5) {
@@ -322,45 +338,51 @@ public class MenuHelpScreen implements Screen, InputProcessor {
                         inputWidth,
                         inputHeightBase);
             }
-            case COLOR : {
+            case STATS : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
                         (2 * game.partitionSize) + inputHeightBase,
                         inputWidth,
                         inputHeightBase);
             }
-            case BASE_4 : {
+            case COLOR : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (3 * game.partitionSize) + (2 *inputHeightBase),
+                        (3 * game.partitionSize) + (2 * inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
-            case BASE_5 : {
+            case BASE_4 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
                         (4 * game.partitionSize) + (3 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
-            case BASE_6 : {
+            case BASE_5 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
                         (5 * game.partitionSize) + (4 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
-            case BASE_7 : {
+            case BASE_6 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
                         (6 * game.partitionSize) + (5 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
-            case BASE_8 : {
+            case BASE_7 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
                         (7 * game.partitionSize) + (6 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
-            case BASE_9 : {
+            case BASE_8 : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
                         (8 * game.partitionSize) + (7 *inputHeightBase),
+                        inputWidth,
+                        inputHeightBase);
+            }
+            case BASE_9 : {
+                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                        (9 * game.partitionSize) + (8 *inputHeightBase),
                         inputWidth,
                         inputHeightBase);
             }
@@ -383,10 +405,20 @@ public class MenuHelpScreen implements Screen, InputProcessor {
                 game.shapeRendererFilled);
     }
 
+    public void drawStatsInput() {
+        drawInputRectangle(STATS, statsColor);
+        game.draw.drawModulo((2 * game.partitionSize) + inputWidth + (inputWidth / 2),
+                (2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2),
+                inputShapeRadius,
+                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
+                Color.BLACK,
+                game.shapeRendererFilled);
+    }
+
     public void drawColorInput() {
         drawInputRectangle(COLOR, colorColor);
         game.draw.drawColorWheel(game.camera.viewportWidth / 2,
-                (2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2),
+                (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 Color.BLACK,
                 game.shapeRendererFilled);
@@ -395,7 +427,7 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     public void drawBase4Input() {
         drawInputRectangle(BASE_4, base4Color);
         game.draw.drawSquare(game.camera.viewportWidth / 2,
-                (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
+                (4 * game.partitionSize) + (3 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
@@ -405,7 +437,7 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     public void drawBase5Input() {
         drawInputRectangle(BASE_5, base5Color);
         game.draw.drawPentagon(game.camera.viewportWidth / 2,
-                (4 * game.partitionSize) + (3 * inputHeightBase) + (inputHeightBase / 2),
+                (5 * game.partitionSize) + (4 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -416,7 +448,7 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     public void drawBase6Input() {
         drawInputRectangle(BASE_6, base6Color);
         game.draw.drawHexagon(game.camera.viewportWidth / 2,
-                (5 * game.partitionSize) + (4 * inputHeightBase) + (inputHeightBase / 2),
+                (6 * game.partitionSize) + (5 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -427,7 +459,7 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     public void drawBase7Input() {
         drawInputRectangle(BASE_7, base7Color);
         game.draw.drawSeptagon(game.camera.viewportWidth / 2,
-                (6 * game.partitionSize) + (5 * inputHeightBase) + (inputHeightBase / 2),
+                (7 * game.partitionSize) + (6 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -438,7 +470,7 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     public void drawBase8Input() {
         drawInputRectangle(BASE_8, base8Color);
         game.draw.drawOctagon(game.camera.viewportWidth / 2,
-                (7 * game.partitionSize) + (6 * inputHeightBase) + (inputHeightBase / 2),
+                (8 * game.partitionSize) + (7 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -449,7 +481,7 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     public void drawBase9Input() {
         drawInputRectangle(BASE_9, base9Color);
         game.draw.drawNonagon(game.camera.viewportWidth / 2,
-                (8 * game.partitionSize) + (7 * inputHeightBase) + (inputHeightBase / 2),
+                (9 * game.partitionSize) + (8 * inputHeightBase) + (inputHeightBase / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,

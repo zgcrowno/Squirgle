@@ -1,4 +1,4 @@
-package com.screenlooker.squirgle.screen;
+package com.screenlooker.squirgle.screen.help;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -15,20 +15,29 @@ import com.screenlooker.squirgle.screen.MainMenuScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
 
-public class MenuOptionsScreen implements Screen, InputProcessor {
+public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
-    private final static int SOUND = 0;
+    private final static int STATS = 0;
     private final static int BACK = 1;
 
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_INPUTS_VERTICAL = 1;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_PARTITIONS_VERTICAL = NUM_INPUTS_VERTICAL + 1;
-    private final static int NUM_SOUND_INPUT_ELEMENTS = 4;
+    private final static int NUM_STATS_ELEMENTS = 5;
 
-    private final static float FONT_VOLUME_SIZE_DIVISOR = 11.1f;
+    private final static float FONT_STATS_SIZE_DIVISOR = 33.3f;
+
+    private final static String TIME_PLAYED = "TIME PLAYED: ";
+    private final static String NUM_SQUIRGLES = "SQUIRGLES: ";
+    private final static String FAVORITE_BASE = "FAVORITE BASE: ";
+    private final static String FAVORITE_MODE = "FAVORITE MODE: ";
+    private final static String FAVORITE_TRACK = "FAVORITE TRACK: ";
+    private final static String HOURS = "H";
+    private final static String MINUTES = "M";
+    private final static String SECONDS = "S";
 
     private float inputWidth;
     private float inputHeight;
@@ -37,20 +46,18 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
     private Vector3 touchPoint;
 
-    private Color volumeColor;
+    private Color statsColor;
     private Color backColor;
 
-    private boolean volumeDownChevronTouched;
-    private boolean volumeUpChevronTouched;
     private boolean backTouched;
 
     //TODO: Set up fontScore
-    public MenuOptionsScreen(final Squirgle game) {
+    public MenuHelpStatsGeneralScreen(final Squirgle game) {
         this.game = game;
 
         game.resetInstanceData();
 
-        game.setUpFontVolume(MathUtils.round(game.camera.viewportWidth / FONT_VOLUME_SIZE_DIVISOR));
+        game.setUpFontStats(MathUtils.round(game.camera.viewportWidth / FONT_STATS_SIZE_DIVISOR));
 
         Gdx.input.setInputProcessor(this);
 
@@ -61,11 +68,9 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        volumeColor = ColorUtils.randomColor();
+        statsColor = ColorUtils.randomColor();
         backColor = ColorUtils.randomColor();
 
-        volumeDownChevronTouched = false;
-        volumeUpChevronTouched = false;
         backTouched = false;
     }
 
@@ -85,16 +90,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
         game.shapeRendererFilled.end();
 
-        //Draw volume
-        FontUtils.printText(game.batch,
-                game.fontVolume,
-                game.layout,
-                Color.BLACK,
-                String.valueOf(game.volume),
-                (2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 5),
-                game.camera.viewportHeight / 2,
-                0,
-                1);
+        drawStatsText();
     }
 
     @Override
@@ -149,39 +145,14 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        volumeDownChevronTouched = touchPoint.x > ((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5)) - (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
-                && touchPoint.x < ((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5)) + (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
-                && touchPoint.y > (game.camera.viewportHeight / 2) - (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
-                && touchPoint.y < (game.camera.viewportHeight / 2) + (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1));
-        volumeUpChevronTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5) - (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
-                && touchPoint.x < (2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5) + (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
-                && touchPoint.y > (game.camera.viewportHeight / 2) - (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
-                && touchPoint.y < (game.camera.viewportHeight / 2) + (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1));
         backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize
                 && touchPoint.y < game.partitionSize + inputHeight;
 
-        if(volumeDownChevronTouched) {
-            if(game.volume > 0) {
-                game.volume -= 1;
-            } else {
-                game.volume = 10;
-            }
-            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).setVolume((float) (game.volume / 10.0));
+        if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
-        } else if(volumeUpChevronTouched) {
-            if(game.volume < 10) {
-                game.volume += 1;
-            } else {
-                game.volume = 0;
-            }
-            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).setVolume((float) (game.volume / 10.0));
-            game.confirmSound.play((float) (game.volume / 10.0));
-        } else if(backTouched) {
-            game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.updateSave(game.SAVE_VOLUME, game.volume);
-            game.setScreen(new MainMenuScreen(game));
+            game.setScreen(new MenuHelpStatsScreen(game));
             dispose();
         }
 
@@ -215,16 +186,16 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
     public void drawInputRectangles() {
         drawTitle();
-        drawSoundInput();
+        drawStatsInput();
         drawBackInput();
     }
 
     public void drawInputRectangle(int placement, Color color) {
         game.shapeRendererFilled.setColor(color);
         switch(placement) {
-            case SOUND : {
+            case STATS : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        game.camera.viewportHeight - game.partitionSize - inputHeight,
+                        game.partitionSize,
                         inputWidth,
                         inputHeight);
             }
@@ -237,26 +208,8 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         }
     }
 
-    public void drawSoundInput() {
-        drawInputRectangle(SOUND, volumeColor);
-        game.draw.drawSoundSymbol((2 * game.partitionSize) + inputWidth + (inputWidth / 5),
-                game.camera.viewportHeight / 2,
-                symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1),
-                (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                volumeColor,
-                game.shapeRendererFilled);
-        game.draw.drawChevronLeft((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5),
-                game.camera.viewportHeight / 2,
-                symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1),
-                (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
-        game.draw.drawChevronRight((2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5),
-                game.camera.viewportHeight / 2,
-                symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1),
-                (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+    public void drawStatsInput() {
+        drawInputRectangle(STATS, statsColor);
     }
 
     public void drawBackInput() {
@@ -269,11 +222,88 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 game.shapeRendererFilled);
     }
 
+    public void drawStatsText() {
+        long hoursPlayed = MathUtils.floor(game.stats.timePlayed / 1000 / 60 / 60);
+        long minutesPlayed = MathUtils.floor(game.stats.timePlayed / 1000 / 60 - (hoursPlayed * 60));
+        long secondsPlayed = MathUtils.floor(game.stats.timePlayed / 1000 - (minutesPlayed * 60) - (hoursPlayed * 60 * 60));
+        String timePlayedString = TIME_PLAYED + hoursPlayed + HOURS + minutesPlayed + MINUTES + secondsPlayed + SECONDS;
+        game.layout.setText(game.fontStats, timePlayedString);
+        FontUtils.printText(game.batch,
+                game.fontStats,
+                game.layout,
+                Color.BLACK,
+                timePlayedString,
+                (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
+                game.camera.viewportHeight - game.partitionSize - (inputHeight / (NUM_STATS_ELEMENTS + 1)),
+                0,
+                1);
+
+        String numSquirglesString = NUM_SQUIRGLES + game.stats.numSquirgles;
+        game.layout.setText(game.fontStats, numSquirglesString);
+        FontUtils.printText(game.batch,
+                game.fontStats,
+                game.layout,
+                Color.BLACK,
+                numSquirglesString,
+                (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
+                game.camera.viewportHeight - game.partitionSize - (2 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
+                0,
+                1);
+
+        String favoriteBaseString = FAVORITE_BASE + (game.stats.favoriteBase == 0 ? game.stats.NA : game.stats.favoriteBase);
+        game.layout.setText(game.fontStats, favoriteBaseString);
+        FontUtils.printText(game.batch,
+                game.fontStats,
+                game.layout,
+                Color.BLACK,
+                favoriteBaseString,
+                (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
+                game.camera.viewportHeight - game.partitionSize - (3 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
+                0,
+                1);
+
+        String favoriteModeString = FAVORITE_MODE + game.stats.favoriteMode;
+        game.layout.setText(game.fontStats, favoriteModeString);
+        FontUtils.printText(game.batch,
+                game.fontStats,
+                game.layout,
+                Color.BLACK,
+                favoriteModeString,
+                (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
+                game.camera.viewportHeight - game.partitionSize - (4 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
+                0,
+                1);
+
+        String favoriteTrackString = FAVORITE_TRACK + game.stats.favoriteTrack;
+        game.layout.setText(game.fontStats, favoriteTrackString);
+        FontUtils.printText(game.batch,
+                game.fontStats,
+                game.layout,
+                Color.BLACK,
+                favoriteTrackString,
+                (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
+                game.camera.viewportHeight - game.partitionSize - (5 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
+                0,
+                1);
+    }
+
     public void drawTitle() {
-        game.draw.drawWrench(game.partitionSize + (inputWidth / 2),
+        game.draw.drawQuestionMark(game.partitionSize + (inputWidth / 2),
+                (3 * game.camera.viewportHeight) / 4,
+                symbolRadius / 3,
+                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                Color.WHITE,
+                Color.BLACK,
+                game.shapeRendererFilled);
+        game.draw.drawModulo(game.partitionSize + (inputWidth / 2),
                 game.camera.viewportHeight / 2,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                symbolRadius / 3,
+                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                Color.WHITE,
+                game.shapeRendererFilled);
+        game.draw.drawSigma(game.partitionSize + (inputWidth / 2),
+                game.camera.viewportHeight / 4,
+                symbolRadius / 3,
                 Color.WHITE,
                 Color.BLACK,
                 game.shapeRendererFilled);

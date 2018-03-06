@@ -2330,6 +2330,32 @@ public class Draw {
                 shapeRenderer);
     }
 
+    public void drawSigma(float x, float y, float radius, Color primaryColor, Color secondaryColor, ShapeRenderer shapeRenderer) {
+        shapeRenderer.setColor(primaryColor);
+        shapeRenderer.triangle(x - (radius / 2),
+                y + ((3 * radius) / 4),
+                x - (radius / 2),
+                y - ((3 * radius) / 4),
+                x + (radius / 4),
+                y);
+        shapeRenderer.rect(x - (radius / 2),
+                y + (radius / 2),
+                radius,
+                radius / 4);
+        shapeRenderer.rect(x - (radius / 2),
+                y - ((3 * radius) / 4),
+                radius,
+                radius / 4);
+
+        shapeRenderer.setColor(secondaryColor);
+        shapeRenderer.triangle(x - (radius / 2),
+                y + (radius / 2),
+                x - (radius / 2),
+                y - (radius / 2),
+                x,
+                y);
+    }
+
     public void drawClock(float x, float y, float radius, Color primaryColor, Color secondaryColor, ShapeRenderer shapeRenderer) {
         shapeRenderer.setColor(primaryColor);
         shapeRenderer.circle(x, y, radius);

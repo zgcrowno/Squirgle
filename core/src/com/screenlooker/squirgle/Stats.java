@@ -15,7 +15,7 @@ import static com.screenlooker.squirgle.Squirgle.SAVE_NAME;
 public class Stats {
     final Squirgle game;
 
-    public static final String NA = "N/A";
+    public static final String NA = "NA";
 
     public static final String MODE_SQUIRGLE = "SQUIRGLE";
     public static final String MODE_BATTLE = "BATTLE";

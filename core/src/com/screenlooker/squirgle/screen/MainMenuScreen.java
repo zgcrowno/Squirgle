@@ -12,6 +12,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
+import com.screenlooker.squirgle.screen.help.MenuHelpScreen;
+import com.screenlooker.squirgle.screen.options.MenuOptionsScreen;
+import com.screenlooker.squirgle.screen.type.MenuTypeScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
 
 import java.util.ArrayList;
