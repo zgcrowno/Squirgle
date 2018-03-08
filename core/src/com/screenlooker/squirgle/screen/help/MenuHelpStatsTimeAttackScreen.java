@@ -47,6 +47,14 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
     private float symbolRadius;
     private float subElementShapeRadius;
 
+    private float subElementShapeX;
+    private float squareY;
+    private float pentagonY;
+    private float hexagonY;
+    private float septagonY;
+    private float octagonY;
+    private float nonagonY;
+
     private Vector3 touchPoint;
 
     private Color statsColor;
@@ -78,7 +86,15 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
         inputHeight = (game.camera.viewportHeight - (game.partitionSize * NUM_PARTITIONS_VERTICAL)) / NUM_INPUTS_VERTICAL;
 
         symbolRadius = inputWidth > inputHeight ? inputHeight / 2 : inputWidth / 2;
-        subElementShapeRadius = (inputHeight / NUM_STATS_ELEMENTS) / 2;
+        subElementShapeRadius = inputWidth / 8;
+
+        subElementShapeX = (2 * game.partitionSize) + inputWidth + subElementShapeRadius;
+        squareY = ((game.camera.viewportHeight - ((2 * NUM_STATS_ELEMENTS) * subElementShapeRadius)) / (NUM_STATS_ELEMENTS + 1)) + subElementShapeRadius;
+        pentagonY = ((2 * (game.camera.viewportHeight - ((2 * NUM_STATS_ELEMENTS) * subElementShapeRadius))) / (NUM_STATS_ELEMENTS + 1)) + (3 * subElementShapeRadius);
+        hexagonY = ((3 * (game.camera.viewportHeight - ((2 * NUM_STATS_ELEMENTS) * subElementShapeRadius))) / (NUM_STATS_ELEMENTS + 1)) + (5 * subElementShapeRadius);
+        septagonY = ((4 * (game.camera.viewportHeight - ((2 * NUM_STATS_ELEMENTS) * subElementShapeRadius))) / (NUM_STATS_ELEMENTS + 1)) + (7 * subElementShapeRadius);
+        octagonY = ((5 * (game.camera.viewportHeight - ((2 * NUM_STATS_ELEMENTS) * subElementShapeRadius))) / (NUM_STATS_ELEMENTS + 1)) + (9 * subElementShapeRadius);
+        nonagonY = ((6 * (game.camera.viewportHeight - ((2 * NUM_STATS_ELEMENTS) * subElementShapeRadius))) / (NUM_STATS_ELEMENTS + 1)) + (11 * subElementShapeRadius);
 
         touchPoint = new Vector3();
 
@@ -273,42 +289,42 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
     }
 
     public void drawSubElementShapes() {
-        game.draw.drawSquare((2 * game.partitionSize) + inputWidth + subElementShapeRadius,
-                game.camera.viewportHeight - game.partitionSize - subElementShapeRadius,
+        game.draw.drawSquare(subElementShapeX,
+                squareY,
                 subElementShapeRadius,
                 subElementShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 game.shapeRendererFilled);
-        game.draw.drawPentagon((2 * game.partitionSize) + inputWidth + subElementShapeRadius,
-                game.camera.viewportHeight - game.partitionSize - (3 * subElementShapeRadius),
-                subElementShapeRadius,
-                subElementShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                0,
-                Color.BLACK,
-                game.shapeRendererFilled);
-        game.draw.drawHexagon((2 * game.partitionSize) + inputWidth + subElementShapeRadius,
-                game.camera.viewportHeight - game.partitionSize - (5 * subElementShapeRadius),
+        game.draw.drawPentagon(subElementShapeX,
+                pentagonY,
                 subElementShapeRadius,
                 subElementShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
                 Color.BLACK,
                 game.shapeRendererFilled);
-        game.draw.drawSeptagon((2 * game.partitionSize) + inputWidth + subElementShapeRadius,
-                game.camera.viewportHeight - game.partitionSize - (7 * subElementShapeRadius),
+        game.draw.drawHexagon(subElementShapeX,
+                hexagonY,
                 subElementShapeRadius,
                 subElementShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
                 Color.BLACK,
                 game.shapeRendererFilled);
-        game.draw.drawOctagon((2 * game.partitionSize) + inputWidth + subElementShapeRadius,
-                game.camera.viewportHeight - game.partitionSize - (9 * subElementShapeRadius),
+        game.draw.drawSeptagon(subElementShapeX,
+                septagonY,
                 subElementShapeRadius,
                 subElementShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
                 Color.BLACK,
                 game.shapeRendererFilled);
-        game.draw.drawNonagon((2 * game.partitionSize) + inputWidth + subElementShapeRadius,
-                game.camera.viewportHeight - game.partitionSize - (11 * subElementShapeRadius),
+        game.draw.drawOctagon(subElementShapeX,
+                octagonY,
+                subElementShapeRadius,
+                subElementShapeRadius / Draw.LINE_WIDTH_DIVISOR,
+                0,
+                Color.BLACK,
+                game.shapeRendererFilled);
+        game.draw.drawNonagon(subElementShapeX,
+                nonagonY,
                 subElementShapeRadius,
                 subElementShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
@@ -342,8 +358,8 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.layout,
                 Color.BLACK,
                 highestScoreSquareString,
-                (2 * game.partitionSize) + inputWidth + (2 * subElementShapeRadius) + (game.layout.width / 2),
-                game.camera.viewportHeight - game.partitionSize - ((2 * subElementShapeRadius) / (NUM_STATS_SUB_ELEMENTS + 1)),
+                subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
+                squareY,
                 0,
                 1);
 
@@ -354,8 +370,8 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.layout,
                 Color.BLACK,
                 highestScorePentagonString,
-                (2 * game.partitionSize) + inputWidth + (2 * subElementShapeRadius) + (game.layout.width / 2),
-                game.camera.viewportHeight - game.partitionSize - (2 * subElementShapeRadius) - ((2 * subElementShapeRadius) / (NUM_STATS_SUB_ELEMENTS + 1)),
+                subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
+                pentagonY,
                 0,
                 1);
 
@@ -366,8 +382,8 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.layout,
                 Color.BLACK,
                 highestScoreHexagonString,
-                (2 * game.partitionSize) + inputWidth + (2 * subElementShapeRadius) + (game.layout.width / 2),
-                game.camera.viewportHeight - game.partitionSize - (4 * subElementShapeRadius) - ((2 * subElementShapeRadius) / (NUM_STATS_SUB_ELEMENTS + 1)),
+                subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
+                hexagonY,
                 0,
                 1);
 
@@ -378,8 +394,8 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.layout,
                 Color.BLACK,
                 highestScoreSeptagonString,
-                (2 * game.partitionSize) + inputWidth + (2 * subElementShapeRadius) + (game.layout.width / 2),
-                game.camera.viewportHeight - game.partitionSize - (6 * subElementShapeRadius) - ((2 * subElementShapeRadius) / (NUM_STATS_SUB_ELEMENTS + 1)),
+                subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
+                septagonY,
                 0,
                 1);
 
@@ -390,8 +406,8 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.layout,
                 Color.BLACK,
                 highestScoreOctagonString,
-                (2 * game.partitionSize) + inputWidth + (2 * subElementShapeRadius) + (game.layout.width / 2),
-                game.camera.viewportHeight - game.partitionSize - (8 * subElementShapeRadius) - ((2 * subElementShapeRadius) / (NUM_STATS_SUB_ELEMENTS + 1)),
+                subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
+                octagonY,
                 0,
                 1);
 
@@ -402,8 +418,8 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.layout,
                 Color.BLACK,
                 highestScoreNonagonString,
-                (2 * game.partitionSize) + inputWidth + (2 * subElementShapeRadius) + (game.layout.width / 2),
-                game.camera.viewportHeight - game.partitionSize - (10 * subElementShapeRadius) - ((2 * subElementShapeRadius) / (NUM_STATS_SUB_ELEMENTS + 1)),
+                subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
+                nonagonY,
                 0,
                 1);
     }
