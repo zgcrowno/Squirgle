@@ -763,6 +763,7 @@ public class Draw {
         }
     }
 
+    //TODO: Draw unfilled perimeters around these, so as to distinguish them from prompt shape
     public void drawInputButtons(boolean splitScreen, boolean localPlayer2, Squirgle game, ShapeRenderer shapeRenderer) {
         if(game.base >= 1) {
             //Point
@@ -1828,14 +1829,20 @@ public class Draw {
     }
 
     public void drawTargetSemicircles(boolean splitScreen, boolean local, ShapeRenderer shapeRenderer) {
+        float polypRadius = (GameplayScreen.TARGET_RADIUS / 4);
+        float polypOffset = (float)(Math.sqrt(Math.pow(GameplayScreen.TARGET_RADIUS, 2) + Math.pow(GameplayScreen.TARGET_RADIUS / 4, 2)) - GameplayScreen.TARGET_RADIUS);
+
         shapeRenderer.setColor(Color.WHITE);
         if(!local) {
             shapeRenderer.circle(0, game.camera.viewportHeight, GameplayScreen.TARGET_RADIUS);
+            shapeRenderer.circle(GameplayScreen.TARGET_RADIUS + polypRadius - polypOffset, game.camera.viewportHeight - polypRadius, polypRadius);
         } else {
             shapeRenderer.arc(game.camera.viewportWidth, game.camera.viewportHeight / 2, GameplayScreen.TARGET_RADIUS, -ONE_HUNDRED_AND_EIGHTY_DEGREES, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
+            shapeRenderer.circle(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS - polypRadius + polypOffset, (game.camera.viewportHeight / 2) + polypRadius, polypRadius);
         }
         if(splitScreen) {
             shapeRenderer.arc(0, game.camera.viewportHeight / 2, GameplayScreen.TARGET_RADIUS, 0, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
+            shapeRenderer.circle(GameplayScreen.TARGET_RADIUS + polypRadius - polypOffset, (game.camera.viewportHeight / 2) - polypRadius, polypRadius);
         }
     }
 
@@ -1854,8 +1861,11 @@ public class Draw {
         shapeRenderer.arc(0, game.camera.viewportHeight, TutorialScreen.TARGET_RADIUS, start, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
     }
 
-    public void drawScoreTriangles(boolean splitScreen, boolean local, ShapeRenderer shapeRenderer) {
+    public void drawScoreTriangles(boolean splitScreen, boolean local, Color polypDividerColor, ShapeRenderer shapeRenderer) {
+        float polypRadius = (GameplayScreen.TARGET_RADIUS / 2);
+
         shapeRenderer.setColor(Color.WHITE);
+        game.shapeRendererLine.setColor(polypDividerColor);
         if(!local) {
             shapeRenderer.triangle(game.camera.viewportWidth,
                     game.camera.viewportHeight,
@@ -1863,6 +1873,16 @@ public class Draw {
                     game.camera.viewportHeight,
                     game.camera.viewportWidth,
                     game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS);
+            shapeRenderer.triangle(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
+                    game.camera.viewportHeight,
+                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS - polypRadius,
+                    game.camera.viewportHeight - polypRadius,
+                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + polypRadius,
+                    game.camera.viewportHeight - polypRadius);
+            game.shapeRendererLine.line(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
+                    game.camera.viewportHeight,
+                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + polypRadius,
+                    game.camera.viewportHeight - polypRadius);
         } else {
             shapeRenderer.triangle(0,
                     game.camera.viewportHeight / 2,
@@ -1870,6 +1890,16 @@ public class Draw {
                     game.camera.viewportHeight / 2,
                     0,
                     (game.camera.viewportHeight / 2) + GameplayScreen.TARGET_RADIUS);
+            shapeRenderer.triangle(GameplayScreen.TARGET_RADIUS,
+                    game.camera.viewportHeight / 2,
+                    GameplayScreen.TARGET_RADIUS + polypRadius,
+                    (game.camera.viewportHeight / 2) + polypRadius,
+                    GameplayScreen.TARGET_RADIUS - polypRadius,
+                    (game.camera.viewportHeight / 2) + polypRadius);
+            game.shapeRendererLine.line(GameplayScreen.TARGET_RADIUS,
+                    game.camera.viewportHeight / 2,
+                    GameplayScreen.TARGET_RADIUS - polypRadius,
+                    (game.camera.viewportHeight / 2) + polypRadius);
         }
         if(splitScreen) {
             shapeRenderer.triangle(game.camera.viewportWidth,
@@ -1878,6 +1908,16 @@ public class Draw {
                     game.camera.viewportHeight / 2,
                     game.camera.viewportWidth,
                     (game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS);
+            shapeRenderer.triangle(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
+                    game.camera.viewportHeight / 2,
+                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS - polypRadius,
+                    (game.camera.viewportHeight / 2) - polypRadius,
+                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + polypRadius,
+                    (game.camera.viewportHeight / 2) - polypRadius);
+            game.shapeRendererLine.line(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
+                    game.camera.viewportHeight / 2,
+                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + polypRadius,
+                    (game.camera.viewportHeight / 2) - polypRadius);
         }
     }
 
