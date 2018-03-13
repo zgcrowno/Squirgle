@@ -319,8 +319,7 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
                 (3 * game.camera.viewportHeight) / 4,
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawBackInput() {
@@ -329,8 +328,7 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
                 game.camera.viewportHeight / 2,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawMusicInput() {
@@ -339,8 +337,7 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
                 game.partitionSize + (inputHeightMiddle / 2),
                 inputShapeRadius,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         drawMusicNameInput();
     }
 
@@ -367,22 +364,19 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
                 (5 * game.camera.viewportHeight) / 6,
                 symbolRadius / 3,
                 (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                game.shapeRendererFilled);
+                Color.WHITE);
 
         game.draw.drawFace(game.camera.viewportWidth / 6,
                 game.camera.viewportHeight / 2,
                 symbolRadius / 3,
                 (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
 
         game.draw.drawTranceSymbol(game.camera.viewportWidth / 6,
                 game.camera.viewportHeight / 6,
                 symbolRadius / 3,
                 Color.WHITE,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 }

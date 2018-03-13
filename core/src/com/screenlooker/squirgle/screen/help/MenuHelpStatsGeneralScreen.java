@@ -218,8 +218,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawStatsText() {
@@ -293,20 +292,17 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 symbolRadius / 3,
                 (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         game.draw.drawModulo(game.partitionSize + (inputWidth / 2),
                 game.camera.viewportHeight / 2,
                 symbolRadius / 3,
                 (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                game.shapeRendererFilled);
+                Color.WHITE);
         game.draw.drawSigma(game.partitionSize + (inputWidth / 2),
                 game.camera.viewportHeight / 4,
                 symbolRadius / 3,
                 Color.WHITE,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
 }

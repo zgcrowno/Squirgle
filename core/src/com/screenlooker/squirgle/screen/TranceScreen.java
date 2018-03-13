@@ -89,8 +89,8 @@ public class TranceScreen implements Screen, InputProcessor {
         managePrimaryShapeLineWidth();
 
         if(!paused) {
-            game.draw.drawPrompt(false, promptShape, priorShapeList, 0, null, true, false, game.shapeRendererFilled);
-            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
+            game.draw.drawPrompt(false, promptShape, priorShapeList, 0, null, true, false);
+            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
         }
 
         zoomThroughShapes();
@@ -101,7 +101,7 @@ public class TranceScreen implements Screen, InputProcessor {
             //the screen to the right.
             //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
             //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
-            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
+            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
 
             SoundUtils.playMusic(promptShape, game);
         }
@@ -224,8 +224,7 @@ public class TranceScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
                 (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                game.shapeRendererFilled);
+                Color.WHITE);
         drawPauseBackInput();
         drawPauseQuitInput();
     }
@@ -254,8 +253,7 @@ public class TranceScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
                 (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawPauseBackInput() {
@@ -264,8 +262,7 @@ public class TranceScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
                 (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void playMusic() {

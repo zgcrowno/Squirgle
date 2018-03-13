@@ -165,12 +165,12 @@ public class MenuHelpStatsScreen implements Screen, InputProcessor {
 
         drawInputRectangles();
 
-        game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
-        game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false, game.shapeRendererFilled);
-        game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
+        game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+        game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
+        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
+        game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
+        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
 
         game.shapeRendererFilled.end();
 
@@ -381,8 +381,7 @@ public class MenuHelpStatsScreen implements Screen, InputProcessor {
                 (6 * game.partitionSize) + (5 * inputHeightType) + (inputHeightType / 2),
                 inputShapeRadius,
                 Color.BLACK,
-                generalColor,
-                game.shapeRendererFilled);
+                generalColor);
     }
 
     public void drawSquirgleInput() {
@@ -405,8 +404,7 @@ public class MenuHelpStatsScreen implements Screen, InputProcessor {
                 (5 * game.camera.viewportHeight) / 12,
                 inputShapeRadius,
                 Color.BLACK,
-                timeAttackColor,
-                game.shapeRendererFilled);
+                timeAttackColor);
     }
 
     public void drawTimeBattleInput() {
@@ -421,14 +419,12 @@ public class MenuHelpStatsScreen implements Screen, InputProcessor {
                 ((3 * game.camera.viewportHeight) / 12) + (inputHeightType / 6),
                 inputShapeRadius / 2,
                 Color.BLACK,
-                timeBattleColor,
-                game.shapeRendererFilled);
+                timeBattleColor);
         game.draw.drawClock((game.camera.viewportWidth / 2) + (inputWidth / 4),
                 ((3 * game.camera.viewportHeight) / 12) - (inputHeightType / 6),
                 inputShapeRadius / 2,
                 Color.BLACK,
-                timeBattleColor,
-                game.shapeRendererFilled);
+                timeBattleColor);
     }
 
     public void drawTranceInput() {
@@ -437,8 +433,7 @@ public class MenuHelpStatsScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 12,
                 inputShapeRadius,
                 Color.BLACK,
-                tranceColor,
-                game.shapeRendererFilled);
+                tranceColor);
     }
 
     public void drawBackInput() {
@@ -447,8 +442,7 @@ public class MenuHelpStatsScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawTitle() {
@@ -457,14 +451,12 @@ public class MenuHelpStatsScreen implements Screen, InputProcessor {
                 symbolRadius / 2,
                 (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         game.draw.drawModulo(game.partitionSize + (inputWidth / 2),
                 game.camera.viewportHeight / 4,
                 symbolRadius / 2,
                 (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                game.shapeRendererFilled);
+                Color.WHITE);
     }
 
     public void transitionSquirgleColors() {

@@ -271,43 +271,37 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 squareY,
                 subElementShapeRadius,
                 subElementShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         game.draw.drawPentagon(subElementShapeX,
                 pentagonY,
                 subElementShapeRadius,
                 subElementShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         game.draw.drawHexagon(subElementShapeX,
                 hexagonY,
                 subElementShapeRadius,
                 subElementShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         game.draw.drawSeptagon(subElementShapeX,
                 septagonY,
                 subElementShapeRadius,
                 subElementShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         game.draw.drawOctagon(subElementShapeX,
                 octagonY,
                 subElementShapeRadius,
                 subElementShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         game.draw.drawNonagon(subElementShapeX,
                 nonagonY,
                 subElementShapeRadius,
                 subElementShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 0,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawStatsInput() {
@@ -320,8 +314,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawStatsText() {
@@ -554,17 +547,15 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 symbolRadius / 3,
                 (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         game.draw.drawModulo(game.partitionSize + (inputWidth / 2),
                 game.camera.viewportHeight / 2,
                 symbolRadius / 3,
                 (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                game.shapeRendererFilled);
+                Color.WHITE);
 
-        game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
+        game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
     }
 
     public void transitionSquirgleColors() {

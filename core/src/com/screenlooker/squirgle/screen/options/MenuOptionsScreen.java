@@ -243,20 +243,17 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1),
                 (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                volumeColor,
-                game.shapeRendererFilled);
+                volumeColor);
         game.draw.drawChevronLeft((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5),
                 game.camera.viewportHeight / 2,
                 symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1),
                 (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         game.draw.drawChevronRight((2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5),
                 game.camera.viewportHeight / 2,
                 symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1),
                 (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawBackInput() {
@@ -265,8 +262,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawTitle() {
@@ -275,8 +271,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
 }

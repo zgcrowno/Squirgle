@@ -222,8 +222,7 @@ public class MenuHelpColorScreen implements Screen, InputProcessor {
                             game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2)),
                             symbolRadius / 2,
                             (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                            Color.BLACK,
-                            game.shapeRendererFilled);
+                            Color.BLACK);
                 } else if(i == 1 || j == 1) {
                     //Draw color
                     int color = 0;
@@ -236,21 +235,19 @@ public class MenuHelpColorScreen implements Screen, InputProcessor {
                     game.draw.drawColor(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),
                             game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)),
                             symbolRadius / 2,
-                    color,
-                    game.shapeRendererFilled);
+                    color);
                 } else if(i == j) {
                     //Draw squirgles
                     squirglePrompt.setCoordinates(new Vector2(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),
                             game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)) - (symbolRadius / 4)));
-                    game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
-                    game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
+                    game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
+                    game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
                 } else {
                     //Draw dash
                     game.draw.drawDash(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),
                             game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)),
                             symbolRadius / 4,
-                            Color.BLACK,
-                            game.shapeRendererFilled);
+                            Color.BLACK);
                 }
             }
         }
@@ -279,8 +276,7 @@ public class MenuHelpColorScreen implements Screen, InputProcessor {
                 inputHeightBack / 2,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void transitionSquirgleColors() {
@@ -295,13 +291,11 @@ public class MenuHelpColorScreen implements Screen, InputProcessor {
                 symbolRadius / 2,
                 (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         game.draw.drawColorWheel(game.partitionSize + (inputWidth / 2),
                 game.camera.viewportHeight / 4,
                 symbolRadius / 2,
-                Color.WHITE,
-                game.shapeRendererFilled);
+                Color.WHITE);
     }
 
 }

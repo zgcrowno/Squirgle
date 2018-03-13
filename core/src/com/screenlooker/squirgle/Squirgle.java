@@ -90,6 +90,7 @@ public class Squirgle extends Game {
 	public final static String SAVE_DIFFICULTY = "difficulty";
 
 	public final static String TARGET = "TARGET";
+	public final static String HAND = "HAND";
 
 	public AssetManager manager;
 

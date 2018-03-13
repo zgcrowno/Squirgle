@@ -240,8 +240,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         drawBackgroundColorShape();
 
         if(!paused) {
-            game.draw.drawPrompt(false, promptShape, priorShapeList, 0, backgroundColorShape, false, false, game.shapeRendererFilled);
-            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
+            game.draw.drawPrompt(false, promptShape, priorShapeList, 0, backgroundColorShape, false, false);
+            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
         }
 
         increaseSpeed();
@@ -254,22 +254,21 @@ public class TutorialScreen implements Screen, InputProcessor {
             //the screen to the right.
             //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
             //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
-            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold, game.shapeRendererFilled);
+            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
 
             if (!gameOver) {
                 game.draw.drawPerimeter(game.camera.viewportWidth / 2,
                         game.camera.viewportHeight / 2,
                         Color.BLACK,
                         (3 * game.widthOrHeight) / 8,
-                        promptShape,
-                        game.shapeRendererLine);
+                        promptShape);
                 if (phase >= PHASE_EIGHT) {
-                    game.draw.drawBackgroundColorShapeListTutorial(backgroundColorShapeList, backgroundColorShape, clearColor, game.shapeRendererFilled);
-                    game.draw.drawTimelines(false, false, promptShape, backgroundColorShapeList, game.shapeRendererFilled);
+                    game.draw.drawBackgroundColorShapeListTutorial(backgroundColorShapeList, backgroundColorShape, clearColor);
+                    game.draw.drawTimelines(false, false, promptShape, backgroundColorShapeList);
                 }
                 if (phase >= PHASE_SIX) {
                     SoundUtils.playMusic(promptShape, game);
-                    game.draw.drawTargetSemicircleTutorial(game.shapeRendererFilled);
+                    game.draw.drawTargetSemicircleTutorial();
                 }
             }
         }
@@ -278,13 +277,13 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         if(!paused) {
             if (!gameOver) {
-                game.draw.drawInputButtonsTutorial(phase, game.shapeRendererFilled);
+                game.draw.drawInputButtonsTutorial(phase);
                 if (phase >= PHASE_SEVEN) {
-                    game.draw.drawScoreTriangleTutorial(game.shapeRendererFilled);
+                    game.draw.drawScoreTriangleTutorial();
                 }
                 if (phase >= PHASE_SIX) {
-                    game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true, game.shapeRendererFilled);
-                    game.draw.drawShapes(false, targetShapeList, outsideTargetShape, false, game.shapeRendererFilled);
+                    game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
+                    game.draw.drawShapes(false, targetShapeList, outsideTargetShape, false);
                 }
                 if (phase >= PHASE_EIGHT) {
                     game.draw.drawPauseInput(false, false, game);
@@ -302,7 +301,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         saveAndEnd();
 
         if(!paused) {
-            game.draw.drawTouchDownPointsTutorial(touchDownShapeList, game.shapeRendererLine);
+            game.draw.drawTouchDownPointsTutorial(touchDownShapeList);
         } else {
             drawInputRectangles();
         }
@@ -437,8 +436,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
                 (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         drawPauseBackInput();
         drawPauseQuitInput();
     }
@@ -467,8 +465,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
                 (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawPauseBackInput() {
@@ -477,8 +474,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
                 (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void playMusic() {
@@ -613,7 +609,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     }
 
     public void drawTargetArc() {
-        game.draw.drawArcTutorial(targetArcStart, targetArcColor, game.shapeRendererFilled);
+        game.draw.drawArcTutorial(targetArcStart, targetArcColor);
         if(targetArcStart > -Draw.NINETY_ONE_DEGREES) {
             targetArcStart -= TARGET_ARC_SPEED;
         }
@@ -648,7 +644,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     public void drawBackgroundColorShape() {
         if(!paused) {
             if (!gameOver && phase >= PHASE_EIGHT) {
-                game.draw.drawBackgroundColorShape(backgroundColorShape, game.shapeRendererFilled);
+                game.draw.drawBackgroundColorShape(backgroundColorShape);
             }
         }
     }
@@ -703,7 +699,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         if(!paused) {
             if(!gameOver) {
                 if (equationWidth > 0) {
-                    game.draw.drawEquationTutorial(lastShapeTouched, lastPromptShape, lastTargetShape, equationWidth, phase, game.shapeRendererFilled);
+                    game.draw.drawEquationTutorial(lastShapeTouched, lastPromptShape, lastTargetShape, equationWidth, phase);
                     equationWidth -= INPUT_RADIUS / EQUATION_WIDTH_DIVISOR;
                 } else {
                     equationWidth = 0;

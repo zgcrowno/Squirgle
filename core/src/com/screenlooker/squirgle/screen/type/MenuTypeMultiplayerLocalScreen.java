@@ -133,10 +133,10 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
 
         drawInputRectangles();
 
-        game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false, game.shapeRendererFilled);
-        game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
+        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
+        game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
+        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
 
         game.shapeRendererFilled.end();
 
@@ -304,14 +304,12 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
                 (game.camera.viewportHeight / 4) + (inputHeightType / 6),
                 inputShapeRadius / 2,
                 Color.BLACK,
-                timeBattleColor,
-                game.shapeRendererFilled);
+                timeBattleColor);
         game.draw.drawClock((game.camera.viewportWidth / 2) + (inputWidth / 4),
                 (game.camera.viewportHeight / 4) - (inputHeightType / 6),
                 inputShapeRadius / 2,
                 Color.BLACK,
-                timeBattleColor,
-                game.shapeRendererFilled);
+                timeBattleColor);
     }
 
     public void drawBackInput() {
@@ -320,8 +318,7 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawTitle() {
@@ -329,23 +326,20 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
                 (3 * game.camera.viewportHeight) / 4,
                 symbolRadius / 2,
                 (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                game.shapeRendererFilled);
+                Color.WHITE);
 
         game.draw.drawFace((game.camera.viewportWidth / 6) - (symbolRadius / 2) + ((symbolRadius / 2) / 3),
                 game.camera.viewportHeight / 4,
                 (symbolRadius / 2) / 3,
                 ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         game.draw.drawFace((game.camera.viewportWidth / 6) + (symbolRadius / 2) - ((symbolRadius / 2) / 3),
                 game.camera.viewportHeight / 4,
                 (symbolRadius / 2) / 3,
                 ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         game.shapeRendererFilled.setColor(Color.WHITE);
         game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 6) - (symbolRadius / 2) + ((symbolRadius / 2) / 3),
                 game.camera.viewportHeight / 4,

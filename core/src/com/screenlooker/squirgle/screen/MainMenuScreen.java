@@ -123,8 +123,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
-        game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false, game.shapeRendererFilled);
-        game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false, game.shapeRendererFilled);
+        game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
+        game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
 
         transitionSquirgleColors();
 
@@ -290,8 +290,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 (3 * game.camera.viewportHeight) / 8,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawOptionsInput() {
@@ -301,8 +300,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
-                optionsColor,
-                game.shapeRendererFilled);
+                optionsColor);
     }
 
     public void drawTutorialInput() {
@@ -312,8 +310,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
-                tutorialColor,
-                game.shapeRendererFilled);
+                tutorialColor);
     }
 
     public void drawQuitInput() {
@@ -322,8 +319,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 8,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void transitionSquirgleColors() {

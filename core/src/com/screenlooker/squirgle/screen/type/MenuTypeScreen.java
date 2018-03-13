@@ -254,8 +254,7 @@ public class MenuTypeScreen implements Screen, InputProcessor {
                 inputShapeRadius / 3,
                 (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
-                singlePlayerColor,
-                game.shapeRendererFilled);
+                singlePlayerColor);
     }
 
     public void drawMultiplayerLocalInput() {
@@ -265,15 +264,13 @@ public class MenuTypeScreen implements Screen, InputProcessor {
                 inputShapeRadius / 3,
                 (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
-                multiplayerLocalColor,
-                game.shapeRendererFilled);
+                multiplayerLocalColor);
         game.draw.drawFace((game.camera.viewportWidth / 2) + inputShapeRadius - (inputShapeRadius / 3),
                 game.camera.viewportHeight / 2,
                 inputShapeRadius / 3,
                 (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
-                multiplayerLocalColor,
-                game.shapeRendererFilled);
+                multiplayerLocalColor);
         game.shapeRendererFilled.setColor(Color.BLACK);
         game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 2) - inputShapeRadius,
                 game.camera.viewportHeight / 2,
@@ -289,22 +286,19 @@ public class MenuTypeScreen implements Screen, InputProcessor {
                 inputShapeRadius / 3,
                 (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
-                multiplayerOnlineColor,
-                game.shapeRendererFilled);
+                multiplayerOnlineColor);
         game.draw.drawFace((game.camera.viewportWidth / 2) - inputShapeRadius + (inputShapeRadius / 3),
                 game.camera.viewportHeight / 6,
                 inputShapeRadius / 3,
                 (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
-                multiplayerOnlineColor,
-                game.shapeRendererFilled);
+                multiplayerOnlineColor);
         game.draw.drawFace((game.camera.viewportWidth / 2) + inputShapeRadius - (inputShapeRadius / 3),
                 game.camera.viewportHeight / 6,
                 inputShapeRadius / 3,
                 (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
-                multiplayerOnlineColor,
-                game.shapeRendererFilled);
+                multiplayerOnlineColor);
     }
 
     public void drawBackInput() {
@@ -313,8 +307,7 @@ public class MenuTypeScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawTitle() {
@@ -322,7 +315,6 @@ public class MenuTypeScreen implements Screen, InputProcessor {
                 game.camera.viewportHeight / 2,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                game.shapeRendererFilled);
+                Color.WHITE);
     }
 }

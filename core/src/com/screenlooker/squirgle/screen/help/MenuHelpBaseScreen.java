@@ -190,8 +190,7 @@ public class MenuHelpBaseScreen implements Screen, InputProcessor {
                             game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2)),
                             symbolRadius / 2,
                             (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                            Color.BLACK,
-                            game.shapeRendererFilled);
+                            Color.BLACK);
                 } else {
                     game.draw.drawShape(false,
                             new Shape(i + j - 3 <= (game.base - 1) ? i + j - 3 : (i + j - 3) - game.base,
@@ -200,8 +199,7 @@ public class MenuHelpBaseScreen implements Screen, InputProcessor {
                             null,
                                     (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                             new Vector2(game.partitionSize + inputWidth + (inputWidth / 2) + (i * game.partitionSize) + ((i - 1) * inputWidth),
-                                    game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)))),
-                            game.shapeRendererFilled);
+                                    game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)))));
                 }
             }
         }
@@ -230,8 +228,7 @@ public class MenuHelpBaseScreen implements Screen, InputProcessor {
                 inputHeightBack / 2,
                 symbolRadius,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
     }
 
     public void drawTitle() {
@@ -240,8 +237,7 @@ public class MenuHelpBaseScreen implements Screen, InputProcessor {
                 symbolRadius / 2,
                 (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
-                Color.BLACK,
-                game.shapeRendererFilled);
+                Color.BLACK);
         game.draw.drawShape(false,
                 new Shape(game.base - 1,
                         symbolRadius / 2,
@@ -249,8 +245,7 @@ public class MenuHelpBaseScreen implements Screen, InputProcessor {
                         null,
                         (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(game.partitionSize + (inputWidth / 2),
-                                game.camera.viewportHeight / 4)),
-                game.shapeRendererFilled);
+                                game.camera.viewportHeight / 4)));
     }
 
 }
