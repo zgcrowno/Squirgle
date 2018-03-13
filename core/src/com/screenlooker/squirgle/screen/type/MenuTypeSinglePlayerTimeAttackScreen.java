@@ -229,7 +229,7 @@ public class MenuTypeSinglePlayerTimeAttackScreen implements Screen, InputProces
                 && touchPoint.y < (7 * game.partitionSize) + (7 * inputHeightBase);
         base9Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (8 * game.partitionSize) + (57 *inputHeightBase)
+                && touchPoint.y > (8 * game.partitionSize) + (7 *inputHeightBase)
                 && touchPoint.y < (8 * game.partitionSize) + (8 * inputHeightBase);
         backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize

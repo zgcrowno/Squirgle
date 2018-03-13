@@ -257,8 +257,8 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
                 && touchPoint.y < (6 * game.partitionSize) + (6 * inputHeightBase);
         base9Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (6 * game.partitionSize) + (5 *inputHeightBase)
-                && touchPoint.y < (6 * game.partitionSize) + (6 * inputHeightBase);
+                && touchPoint.y > (7 * game.partitionSize) + (6 *inputHeightBase)
+                && touchPoint.y < (7 * game.partitionSize) + (7 * inputHeightBase);
         backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize

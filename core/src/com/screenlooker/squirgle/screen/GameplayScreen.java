@@ -2327,7 +2327,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         TARGET_RADIUS = splitScreen && game.widthGreater ? game.camera.viewportWidth / 10.24f : game.camera.viewportWidth / 5.12f;
         PAUSE_INPUT_WIDTH = (game.camera.viewportWidth - (4 * game.partitionSize)) / 3;
         PAUSE_INPUT_HEIGHT = game.camera.viewportHeight - (2 * game.partitionSize);
-        BACKGROUND_COLOR_LIST_ELEMENT_RADIUS = TARGET_RADIUS / 16;
+        BACKGROUND_COLOR_LIST_ELEMENT_RADIUS = TARGET_RADIUS / 12;
         if(splitScreen) {
             BACKGROUND_COLOR_SHAPE_LIST_MAX_Y = (game.camera.viewportHeight / 2) - TARGET_RADIUS - (2 * BACKGROUND_COLOR_LIST_ELEMENT_RADIUS);
             BACKGROUND_COLOR_SHAPE_LIST_MIN_Y = INPUT_POINT_SPAWN.y + INPUT_RADIUS + (2 * BACKGROUND_COLOR_LIST_ELEMENT_RADIUS);

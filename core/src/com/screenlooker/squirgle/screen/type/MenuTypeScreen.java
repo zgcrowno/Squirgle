@@ -19,13 +19,12 @@ public class MenuTypeScreen implements Screen, InputProcessor {
 
     private final static int SINGLE_PLAYER = 0;
     private final static int MULTIPLAYER_LOCAL = 1;
-    private final static int MULTIPLAYER_ONLINE = 2;
-    private final static int BACK = 3;
+    private final static int BACK = 2;
 
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
-    private final static int NUM_MIDDLE_INPUTS_VERTICAL = 3;
+    private final static int NUM_MIDDLE_INPUTS_VERTICAL = 2;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
@@ -43,12 +42,10 @@ public class MenuTypeScreen implements Screen, InputProcessor {
 
     private Color singlePlayerColor;
     private Color multiplayerLocalColor;
-    private Color multiplayerOnlineColor;
     private Color backColor;
 
     private boolean singlePlayerTouched;
     private boolean multiplayerLocalTouched;
-    private boolean multiplayerOnlineTouched;
     private boolean backTouched;
 
     public MenuTypeScreen(final Squirgle game) {
@@ -70,12 +67,10 @@ public class MenuTypeScreen implements Screen, InputProcessor {
 
         singlePlayerColor = ColorUtils.randomColor();
         multiplayerLocalColor = ColorUtils.randomColor();
-        multiplayerOnlineColor = ColorUtils.randomColor();
         backColor = ColorUtils.randomColor();
 
         singlePlayerTouched = false;
         multiplayerLocalTouched = false;
-        multiplayerOnlineTouched = false;
         backTouched = false;
     }
 
@@ -150,13 +145,9 @@ public class MenuTypeScreen implements Screen, InputProcessor {
 
         singlePlayerTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (3 * game.partitionSize) + (2 * inputHeightType)
+                && touchPoint.y > (2 * game.partitionSize) + inputHeightType
                 && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
         multiplayerLocalTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (2 * game.partitionSize) + inputHeightType
-                && touchPoint.y < (2 * game.partitionSize) + (2 * inputHeightType);
-        multiplayerOnlineTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
                 && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
                 && touchPoint.y > game.partitionSize
                 && touchPoint.y < game.partitionSize + inputHeightType;
@@ -173,8 +164,6 @@ public class MenuTypeScreen implements Screen, InputProcessor {
             game.confirmSound.play((float) (game.volume / 10.0));
             game.setScreen(new MenuTypeMultiplayerLocalScreen(game));
             dispose();
-        } else if(multiplayerOnlineTouched) {
-            //TODO: Set to correct screen once said screen is coded.
         } else if(backTouched) {
             game.disconfirmSound.play((float) (game.volume / 10.0));
             game.setScreen(new MainMenuScreen(game));
@@ -213,7 +202,6 @@ public class MenuTypeScreen implements Screen, InputProcessor {
         drawTitle();
         drawSinglePlayerInput();
         drawMultiplayerLocalInput();
-        drawMultiplayerOnlineInput();
         drawBackInput();
     }
 
@@ -222,17 +210,11 @@ public class MenuTypeScreen implements Screen, InputProcessor {
         switch(placement) {
             case SINGLE_PLAYER : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
-                        (3 * game.partitionSize) + (2 * inputHeightType),
-                        inputWidth,
-                        inputHeightType);
-            }
-            case MULTIPLAYER_LOCAL : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
                         (2 * game.partitionSize) + inputHeightType,
                         inputWidth,
                         inputHeightType);
             }
-            case MULTIPLAYER_ONLINE : {
+            case MULTIPLAYER_LOCAL : {
                 game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
                         game.partitionSize,
                         inputWidth,
@@ -250,7 +232,7 @@ public class MenuTypeScreen implements Screen, InputProcessor {
     public void drawSinglePlayerInput() {
         drawInputRectangle(SINGLE_PLAYER, singlePlayerColor);
         game.draw.drawFace(game.camera.viewportWidth / 2,
-                (5 * game.camera.viewportHeight) / 6,
+                (3 * game.camera.viewportHeight) / 4,
                 inputShapeRadius / 3,
                 (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
@@ -260,45 +242,23 @@ public class MenuTypeScreen implements Screen, InputProcessor {
     public void drawMultiplayerLocalInput() {
         drawInputRectangle(MULTIPLAYER_LOCAL, multiplayerLocalColor);
         game.draw.drawFace((game.camera.viewportWidth / 2) - inputShapeRadius + (inputShapeRadius / 3),
-                game.camera.viewportHeight / 2,
+                game.camera.viewportHeight / 4,
                 inputShapeRadius / 3,
                 (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 multiplayerLocalColor);
         game.draw.drawFace((game.camera.viewportWidth / 2) + inputShapeRadius - (inputShapeRadius / 3),
-                game.camera.viewportHeight / 2,
+                game.camera.viewportHeight / 4,
                 inputShapeRadius / 3,
                 (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK,
                 multiplayerLocalColor);
         game.shapeRendererFilled.setColor(Color.BLACK);
         game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 2) - inputShapeRadius,
-                game.camera.viewportHeight / 2,
+                game.camera.viewportHeight / 4,
                 (game.camera.viewportWidth / 2) + inputShapeRadius,
-                game.camera.viewportHeight / 2,
+                game.camera.viewportHeight / 4,
                 (inputShapeRadius / 2) / Draw.LINE_WIDTH_DIVISOR);
-    }
-
-    public void drawMultiplayerOnlineInput() {
-        drawInputRectangle(MULTIPLAYER_ONLINE, multiplayerOnlineColor);
-        game.draw.drawWiFiSymbol((game.camera.viewportWidth / 2) - (inputShapeRadius / (6 * NUM_MIDDLE_INPUTS_VERTICAL)),
-                game.camera.viewportHeight / 6,
-                inputShapeRadius / 3,
-                (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                multiplayerOnlineColor);
-        game.draw.drawFace((game.camera.viewportWidth / 2) - inputShapeRadius + (inputShapeRadius / 3),
-                game.camera.viewportHeight / 6,
-                inputShapeRadius / 3,
-                (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                multiplayerOnlineColor);
-        game.draw.drawFace((game.camera.viewportWidth / 2) + inputShapeRadius - (inputShapeRadius / 3),
-                game.camera.viewportHeight / 6,
-                inputShapeRadius / 3,
-                (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                multiplayerOnlineColor);
     }
 
     public void drawBackInput() {
