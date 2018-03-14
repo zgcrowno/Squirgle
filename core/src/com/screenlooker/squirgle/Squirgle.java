@@ -4,6 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -12,6 +13,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.*;
 import com.screenlooker.squirgle.screen.LoadingScreen;
 import com.screenlooker.squirgle.screen.MainMenuScreen;
@@ -92,6 +95,8 @@ public class Squirgle extends Game {
 	public final static String TARGET = "TARGET";
 	public final static String HAND = "HAND";
 
+	public final static String TUTORIAL_PHASE_TWO_HELP_TEXT = "Try tapping the inputs at the bottom of the screen...";
+
 	public AssetManager manager;
 
 	//Saved data
@@ -127,6 +132,8 @@ public class Squirgle extends Game {
 	public BitmapFont fontDifficulty;
 	public BitmapFont fontPlayer;
 	public BitmapFont fontStats;
+	public Label.LabelStyle helpLabelStyle;
+	public Label helpLabel;
 	public GlyphLayout layout;
 	public FreeTypeFontGenerator generator;
 	public OrthographicCamera camera;
@@ -183,6 +190,7 @@ public class Squirgle extends Game {
 		thirdOfScreen = widthOrHeight / 3;
 		fiveTwelfthsOfScreen = (5 * widthOrHeight) / 12;
 		partitionSize = widthOrHeight / PARTITION_DIVISOR;
+		helpLabelStyle = new Label.LabelStyle();
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);
@@ -347,6 +355,16 @@ public class Squirgle extends Game {
 		parameter.size = size;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()><?:";
 		fontStats = generator.generateFont(parameter);
+	}
+
+	public void setUpLabelHelp() {
+		helpLabelStyle.font = fontTarget;
+		helpLabelStyle.fontColor = Color.BLACK;
+		helpLabel = new Label(TUTORIAL_PHASE_TWO_HELP_TEXT, helpLabelStyle);
+		helpLabel.setSize(camera.viewportWidth / 3, camera.viewportHeight / 3);
+		helpLabel.setPosition(camera.viewportWidth / 3, camera.viewportHeight / 3);
+		helpLabel.setAlignment(Align.left);
+		helpLabel.setWrap(true);
 	}
 
 	public void setUpMusicTitleList() {

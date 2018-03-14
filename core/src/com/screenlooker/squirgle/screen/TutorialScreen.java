@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
@@ -145,6 +148,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     public final static int PHASE_SIX_REQUIRED_CORRECT_INPUTS = 4;
     public final static int PHASE_EIGHT_REQUIRED_SQUIRGLES = 4;
 
+    private Stage stage;
     private int phase;
     private int phaseSixCorrectInputs = 0;
     private int phaseEightSquirgles = 0;
@@ -178,6 +182,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     boolean homeTouched;
     boolean exitTouched;
     boolean pauseTouched;
+    boolean helpTouched;
     boolean pauseBackTouched;
     boolean pauseQuitTouched;
     boolean inputTouchedGameplay;
@@ -188,6 +193,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private boolean gameOver;
     private boolean showResults;
     private boolean paused;
+    private boolean helpTextVisible;
     private int multiplier;
     private long startTime;
     private long endTime;
@@ -210,6 +216,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         game.setUpFontScore(MathUtils.round(game.camera.viewportWidth / FONT_SCORE_SIZE_DIVISOR));
         game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
         game.setUpFontSquirgle(MathUtils.round(game.camera.viewportWidth / FONT_SQUIRGLE_SIZE_DIVISOR));
+        game.setUpLabelHelp();
 
         Gdx.input.setInputProcessor(this);
 
@@ -285,8 +292,9 @@ public class TutorialScreen implements Screen, InputProcessor {
                     game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
                     game.draw.drawShapes(false, targetShapeList, outsideTargetShape, false);
                 }
-                if (phase >= PHASE_EIGHT) {
+                if(phase >= PHASE_TWO) {
                     game.draw.drawPauseInput(false, false, game);
+                    game.draw.drawHelpInput();
                 }
                 drawTargetArc();
             }
@@ -315,6 +323,11 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         //Transition color to distinguish current target shape from other
         ColorUtils.transitionColor(currentTargetShape);
+
+        //Only show helpLabel if helpTextVisible is true
+        game.helpLabel.setVisible(helpTextVisible);
+
+        stage.draw();
     }
 
     @Override
@@ -363,10 +376,6 @@ public class TutorialScreen implements Screen, InputProcessor {
         if (button != Input.Buttons.LEFT || pointer > 0 || gameOver) {
             return false;
         }
-
-        determineTouchedInput(screenX, screenY);
-
-        addTouchDownShapes();
 
         return true;
     }
@@ -743,120 +752,6 @@ public class TutorialScreen implements Screen, InputProcessor {
         }
     }
 
-    public void addTouchDownShapes() {
-        for (int i = 1; i < 20; i++) {
-            if (!gameOver) {
-                if (pointTouched) {
-                    if(phase == PHASE_TWO || phase > PHASE_FIVE) {
-                        touchDownShapeList.add(new Shape(Shape.POINT,
-                                i,
-                                ColorUtils.randomColor(),
-                                null,
-                                1,
-                                new Vector2(INPUT_POINT_SPAWN.x,
-                                        INPUT_POINT_SPAWN.y)));
-                    }
-                } else if (lineTouched) {
-                    if(phase == PHASE_THREE || phase > PHASE_FIVE) {
-                        touchDownShapeList.add(new Shape(Shape.POINT,
-                                i,
-                                ColorUtils.randomColor(),
-                                null,
-                                1,
-                                new Vector2(INPUT_LINE_SPAWN.x,
-                                        INPUT_TRIANGLE_SPAWN.y)));
-                    }
-                } else if (triangleTouched) {
-                    if(phase == PHASE_FOUR || phase > PHASE_FIVE) {
-                        touchDownShapeList.add(new Shape(Shape.POINT,
-                                i,
-                                ColorUtils.randomColor(),
-                                null,
-                                1,
-                                new Vector2(INPUT_TRIANGLE_SPAWN.x,
-                                        INPUT_TRIANGLE_SPAWN.y)));
-                    }
-                } else if (squareTouched) {
-                    if(phase >= PHASE_FIVE) {
-                        touchDownShapeList.add(new Shape(Shape.POINT,
-                                i,
-                                ColorUtils.randomColor(),
-                                null,
-                                1,
-                                new Vector2(INPUT_SQUARE_SPAWN.x,
-                                        INPUT_SQUARE_SPAWN.y)));
-                    }
-                } else if(pentagonTouched) {
-                    touchDownShapeList.add(new Shape(Shape.POINT,
-                            i,
-                            ColorUtils.randomColor(),
-                            null,
-                            1,
-                            new Vector2(INPUT_PENTAGON_SPAWN.x,
-                                    INPUT_PENTAGON_SPAWN.y)));
-                } else if(hexagonTouched) {
-                    touchDownShapeList.add(new Shape(Shape.POINT,
-                            i,
-                            ColorUtils.randomColor(),
-                            null,
-                            1,
-                            new Vector2(INPUT_HEXAGON_SPAWN.x,
-                                    INPUT_HEXAGON_SPAWN.y)));
-                } else if(septagonTouched) {
-                    touchDownShapeList.add(new Shape(Shape.POINT,
-                            i,
-                            ColorUtils.randomColor(),
-                            null,
-                            1,
-                            new Vector2(INPUT_SEPTAGON_SPAWN.x,
-                                    INPUT_SEPTAGON_SPAWN.y)));
-                } else if(octagonTouched) {
-                    touchDownShapeList.add(new Shape(Shape.POINT,
-                            i,
-                            ColorUtils.randomColor(),
-                            null,
-                            1,
-                            new Vector2(INPUT_OCTAGON_SPAWN.x,
-                                    INPUT_OCTAGON_SPAWN.y)));
-                } else if(nonagonTouched) {
-                    touchDownShapeList.add(new Shape(Shape.POINT,
-                            i,
-                            ColorUtils.randomColor(),
-                            null,
-                            1,
-                            new Vector2(INPUT_NONAGON_SPAWN.x,
-                                    INPUT_NONAGON_SPAWN.y)));
-                }
-            } else if (showResults) {
-                if (playTouched) {
-                    touchDownShapeList.add(new Shape(Shape.POINT,
-                            i,
-                            ColorUtils.randomColor(),
-                            null,
-                            1,
-                            new Vector2(INPUT_PLAY_SPAWN.x,
-                                    INPUT_PLAY_SPAWN.y)));
-                } else if (homeTouched) {
-                    touchDownShapeList.add(new Shape(Shape.POINT,
-                            i,
-                            ColorUtils.randomColor(),
-                            null,
-                            1,
-                            new Vector2(INPUT_HOME_SPAWN.x,
-                                    INPUT_HOME_SPAWN.y)));
-                } else {
-                    touchDownShapeList.add(new Shape(Shape.POINT,
-                            i,
-                            ColorUtils.randomColor(),
-                            null,
-                            1,
-                            new Vector2(INPUT_EXIT_SPAWN.x,
-                                    INPUT_EXIT_SPAWN.y)));
-                }
-            }
-        }
-    }
-
     public void determineTouchedInput(int screenX, int screenY) {
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
@@ -911,6 +806,9 @@ public class TutorialScreen implements Screen, InputProcessor {
         pauseTouched = touchPoint.x > game.camera.viewportWidth - (2 *(game.camera.viewportWidth / 20))
                 && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
                 && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
+        helpTouched = touchPoint.x > game.camera.viewportWidth - (2 *(game.camera.viewportWidth / 20))
+                && touchPoint.y > (game.camera.viewportHeight / 4) - (game.camera.viewportWidth / 20)
+                && touchPoint.y < (game.camera.viewportHeight / 4) + (game.camera.viewportWidth / 20);
         pauseBackTouched = touchPoint.x > game.camera.viewportWidth - game.partitionSize - PAUSE_INPUT_WIDTH
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize
@@ -937,6 +835,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         homeTouched = lineTouched;
         exitTouched = triangleTouched;
         pauseTouched = keycode == Input.Keys.ESCAPE;
+        helpTouched = keycode == Input.Keys.SLASH;
         pauseBackTouched = pauseTouched;
         pauseQuitTouched = keycode == Input.Keys.X;
         inputTouchedGameplay = pointTouched || lineTouched || triangleTouched || squareTouched || pentagonTouched || hexagonTouched || septagonTouched || octagonTouched || nonagonTouched;
@@ -966,6 +865,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                         return;
                     }
                 }
+            } else if(helpTouched) {
+                helpTextVisible = !helpTextVisible;
             }
         }
 
@@ -976,12 +877,14 @@ public class TutorialScreen implements Screen, InputProcessor {
                 } else if (!gameOver && inputTouchedGameplay) {
                     shapesMismatchedBehavior();
                 }
-            } else {
-                handlePauseInput();
             }
         }
 
-        if (pauseTouched && phase >= PHASE_EIGHT) {
+        if(paused) {
+            handlePauseInput();
+        }
+
+        if (pauseTouched && phase >= PHASE_TWO) {
             pause();
         }
     }
@@ -1259,6 +1162,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         homeTouched = false;
         exitTouched = false;
         pauseTouched = false;
+        helpTouched = false;
         pauseBackTouched = false;
         pauseQuitTouched = false;
         inputTouchedGameplay = false;
@@ -1270,6 +1174,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         gameOver = false;
         showResults = false;
         paused = false;
+        helpTextVisible = false;
         startTime = System.currentTimeMillis();
         endTime = 0;
         pauseStartTime = 0;
@@ -1281,6 +1186,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         primaryShape = priorShapeList.size() > 0 ? priorShapeList.get(0) : promptShape;
         primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
+        stage = new Stage(game.viewport);
+        stage.addActor(game.helpLabel);
     }
 
     public void setUpGL() {
