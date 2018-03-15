@@ -77,6 +77,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private final static float FONT_SCORE_SIZE_DIVISOR = 11.1f;
     private final static float FONT_TARGET_SIZE_DIVISOR = 35.5f;
     private final static float FONT_SQUIRGLE_SIZE_DIVISOR = 5;
+    private final static float FONT_TUTORIAL_HELP_SIZE_DIVISOR = 71;
     private final static float FONT_MULTIPLIER_INPUT = 1.39f;
     private final static float SCORE_DIVISOR = 3.16f;
     private final static float TARGET_RADIUS_DIVISOR = 2.43f;
@@ -88,8 +89,10 @@ public class TutorialScreen implements Screen, InputProcessor {
     private final static String X = "X";
     private final static String SQUIRGLE = "SQUIRGLE";
 
-    public final static String PHASE_TWO_HELP_TEXT = "Try tapping the inputs at the bottom of the screen. This will give you a feel for how they alter the shape you have at your disposal.";
-    public final static String PHASE_SIX_HELP_TEXT = "The flashing shape in the upper left corner of the screen is your target. Add the correct input to your given shape (in the center of the screen) to match your target and progress.";
+    public final static String PHASE_TWO_HELP_TEXT = "The shape in the center of the screen is the shape currently in your hand. The buttons at the bottom of the screen represent the different shapes you can add to your hand. Since there is no subtraction in Squirgle, though, to create a smaller shape from a larger one, we use remainders. For instance, if you need to make a point from a square, you just add a point. Need to make a point from a triangle? Add a line. To better understand this, play with the input buttons for a bit. The tutorial will proceed when you have exhausted all permutations.";
+    public final static String PHASE_SIX_HELP_TEXT = "The flashing shape in the upper left corner of the screen is your target shape; this is what you want to make from the shape in your hand. The flashing number next to the target shape represents its number of vertices. Using the inputs at the bottom of the screen, you must add the correct number of vertices to the shape in your hand such that the sum equals the number of vertices in the target shape. The tutorial will proceed after you correctly match four shapes.";
+    public final static String PHASE_SEVEN_HELP_TEXT = "In the upper right corner of the screen, you'll see three numbers. The leftmost one corresponds to the number of vertices had by the shape currently in your hand; the middle one represents your score (increase this by correctly matching the shape in your hand to the target shape); the one next to the \"X\" represents your current multiplier. The multiplier determines how many points you receive when correctly matching shapes, and is increased by gaining points with no mistakes. The tutorial will proceed when your multiplier reaches its maximum of 5.";
+    public final static String PHASE_EIGHT_HELP_TEXT = "On the left side of the screen, you'll see a number of color swatches and three vertical lines. The swatches represent the forthcoming background colors, which themselves determine the color of the target shape once matched. The vertical lines represent how much time remains in your current game, and they correspond to the size of the shape in your hand. Should you succeed in matching two shapes within the same target group of the same color, you will have successfully SQUIRGLED, meaning that the shape in your hand reverts to its initial size, and you thus have more time to play and rack up points. Until you manage to get four SQUIRGLES, only the first of the three timelines will deplete, but afterwards, the game will play in its full form.";
 
     /*
     -All white or gray screen except for black outlined prompt shape (point)
@@ -136,8 +139,8 @@ public class TutorialScreen implements Screen, InputProcessor {
     public final static int PHASE_SEVEN = 6;
 
     /*
-    -Colors are now displayed @ top of screen
-    -Timelines are now displayed @ top of screen
+    -Colors are now displayed @ left of screen
+    -Timelines are now displayed @ left of screen
     -Pause input is now displayed @ right-hand side of screen
     -Colors are now sifted through, affecting background, prompt shape & nested shapes
     -Prompt shape (& nested shapes) also begins to grow now, but it will stop doing so once it reaches 2/3 of its max size
@@ -222,6 +225,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         game.setUpFontScore(MathUtils.round(game.camera.viewportWidth / FONT_SCORE_SIZE_DIVISOR));
         game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
         game.setUpFontSquirgle(MathUtils.round(game.camera.viewportWidth / FONT_SQUIRGLE_SIZE_DIVISOR));
+        game.setUpFontTutorialHelp(MathUtils.round(game.camera.viewportWidth / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
         game.setUpLabelHelp();
 
         Gdx.input.setInputProcessor(this);
@@ -368,7 +372,7 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-
+        stage.dispose();
     }
 
     @Override
@@ -961,6 +965,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 phase = PHASE_SEVEN;
                 multiplier = 0;
                 score = 0;
+                game.helpLabel.setText(PHASE_SEVEN_HELP_TEXT);
             }
             targetShapesMatched = 0;
             score += multiplier;
@@ -969,6 +974,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if(multiplier >= MAX_MULTIPLIER) {
                     game.confirmSound.play((float) (game.volume / 10.0));
                     phase = PHASE_EIGHT;
+                    game.helpLabel.setText(PHASE_EIGHT_HELP_TEXT);
                 }
             }
             targetShapeList.clear();
@@ -1058,10 +1064,10 @@ public class TutorialScreen implements Screen, InputProcessor {
     public void showHelpText() {
         game.helpLabel.setVisible(helpTextVisible && !paused);
         if(helpTextVisible && !paused) {
-            game.draw.rect(game.camera.viewportWidth / 3,
-                    game.camera.viewportHeight / 3,
-                    game.camera.viewportWidth / 3,
-                    game.camera.viewportHeight / 3,
+            game.draw.rect((game.camera.viewportWidth / 2) - (game.helpLabel.getWidth() / 2),
+                    (game.camera.viewportHeight / 2) - (game.helpLabel.getHeight() / 2),
+                    game.helpLabel.getWidth(),
+                    game.helpLabel.getHeight(),
                     Color.BLACK);
         }
     }
