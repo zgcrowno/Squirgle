@@ -28,9 +28,13 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public static float INIT_PROMPT_RADIUS;
     public static float BACKGROUND_COLOR_LIST_ELEMENT_RADIUS;
-    public static float BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT;
-    public static float BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT;
+    public static float BACKGROUND_COLOR_SHAPE_LIST_MAX_X;
+    public static float BACKGROUND_COLOR_SHAPE_LIST_MIN_X;
+    public static float BACKGROUND_COLOR_SHAPE_LIST_MAX_Y;
+    public static float BACKGROUND_COLOR_SHAPE_LIST_MIN_Y;
     public static float BACKGROUND_COLOR_SHAPE_LIST_WIDTH;
+    public static float BACKGROUND_COLOR_SHAPE_LIST_HEIGHT;
+    public static float COLOR_LIST_SPEED_ADDITIVE;
     public static float INPUT_RADIUS;
     public static float TARGET_RADIUS;
     public static float PAUSE_INPUT_WIDTH;
@@ -78,12 +82,14 @@ public class TutorialScreen implements Screen, InputProcessor {
     private final static float TARGET_RADIUS_DIVISOR = 2.43f;
     private final static float MULTIPLIER_X_DIVISOR = 2.68f;
     private final static float MULTIPLIER_Y_DIVISOR = 1.25f;
-    private final static float COLOR_LIST_SPEED_ADDITIVE = 0.1f;
     private final static float PROMPT_INCREASE_ADDITIVE = .0001f;
     private final static float SQUIRGLE_OPACITY_DECREMENT = .03f;
 
     private final static String X = "X";
     private final static String SQUIRGLE = "SQUIRGLE";
+
+    public final static String PHASE_TWO_HELP_TEXT = "Try tapping the inputs at the bottom of the screen. This will give you a feel for how they alter the shape you have at your disposal.";
+    public final static String PHASE_SIX_HELP_TEXT = "The flashing shape in the upper left corner of the screen is your target. Add the correct input to your given shape (in the center of the screen) to match your target and progress.";
 
     /*
     -All white or gray screen except for black outlined prompt shape (point)
@@ -222,6 +228,9 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         setUpNonFinalStaticData();
 
+        //TODO: Eventually set this in render using delta? See maintainSpeed() in TimeAttackScreen
+        game.draw.setColorListSpeed(((BACKGROUND_COLOR_SHAPE_LIST_HEIGHT * NUM_TIMELINES) / game.FPS) / game.ONE_MINUTE);
+
         setUpNonFinalNonStaticData();
     }
 
@@ -275,7 +284,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 }
                 if (phase >= PHASE_SIX) {
                     SoundUtils.playMusic(promptShape, game);
-                    game.draw.drawTargetSemicircleTutorial();
+                    game.draw.drawTargetSemicirclesTutorial();
                 }
             }
         }
@@ -286,7 +295,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             if (!gameOver) {
                 game.draw.drawInputButtonsTutorial(phase);
                 if (phase >= PHASE_SEVEN) {
-                    game.draw.drawScoreTriangleTutorial();
+                    game.draw.drawScoreTrianglesTutorial(backgroundColorShape.getColor());
                 }
                 if (phase >= PHASE_SIX) {
                     game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
@@ -308,11 +317,11 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         saveAndEnd();
 
-        if(!paused) {
-            game.draw.drawTouchDownPointsTutorial(touchDownShapeList);
-        } else {
+        if(paused) {
             drawInputRectangles();
         }
+
+        showHelpText();
 
         game.shapeRendererFilled.end();
         game.shapeRendererLine.end();
@@ -323,9 +332,6 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         //Transition color to distinguish current target shape from other
         ColorUtils.transitionColor(currentTargetShape);
-
-        //Only show helpLabel if helpTextVisible is true
-        game.helpLabel.setVisible(helpTextVisible);
 
         stage.draw();
     }
@@ -451,19 +457,20 @@ public class TutorialScreen implements Screen, InputProcessor {
     }
 
     public void drawInputRectangle(int placement) {
-        game.shapeRendererFilled.setColor(Color.WHITE);
         switch(placement) {
             case PAUSE_BACK : {
-                game.shapeRendererFilled.rect(game.camera.viewportWidth - game.partitionSize - PAUSE_INPUT_WIDTH,
+                game.draw.rect(game.camera.viewportWidth - game.partitionSize - PAUSE_INPUT_WIDTH,
                         game.partitionSize,
                         PAUSE_INPUT_WIDTH,
-                        PAUSE_INPUT_HEIGHT);
+                        PAUSE_INPUT_HEIGHT,
+                        Color.WHITE);
             }
             case PAUSE_QUIT : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + PAUSE_INPUT_WIDTH,
+                game.draw.rect((2 * game.partitionSize) + PAUSE_INPUT_WIDTH,
                         game.partitionSize,
                         PAUSE_INPUT_WIDTH,
-                        PAUSE_INPUT_HEIGHT);
+                        PAUSE_INPUT_HEIGHT,
+                        Color.WHITE);
             }
         }
     }
@@ -552,8 +559,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                 game.layout,
                 backgroundColorShape.getColor(),
                 String.valueOf(score),
-                game.camera.viewportWidth - (TARGET_RADIUS / SCORE_DIVISOR),
-                game.camera.viewportHeight - (TARGET_RADIUS / SCORE_DIVISOR),
+                game.camera.viewportWidth - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
+                game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
                 SCORE_ANGLE,
                 1);
 
@@ -563,44 +570,39 @@ public class TutorialScreen implements Screen, InputProcessor {
                 game.layout,
                 Color.WHITE,
                 X + String.valueOf(multiplier),
-                game.camera.viewportWidth - (TARGET_RADIUS / MULTIPLIER_X_DIVISOR),
-                game.camera.viewportHeight - (TARGET_RADIUS / MULTIPLIER_Y_DIVISOR),
+                game.camera.viewportWidth - (TARGET_RADIUS / 4),
+                game.camera.viewportHeight - TARGET_RADIUS + (game.fontScore.getCapHeight() / 5.5f),
                 SCORE_ANGLE,
+                1);
+
+        //Prompt number
+        String promptNumber = String.valueOf(promptShape.getShape() + 1);
+        FontUtils.printText(game.batch,
+                game.fontScore,
+                game.layout,
+                backgroundColorShape.getColor(),
+                promptNumber,
+                game.camera.viewportWidth - TARGET_RADIUS,
+                game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
+                0,
                 1);
     }
 
     public void drawTargetText() {
-        float degree = THIRTY_DEGREES / Squirgle.TARGET.length();
-        float degrees = TWO_HUNDRED_AND_SEVENTY_DEGREES;
-        String shapeText = targetShapeList.get(0).getPrefix() + targetShapeList.get(1).getBridge() + outsideTargetShape.getSuffix();
+        float targetPolypRadius = (TARGET_RADIUS / 4);
+        float targetPolypOffset = (float)(Math.sqrt(Math.pow(TARGET_RADIUS, 2) + Math.pow(TARGET_RADIUS / 4, 2)) - TARGET_RADIUS);
 
-        //Target Text
-        for(int i = 0; i < Squirgle.TARGET.length(); i++, degrees += degree) {
-            FontUtils.printText(game.batch,
-                    game.fontTarget,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    Squirgle.TARGET.substring(i, i + 1),
-                    (float) (TARGET_RADIUS * Math.cos(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth())))),
-                    (float) (game.camera.viewportHeight + ((2 * game.fontTarget.getCapHeight()) / 3) + (TARGET_RADIUS * Math.sin(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth()))))),
-                    degrees - TWO_HUNDRED_AND_SEVENTY_DEGREES,
-                    1);
-        }
-
-        //Shape Text
-        degree = THIRTY_DEGREES / shapeText.length();
-        degrees = THREE_HUNDRED_AND_THIRTY_DEGREES;
-        for(int i = 0; i < shapeText.length(); i++, degrees += degree) {
-            FontUtils.printText(game.batch,
-                    game.fontTarget,
-                    game.layout,
-                    Color.WHITE,
-                    shapeText.substring(i, i + 1),
-                    (float) ((game.fontTarget.getCapHeight() / 3) + TARGET_RADIUS * Math.cos(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3))))),
-                    (float) (game.camera.viewportHeight + (TARGET_RADIUS * Math.sin(Math.toRadians(degrees + Math.atan(TARGET_RADIUS / (game.fontTarget.getCapHeight() / 3)))))),
-                    degrees - TWO_HUNDRED_AND_SEVENTY_DEGREES,
-                    1);
-        }
+        //Target number
+        String targetNumber = String.valueOf(currentTargetShape.getShape() + 1);
+        FontUtils.printText(game.batch,
+                game.fontScore,
+                game.layout,
+                currentTargetShape.getColor(),
+                targetNumber,
+                TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
+                game.camera.viewportHeight - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
+                0,
+                1);
     }
 
     public void drawSquirgleText() {
@@ -665,7 +667,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     startTime = System.currentTimeMillis();
                     game.draw.setColorListSpeed(game.draw.getColorListSpeed() + COLOR_LIST_SPEED_ADDITIVE);
                     game.draw.setColorSpeed(game.draw.getColorSpeed() + COLOR_SPEED_ADDITIVE);
-                    promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))) / 2;
+                    promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
                 }
             }
         }
@@ -919,6 +921,9 @@ public class TutorialScreen implements Screen, InputProcessor {
             promptShape.setShape((promptShape.getShape() + (shapeAdded + 1)) - game.base);
             if(promptShape.getShape() == Shape.POINT && phase > PHASE_ONE && phase < PHASE_SIX) {
                 phase++;
+                if(phase == PHASE_SIX) {
+                    game.helpLabel.setText(PHASE_SIX_HELP_TEXT);
+                }
             }
         } else {
             promptShape.setShape(promptShape.getShape() + (shapeAdded + 1));
@@ -1050,16 +1055,19 @@ public class TutorialScreen implements Screen, InputProcessor {
         }
     }
 
+    public void showHelpText() {
+        game.helpLabel.setVisible(helpTextVisible && !paused);
+        if(helpTextVisible && !paused) {
+            game.draw.rect(game.camera.viewportWidth / 3,
+                    game.camera.viewportHeight / 3,
+                    game.camera.viewportWidth / 3,
+                    game.camera.viewportHeight / 3,
+                    Color.BLACK);
+        }
+    }
+
     public void setUpNonFinalStaticData() {
         INPUT_RADIUS = game.camera.viewportWidth / 19;
-        TARGET_RADIUS = game.camera.viewportWidth / 5.12f;
-        PAUSE_INPUT_WIDTH = (game.camera.viewportWidth - (4 * game.partitionSize)) / 3;
-        PAUSE_INPUT_HEIGHT = game.camera.viewportHeight - (2 * game.partitionSize);
-        BACKGROUND_COLOR_LIST_ELEMENT_RADIUS = game.camera.viewportHeight / 68;
-        BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT = (game.camera.viewportHeight - (INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7);
-        BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT = game.camera.viewportHeight - (INPUT_RADIUS / 2);
-        BACKGROUND_COLOR_SHAPE_LIST_WIDTH = (TARGET_RADIUS + (6 * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7))) - (TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7));
-        INIT_PROMPT_RADIUS = game.widthOrHeight / 4;
         for(int i = 1; i <= game.base; i++) {
             Vector2 inputVector = new Vector2((i * (game.camera.viewportWidth - ((2 * game.base) * INPUT_RADIUS))) / (game.base + 1) + ((i + i - 1) * INPUT_RADIUS), (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
             switch(i) {
@@ -1074,14 +1082,26 @@ public class TutorialScreen implements Screen, InputProcessor {
                 case 9 : INPUT_NONAGON_SPAWN = inputVector;
             }
         }
+        TARGET_RADIUS = game.camera.viewportWidth / 5.12f;
+        PAUSE_INPUT_WIDTH = (game.camera.viewportWidth - (4 * game.partitionSize)) / 3;
+        PAUSE_INPUT_HEIGHT = game.camera.viewportHeight - (2 * game.partitionSize);
+        BACKGROUND_COLOR_LIST_ELEMENT_RADIUS = TARGET_RADIUS / 12;
+        BACKGROUND_COLOR_SHAPE_LIST_MAX_Y = game.camera.viewportHeight - TARGET_RADIUS - (2 * BACKGROUND_COLOR_LIST_ELEMENT_RADIUS);
+        BACKGROUND_COLOR_SHAPE_LIST_MIN_Y = INPUT_POINT_SPAWN.y + INPUT_RADIUS + (2 * BACKGROUND_COLOR_LIST_ELEMENT_RADIUS);
+        BACKGROUND_COLOR_SHAPE_LIST_HEIGHT = BACKGROUND_COLOR_SHAPE_LIST_MAX_Y - BACKGROUND_COLOR_SHAPE_LIST_MIN_Y;
+        BACKGROUND_COLOR_SHAPE_LIST_MAX_X = -BACKGROUND_COLOR_LIST_ELEMENT_RADIUS;
+        BACKGROUND_COLOR_SHAPE_LIST_MIN_X = BACKGROUND_COLOR_SHAPE_LIST_MAX_X - (BACKGROUND_COLOR_SHAPE_LIST_HEIGHT / (Draw.NUM_BACKGROUND_COLOR_SHAPE_COLUMNS - 1));
+        BACKGROUND_COLOR_SHAPE_LIST_MAX_X = BACKGROUND_COLOR_LIST_ELEMENT_RADIUS;
+        BACKGROUND_COLOR_SHAPE_LIST_MIN_X = BACKGROUND_COLOR_SHAPE_LIST_MAX_X - (BACKGROUND_COLOR_SHAPE_LIST_HEIGHT / (Draw.NUM_BACKGROUND_COLOR_SHAPE_COLUMNS - 1));
+        BACKGROUND_COLOR_SHAPE_LIST_WIDTH = BACKGROUND_COLOR_SHAPE_LIST_MAX_X - BACKGROUND_COLOR_SHAPE_LIST_MIN_X;
+        COLOR_LIST_SPEED_ADDITIVE =  BACKGROUND_COLOR_SHAPE_LIST_HEIGHT / 5000;
+        INIT_PROMPT_RADIUS = game.widthOrHeight / 4;
         INPUT_PLAY_SPAWN = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         INPUT_HOME_SPAWN = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         INPUT_EXIT_SPAWN = new Vector2((3 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
     }
 
     public void setUpNonFinalNonStaticData() {
-        phase = PHASE_ONE;
-
         backgroundColorShapeList = new ArrayList<Shape>();
         for (int i = 0; i <= 6; i++) {
             if (i == 0) {
@@ -1090,22 +1110,22 @@ public class TutorialScreen implements Screen, InputProcessor {
                         Color.WHITE,
                         ColorUtils.randomColor(),
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                        new Vector2(TARGET_RADIUS + ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7),
-                                BACKGROUND_COLOR_SHAPE_LIST_MAX_HEIGHT)));
+                        new Vector2(BACKGROUND_COLOR_SHAPE_LIST_MAX_X,
+                                BACKGROUND_COLOR_SHAPE_LIST_MAX_Y)));
             } else {
                 backgroundColorShapeList.add(new Shape(Shape.SQUARE,
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS,
                         Color.WHITE,
                         ColorUtils.randomColor(),
                         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
-                        new Vector2(TARGET_RADIUS + (i * ((game.camera.viewportWidth - (TARGET_RADIUS * 2)) / 7)),
-                                BACKGROUND_COLOR_SHAPE_LIST_MIN_HEIGHT)));
+                        new Vector2(BACKGROUND_COLOR_SHAPE_LIST_MAX_X,
+                                BACKGROUND_COLOR_SHAPE_LIST_MAX_Y - (i * (BACKGROUND_COLOR_SHAPE_LIST_HEIGHT / (Draw.NUM_BACKGROUND_COLOR_SHAPE_COLUMNS - 1))))));
             }
         }
 
-        //Set this and the prompt increase such that without player input, three passes of backgroundColorShapeList will
+        //Set prompt increase such that without player input, three passes of backgroundColorShapeList will
         //occur before game over
-        promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (3 * BACKGROUND_COLOR_SHAPE_LIST_WIDTH))) / 2;
+        promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
         targetArcStart = -Draw.NINETY_ONE_DEGREES;
         squirgleOpacity = 0;
         promptShape = new Shape(Shape.POINT,
@@ -1115,17 +1135,17 @@ public class TutorialScreen implements Screen, InputProcessor {
                 INIT_PROMPT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(game.camera.viewportWidth / 2,
                         game.camera.viewportHeight / 2));
-        lastShapeTouched = new Shape(Shape.POINT, GameplayScreen.INPUT_RADIUS, Color.BLACK, Color.BLACK, com.screenlooker.squirgle.screen.GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
-        lastPromptShape = new Shape(Shape.POINT, promptShape.getRadius(), Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
+        lastShapeTouched = new Shape(Shape.POINT, INPUT_RADIUS, Color.BLACK, Color.BLACK, INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
+        lastPromptShape = new Shape(Shape.POINT, promptShape.getRadius(), Color.BLACK, Color.BLACK, INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
         outsideTargetShape = new Shape(MathUtils.random(game.base - 1),
                 TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
-                Color.BLACK, null,
+                Color.BLACK,
+                null,
                 (TARGET_RADIUS / TARGET_RADIUS_DIVISOR) / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                         game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR)));
         priorShapeList = new ArrayList<Shape>();
         targetShapeList = new ArrayList<Shape>();
-        touchDownShapeList = new ArrayList<Shape>();
         targetShapeList.add(new Shape(MathUtils.random(game.base - 1),
                 0, Color.WHITE,
                 null,
@@ -1158,11 +1178,15 @@ public class TutorialScreen implements Screen, InputProcessor {
         lineTouched = false;
         triangleTouched = false;
         squareTouched = false;
+        pentagonTouched = false;
+        hexagonTouched = false;
+        septagonTouched = false;
+        octagonTouched = false;
+        nonagonTouched = false;
         playTouched = false;
         homeTouched = false;
         exitTouched = false;
         pauseTouched = false;
-        helpTouched = false;
         pauseBackTouched = false;
         pauseQuitTouched = false;
         inputTouchedGameplay = false;
@@ -1174,7 +1198,6 @@ public class TutorialScreen implements Screen, InputProcessor {
         gameOver = false;
         showResults = false;
         paused = false;
-        helpTextVisible = false;
         startTime = System.currentTimeMillis();
         endTime = 0;
         pauseStartTime = 0;

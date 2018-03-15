@@ -329,29 +329,33 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case STATS : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         game.partitionSize,
                         inputWidth,
-                        inputHeight);
+                        inputHeight,
+                        color);
             }
             case DIFFICULTY_NAME : {
                 float blockHeight = (inputHeight - (4 * game.partitionSize)) / 3;
                 float blockWidth = inputWidth / 4;
                 if(game.difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
-                    game.shapeRendererFilled.rect(game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4),
+                    game.draw.rect(game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4),
                             game.camera.viewportHeight - (2 * game.partitionSize) - blockHeight,
                             blockWidth,
-                            blockHeight);
+                            blockHeight,
+                            color);
                 } else if(game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
-                    game.shapeRendererFilled.rect(game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4),
+                    game.draw.rect(game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4),
                             (3 * game.partitionSize) + blockHeight,
                             blockWidth,
-                            blockHeight);
+                            blockHeight,
+                            color);
                 } else if(game.difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
-                    game.shapeRendererFilled.rect(game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4),
+                    game.draw.rect(game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4),
                             (2 * game.partitionSize),
                             blockWidth,
-                            blockHeight);
+                            blockHeight,
+                            color);
                 }
             }
             case GAME_LENGTH : {
@@ -373,16 +377,18 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 } else if(game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES) {
                     rectX = game.camera.viewportWidth - (3 * game.partitionSize) - inputWidth - gameLengthBlockWidth;
                 }
-                game.shapeRendererFilled.rect(rectX,
+                game.draw.rect(rectX,
                         rectY,
                         gameLengthBlockWidth,
-                        gameLengthBlockHeight);
+                        gameLengthBlockHeight,
+                        color);
             }
             case BACK : {
-                game.shapeRendererFilled.rect((3 * game.partitionSize) + (2 * inputWidth),
+                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
                         game.partitionSize,
                         inputWidth,
-                        inputHeight);
+                        inputHeight,
+                        color);
             }
         }
     }

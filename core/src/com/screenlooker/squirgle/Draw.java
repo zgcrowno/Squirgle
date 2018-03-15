@@ -1624,18 +1624,18 @@ public class Draw {
             Shape shape = backgroundColorShapeList.get(i);
             drawShape(false, shape);
             if (i == 0) {
-                shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y - colorListSpeed));
-            } else if (i == backgroundColorShapeList.size() - 1) {
-                shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y + colorListSpeed));
-            } else {
                 shape.setCoordinates(new Vector2(shape.getCoordinates().x + colorListSpeed, shape.getCoordinates().y));
+            } else if (i == backgroundColorShapeList.size() - 1) {
+                shape.setCoordinates(new Vector2(shape.getCoordinates().x - colorListSpeed, shape.getCoordinates().y));
+            } else {
+                shape.setCoordinates(new Vector2(shape.getCoordinates().x, shape.getCoordinates().y - colorListSpeed));
             }
-            if (backgroundColorShapeList.get(0).getCoordinates().y <= backgroundColorShapeList.get(1).getCoordinates().y) {
+            if (backgroundColorShapeList.get(0).getCoordinates().x >= backgroundColorShapeList.get(1).getCoordinates().x) {
                 float newRadius = shape.getRadius();
 
-                //Prevent backgroundColorShapeList.get(0) from going too low on screen
-                backgroundColorShapeList.get(0).setCoordinates(new Vector2(backgroundColorShapeList.get(0).getCoordinates().x,
-                        backgroundColorShapeList.get(1).getCoordinates().y));
+                //Prevent backgroundColorShapeList.get(0) from going too far to the left or right
+                backgroundColorShapeList.get(0).setCoordinates(new Vector2(backgroundColorShapeList.get(1).getCoordinates().x,
+                        backgroundColorShapeList.get(0).getCoordinates().y));
 
                 clearColor.set(backgroundColorShape.getColor().r,
                         backgroundColorShape.getColor().g,
@@ -1655,8 +1655,8 @@ public class Draw {
                                 Color.WHITE,
                                 ColorUtils.randomColor(),
                                 newRadius / LINE_WIDTH_DIVISOR,
-                                new Vector2(TutorialScreen.TARGET_RADIUS + ((game.camera.viewportWidth - (TutorialScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)),
-                                        (game.camera.viewportHeight - (TutorialScreen.INPUT_RADIUS / 2)) + ((game.camera.viewportWidth - (TutorialScreen.TARGET_RADIUS * 2)) / (NUM_BACKGROUND_COLOR_SHAPE_COLUMNS + 1)))));
+                                new Vector2(TutorialScreen.BACKGROUND_COLOR_SHAPE_LIST_MIN_X,
+                                        TutorialScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_Y)));
             }
         }
     }
@@ -1674,9 +1674,9 @@ public class Draw {
         Shape firstColorShape = backgroundColorShapeList.get(0);
         Shape lastColorShape = backgroundColorShapeList.get(backgroundColorShapeList.size() - 1);
         Shape lowColorShape = backgroundColorShapeList.get(3);
-        float firstY = firstColorShape.getCoordinates().x;
-        float secondY = firstColorShape.getCoordinates().x;
-        float thirdY = firstColorShape.getCoordinates().x;
+        float firstY = firstColorShape.getCoordinates().y;
+        float secondY = firstColorShape.getCoordinates().y;
+        float thirdY = firstColorShape.getCoordinates().y;
         int lineWidthMultiplier = 6;
 
         if(promptShape.getRadius() <= game.fourthOfScreen) {
@@ -1808,9 +1808,13 @@ public class Draw {
         }
     }
 
-    public void drawTargetSemicircleTutorial() {
+    public void drawTargetSemicirclesTutorial() {
+        float polypRadius = (TutorialScreen.TARGET_RADIUS / 4);
+        float polypOffset = (float)(Math.sqrt(Math.pow(TutorialScreen.TARGET_RADIUS, 2) + Math.pow(TutorialScreen.TARGET_RADIUS / 4, 2)) - TutorialScreen.TARGET_RADIUS);
+
         game.shapeRendererFilled.setColor(Color.WHITE);
         game.shapeRendererFilled.circle(0, game.camera.viewportHeight, TutorialScreen.TARGET_RADIUS);
+        game.shapeRendererFilled.circle(TutorialScreen.TARGET_RADIUS + polypRadius - polypOffset, game.camera.viewportHeight - polypRadius, polypRadius);
     }
 
     public void drawArc(float x, float y, float start, Color color) {
@@ -1883,14 +1887,27 @@ public class Draw {
         }
     }
 
-    public void drawScoreTriangleTutorial() {
+    public void drawScoreTrianglesTutorial(Color polypDividerColor) {
+        float polypRadius = (TutorialScreen.TARGET_RADIUS / 2);
+
         game.shapeRendererFilled.setColor(Color.WHITE);
+        game.shapeRendererLine.setColor(polypDividerColor);
         game.shapeRendererFilled.triangle(game.camera.viewportWidth,
-                game.camera.viewportHeight,
-                game.camera.viewportWidth - TutorialScreen.TARGET_RADIUS,
-                game.camera.viewportHeight,
-                game.camera.viewportWidth,
-                game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS);
+                    game.camera.viewportHeight,
+                    game.camera.viewportWidth - TutorialScreen.TARGET_RADIUS,
+                    game.camera.viewportHeight,
+                    game.camera.viewportWidth,
+                    game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS);
+        game.shapeRendererFilled.triangle(game.camera.viewportWidth - TutorialScreen.TARGET_RADIUS,
+                    game.camera.viewportHeight,
+                    game.camera.viewportWidth - TutorialScreen.TARGET_RADIUS - polypRadius,
+                    game.camera.viewportHeight - polypRadius,
+                    game.camera.viewportWidth - TutorialScreen.TARGET_RADIUS + polypRadius,
+                    game.camera.viewportHeight - polypRadius);
+        game.shapeRendererLine.line(game.camera.viewportWidth - TutorialScreen.TARGET_RADIUS,
+                    game.camera.viewportHeight,
+                    game.camera.viewportWidth - TutorialScreen.TARGET_RADIUS + polypRadius,
+                    game.camera.viewportHeight - polypRadius);
     }
 
     public void drawSaturationIncrements(boolean local, Color color) {
@@ -2422,6 +2439,17 @@ public class Draw {
 
         game.shapeRendererFilled.setColor(secondaryColor);
         game.shapeRendererFilled.rect(x - radius, y - (radius / 2) - radius, radius * 2, radius);
+    }
 
+    public void rect(float x, float y, float width, float height, Color color) {
+        float cornerRadius = width > height ? height / 10 : width / 10;
+
+        game.shapeRendererFilled.setColor(color);
+        game.shapeRendererFilled.rect(x, y + cornerRadius, width, height - (2 * cornerRadius));
+        game.shapeRendererFilled.rect(x + cornerRadius, y, width - (2 * cornerRadius), height);
+        game.shapeRendererFilled.circle(x + cornerRadius, y + height - cornerRadius, cornerRadius);
+        game.shapeRendererFilled.circle(x + cornerRadius, y + cornerRadius, cornerRadius);
+        game.shapeRendererFilled.circle(x + width - cornerRadius, y + cornerRadius, cornerRadius);
+        game.shapeRendererFilled.circle(x + width - cornerRadius, y + height - cornerRadius, cornerRadius);
     }
 }

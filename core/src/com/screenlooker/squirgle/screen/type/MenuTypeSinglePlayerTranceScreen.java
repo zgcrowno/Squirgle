@@ -280,33 +280,36 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
     }
 
     public void drawInputRectangle(int placement, Color color) {
-        game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case PLAY : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (2 * game.partitionSize) + inputHeightMiddle,
                         inputWidth,
-                        inputHeightMiddle);
+                        inputHeightMiddle,
+                        color);
             }
             case BACK : {
-                game.shapeRendererFilled.rect((3 * game.partitionSize) + (2 * inputWidth),
+                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
                         game.partitionSize,
                         inputWidth,
-                        inputHeightBack);
+                        inputHeightBack,
+                        color);
             }
             case MUSIC : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         game.partitionSize,
                         inputWidth,
-                        inputHeightMiddle);
+                        inputHeightMiddle,
+                        color);
             }
             case MUSIC_NAME : {
                 for(int i = 0; i < game.maxBase; i++) {
                     if(game.track == i) {
-                        game.shapeRendererFilled.rect(game.camera.viewportWidth / 2,
+                        game.draw.rect(game.camera.viewportWidth / 2,
                                 game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (i * ((3 * game.fontTrackName.getCapHeight()) / 2)),
                                 (inputWidth / 2) - game.partitionSize,
-                                (7 * game.fontTrackName.getCapHeight()) / 4);
+                                (7 * game.fontTrackName.getCapHeight()) / 4,
+                                color);
                     }
                 }
             }

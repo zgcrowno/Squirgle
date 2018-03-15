@@ -95,8 +95,6 @@ public class Squirgle extends Game {
 	public final static String TARGET = "TARGET";
 	public final static String HAND = "HAND";
 
-	public final static String TUTORIAL_PHASE_TWO_HELP_TEXT = "Try tapping the inputs at the bottom of the screen...";
-
 	public AssetManager manager;
 
 	//Saved data
@@ -359,11 +357,11 @@ public class Squirgle extends Game {
 
 	public void setUpLabelHelp() {
 		helpLabelStyle.font = fontTarget;
-		helpLabelStyle.fontColor = Color.BLACK;
-		helpLabel = new Label(TUTORIAL_PHASE_TWO_HELP_TEXT, helpLabelStyle);
+		helpLabelStyle.fontColor = Color.WHITE;
+		helpLabel = new Label(TutorialScreen.PHASE_TWO_HELP_TEXT, helpLabelStyle);
 		helpLabel.setSize(camera.viewportWidth / 3, camera.viewportHeight / 3);
 		helpLabel.setPosition(camera.viewportWidth / 3, camera.viewportHeight / 3);
-		helpLabel.setAlignment(Align.left);
+		helpLabel.setAlignment(Align.center);
 		helpLabel.setWrap(true);
 	}
 

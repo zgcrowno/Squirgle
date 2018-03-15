@@ -567,19 +567,20 @@ public class GameplayScreen implements Screen, InputProcessor {
     }
 
     public void drawInputRectangle(int placement) {
-        game.shapeRendererFilled.setColor(Color.WHITE);
         switch(placement) {
             case PAUSE_BACK : {
-                game.shapeRendererFilled.rect(game.camera.viewportWidth - game.partitionSize - PAUSE_INPUT_WIDTH,
+                game.draw.rect(game.camera.viewportWidth - game.partitionSize - PAUSE_INPUT_WIDTH,
                         game.partitionSize,
                         PAUSE_INPUT_WIDTH,
-                        PAUSE_INPUT_HEIGHT);
+                        PAUSE_INPUT_HEIGHT,
+                        Color.WHITE);
             }
             case PAUSE_QUIT : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + PAUSE_INPUT_WIDTH,
+                game.draw.rect((2 * game.partitionSize) + PAUSE_INPUT_WIDTH,
                         game.partitionSize,
                         PAUSE_INPUT_WIDTH,
-                        PAUSE_INPUT_HEIGHT);
+                        PAUSE_INPUT_HEIGHT,
+                        Color.WHITE);
             }
         }
     }
@@ -734,8 +735,8 @@ public class GameplayScreen implements Screen, InputProcessor {
     }
 
     public void drawScoreText() {
-        float targetPolypRadius = (GameplayScreen.TARGET_RADIUS / 4);
-        float targetPolypOffset = (float)(Math.sqrt(Math.pow(GameplayScreen.TARGET_RADIUS, 2) + Math.pow(GameplayScreen.TARGET_RADIUS / 4, 2)) - GameplayScreen.TARGET_RADIUS);
+        float targetPolypRadius = (TARGET_RADIUS / 4);
+        float targetPolypOffset = (float)(Math.sqrt(Math.pow(TARGET_RADIUS, 2) + Math.pow(TARGET_RADIUS / 4, 2)) - TARGET_RADIUS);
         if(!splitScreen) {
             //Score
             FontUtils.printText(game.batch,

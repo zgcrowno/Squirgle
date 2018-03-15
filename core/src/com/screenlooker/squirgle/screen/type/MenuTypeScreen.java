@@ -206,25 +206,27 @@ public class MenuTypeScreen implements Screen, InputProcessor {
     }
 
     public void drawInputRectangle(int placement, Color color) {
-        game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case SINGLE_PLAYER : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (2 * game.partitionSize) + inputHeightType,
                         inputWidth,
-                        inputHeightType);
+                        inputHeightType,
+                        color);
             }
             case MULTIPLAYER_LOCAL : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         game.partitionSize,
                         inputWidth,
-                        inputHeightType);
+                        inputHeightType,
+                        color);
             }
             case BACK : {
-                game.shapeRendererFilled.rect((3 * game.partitionSize) + (2 * inputWidth),
+                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
                         game.partitionSize,
                         inputWidth,
-                        inputHeightBack);
+                        inputHeightBack,
+                        color);
             }
         }
     }

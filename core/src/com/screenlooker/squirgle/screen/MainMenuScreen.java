@@ -255,31 +255,34 @@ public class MainMenuScreen implements Screen, InputProcessor {
     }
 
     public void drawInputRectangle(int placement, Color color) {
-        game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case PLAY : {
-                game.shapeRendererFilled.rect(game.partitionSize,
+                game.draw.rect(game.partitionSize,
                         (2 * game.partitionSize) + inputHeight,
                         inputWidth,
-                        inputHeight);
+                        inputHeight,
+                        color);
             }
             case OPTIONS : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (2 * game.partitionSize) + inputHeight,
                         inputWidth,
-                        inputHeight);
+                        inputHeight,
+                        color);
             }
             case HELP : {
-                game.shapeRendererFilled.rect(game.partitionSize,
+                game.draw.rect(game.partitionSize,
                         game.partitionSize,
                         inputWidth,
-                        inputHeight);
+                        inputHeight,
+                        color);
             }
             case QUIT : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         game.partitionSize,
                         inputWidth,
-                        inputHeight);
+                        inputHeight,
+                        color);
             }
         }
     }

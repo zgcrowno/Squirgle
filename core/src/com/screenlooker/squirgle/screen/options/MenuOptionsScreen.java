@@ -220,19 +220,20 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     }
 
     public void drawInputRectangle(int placement, Color color) {
-        game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case SOUND : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         game.camera.viewportHeight - game.partitionSize - inputHeight,
                         inputWidth,
-                        inputHeight);
+                        inputHeight,
+                        color);
             }
             case BACK : {
-                game.shapeRendererFilled.rect((3 * game.partitionSize) + (2 * inputWidth),
+                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
                         game.partitionSize,
                         inputWidth,
-                        inputHeight);
+                        inputHeight,
+                        color);
             }
         }
     }

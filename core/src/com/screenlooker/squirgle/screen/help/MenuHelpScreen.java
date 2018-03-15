@@ -330,67 +330,76 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     }
 
     public void drawInputRectangle(int placement, Color color) {
-        game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case PLAY : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         game.partitionSize,
                         inputWidth,
-                        inputHeightBase);
+                        inputHeightBase,
+                        color);
             }
             case STATS : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (2 * game.partitionSize) + inputHeightBase,
                         inputWidth,
-                        inputHeightBase);
+                        inputHeightBase,
+                        color);
             }
             case COLOR : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (3 * game.partitionSize) + (2 * inputHeightBase),
                         inputWidth,
-                        inputHeightBase);
+                        inputHeightBase,
+                        color);
             }
             case BASE_4 : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (4 * game.partitionSize) + (3 *inputHeightBase),
                         inputWidth,
-                        inputHeightBase);
+                        inputHeightBase,
+                        color);
             }
             case BASE_5 : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (5 * game.partitionSize) + (4 *inputHeightBase),
                         inputWidth,
-                        inputHeightBase);
+                        inputHeightBase,
+                        color);
             }
             case BASE_6 : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (6 * game.partitionSize) + (5 *inputHeightBase),
                         inputWidth,
-                        inputHeightBase);
+                        inputHeightBase,
+                        color);
             }
             case BASE_7 : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (7 * game.partitionSize) + (6 *inputHeightBase),
                         inputWidth,
-                        inputHeightBase);
+                        inputHeightBase,
+                        color);
             }
             case BASE_8 : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (8 * game.partitionSize) + (7 *inputHeightBase),
                         inputWidth,
-                        inputHeightBase);
+                        inputHeightBase,
+                        color);
             }
             case BASE_9 : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (9 * game.partitionSize) + (8 *inputHeightBase),
                         inputWidth,
-                        inputHeightBase);
+                        inputHeightBase,
+                        color);
             }
             case BACK : {
-                game.shapeRendererFilled.rect((3 * game.partitionSize) + (2 * inputWidth),
+                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
                         game.partitionSize,
                         inputWidth,
-                        inputHeightBack);
+                        inputHeightBack,
+                        color);
             }
         }
     }

@@ -313,43 +313,48 @@ public class MenuTypeSinglePlayerScreen implements Screen, InputProcessor {
     }
 
     public void drawInputRectangle(int placement, Color color) {
-        game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case SQUIRGLE : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (5 * game.partitionSize) + (4 * inputHeightType),
                         inputWidth,
-                        inputHeightType);
+                        inputHeightType,
+                        color);
             }
             case BATTLE : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (4 * game.partitionSize) + (3 * inputHeightType),
                         inputWidth,
-                        inputHeightType);
+                        inputHeightType,
+                        color);
             }
             case TIME_ATTACK : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (3 * game.partitionSize) + (2 * inputHeightType),
                         inputWidth,
-                        inputHeightType);
+                        inputHeightType,
+                        color);
             }
             case TIME_BATTLE : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         (2 * game.partitionSize) + inputHeightType,
                         inputWidth,
-                        inputHeightType);
+                        inputHeightType,
+                        color);
             }
             case TRANCE : {
-                game.shapeRendererFilled.rect((2 * game.partitionSize) + inputWidth,
+                game.draw.rect((2 * game.partitionSize) + inputWidth,
                         game.partitionSize,
                         inputWidth,
-                        inputHeightType);
+                        inputHeightType,
+                        color);
             }
             case BACK : {
-                game.shapeRendererFilled.rect((3 * game.partitionSize) + (2 * inputWidth),
+                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
                         game.partitionSize,
                         inputWidth,
-                        inputHeightBack);
+                        inputHeightBack,
+                        color);
             }
         }
     }

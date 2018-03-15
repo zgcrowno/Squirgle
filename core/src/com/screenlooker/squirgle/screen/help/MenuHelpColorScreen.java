@@ -210,11 +210,11 @@ public class MenuHelpColorScreen implements Screen, InputProcessor {
     public void drawAdditionTable() {
         for(int i = 1; i <= NUM_COLORS + 1; i++) {
             for(int j = 1; j <= NUM_COLORS + 1; j++) {
-                game.shapeRendererFilled.setColor(Color.WHITE);
-                game.shapeRendererFilled.rect(inputWidth + game.partitionSize + (i * game.partitionSize) + ((i - 1) * inputWidth),
+                game.draw.rect(inputWidth + game.partitionSize + (i * game.partitionSize) + ((i - 1) * inputWidth),
                         game.camera.viewportHeight - ((j * game.partitionSize) + (j * inputHeightTable)),
                         inputWidth,
-                        inputHeightTable);
+                        inputHeightTable,
+                        Color.WHITE);
                 game.shapeRendererFilled.setColor(Color.BLACK);
                 if(i == 1 && j == 1) {
                     //Draw plus symbol
@@ -259,13 +259,13 @@ public class MenuHelpColorScreen implements Screen, InputProcessor {
     }
 
     public void drawInputRectangle(int placement, Color color) {
-        game.shapeRendererFilled.setColor(color);
         switch(placement) {
             case BACK : {
-                game.shapeRendererFilled.rect(game.camera.viewportWidth - game.partitionSize - inputWidth,
+                game.draw.rect(game.camera.viewportWidth - game.partitionSize - inputWidth,
                         game.partitionSize,
                         inputWidth,
-                        inputHeightBack);
+                        inputHeightBack,
+                        color);
             }
         }
     }
