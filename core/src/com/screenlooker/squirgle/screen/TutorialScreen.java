@@ -225,7 +225,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         game.setUpFontScore(MathUtils.round(game.camera.viewportWidth / FONT_SCORE_SIZE_DIVISOR));
         game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
         game.setUpFontSquirgle(MathUtils.round(game.camera.viewportWidth / FONT_SQUIRGLE_SIZE_DIVISOR));
-        game.setUpFontTutorialHelp(MathUtils.round(game.camera.viewportWidth / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
+        game.setUpFontTutorialHelp(MathUtils.round(game.widthGreater ? game.camera.viewportWidth / FONT_TUTORIAL_HELP_SIZE_DIVISOR : game.camera.viewportHeight / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
         game.setUpLabelHelp();
 
         Gdx.input.setInputProcessor(this);

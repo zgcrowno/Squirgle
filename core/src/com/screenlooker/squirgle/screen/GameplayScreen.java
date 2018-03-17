@@ -2330,11 +2330,11 @@ public class GameplayScreen implements Screen, InputProcessor {
         PAUSE_INPUT_HEIGHT = game.camera.viewportHeight - (2 * game.partitionSize);
         BACKGROUND_COLOR_LIST_ELEMENT_RADIUS = TARGET_RADIUS / 12;
         if(splitScreen) {
-            BACKGROUND_COLOR_SHAPE_LIST_MAX_Y = (game.camera.viewportHeight / 2) - TARGET_RADIUS - (2 * BACKGROUND_COLOR_LIST_ELEMENT_RADIUS);
-            BACKGROUND_COLOR_SHAPE_LIST_MIN_Y = INPUT_POINT_SPAWN.y + INPUT_RADIUS + (2 * BACKGROUND_COLOR_LIST_ELEMENT_RADIUS);
+            BACKGROUND_COLOR_SHAPE_LIST_MAX_Y = (((game.camera.viewportHeight / 2) - TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - TARGET_RADIUS) - (INPUT_POINT_SPAWN.y + INPUT_RADIUS)) / 2)) + (BACKGROUND_COLOR_LIST_ELEMENT_RADIUS * 6);
+            BACKGROUND_COLOR_SHAPE_LIST_MIN_Y = (((game.camera.viewportHeight / 2) - TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - TARGET_RADIUS) - (INPUT_POINT_SPAWN.y + INPUT_RADIUS)) / 2)) - (BACKGROUND_COLOR_LIST_ELEMENT_RADIUS * 6);
         } else {
-            BACKGROUND_COLOR_SHAPE_LIST_MAX_Y = game.camera.viewportHeight - TARGET_RADIUS - (2 * BACKGROUND_COLOR_LIST_ELEMENT_RADIUS);
-            BACKGROUND_COLOR_SHAPE_LIST_MIN_Y = INPUT_POINT_SPAWN.y + INPUT_RADIUS + (2 * BACKGROUND_COLOR_LIST_ELEMENT_RADIUS);
+            BACKGROUND_COLOR_SHAPE_LIST_MAX_Y = ((game.camera.viewportHeight - TARGET_RADIUS) - (((game.camera.viewportHeight - TARGET_RADIUS) - (INPUT_POINT_SPAWN.y + INPUT_RADIUS)) / 2)) + (BACKGROUND_COLOR_LIST_ELEMENT_RADIUS * 6);
+            BACKGROUND_COLOR_SHAPE_LIST_MIN_Y = ((game.camera.viewportHeight - TARGET_RADIUS) - (((game.camera.viewportHeight - TARGET_RADIUS) - (INPUT_POINT_SPAWN.y + INPUT_RADIUS)) / 2)) - (BACKGROUND_COLOR_LIST_ELEMENT_RADIUS * 6);
         }
         BACKGROUND_COLOR_SHAPE_LIST_HEIGHT = BACKGROUND_COLOR_SHAPE_LIST_MAX_Y - BACKGROUND_COLOR_SHAPE_LIST_MIN_Y;
         if(blackAndWhite) {
