@@ -39,8 +39,8 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
-    private final static int NUM_TIME_INPUT_ELEMENTS = 4;
-    private final static int NUM_DIFFICULTY_INPUT_ELEMENTS = 4;
+    public final static int NUM_TIME_INPUT_ELEMENTS = 4;
+    public final static int NUM_DIFFICULTY_INPUT_ELEMENTS = 4;
 
     private final static float FONT_DIFFICULTY_SIZE_DIVISOR = 35f;
     private final static float FONT_TRACK_NAME_DIVISOR = 6.5f;

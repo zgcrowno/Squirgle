@@ -26,7 +26,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private final static int NUM_INPUTS_VERTICAL = 1;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_PARTITIONS_VERTICAL = NUM_INPUTS_VERTICAL + 1;
-    private final static int NUM_SOUND_INPUT_ELEMENTS = 4;
+    public final static int NUM_SOUND_INPUT_ELEMENTS = 4;
 
     private final static float FONT_VOLUME_SIZE_DIVISOR = 11.1f;
 

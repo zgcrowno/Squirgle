@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
@@ -23,11 +24,6 @@ import java.util.List;
 public class MainMenuScreen implements Screen, InputProcessor {
 
     final Squirgle game;
-
-    private final static int OPTIONS = 0;
-    private final static int PLAY = 1;
-    private final static int HELP = 2;
-    private final static int QUIT = 3;
 
     private final static int NUM_INPUTS_HORIZONTAL = 2;
     private final static int NUM_INPUTS_VERTICAL = 2;
@@ -60,6 +56,13 @@ public class MainMenuScreen implements Screen, InputProcessor {
     private boolean playTouched;
     private boolean helpTouched;
     private boolean quitTouched;
+
+    private Button playButton;
+    private Button optionsButton;
+    private Button helpButton;
+    private Button quitButton;
+
+    private List<Button> buttonList;
 
     public MainMenuScreen(final Squirgle game) {
         this.game = game;
@@ -108,6 +111,45 @@ public class MainMenuScreen implements Screen, InputProcessor {
         helpTouched = false;
         quitTouched = false;
 
+        playButton = new Button(game.partitionSize,
+                (2 * game.partitionSize) + inputHeight,
+                inputWidth,
+                inputHeight,
+                Button.BUTTON_TYPE,
+                playColor,
+                Color.BLACK,
+                game);
+        optionsButton = new Button((2 * game.partitionSize) + inputWidth,
+                (2 * game.partitionSize) + inputHeight,
+                inputWidth,
+                inputHeight,
+                Button.BUTTON_OPTIONS,
+                optionsColor,
+                Color.BLACK,
+                game);
+        helpButton = new Button(game.partitionSize,
+                game.partitionSize,
+                inputWidth,
+                inputHeight,
+                Button.BUTTON_HELP,
+                tutorialColor,
+                Color.BLACK,
+                game);
+        quitButton = new Button((2 * game.partitionSize) + inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeight,
+                Button.BUTTON_QUIT,
+                quitColor,
+                Color.BLACK,
+                game);
+
+        buttonList = new ArrayList<Button>();
+        buttonList.add(playButton);
+        buttonList.add(optionsButton);
+        buttonList.add(helpButton);
+        buttonList.add(quitButton);
+
         playMusic();
     }
 
@@ -128,7 +170,9 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
         transitionSquirgleColors();
 
-        drawInputRectangles();
+        for(Button button : buttonList) {
+            button.draw();
+        }
 
         game.shapeRendererFilled.end();
     }
@@ -174,6 +218,12 @@ public class MainMenuScreen implements Screen, InputProcessor {
             return false;
         }
 
+        game.camera.unproject(touchPoint.set(screenX, screenY, 0));
+
+        for(Button btn : buttonList) {
+            btn.touchDown(touchPoint);
+        }
+
         return true;
     }
 
@@ -185,38 +235,10 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        playTouched = touchPoint.x > game.partitionSize
-                && touchPoint.x < game.partitionSize + inputWidth
-                && touchPoint.y > (2 * game.partitionSize) + inputHeight
-                && touchPoint.y < (2 * game.partitionSize) + (2 * inputHeight);
-        optionsTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
-                && touchPoint.y > (2 * game.partitionSize) + inputHeight
-                && touchPoint.y < (2 * game.partitionSize) + (2 * inputHeight);
-        helpTouched = touchPoint.x > game.partitionSize
-                && touchPoint.x < game.partitionSize + inputWidth
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + inputHeight;
-        quitTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + inputHeight;
-
-        if(optionsTouched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuOptionsScreen(game));
-            dispose();
-        } else if(playTouched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuTypeScreen(game));
-            dispose();
-        } else if(helpTouched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuHelpScreen(game));
-            dispose();
-        } else if(quitTouched) {
-            dispose();
-            System.exit(0);
+        for(Button btn : buttonList) {
+            if(btn.touchUp(touchPoint)) {
+                dispose();
+            }
         }
 
         return true;
@@ -245,84 +267,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
-    }
-
-    public void drawInputRectangles() {
-        drawPlayInput();
-        drawOptionsInput();
-        drawTutorialInput();
-        drawQuitInput();
-    }
-
-    public void drawInputRectangle(int placement, Color color) {
-        switch(placement) {
-            case PLAY : {
-                game.draw.rect(game.partitionSize,
-                        (2 * game.partitionSize) + inputHeight,
-                        inputWidth,
-                        inputHeight,
-                        color);
-            }
-            case OPTIONS : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (2 * game.partitionSize) + inputHeight,
-                        inputWidth,
-                        inputHeight,
-                        color);
-            }
-            case HELP : {
-                game.draw.rect(game.partitionSize,
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeight,
-                        color);
-            }
-            case QUIT : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeight,
-                        color);
-            }
-        }
-    }
-
-    public void drawPlayInput() {
-        drawInputRectangle(PLAY, playColor);
-        game.draw.drawPlayButton(game.camera.viewportWidth / 4,
-                (3 * game.camera.viewportHeight) / 8,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
-    }
-
-    public void drawOptionsInput() {
-        drawInputRectangle(OPTIONS, optionsColor);
-        game.draw.drawWrench((3 * game.camera.viewportWidth) / 4,
-                (3 * game.camera.viewportHeight) / 8,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                optionsColor);
-    }
-
-    public void drawTutorialInput() {
-        drawInputRectangle(HELP, tutorialColor);
-        game.draw.drawQuestionMark(game.camera.viewportWidth / 4,
-                game.camera.viewportHeight / 8,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                tutorialColor);
-    }
-
-    public void drawQuitInput() {
-        drawInputRectangle(QUIT, quitColor);
-        game.draw.drawX((3 * game.camera.viewportWidth) / 4,
-                game.camera.viewportHeight / 8,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
     }
 
     public void transitionSquirgleColors() {
