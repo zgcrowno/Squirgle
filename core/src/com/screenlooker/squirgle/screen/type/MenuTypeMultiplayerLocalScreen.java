@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
@@ -61,6 +62,12 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
     private boolean battleTouched;
     private boolean timeBattleTouched;
     private boolean backTouched;
+
+    private Button battleButton;
+    private Button timeBattleButton;
+    private Button backButton;
+
+    private List<Button> buttonList;
 
     public MenuTypeMultiplayerLocalScreen(final Squirgle game) {
         this.game = game;
@@ -117,6 +124,36 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
                 null,
                 (inputShapeRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2((game.camera.viewportWidth / 2) + (inputWidth / 4), ((3 * game.camera.viewportHeight) / 4) - (inputHeightType / 4)));
+
+        battleButton = new Button((2 * game.partitionSize) + inputWidth,
+                (2 * game.partitionSize) + inputHeightType,
+                inputWidth,
+                inputHeightType,
+                Button.BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE,
+                battleColor,
+                Color.BLACK,
+                game);
+        timeBattleButton = new Button((2 * game.partitionSize) + inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeightType,
+                Button.BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE,
+                timeBattleColor,
+                Color.BLACK,
+                game);
+        backButton = new Button(game.camera.viewportWidth - game.partitionSize - inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeightBack,
+                Button.BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK,
+                backColor,
+                Color.BLACK,
+                game);
+
+        buttonList = new ArrayList<Button>();
+        buttonList.add(battleButton);
+        buttonList.add(timeBattleButton);
+        buttonList.add(backButton);
     }
 
     @Override
@@ -131,14 +168,17 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
 
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
-        drawInputRectangles();
+        drawTitle();
 
-        game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
-        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
-        game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
-        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
+        for(Button button : buttonList) {
+            button.draw();
+        }
 
         game.shapeRendererFilled.end();
+
+        for(Button button : buttonList) {
+            button.drawText();
+        }
 
         transitionSquirgleColors();
     }
@@ -184,6 +224,12 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
             return false;
         }
 
+        game.camera.unproject(touchPoint.set(screenX, screenY, 0));
+
+        for(Button btn : buttonList) {
+            btn.touchDown(touchPoint);
+        }
+
         return true;
     }
 
@@ -195,31 +241,10 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        battleTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (2 * game.partitionSize) + inputHeightType
-                && touchPoint.y < (2 * game.partitionSize) + (2 * inputHeightType);
-        timeBattleTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + inputHeightType;
-        backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + inputHeightBack;
-
-        if(battleTouched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuTypeMultiplayerLocalBattleScreen(game));
-            dispose();
-        } else if(timeBattleTouched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuTypeMultiplayerLocalTimeBattleScreen(game));
-            dispose();
-        } else if(backTouched) {
-            game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuTypeScreen(game));
-            dispose();
+        for(Button btn : buttonList) {
+            if(btn.touchUp(touchPoint)) {
+                dispose();
+            }
         }
 
         return true;
@@ -248,79 +273,6 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
-    }
-
-    public void drawInputRectangles() {
-        drawTitle();
-        drawBattleInput();
-        drawTimeBattleInput();
-        drawBackInput();
-    }
-
-    public void drawInputRectangle(int placement, Color color) {
-        switch(placement) {
-            case BATTLE : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (2 * game.partitionSize) + inputHeightType,
-                        inputWidth,
-                        inputHeightType,
-                        color);
-            }
-            case TIME_BATTLE : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeightType,
-                        color);
-            }
-            case BACK : {
-                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeightBack,
-                        color);
-            }
-        }
-    }
-
-
-    public void drawBattleInput() {
-        drawInputRectangle(BATTLE, battleColor);
-        game.shapeRendererFilled.setColor(Color.BLACK);
-        game.shapeRendererFilled.rectLine((2 * game.partitionSize) + inputWidth,
-                (2 * game.partitionSize) + inputHeightType,
-                (2 * game.partitionSize) + (2 * inputWidth),
-                game.camera.viewportHeight - game.partitionSize,
-                game.partitionSize);
-    }
-
-    public void drawTimeBattleInput() {
-        drawInputRectangle(TIME_BATTLE, timeBattleColor);
-        game.shapeRendererFilled.setColor(Color.BLACK);
-        game.shapeRendererFilled.rectLine((2 * game.partitionSize) + inputWidth,
-                game.partitionSize,
-                (2 * game.partitionSize) + (2 * inputWidth),
-                game.partitionSize + inputHeightType,
-                game.partitionSize);
-        game.draw.drawClock((game.camera.viewportWidth / 2) - (inputWidth / 4),
-                (game.camera.viewportHeight / 4) + (inputHeightType / 6),
-                inputShapeRadius / 2,
-                Color.BLACK,
-                timeBattleColor);
-        game.draw.drawClock((game.camera.viewportWidth / 2) + (inputWidth / 4),
-                (game.camera.viewportHeight / 4) - (inputHeightType / 6),
-                inputShapeRadius / 2,
-                Color.BLACK,
-                timeBattleColor);
-    }
-
-    public void drawBackInput() {
-        drawInputRectangle(BACK, backColor);
-        game.draw.drawBackButton(game.camera.viewportWidth - game.partitionSize - (inputWidth / 2),
-                game.camera.viewportHeight / 2,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
     }
 
     public void drawTitle() {

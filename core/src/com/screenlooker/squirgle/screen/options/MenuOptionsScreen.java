@@ -9,18 +9,19 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.screen.MainMenuScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MenuOptionsScreen implements Screen, InputProcessor {
 
     final Squirgle game;
-
-    private final static int SOUND = 0;
-    private final static int BACK = 1;
 
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_INPUTS_VERTICAL = 1;
@@ -43,6 +44,14 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private boolean volumeDownChevronTouched;
     private boolean volumeUpChevronTouched;
     private boolean backTouched;
+
+    private Button volumeButton;
+    private Button volumeWavesButton;
+    private Button volumeChevronDownButton;
+    private Button volumeChevronUpButton;
+    private Button backButton;
+
+    private List<Button> buttonList;
 
     //TODO: Set up fontScore
     public MenuOptionsScreen(final Squirgle game) {
@@ -67,6 +76,54 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         volumeDownChevronTouched = false;
         volumeUpChevronTouched = false;
         backTouched = false;
+
+        volumeButton = new Button((2 * game.partitionSize) + inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeight,
+                Button.BUTTON_VOLUME,
+                volumeColor,
+                Color.BLACK,
+                game);
+        volumeWavesButton = new Button((2 * game.partitionSize) + inputWidth + (inputWidth / 10),
+                game.partitionSize + (inputHeight / 2) - (inputWidth / 10),
+                inputWidth / 5,
+                inputWidth / 5,
+                Button.BUTTON_VOLUME_WAVES,
+                volumeColor,
+                Color.BLACK,
+                game);
+        volumeChevronDownButton = new Button((2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 10),
+                game.partitionSize + (inputHeight / 2) - (inputWidth / 10),
+                inputWidth / 5,
+                inputWidth / 5,
+                Button.BUTTON_VOLUME_CHEVRON_DOWN,
+                volumeColor,
+                Color.BLACK,
+                game);
+        volumeChevronUpButton = new Button((2 * game.partitionSize) + inputWidth + ((7 * inputWidth) / 10),
+                game.partitionSize + (inputHeight / 2) - (inputWidth / 10),
+                inputWidth / 5,
+                inputWidth / 5,
+                Button.BUTTON_VOLUME_CHEVRON_UP,
+                volumeColor,
+                Color.BLACK,
+                game);
+        backButton = new Button(game.camera.viewportWidth - game.partitionSize - inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeight,
+                Button.BUTTON_OPTIONS_BACK,
+                backColor,
+                Color.BLACK,
+                game);
+
+        buttonList = new ArrayList<Button>();
+        buttonList.add(volumeButton);
+        buttonList.add(volumeWavesButton);
+        buttonList.add(volumeChevronDownButton);
+        buttonList.add(volumeChevronUpButton);
+        buttonList.add(backButton);
     }
 
     @Override
@@ -81,20 +138,15 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
-        drawInputRectangles();
+        for(Button button : buttonList) {
+            button.draw();
+        }
 
         game.shapeRendererFilled.end();
 
-        //Draw volume
-        FontUtils.printText(game.batch,
-                game.fontVolume,
-                game.layout,
-                Color.BLACK,
-                String.valueOf(game.volume),
-                (2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 5),
-                game.camera.viewportHeight / 2,
-                0,
-                1);
+        for(Button button : buttonList) {
+            button.drawText();
+        }
     }
 
     @Override
@@ -138,6 +190,12 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
             return false;
         }
 
+        game.camera.unproject(touchPoint.set(screenX, screenY, 0));
+
+        for(Button btn : buttonList) {
+            btn.touchDown(touchPoint);
+        }
+
         return true;
     }
 
@@ -149,40 +207,10 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        volumeDownChevronTouched = touchPoint.x > ((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5)) - (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
-                && touchPoint.x < ((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5)) + (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
-                && touchPoint.y > (game.camera.viewportHeight / 2) - (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
-                && touchPoint.y < (game.camera.viewportHeight / 2) + (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1));
-        volumeUpChevronTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5) - (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
-                && touchPoint.x < (2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5) + (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
-                && touchPoint.y > (game.camera.viewportHeight / 2) - (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1))
-                && touchPoint.y < (game.camera.viewportHeight / 2) + (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1));
-        backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + inputHeight;
-
-        if(volumeDownChevronTouched) {
-            if(game.volume > 0) {
-                game.volume -= 1;
-            } else {
-                game.volume = 10;
+        for(Button btn : buttonList) {
+            if(btn.touchUp(touchPoint)) {
+                dispose();
             }
-            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).setVolume((float) (game.volume / 10.0));
-            game.disconfirmSound.play((float) (game.volume / 10.0));
-        } else if(volumeUpChevronTouched) {
-            if(game.volume < 10) {
-                game.volume += 1;
-            } else {
-                game.volume = 0;
-            }
-            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).setVolume((float) (game.volume / 10.0));
-            game.confirmSound.play((float) (game.volume / 10.0));
-        } else if(backTouched) {
-            game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.updateSave(game.SAVE_VOLUME, game.volume);
-            game.setScreen(new MainMenuScreen(game));
-            dispose();
         }
 
         return true;
@@ -211,59 +239,6 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
-    }
-
-    public void drawInputRectangles() {
-        drawTitle();
-        drawSoundInput();
-        drawBackInput();
-    }
-
-    public void drawInputRectangle(int placement, Color color) {
-        switch(placement) {
-            case SOUND : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        game.camera.viewportHeight - game.partitionSize - inputHeight,
-                        inputWidth,
-                        inputHeight,
-                        color);
-            }
-            case BACK : {
-                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeight,
-                        color);
-            }
-        }
-    }
-
-    public void drawSoundInput() {
-        drawInputRectangle(SOUND, volumeColor);
-        game.draw.drawSoundSymbol((2 * game.partitionSize) + inputWidth + (inputWidth / 5),
-                game.camera.viewportHeight / 2,
-                symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1),
-                (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                volumeColor);
-        game.draw.drawChevronLeft((2 * game.partitionSize) + inputWidth + ((2 * inputWidth) / 5),
-                game.camera.viewportHeight / 2,
-                symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1),
-                (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
-        game.draw.drawChevronRight((2 * game.partitionSize) + inputWidth + ((4 * inputWidth) / 5),
-                game.camera.viewportHeight / 2,
-                symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1),
-                (symbolRadius / (NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
-    }
-
-    public void drawBackInput() {
-        drawInputRectangle(BACK, backColor);
-        game.draw.drawBackButton(game.camera.viewportWidth - game.partitionSize - (inputWidth / 2),
-                game.camera.viewportHeight / 2,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
     }
 
     public void drawTitle() {

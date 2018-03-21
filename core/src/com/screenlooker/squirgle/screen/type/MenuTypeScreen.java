@@ -8,10 +8,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.screen.MainMenuScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuTypeScreen implements Screen, InputProcessor {
 
@@ -48,6 +52,12 @@ public class MenuTypeScreen implements Screen, InputProcessor {
     private boolean multiplayerLocalTouched;
     private boolean backTouched;
 
+    private Button singlePlayerButton;
+    private Button multiplayerLocalButton;
+    private Button backButton;
+
+    private List<Button> buttonList;
+
     public MenuTypeScreen(final Squirgle game) {
         this.game = game;
 
@@ -72,6 +82,36 @@ public class MenuTypeScreen implements Screen, InputProcessor {
         singlePlayerTouched = false;
         multiplayerLocalTouched = false;
         backTouched = false;
+
+        singlePlayerButton = new Button((2 * game.partitionSize) + inputWidth,
+                (2 * game.partitionSize) + inputHeightType,
+                inputWidth,
+                inputHeightType,
+                Button.BUTTON_TYPE_SINGLE_PLAYER,
+                singlePlayerColor,
+                Color.BLACK,
+                game);
+        multiplayerLocalButton = new Button((2 * game.partitionSize) + inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeightType,
+                Button.BUTTON_TYPE_MULTIPLAYER_LOCAL,
+                multiplayerLocalColor,
+                Color.BLACK,
+                game);
+        backButton = new Button(game.camera.viewportWidth - game.partitionSize - inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeightBack,
+                Button.BUTTON_TYPE_BACK,
+                backColor,
+                Color.BLACK,
+                game);
+
+        buttonList = new ArrayList<Button>();
+        buttonList.add(singlePlayerButton);
+        buttonList.add(multiplayerLocalButton);
+        buttonList.add(backButton);
     }
 
     @Override
@@ -86,9 +126,17 @@ public class MenuTypeScreen implements Screen, InputProcessor {
 
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
-        drawInputRectangles();
+        drawTitle();
+
+        for(Button button : buttonList) {
+            button.draw();
+        }
 
         game.shapeRendererFilled.end();
+
+        for(Button button : buttonList) {
+            button.drawText();
+        }
     }
 
     @Override
@@ -132,6 +180,12 @@ public class MenuTypeScreen implements Screen, InputProcessor {
             return false;
         }
 
+        game.camera.unproject(touchPoint.set(screenX, screenY, 0));
+
+        for(Button btn : buttonList) {
+            btn.touchDown(touchPoint);
+        }
+
         return true;
     }
 
@@ -143,31 +197,10 @@ public class MenuTypeScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        singlePlayerTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (2 * game.partitionSize) + inputHeightType
-                && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
-        multiplayerLocalTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + inputHeightType;
-        backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + inputHeightBack;
-
-        if(singlePlayerTouched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuTypeSinglePlayerScreen(game));
-            dispose();
-        } else if(multiplayerLocalTouched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuTypeMultiplayerLocalScreen(game));
-            dispose();
-        } else if(backTouched) {
-            game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MainMenuScreen(game));
-            dispose();
+        for(Button btn : buttonList) {
+            if(btn.touchUp(touchPoint)) {
+                dispose();
+            }
         }
 
         return true;
@@ -196,80 +229,6 @@ public class MenuTypeScreen implements Screen, InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
-    }
-
-    public void drawInputRectangles() {
-        drawTitle();
-        drawSinglePlayerInput();
-        drawMultiplayerLocalInput();
-        drawBackInput();
-    }
-
-    public void drawInputRectangle(int placement, Color color) {
-        switch(placement) {
-            case SINGLE_PLAYER : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (2 * game.partitionSize) + inputHeightType,
-                        inputWidth,
-                        inputHeightType,
-                        color);
-            }
-            case MULTIPLAYER_LOCAL : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeightType,
-                        color);
-            }
-            case BACK : {
-                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeightBack,
-                        color);
-            }
-        }
-    }
-
-    public void drawSinglePlayerInput() {
-        drawInputRectangle(SINGLE_PLAYER, singlePlayerColor);
-        game.draw.drawFace(game.camera.viewportWidth / 2,
-                (3 * game.camera.viewportHeight) / 4,
-                inputShapeRadius / 3,
-                (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                singlePlayerColor);
-    }
-
-    public void drawMultiplayerLocalInput() {
-        drawInputRectangle(MULTIPLAYER_LOCAL, multiplayerLocalColor);
-        game.draw.drawFace((game.camera.viewportWidth / 2) - inputShapeRadius + (inputShapeRadius / 3),
-                game.camera.viewportHeight / 4,
-                inputShapeRadius / 3,
-                (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                multiplayerLocalColor);
-        game.draw.drawFace((game.camera.viewportWidth / 2) + inputShapeRadius - (inputShapeRadius / 3),
-                game.camera.viewportHeight / 4,
-                inputShapeRadius / 3,
-                (inputShapeRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK,
-                multiplayerLocalColor);
-        game.shapeRendererFilled.setColor(Color.BLACK);
-        game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 2) - inputShapeRadius,
-                game.camera.viewportHeight / 4,
-                (game.camera.viewportWidth / 2) + inputShapeRadius,
-                game.camera.viewportHeight / 4,
-                (inputShapeRadius / 2) / Draw.LINE_WIDTH_DIVISOR);
-    }
-
-    public void drawBackInput() {
-        drawInputRectangle(BACK, backColor);
-        game.draw.drawBackButton(game.camera.viewportWidth - game.partitionSize - (inputWidth / 2),
-                game.camera.viewportHeight / 2,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
     }
 
     public void drawTitle() {

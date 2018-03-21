@@ -9,11 +9,15 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.screen.TranceScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //TODO: Refactor all the music input behavior (create easier to read variables and such)
 public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor {
@@ -62,6 +66,21 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
     private boolean musicNameRoctopusTouched;
     private boolean musicNameNonplussedTouched;
 
+    private Button playButton;
+    private Button musicButton;
+    private Button musicPointillismButton;
+    private Button musicLineageButton;
+    private Button musicTriTheWaltzButton;
+    private Button musicSquaredOffButton;
+    private Button musicPentUpButton;
+    private Button musicHexidecibelButton;
+    private Button musicInterseptorButton;
+    private Button musicRoctopusButton;
+    private Button musicNonplussedButton;
+    private Button backButton;
+
+    private List<Button> buttonList;
+
     public MenuTypeSinglePlayerTranceScreen(final Squirgle game) {
         this.game = game;
 
@@ -77,6 +96,8 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
 
         inputShapeRadius = inputWidth > inputHeightMiddle ? (inputHeightMiddle / 2) : (inputWidth / 2);
 
+        game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
+
         touchPoint = new Vector3();
 
         playColor = ColorUtils.randomColor();
@@ -86,7 +107,116 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
         playTouched = false;
         backTouched = false;
 
-        game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
+        playButton = new Button((2 * game.partitionSize) + inputWidth,
+                (2 * game.partitionSize) + inputHeightMiddle,
+                inputWidth,
+                inputHeightMiddle,
+                Button.BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY,
+                playColor,
+                Color.BLACK,
+                game);
+        musicButton = new Button((2 * game.partitionSize) + inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeightMiddle,
+                Button.BUTTON_MUSIC,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicPointillismButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (0 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_POINTILLISM,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicLineageButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (1 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_LINEAGE,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicTriTheWaltzButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (2 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_TRI_THE_WALTZ,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicSquaredOffButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (3 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_SQUARED_OFF,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicPentUpButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (4 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_PENT_UP,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicHexidecibelButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (5 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_HEXIDECIBEL,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicInterseptorButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (6 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_INTERSEPTOR,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicRoctopusButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (7 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_ROCTOPUS,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicNonplussedButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (8 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_NONPLUSSED,
+                musicColor,
+                Color.BLACK,
+                game);
+        backButton = new Button(game.camera.viewportWidth - game.partitionSize - inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeightBack,
+                Button.BUTTON_TYPE_SINGLE_PLAYER_TRANCE_BACK,
+                backColor,
+                Color.BLACK,
+                game);
+
+        buttonList = new ArrayList<Button>();
+        buttonList.add(playButton);
+        buttonList.add(musicButton);
+        buttonList.add(musicPointillismButton);
+        buttonList.add(musicLineageButton);
+        buttonList.add(musicTriTheWaltzButton);
+        buttonList.add(musicSquaredOffButton);
+        buttonList.add(musicPentUpButton);
+        buttonList.add(musicHexidecibelButton);
+        buttonList.add(musicInterseptorButton);
+        buttonList.add(musicRoctopusButton);
+        buttonList.add(musicNonplussedButton);
+        buttonList.add(backButton);
     }
 
     @Override
@@ -101,11 +231,17 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
 
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
-        drawInputRectangles();
+        drawTitle();
+
+        for(Button button : buttonList) {
+            button.draw();
+        }
 
         game.shapeRendererFilled.end();
 
-        drawMusicText();
+        for(Button button : buttonList) {
+            button.drawText();
+        }
     }
 
     @Override
@@ -149,6 +285,12 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
             return false;
         }
 
+        game.camera.unproject(touchPoint.set(screenX, screenY, 0));
+
+        for(Button btn : buttonList) {
+            btn.touchDown(touchPoint);
+        }
+
         return true;
     }
 
@@ -160,88 +302,10 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        playTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (2 * game.partitionSize) + inputHeightMiddle
-                && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
-        musicNamePointillismTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2)
-                && touchPoint.y < game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameLineageTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - ((3 * game.fontTrackName.getCapHeight()) / 2)
-                && touchPoint.y < game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - ((3 * game.fontTrackName.getCapHeight()) / 2) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameTriTheWaltzTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (2 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (2 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameSquaredOffTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (3 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (3 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNamePentUpTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (4 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (4 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameHexidecibelTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (5 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (5 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameInterseptorTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (6 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (6 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameRoctopusTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (7 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (7 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameNonplussedTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (8 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (8 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
-
-        if(backTouched) {
-            game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuTypeSinglePlayerScreen(game));
-            dispose();
-        } else if(musicNamePointillismTouched) {
-            game.track = game.MUSIC_POINTILLISM;
-        } else if(musicNameLineageTouched) {
-            game.track = game.MUSIC_LINEAGE;
-        } else if(musicNameTriTheWaltzTouched) {
-            game.track = game.MUSIC_TRI_THE_WALTZ;
-        } else if(musicNameSquaredOffTouched) {
-            game.track = game.MUSIC_SQUARED_OFF;
-        } else if(musicNamePentUpTouched) {
-            if(game.maxBase > 4) {
-                game.track = game.MUSIC_PENT_UP;
+        for(Button btn : buttonList) {
+            if(btn.touchUp(touchPoint)) {
+                dispose();
             }
-        } else if(musicNameHexidecibelTouched) {
-            if(game.maxBase > 5) {
-                game.track = game.MUSIC_HEXIDECIBEL;
-            }
-        } else if(musicNameInterseptorTouched) {
-            if(game.maxBase > 6) {
-                game.track = game.MUSIC_INTERSEPTOR;
-            }
-        } else if(musicNameRoctopusTouched) {
-            if(game.maxBase > 7) {
-                game.track = game.MUSIC_ROCTOPUS;
-            }
-        } else if(musicNameNonplussedTouched) {
-            if(game.maxBase > 8) {
-                game.track = game.MUSIC_NONPLUSSED;
-            }
-        } else if(playTouched) {
-            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.usePhases = false;
-            game.setScreen(new TranceScreen(game));
         }
 
         return true;
@@ -270,96 +334,6 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
     @Override
     public boolean scrolled(int amount) {
         return false;
-    }
-
-    public void drawInputRectangles() {
-        drawTitle();
-        drawPlayInput();
-        drawBackInput();
-        drawMusicInput();
-    }
-
-    public void drawInputRectangle(int placement, Color color) {
-        switch(placement) {
-            case PLAY : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (2 * game.partitionSize) + inputHeightMiddle,
-                        inputWidth,
-                        inputHeightMiddle,
-                        color);
-            }
-            case BACK : {
-                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeightBack,
-                        color);
-            }
-            case MUSIC : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeightMiddle,
-                        color);
-            }
-            case MUSIC_NAME : {
-                for(int i = 0; i < game.maxBase; i++) {
-                    if(game.track == i) {
-                        game.draw.rect(game.camera.viewportWidth / 2,
-                                game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (i * ((3 * game.fontTrackName.getCapHeight()) / 2)),
-                                (inputWidth / 2) - game.partitionSize,
-                                (7 * game.fontTrackName.getCapHeight()) / 4,
-                                color);
-                    }
-                }
-            }
-        }
-    }
-
-    public void drawPlayInput() {
-        drawInputRectangle(PLAY, playColor);
-        game.draw.drawPlayButton(game.camera.viewportWidth / 2,
-                (3 * game.camera.viewportHeight) / 4,
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
-    }
-
-    public void drawBackInput() {
-        drawInputRectangle(BACK, backColor);
-        game.draw.drawBackButton(game.camera.viewportWidth - game.partitionSize - (inputWidth / 2),
-                game.camera.viewportHeight / 2,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
-    }
-
-    public void drawMusicInput() {
-        drawInputRectangle(MUSIC, musicColor);
-        game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (inputShapeRadius / 4) + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
-                game.partitionSize + (inputHeightMiddle / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
-        drawMusicNameInput();
-    }
-
-    public void drawMusicNameInput() {
-        drawInputRectangle(MUSIC_NAME, Color.BLACK);
-    }
-
-    public void drawMusicText() {
-        for(int i = 0; i < game.maxBase; i++) {
-            FontUtils.printText(game.batch,
-                    game.fontTrackName,
-                    game.layout,
-                    game.track == i ? Color.WHITE : Color.BLACK,
-                    game.musicTitleList.get(i),
-                    (game.camera.viewportWidth / 2) + (inputWidth / 4),
-                    game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - game.fontTrackName.getCapHeight() - (i * ((3 * game.fontTrackName.getCapHeight()) / 2)),
-                    0,
-                    1);
-        }
     }
 
     public void drawTitle() {

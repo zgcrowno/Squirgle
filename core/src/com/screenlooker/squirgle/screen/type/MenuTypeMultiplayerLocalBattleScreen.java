@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
@@ -74,9 +75,11 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
     private Color circleColor;
     private Color triangleColor;
 
-    private List<Shape> squirgleShapeList;
+    private List<Shape> squirgleShapeListBattleOne;
+    private List<Shape> squirgleShapeListBattleTwo;
 
-    private Shape squirglePrompt;
+    private Shape squirglePromptBattleOne;
+    private Shape squirglePromptBattleTwo;
 
     private boolean base4Touched;
     private boolean base5Touched;
@@ -96,6 +99,22 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
     private boolean musicNameInterseptorTouched;
     private boolean musicNameRoctopusTouched;
     private boolean musicNameNonplussedTouched;
+
+    private Button musicButton;
+    private Button musicFullButton;
+    private Button musicSplitButton;
+    private Button musicPointillismButton;
+    private Button musicLineageButton;
+    private Button musicTriTheWaltzButton;
+    private Button musicSquaredOffButton;
+    private Button musicPentUpButton;
+    private Button musicHexidecibelButton;
+    private Button musicInterseptorButton;
+    private Button musicRoctopusButton;
+    private Button musicNonplussedButton;
+    private Button backButton;
+
+    private List<Button> buttonList;
 
     public MenuTypeMultiplayerLocalBattleScreen(final Squirgle game) {
         this.game = game;
@@ -117,6 +136,9 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
         squirgleHeightOffset = symbolRadius / 4;
 
         inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 2) : (inputWidth / 2);
+
+        game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
+        game.setUpFontTrackType(MathUtils.round(inputShapeRadius / FONT_TRACK_TYPE_DIVISOR));
 
         touchPoint = new Vector3();
 
@@ -147,19 +169,160 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
             triangleColor = ColorUtils.randomTransitionColor();
         }
 
-        squirgleShapeList = new ArrayList<Shape>();
-        squirgleShapeList.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
-        squirgleShapeList.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
+        squirgleShapeListBattleOne = new ArrayList<Shape>();
+        squirgleShapeListBattleOne.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
+        squirgleShapeListBattleOne.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
 
-        squirglePrompt = new Shape(Shape.TRIANGLE,
-                symbolRadius / 3,
+        squirgleShapeListBattleTwo = new ArrayList<Shape>();
+        squirgleShapeListBattleTwo.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
+        squirgleShapeListBattleTwo.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
+
+        squirglePromptBattleOne = new Shape(Shape.TRIANGLE,
+                (symbolRadius / 2) / 3,
                 triangleColor,
                 null,
-                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(game.partitionSize + (inputWidth / 2), (game.camera.viewportHeight / 4) - squirgleHeightOffset));
+                ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2((game.camera.viewportWidth / 6) - (symbolRadius / 6), (game.camera.viewportHeight / 6) + (symbolRadius / 6)));
+        squirglePromptBattleTwo = new Shape(Shape.TRIANGLE,
+                (symbolRadius / 2) / 3,
+                triangleColor,
+                null,
+                ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2((game.camera.viewportWidth / 6) + (symbolRadius / 6), (game.camera.viewportHeight / 6) - (symbolRadius / 6)));
 
-        game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
-        game.setUpFontTrackType(MathUtils.round(inputShapeRadius / FONT_TRACK_TYPE_DIVISOR));
+        musicButton = new Button((2 * game.partitionSize) + inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeightBase,
+                Button.BUTTON_MUSIC,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicFullButton = new Button((3 * game.partitionSize) + inputWidth,
+                game.partitionSize + ((inputHeightBase - (inputShapeRadius * 2)) / 2) + ((3 * (inputShapeRadius * 2)) / 4) - ((3 * game.fontTrackType.getCapHeight()) / 4),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.fontTrackType.getCapHeight() + (game.fontTrackType.getCapHeight() / 5),
+                Button.BUTTON_MUSIC_FULL,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicSplitButton = new Button((3 * game.partitionSize) + inputWidth,
+                game.partitionSize + ((inputHeightBase - (inputShapeRadius * 2)) / 2) + ((2 * (inputShapeRadius * 2)) / 4) - ((3 * game.fontTrackType.getCapHeight()) / 4),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.fontTrackType.getCapHeight() + (game.fontTrackType.getCapHeight() / 5),
+                Button.BUTTON_MUSIC_SPLIT,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicPointillismButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (0 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_POINTILLISM,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicLineageButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (1 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_LINEAGE,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicTriTheWaltzButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (2 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_TRI_THE_WALTZ,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicSquaredOffButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (3 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_SQUARED_OFF,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicPentUpButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (4 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_PENT_UP,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicHexidecibelButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (5 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_HEXIDECIBEL,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicInterseptorButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (6 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_INTERSEPTOR,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicRoctopusButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (7 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_ROCTOPUS,
+                musicColor,
+                Color.BLACK,
+                game);
+        musicNonplussedButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (8 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
+                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (7 * game.fontTrackName.getCapHeight()) / 4,
+                Button.BUTTON_MUSIC_NONPLUSSED,
+                musicColor,
+                Color.BLACK,
+                game);
+        backButton = new Button(game.camera.viewportWidth - game.partitionSize - inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeightBack,
+                Button.BUTTON_OPTIONS_BACK,
+                backColor,
+                Color.BLACK,
+                game);
+
+        buttonList = new ArrayList<Button>();
+        buttonList.add(musicButton);
+        buttonList.add(musicFullButton);
+        buttonList.add(musicSplitButton);
+        buttonList.add(musicPointillismButton);
+        buttonList.add(musicLineageButton);
+        buttonList.add(musicTriTheWaltzButton);
+        buttonList.add(musicSquaredOffButton);
+        buttonList.add(musicPentUpButton);
+        buttonList.add(musicHexidecibelButton);
+        buttonList.add(musicInterseptorButton);
+        buttonList.add(musicRoctopusButton);
+        buttonList.add(musicNonplussedButton);
+        buttonList.add(backButton);
+
+        for(int i = 0; i <= game.maxBase - game.minBase; i++) {
+            float x = 2 * game.partitionSize + inputWidth;
+            float y = ((2 * game.partitionSize) + inputHeightBase) + (i * (game.partitionSize + inputHeightBase));
+            int buttonType = Button.BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SQUARE + i;
+            buttonList.add(new Button(x,
+                    y,
+                    inputWidth,
+                    inputHeightBase,
+                    buttonType,
+                    ColorUtils.randomColor(),
+                    Color.BLACK,
+                    game));
+        }
     }
 
     @Override
@@ -174,11 +337,17 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
 
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
-        drawInputRectangles();
+        drawTitle();
+
+        for(Button button : buttonList) {
+            button.draw();
+        }
 
         game.shapeRendererFilled.end();
 
-        drawMusicText();
+        for(Button button : buttonList) {
+            button.drawText();
+        }
 
         transitionSquirgleColors();
     }
@@ -224,6 +393,12 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
             return false;
         }
 
+        game.camera.unproject(touchPoint.set(screenX, screenY, 0));
+
+        for(Button btn : buttonList) {
+            btn.touchDown(touchPoint);
+        }
+
         return true;
     }
 
@@ -235,162 +410,9 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        base4Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (2 * game.partitionSize) + inputHeightBase
-                && touchPoint.y < (2 * game.partitionSize) + (2 * inputHeightBase);
-        base5Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (3 * game.partitionSize) + (2 *inputHeightBase)
-                && touchPoint.y < (3 * game.partitionSize) + (3 * inputHeightBase);
-        base6Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (4 * game.partitionSize) + (3 *inputHeightBase)
-                && touchPoint.y < (4 * game.partitionSize) + (4 * inputHeightBase);
-        base7Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (5 * game.partitionSize) + (4 *inputHeightBase)
-                && touchPoint.y < (5 * game.partitionSize) + (5 * inputHeightBase);
-        base8Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (6 * game.partitionSize) + (5 *inputHeightBase)
-                && touchPoint.y < (6 * game.partitionSize) + (6 * inputHeightBase);
-        base9Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (7 * game.partitionSize) + (6 *inputHeightBase)
-                && touchPoint.y < (7 * game.partitionSize) + (7 * inputHeightBase);
-        backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
-        musicTypeFullTouched = touchPoint.x > (3 * game.partitionSize) + inputWidth
-                && touchPoint.x < (game.camera.viewportWidth / 2) - game.partitionSize
-                && touchPoint.y > game.partitionSize + ((inputHeightBase - (inputShapeRadius * 2)) / 2) + ((3 * (inputShapeRadius * 2)) / 4) - ((3 * game.fontTrackType.getCapHeight()) / 4)
-                && touchPoint.y < game.partitionSize + ((inputHeightBase - (inputShapeRadius * 2)) / 2) + ((3 * (inputShapeRadius * 2)) / 4) - ((3 * game.fontTrackType.getCapHeight()) / 4) + game.fontTrackType.getCapHeight() + (game.fontTrackType.getCapHeight() / 5);
-        musicTypeSplitTouched = touchPoint.x > (3 * game.partitionSize) + inputWidth
-                && touchPoint.x < (game.camera.viewportWidth / 2) - game.partitionSize
-                && touchPoint.y > game.partitionSize + ((inputHeightBase - (inputShapeRadius * 2)) / 2) + ((2 * (inputShapeRadius * 2)) / 4) - ((3 * game.fontTrackType.getCapHeight()) / 4)
-                && touchPoint.y < game.partitionSize + ((inputHeightBase - (inputShapeRadius * 2)) / 2) + ((2 * (inputShapeRadius * 2)) / 4) - ((3 * game.fontTrackType.getCapHeight()) / 4) + game.fontTrackType.getCapHeight() + (game.fontTrackType.getCapHeight() / 5);
-        musicNamePointillismTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2)
-                && touchPoint.y < game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameLineageTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - ((3 * game.fontTrackName.getCapHeight()) / 2)
-                && touchPoint.y < game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - ((3 * game.fontTrackName.getCapHeight()) / 2) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameTriTheWaltzTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (2 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (2 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameSquaredOffTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (3 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (3 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNamePentUpTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (4 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (4 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameHexidecibelTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (5 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (5 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameInterseptorTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (6 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (6 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameRoctopusTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (7 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (7 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-        musicNameNonplussedTouched = touchPoint.x > game.camera.viewportWidth / 2
-                && touchPoint.x < game.partitionSize + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (8 * ((3 * game.fontTrackName.getCapHeight()) / 2))
-                && touchPoint.y < game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (8 * ((3 * game.fontTrackName.getCapHeight()) / 2)) + ((7 * game.fontTrackName.getCapHeight()) / 4);
-
-        if(base4Touched) {
-            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.base = 4;
-            game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-            game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
-            dispose();
-        } else if(base5Touched) {
-            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.base = 5;
-            game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-            game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
-            dispose();
-        } else if(base6Touched) {
-            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.base = 6;
-            game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-            game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
-            dispose();
-        } else if(base7Touched) {
-            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.base = 7;
-            game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-            game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
-            dispose();
-        } else if(base8Touched) {
-            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.base = 8;
-            game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-            game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
-            dispose();
-        } else if(base9Touched) {
-            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.base = 9;
-            game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-            game.updateSave(game.SAVE_TRACK, game.track);
-            game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
-            dispose();
-        } else if(backTouched) {
-            game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuTypeMultiplayerLocalScreen(game));
-            dispose();
-        } else if(musicTypeFullTouched) {
-            game.usePhases = false;
-        } else if(musicTypeSplitTouched) {
-            game.usePhases = true;
-        } else if(musicNamePointillismTouched) {
-            game.track = game.MUSIC_POINTILLISM;
-        } else if(musicNameLineageTouched) {
-            game.track = game.MUSIC_LINEAGE;
-        } else if(musicNameTriTheWaltzTouched) {
-            game.track = game.MUSIC_TRI_THE_WALTZ;
-        } else if(musicNameSquaredOffTouched) {
-            game.track = game.MUSIC_SQUARED_OFF;
-        } else if(musicNamePentUpTouched) {
-            if(game.maxBase > 4) {
-                game.track = game.MUSIC_PENT_UP;
-            }
-        } else if(musicNameHexidecibelTouched) {
-            if(game.maxBase > 5) {
-                game.track = game.MUSIC_HEXIDECIBEL;
-            }
-        } else if(musicNameInterseptorTouched) {
-            if(game.maxBase > 6) {
-                game.track = game.MUSIC_INTERSEPTOR;
-            }
-        } else if(musicNameRoctopusTouched) {
-            if(game.maxBase > 7) {
-                game.track = game.MUSIC_ROCTOPUS;
-            }
-        } else if(musicNameNonplussedTouched) {
-            if(game.maxBase > 8) {
-                game.track = game.MUSIC_NONPLUSSED;
+        for(Button btn : buttonList) {
+            if(btn.touchUp(touchPoint)) {
+                dispose();
             }
         }
 
@@ -422,234 +444,6 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
         return false;
     }
 
-    public void drawInputRectangles() {
-        drawTitle();
-        drawBase4Input();
-        if(game.maxBase >= 5) {
-            drawBase5Input();
-        }
-        if(game.maxBase >= 6) {
-            drawBase6Input();
-        }
-        if(game.maxBase >= 7) {
-            drawBase7Input();
-        }
-        if(game.maxBase >= 8) {
-            drawBase8Input();
-        }
-        if(game.maxBase >= 9) {
-            drawBase9Input();
-        }
-        drawBackInput();
-        drawMusicInput();
-    }
-
-    public void drawInputRectangle(int placement, Color color) {
-        switch(placement) {
-            case BASE_4 : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (2 * game.partitionSize) + inputHeightBase,
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case BASE_5 : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (3 * game.partitionSize) + (2 *inputHeightBase),
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case BASE_6 : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (4 * game.partitionSize) + (3 *inputHeightBase),
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case BASE_7 : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (5 * game.partitionSize) + (4 *inputHeightBase),
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case BASE_8 : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (6 * game.partitionSize) + (5 *inputHeightBase),
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case BASE_9 : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (7 * game.partitionSize) + (6 * inputHeightBase),
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case BACK : {
-                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeightBack,
-                        color);
-            }
-            case MUSIC : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case MUSIC_TYPE : {
-                if(game.usePhases) {
-                    game.draw.rect((3 * game.partitionSize) + inputWidth,
-                            game.partitionSize + ((inputHeightBase - (inputShapeRadius * 2)) / 2) + ((2 * (inputShapeRadius * 2)) / 4) - ((3 * game.fontTrackType.getCapHeight()) / 4),
-                            (inputWidth / 2) - game.partitionSize,
-                            game.fontTrackType.getCapHeight() + (game.fontTrackType.getCapHeight() / 5),
-                            color);
-                } else {
-                    game.draw.rect((3 * game.partitionSize) + inputWidth,
-                            game.partitionSize + ((inputHeightBase - (inputShapeRadius * 2)) / 2) + ((3 * (inputShapeRadius * 2)) / 4) - ((3 * game.fontTrackType.getCapHeight()) / 4),
-                            (inputWidth / 2) - game.partitionSize,
-                            game.fontTrackType.getCapHeight() + (game.fontTrackType.getCapHeight() / 5),
-                            color);
-                }
-            }
-            case MUSIC_NAME : {
-                for(int i = 0; i < game.maxBase; i++) {
-                    if(game.track == i) {
-                        game.draw.rect(game.camera.viewportWidth / 2,
-                                game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (i * ((3 * game.fontTrackName.getCapHeight()) / 2)),
-                                (inputWidth / 2) - game.partitionSize,
-                                (7 * game.fontTrackName.getCapHeight()) / 4,
-                                color);
-                    }
-                }
-            }
-        }
-    }
-
-    public void drawBase4Input() {
-        drawInputRectangle(BASE_4, base4Color);
-        game.draw.drawSquare(game.camera.viewportWidth / 2,
-                (2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
-    }
-
-    public void drawBase5Input() {
-        drawInputRectangle(BASE_5, base5Color);
-        game.draw.drawPentagon(game.camera.viewportWidth / 2,
-                (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                0,
-                Color.BLACK);
-    }
-
-    public void drawBase6Input() {
-        drawInputRectangle(BASE_6, base6Color);
-        game.draw.drawHexagon(game.camera.viewportWidth / 2,
-                (4 * game.partitionSize) + (3 * inputHeightBase) + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                0,
-                Color.BLACK);
-    }
-
-    public void drawBase7Input() {
-        drawInputRectangle(BASE_7, base7Color);
-        game.draw.drawSeptagon(game.camera.viewportWidth / 2,
-                (5 * game.partitionSize) + (4 * inputHeightBase) + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                0,
-                Color.BLACK);
-    }
-
-    public void drawBase8Input() {
-        drawInputRectangle(BASE_8, base8Color);
-        game.draw.drawOctagon(game.camera.viewportWidth / 2,
-                (6 * game.partitionSize) + (5 * inputHeightBase) + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                0,
-                Color.BLACK);
-    }
-
-    public void drawBase9Input() {
-        drawInputRectangle(BASE_9, base9Color);
-        game.draw.drawNonagon(game.camera.viewportWidth / 2,
-                (7 * game.partitionSize) + (6 * inputHeightBase) + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                0,
-                Color.BLACK);
-    }
-
-    public void drawBackInput() {
-        drawInputRectangle(BACK, backColor);
-        game.draw.drawBackButton(game.camera.viewportWidth - game.partitionSize - (inputWidth / 2),
-                game.camera.viewportHeight / 2,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
-    }
-
-    public void drawMusicInput() {
-        drawInputRectangle(MUSIC, musicColor);
-        game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (inputShapeRadius / 4) + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
-                game.partitionSize + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
-        drawMusicTypeInput();
-        drawMusicNameInput();
-    }
-
-    public void drawMusicTypeInput() {
-        drawInputRectangle(MUSIC_TYPE, Color.BLACK);
-    }
-
-    public void drawMusicNameInput() {
-        drawInputRectangle(MUSIC_NAME, Color.BLACK);
-    }
-
-    public void drawMusicText() {
-        FontUtils.printText(game.batch,
-                game.fontTrackType,
-                game.layout,
-                game.usePhases ? Color.BLACK : Color.WHITE,
-                game.MUSIC_TYPE_FULL,
-                (game.camera.viewportWidth / 2) - (inputWidth / 4),
-                game.partitionSize + ((inputHeightBase - (inputShapeRadius * 2)) / 2) + ((3 * (inputShapeRadius * 2)) / 4),
-                0,
-                1);
-        FontUtils.printText(game.batch,
-                game.fontTrackType,
-                game.layout,
-                game.usePhases ? Color.WHITE : Color.BLACK,
-                game.MUSIC_TYPE_SPLIT,
-                (game.camera.viewportWidth / 2) - (inputWidth / 4),
-                game.partitionSize + ((inputHeightBase - (inputShapeRadius * 2)) / 2) + ((2 * (inputShapeRadius * 2)) / 4),
-                0,
-                1);
-        for(int i = 0; i < game.maxBase; i++) {
-            FontUtils.printText(game.batch,
-                    game.fontTrackName,
-                    game.layout,
-                    game.track == i ? Color.WHITE : Color.BLACK,
-                    game.musicTitleList.get(i),
-                    (game.camera.viewportWidth / 2) + (inputWidth / 4),
-                    game.partitionSize + inputHeightBase - ((inputHeightBase - (inputShapeRadius * 2)) / 2) - game.fontTrackName.getCapHeight() - (i * ((3 * game.fontTrackName.getCapHeight()) / 2)),
-                    0,
-                    1);
-        }
-    }
-
     public void drawTitle() {
         game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
                 (3 * game.camera.viewportHeight) / 4,
@@ -676,13 +470,15 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
                 game.camera.viewportHeight / 2,
                 ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR);
 
-        game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
-        game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+        game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
+        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
+        game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
+        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
     }
 
     public void transitionSquirgleColors() {
-        ColorUtils.transitionColor(squirglePrompt);
-        ColorUtils.transitionColor(squirgleShapeList.get(0));
-        ColorUtils.transitionColor(squirgleShapeList.get(1));
+        ColorUtils.transitionColor(squirglePromptBattleOne);
+        ColorUtils.transitionColor(squirgleShapeListBattleOne.get(0));
+        ColorUtils.transitionColor(squirgleShapeListBattleOne.get(1));
     }
 }

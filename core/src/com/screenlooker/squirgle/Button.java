@@ -35,62 +35,75 @@ public class Button {
     public static final int BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SEPTAGON = 16;
     public static final int BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_OCTAGON = 17;
     public static final int BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_NONAGON = 18;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_MUSIC = 19;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK = 20;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SQUARE = 21;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_PENTAGON = 22;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_HEXAGON = 23;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SEPTAGON = 24;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_OCTAGON = 25;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_NONAGON = 26;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_DIFFICULTY = 27;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_MUSIC = 28;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK = 29;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SQUARE = 30;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_PENTAGON = 31;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_HEXAGON = 32;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SEPTAGON = 33;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_OCTAGON = 34;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_NONAGON = 35;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_TIME = 36;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_MUSIC = 37;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK = 38;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SQUARE = 39;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_PENTAGON = 40;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_HEXAGON = 41;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SEPTAGON = 42;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_OCTAGON = 43;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_NONAGON = 44;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_DIFFICULTY = 45;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_TIME = 46;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_MUSIC = 47;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK = 48;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY = 49;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TRANCE_MUSIC = 50;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TRANCE_BACK = 51;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE = 52;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE = 53;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK = 54;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SQUARE = 55;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_PENTAGON = 56;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_HEXAGON = 57;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SEPTAGON = 58;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_OCTAGON = 59;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_NONAGON = 60;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_MUSIC = 61;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK = 62;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SQUARE = 63;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_PENTAGON = 64;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_HEXAGON = 65;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SEPTAGON = 66;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_OCTAGON = 67;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_NONAGON = 68;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_TIME = 69;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_MUSIC = 70;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK = 71;
-    public static final int BUTTON_OPTIONS_VOLUME = 72;
-    public static final int BUTTON_OPTIONS_BACK = 73;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK = 19;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SQUARE = 20;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_PENTAGON = 21;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_HEXAGON = 22;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SEPTAGON = 23;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_OCTAGON = 24;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_NONAGON = 25;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK = 26;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SQUARE = 27;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_PENTAGON = 28;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_HEXAGON = 29;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SEPTAGON = 30;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_OCTAGON = 31;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_NONAGON = 32;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK = 33;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SQUARE = 34;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_PENTAGON = 35;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_HEXAGON = 36;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SEPTAGON = 37;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_OCTAGON = 38;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_NONAGON = 39;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK = 40;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY = 41;
+    public static final int BUTTON_TYPE_SINGLE_PLAYER_TRANCE_BACK = 42;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE = 43;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE = 44;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK = 45;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SQUARE = 46;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_PENTAGON = 47;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_HEXAGON = 48;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SEPTAGON = 49;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_OCTAGON = 50;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_NONAGON = 51;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK = 52;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SQUARE = 53;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_PENTAGON = 54;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_HEXAGON = 55;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SEPTAGON = 56;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_OCTAGON = 57;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_NONAGON = 58;
+    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK = 59;
+    public static final int BUTTON_OPTIONS_BACK = 60;
+    public static final int BUTTON_MUSIC = 61;
+    public static final int BUTTON_MUSIC_FULL = 62;
+    public static final int BUTTON_MUSIC_SPLIT = 63;
+    public static final int BUTTON_MUSIC_POINTILLISM = 64;
+    public static final int BUTTON_MUSIC_LINEAGE = 65;
+    public static final int BUTTON_MUSIC_TRI_THE_WALTZ = 66;
+    public static final int BUTTON_MUSIC_SQUARED_OFF = 67;
+    public static final int BUTTON_MUSIC_PENT_UP = 68;
+    public static final int BUTTON_MUSIC_HEXIDECIBEL = 69;
+    public static final int BUTTON_MUSIC_INTERSEPTOR = 70;
+    public static final int BUTTON_MUSIC_ROCTOPUS = 71;
+    public static final int BUTTON_MUSIC_NONPLUSSED = 72;
+    public static final int BUTTON_DIFFICULTY = 73;
+    public static final int BUTTON_DIFFICULTY_DIAL = 74;
+    public static final int BUTTON_DIFFICULTY_CHEVRON_DOWN = 75;
+    public static final int BUTTON_DIFFICULTY_CHEVRON_UP = 76;
+    public static final int BUTTON_TIME = 77;
+    public static final int BUTTON_TIME_CLOCK = 78;
+    public static final int BUTTON_TIME_CHEVRON_DOWN = 79;
+    public static final int BUTTON_TIME_CHEVRON_UP = 80;
+    public static final int BUTTON_VOLUME = 81;
+    public static final int BUTTON_VOLUME_WAVES = 82;
+    public static final int BUTTON_VOLUME_CHEVRON_DOWN = 83;
+    public static final int BUTTON_VOLUME_CHEVRON_UP = 84;
     //TODO: Add values for help screen once we've ironed out exactly how that screen should look/work
+
+    public static final String QUESTION_MARK = "?";
 
     private float x;
     private float y;
@@ -206,7 +219,7 @@ public class Button {
                 triangleColor,
                 null,
                 (radius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(x + (width / 4), y + ((3 *height) / 4)));
+                new Vector2(x + (width / 4), y + ((3 *height) / 4) - squirgleHeightOffset));
         this.squirglePromptBattleTwo = new Shape(Shape.TRIANGLE,
                 radius / 2,
                 triangleColor,
@@ -219,16 +232,42 @@ public class Button {
     public void draw() {
         drawContainer();
         drawSymbol();
-        drawText();
         transitionSquirgleColors();
     }
 
     public void drawContainer() {
-        game.draw.rect(x,
-                y,
-                width,
-                height,
-                containerColor);
+        if(isMusicTypeButton()) {
+            if((buttonType == BUTTON_MUSIC_FULL && !game.usePhases)
+                    || buttonType == BUTTON_MUSIC_SPLIT && game.usePhases) {
+                game.draw.rect(x,
+                        y,
+                        width,
+                        height,
+                        Color.BLACK);
+            }
+        } else if(isMusicNameButton()) {
+            if((buttonType == BUTTON_MUSIC_POINTILLISM && game.track == game.MUSIC_POINTILLISM)
+                    || (buttonType == BUTTON_MUSIC_LINEAGE && game.track == game.MUSIC_LINEAGE)
+                    || (buttonType == BUTTON_MUSIC_TRI_THE_WALTZ && game.track == game.MUSIC_TRI_THE_WALTZ)
+                    || (buttonType == BUTTON_MUSIC_SQUARED_OFF && game.track == game.MUSIC_SQUARED_OFF)
+                    || (buttonType == BUTTON_MUSIC_PENT_UP && game.track == game.MUSIC_PENT_UP)
+                    || (buttonType == BUTTON_MUSIC_HEXIDECIBEL && game.track == game.MUSIC_HEXIDECIBEL)
+                    || (buttonType == BUTTON_MUSIC_INTERSEPTOR && game.track == game.MUSIC_INTERSEPTOR)
+                    || (buttonType == BUTTON_MUSIC_ROCTOPUS && game.track == game.MUSIC_ROCTOPUS)
+                    || (buttonType == BUTTON_MUSIC_NONPLUSSED && game.track == game.MUSIC_NONPLUSSED)) {
+                game.draw.rect(x,
+                        y,
+                        width,
+                        height,
+                        Color.BLACK);
+            }
+        } else {
+            game.draw.rect(x,
+                    y,
+                    width,
+                    height,
+                    containerColor);
+        }
     }
 
     public void drawSymbol() {
@@ -314,16 +353,7 @@ public class Button {
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE : {
-                game.shapeRendererFilled.setColor(containedColor);
-                game.shapeRendererFilled.rectLine((2 * game.partitionSize) + width,
-                        game.camera.viewportHeight - (2 * game.partitionSize) - (2 * height),
-                        (2 * game.partitionSize) + (2 * width),
-                        game.camera.viewportHeight - (2 * game.partitionSize) - height,
-                        game.partitionSize);
-                game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
-                game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
-                game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
-                game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
+                drawBattleSymbol();
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK : {
@@ -335,22 +365,7 @@ public class Button {
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE : {
-                game.shapeRendererFilled.setColor(Color.BLACK);
-                game.shapeRendererFilled.rectLine((2 * game.partitionSize) + width,
-                        (2 * game.partitionSize) + height,
-                        (2 * game.partitionSize) + (2 * width),
-                        (2 * game.partitionSize) + (2 * height),
-                        game.partitionSize);
-                game.draw.drawClock((game.camera.viewportWidth / 2) - (width / 4),
-                        ((3 * game.camera.viewportHeight) / 10) + (height / 6),
-                        radius / 2,
-                        containedColor,
-                        containerColor);
-                game.draw.drawClock((game.camera.viewportWidth / 2) + (width / 4),
-                        ((3 * game.camera.viewportHeight) / 10) - (height / 6),
-                        radius / 2,
-                        containedColor,
-                        containerColor);
+                drawTimeBattleSymbol();
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE : {
@@ -422,16 +437,6 @@ public class Button {
                         containedColor);
                 break;
             }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_MUSIC : {
-                game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (radius / 4) + ((radius / Draw.LINE_WIDTH_DIVISOR) / 2),
-                        game.partitionSize + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                drawMusicTypeSelection();
-                drawMusicNameSelection();
-                break;
-            }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
                         y + (height / 2),
@@ -491,34 +496,6 @@ public class Button {
                         radius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_DIFFICULTY : {
-                game.draw.drawDifficultySymbol((2 * game.partitionSize) + width + (width / 5),
-                        (3 * game.partitionSize) + (2 * height) + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_DIFFICULTY_INPUT_ELEMENTS + 1),
-                        containedColor,
-                        containerColor);
-                game.draw.drawChevronLeft((2 * game.partitionSize) + width + ((2 * width) / 5),
-                        (3 * game.partitionSize) + (2 * height) + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_DIFFICULTY_INPUT_ELEMENTS + 1),
-                        (radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_DIFFICULTY_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                game.draw.drawChevronRight((2 * game.partitionSize) + width + ((4 * width) / 5),
-                        (3 * game.partitionSize) + (2 * height) + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_DIFFICULTY_INPUT_ELEMENTS + 1),
-                        (radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_DIFFICULTY_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_MUSIC : {
-                game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (radius / 4) + ((radius / Draw.LINE_WIDTH_DIVISOR) / 2),
-                        game.partitionSize + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                drawMusicTypeSelection();
-                drawMusicNameSelection();
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK : {
@@ -582,34 +559,6 @@ public class Button {
                         containedColor);
                 break;
             }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_TIME : {
-                game.draw.drawClock((2 * game.partitionSize) + width + (width / 5),
-                        (2 * game.partitionSize) + height + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1),
-                        containedColor,
-                        containerColor);
-                game.draw.drawChevronLeft((2 * game.partitionSize) + width + ((2 * width) / 5),
-                        (2 * game.partitionSize) + height + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1),
-                        (radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                        Color.BLACK);
-                game.draw.drawChevronRight((2 * game.partitionSize) + width + ((4 * width) / 5),
-                        (2 * game.partitionSize) + height + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1),
-                        (radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                        Color.BLACK);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_MUSIC : {
-                game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (radius / 4) + ((radius / Draw.LINE_WIDTH_DIVISOR) / 2),
-                        game.partitionSize + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                drawMusicTypeSelection();
-                drawMusicNameSelection();
-                break;
-            }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
                         y + (height / 2),
@@ -671,52 +620,6 @@ public class Button {
                         containedColor);
                 break;
             }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_DIFFICULTY : {
-                game.draw.drawDifficultySymbol((2 * game.partitionSize) + width + (width / 5),
-                        (3 * game.partitionSize) + (2 * height) + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_DIFFICULTY_INPUT_ELEMENTS + 1),
-                        containedColor,
-                        containerColor);
-                game.draw.drawChevronLeft((2 * game.partitionSize) + width + ((2 * width) / 5),
-                        (3 * game.partitionSize) + (2 * height) + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_DIFFICULTY_INPUT_ELEMENTS + 1),
-                        (radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_DIFFICULTY_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                game.draw.drawChevronRight((2 * game.partitionSize) + width + ((4 * width) / 5),
-                        (3 * game.partitionSize) + (2 * height) + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_DIFFICULTY_INPUT_ELEMENTS + 1),
-                        (radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_DIFFICULTY_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_TIME : {
-                game.draw.drawClock((2 * game.partitionSize) + width + (width / 5),
-                        (2 * game.partitionSize) + height + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1),
-                        containedColor,
-                        containerColor);
-                game.draw.drawChevronLeft((2 * game.partitionSize) + width + ((2 * width) / 5),
-                        (2 * game.partitionSize) + height + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1),
-                        (radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                        Color.BLACK);
-                game.draw.drawChevronRight((2 * game.partitionSize) + width + ((4 * width) / 5),
-                        (2 * game.partitionSize) + height + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1),
-                        (radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                        Color.BLACK);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_MUSIC : {
-                game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (radius / 4) + ((radius / Draw.LINE_WIDTH_DIVISOR) / 2),
-                        game.partitionSize + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                drawMusicTypeSelection();
-                drawMusicNameSelection();
-                break;
-            }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
                         y + (height / 2),
@@ -733,15 +636,6 @@ public class Button {
                         containedColor);
                 break;
             }
-            case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_MUSIC : {
-                game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (radius / 4) + ((radius / Draw.LINE_WIDTH_DIVISOR) / 2),
-                        game.partitionSize + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                drawMusicNameSelection();
-                break;
-            }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
                         y + (height / 2),
@@ -751,35 +645,11 @@ public class Button {
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE : {
-                game.shapeRendererFilled.setColor(containedColor);
-                game.shapeRendererFilled.rectLine((2 * game.partitionSize) + width,
-                        game.camera.viewportHeight - (2 * game.partitionSize) - (2 * height),
-                        (2 * game.partitionSize) + (2 * width),
-                        game.camera.viewportHeight - (2 * game.partitionSize) - height,
-                        game.partitionSize);
-                game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
-                game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
-                game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
-                game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
+                drawBattleSymbol();
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE : {
-                game.shapeRendererFilled.setColor(Color.BLACK);
-                game.shapeRendererFilled.rectLine((2 * game.partitionSize) + width,
-                        (2 * game.partitionSize) + height,
-                        (2 * game.partitionSize) + (2 * width),
-                        (2 * game.partitionSize) + (2 * height),
-                        game.partitionSize);
-                game.draw.drawClock((game.camera.viewportWidth / 2) - (width / 4),
-                        ((3 * game.camera.viewportHeight) / 10) + (height / 6),
-                        radius / 2,
-                        containedColor,
-                        containerColor);
-                game.draw.drawClock((game.camera.viewportWidth / 2) + (width / 4),
-                        ((3 * game.camera.viewportHeight) / 10) - (height / 6),
-                        radius / 2,
-                        containedColor,
-                        containerColor);
+                drawTimeBattleSymbol();
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK : {
@@ -843,16 +713,6 @@ public class Button {
                         containedColor);
                 break;
             }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_MUSIC : {
-                game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (radius / 4) + ((radius / Draw.LINE_WIDTH_DIVISOR) / 2),
-                        game.partitionSize + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                drawMusicTypeSelection();
-                drawMusicNameSelection();
-                break;
-            }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
                         y + (height / 2),
@@ -914,34 +774,6 @@ public class Button {
                         containedColor);
                 break;
             }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_TIME : {
-                game.draw.drawClock((2 * game.partitionSize) + width + (width / 5),
-                        (2 * game.partitionSize) + height + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1),
-                        containedColor,
-                        containerColor);
-                game.draw.drawChevronLeft((2 * game.partitionSize) + width + ((2 * width) / 5),
-                        (2 * game.partitionSize) + height + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1),
-                        (radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                        Color.BLACK);
-                game.draw.drawChevronRight((2 * game.partitionSize) + width + ((4 * width) / 5),
-                        (2 * game.partitionSize) + height + (height / 2),
-                        radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1),
-                        (radius / (MenuTypeSinglePlayerTimeBattleScreen.NUM_TIME_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                        Color.BLACK);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_MUSIC : {
-                game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (radius / 4) + ((radius / Draw.LINE_WIDTH_DIVISOR) / 2),
-                        game.partitionSize + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                drawMusicTypeSelection();
-                drawMusicNameSelection();
-                break;
-            }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
                         y + (height / 2),
@@ -950,27 +782,131 @@ public class Button {
                         containedColor);
                 break;
             }
-            case BUTTON_OPTIONS_VOLUME : {
-                game.draw.drawSoundSymbol((2 * game.partitionSize) + width + (width / 5),
-                        game.camera.viewportHeight / 2,
-                        radius / (MenuOptionsScreen.NUM_SOUND_INPUT_ELEMENTS + 1),
-                        (radius / (MenuOptionsScreen.NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                        containerColor);
-                game.draw.drawChevronLeft((2 * game.partitionSize) + width + ((2 * width) / 5),
-                        game.camera.viewportHeight / 2,
-                        radius / (MenuOptionsScreen.NUM_SOUND_INPUT_ELEMENTS + 1),
-                        (radius / (MenuOptionsScreen.NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                        Color.BLACK);
-                game.draw.drawChevronRight((2 * game.partitionSize) + width + ((4 * width) / 5),
-                        game.camera.viewportHeight / 2,
-                        radius / (MenuOptionsScreen.NUM_SOUND_INPUT_ELEMENTS + 1),
-                        (radius / (MenuOptionsScreen.NUM_SOUND_INPUT_ELEMENTS + 1)) / Draw.LINE_WIDTH_DIVISOR,
-                        Color.BLACK);
-                break;
-            }
             case BUTTON_OPTIONS_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
                         y + (height / 2),
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_MUSIC : {
+                game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (radius / 4) + ((radius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                        game.partitionSize + (height / 2),
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_MUSIC_FULL : {
+                break;
+            }
+            case BUTTON_MUSIC_SPLIT : {
+                break;
+            }
+            case BUTTON_MUSIC_POINTILLISM : {
+                break;
+            }
+            case BUTTON_MUSIC_LINEAGE : {
+                break;
+            }
+            case BUTTON_MUSIC_TRI_THE_WALTZ : {
+                break;
+            }
+            case BUTTON_MUSIC_SQUARED_OFF : {
+                break;
+            }
+            case BUTTON_MUSIC_PENT_UP : {
+                break;
+            }
+            case BUTTON_MUSIC_HEXIDECIBEL : {
+                break;
+            }
+            case BUTTON_MUSIC_INTERSEPTOR : {
+                break;
+            }
+            case BUTTON_MUSIC_ROCTOPUS : {
+                break;
+            }
+            case BUTTON_MUSIC_NONPLUSSED : {
+                break;
+            }
+            case BUTTON_DIFFICULTY : {
+                break;
+            }
+            case BUTTON_DIFFICULTY_DIAL : {
+                game.draw.drawDifficultySymbol(centerX,
+                        centerY,
+                        radius,
+                        containedColor,
+                        containerColor);
+                break;
+            }
+            case BUTTON_DIFFICULTY_CHEVRON_DOWN : {
+                game.draw.drawChevronLeft(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_DIFFICULTY_CHEVRON_UP : {
+                game.draw.drawChevronRight(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_TIME : {
+                break;
+            }
+            case BUTTON_TIME_CLOCK : {
+                game.draw.drawClock(centerX,
+                        centerY,
+                        radius,
+                        containedColor,
+                        containerColor);
+                break;
+            }
+            case BUTTON_TIME_CHEVRON_DOWN : {
+                game.draw.drawChevronLeft(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_TIME_CHEVRON_UP : {
+                game.draw.drawChevronRight(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_VOLUME : {
+                break;
+            }
+            case BUTTON_VOLUME_WAVES : {
+                game.draw.drawSoundSymbol(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containerColor);
+                break;
+            }
+            case BUTTON_VOLUME_CHEVRON_DOWN : {
+                game.draw.drawChevronLeft(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_VOLUME_CHEVRON_UP : {
+                game.draw.drawChevronRight(centerX,
+                        centerY,
                         radius,
                         radius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
@@ -1042,11 +978,6 @@ public class Button {
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_NONAGON : {
                 break;
             }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_MUSIC : {
-                drawMusicTypeText();
-                drawMusicNameText();
-                break;
-            }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK : {
                 break;
             }
@@ -1066,15 +997,6 @@ public class Button {
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_NONAGON : {
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_DIFFICULTY : {
-                drawDifficultyText();
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_MUSIC : {
-                drawMusicTypeText();
-                drawMusicNameText();
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK : {
@@ -1098,15 +1020,6 @@ public class Button {
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_NONAGON : {
                 break;
             }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_TIME : {
-                drawTimeText();
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_MUSIC : {
-                drawMusicTypeText();
-                drawMusicNameText();
-                break;
-            }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK : {
                 break;
             }
@@ -1128,27 +1041,10 @@ public class Button {
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_NONAGON : {
                 break;
             }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_DIFFICULTY : {
-                drawDifficultyText();
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_TIME : {
-                drawTimeText();
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_MUSIC : {
-                drawMusicTypeText();
-                drawMusicNameText();
-                break;
-            }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK : {
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY : {
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_MUSIC : {
-                drawMusicNameText();
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_BACK : {
@@ -1181,11 +1077,6 @@ public class Button {
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_NONAGON : {
                 break;
             }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_MUSIC : {
-                drawMusicTypeText();
-                drawMusicNameText();
-                break;
-            }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK : {
                 break;
             }
@@ -1207,24 +1098,231 @@ public class Button {
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_NONAGON : {
                 break;
             }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_TIME : {
-                drawTimeText();
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_MUSIC : {
-                break;
-            }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK : {
-                break;
-            }
-            case BUTTON_OPTIONS_VOLUME : {
                 break;
             }
             case BUTTON_OPTIONS_BACK : {
                 break;
             }
+            case BUTTON_MUSIC : {
+                break;
+            }
+            case BUTTON_MUSIC_FULL : {
+                game.layout.setText(game.fontTrackType, game.MUSIC_TYPE_FULL);
+                FontUtils.printText(game.batch,
+                        game.fontTrackType,
+                        game.layout,
+                        game.usePhases ? Color.BLACK : Color.WHITE,
+                        game.MUSIC_TYPE_FULL,
+                        centerX,
+                        centerY + game.layout.height / 6,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_MUSIC_SPLIT : {
+                game.layout.setText(game.fontTrackType, game.MUSIC_TYPE_SPLIT);
+                FontUtils.printText(game.batch,
+                        game.fontTrackType,
+                        game.layout,
+                        game.usePhases ? Color.WHITE : Color.BLACK,
+                        game.MUSIC_TYPE_SPLIT,
+                        centerX,
+                        centerY + game.layout.height / 6,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_MUSIC_POINTILLISM : {
+                game.layout.setText(game.fontTrackName, game.musicTitleList.get(game.MUSIC_POINTILLISM));
+                FontUtils.printText(game.batch,
+                        game.fontTrackName,
+                        game.layout,
+                        game.track == game.MUSIC_POINTILLISM ? Color.WHITE : Color.BLACK,
+                        game.musicTitleList.get(game.MUSIC_POINTILLISM),
+                        centerX,
+                        centerY + game.layout.height / 6,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_MUSIC_LINEAGE : {
+                game.layout.setText(game.fontTrackName, game.musicTitleList.get(game.MUSIC_LINEAGE));
+                FontUtils.printText(game.batch,
+                        game.fontTrackName,
+                        game.layout,
+                        game.track == game.MUSIC_LINEAGE ? Color.WHITE : Color.BLACK,
+                        game.musicTitleList.get(game.MUSIC_LINEAGE),
+                        centerX,
+                        centerY + game.layout.height / 6,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_MUSIC_TRI_THE_WALTZ : {
+                game.layout.setText(game.fontTrackName, game.musicTitleList.get(game.MUSIC_TRI_THE_WALTZ));
+                FontUtils.printText(game.batch,
+                        game.fontTrackName,
+                        game.layout,
+                        game.track == game.MUSIC_TRI_THE_WALTZ ? Color.WHITE : Color.BLACK,
+                        game.musicTitleList.get(game.MUSIC_TRI_THE_WALTZ),
+                        centerX,
+                        centerY + game.layout.height / 6,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_MUSIC_SQUARED_OFF : {
+                game.layout.setText(game.fontTrackName, game.musicTitleList.get(game.MUSIC_SQUARED_OFF));
+                FontUtils.printText(game.batch,
+                        game.fontTrackName,
+                        game.layout,
+                        game.track == game.MUSIC_SQUARED_OFF ? Color.WHITE : Color.BLACK,
+                        game.musicTitleList.get(game.MUSIC_SQUARED_OFF),
+                        centerX,
+                        centerY + game.layout.height / 6,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_MUSIC_PENT_UP : {
+                game.layout.setText(game.fontTrackName, game.musicTitleList.get(game.MUSIC_PENT_UP));
+                FontUtils.printText(game.batch,
+                        game.fontTrackName,
+                        game.layout,
+                        game.track == game.MUSIC_PENT_UP ? Color.WHITE : Color.BLACK,
+                        game.maxBase > 4 ? game.musicTitleList.get(game.MUSIC_PENT_UP) : QUESTION_MARK,
+                        centerX,
+                        centerY + game.layout.height / 6,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_MUSIC_HEXIDECIBEL : {
+                game.layout.setText(game.fontTrackName, game.musicTitleList.get(game.MUSIC_HEXIDECIBEL));
+                FontUtils.printText(game.batch,
+                        game.fontTrackName,
+                        game.layout,
+                        game.track == game.MUSIC_HEXIDECIBEL ? Color.WHITE : Color.BLACK,
+                        game.maxBase > 5 ? game.musicTitleList.get(game.MUSIC_HEXIDECIBEL) : QUESTION_MARK,
+                        centerX,
+                        centerY + game.layout.height / 6,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_MUSIC_INTERSEPTOR : {
+                game.layout.setText(game.fontTrackName, game.musicTitleList.get(game.MUSIC_INTERSEPTOR));
+                FontUtils.printText(game.batch,
+                        game.fontTrackName,
+                        game.layout,
+                        game.track == game.MUSIC_INTERSEPTOR ? Color.WHITE : Color.BLACK,
+                        game.maxBase > 6 ? game.musicTitleList.get(game.MUSIC_INTERSEPTOR) : QUESTION_MARK,
+                        centerX,
+                        centerY + game.layout.height / 6,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_MUSIC_ROCTOPUS : {
+                game.layout.setText(game.fontTrackName, game.musicTitleList.get(game.MUSIC_ROCTOPUS));
+                FontUtils.printText(game.batch,
+                        game.fontTrackName,
+                        game.layout,
+                        game.track == game.MUSIC_ROCTOPUS ? Color.WHITE : Color.BLACK,
+                        game.maxBase > 7 ? game.musicTitleList.get(game.MUSIC_ROCTOPUS) : QUESTION_MARK,
+                        centerX,
+                        centerY + game.layout.height / 6,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_MUSIC_NONPLUSSED : {
+                game.layout.setText(game.fontTrackName, game.musicTitleList.get(game.MUSIC_NONPLUSSED));
+                FontUtils.printText(game.batch,
+                        game.fontTrackName,
+                        game.layout,
+                        game.track == game.MUSIC_NONPLUSSED ? Color.WHITE : Color.BLACK,
+                        game.maxBase > 8 ? game.musicTitleList.get(game.MUSIC_NONPLUSSED) : QUESTION_MARK,
+                        centerX,
+                        centerY + game.layout.height / 6,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_DIFFICULTY : {
+                drawDifficultyText();
+                break;
+            }
+            case BUTTON_DIFFICULTY_DIAL : {
+                break;
+            }
+            case BUTTON_DIFFICULTY_CHEVRON_DOWN : {
+                break;
+            }
+            case BUTTON_DIFFICULTY_CHEVRON_UP : {
+                break;
+            }
+            case BUTTON_TIME : {
+                drawTimeText();
+                break;
+            }
+            case BUTTON_TIME_CLOCK : {
+                break;
+            }
+            case BUTTON_TIME_CHEVRON_DOWN : {
+                break;
+            }
+            case BUTTON_TIME_CHEVRON_UP : {
+                break;
+            }
+            case BUTTON_VOLUME : {
+                drawVolumeText();
+                break;
+            }
+            case BUTTON_VOLUME_WAVES : {
+                break;
+            }
+            case BUTTON_VOLUME_CHEVRON_DOWN : {
+                break;
+            }
+            case BUTTON_VOLUME_CHEVRON_UP : {
+                break;
+            }
             //TODO: Add values for help screen once we've ironed out exactly how that screen should look/work
         }
+    }
+
+    public void drawBattleSymbol() {
+        game.shapeRendererFilled.setColor(containedColor);
+        game.shapeRendererFilled.rectLine(x,
+                    y,
+                    x + width,
+                    y + height,
+                    game.partitionSize);
+        game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
+        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
+        game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
+        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
+    }
+
+    public void drawTimeBattleSymbol() {
+        game.shapeRendererFilled.setColor(containedColor);
+        game.shapeRendererFilled.rectLine(x,
+                y,
+                x + width,
+                y + height,
+                game.partitionSize);
+        game.draw.drawClock(x + (width / 4),
+                    y + (height / 2) + (height / 6),
+                    radius / 2,
+                    containedColor,
+                    containerColor);
+        game.draw.drawClock(x + (width / 2) + (width / 4),
+                    y + (height / 2) - (height / 6),
+                    radius / 2,
+                    containedColor,
+                    containerColor);
     }
 
     public void drawMusicTypeSelection() {
@@ -1314,14 +1412,28 @@ public class Button {
         }
     }
 
-    public void touchDown(Vector3 touchPoint) {
-        boolean xInBounds = touchPoint.x > x
-                && touchPoint.x < x + width;
-        boolean yInBounds = touchPoint.y > y
-                && touchPoint.y < y + height;
+    public void drawVolumeText() {
+        FontUtils.printText(game.batch,
+                game.fontVolume,
+                game.layout,
+                containedColor,
+                String.valueOf(game.volume),
+                x + ((3 * width) / 5),
+                y + (height / 2),
+                0,
+                1);
+    }
 
-        if(xInBounds && yInBounds) {
-            containerColor = Color.WHITE;
+    public void touchDown(Vector3 touchPoint) {
+        if(isFeedbackButton()) {
+            boolean xInBounds = touchPoint.x > x
+                    && touchPoint.x < x + width;
+            boolean yInBounds = touchPoint.y > y
+                    && touchPoint.y < y + height;
+
+            if (xInBounds && yInBounds) {
+                containerColor = Color.WHITE;
+            }
         }
     }
 
@@ -1455,9 +1567,6 @@ public class Button {
                     game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
                     return true;
                 }
-                case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_MUSIC: {
-
-                }
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerScreen(game));
@@ -1523,12 +1632,6 @@ public class Button {
                     game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE));
                     return true;
                 }
-                case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_DIFFICULTY: {
-
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_MUSIC: {
-
-                }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerScreen(game));
@@ -1587,12 +1690,6 @@ public class Button {
                     game.updateSave(game.SAVE_TRACK, game.track);
                     game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
                     return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_TIME: {
-
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_MUSIC: {
-
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
@@ -1653,15 +1750,6 @@ public class Button {
                     game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE));
                     return true;
                 }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_DIFFICULTY: {
-
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_TIME: {
-
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_MUSIC: {
-
-                }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerScreen(game));
@@ -1673,9 +1761,6 @@ public class Button {
                     game.usePhases = false;
                     game.setScreen(new TranceScreen(game));
                     return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_MUSIC: {
-
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
@@ -1752,9 +1837,6 @@ public class Button {
                     game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
                     return true;
                 }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_MUSIC: {
-
-                }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
                     game.setScreen(new MenuTypeMultiplayerLocalScreen(game));
@@ -1814,19 +1896,10 @@ public class Button {
                     game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
                     return true;
                 }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_TIME: {
-
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_MUSIC: {
-
-                }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
                     game.setScreen(new MenuTypeMultiplayerLocalScreen(game));
                     return true;
-                }
-                case BUTTON_OPTIONS_VOLUME: {
-
                 }
                 case BUTTON_OPTIONS_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
@@ -1834,11 +1907,174 @@ public class Button {
                     game.setScreen(new MainMenuScreen(game));
                     return true;
                 }
+                case BUTTON_MUSIC : {
+                    return false;
+                }
+                case BUTTON_MUSIC_FULL : {
+                    game.usePhases = false;
+                    return false;
+                }
+                case BUTTON_MUSIC_SPLIT : {
+                    game.usePhases = true;
+                    return false;
+                }
+                case BUTTON_MUSIC_POINTILLISM : {
+                    game.track = game.MUSIC_POINTILLISM;
+                    return false;
+                }
+                case BUTTON_MUSIC_LINEAGE : {
+                    game.track = game.MUSIC_LINEAGE;
+                    return false;
+                }
+                case BUTTON_MUSIC_TRI_THE_WALTZ : {
+                    game.track = game.MUSIC_TRI_THE_WALTZ;
+                    return false;
+                }
+                case BUTTON_MUSIC_SQUARED_OFF : {
+                    game.track = game.MUSIC_SQUARED_OFF;
+                    return false;
+                }
+                case BUTTON_MUSIC_PENT_UP : {
+                    if(game.maxBase > 4) {
+                        game.track = game.MUSIC_PENT_UP;
+                    }
+                    return false;
+                }
+                case BUTTON_MUSIC_HEXIDECIBEL : {
+                    if(game.maxBase > 5) {
+                        game.track = game.MUSIC_HEXIDECIBEL;
+                    }
+                    return false;
+                }
+                case BUTTON_MUSIC_INTERSEPTOR : {
+                    if(game.maxBase > 6) {
+                        game.track = game.MUSIC_INTERSEPTOR;
+                    }
+                    return false;
+                }
+                case BUTTON_MUSIC_ROCTOPUS : {
+                    if(game.maxBase > 7) {
+                        game.track = game.MUSIC_ROCTOPUS;
+                    }
+                    return false;
+                }
+                case BUTTON_MUSIC_NONPLUSSED : {
+                    if(game.maxBase > 8) {
+                        game.track = game.MUSIC_NONPLUSSED;
+                    }
+                    return false;
+                }
+                case BUTTON_DIFFICULTY : {
+                    return false;
+                }
+                case BUTTON_DIFFICULTY_DIAL : {
+                    return false;
+                }
+                case BUTTON_DIFFICULTY_CHEVRON_DOWN : {
+                    if(game.difficulty == Squirgle.DIFFICULTY_EASY) {
+                        game.difficulty = Squirgle.DIFFICULTY_HARD;
+                    } else if(game.difficulty == Squirgle.DIFFICULTY_MEDIUM) {
+                        game.difficulty = Squirgle.DIFFICULTY_EASY;
+                    } else {
+                        game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
+                    }
+                    return false;
+                }
+                case BUTTON_DIFFICULTY_CHEVRON_UP : {
+                    if(game.difficulty == Squirgle.DIFFICULTY_EASY) {
+                        game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
+                    } else if(game.difficulty == Squirgle.DIFFICULTY_MEDIUM) {
+                        game.difficulty = Squirgle.DIFFICULTY_HARD;
+                    } else {
+                        game.difficulty = Squirgle.DIFFICULTY_EASY;
+                    }
+                    return false;
+                }
+                case BUTTON_TIME : {
+                    return false;
+                }
+                case BUTTON_TIME_CLOCK : {
+                    return false;
+                }
+                case BUTTON_TIME_CHEVRON_DOWN : {
+                    if(game.timeAttackNumSeconds == game.ONE_MINUTE) {
+                        game.timeAttackNumSeconds = game.FIVE_MINUTES;
+                    } else if(game.timeAttackNumSeconds == game.THREE_MINUTES) {
+                        game.timeAttackNumSeconds = game.ONE_MINUTE;
+                    } else if(game.timeAttackNumSeconds == game.FIVE_MINUTES) {
+                        game.timeAttackNumSeconds = game.THREE_MINUTES;
+                    }
+                    return false;
+                }
+                case BUTTON_TIME_CHEVRON_UP : {
+                    if(game.timeAttackNumSeconds == game.ONE_MINUTE) {
+                        game.timeAttackNumSeconds = game.THREE_MINUTES;
+                    } else if(game.timeAttackNumSeconds == game.THREE_MINUTES) {
+                        game.timeAttackNumSeconds = game.FIVE_MINUTES;
+                    } else if(game.timeAttackNumSeconds == game.FIVE_MINUTES) {
+                        game.timeAttackNumSeconds = game.ONE_MINUTE;
+                    }
+                    return false;
+                }
+                case BUTTON_VOLUME : {
+                    return false;
+                }
+                case BUTTON_VOLUME_WAVES : {
+                    return false;
+                }
+                case BUTTON_VOLUME_CHEVRON_DOWN : {
+                    if(game.volume > 0) {
+                        game.volume -= 1;
+                    } else {
+                        game.volume = 10;
+                    }
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).setVolume((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    return false;
+                }
+                case BUTTON_VOLUME_CHEVRON_UP : {
+                    if(game.volume < 10) {
+                        game.volume += 1;
+                    } else {
+                        game.volume = 0;
+                    }
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).setVolume((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    return false;
+                }
                 //TODO: Add values for help screen once we've ironed out exactly how that screen should look/work
             }
         }
 
         return false;
+    }
+
+    //TODO: Keep updating this method as needed
+    public boolean isFeedbackButton() {
+        return buttonType != BUTTON_MUSIC
+                && buttonType != BUTTON_DIFFICULTY
+                && buttonType != BUTTON_TIME
+                && buttonType != BUTTON_VOLUME
+                && buttonType != BUTTON_DIFFICULTY_DIAL
+                && buttonType != BUTTON_TIME_CLOCK
+                && buttonType != BUTTON_VOLUME_WAVES;
+    }
+
+    public boolean isMusicTypeButton() {
+        return buttonType == BUTTON_MUSIC_FULL
+                || buttonType == BUTTON_MUSIC_SPLIT;
+    }
+
+    public boolean isMusicNameButton() {
+        return buttonType == BUTTON_MUSIC_POINTILLISM
+                || buttonType == BUTTON_MUSIC_LINEAGE
+                || buttonType == BUTTON_MUSIC_TRI_THE_WALTZ
+                || buttonType == BUTTON_MUSIC_SQUARED_OFF
+                || buttonType == BUTTON_MUSIC_PENT_UP
+                || buttonType == BUTTON_MUSIC_HEXIDECIBEL
+                || buttonType == BUTTON_MUSIC_INTERSEPTOR
+                || buttonType == BUTTON_MUSIC_ROCTOPUS
+                || buttonType == BUTTON_MUSIC_NONPLUSSED;
     }
 
     public void transitionSquirgleColors() {
