@@ -62,7 +62,7 @@ public class SplashScreen implements Screen, InputProcessor {
 
         if((System.currentTimeMillis() - startTime) / 1000 > 5) {
             if(!game.playedBefore) {
-                game.setScreen(new TutorialScreen(game));
+                game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
             } else {
                 game.setScreen(new MainMenuScreen(game));
             }
@@ -121,7 +121,7 @@ public class SplashScreen implements Screen, InputProcessor {
         }
 
         if(!game.playedBefore) {
-            game.setScreen(new TutorialScreen(game));
+            game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
         } else {
             game.setScreen(new MainMenuScreen(game));
         }

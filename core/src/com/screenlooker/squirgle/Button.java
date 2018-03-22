@@ -3,10 +3,8 @@ package com.screenlooker.squirgle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.screenlooker.squirgle.screen.GameplayScreen;
-import com.screenlooker.squirgle.screen.MainMenuScreen;
-import com.screenlooker.squirgle.screen.TranceScreen;
-import com.screenlooker.squirgle.screen.help.MenuHelpScreen;
+import com.screenlooker.squirgle.screen.*;
+import com.screenlooker.squirgle.screen.help.*;
 import com.screenlooker.squirgle.screen.options.MenuOptionsScreen;
 import com.screenlooker.squirgle.screen.type.*;
 import com.screenlooker.squirgle.util.ColorUtils;
@@ -77,33 +75,116 @@ public class Button {
     public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_NONAGON = 58;
     public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK = 59;
     public static final int BUTTON_OPTIONS_BACK = 60;
-    public static final int BUTTON_MUSIC = 61;
-    public static final int BUTTON_MUSIC_FULL = 62;
-    public static final int BUTTON_MUSIC_SPLIT = 63;
-    public static final int BUTTON_MUSIC_POINTILLISM = 64;
-    public static final int BUTTON_MUSIC_LINEAGE = 65;
-    public static final int BUTTON_MUSIC_TRI_THE_WALTZ = 66;
-    public static final int BUTTON_MUSIC_SQUARED_OFF = 67;
-    public static final int BUTTON_MUSIC_PENT_UP = 68;
-    public static final int BUTTON_MUSIC_HEXIDECIBEL = 69;
-    public static final int BUTTON_MUSIC_INTERSEPTOR = 70;
-    public static final int BUTTON_MUSIC_ROCTOPUS = 71;
-    public static final int BUTTON_MUSIC_NONPLUSSED = 72;
-    public static final int BUTTON_DIFFICULTY = 73;
-    public static final int BUTTON_DIFFICULTY_DIAL = 74;
-    public static final int BUTTON_DIFFICULTY_CHEVRON_DOWN = 75;
-    public static final int BUTTON_DIFFICULTY_CHEVRON_UP = 76;
-    public static final int BUTTON_TIME = 77;
-    public static final int BUTTON_TIME_CLOCK = 78;
-    public static final int BUTTON_TIME_CHEVRON_DOWN = 79;
-    public static final int BUTTON_TIME_CHEVRON_UP = 80;
-    public static final int BUTTON_VOLUME = 81;
-    public static final int BUTTON_VOLUME_WAVES = 82;
-    public static final int BUTTON_VOLUME_CHEVRON_DOWN = 83;
-    public static final int BUTTON_VOLUME_CHEVRON_UP = 84;
-    //TODO: Add values for help screen once we've ironed out exactly how that screen should look/work
+    public static final int BUTTON_HELP_ADDITION = 61;
+    public static final int BUTTON_HELP_STATS = 62;
+    public static final int BUTTON_HELP_TUTORIAL = 63;
+    public static final int BUTTON_HELP_CREDITS = 64;
+    public static final int BUTTON_HELP_BACK = 65;
+    public static final int BUTTON_HELP_ADDITION_COLOR = 66;
+    public static final int BUTTON_HELP_ADDITION_SQUARE = 67;
+    public static final int BUTTON_HELP_ADDITION_PENTAGON = 68;
+    public static final int BUTTON_HELP_ADDITION_HEXAGON = 69;
+    public static final int BUTTON_HELP_ADDITION_SEPTAGON = 70;
+    public static final int BUTTON_HELP_ADDITION_OCTAGON = 71;
+    public static final int BUTTON_HELP_ADDITION_NONAGON = 72;
+    public static final int BUTTON_HELP_ADDITION_BACK = 73;
+    public static final int BUTTON_HELP_ADDITION_COLOR_BACK = 74;
+    public static final int BUTTON_HELP_ADDITION_BASE_BACK = 75;
+    public static final int BUTTON_HELP_STATS_GENERAL = 76;
+    public static final int BUTTON_HELP_STATS_SQUIRGLE = 77;
+    public static final int BUTTON_HELP_STATS_BATTLE = 78;
+    public static final int BUTTON_HELP_STATS_TIME_ATTACK = 79;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE = 80;
+    public static final int BUTTON_HELP_STATS_TRANCE = 81;
+    public static final int BUTTON_HELP_STATS_BACK = 82;
+    public static final int BUTTON_HELP_STATS_GENERAL_BACK = 83;
+    public static final int BUTTON_HELP_STATS_SQUIRGLE_BACK = 84;
+    public static final int BUTTON_HELP_STATS_BATTLE_EASY = 85;
+    public static final int BUTTON_HELP_STATS_BATTLE_MEDIUM = 86;
+    public static final int BUTTON_HELP_STATS_BATTLE_HARD = 87;
+    public static final int BUTTON_HELP_STATS_BATTLE_BACK = 88;
+    public static final int BUTTON_HELP_STATS_TIME_ATTACK_ONE_MINUTE = 89;
+    public static final int BUTTON_HELP_STATS_TIME_ATTACK_THREE_MINUTES = 90;
+    public static final int BUTTON_HELP_STATS_TIME_ATTACK_FIVE_MINUTES = 91;
+    public static final int BUTTON_HELP_STATS_TIME_ATTACK_BACK = 92;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE_EASY = 93;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM = 94;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE_HARD = 95;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE_EASY_ONE_MINUTE = 96;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE_EASY_THREE_MINUTES = 97;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE_EASY_FIVE_MINUTES = 98;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_ONE_MINUTE = 99;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_THREE_MINUTES = 100;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_FIVE_MINUTES = 101;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE_HARD_ONE_MINUTE = 102;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE_HARD_THREE_MINUTES = 103;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE_HARD_FIVE_MINUTES = 104;
+    public static final int BUTTON_HELP_STATS_TIME_BATTLE_BACK = 105;
+    public static final int BUTTON_HELP_STATS_TRANCE_BACK = 106;
+    public static final int BUTTON_HELP_TUTORIAL_SQUIRGLE = 107;
+    public static final int BUTTON_HELP_TUTORIAL_BATTLE = 108;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_ATTACK = 109;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_BATTLE = 110;
+    public static final int BUTTON_HELP_TUTORIAL_TRANCE = 111;
+    public static final int BUTTON_HELP_TUTORIAL_BACK = 112;
+    public static final int BUTTON_HELP_TUTORIAL_SQUIRGLE_SQUARE = 113;
+    public static final int BUTTON_HELP_TUTORIAL_SQUIRGLE_PENTAGON = 114;
+    public static final int BUTTON_HELP_TUTORIAL_SQUIRGLE_HEXAGON = 115;
+    public static final int BUTTON_HELP_TUTORIAL_SQUIRGLE_SEPTAGON = 116;
+    public static final int BUTTON_HELP_TUTORIAL_SQUIRGLE_OCTAGON = 117;
+    public static final int BUTTON_HELP_TUTORIAL_SQUIRGLE_NONAGON = 118;
+    public static final int BUTTON_HELP_TUTORIAL_SQUIRGLE_BACK = 119;
+    public static final int BUTTON_HELP_TUTORIAL_BATTLE_SQUARE = 120;
+    public static final int BUTTON_HELP_TUTORIAL_BATTLE_PENTAGON = 121;
+    public static final int BUTTON_HELP_TUTORIAL_BATTLE_HEXAGON = 122;
+    public static final int BUTTON_HELP_TUTORIAL_BATTLE_SEPTAGON = 123;
+    public static final int BUTTON_HELP_TUTORIAL_BATTLE_OCTAGON = 124;
+    public static final int BUTTON_HELP_TUTORIAL_BATTLE_NONAGON = 125;
+    public static final int BUTTON_HELP_TUTORIAL_BATTLE_BACK = 126;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_ATTACK_SQUARE = 127;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_ATTACK_PENTAGON = 128;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_ATTACK_HEXAGON = 129;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_ATTACK_SEPTAGON = 130;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_ATTACK_OCTAGON = 131;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_ATTACK_NONAGON = 132;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_ATTACK_BACK = 133;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_BATTLE_SQUARE = 134;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_BATTLE_PENTAGON = 135;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_BATTLE_HEXAGON = 136;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_BATTLE_SEPTAGON = 137;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_BATTLE_OCTAGON = 138;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_BATTLE_NONAGON = 139;
+    public static final int BUTTON_HELP_TUTORIAL_TIME_BATTLE_BACK = 140;
+    public static final int BUTTON_MUSIC = 141;
+    public static final int BUTTON_MUSIC_FULL = 142;
+    public static final int BUTTON_MUSIC_SPLIT = 143;
+    public static final int BUTTON_MUSIC_POINTILLISM = 144;
+    public static final int BUTTON_MUSIC_LINEAGE = 145;
+    public static final int BUTTON_MUSIC_TRI_THE_WALTZ = 146;
+    public static final int BUTTON_MUSIC_SQUARED_OFF = 147;
+    public static final int BUTTON_MUSIC_PENT_UP = 148;
+    public static final int BUTTON_MUSIC_HEXIDECIBEL = 149;
+    public static final int BUTTON_MUSIC_INTERSEPTOR = 150;
+    public static final int BUTTON_MUSIC_ROCTOPUS = 151;
+    public static final int BUTTON_MUSIC_NONPLUSSED = 152;
+    public static final int BUTTON_DIFFICULTY = 153;
+    public static final int BUTTON_DIFFICULTY_DIAL = 154;
+    public static final int BUTTON_DIFFICULTY_CHEVRON_DOWN = 155;
+    public static final int BUTTON_DIFFICULTY_CHEVRON_UP = 156;
+    public static final int BUTTON_TIME = 157;
+    public static final int BUTTON_TIME_CLOCK = 158;
+    public static final int BUTTON_TIME_CHEVRON_DOWN = 159;
+    public static final int BUTTON_TIME_CHEVRON_UP = 160;
+    public static final int BUTTON_VOLUME = 161;
+    public static final int BUTTON_VOLUME_WAVES = 162;
+    public static final int BUTTON_VOLUME_CHEVRON_DOWN = 163;
+    public static final int BUTTON_VOLUME_CHEVRON_UP = 164;
 
     public static final String QUESTION_MARK = "?";
+    private final static String HIGHEST_SCORE = "HIGHEST SCORE: ";
+    private final static String ONE_MINUTE = "1M";
+    private final static String THREE_MINUTES = "3M";
+    private final static String FIVE_MINUTES = "5M";
 
     private float x;
     private float y;
@@ -790,6 +871,557 @@ public class Button {
                         containedColor);
                 break;
             }
+            case BUTTON_HELP_ADDITION : {
+                game.draw.drawPlus(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_STATS : {
+                game.draw.drawModulo(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL : {
+                game.draw.drawTutorialSymbol(centerX,
+                        centerY,
+                        radius,
+                        containedColor,
+                        containerColor);
+                break;
+            }
+            case BUTTON_HELP_CREDITS : {
+                game.draw.drawCreditsSymbol(centerX,
+                        centerY,
+                        radius,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_ADDITION_COLOR : {
+                game.draw.drawColorWheel(centerX,
+                        centerY,
+                        radius,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_ADDITION_SQUARE : {
+                game.draw.drawSquare(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_ADDITION_PENTAGON : {
+                game.draw.drawPentagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_ADDITION_HEXAGON : {
+                game.draw.drawHexagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_ADDITION_SEPTAGON : {
+                game.draw.drawSeptagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_ADDITION_OCTAGON : {
+                game.draw.drawOctagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_ADDITION_NONAGON : {
+                game.draw.drawNonagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_ADDITION_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_ADDITION_COLOR_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_ADDITION_BASE_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_STATS_GENERAL : {
+                game.draw.drawSigma(centerX,
+                        centerY,
+                        radius,
+                        containedColor,
+                        containerColor);
+                break;
+            }
+            case BUTTON_HELP_STATS_SQUIRGLE : {
+                game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
+                game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+                break;
+            }
+            case BUTTON_HELP_STATS_BATTLE : {
+                drawBattleSymbol();
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_ATTACK : {
+                game.draw.drawClock(centerX,
+                        centerY,
+                        radius,
+                        containedColor,
+                        containerColor);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE : {
+                drawTimeBattleSymbol();
+                break;
+            }
+            case BUTTON_HELP_STATS_TRANCE : {
+                game.draw.drawTranceSymbol(centerX,
+                        centerY,
+                        radius,
+                        containedColor,
+                        containerColor);
+                break;
+            }
+            case BUTTON_HELP_STATS_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_STATS_GENERAL_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_STATS_SQUIRGLE_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_STATS_BATTLE_EASY : {
+                break;
+            }
+            case BUTTON_HELP_STATS_BATTLE_MEDIUM : {
+                break;
+            }
+            case BUTTON_HELP_STATS_BATTLE_HARD : {
+                break;
+            }
+            case BUTTON_HELP_STATS_BATTLE_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_ATTACK_ONE_MINUTE : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_ATTACK_THREE_MINUTES : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_ATTACK_FIVE_MINUTES : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_ATTACK_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_EASY : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_HARD : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_EASY_ONE_MINUTE : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_EASY_THREE_MINUTES : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_EASY_FIVE_MINUTES : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_ONE_MINUTE : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_THREE_MINUTES : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_FIVE_MINUTES : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_HARD_ONE_MINUTE : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_HARD_THREE_MINUTES : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_HARD_FIVE_MINUTES : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_STATS_TRANCE_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE : {
+                game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
+                game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE : {
+                drawBattleSymbol();
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK : {
+                game.draw.drawClock(centerX,
+                        centerY,
+                        radius,
+                        containedColor,
+                        containerColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE : {
+                drawTimeBattleSymbol();
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TRANCE : {
+                game.draw.drawTranceSymbol(centerX,
+                        centerY,
+                        radius,
+                        containedColor,
+                        containerColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_SQUARE : {
+                game.draw.drawSquare(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_PENTAGON : {
+                game.draw.drawPentagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_HEXAGON : {
+                game.draw.drawHexagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_SEPTAGON : {
+                game.draw.drawSeptagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_OCTAGON : {
+                game.draw.drawOctagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_NONAGON : {
+                game.draw.drawNonagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_SQUARE : {
+                game.draw.drawSquare(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_PENTAGON : {
+                game.draw.drawPentagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_HEXAGON : {
+                game.draw.drawHexagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_SEPTAGON : {
+                game.draw.drawSeptagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_OCTAGON : {
+                game.draw.drawOctagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_NONAGON : {
+                game.draw.drawNonagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SQUARE : {
+                game.draw.drawSquare(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_PENTAGON : {
+                game.draw.drawPentagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_HEXAGON : {
+                game.draw.drawHexagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SEPTAGON : {
+                game.draw.drawSeptagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_OCTAGON : {
+                game.draw.drawOctagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_NONAGON : {
+                game.draw.drawNonagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SQUARE : {
+                game.draw.drawSquare(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_PENTAGON : {
+                game.draw.drawPentagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_HEXAGON : {
+                game.draw.drawHexagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SEPTAGON : {
+                game.draw.drawSeptagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_OCTAGON : {
+                game.draw.drawOctagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_NONAGON : {
+                game.draw.drawNonagon(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_BACK : {
+                game.draw.drawBackButton(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
             case BUTTON_MUSIC : {
                 game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (radius / 4) + ((radius / Draw.LINE_WIDTH_DIVISOR) / 2),
                         game.partitionSize + (height / 2),
@@ -912,7 +1544,6 @@ public class Button {
                         containedColor);
                 break;
             }
-            //TODO: Add values for help screen once we've ironed out exactly how that screen should look/work
         }
     }
 
@@ -1048,7 +1679,7 @@ public class Button {
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_BACK : {
-
+                break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE : {
                 break;
@@ -1102,6 +1733,426 @@ public class Button {
                 break;
             }
             case BUTTON_OPTIONS_BACK : {
+                break;
+            }
+            case BUTTON_HELP_ADDITION : {
+                break;
+            }
+            case BUTTON_HELP_STATS : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL : {
+                break;
+            }
+            case BUTTON_HELP_CREDITS : {
+                break;
+            }
+            case BUTTON_HELP_BACK : {
+                break;
+            }
+            case BUTTON_HELP_ADDITION_COLOR : {
+                break;
+            }
+            case BUTTON_HELP_ADDITION_SQUARE : {
+                break;
+            }
+            case BUTTON_HELP_ADDITION_PENTAGON : {
+                break;
+            }
+            case BUTTON_HELP_ADDITION_HEXAGON : {
+                break;
+            }
+            case BUTTON_HELP_ADDITION_SEPTAGON : {
+                break;
+            }
+            case BUTTON_HELP_ADDITION_OCTAGON : {
+                break;
+            }
+            case BUTTON_HELP_ADDITION_NONAGON : {
+                break;
+            }
+            case BUTTON_HELP_ADDITION_BACK : {
+                break;
+            }
+            case BUTTON_HELP_ADDITION_COLOR_BACK : {
+                break;
+            }
+            case BUTTON_HELP_ADDITION_BASE_BACK : {
+                break;
+            }
+            case BUTTON_HELP_STATS_GENERAL : {
+                break;
+            }
+            case BUTTON_HELP_STATS_SQUIRGLE : {
+                break;
+            }
+            case BUTTON_HELP_STATS_BATTLE : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_ATTACK : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TRANCE : {
+                break;
+            }
+            case BUTTON_HELP_STATS_BACK : {
+                break;
+            }
+            case BUTTON_HELP_STATS_GENERAL_BACK : {
+                break;
+            }
+            case BUTTON_HELP_STATS_SQUIRGLE_BACK : {
+                break;
+            }
+            case BUTTON_HELP_STATS_BATTLE_EASY : {
+                game.layout.setText(game.fontStats, Squirgle.DIFFICULTY_EASY);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.difficulty.equals(Squirgle.DIFFICULTY_EASY) ? Color.WHITE : Color.BLACK,
+                        Squirgle.DIFFICULTY_EASY,
+                        x + width - (game.layout.width / 2),
+                        y + (height / 2) - (game.layout.height / 2),
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_BATTLE_MEDIUM : {
+                game.layout.setText(game.fontStats, Squirgle.DIFFICULTY_MEDIUM);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM) ? Color.WHITE : Color.BLACK,
+                        Squirgle.DIFFICULTY_MEDIUM,
+                        x + width - (game.layout.width / 2),
+                        y + (height / 2) - (game.layout.height / 2),
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_BATTLE_HARD : {
+                game.layout.setText(game.fontStats, Squirgle.DIFFICULTY_HARD);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.difficulty.equals(Squirgle.DIFFICULTY_HARD) ? Color.WHITE : Color.BLACK,
+                        Squirgle.DIFFICULTY_HARD,
+                        x + width - (game.layout.width / 2),
+                        y + (height / 2) - (game.layout.height / 2),
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_BATTLE_BACK : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_ATTACK_ONE_MINUTE : {
+                game.layout.setText(game.fontStats, ONE_MINUTE);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.timeAttackNumSeconds == Squirgle.ONE_MINUTE ? Color.WHITE : Color.BLACK,
+                        ONE_MINUTE,
+                        x + width - (game.layout.width / 2),
+                        y + (height / 2) - (game.layout.height / 2),
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_ATTACK_THREE_MINUTES : {
+                game.layout.setText(game.fontStats, THREE_MINUTES);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.timeAttackNumSeconds == Squirgle.THREE_MINUTES ? Color.WHITE : Color.BLACK,
+                        THREE_MINUTES,
+                        x + width - (game.layout.width / 2),
+                        y + (height / 2) - (game.layout.height / 2),
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_ATTACK_FIVE_MINUTES : {
+                game.layout.setText(game.fontStats, FIVE_MINUTES);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES ? Color.WHITE : Color.BLACK,
+                        FIVE_MINUTES,
+                        x + width - (game.layout.width / 2),
+                        y + (height / 2) - (game.layout.height / 2),
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_ATTACK_BACK : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_EASY : {
+                game.layout.setText(game.fontStats, Squirgle.DIFFICULTY_EASY);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.difficulty.equals(Squirgle.DIFFICULTY_EASY) ? Color.WHITE : Color.BLACK,
+                        Squirgle.DIFFICULTY_EASY,
+                        x + width - (game.layout.width / 2),
+                        y + (height / 2) - (game.layout.height / 2),
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM : {
+                game.layout.setText(game.fontStats, Squirgle.DIFFICULTY_MEDIUM);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM) ? Color.WHITE : Color.BLACK,
+                        Squirgle.DIFFICULTY_MEDIUM,
+                        x + width - (game.layout.width / 2),
+                        y + (height / 2) - (game.layout.height / 2),
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_HARD : {
+                game.layout.setText(game.fontStats, Squirgle.DIFFICULTY_HARD);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.difficulty.equals(Squirgle.DIFFICULTY_HARD) ? Color.WHITE : Color.BLACK,
+                        Squirgle.DIFFICULTY_HARD,
+                        x + width - (game.layout.width / 2),
+                        y + (height / 2) - (game.layout.height / 2),
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_EASY_ONE_MINUTE : {
+                game.layout.setText(game.fontStats, ONE_MINUTE);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.timeAttackNumSeconds == Squirgle.ONE_MINUTE ? Color.BLACK : Color.WHITE,
+                        ONE_MINUTE,
+                        centerX,
+                        centerY,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_EASY_THREE_MINUTES : {
+                game.layout.setText(game.fontStats, THREE_MINUTES);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.timeAttackNumSeconds == Squirgle.THREE_MINUTES ? Color.BLACK : Color.WHITE,
+                        THREE_MINUTES,
+                        centerX,
+                        centerY,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_EASY_FIVE_MINUTES : {
+                game.layout.setText(game.fontStats, FIVE_MINUTES);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES ? Color.BLACK : Color.WHITE,
+                        FIVE_MINUTES,
+                        centerX,
+                        centerY,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_ONE_MINUTE : {
+                game.layout.setText(game.fontStats, ONE_MINUTE);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.timeAttackNumSeconds == Squirgle.ONE_MINUTE ? Color.BLACK : Color.WHITE,
+                        ONE_MINUTE,
+                        centerX,
+                        centerY,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_THREE_MINUTES : {
+                game.layout.setText(game.fontStats, THREE_MINUTES);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.timeAttackNumSeconds == Squirgle.THREE_MINUTES ? Color.BLACK : Color.WHITE,
+                        THREE_MINUTES,
+                        centerX,
+                        centerY,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_FIVE_MINUTES : {
+                game.layout.setText(game.fontStats, FIVE_MINUTES);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES ? Color.BLACK : Color.WHITE,
+                        FIVE_MINUTES,
+                        centerX,
+                        centerY,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_HARD_ONE_MINUTE : {
+                game.layout.setText(game.fontStats, ONE_MINUTE);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.timeAttackNumSeconds == Squirgle.ONE_MINUTE ? Color.BLACK : Color.WHITE,
+                        ONE_MINUTE,
+                        centerX,
+                        centerY,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_HARD_THREE_MINUTES : {
+                game.layout.setText(game.fontStats, THREE_MINUTES);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.timeAttackNumSeconds == Squirgle.THREE_MINUTES ? Color.BLACK : Color.WHITE,
+                        THREE_MINUTES,
+                        centerX,
+                        centerY,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_HARD_FIVE_MINUTES : {
+                game.layout.setText(game.fontStats, FIVE_MINUTES);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES ? Color.BLACK : Color.WHITE,
+                        FIVE_MINUTES,
+                        centerX,
+                        centerY,
+                        0,
+                        1);
+                break;
+            }
+            case BUTTON_HELP_STATS_TIME_BATTLE_BACK : {
+                break;
+            }
+            case BUTTON_HELP_STATS_TRANCE_BACK : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TRANCE : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BACK : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_SQUARE : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_PENTAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_HEXAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_SEPTAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_OCTAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_NONAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_SQUIRGLE_BACK : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_SQUARE : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_PENTAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_HEXAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_SEPTAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_OCTAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_NONAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_BATTLE_BACK : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SQUARE : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_PENTAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_HEXAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SEPTAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_OCTAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_NONAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_ATTACK_BACK : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SQUARE : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_PENTAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_HEXAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SEPTAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_OCTAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_NONAGON : {
+                break;
+            }
+            case BUTTON_HELP_TUTORIAL_TIME_BATTLE_BACK : {
                 break;
             }
             case BUTTON_MUSIC : {
@@ -1289,7 +2340,6 @@ public class Button {
             case BUTTON_VOLUME_CHEVRON_UP : {
                 break;
             }
-            //TODO: Add values for help screen once we've ironed out exactly how that screen should look/work
         }
     }
 
@@ -1437,7 +2487,6 @@ public class Button {
         }
     }
 
-    //TODO: Figure out and take care of music, difficulty, time and volume behavior
     //The boolean returned here is used by the calling Screen object to determine whether or not to call its dispose method
     public boolean touchUp(Vector3 touchPoint) {
         containerColor = originalContainerColor;
@@ -1907,6 +2956,492 @@ public class Button {
                     game.setScreen(new MainMenuScreen(game));
                     return true;
                 }
+                case BUTTON_HELP_ADDITION : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpAdditionScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpStatsScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpTutorialScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_CREDITS : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new CreditsScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MainMenuScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_ADDITION_COLOR : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpAdditionColorScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_ADDITION_SQUARE : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 4;
+                    game.setScreen(new MenuHelpAdditionBaseScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_ADDITION_PENTAGON : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 5;
+                    game.setScreen(new MenuHelpAdditionBaseScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_ADDITION_HEXAGON : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 6;
+                    game.setScreen(new MenuHelpAdditionBaseScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_ADDITION_SEPTAGON : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 7;
+                    game.setScreen(new MenuHelpAdditionBaseScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_ADDITION_OCTAGON : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 8;
+                    game.setScreen(new MenuHelpAdditionBaseScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_ADDITION_NONAGON : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 9;
+                    game.setScreen(new MenuHelpAdditionBaseScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_ADDITION_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_ADDITION_COLOR_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpAdditionScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_ADDITION_BASE_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpAdditionScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS_GENERAL : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpStatsGeneralScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS_SQUIRGLE : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpStatsSquirgleScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS_BATTLE : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpStatsBattleScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS_TIME_ATTACK : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpStatsTimeAttackScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpStatsTimeBattleScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS_TRANCE : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpStatsTranceScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS_GENERAL_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpStatsScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS_SQUIRGLE_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpStatsScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS_BATTLE_EASY : {
+                    game.difficulty = Squirgle.DIFFICULTY_EASY;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_BATTLE_MEDIUM : {
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_BATTLE_HARD : {
+                    game.difficulty = Squirgle.DIFFICULTY_HARD;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_BATTLE_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpStatsScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS_TIME_ATTACK_ONE_MINUTE : {
+                    game.timeAttackNumSeconds = Squirgle.ONE_MINUTE;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_ATTACK_THREE_MINUTES : {
+                    game.timeAttackNumSeconds = Squirgle.THREE_MINUTES;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_ATTACK_FIVE_MINUTES : {
+                    game.timeAttackNumSeconds = Squirgle.FIVE_MINUTES;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_ATTACK_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpStatsScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE_EASY : {
+                    game.difficulty = Squirgle.DIFFICULTY_EASY;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM : {
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE_HARD : {
+                    game.difficulty = Squirgle.DIFFICULTY_HARD;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE_EASY_ONE_MINUTE : {
+                    game.timeAttackNumSeconds = Squirgle.ONE_MINUTE;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE_EASY_THREE_MINUTES : {
+                    game.timeAttackNumSeconds = Squirgle.THREE_MINUTES;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE_EASY_FIVE_MINUTES : {
+                    game.timeAttackNumSeconds = Squirgle.FIVE_MINUTES;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_ONE_MINUTE : {
+                    game.timeAttackNumSeconds = Squirgle.ONE_MINUTE;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_THREE_MINUTES : {
+                    game.timeAttackNumSeconds = Squirgle.THREE_MINUTES;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_FIVE_MINUTES : {
+                    game.timeAttackNumSeconds = Squirgle.FIVE_MINUTES;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE_HARD_ONE_MINUTE : {
+                    game.timeAttackNumSeconds = Squirgle.ONE_MINUTE;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE_HARD_THREE_MINUTES : {
+                    game.timeAttackNumSeconds = Squirgle.THREE_MINUTES;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE_HARD_FIVE_MINUTES : {
+                    game.timeAttackNumSeconds = Squirgle.FIVE_MINUTES;
+                    return false;
+                }
+                case BUTTON_HELP_STATS_TIME_BATTLE_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpStatsScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_STATS_TRANCE_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpStatsScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_SQUIRGLE : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpTutorialSquirgleScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_BATTLE : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpTutorialBattleScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_ATTACK : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpTutorialTimeAttackScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_BATTLE : {
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpTutorialTimeBattleScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TRANCE : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.usePhases = false;
+                    game.setScreen(new TutorialTranceScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_SQUIRGLE_SQUARE : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 4;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_SQUIRGLE_PENTAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 5;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_SQUIRGLE_HEXAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 6;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_SQUIRGLE_SEPTAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 7;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_SQUIRGLE_OCTAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 8;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_SQUIRGLE_NONAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 9;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_SQUIRGLE_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpTutorialScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_BATTLE_SQUARE : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 4;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_BATTLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_BATTLE_PENTAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 5;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_BATTLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_BATTLE_HEXAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 6;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_BATTLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_BATTLE_SEPTAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 7;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_BATTLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_BATTLE_OCTAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 8;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_BATTLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_BATTLE_NONAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 9;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_BATTLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_BATTLE_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpTutorialScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SQUARE : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 4;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_ATTACK_PENTAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 5;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_ATTACK_HEXAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 6;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SEPTAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 7;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_ATTACK_OCTAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 8;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_ATTACK_NONAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 9;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_ATTACK_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpTutorialScreen(game));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SQUARE : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 4;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_BATTLE_PENTAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 5;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_BATTLE_HEXAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 6;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SEPTAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 7;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_BATTLE_OCTAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 8;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_BATTLE_NONAGON : {
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.base = 9;
+                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
+                    game.updateSave(game.SAVE_TRACK, game.track);
+                    game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE));
+                    return true;
+                }
+                case BUTTON_HELP_TUTORIAL_TIME_BATTLE_BACK : {
+                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.setScreen(new MenuHelpTutorialScreen(game));
+                    return true;
+                }
                 case BUTTON_MUSIC : {
                     return false;
                 }
@@ -2042,7 +3577,6 @@ public class Button {
                     game.confirmSound.play((float) (game.volume / 10.0));
                     return false;
                 }
-                //TODO: Add values for help screen once we've ironed out exactly how that screen should look/work
             }
         }
 

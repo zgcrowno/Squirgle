@@ -215,7 +215,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     float primaryShapeThreshold;
     boolean primaryShapeAtThreshold;
 
-    public TutorialScreen(final Squirgle game) {
+    public TutorialScreen(final Squirgle game, final int gameplayType) {
         this.game = game;
 
         game.base = TUTORIAL_BASE;
