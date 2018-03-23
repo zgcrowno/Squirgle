@@ -2443,27 +2443,29 @@ public class Draw {
 
     public void drawTutorialSymbol(float x, float y, float radius, Color primaryColor, Color secondaryColor) {
         game.shapeRendererFilled.setColor(primaryColor);
-        game.shapeRendererFilled.triangle(x - radius, y + radius - (radius / 3), x, y + radius, x + radius, y + radius - (radius / 3));
-        game.shapeRendererFilled.triangle(x - radius, y + radius - (radius / 3), x, y + radius - (radius / 3), x + radius, y + radius - (radius / 3));
-        game.shapeRendererFilled.rect(x - (radius / 2), y - (radius / 3), radius, (2 * radius) / 3);
-        game.shapeRendererFilled.rectLine(x + ((3 * radius) / 4), y + radius - (radius / 3), x + ((3 * radius) / 4), y - radius, radius / 30);
-        game.shapeRendererFilled.circle(x + ((3 * radius) / 4), y - (radius / 3), radius / 15);
-        game.shapeRendererFilled.triangle(x + ((3 * radius) / 4), y - (radius / 3), x + ((3 * radius) / 4) - (radius / 7.5f), y - radius, x + ((3 * radius) / 4) + (radius / 7.5f), y - radius);
+        game.shapeRendererFilled.triangle(x - radius, y + radius - (radius / 3) - (radius / 4), x, y + radius - (radius / 4), x + radius, y + radius - (radius / 3) - (radius / 4));
+        game.shapeRendererFilled.triangle(x - radius, y + radius - (radius / 3) - (radius / 4), x, y + radius - ((2 * radius) / 3) - (radius / 4), x + radius, y + radius - (radius / 3) - (radius / 4));
+        game.shapeRendererFilled.rect(x - (radius / 2), y - (radius / 4), radius, radius / 2);
+        game.shapeRendererFilled.rectLine(x + ((3 * radius) / 4), y + radius - (radius / 3) - (radius / 4), x + ((3 * radius) / 4), y - (radius / 2) - (radius / 4), radius / 30);
+        game.shapeRendererFilled.circle(x + ((3 * radius) / 4), y - (radius / 4) - (radius / 4), radius / 15);
+        game.shapeRendererFilled.triangle(x + ((3 * radius) / 4), y - (radius / 4) - (radius / 4), x + ((3 * radius) / 4) - (radius / 7.5f), y - (radius / 2) - (radius / 4), x + ((3 * radius) / 4) + (radius / 7.5f), y - (radius / 2) - (radius / 4));
         game.shapeRendererFilled.setColor(secondaryColor);
-        game.shapeRendererFilled.rectLine(x - radius, y + radius - (radius / 3), x, y + (radius / 3), radius / 15);
-        game.shapeRendererFilled.rectLine(x, y + radius + (radius / 3), x + radius, y + radius - (radius / 3), radius / 15);
+        game.shapeRendererFilled.rectLine(x - radius, y + radius - (radius / 3) - (radius / 4), x, y + (radius / 3) - (radius / 4), radius / 30);
+        game.shapeRendererFilled.rectLine(x, y + (radius / 3) - (radius / 4), x + radius, y + radius - (radius / 3) - (radius / 4), radius / 30);
+        game.shapeRendererFilled.circle(x, y + (radius / 3) - (radius / 4), radius / 60);
     }
 
     public void drawCreditsSymbol(float x, float y, float radius, Color color) {
+        float twoTimesRadius = 2 * radius;
         float firstHeight = radius / 20;
         float secondHeight = radius / 15;
         float thirdHeight = radius / 10;
         float fourthHeight = radius / 5;
         game.shapeRendererFilled.setColor(color);
-        game.shapeRendererFilled.rect(x - (radius / 5), y + radius - (radius / 5) - (firstHeight / 2), (2 * radius) / 5, firstHeight);
-        game.shapeRendererFilled.rect(x - ((2 * radius) / 5), y + radius - ((2 * radius) / 5) - (secondHeight / 2), (4 * radius) / 5, firstHeight);
-        game.shapeRendererFilled.rect(x - ((3 * radius) / 5), y + radius - ((3 * radius) / 5) - (thirdHeight / 2), (6 * radius) / 5, firstHeight);
-        game.shapeRendererFilled.rect(x - ((4 * radius) / 5), y + radius - ((4 * radius) / 5) - (fourthHeight / 2), (8 * radius) / 5, firstHeight);
+        game.shapeRendererFilled.rect(x - (radius / 5), y + radius - (twoTimesRadius / 5) - (firstHeight / 2), (2 * radius) / 5, firstHeight);
+        game.shapeRendererFilled.rect(x - ((2 * radius) / 5), y + radius - ((2 * twoTimesRadius) / 5) - (secondHeight / 2), (4 * radius) / 5, firstHeight);
+        game.shapeRendererFilled.rect(x - ((3 * radius) / 5), y - radius + ((2 * twoTimesRadius) / 5) - (thirdHeight / 2), (6 * radius) / 5, firstHeight);
+        game.shapeRendererFilled.rect(x - ((4 * radius) / 5), y - radius + (twoTimesRadius / 5) - (fourthHeight / 2), (8 * radius) / 5, firstHeight);
     }
 
     public void rect(float x, float y, float width, float height, Color color) {

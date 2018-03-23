@@ -9,10 +9,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuHelpAdditionBaseScreen implements Screen, InputProcessor {
 
@@ -42,6 +46,10 @@ public class MenuHelpAdditionBaseScreen implements Screen, InputProcessor {
 
     private boolean backTouched;
 
+    private Button backButton;
+
+    private List<Button> buttonList;
+
     public MenuHelpAdditionBaseScreen(final Squirgle game) {
         this.game = game;
 
@@ -65,6 +73,18 @@ public class MenuHelpAdditionBaseScreen implements Screen, InputProcessor {
         backColor = ColorUtils.randomColor();
 
         backTouched = false;
+
+        backButton = new Button(game.camera.viewportWidth - game.partitionSize - inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeightBack,
+                Button.BUTTON_HELP_ADDITION_BASE_BACK,
+                backColor,
+                Color.BLACK,
+                game);
+
+        buttonList = new ArrayList<Button>();
+        buttonList.add(backButton);
     }
 
     @Override
@@ -80,7 +100,15 @@ public class MenuHelpAdditionBaseScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
         drawAdditionTable();
-        drawInputRectangles();
+        drawTitle();
+
+        for(Button button : buttonList) {
+            button.draw();
+        }
+
+        for(Button button : buttonList) {
+            button.drawTransitionCircles(this);
+        }
 
         game.shapeRendererFilled.end();
     }
@@ -126,6 +154,12 @@ public class MenuHelpAdditionBaseScreen implements Screen, InputProcessor {
             return false;
         }
 
+        game.camera.unproject(touchPoint.set(screenX, screenY, 0));
+
+        for(Button btn : buttonList) {
+            btn.touchDown(touchPoint);
+        }
+
         return true;
     }
 
@@ -137,15 +171,8 @@ public class MenuHelpAdditionBaseScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        backTouched = touchPoint.x > game.camera.viewportWidth - game.partitionSize - inputWidth
-                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + inputHeightBack;
-
-        if(backTouched) {
-            game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuHelpScreen(game));
-            dispose();
+        for(Button btn : buttonList) {
+            btn.touchUp(touchPoint);
         }
 
         return true;
@@ -205,45 +232,24 @@ public class MenuHelpAdditionBaseScreen implements Screen, InputProcessor {
         }
     }
 
-    public void drawInputRectangles() {
-        drawTitle();
-        drawBackInput();
-    }
-
-    public void drawInputRectangle(int placement, Color color) {
-        switch(placement) {
-            case BACK : {
-                game.draw.rect(game.camera.viewportWidth - game.partitionSize - inputWidth,
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeightBack,
-                        color);
-            }
-        }
-    }
-
-    public void drawBackInput() {
-        drawInputRectangle(BACK, backColor);
-        game.draw.drawBackButton(game.camera.viewportWidth - game.partitionSize - (inputWidth / 2),
-                inputHeightBack / 2,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
-    }
-
     public void drawTitle() {
         game.draw.drawQuestionMark(game.partitionSize + (inputWidth / 2),
                 (3 * game.camera.viewportHeight) / 4,
-                symbolRadius / 2,
-                (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
+                symbolRadius / 3,
+                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE,
                 Color.BLACK);
+        game.draw.drawPlus(game.partitionSize + (inputWidth / 2),
+                game.camera.viewportHeight / 2,
+                symbolRadius / 3,
+                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                Color.WHITE);
         game.draw.drawShape(false,
                 new Shape(game.base - 1,
-                        symbolRadius / 2,
+                        symbolRadius / 3,
                         Color.WHITE,
                         null,
-                        (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                         new Vector2(game.partitionSize + (inputWidth / 2),
                                 game.camera.viewportHeight / 4)));
     }

@@ -9,10 +9,14 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
 
@@ -47,6 +51,10 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
 
     private boolean backTouched;
 
+    private Button backButton;
+
+    private List<Button> buttonList;
+
     //TODO: Set up fontScore
     public MenuHelpStatsTranceScreen(final Squirgle game) {
         this.game = game;
@@ -68,6 +76,18 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
         backColor = ColorUtils.randomColor();
 
         backTouched = false;
+
+        backButton = new Button(game.camera.viewportWidth - game.partitionSize - inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeight,
+                Button.BUTTON_HELP_STATS_TRANCE_BACK,
+                backColor,
+                Color.BLACK,
+                game);
+
+        buttonList = new ArrayList<Button>();
+        buttonList.add(backButton);
     }
 
     @Override
@@ -84,9 +104,21 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
 
         drawInputRectangles();
 
+        for(Button button : buttonList) {
+            button.draw();
+        }
+
         game.shapeRendererFilled.end();
 
         drawStatsText();
+
+        game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+
+        for(Button button : buttonList) {
+            button.drawTransitionCircles(this);
+        }
+
+        game.shapeRendererFilled.end();
     }
 
     @Override
@@ -130,6 +162,12 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
             return false;
         }
 
+        game.camera.unproject(touchPoint.set(screenX, screenY, 0));
+
+        for(Button btn : buttonList) {
+            btn.touchDown(touchPoint);
+        }
+
         return true;
     }
 
@@ -141,15 +179,8 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + inputHeight;
-
-        if(backTouched) {
-            game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuHelpStatsScreen(game));
-            dispose();
+        for(Button btn : buttonList) {
+            btn.touchUp(touchPoint);
         }
 
         return true;
@@ -183,7 +214,6 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
     public void drawInputRectangles() {
         drawTitle();
         drawStatsInput();
-        drawBackInput();
     }
 
     public void drawInputRectangle(int placement, Color color) {
@@ -195,27 +225,11 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
                         inputHeight,
                         color);
             }
-            case BACK : {
-                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeight,
-                        color);
-            }
         }
     }
 
     public void drawStatsInput() {
         drawInputRectangle(STATS, statsColor);
-    }
-
-    public void drawBackInput() {
-        drawInputRectangle(BACK, backColor);
-        game.draw.drawBackButton(game.camera.viewportWidth - game.partitionSize - (inputWidth / 2),
-                game.camera.viewportHeight / 2,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
     }
 
     public void drawStatsText() {

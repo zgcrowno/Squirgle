@@ -8,11 +8,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.screen.MainMenuScreen;
 import com.screenlooker.squirgle.screen.TutorialScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuHelpScreen implements Screen, InputProcessor {
 
@@ -32,14 +36,11 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
+    private final static int NUM_MIDDLE_INPUTS_VERTICAL = 4;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
-
-    private int numberOfBaseInputs;
-
-    private int numMiddleInputsVertical;
-    private int numMiddlePartitionsVertical;
+    private final static int NUM_MIDDLE_PARTITIONS_VERTICAL = NUM_MIDDLE_INPUTS_VERTICAL + 1;
 
     private float inputWidth;
     private float inputHeightBase;
@@ -51,15 +52,10 @@ public class MenuHelpScreen implements Screen, InputProcessor {
 
     private Vector3 touchPoint;
 
-    private Color base4Color;
-    private Color base5Color;
-    private Color base6Color;
-    private Color base7Color;
-    private Color base8Color;
-    private Color base9Color;
-    private Color colorColor;
+    private Color additionColor;
     private Color statsColor;
-    private Color playColor;
+    private Color tutorialColor;
+    private Color creditsColor;
     private Color backColor;
 
     private boolean base4Touched;
@@ -73,6 +69,14 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     private boolean playTouched;
     private boolean backTouched;
 
+    private Button additionButton;
+    private Button statsButton;
+    private Button tutorialButton;
+    private Button creditsButton;
+    private Button backButton;
+
+    private List<Button> buttonList;
+
     public MenuHelpScreen(final Squirgle game) {
         this.game = game;
 
@@ -80,13 +84,8 @@ public class MenuHelpScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        numberOfBaseInputs = game.maxBase - game.minBase + 4; //Adding three more than expected here because of color, play and stats inputs
-
-        numMiddleInputsVertical = numberOfBaseInputs;
-        numMiddlePartitionsVertical = numMiddleInputsVertical + 1;
-
         inputWidth = (game.camera.viewportWidth - (game.partitionSize * NUM_PARTITIONS_HORIZONTAL)) / NUM_INPUTS_HORIZONTAL;
-        inputHeightBase = (game.camera.viewportHeight - (game.partitionSize * numMiddlePartitionsVertical)) / numMiddleInputsVertical;
+        inputHeightBase = (game.camera.viewportHeight - (game.partitionSize * NUM_MIDDLE_PARTITIONS_VERTICAL)) / NUM_MIDDLE_INPUTS_VERTICAL;
         inputHeightBack = game.camera.viewportHeight - (game.partitionSize * NUM_RIGHT_PARTITIONS_VERTICAL);
 
         symbolRadius = inputWidth > inputHeightBack ? inputHeightBack / 2 : inputWidth / 2;
@@ -95,15 +94,10 @@ public class MenuHelpScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        base4Color = ColorUtils.randomColor();
-        base5Color = ColorUtils.randomColor();
-        base6Color = ColorUtils.randomColor();
-        base7Color = ColorUtils.randomColor();
-        base8Color = ColorUtils.randomColor();
-        base9Color = ColorUtils.randomColor();
-        colorColor = ColorUtils.randomColor();
+        additionColor = ColorUtils.randomColor();
         statsColor = ColorUtils.randomColor();
-        playColor = ColorUtils.randomColor();
+        tutorialColor = ColorUtils.randomColor();
+        creditsColor = ColorUtils.randomColor();
         backColor = ColorUtils.randomColor();
 
         base4Touched = false;
@@ -116,6 +110,54 @@ public class MenuHelpScreen implements Screen, InputProcessor {
         statsTouched = false;
         playTouched = false;
         backTouched = false;
+
+        additionButton = new Button((2 * game.partitionSize) + inputWidth,
+                (4 * game.partitionSize) + (3 * inputHeightBase),
+                inputWidth,
+                inputHeightBase,
+                Button.BUTTON_HELP_ADDITION,
+                additionColor,
+                Color.BLACK,
+                game);
+        statsButton = new Button((2 * game.partitionSize) + inputWidth,
+                (3 * game.partitionSize) + (2 * inputHeightBase),
+                inputWidth,
+                inputHeightBase,
+                Button.BUTTON_HELP_STATS,
+                statsColor,
+                Color.BLACK,
+                game);
+        tutorialButton = new Button((2 * game.partitionSize) + inputWidth,
+                (2 * game.partitionSize) + inputHeightBase,
+                inputWidth,
+                inputHeightBase,
+                Button.BUTTON_HELP_TUTORIAL,
+                tutorialColor,
+                Color.BLACK,
+                game);
+        creditsButton = new Button((2 * game.partitionSize) + inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeightBase,
+                Button.BUTTON_HELP_CREDITS,
+                creditsColor,
+                Color.BLACK,
+                game);
+        backButton = new Button(game.camera.viewportWidth - game.partitionSize - inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeightBack,
+                Button.BUTTON_HELP_BACK,
+                backColor,
+                Color.BLACK,
+                game);
+
+        buttonList = new ArrayList<Button>();
+        buttonList.add(additionButton);
+        buttonList.add(statsButton);
+        buttonList.add(tutorialButton);
+        buttonList.add(creditsButton);
+        buttonList.add(backButton);
     }
 
     @Override
@@ -130,7 +172,15 @@ public class MenuHelpScreen implements Screen, InputProcessor {
 
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
-        drawInputRectangles();
+        drawTitle();
+
+        for(Button button : buttonList) {
+            button.draw();
+        }
+
+        for(Button button : buttonList) {
+            button.drawTransitionCircles(this);
+        }
 
         game.shapeRendererFilled.end();
     }
@@ -176,6 +226,12 @@ public class MenuHelpScreen implements Screen, InputProcessor {
             return false;
         }
 
+        game.camera.unproject(touchPoint.set(screenX, screenY, 0));
+
+        for(Button btn : buttonList) {
+            btn.touchDown(touchPoint);
+        }
+
         return true;
     }
 
@@ -187,94 +243,8 @@ public class MenuHelpScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        playTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + inputHeightBase;
-        statsTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (2 * game.partitionSize) + inputHeightBase
-                && touchPoint.y < (2 * game.partitionSize) + (2 * inputHeightBase);
-        colorTouched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (3 * game.partitionSize) + (2 * inputHeightBase)
-                && touchPoint.y < (3 * game.partitionSize) + (3 * inputHeightBase);
-        base4Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (4 * game.partitionSize) + (3 *inputHeightBase)
-                && touchPoint.y < (4 * game.partitionSize) + (4 * inputHeightBase);
-        base5Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (5 * game.partitionSize) + (4 *inputHeightBase)
-                && touchPoint.y < (5 * game.partitionSize) + (5 * inputHeightBase);
-        base6Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (6 * game.partitionSize) + (5 *inputHeightBase)
-                && touchPoint.y < (6 * game.partitionSize) + (6 * inputHeightBase);
-        base7Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (7 * game.partitionSize) + (6 *inputHeightBase)
-                && touchPoint.y < (7 * game.partitionSize) + (7 * inputHeightBase);
-        base8Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (8 * game.partitionSize) + (7 *inputHeightBase)
-                && touchPoint.y < (8 * game.partitionSize) + (8 * inputHeightBase);
-        base9Touched = touchPoint.x > (2 * game.partitionSize) + inputWidth
-                && touchPoint.x < (2 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.y > (9 * game.partitionSize) + (8 *inputHeightBase)
-                && touchPoint.y < (9 * game.partitionSize) + (9 * inputHeightBase);
-        backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
-
-        if(playTouched) {
-            game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
-            dispose();
-        } else if(colorTouched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuHelpAdditionColorScreen(game));
-            dispose();
-        } else if(base4Touched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.base = 4;
-            game.setScreen(new MenuHelpAdditionBaseScreen(game));
-            dispose();
-        } else if(base5Touched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.base = 5;
-            game.setScreen(new MenuHelpAdditionBaseScreen(game));
-            dispose();
-        } else if(base6Touched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.base = 6;
-            game.setScreen(new MenuHelpAdditionBaseScreen(game));
-            dispose();
-        } else if(base7Touched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.base = 7;
-            game.setScreen(new MenuHelpAdditionBaseScreen(game));
-            dispose();
-        } else if(base8Touched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.base = 8;
-            game.setScreen(new MenuHelpAdditionBaseScreen(game));
-            dispose();
-        } else if(base9Touched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.base = 9;
-            game.setScreen(new MenuHelpAdditionBaseScreen(game));
-            dispose();
-        } else if(statsTouched) {
-            game.confirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuHelpStatsScreen(game));
-            dispose();
-        } else if(backTouched) {
-            game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MainMenuScreen(game));
-            dispose();
+        for(Button btn : buttonList) {
+            btn.touchUp(touchPoint);
         }
 
         return true;
@@ -303,199 +273,6 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
-    }
-
-    public void drawInputRectangles() {
-        drawTitle();
-        drawPlayInput();
-        drawStatsInput();
-        drawColorInput();
-        drawBase4Input();
-        if(game.maxBase >= 5) {
-            drawBase5Input();
-        }
-        if(game.maxBase >= 6) {
-            drawBase6Input();
-        }
-        if(game.maxBase >= 7) {
-            drawBase7Input();
-        }
-        if(game.maxBase >= 8) {
-            drawBase8Input();
-        }
-        if(game.maxBase >= 9) {
-            drawBase9Input();
-        }
-        drawBackInput();
-    }
-
-    public void drawInputRectangle(int placement, Color color) {
-        switch(placement) {
-            case PLAY : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case STATS : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (2 * game.partitionSize) + inputHeightBase,
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case COLOR : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (3 * game.partitionSize) + (2 * inputHeightBase),
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case BASE_4 : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (4 * game.partitionSize) + (3 *inputHeightBase),
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case BASE_5 : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (5 * game.partitionSize) + (4 *inputHeightBase),
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case BASE_6 : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (6 * game.partitionSize) + (5 *inputHeightBase),
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case BASE_7 : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (7 * game.partitionSize) + (6 *inputHeightBase),
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case BASE_8 : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (8 * game.partitionSize) + (7 *inputHeightBase),
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case BASE_9 : {
-                game.draw.rect((2 * game.partitionSize) + inputWidth,
-                        (9 * game.partitionSize) + (8 *inputHeightBase),
-                        inputWidth,
-                        inputHeightBase,
-                        color);
-            }
-            case BACK : {
-                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeightBack,
-                        color);
-            }
-        }
-    }
-
-    public void drawPlayInput() {
-        drawInputRectangle(PLAY, playColor);
-        game.draw.drawPlayButton(game.camera.viewportWidth / 2,
-                game.partitionSize + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
-    }
-
-    public void drawStatsInput() {
-        drawInputRectangle(STATS, statsColor);
-        game.draw.drawModulo((2 * game.partitionSize) + inputWidth + (inputWidth / 2),
-                (2 * game.partitionSize) + inputHeightBase + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
-    }
-
-    public void drawColorInput() {
-        drawInputRectangle(COLOR, colorColor);
-        game.draw.drawColorWheel(game.camera.viewportWidth / 2,
-                (3 * game.partitionSize) + (2 * inputHeightBase) + (inputHeightBase / 2),
-                inputShapeRadius,
-                Color.BLACK);
-    }
-
-    public void drawBase4Input() {
-        drawInputRectangle(BASE_4, base4Color);
-        game.draw.drawSquare(game.camera.viewportWidth / 2,
-                (4 * game.partitionSize) + (3 * inputHeightBase) + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
-    }
-
-    public void drawBase5Input() {
-        drawInputRectangle(BASE_5, base5Color);
-        game.draw.drawPentagon(game.camera.viewportWidth / 2,
-                (5 * game.partitionSize) + (4 * inputHeightBase) + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                0,
-                Color.BLACK);
-    }
-
-    public void drawBase6Input() {
-        drawInputRectangle(BASE_6, base6Color);
-        game.draw.drawHexagon(game.camera.viewportWidth / 2,
-                (6 * game.partitionSize) + (5 * inputHeightBase) + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                0,
-                Color.BLACK);
-    }
-
-    public void drawBase7Input() {
-        drawInputRectangle(BASE_7, base7Color);
-        game.draw.drawSeptagon(game.camera.viewportWidth / 2,
-                (7 * game.partitionSize) + (6 * inputHeightBase) + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                0,
-                Color.BLACK);
-    }
-
-    public void drawBase8Input() {
-        drawInputRectangle(BASE_8, base8Color);
-        game.draw.drawOctagon(game.camera.viewportWidth / 2,
-                (8 * game.partitionSize) + (7 * inputHeightBase) + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                0,
-                Color.BLACK);
-    }
-
-    public void drawBase9Input() {
-        drawInputRectangle(BASE_9, base9Color);
-        game.draw.drawNonagon(game.camera.viewportWidth / 2,
-                (9 * game.partitionSize) + (8 * inputHeightBase) + (inputHeightBase / 2),
-                inputShapeRadius,
-                inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                0,
-                Color.BLACK);
-    }
-
-    public void drawBackInput() {
-        drawInputRectangle(BACK, backColor);
-        game.draw.drawBackButton(game.camera.viewportWidth - game.partitionSize - (inputWidth / 2),
-                game.camera.viewportHeight / 2,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
     }
 
     public void drawTitle() {

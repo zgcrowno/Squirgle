@@ -180,6 +180,14 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
             button.drawText();
         }
 
+        game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+
+        for(Button button : buttonList) {
+            button.drawTransitionCircles(this);
+        }
+
+        game.shapeRendererFilled.end();
+
         transitionSquirgleColors();
     }
 
@@ -242,9 +250,7 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
         for(Button btn : buttonList) {
-            if(btn.touchUp(touchPoint)) {
-                dispose();
-            }
+            btn.touchUp(touchPoint);
         }
 
         return true;

@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
@@ -72,6 +73,10 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
     private String highestScoreOctagonString;
     private String highestScoreNonagonString;
 
+    private Button backButton;
+
+    private List<Button> buttonList;
+
     //TODO: Set up fontScore
     public MenuHelpStatsTimeAttackScreen(final Squirgle game) {
         this.game = game;
@@ -106,6 +111,18 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
         gameLength5MTouched = false;
         backTouched = false;
 
+        backButton = new Button(game.camera.viewportWidth - game.partitionSize - inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeight,
+                Button.BUTTON_HELP_STATS_TIME_ATTACK_BACK,
+                backColor,
+                Color.BLACK,
+                game);
+
+        buttonList = new ArrayList<Button>();
+        buttonList.add(backButton);
+
         setStatsStrings();
     }
 
@@ -124,10 +141,22 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
         drawInputRectangles();
         drawSubElementShapes();
 
+        for(Button button : buttonList) {
+            button.draw();
+        }
+
         game.shapeRendererFilled.end();
 
         drawStatsText();
         drawGameLengthText();
+
+        game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+
+        for(Button button : buttonList) {
+            button.drawTransitionCircles(this);
+        }
+
+        game.shapeRendererFilled.end();
     }
 
     @Override
@@ -171,6 +200,12 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
             return false;
         }
 
+        game.camera.unproject(touchPoint.set(screenX, screenY, 0));
+
+        for(Button btn : buttonList) {
+            btn.touchDown(touchPoint);
+        }
+
         return true;
     }
 
@@ -194,10 +229,6 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 && touchPoint.x < game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth
                 && touchPoint.y > game.partitionSize
                 && touchPoint.y < game.partitionSize + (inputHeight / 3);
-        backTouched = touchPoint.x > (3 * game.partitionSize) + (2 * inputWidth)
-                && touchPoint.x < game.camera.viewportWidth - game.partitionSize
-                && touchPoint.y > game.partitionSize
-                && touchPoint.y < game.partitionSize + inputHeight;
 
         if(gameLength1MTouched) {
             game.timeAttackNumSeconds = Squirgle.ONE_MINUTE;
@@ -205,14 +236,14 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
             game.timeAttackNumSeconds = Squirgle.THREE_MINUTES;
         } else if(gameLength5MTouched) {
             game.timeAttackNumSeconds = Squirgle.FIVE_MINUTES;
-        } else if(backTouched) {
-            game.disconfirmSound.play((float) (game.volume / 10.0));
-            game.setScreen(new MenuHelpStatsScreen(game));
-            dispose();
         }
 
         if(gameLength1MTouched || gameLength3MTouched || gameLength5MTouched) {
             setStatsStrings();
+        }
+
+        for(Button btn : buttonList) {
+            btn.touchUp(touchPoint);
         }
 
         return true;
@@ -247,7 +278,6 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
         drawTitle();
         drawStatsInput();
         drawGameLengthInput();
-        drawBackInput();
     }
 
     public void drawInputRectangle(int placement, Color color) {
@@ -281,13 +311,6 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                             blockHeight,
                             color);
                 }
-            }
-            case BACK : {
-                game.draw.rect((3 * game.partitionSize) + (2 * inputWidth),
-                        game.partitionSize,
-                        inputWidth,
-                        inputHeight,
-                        color);
             }
         }
     }
@@ -332,15 +355,6 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
 
     public void drawStatsInput() {
         drawInputRectangle(STATS, statsColor);
-    }
-
-    public void drawBackInput() {
-        drawInputRectangle(BACK, backColor);
-        game.draw.drawBackButton(game.camera.viewportWidth - game.partitionSize - (inputWidth / 2),
-                game.camera.viewportHeight / 2,
-                symbolRadius,
-                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                Color.BLACK);
     }
 
     public void drawGameLengthInput() {

@@ -1,5 +1,6 @@
 package com.screenlooker.squirgle;
 
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -192,6 +193,8 @@ public class Button {
     private float height;
     private float radius;
     private float squirgleHeightOffset;
+    private float transitionThreshold;
+    private float transitionIncrement;
     private int buttonType;
     private boolean touched;
     private Color containerColor;
@@ -200,6 +203,7 @@ public class Button {
     private Color squareColor;
     private Color circleColor;
     private Color triangleColor;
+    private List<Shape> transitionCirclesList;
     private List<Shape> squirgleShapeList;
     private List<Shape> squirgleShapeListBattleOne;
     private List<Shape> squirgleShapeListBattleTwo;
@@ -209,12 +213,15 @@ public class Button {
     private Squirgle game;
 
     public Button() {
+        this.game = new Squirgle();
         this.x = 0;
         this.y = 0;
         this.width = 0;
         this.height = 0;
         this.radius = 0;
         this.squirgleHeightOffset = radius / 4;
+        this.transitionThreshold = (float) Math.sqrt(Math.pow(game.camera.viewportWidth, 2) + Math.pow(game.camera.viewportHeight, 2));
+        this.transitionIncrement = game.widthOrHeight / 10;
         this.buttonType = 0;
         this.touched = false;
         this.containerColor = Color.BLACK;
@@ -229,6 +236,31 @@ public class Button {
         while(triangleColor.equals(circleColor) || triangleColor.equals(squareColor)) {
             triangleColor = ColorUtils.randomTransitionColor();
         }
+        this.transitionCirclesList = new ArrayList<Shape>();
+        this.transitionCirclesList.add(new Shape(Shape.POINT,
+                0,
+                containerColor,
+                containerColor,
+                0,
+                new Vector2(x + (width / 4), y + ((3 * height) / 4))));
+        this.transitionCirclesList.add(new Shape(Shape.POINT,
+                0,
+                containerColor,
+                containerColor,
+                0,
+                new Vector2(x + (width / 4), y + (height / 4))));
+        this.transitionCirclesList.add(new Shape(Shape.POINT,
+                0,
+                containerColor,
+                containerColor,
+                0,
+                new Vector2(x + ((3 * width) / 4), y + (height / 4))));
+        this.transitionCirclesList.add(new Shape(Shape.POINT,
+                0,
+                containerColor,
+                containerColor,
+                0,
+                new Vector2(x + ((3 * width) / 4), y + ((3 * height) / 4))));
         this.squirgleShapeList = new ArrayList<Shape>();
         this.squirgleShapeList.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
         this.squirgleShapeList.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
@@ -256,16 +288,18 @@ public class Button {
                 null,
                 (radius / 2) / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(x + ((3 * width) / 4), y + (height / 4)));
-        this.game = new Squirgle();
     }
 
     public Button(float x, float y, float width, float height, int buttonType, Color containerColor, Color containedColor, Squirgle game) {
+        this.game = game;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.radius = width > height ? height / 2 : width / 2;
         this.squirgleHeightOffset = radius / 4;
+        this.transitionThreshold = (float) Math.sqrt(Math.pow(game.camera.viewportWidth, 2) + Math.pow(game.camera.viewportHeight, 2));
+        this.transitionIncrement = game.widthOrHeight / 10;
         this.buttonType = buttonType;
         this.touched = false;
         this.containerColor = containerColor;
@@ -280,6 +314,31 @@ public class Button {
         while(triangleColor.equals(circleColor) || triangleColor.equals(squareColor)) {
             triangleColor = ColorUtils.randomTransitionColor();
         }
+        this.transitionCirclesList = new ArrayList<Shape>();
+        this.transitionCirclesList.add(new Shape(Shape.POINT,
+                0,
+                containerColor,
+                containerColor,
+                0,
+                new Vector2(x + (width / 4), y + ((3 * height) / 4))));
+        this.transitionCirclesList.add(new Shape(Shape.POINT,
+                0,
+                containerColor,
+                containerColor,
+                0,
+                new Vector2(x + (width / 4), y + (height / 4))));
+        this.transitionCirclesList.add(new Shape(Shape.POINT,
+                0,
+                containerColor,
+                containerColor,
+                0,
+                new Vector2(x + ((3 * width) / 4), y + (height / 4))));
+        this.transitionCirclesList.add(new Shape(Shape.POINT,
+                0,
+                containerColor,
+                containerColor,
+                0,
+                new Vector2(x + ((3 * width) / 4), y + ((3 * height) / 4))));
         this.squirgleShapeList = new ArrayList<Shape>();
         this.squirgleShapeList.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
         this.squirgleShapeList.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
@@ -307,7 +366,6 @@ public class Button {
                 null,
                 (radius / 2) / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(x + ((3 * width) / 4), y + (height / 4)));
-        this.game = game;
     }
 
     public void draw() {
@@ -2487,8 +2545,7 @@ public class Button {
         }
     }
 
-    //The boolean returned here is used by the calling Screen object to determine whether or not to call its dispose method
-    public boolean touchUp(Vector3 touchPoint) {
+    public void touchUp(Vector3 touchPoint) {
         containerColor = originalContainerColor;
 
         boolean xInBounds = touchPoint.x > x
@@ -2497,6 +2554,16 @@ public class Button {
                 && touchPoint.y < y + height;
 
         if(xInBounds && yInBounds) {
+            if(isFeedbackButton()) {
+                touched = true;
+            } else {
+                endTransitionBehavior();
+            }
+        }
+    }
+
+    //The boolean returned here is used by the calling Screen object to determine whether or not to call its dispose method
+    public boolean endTransitionBehavior() {
             switch(buttonType) {
                 case BUTTON_TYPE: {
                     game.confirmSound.play((float) (game.volume / 10.0));
@@ -3578,8 +3645,6 @@ public class Button {
                     return false;
                 }
             }
-        }
-
         return false;
     }
 
@@ -3589,6 +3654,8 @@ public class Button {
                 && buttonType != BUTTON_DIFFICULTY
                 && buttonType != BUTTON_TIME
                 && buttonType != BUTTON_VOLUME
+                && !isMusicTypeButton()
+                && !isMusicNameButton()
                 && buttonType != BUTTON_DIFFICULTY_DIAL
                 && buttonType != BUTTON_TIME_CLOCK
                 && buttonType != BUTTON_VOLUME_WAVES;
@@ -3609,6 +3676,20 @@ public class Button {
                 || buttonType == BUTTON_MUSIC_INTERSEPTOR
                 || buttonType == BUTTON_MUSIC_ROCTOPUS
                 || buttonType == BUTTON_MUSIC_NONPLUSSED;
+    }
+
+    public void drawTransitionCircles(Screen screen) {
+        for(Shape circle : transitionCirclesList) {
+            game.draw.drawPoint(circle.getCoordinates().x, circle.getCoordinates().y, circle.getRadius(), circle.getColor());
+            if (touched) {
+                circle.setRadius(circle.getRadius() + transitionIncrement);
+                if (circle.getRadius() > transitionThreshold) {
+                    if (endTransitionBehavior()) {
+                        screen.dispose();
+                    }
+                }
+            }
+        }
     }
 
     public void transitionSquirgleColors() {

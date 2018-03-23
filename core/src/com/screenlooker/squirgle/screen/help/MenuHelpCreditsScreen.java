@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.screenlooker.squirgle.Squirgle;
 
+//TODO: Probably refactor this to just be CreditsScreen
 public class MenuHelpCreditsScreen implements Screen, InputProcessor {
 
     final Squirgle game;

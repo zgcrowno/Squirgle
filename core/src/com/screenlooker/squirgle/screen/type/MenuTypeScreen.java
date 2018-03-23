@@ -137,6 +137,14 @@ public class MenuTypeScreen implements Screen, InputProcessor {
         for(Button button : buttonList) {
             button.drawText();
         }
+
+        game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+
+        for(Button button : buttonList) {
+            button.drawTransitionCircles(this);
+        }
+
+        game.shapeRendererFilled.end();
     }
 
     @Override
@@ -198,9 +206,7 @@ public class MenuTypeScreen implements Screen, InputProcessor {
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
         for(Button btn : buttonList) {
-            if(btn.touchUp(touchPoint)) {
-                dispose();
-            }
+            btn.touchUp(touchPoint);
         }
 
         return true;
