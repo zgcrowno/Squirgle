@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -64,7 +65,10 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
     private List<Button> buttonList;
 
-    public MainMenuScreen(final Squirgle game) {
+    private Color veilColor;
+    private float veilOpacity;
+
+    public MainMenuScreen(final Squirgle game, Color veilColor) {
         this.game = game;
 
         game.resetInstanceData();
@@ -150,11 +154,16 @@ public class MainMenuScreen implements Screen, InputProcessor {
         buttonList.add(helpButton);
         buttonList.add(quitButton);
 
+        this.veilColor = veilColor;
+        veilOpacity = 1;
+
         playMusic();
     }
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glEnable(GL30.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -178,7 +187,13 @@ public class MainMenuScreen implements Screen, InputProcessor {
             button.drawTransitionCircles(this);
         }
 
+        game.draw.drawVeil(veilColor, veilOpacity);
+
         game.shapeRendererFilled.end();
+
+        if(veilOpacity > 0) {
+            veilOpacity -= 0.05f;
+        }
     }
 
     @Override

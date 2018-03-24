@@ -196,7 +196,7 @@ public class Button {
     private float transitionThreshold;
     private float transitionIncrement;
     private int buttonType;
-    private boolean touched;
+    public boolean touched;
     private Color containerColor;
     private Color containedColor;
     private Color originalContainerColor;
@@ -221,7 +221,7 @@ public class Button {
         this.radius = 0;
         this.squirgleHeightOffset = radius / 4;
         this.transitionThreshold = (float) Math.sqrt(Math.pow(game.camera.viewportWidth, 2) + Math.pow(game.camera.viewportHeight, 2));
-        this.transitionIncrement = game.widthOrHeight / 10;
+        this.transitionIncrement = game.widthOrHeight / 5;
         this.buttonType = 0;
         this.touched = false;
         this.containerColor = Color.BLACK;
@@ -299,7 +299,7 @@ public class Button {
         this.radius = width > height ? height / 2 : width / 2;
         this.squirgleHeightOffset = radius / 4;
         this.transitionThreshold = (float) Math.sqrt(Math.pow(game.camera.viewportWidth, 2) + Math.pow(game.camera.viewportHeight, 2));
-        this.transitionIncrement = game.widthOrHeight / 10;
+        this.transitionIncrement = game.widthOrHeight / 5;
         this.buttonType = buttonType;
         this.touched = false;
         this.containerColor = containerColor;
@@ -2567,17 +2567,17 @@ public class Button {
             switch(buttonType) {
                 case BUTTON_TYPE: {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeScreen(game));
+                    game.setScreen(new MenuTypeScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_OPTIONS: {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuOptionsScreen(game));
+                    game.setScreen(new MenuOptionsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP: {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpScreen(game));
+                    game.setScreen(new MenuHelpScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_QUIT: {
@@ -2586,47 +2586,47 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER: {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerScreen(game));
+                    game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL: {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeMultiplayerLocalScreen(game));
+                    game.setScreen(new MenuTypeMultiplayerLocalScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MainMenuScreen(game));
+                    game.setScreen(new MainMenuScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE: {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerSquirgleScreen(game));
+                    game.setScreen(new MenuTypeSinglePlayerSquirgleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE: {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerBattleScreen(game));
+                    game.setScreen(new MenuTypeSinglePlayerBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK: {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerTimeAttackScreen(game));
+                    game.setScreen(new MenuTypeSinglePlayerTimeAttackScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE: {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerTimeBattleScreen(game));
+                    game.setScreen(new MenuTypeSinglePlayerTimeBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TRANCE: {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerTranceScreen(game));
+                    game.setScreen(new MenuTypeSinglePlayerTranceScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeScreen(game));
+                    game.setScreen(new MenuTypeScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SQUARE: {
@@ -2685,7 +2685,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerScreen(game));
+                    game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SQUARE: {
@@ -2750,7 +2750,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerScreen(game));
+                    game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SQUARE: {
@@ -2809,7 +2809,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerScreen(game));
+                    game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SQUARE: {
@@ -2868,7 +2868,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerScreen(game));
+                    game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY: {
@@ -2880,22 +2880,22 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerScreen(game));
+                    game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE: {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeMultiplayerLocalBattleScreen(game));
+                    game.setScreen(new MenuTypeMultiplayerLocalBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE: {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeMultiplayerLocalTimeBattleScreen(game));
+                    game.setScreen(new MenuTypeMultiplayerLocalTimeBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeScreen(game));
+                    game.setScreen(new MenuTypeScreen(game, containerColor));
                     return true;
 
                 }
@@ -2955,7 +2955,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeMultiplayerLocalScreen(game));
+                    game.setScreen(new MenuTypeMultiplayerLocalScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SQUARE: {
@@ -3014,28 +3014,28 @@ public class Button {
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuTypeMultiplayerLocalScreen(game));
+                    game.setScreen(new MenuTypeMultiplayerLocalScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_OPTIONS_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
                     game.updateSave(game.SAVE_VOLUME, game.volume);
-                    game.setScreen(new MainMenuScreen(game));
+                    game.setScreen(new MainMenuScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpAdditionScreen(game));
+                    game.setScreen(new MenuHelpAdditionScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpStatsScreen(game));
+                    game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpTutorialScreen(game));
+                    game.setScreen(new MenuHelpTutorialScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_CREDITS : {
@@ -3045,108 +3045,108 @@ public class Button {
                 }
                 case BUTTON_HELP_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MainMenuScreen(game));
+                    game.setScreen(new MainMenuScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_COLOR : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpAdditionColorScreen(game));
+                    game.setScreen(new MenuHelpAdditionColorScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_SQUARE : {
                     game.confirmSound.play((float) (game.volume / 10.0));
                     game.base = 4;
-                    game.setScreen(new MenuHelpAdditionBaseScreen(game));
+                    game.setScreen(new MenuHelpAdditionBaseScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_PENTAGON : {
                     game.confirmSound.play((float) (game.volume / 10.0));
                     game.base = 5;
-                    game.setScreen(new MenuHelpAdditionBaseScreen(game));
+                    game.setScreen(new MenuHelpAdditionBaseScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_HEXAGON : {
                     game.confirmSound.play((float) (game.volume / 10.0));
                     game.base = 6;
-                    game.setScreen(new MenuHelpAdditionBaseScreen(game));
+                    game.setScreen(new MenuHelpAdditionBaseScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_SEPTAGON : {
                     game.confirmSound.play((float) (game.volume / 10.0));
                     game.base = 7;
-                    game.setScreen(new MenuHelpAdditionBaseScreen(game));
+                    game.setScreen(new MenuHelpAdditionBaseScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_OCTAGON : {
                     game.confirmSound.play((float) (game.volume / 10.0));
                     game.base = 8;
-                    game.setScreen(new MenuHelpAdditionBaseScreen(game));
+                    game.setScreen(new MenuHelpAdditionBaseScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_NONAGON : {
                     game.confirmSound.play((float) (game.volume / 10.0));
                     game.base = 9;
-                    game.setScreen(new MenuHelpAdditionBaseScreen(game));
+                    game.setScreen(new MenuHelpAdditionBaseScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpScreen(game));
+                    game.setScreen(new MenuHelpScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_COLOR_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpAdditionScreen(game));
+                    game.setScreen(new MenuHelpAdditionScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_BASE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpAdditionScreen(game));
+                    game.setScreen(new MenuHelpAdditionScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_GENERAL : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpStatsGeneralScreen(game));
+                    game.setScreen(new MenuHelpStatsGeneralScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_SQUIRGLE : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpStatsSquirgleScreen(game));
+                    game.setScreen(new MenuHelpStatsSquirgleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_BATTLE : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpStatsBattleScreen(game));
+                    game.setScreen(new MenuHelpStatsBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_TIME_ATTACK : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpStatsTimeAttackScreen(game));
+                    game.setScreen(new MenuHelpStatsTimeAttackScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_TIME_BATTLE : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpStatsTimeBattleScreen(game));
+                    game.setScreen(new MenuHelpStatsTimeBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_TRANCE : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpStatsTranceScreen(game));
+                    game.setScreen(new MenuHelpStatsTranceScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpScreen(game));
+                    game.setScreen(new MenuHelpScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_GENERAL_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpStatsScreen(game));
+                    game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_SQUIRGLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpStatsScreen(game));
+                    game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_BATTLE_EASY : {
@@ -3163,7 +3163,7 @@ public class Button {
                 }
                 case BUTTON_HELP_STATS_BATTLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpStatsScreen(game));
+                    game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_TIME_ATTACK_ONE_MINUTE : {
@@ -3180,7 +3180,7 @@ public class Button {
                 }
                 case BUTTON_HELP_STATS_TIME_ATTACK_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpStatsScreen(game));
+                    game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_TIME_BATTLE_EASY : {
@@ -3233,32 +3233,32 @@ public class Button {
                 }
                 case BUTTON_HELP_STATS_TIME_BATTLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpStatsScreen(game));
+                    game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_TRANCE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpStatsScreen(game));
+                    game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_SQUIRGLE : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpTutorialSquirgleScreen(game));
+                    game.setScreen(new MenuHelpTutorialSquirgleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_BATTLE : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpTutorialBattleScreen(game));
+                    game.setScreen(new MenuHelpTutorialBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_TIME_ATTACK : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpTutorialTimeAttackScreen(game));
+                    game.setScreen(new MenuHelpTutorialTimeAttackScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_TIME_BATTLE : {
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpTutorialTimeBattleScreen(game));
+                    game.setScreen(new MenuHelpTutorialTimeBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_TRANCE : {
@@ -3270,7 +3270,7 @@ public class Button {
                 }
                 case BUTTON_HELP_TUTORIAL_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpScreen(game));
+                    game.setScreen(new MenuHelpScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_SQUIRGLE_SQUARE : {
@@ -3329,7 +3329,7 @@ public class Button {
                 }
                 case BUTTON_HELP_TUTORIAL_SQUIRGLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpTutorialScreen(game));
+                    game.setScreen(new MenuHelpTutorialScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_BATTLE_SQUARE : {
@@ -3388,7 +3388,7 @@ public class Button {
                 }
                 case BUTTON_HELP_TUTORIAL_BATTLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpTutorialScreen(game));
+                    game.setScreen(new MenuHelpTutorialScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SQUARE : {
@@ -3447,7 +3447,7 @@ public class Button {
                 }
                 case BUTTON_HELP_TUTORIAL_TIME_ATTACK_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpTutorialScreen(game));
+                    game.setScreen(new MenuHelpTutorialScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SQUARE : {
@@ -3506,7 +3506,7 @@ public class Button {
                 }
                 case BUTTON_HELP_TUTORIAL_TIME_BATTLE_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
-                    game.setScreen(new MenuHelpTutorialScreen(game));
+                    game.setScreen(new MenuHelpTutorialScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_MUSIC : {
@@ -3657,8 +3657,14 @@ public class Button {
                 && !isMusicTypeButton()
                 && !isMusicNameButton()
                 && buttonType != BUTTON_DIFFICULTY_DIAL
+                && buttonType != BUTTON_DIFFICULTY_CHEVRON_DOWN
+                && buttonType != BUTTON_DIFFICULTY_CHEVRON_UP
                 && buttonType != BUTTON_TIME_CLOCK
-                && buttonType != BUTTON_VOLUME_WAVES;
+                && buttonType != BUTTON_TIME_CHEVRON_DOWN
+                && buttonType != BUTTON_TIME_CHEVRON_UP
+                && buttonType != BUTTON_VOLUME_WAVES
+                && buttonType != BUTTON_VOLUME_CHEVRON_DOWN
+                && buttonType != BUTTON_VOLUME_CHEVRON_UP;
     }
 
     public boolean isMusicTypeButton() {

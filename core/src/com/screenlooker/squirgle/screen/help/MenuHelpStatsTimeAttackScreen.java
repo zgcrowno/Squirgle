@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -77,8 +78,11 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
 
     private List<Button> buttonList;
 
+    private Color veilColor;
+    private float veilOpacity;
+
     //TODO: Set up fontScore
-    public MenuHelpStatsTimeAttackScreen(final Squirgle game) {
+    public MenuHelpStatsTimeAttackScreen(final Squirgle game, Color veilColor) {
         this.game = game;
 
         game.resetInstanceData();
@@ -123,11 +127,16 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
         buttonList = new ArrayList<Button>();
         buttonList.add(backButton);
 
+        this.veilColor = veilColor;
+        veilOpacity = 1;
+
         setStatsStrings();
     }
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glEnable(GL30.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -145,18 +154,25 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
             button.draw();
         }
 
-        game.shapeRendererFilled.end();
-
-        drawStatsText();
-        drawGameLengthText();
-
-        game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
-
         for(Button button : buttonList) {
             button.drawTransitionCircles(this);
         }
 
+        game.draw.drawVeil(veilColor, veilOpacity);
+
         game.shapeRendererFilled.end();
+
+        if(veilOpacity > 0) {
+            veilOpacity -= 0.1;
+        } else {
+            if(!buttonTouched()) {
+                for (Button button : buttonList) {
+                    button.drawText();
+                }
+                drawStatsText();
+                drawGameLengthText();
+            }
+        }
     }
 
     @Override
@@ -271,6 +287,15 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
+        return false;
+    }
+
+    public boolean buttonTouched() {
+        for(Button btn : buttonList) {
+            if(btn.touched) {
+                return true;
+            }
+        }
         return false;
     }
 

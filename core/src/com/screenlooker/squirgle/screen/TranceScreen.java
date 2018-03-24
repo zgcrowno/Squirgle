@@ -367,7 +367,7 @@ public class TranceScreen implements Screen, InputProcessor {
             endTime = System.currentTimeMillis();
             stopMusic();
             game.stats.updateTimePlayed(endTime - startTime, Squirgle.GAMEPLAY_TRANCE);
-            game.setScreen(new MainMenuScreen(game));
+            game.setScreen(new MainMenuScreen(game, Color.BLACK));
             dispose();
         }
     }

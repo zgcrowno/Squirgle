@@ -742,7 +742,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         if(!paused) {
             if (showResults) {
                 game.updateSave(game.SAVE_PLAYED_BEFORE, true);
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new MainMenuScreen(game, Color.BLACK));
                 dispose();
             }
         }
@@ -902,7 +902,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         } else if (pauseQuitTouched) {
             stopMusic();
             game.updateSave(game.SAVE_PLAYED_BEFORE, true);
-            game.setScreen(new MainMenuScreen(game));
+            game.setScreen(new MainMenuScreen(game, Color.BLACK));
             dispose();
         }
     }

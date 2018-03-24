@@ -1762,7 +1762,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         if (playTouched) {
             game.setScreen(new GameplayScreen(game, gameplayType));
         } else if (homeTouched) {
-            game.setScreen(new MainMenuScreen(game));
+            game.setScreen(new MainMenuScreen(game, Color.BLACK));
         } else {
             dispose();
             System.exit(0);
@@ -1778,7 +1778,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             endTime = System.currentTimeMillis();
             game.stats.updateTimePlayed(endTime - startTime, gameplayType);
             stopMusic();
-            game.setScreen(new MainMenuScreen(game));
+            game.setScreen(new MainMenuScreen(game, Color.BLACK));
             dispose();
         }
     }

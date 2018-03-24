@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
@@ -116,7 +117,10 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
 
     private List<Button> buttonList;
 
-    public MenuTypeMultiplayerLocalBattleScreen(final Squirgle game) {
+    private Color veilColor;
+    private float veilOpacity;
+
+    public MenuTypeMultiplayerLocalBattleScreen(final Squirgle game, Color veilColor) {
         this.game = game;
 
         game.resetInstanceData();
@@ -290,7 +294,7 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
                 game.partitionSize,
                 inputWidth,
                 inputHeightBack,
-                Button.BUTTON_OPTIONS_BACK,
+                Button.BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK,
                 backColor,
                 Color.BLACK,
                 game);
@@ -323,10 +327,15 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
                     Color.BLACK,
                     game));
         }
+
+        this.veilColor = veilColor;
+        veilOpacity = 1;
     }
 
     @Override
     public void render(float delta) {
+        Gdx.gl.glEnable(GL30.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -343,19 +352,23 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
             button.draw();
         }
 
-        game.shapeRendererFilled.end();
-
-        for(Button button : buttonList) {
-            button.drawText();
-        }
-
-        game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
-
         for(Button button : buttonList) {
             button.drawTransitionCircles(this);
         }
 
+        game.draw.drawVeil(veilColor, veilOpacity);
+
         game.shapeRendererFilled.end();
+
+        if(veilOpacity > 0) {
+            veilOpacity -= 0.1;
+        } else {
+            if(!buttonTouched()) {
+                for (Button button : buttonList) {
+                    button.drawText();
+                }
+            }
+        }
 
         transitionSquirgleColors();
     }
@@ -450,6 +463,15 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
         return false;
     }
 
+    public boolean buttonTouched() {
+        for(Button btn : buttonList) {
+            if(btn.touched) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void drawTitle() {
         game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
                 (3 * game.camera.viewportHeight) / 4,
@@ -475,6 +497,15 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
                 (game.camera.viewportWidth / 6) + (symbolRadius / 3) - ((symbolRadius / 3) / 3),
                 game.camera.viewportHeight / 2,
                 ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR);
+
+        game.shapeRendererFilled.setColor(Color.WHITE);
+        game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 6) - (symbolRadius / 3),
+                (game.camera.viewportHeight / 6) - (symbolRadius / 3),
+                (game.camera.viewportWidth / 6) + (symbolRadius / 3),
+                (game.camera.viewportHeight / 6) + (symbolRadius / 3),
+                ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
+        game.shapeRendererFilled.circle((game.camera.viewportWidth / 6) - (symbolRadius / 3), (game.camera.viewportHeight / 6) - (symbolRadius / 3), (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+        game.shapeRendererFilled.circle((game.camera.viewportWidth / 6) + (symbolRadius / 3), (game.camera.viewportHeight / 6) + (symbolRadius / 3), (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
 
         game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
         game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);

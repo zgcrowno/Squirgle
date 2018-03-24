@@ -81,6 +81,11 @@ public class Draw {
         this.targetSpawn = targetSpawn;
     }
 
+    public void drawVeil(Color color, float opacity) {
+        game.shapeRendererFilled.setColor(new Color(color.r, color.g, color.b, opacity));
+        game.shapeRendererFilled.rect(0, 0, game.camera.viewportWidth, game.camera.viewportHeight);
+    }
+
     public void drawPerimeter(float x, float y, Color color, float visibilityPoint, Shape promptShape) {
         float opacity = 0f;
         if(promptShape.getRadius() >= visibilityPoint) {
