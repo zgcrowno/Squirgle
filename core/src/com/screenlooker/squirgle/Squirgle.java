@@ -369,7 +369,7 @@ public class Squirgle extends Game {
 	public void setUpLabelHelp() {
 		helpLabelStyle.font = fontTutorialHelp;
 		helpLabelStyle.fontColor = Color.WHITE;
-		helpLabel = new Label(TutorialScreen.PHASE_TWO_HELP_TEXT, helpLabelStyle);
+		//helpLabel = new Label(TutorialScreen.PHASE_TWO_HELP_TEXT, helpLabelStyle);
 		helpLabel.setSize(camera.viewportWidth / 2, camera.viewportHeight / 2);
 		helpLabel.setPosition(camera.viewportWidth / 4, camera.viewportHeight / 4);
 		helpLabel.setAlignment(Align.left);
