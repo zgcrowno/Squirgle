@@ -3692,6 +3692,7 @@ public class Button {
                 if (circle.getRadius() > transitionThreshold) {
                     if (endTransitionBehavior()) {
                         screen.dispose();
+                        break;
                     }
                 }
             }
