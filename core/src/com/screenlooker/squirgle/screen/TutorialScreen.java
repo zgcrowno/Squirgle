@@ -21,7 +21,9 @@ import com.screenlooker.squirgle.util.FontUtils;
 import com.screenlooker.squirgle.util.SoundUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TutorialScreen implements Screen, InputProcessor {
     final Squirgle game;
@@ -102,6 +104,48 @@ public class TutorialScreen implements Screen, InputProcessor {
     private final static float MULTIPLIER_Y_DIVISOR = 1.25f;
     private final static float PROMPT_INCREASE_ADDITIVE = .0001f;
     private final static float SQUIRGLE_OPACITY_DECREMENT = .03f;
+
+    /*
+    -All gray screen except for black outlined prompt shape (point), pause input and help input
+    -User presses next button in help window
+    */
+    public final static int PHASE_ONE = 0;
+
+    /*
+    -All shape inputs are now displayed at bottom of screen
+    -User presses next button in help window
+     */
+    public final static int PHASE_TWO = 1;
+
+    /*
+    -Target is now displayed in upper left corner
+    -If user hits wrong shape, disconfirmation sound is played, and phase resets
+    -If user hits correct shape, confirmation sound is played, and new shape is targeted
+    -User hits correct shape four times
+    */
+    public final static int PHASE_THREE = 2;
+
+    /*
+    -Score & multiplier are now displayed in upper right-hand corner of screen
+    -Targets are now formed as per usual until multiplier reaches max
+    */
+    public final static int PHASE_FOUR = 3;
+
+    /*
+    -Colors are now displayed @ left of screen
+    -Timelines are now displayed @ left of screen
+    -Pause input is now displayed @ right-hand side of screen
+    -Colors are now sifted through, affecting background, prompt shape & nested shapes
+    -Prompt shape (& nested shapes) also begins to grow now, but it will stop doing so once it reaches 2/3 of its max size
+    -The game remains in this phase until the user gets four squirgles
+    */
+    public final static int PHASE_FIVE = 4;
+
+    /*
+    -User simply plays w/ full mechanics until game over
+    -Tutorial is over, & user is sent to menu
+    */
+    public final static int PHASE_SIX = 5;
 
     public final static String P1 = "P1";
     public final static String P2 = "P2";
@@ -226,6 +270,31 @@ public class TutorialScreen implements Screen, InputProcessor {
     private boolean multiplayer;
     private boolean local;
     private boolean online;
+    private String squirglePhaseOneTextOne;
+    private String squirglePhaseOneTextTwo;
+    private String squirglePhaseOneTextThree;
+    private String squirglePhaseOneTextFour;
+    private String squirglePhaseOneTextFive;
+    private String squirglePhaseTwoTextOne;
+    private String squirglePhaseTwoTextTwo;
+    private String squirglePhaseTwoTextThree;
+    private String squirglePhaseTwoTextFour;
+    private String squirglePhaseTwoTextFive;
+    private String squirglePhaseTwoTextSix;
+    private String squirglePhaseThreeTextOne;
+    private String squirglePhaseThreeTextTwo;
+    private String squirglePhaseThreeTextThree;
+    private String squirglePhaseThreeTextFour;
+    private String squirglePhaseFourTextOne;
+    private String squirglePhaseFourTextTwo;
+    private String squirglePhaseFourTextThree;
+    private String squirglePhaseFourTextFour;
+    private String squirglePhaseFiveTextOne;
+    private String squirglePhaseFiveTextTwo;
+    private String squirglePhaseFiveTextThree;
+    private String squirglePhaseSixTextOne;
+    private Map<Integer, List<String>> phaseMap;
+    private Map<Integer, Map<Integer, List<String>>> gameplayTypeMap;
 
     public TutorialScreen(final Squirgle game, final int gameplayType) {
         this.game = game;
@@ -2601,6 +2670,33 @@ public class TutorialScreen implements Screen, InputProcessor {
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP1 = primaryShapeP1.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP2 = primaryShapeP2.getRadius() >= primaryShapeThreshold;
+
+        squirglePhaseOneTextOne = "Welcome to the SQUIRGLE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of SQUIRGLE.";
+        squirglePhaseOneTextTwo = "This is the HELP button. If, at any point in this tutorial, you wish to pause/unpause the action and consult/dismiss instructional text such as this, just press this button.";
+        squirglePhaseOneTextThree = "This is the PAUSE button. If, at any point in this tutorial, you wish to completely pause the game, press this button. Once paused, you may press the BACK button to unpause or the STOP button to quit.";
+        squirglePhaseOneTextFour = "This white, hollow shape is the shape currently in your hand. This is the shape you will be manipulating to progress through SQUIRGLE.";
+        squirglePhaseOneTextFive = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
+        squirglePhaseTwoTextOne = "These are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
+        squirglePhaseTwoTextTwo = "SQUIRGLE is, in a sense, a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this, however, is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
+        squirglePhaseTwoTextThree = "Using these rules, the fundamental aim of SQUIRGLE is to create target shapes from the shape(s) in our hand using the inputs at our disposal. Again, if we're asked to create a SQUARE (4) from a TRIANGLE (3), we would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in SQUIRGLE, and we rather use remainders to acheive the same effect.";
+        squirglePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASEs. Right now, we are operating in a base of " + game.base + " because that's how many inputs we have at our disposal, and that's the number of vertices our largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
+        squirglePhaseTwoTextFive = "Now that we understand what BASEs are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that we've got a TRIANGLE in our hand, we're operating within a base of 4, and we're tasked with creating a LINE. If we were to add a POINT to our TRIANGLE, we would get a SQUARE (which is also our base), but if we add something larger than a POINT, we EXCEED our BASE, and the amount by which we've EXCEEDED it becomes the new shape we've made. For instance, if we add a LINE to our TRIANGLE, we've created a POINT, since we've EXCEEDED our BASE by 1. If we add a TRIANGLE to our TRIANGLE, we've created a LINE, since we've EXCEEDED our BASE by 2, and we've successfully created the shape for which we've been prompted.";
+        squirglePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in our hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
+        squirglePhaseThreeTextOne = "In the upper left corner of the screen, you'll now see two shapes separated by a circle, next to which is a number.";
+        squirglePhaseThreeTextTwo = "The shape within the circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
+        squirglePhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating; for clarity, this number also alternates between various colors.";
+        squirglePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
+        squirglePhaseFourTextOne = "In the upper right corner of the screen, you'll now see three numbers. The leftmost number represents the number of vertices possessed by the shape currently in your hand, the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
+        squirglePhaseFourTextTwo = "Your score increases by your multiplier every time you correctly match a full series of two target shapes.";
+        squirglePhaseFourTextThree = "So long as your multiplier is below its maximum value of 5, it increases by 1 every time you correctly match a full series of target shapes. Should you press an incorrect input, however, your multiplier will be reverted back to its original value of 1.";
+        squirglePhaseFourTextFour = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your score and multiplier. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
+        squirglePhaseFiveTextOne = "At the left of the screen, you will now see a series of color swatches and three white lines. The colors represent the background colors that are forthcoming, and the three lines represent how much time you have to continue playing and racking up points.";
+        squirglePhaseFiveTextTwo = "As far as concerns the colors, when one passes to the left of the screen, it then becomes the new background color. Whenever you correctly create the current target shape from the shape in your hand, that correctly matched target shape's color is set to that of the current background, and if you manage to match both target shapes of the same color, you are prompted for a special series of shapes known as a SQUIRGLE. This series consists of a SQUARE and a TRIANGLE separated by a circle, and once both SQUARE and TRIANGLE have been created from the shape(s) in your hand, the three white TIMELINES are reset to their original lengths, affording you more time to play. In this phase of the tutorial, only the first TIMELINE depletes completely.";
+        squirglePhaseFiveTextThree = "In representing how much time you have left to play, the three TIMELINES also represent the radius of the shape currently in your hand, for the game comes to an end when that shape's radius becomes so large that the shape touches any of the screen's sides. Because of this, when you manage to create both shapes within a SQUIRGLE from the shape(s) in your hand, in addition to reverting the TIMELINES to their original lengths, you also revert the shape in your hand's radius to its minimum value as well. When you are ready to play the game in full, press the NEXT button, and the TIMELINES' behavior will become as if outside of a tutorial.";
+        squirglePhaseSixTextOne = "Use everything you've learned to rack up as many points as possible. Good luck!";
+
+        phaseMap = new HashMap<Integer, List<String>>();
+        gameplayTypeMap = new HashMap<Integer, Map<Integer, List<String>>>();
     }
 
     public void setUpGL() {
