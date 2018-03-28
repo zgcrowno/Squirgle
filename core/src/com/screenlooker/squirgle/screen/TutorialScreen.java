@@ -45,6 +45,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     public static float FONT_SCORE_SIZE_DIVISOR;
     public static float FONT_TARGET_SIZE_DIVISOR;
     public static float FONT_SQUIRGLE_SIZE_DIVISOR;
+    public static float FONT_TUTORIAL_HELP_SIZE_DIVISOR;
     public static Vector2 INPUT_POINT_SPAWN;
     public static Vector2 INPUT_LINE_SPAWN;
     public static Vector2 INPUT_TRIANGLE_SPAWN;
@@ -164,6 +165,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private float squirgleOpacity;
     private float squirgleOpacityP1;
     private float squirgleOpacityP2;
+    private float helpInputGirth;
     private Shape promptShape;
     private Shape promptShapeP1;
     private Shape promptShapeP2;
@@ -222,6 +224,10 @@ public class TutorialScreen implements Screen, InputProcessor {
     boolean septagonTouchedP2;
     boolean octagonTouchedP2;
     boolean nonagonTouchedP2;
+    boolean helpTouched;
+    boolean helpChevronDownTouched;
+    boolean helpChevronUpTouched;
+    boolean helpNextTouched;
     boolean playTouched;
     boolean homeTouched;
     boolean exitTouched;
@@ -231,6 +237,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     boolean inputTouchedGameplay;
     boolean inputTouchedGameplayP1;
     boolean inputTouchedGameplayP2;
+    boolean inputTouchedHelp;
     boolean inputTouchedResults;
     private Color targetArcColor;
     private Color clearColor;
@@ -272,12 +279,15 @@ public class TutorialScreen implements Screen, InputProcessor {
     private boolean multiplayer;
     private boolean local;
     private boolean online;
+    private boolean helpTextVisible;
+    public Label.LabelStyle helpLabelStyle;
+    public Label helpLabel;
+    private Stage stage;
 
     private String squirglePhaseOneTextOne;
     private String squirglePhaseOneTextTwo;
     private String squirglePhaseOneTextThree;
     private String squirglePhaseOneTextFour;
-    private String squirglePhaseOneTextFive;
     private String squirglePhaseTwoTextOne;
     private String squirglePhaseTwoTextTwo;
     private String squirglePhaseTwoTextThree;
@@ -303,7 +313,6 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String battlePhaseOneTextFour;
     private String battlePhaseOneTextFive;
     private String battlePhaseOneTextSix;
-    private String battlePhaseOneTextSeven;
     private String battlePhaseTwoTextOne;
     private String battlePhaseTwoTextTwo;
     private String battlePhaseTwoTextThree;
@@ -327,7 +336,6 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String timeAttackPhaseOneTextTwo;
     private String timeAttackPhaseOneTextThree;
     private String timeAttackPhaseOneTextFour;
-    private String timeAttackPhaseOneTextFive;
     private String timeAttackPhaseTwoTextOne;
     private String timeAttackPhaseTwoTextTwo;
     private String timeAttackPhaseTwoTextThree;
@@ -353,7 +361,6 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String timeBattlePhaseOneTextFour;
     private String timeBattlePhaseOneTextFive;
     private String timeBattlePhaseOneTextSix;
-    private String timeBattlePhaseOneTextSeven;
     private String timeBattlePhaseTwoTextOne;
     private String timeBattlePhaseTwoTextTwo;
     private String timeBattlePhaseTwoTextThree;
@@ -592,8 +599,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                     game.draw.drawPrompt(local, outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true);
                     game.draw.drawShapes(local, targetShapeListP2, outsideTargetShapeP2, false);
                 }
-                //TODO: Draw another pause input for local multiplayer
                 game.draw.drawPauseInputTutorial(splitScreen, local, game);
+                game.draw.drawHelpInput(splitScreen);
                 drawTargetArcs();
             }
         }
@@ -616,12 +623,18 @@ public class TutorialScreen implements Screen, InputProcessor {
             drawInputRectangles();
         }
 
+        showHelpText();
+
         game.shapeRendererFilled.end();
         game.shapeRendererLine.end();
 
         drawText();
 
         gameOver();
+
+        stage.draw();
+
+        showHelpTextFooter();
 
         if(!splitScreen) {
             ColorUtils.transitionColor(currentTargetShape);
@@ -705,6 +718,18 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
+        game.camera.unproject(touchPoint.set(screenX, screenY, 0));
+
+        //TODO: Decide if I actually want this functionality
+//        if(touchPoint.x > helpLabel.getX()
+//                && touchPoint.x < helpLabel.getX() + helpLabel.getWidth()
+//                && touchPoint.y > helpLabel.getY()
+//                && touchPoint.y < helpLabel.getY() + helpLabel.getHeight()) {
+//            helpLabel.setX(touchPoint.x - (helpLabel.getWidth() / 2));
+//            helpLabel.setY(touchPoint.y - (helpLabel.getHeight() / 2));
+//            return true;
+//        }
+
         return false;
     }
 
@@ -1684,6 +1709,9 @@ public class TutorialScreen implements Screen, InputProcessor {
             pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
                     && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
                     && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
+            helpTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
+                    && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 10) - (game.camera.viewportWidth / 20)
+                    && touchPoint.y < (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 10) + (game.camera.viewportWidth / 20);
         } else {
             pointTouchedP1 = touchPoint.x > INPUT_POINT_SPAWN_P1.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_POINT_SPAWN_P1.x + INPUT_RADIUS
@@ -1725,10 +1753,16 @@ public class TutorialScreen implements Screen, InputProcessor {
                 pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 40)
                         && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 40)
                         && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) + (game.camera.viewportWidth / 40);
+                helpTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 40)
+                        && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 20) - (game.camera.viewportWidth / 40)
+                        && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 20) + (game.camera.viewportWidth / 40);
             } else {
                 pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
                         && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 20)
                         && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) + (game.camera.viewportWidth / 20);
+                helpTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
+                        && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 10) - (game.camera.viewportWidth / 20)
+                        && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 10) + (game.camera.viewportWidth / 20);
             }
             if(multiplayer) {
                 pointTouchedP2 = touchPoint.x > INPUT_POINT_SPAWN_P2.x - INPUT_RADIUS
@@ -1770,6 +1804,19 @@ public class TutorialScreen implements Screen, InputProcessor {
                 inputTouchedGameplayP2 = pointTouchedP2 || lineTouchedP2 || triangleTouchedP2 || squareTouchedP2 || pentagonTouchedP2 || hexagonTouchedP2 || septagonTouchedP2 || octagonTouchedP2 || nonagonTouchedP2;
             }
         }
+        helpChevronDownTouched = touchPoint.x > helpLabel.getX() - helpInputGirth
+                && touchPoint.x < helpLabel.getX()
+                && touchPoint.y > helpLabel.getY() - helpInputGirth
+                && touchPoint.y < helpLabel.getY() + helpLabel.getHeight();
+        helpChevronUpTouched = touchPoint.x > helpLabel.getX() + helpLabel.getWidth()
+                && touchPoint.x < helpLabel.getX() + helpLabel.getWidth() + helpInputGirth
+                && touchPoint.y > helpLabel.getY() - helpInputGirth
+                && touchPoint.y < helpLabel.getY() + helpLabel.getHeight();;
+        helpNextTouched = touchPoint.x > helpLabel.getX() + (helpLabel.getWidth() / 2)
+                && touchPoint.x < helpLabel.getX() + helpLabel.getWidth()
+                && touchPoint.y > helpLabel.getY() - helpInputGirth
+                && touchPoint.y < helpLabel.getY()
+                && currentHelpTextIndex == getHelpTextMaxIndex();
         playTouched = touchPoint.x > INPUT_PLAY_SPAWN.x - INPUT_RADIUS
                 && touchPoint.x < INPUT_PLAY_SPAWN.x + INPUT_RADIUS
                 && touchPoint.y > INPUT_PLAY_SPAWN.y - INPUT_RADIUS
@@ -1795,6 +1842,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         } else {
             inputTouchedGameplayP1 = pointTouchedP1 || lineTouchedP1 || triangleTouchedP1 || squareTouchedP1 || pentagonTouchedP1 || hexagonTouchedP1 || septagonTouchedP1 || octagonTouchedP1 || nonagonTouchedP1;
         }
+        inputTouchedHelp = helpTouched || helpChevronDownTouched || helpChevronUpTouched || helpNextTouched;
         inputTouchedResults = playTouched || homeTouched || exitTouched;
     }
 
@@ -1932,6 +1980,9 @@ public class TutorialScreen implements Screen, InputProcessor {
                 }
             }
             if(player == null || player.equals(P1)) {
+                if(inputTouchedHelp) {
+                    handleHelpInput();
+                }
                 if (inputTouchedResults && showResults) {
                     handleResultsInput();
                 }
@@ -1964,6 +2015,28 @@ public class TutorialScreen implements Screen, InputProcessor {
             game.setScreen(new MainMenuScreen(game, Color.BLACK));
             dispose();
         }
+    }
+
+    public void handleHelpInput() {
+        if(helpTouched) {
+            helpTextVisible = !helpTextVisible;
+        }else if(helpChevronDownTouched) {
+            if(currentHelpTextIndex > 0) {
+                currentHelpTextIndex--;
+            } else {
+                currentHelpTextIndex = getHelpTextMaxIndex();
+            }
+        } else if(helpChevronUpTouched) {
+            if(currentHelpTextIndex < getHelpTextMaxIndex()) {
+                currentHelpTextIndex++;
+            } else {
+                currentHelpTextIndex = 0;
+            }
+        } else if(helpNextTouched) {
+            phase++;
+            currentHelpTextIndex = 0;
+        }
+        helpLabel.setText(getCurrentHelpText());
     }
 
     public void transitionShape(String player, int shapeAdded) {
@@ -2430,6 +2503,81 @@ public class TutorialScreen implements Screen, InputProcessor {
         return helpTextMap.get(gameplayType).get(phase).size() - 1;
     }
 
+    public void showHelpText() {
+        helpLabel.setVisible(helpTextVisible && !paused);
+        if(helpTextVisible && !paused) {
+            game.draw.rect(helpLabel.getX() - helpInputGirth,
+                    helpLabel.getY() - helpInputGirth,
+                    helpLabel.getWidth() + (game.camera.viewportWidth / 8),
+                    helpLabel.getHeight() + helpInputGirth,
+                    blackAndWhite ? Color.WHITE : Color.BLACK);
+            game.draw.drawChevronLeft(helpLabel.getX() - (helpInputGirth / 2),
+                    helpLabel.getY() + (helpLabel.getHeight() / 2) - (helpInputGirth / 2),
+                    helpInputGirth / 2,
+                    (helpInputGirth / 2) / Draw.LINE_WIDTH_DIVISOR,
+                    blackAndWhite ? Color.BLACK : Color.WHITE);
+            game.draw.drawChevronRight(helpLabel.getX() + helpLabel.getWidth() + (helpInputGirth / 2),
+                    helpLabel.getY() + (helpLabel.getHeight() / 2) - (helpInputGirth / 2),
+                    helpInputGirth / 2,
+                    (helpInputGirth / 2) / Draw.LINE_WIDTH_DIVISOR,
+                    blackAndWhite ? Color.BLACK : Color.WHITE);
+            game.shapeRendererLine.setColor(blackAndWhite ? Color.BLACK : Color.WHITE);
+            game.shapeRendererLine.line(helpLabel.getX(),
+                    helpLabel.getY() + helpLabel.getHeight(),
+                    helpLabel.getX(),
+                    helpLabel.getY() - helpInputGirth);
+            game.shapeRendererLine.line(helpLabel.getX() + helpLabel.getWidth(),
+                    helpLabel.getY() + helpLabel.getHeight(),
+                    helpLabel.getX() + helpLabel.getWidth(),
+                    helpLabel.getY() - helpInputGirth);
+            game.shapeRendererLine.line(helpLabel.getX(),
+                    helpLabel.getY(),
+                    helpLabel.getX() + helpLabel.getWidth(),
+                    helpLabel.getY());
+            if(currentHelpTextIndex == getHelpTextMaxIndex()) {
+                game.shapeRendererLine.line(helpLabel.getX() + (helpLabel.getWidth() / 2),
+                        helpLabel.getY(),
+                        helpLabel.getX() + (helpLabel.getWidth() / 2),
+                        helpLabel.getY() - helpInputGirth);
+            }
+        }
+    }
+
+    public void showHelpTextFooter() {
+        if(helpTextVisible && !paused) {
+            if(currentHelpTextIndex == getHelpTextMaxIndex()) {
+                FontUtils.printText(game.batch,
+                        game.fontTutorialHelp,
+                        game.layout,
+                        blackAndWhite ? Color.BLACK : Color.WHITE,
+                        (currentHelpTextIndex + 1) + "/" + (getHelpTextMaxIndex() + 1),
+                        helpLabel.getX() + (helpLabel.getWidth() / 4),
+                        helpLabel.getY() - (helpInputGirth / 2),
+                        0,
+                        1);
+                FontUtils.printText(game.batch,
+                        game.fontTutorialHelp,
+                        game.layout,
+                        blackAndWhite ? Color.BLACK : Color.WHITE,
+                        "NEXT",
+                        helpLabel.getX() + ((3 * helpLabel.getWidth()) / 4),
+                        helpLabel.getY() - (helpInputGirth / 2),
+                        0,
+                        1);
+            } else {
+                FontUtils.printText(game.batch,
+                        game.fontTutorialHelp,
+                        game.layout,
+                        blackAndWhite ? Color.BLACK : Color.WHITE,
+                        (currentHelpTextIndex + 1) + "/" + (getHelpTextMaxIndex() + 1),
+                        helpLabel.getX() + (helpLabel.getWidth() / 2),
+                        helpLabel.getY() - (helpInputGirth / 2),
+                        0,
+                        1);
+            }
+        }
+    }
+
     public void setUpNonFinalStaticData() {
         INPUT_RADIUS = splitScreen && game.widthGreater ? game.camera.viewportWidth / 38 : game.camera.viewportWidth / 19;
         for(int i = 1; i <= game.base; i++) {
@@ -2539,6 +2687,11 @@ public class TutorialScreen implements Screen, InputProcessor {
             FONT_TARGET_SIZE_DIVISOR = 35.5f;
             FONT_SQUIRGLE_SIZE_DIVISOR = 5f;
         }
+        if(game.widthGreater) {
+            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 71f;
+        } else {
+            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+        }
         INPUT_PLAY_SPAWN = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         INPUT_HOME_SPAWN = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         INPUT_EXIT_SPAWN = new Vector2((3 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
@@ -2575,6 +2728,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleOpacity = 0;
         squirgleOpacityP1 = 0;
         squirgleOpacityP2 = 0;
+        helpInputGirth = game.camera.viewportWidth / 16;
         promptShape = new Shape(MathUtils.random(game.base - 1),
                 INIT_PROMPT_RADIUS, Color.WHITE,
                 null,
@@ -2730,6 +2884,10 @@ public class TutorialScreen implements Screen, InputProcessor {
         septagonTouchedP2 = false;
         octagonTouchedP2 = false;
         nonagonTouchedP2 = false;
+        helpTouched = false;
+        helpChevronDownTouched = false;
+        helpChevronUpTouched = false;
+        helpNextTouched = false;
         playTouched = false;
         homeTouched = false;
         exitTouched = false;
@@ -2739,6 +2897,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         inputTouchedGameplay = false;
         inputTouchedGameplayP1 = false;
         inputTouchedGameplayP2 = false;
+        inputTouchedHelp = false;
         inputTouchedResults = false;
         targetArcColor = new Color();
         clearColor = new Color(backgroundColorShape.getColor());
@@ -2753,6 +2912,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         gameOver = false;
         showResults = false;
         paused = false;
+        helpTextVisible = true;
         startTime = System.currentTimeMillis();
         endTime = 0;
         lastSpeedIncreaseTime = System.currentTimeMillis();
@@ -2783,18 +2943,17 @@ public class TutorialScreen implements Screen, InputProcessor {
         primaryShapeAtThresholdP2 = primaryShapeP2.getRadius() >= primaryShapeThreshold;
 
         squirglePhaseOneTextOne = "Welcome to the SQUIRGLE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of SQUIRGLE.";
-        squirglePhaseOneTextTwo = "This is the HELP button. If, at any point in this tutorial, you wish to pause/unpause the action and consult/dismiss instructional text such as this, just press this button.";
-        squirglePhaseOneTextThree = "This is the PAUSE button. If, at any point in this tutorial, you wish to completely pause the game, press this button. Once paused, you may press the BACK button to unpause or the STOP button to quit.";
-        squirglePhaseOneTextFour = "This white, hollow shape is the shape currently in your hand. This is the shape you will be manipulating to progress through SQUIRGLE.";
-        squirglePhaseOneTextFive = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
-        squirglePhaseTwoTextOne = "These are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
-        squirglePhaseTwoTextTwo = "SQUIRGLE is, in a sense, a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this, however, is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
-        squirglePhaseTwoTextThree = "Using these rules, the fundamental aim of SQUIRGLE is to create target shapes from the shape(s) in our hand using the inputs at our disposal. Again, if we're asked to create a SQUARE (4) from a TRIANGLE (3), we would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in SQUIRGLE, and we rather use remainders to achieve the same effect.";
-        squirglePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASEs. Right now, we are operating in a base of " + game.base + " because that's how many inputs we have at our disposal, and that's the number of vertices our largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
-        squirglePhaseTwoTextFive = "Now that we understand what BASEs are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that we've got a TRIANGLE in our hand, we're operating within a base of 4, and we're tasked with creating a LINE. If we were to add a POINT to our TRIANGLE, we would get a SQUARE (which is also our base), but if we add something larger than a POINT, we EXCEED our BASE, and the amount by which we've EXCEEDED it becomes the new shape we've made. For instance, if we add a LINE to our TRIANGLE, we've created a POINT, since we've EXCEEDED our BASE by 1. If we add a TRIANGLE to our TRIANGLE, we've created a LINE, since we've EXCEEDED our BASE by 2, and we've successfully created the shape for which we've been prompted.";
-        squirglePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in our hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
-        squirglePhaseThreeTextOne = "In the upper left corner of the screen, you'll now see two shapes separated by a circle, next to which is a number.";
-        squirglePhaseThreeTextTwo = "The shape within the circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
+        squirglePhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
+        squirglePhaseOneTextThree = "The white, hollow shape in the center of the screen is the shape currently in your hand (press the HELP [?] button to temporarily dismiss this text and examine it). This is the shape you will be manipulating to progress through SQUIRGLE.";
+        squirglePhaseOneTextFour = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
+        squirglePhaseTwoTextOne = "The buttons at the bottom of the screen are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
+        squirglePhaseTwoTextTwo = "SQUIRGLE is essentially a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
+        squirglePhaseTwoTextThree = "Using these rules, the fundamental aim of SQUIRGLE is to create target shapes from the shape in your hand by using the inputs at your disposal. Again, if you're asked to create a SQUARE (4) from a TRIANGLE (3), you would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in SQUIRGLE, and we rather use remainders to achieve the same effect.";
+        squirglePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASES. Right now, you are operating in a base of " + game.base + " because that's how many inputs you have at your disposal, and that's the number of vertices the game's largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
+        squirglePhaseTwoTextFive = "Now that we understand what BASEs are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that you've got a TRIANGLE in your hand, you're operating within a base of 4, and you're tasked with creating a LINE. If you were to add a POINT to your TRIANGLE, you would get a SQUARE (which is also your base), but if you add something larger than a POINT, you EXCEED your BASE, and the amount by which you've EXCEEDED it becomes the new shape you've made. For instance, if you add a LINE to your TRIANGLE, you've created a POINT (since you've EXCEEDED your BASE by 1). If you add a TRIANGLE to your TRIANGLE, you've created a LINE (since you've EXCEEDED your BASE by 2), and you've successfully created the shape for which you've been prompted.";
+        squirglePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in your hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
+        squirglePhaseThreeTextOne = "In the upper left corner of the screen, you'll now see two shapes separated by a black circle, next to which is a number.";
+        squirglePhaseThreeTextTwo = "The shape within the black circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the black circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
         squirglePhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating; for clarity, this number also alternates between various colors.";
         squirglePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
         squirglePhaseFourTextOne = "In the upper right corner of the screen, you'll now see three numbers. The leftmost number represents the number of vertices possessed by the shape currently in your hand, the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
@@ -2802,49 +2961,47 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirglePhaseFourTextThree = "So long as your multiplier is below its maximum value of 5, it increases by 1 every time you correctly match a full series of target shapes. Should you press an incorrect input, however, your multiplier will be reverted back to its original value of 1.";
         squirglePhaseFourTextFour = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your score and multiplier. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
         squirglePhaseFiveTextOne = "At the left of the screen, you will now see a series of color swatches and three white lines. The colors represent the background colors that are forthcoming, and the three lines represent how much time you have to continue playing and racking up points.";
-        squirglePhaseFiveTextTwo = "As far as concerns the colors, when one passes to the left of the screen, it then becomes the new background color. Whenever you correctly create the current target shape from the shape in your hand, that correctly matched target shape's color is set to that of the current background, and if you manage to match both target shapes of the same color, you are prompted for a special series of shapes known as a SQUIRGLE. This series consists of a SQUARE and a TRIANGLE separated by a circle, and once both SQUARE and TRIANGLE have been created from the shape(s) in your hand, the three white TIMELINES are reset to their original lengths, affording you more time to play. In this phase of the tutorial, only the first TIMELINE depletes completely.";
+        squirglePhaseFiveTextTwo = "As far as concerns the colors, when one passes to the left of the screen, it then becomes the new background color. Whenever you correctly create the current target shape from the shape in your hand, that correctly matched target shape's color is set to that of the current background, and if you manage to match both target shapes of the same color, you are prompted for a special series of shapes known as a SQUIRGLE. This series consists of a SQUARE and a TRIANGLE separated by a black circle, and once both SQUARE and TRIANGLE have been created from the shape in your hand, the three white TIMELINES are reset to their original lengths, affording you more time to play. In this phase of the tutorial, only the first TIMELINE depletes completely.";
         squirglePhaseFiveTextThree = "In representing how much time you have left to play, the three TIMELINES also represent the radius of the shape currently in your hand, for the game comes to an end when that shape's radius becomes so large that the shape touches any of the screen's sides. Because of this, when you manage to create both shapes within a SQUIRGLE from the shape(s) in your hand, in addition to reverting the TIMELINES to their original lengths, you also revert the shape in your hand's radius to its minimum value as well. When you are ready to play the game in full, press the NEXT button, and the TIMELINES' behavior will become as if outside of a tutorial.";
-        squirglePhaseSixTextOne = "Use everything you've learned to rack up as many points as possible. Good luck!";
+        squirglePhaseSixTextOne = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to rack up as many points as possible. Good luck!";
 
         battlePhaseOneTextOne = "Welcome to the BATTLE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of BATTLE.";
-        battlePhaseOneTextTwo = "This is the HELP button. If, at any point in this tutorial, you wish to pause/unpause the action and consult/dismiss instructional text such as this, just press this button.";
-        battlePhaseOneTextThree = "This is the PAUSE button. If, at any point in this tutorial, you wish to completely pause the game, press this button. Once paused, you may press the BACK button to unpause or the STOP button to quit.";
-        battlePhaseOneTextFour = "In BATTLE mode, the screen is divided between player and opponent. The bottom half of the screen is the player 1 section; this contains all the inputs of which you--player 1--will take advantage.";
-        battlePhaseOneTextFive = "The top half of the screen is the player 2 section. This showcases the actions your opponent--player 2--is taking.";
-        battlePhaseOneTextSix = "This white, hollow shape is the shape currently in your hand. This is the shape you will be manipulating to progress through BATTLE.";
-        battlePhaseOneTextSeven = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
-        battlePhaseTwoTextOne = "These are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
-        battlePhaseTwoTextTwo = "BATTLE is, in a sense, a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this, however, is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
-        battlePhaseTwoTextThree = "Using these rules, the fundamental aim of BATTLE is to create target shapes from the shape(s) in our hand using the inputs at our disposal. Again, if we're asked to create a SQUARE (4) from a TRIANGLE (3), we would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in BATTLE, and we rather use remainders to achieve the same effect.";
-        battlePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASEs. Right now, we are operating in a base of " + game.base + " because that's how many inputs we have at our disposal, and that's the number of vertices our largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
-        battlePhaseTwoTextFive = "Now that we understand what BASEs are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that we've got a TRIANGLE in our hand, we're operating within a base of 4, and we're tasked with creating a LINE. If we were to add a POINT to our TRIANGLE, we would get a SQUARE (which is also our base), but if we add something larger than a POINT, we EXCEED our BASE, and the amount by which we've EXCEEDED it becomes the new shape we've made. For instance, if we add a LINE to our TRIANGLE, we've created a POINT, since we've EXCEEDED our BASE by 1. If we add a TRIANGLE to our TRIANGLE, we've created a LINE, since we've EXCEEDED our BASE by 2, and we've successfully created the shape for which we've been prompted.";
-        battlePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in our hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
-        battlePhaseThreeTextOne = "In the upper left corner of the player 1 section, you'll now see two shapes separated by a circle, next to which is a number.";
-        battlePhaseThreeTextTwo = "The shape within the circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
+        battlePhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
+        battlePhaseOneTextThree = "In BATTLE mode, the screen is divided between player and opponent. The bottom half of the screen is the player 1 section; this contains all the inputs of which you--player 1--will take advantage.";
+        battlePhaseOneTextFour = "The top half of the screen is the player 2 section. This showcases the actions your opponent--player 2--is taking.";
+        battlePhaseOneTextFive = "The white, hollow shape in the center of the player 1 section is the shape currently in your hand (press the HELP [?] button to temporarily dismiss this text and examine it more clearly). This is the shape you will be manipulating to progress through BATTLE.";
+        battlePhaseOneTextSix = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
+        battlePhaseTwoTextOne = "The buttons at the bottom of the screen are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
+        battlePhaseTwoTextTwo = "BATTLE is essentially a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
+        battlePhaseTwoTextThree = "Using these rules, the fundamental aim of BATTLE is to create target shapes from the shape in your hand using the inputs at your disposal. Again, if you're asked to create a SQUARE (4) from a TRIANGLE (3), you would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in BATTLE, and we rather use remainders to achieve the same effect.";
+        battlePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASES. Right now, you are operating in a base of " + game.base + " because that's how many inputs you have at your disposal, and that's the number of vertices the game's largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
+        battlePhaseTwoTextFive = "Now that we understand what BASES are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that you've got a TRIANGLE in your hand, you're operating within a base of 4, and you're tasked with creating a LINE. If you were to add a POINT to your TRIANGLE, you would get a SQUARE (which is also your base), but if you add something larger than a POINT, you EXCEED your BASE, and the amount by which you've EXCEEDED it becomes the new shape you've made. For instance, if you add a LINE to your TRIANGLE, you've created a POINT (since you've EXCEEDED your BASE by 1). If you add a TRIANGLE to your TRIANGLE, you've created a LINE (since you've EXCEEDED your BASE by 2), and you've successfully created the shape for which you've been prompted.";
+        battlePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in your hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
+        battlePhaseThreeTextOne = "In the upper left corner of the player 1 section, you'll now see two shapes separated by a black circle, next to which is a number.";
+        battlePhaseThreeTextTwo = "The shape within the black circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the black circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
         battlePhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating; for clarity, this number also alternates between various colors.";
         battlePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
-        battlePhaseFourTextOne = "In the upper right corner of the player 1 section, you'll now see some text saying P1, a number, and a TRIANGLE populated by a number of small notches. The text represents which player you are (P1 = Player 1), the number represents the number of vertices possessed by the shape currently in your hand, and the notched TRIANGLE represents your BURST meter.";
-        battlePhaseFourTextTwo = "The BURST meter is the gauge by which we determine whether player 1 or player 2 wins the battle. If your BURST meter reaches its threshold, you lose; if your opponent's BURST meter reaches its threshold, you win; if time runs out before either BURST meter reaches its threshold, the player with the smaller BURST value wins; if both BURST values are equal, the round results in a tie.";
-        battlePhaseFourTextThree = "In order to add to your opponent's burst meter, simply create the target shapes from the shape(s) in your hand. If you correctly match both shapes in a target series, your opponent's BURST meter will increase by 1. If, however, the two shapes you just matched constitute a SQUIRGLE, your opponent's BURST meter will increase by 5, and your BURST meter will decrease by 3. Note, though, that if you press an incorrect input, your BURST meter increases by 1.";
-        battlePhaseFourTextFour = "Play around with this knowledge by matching the shape(s) in your hand with the targets, and seeing how correct and incorrect inputs adjust your BURST meter and that of your opponent. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
+        battlePhaseFourTextOne = "In the upper right corner of the player 1 section, you'll now see some text saying \"P1\", a number, and a TRIANGLE populated by a number of small notches. The text represents which player you are (P1 = Player 1), the number represents the number of vertices possessed by the shape currently in your hand, and the notched TRIANGLE represents your BURST meter.";
+        battlePhaseFourTextTwo = "The BURST meter is the gauge by which is determined whether player 1 or player 2 wins the battle. If your BURST meter reaches its threshold, you lose; if your opponent's BURST meter reaches its threshold, you win; if time runs out before either BURST meter reaches its threshold, the player with the smaller BURST value wins; if both BURST values are equal, the round results in a tie.";
+        battlePhaseFourTextThree = "In order to add to your opponent's burst meter, simply create the target shapes from the shape in your hand. If you correctly match both shapes in a target series, your opponent's BURST meter will increase by 1. If, however, the two shapes you just matched constitute a SQUIRGLE, your opponent's BURST meter will increase by 5, and your BURST meter will decrease by 3. Note, though, that if you press an incorrect input, your BURST meter increases by 1.";
+        battlePhaseFourTextFour = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your BURST meter and that of your opponent. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
         battlePhaseFiveTextOne = "At the left of the screen, you will now see a series of color swatches and three white lines. The colors represent the background colors that are forthcoming, and the three lines represent how much time you have to continue playing and attempting to best your opponent.";
-        battlePhaseFiveTextTwo = "As far as concerns the colors, when one passes to the left of the screen, it then becomes the new background color. Whenever you correctly create the current target shape from the shape in your hand, that correctly matched target shape's color is set to that of the current background, and if you manage to match both target shapes of the same color, you are prompted for a special series of shapes known as a SQUIRGLE. This series consists of a SQUARE and a TRIANGLE separated by a circle, and once both SQUARE and TRIANGLE have been created from the shape(s) in your hand, your opponent's BURST meter increases by 5, while your BURST meter decreases by 1.";
+        battlePhaseFiveTextTwo = "As far as concerns the colors, when one passes to the left of the screen, it then becomes the new background color. Whenever you correctly create the current target shape from the shape in your hand, that correctly matched target shape's color is set to that of the current background, and if you manage to match both target shapes of the same color, you are prompted for a special series of shapes known as a SQUIRGLE. This series consists of a SQUARE and a TRIANGLE separated by a black circle, and once both SQUARE and TRIANGLE have been created from the shape in your hand, your opponent's BURST meter increases by 5, while your BURST meter decreases by 3.";
         battlePhaseFiveTextThree = "Note that in BATTLE mode, there is no correlation between the shape in your hand's radius and the lengths of the timelines. This is because there is instead a correlation between the shape in your hand's radius and your BURST meter. As your BURST value increases, so too does the radius of the shape in your hand, implying a game over scenario should both become too large. The game will still end, however, when all timelines are fully depleted.";
-        battlePhaseSixTextOne = "Use everything you've learned to rack up as many points as possible. Good luck!";
+        battlePhaseSixTextOne = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to best your opponent. Good luck!";
 
         timeAttackPhaseOneTextOne = "Welcome to the TIME ATTACK tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of TIME ATTACK.";
-        timeAttackPhaseOneTextTwo = "This is the HELP button. If, at any point in this tutorial, you wish to pause/unpause the action and consult/dismiss instructional text such as this, just press this button.";
-        timeAttackPhaseOneTextThree = "This is the PAUSE button. If, at any point in this tutorial, you wish to completely pause the game, press this button. Once paused, you may press the BACK button to unpause or the STOP button to quit.";
-        timeAttackPhaseOneTextFour = "This white, hollow shape is the shape currently in your hand. This is the shape you will be manipulating to progress through TIME ATTACK.";
-        timeAttackPhaseOneTextFive = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
-        timeAttackPhaseTwoTextOne = "These are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
-        timeAttackPhaseTwoTextTwo = "TIME ATTACK is, in a sense, a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this, however, is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
-        timeAttackPhaseTwoTextThree = "Using these rules, the fundamental aim of TIME ATTACK is to create target shapes from the shape(s) in our hand using the inputs at our disposal. Again, if we're asked to create a SQUARE (4) from a TRIANGLE (3), we would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in TIME ATTACK, and we rather use remainders to achieve the same effect.";
-        timeAttackPhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASEs. Right now, we are operating in a base of " + game.base + " because that's how many inputs we have at our disposal, and that's the number of vertices our largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
-        timeAttackPhaseTwoTextFive = "Now that we understand what BASEs are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that we've got a TRIANGLE in our hand, we're operating within a base of 4, and we're tasked with creating a LINE. If we were to add a POINT to our TRIANGLE, we would get a SQUARE (which is also our base), but if we add something larger than a POINT, we EXCEED our BASE, and the amount by which we've EXCEEDED it becomes the new shape we've made. For instance, if we add a LINE to our TRIANGLE, we've created a POINT, since we've EXCEEDED our BASE by 1. If we add a TRIANGLE to our TRIANGLE, we've created a LINE, since we've EXCEEDED our BASE by 2, and we've successfully created the shape for which we've been prompted.";
-        timeAttackPhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in our hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
-        timeAttackPhaseThreeTextOne = "In the upper left corner of the screen, you'll now see two shapes separated by a circle, next to which is a number.";
-        timeAttackPhaseThreeTextTwo = "The shape within the circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
+        timeAttackPhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
+        timeAttackPhaseOneTextThree = "The white, hollow shape in the center of the screen is the shape currently in your hand (press the HELP [?] button to temporarily dismiss this text and examine it). This is the shape you will be manipulating to progress through TIME ATTACK.";
+        timeAttackPhaseOneTextFour = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
+        timeAttackPhaseTwoTextOne = "The buttons at the bottom of the screen are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
+        timeAttackPhaseTwoTextTwo = "TIME ATTACK is essentially a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
+        timeAttackPhaseTwoTextThree = "Using these rules, the fundamental aim of TIME ATTACK is to create target shapes from the shape in your hand using the inputs at our disposal. Again, if you're asked to create a SQUARE (4) from a TRIANGLE (3), you would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in TIME ATTACK, and we rather use remainders to achieve the same effect.";
+        timeAttackPhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASES. Right now, you are operating in a base of " + game.base + " because that's how many inputs you have at your disposal, and that's the number of vertices the game's largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
+        timeAttackPhaseTwoTextFive = "Now that we understand what BASES are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that you've got a TRIANGLE in your hand, you're operating within a base of 4, and you're tasked with creating a LINE. If you were to add a POINT to your TRIANGLE, you would get a SQUARE (which is also your base), but if you add something larger than a POINT, you EXCEED your BASE, and the amount by which you've EXCEEDED it becomes the new shape you've made. For instance, if you add a LINE to your TRIANGLE, you've created a POINT (since you've EXCEEDED your BASE by 1). If you add a TRIANGLE to your TRIANGLE, you've created a LINE (since you've EXCEEDED your BASE by 2), and you've successfully created the shape for which you've been prompted.";
+        timeAttackPhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in your hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
+        timeAttackPhaseThreeTextOne = "In the upper left corner of the screen, you'll now see two shapes separated by a black circle, next to which is a number.";
+        timeAttackPhaseThreeTextTwo = "The shape within the black circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the black circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
         timeAttackPhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating; for clarity, this number also alternates between various colors.";
         timeAttackPhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
         timeAttackPhaseFourTextOne = "In the upper right corner of the screen, you'll now see three numbers. The leftmost number represents the number of vertices possessed by the shape currently in your hand, the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
@@ -2854,34 +3011,33 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackPhaseFiveTextOne = "At the left of the screen, you will now see three white lines. These three lines represent how much time you have to continue playing and racking up points.";
         timeAttackPhaseFiveTextTwo = "Since there are no color swatches in TIME ATTACK, a SQUIRGLE is not a special series of shapes in this mode, and will thus crop up and act just like any other.";
         timeAttackPhaseFiveTextThree = "In representing how much time you have left to play, the three TIMELINES also represent the radius of the shape currently in your hand, for the game comes to an end when that shape's radius becomes so large that the shape touches any of the screen's sides. There is no way to garner more time in TIME ATTACK, so you will only ever have 1, 3, or 5 minutes to play this mode, depending on the length of time you've chosen at the outset.";
-        timeAttackPhaseSixTextOne = "Use everything you've learned to rack up as many points as possible. Good luck!";
+        timeAttackPhaseSixTextOne = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to rack up as many points as possible. Good luck!";
 
         timeBattlePhaseOneTextOne = "Welcome to the TIME BATTLE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of TIME BATTLE.";
-        timeBattlePhaseOneTextTwo = "This is the HELP button. If, at any point in this tutorial, you wish to pause/unpause the action and consult/dismiss instructional text such as this, just press this button.";
-        timeBattlePhaseOneTextThree = "This is the PAUSE button. If, at any point in this tutorial, you wish to completely pause the game, press this button. Once paused, you may press the BACK button to unpause or the STOP button to quit.";
-        timeBattlePhaseOneTextFour = "In TIME BATTLE mode, the screen is divided between player and opponent. The bottom half of the screen is the player 1 section; this contains all the inputs of which you--player 1--will take advantage.";
-        timeBattlePhaseOneTextFive = "The top half of the screen is the player 2 section. This showcases the actions your opponent--player 2--is taking.";
-        timeBattlePhaseOneTextSix = "This white, hollow shape is the shape currently in your hand. This is the shape you will be manipulating to progress through TIME BATTLE.";
-        timeBattlePhaseOneTextSeven = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
-        timeBattlePhaseTwoTextOne = "These are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
-        timeBattlePhaseTwoTextTwo = "TIME BATTLE is, in a sense, a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this, however, is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
-        timeBattlePhaseTwoTextThree = "Using these rules, the fundamental aim of TIME BATTLE is to create target shapes from the shape(s) in our hand using the inputs at our disposal. Again, if we're asked to create a SQUARE (4) from a TRIANGLE (3), we would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in TIME BATTLE, and we rather use remainders to achieve the same effect.";
-        timeBattlePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASEs. Right now, we are operating in a base of " + game.base + " because that's how many inputs we have at our disposal, and that's the number of vertices our largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
-        timeBattlePhaseTwoTextFive = "Now that we understand what BASEs are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that we've got a TRIANGLE in our hand, we're operating within a base of 4, and we're tasked with creating a LINE. If we were to add a POINT to our TRIANGLE, we would get a SQUARE (which is also our base), but if we add something larger than a POINT, we EXCEED our BASE, and the amount by which we've EXCEEDED it becomes the new shape we've made. For instance, if we add a LINE to our TRIANGLE, we've created a POINT, since we've EXCEEDED our BASE by 1. If we add a TRIANGLE to our TRIANGLE, we've created a LINE, since we've EXCEEDED our BASE by 2, and we've successfully created the shape for which we've been prompted.";
-        timeBattlePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in our hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
-        timeBattlePhaseThreeTextOne = "In the upper left corner of the player 1 section, you'll now see two shapes separated by a circle, next to which is a number.";
-        timeBattlePhaseThreeTextTwo = "The shape within the circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
+        timeBattlePhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
+        timeBattlePhaseOneTextThree = "In TIME BATTLE mode, the screen is divided between player and opponent. The bottom half of the screen is the player 1 section; this contains all the inputs of which you--player 1--will take advantage.";
+        timeBattlePhaseOneTextFour = "The top half of the screen is the player 2 section. This showcases the actions your opponent--player 2--is taking.";
+        timeBattlePhaseOneTextFive = "The white, hollow shape in the center of the player 1 section is the shape currently in your hand (press the HELP [?] button to temporarily dismiss this text and examine it more clearly). This is the shape you will be manipulating to progress through TIME BATTLE.";
+        timeBattlePhaseOneTextSix = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
+        timeBattlePhaseTwoTextOne = "The buttons at the bottom of the screen are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
+        timeBattlePhaseTwoTextTwo = "TIME BATTLE is essentially a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
+        timeBattlePhaseTwoTextThree = "Using these rules, the fundamental aim of TIME BATTLE is to create target shapes from the shape in your hand using the inputs at our disposal. Again, if you're asked to create a SQUARE (4) from a TRIANGLE (3), you would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in TIME BATTLE, and we rather use remainders to achieve the same effect.";
+        timeBattlePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASES. Right now, you are operating in a base of " + game.base + " because that's how many inputs you have at your disposal, and that's the number of vertices the game's largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
+        timeBattlePhaseTwoTextFive = "Now that we understand what BASES are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that you've got a TRIANGLE in your hand, you're operating within a base of 4, and you're tasked with creating a LINE. If you were to add a POINT to your TRIANGLE, you would get a SQUARE (which is also your base), but if you add something larger than a POINT, you EXCEED your BASE, and the amount by which you've EXCEEDED it becomes the new shape you've made. For instance, if you add a LINE to your TRIANGLE, you've created a POINT (since you've EXCEEDED your BASE by 1). If you add a TRIANGLE to your TRIANGLE, you've created a LINE (since you've EXCEEDED your BASE by 2), and you've successfully created the shape for which you've been prompted.";
+        timeBattlePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in your hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
+        timeBattlePhaseThreeTextOne = "In the upper left corner of the player 1 section, you'll now see two shapes separated by a black circle, next to which is a number.";
+        timeBattlePhaseThreeTextTwo = "The shape within the black circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the black circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
         timeBattlePhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating; for clarity, this number also alternates between various colors.";
         timeBattlePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
-        timeBattlePhaseFourTextOne = "In the upper right corner of the player 1 section, you'll now see some text saying P1, and three numbers. The text represents which player you are (P1 = Player 1), the leftmost number represents the number of vertices possessed by the shape currently in your hand, the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
+        timeBattlePhaseFourTextOne = "In the upper right corner of the player 1 section, you'll now see some text saying \"P1\", and three numbers. The text represents which player you are (P1 = Player 1), the leftmost number represents the number of vertices possessed by the shape currently in your hand, the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
         timeBattlePhaseFourTextTwo = "Your score increases by your multiplier every time you correctly match a full series of two target shapes. Every time you press an incorrect input, however, your score decreases by 1 (unless you already possess the minimum score of 0).";
         timeBattlePhaseFourTextThree = "So long as your multiplier is below its maximum value of 5, it increases by 1 every time you correctly match a full series of target shapes. Should you press an incorrect input, however, your multiplier will be reverted back to its original value of 1.";
-        timeBattlePhaseFourTextFour = "Your score is the gauge by which we determine whether player 1 or player 2 wins the battle. Come the game's end, if your score is greater than your opponent's, you win; if your opponent's score is greater than yours, you lose; if your score and your opponent's are equal, the round results in a tie.";
+        timeBattlePhaseFourTextFour = "Your score is the gauge by which is determined whether player 1 or player 2 wins the battle. Come the game's end, if your score is greater than your opponent's, you win; if your opponent's score is greater than yours, you lose; if your score and your opponent's are equal, the round results in a tie.";
         timeBattlePhaseFourTextFive = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your score and multiplier. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
         timeBattlePhaseFiveTextOne = "At the left of the screen, you will now see three white lines. These three lines represent how much time you have to continue playing and racking up points.";
         timeBattlePhaseFiveTextTwo = "Since there are no color swatches in TIME BATTLE, a SQUIRGLE is not a special series of shapes in this mode, and will thus crop up and act just like any other.";
         timeBattlePhaseFiveTextThree = "In representing how much time you have left to play, the three TIMELINES also represent the radius of the shape currently in your hand, for the game comes to an end when that shape's radius becomes so large that the shape touches any of the screen's sides. There is no way to garner more time in TIME BATTLE, so you will only ever have 1, 3, or 5 minutes to play this mode, depending on the length of time you've chosen at the outset.";
-        timeBattlePhaseSixTextOne = "Use everything you've learned to rack up as many points as possible. Good luck!";
+        timeBattlePhaseSixTextOne = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to rack up as many points as possible. Good luck!";
 
         squirgleHelpTextPhaseOneList = new ArrayList<String>();
         squirgleHelpTextPhaseTwoList = new ArrayList<String>();
@@ -2951,7 +3107,6 @@ public class TutorialScreen implements Screen, InputProcessor {
         battleHelpTextPhaseOneList.add(battlePhaseOneTextFour);
         battleHelpTextPhaseOneList.add(battlePhaseOneTextFive);
         battleHelpTextPhaseOneList.add(battlePhaseOneTextSix);
-        battleHelpTextPhaseOneList.add(battlePhaseOneTextSeven);
 
         battleHelpTextPhaseTwoList.add(battlePhaseTwoTextOne);
         battleHelpTextPhaseTwoList.add(battlePhaseTwoTextTwo);
@@ -2980,7 +3135,6 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackHelpTextPhaseOneList.add(timeAttackPhaseOneTextTwo);
         timeAttackHelpTextPhaseOneList.add(timeAttackPhaseOneTextThree);
         timeAttackHelpTextPhaseOneList.add(timeAttackPhaseOneTextFour);
-        timeAttackHelpTextPhaseOneList.add(timeAttackPhaseOneTextFive);
 
         timeAttackHelpTextPhaseTwoList.add(timeAttackPhaseTwoTextOne);
         timeAttackHelpTextPhaseTwoList.add(timeAttackPhaseTwoTextTwo);
@@ -3011,7 +3165,6 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleHelpTextPhaseOneList.add(timeBattlePhaseOneTextFour);
         timeBattleHelpTextPhaseOneList.add(timeBattlePhaseOneTextFive);
         timeBattleHelpTextPhaseOneList.add(timeBattlePhaseOneTextSix);
-        timeBattleHelpTextPhaseOneList.add(timeBattlePhaseOneTextSeven);
 
         timeBattleHelpTextPhaseTwoList.add(timeBattlePhaseTwoTextOne);
         timeBattleHelpTextPhaseTwoList.add(timeBattlePhaseTwoTextTwo);
@@ -3069,6 +3222,21 @@ public class TutorialScreen implements Screen, InputProcessor {
         helpTextMap.put(Squirgle.GAMEPLAY_BATTLE, battlePhaseMap);
         helpTextMap.put(Squirgle.GAMEPLAY_TIME_ATTACK, timeAttackPhaseMap);
         helpTextMap.put(Squirgle.GAMEPLAY_TIME_BATTLE, timeBattlePhaseMap);
+
+        game.setUpFontTutorialHelp(MathUtils.round(game.camera.viewportWidth / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
+
+        helpLabelStyle = new Label.LabelStyle();
+        helpLabelStyle.font = game.fontTutorialHelp;
+        helpLabelStyle.fontColor = blackAndWhite ? Color.BLACK : Color.WHITE;
+        helpLabel = new Label(getCurrentHelpText(), helpLabelStyle);
+        helpLabel.setSize((3 * game.camera.viewportWidth) / 8, (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 16));
+        helpLabel.setPosition((5 * game.camera.viewportWidth) / 16, (game.camera.viewportHeight / 4) + (game.camera.viewportWidth / 16));
+        helpLabel.setAlignment(Align.topLeft);
+        helpLabel.setWrap(true);
+        helpLabel.setVisible(helpTextVisible && !paused);
+
+        stage = new Stage(game.viewport);
+        stage.addActor(helpLabel);
     }
 
     public void setUpGL() {

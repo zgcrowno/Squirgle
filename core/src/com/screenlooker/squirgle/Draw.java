@@ -2464,11 +2464,16 @@ public class Draw {
 
     }
 
-    public void drawHelpInput() {
-        float inputRadius = game.camera.viewportWidth / 20;
+    public void drawHelpInput(boolean splitScreen) {
+        float inputRadius = splitScreen && game.widthGreater ? game.camera.viewportWidth / 40 : game.camera.viewportWidth / 20;
 
-        drawPoint(game.camera.viewportWidth, game.camera.viewportHeight / 4, inputRadius, Color.WHITE);
-        drawQuestionMark(game.camera.viewportWidth - (inputRadius / 2), game.camera.viewportHeight / 4, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, Color.WHITE);
+        if(!splitScreen) {
+            drawPoint(game.camera.viewportWidth, (game.camera.viewportHeight / 2) - (2 * inputRadius), inputRadius, Color.WHITE);
+            drawQuestionMark(game.camera.viewportWidth - (inputRadius / 2), (game.camera.viewportHeight / 2) - (2 * inputRadius), inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, Color.WHITE);
+        } else {
+            drawPoint(game.camera.viewportWidth, (((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) / 2) - (2 * inputRadius), inputRadius, Color.WHITE);
+            drawQuestionMark(game.camera.viewportWidth - (inputRadius / 2), (((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) / 2) - (2 * inputRadius), inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, Color.WHITE);
+        }
     }
 
     public void drawTouchDownPointsTutorial(List<Shape> touchDownShapeList) {
