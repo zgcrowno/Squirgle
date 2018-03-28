@@ -121,13 +121,13 @@ public class TutorialScreen implements Screen, InputProcessor {
     -Target is now displayed in upper left corner
     -If user hits wrong shape, disconfirmation sound is played, and phase resets
     -If user hits correct shape, confirmation sound is played, and new shape is targeted
-    -User hits correct shape four times
+    -User presses next button in help window
     */
     public final static int PHASE_THREE = 2;
 
     /*
     -Score & multiplier are now displayed in upper right-hand corner of screen
-    -Targets are now formed as per usual until multiplier reaches max
+    -Targets are now formed as per usual until user presses next button in help window
     */
     public final static int PHASE_FOUR = 3;
 
@@ -137,7 +137,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     -Pause input is now displayed @ right-hand side of screen
     -Colors are now sifted through, affecting background, prompt shape & nested shapes
     -Prompt shape (& nested shapes) also begins to grow now, but it will stop doing so once it reaches 2/3 of its max size
-    -The game remains in this phase until the user gets four squirgles
+    -The game remains in this phase until the user presses next button in help window
     */
     public final static int PHASE_FIVE = 4;
 
@@ -234,6 +234,8 @@ public class TutorialScreen implements Screen, InputProcessor {
     boolean inputTouchedResults;
     private Color targetArcColor;
     private Color clearColor;
+    private int phase;
+    private int currentHelpTextIndex;
     private int score;
     private int scoreP1;
     private int scoreP2;
@@ -270,6 +272,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private boolean multiplayer;
     private boolean local;
     private boolean online;
+
     private String squirglePhaseOneTextOne;
     private String squirglePhaseOneTextTwo;
     private String squirglePhaseOneTextThree;
@@ -293,8 +296,117 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String squirglePhaseFiveTextTwo;
     private String squirglePhaseFiveTextThree;
     private String squirglePhaseSixTextOne;
-    private Map<Integer, List<String>> phaseMap;
-    private Map<Integer, Map<Integer, List<String>>> gameplayTypeMap;
+
+    private String battlePhaseOneTextOne;
+    private String battlePhaseOneTextTwo;
+    private String battlePhaseOneTextThree;
+    private String battlePhaseOneTextFour;
+    private String battlePhaseOneTextFive;
+    private String battlePhaseOneTextSix;
+    private String battlePhaseOneTextSeven;
+    private String battlePhaseTwoTextOne;
+    private String battlePhaseTwoTextTwo;
+    private String battlePhaseTwoTextThree;
+    private String battlePhaseTwoTextFour;
+    private String battlePhaseTwoTextFive;
+    private String battlePhaseTwoTextSix;
+    private String battlePhaseThreeTextOne;
+    private String battlePhaseThreeTextTwo;
+    private String battlePhaseThreeTextThree;
+    private String battlePhaseThreeTextFour;
+    private String battlePhaseFourTextOne;
+    private String battlePhaseFourTextTwo;
+    private String battlePhaseFourTextThree;
+    private String battlePhaseFourTextFour;
+    private String battlePhaseFiveTextOne;
+    private String battlePhaseFiveTextTwo;
+    private String battlePhaseFiveTextThree;
+    private String battlePhaseSixTextOne;
+
+    private String timeAttackPhaseOneTextOne;
+    private String timeAttackPhaseOneTextTwo;
+    private String timeAttackPhaseOneTextThree;
+    private String timeAttackPhaseOneTextFour;
+    private String timeAttackPhaseOneTextFive;
+    private String timeAttackPhaseTwoTextOne;
+    private String timeAttackPhaseTwoTextTwo;
+    private String timeAttackPhaseTwoTextThree;
+    private String timeAttackPhaseTwoTextFour;
+    private String timeAttackPhaseTwoTextFive;
+    private String timeAttackPhaseTwoTextSix;
+    private String timeAttackPhaseThreeTextOne;
+    private String timeAttackPhaseThreeTextTwo;
+    private String timeAttackPhaseThreeTextThree;
+    private String timeAttackPhaseThreeTextFour;
+    private String timeAttackPhaseFourTextOne;
+    private String timeAttackPhaseFourTextTwo;
+    private String timeAttackPhaseFourTextThree;
+    private String timeAttackPhaseFourTextFour;
+    private String timeAttackPhaseFiveTextOne;
+    private String timeAttackPhaseFiveTextTwo;
+    private String timeAttackPhaseFiveTextThree;
+    private String timeAttackPhaseSixTextOne;
+
+    private String timeBattlePhaseOneTextOne;
+    private String timeBattlePhaseOneTextTwo;
+    private String timeBattlePhaseOneTextThree;
+    private String timeBattlePhaseOneTextFour;
+    private String timeBattlePhaseOneTextFive;
+    private String timeBattlePhaseOneTextSix;
+    private String timeBattlePhaseOneTextSeven;
+    private String timeBattlePhaseTwoTextOne;
+    private String timeBattlePhaseTwoTextTwo;
+    private String timeBattlePhaseTwoTextThree;
+    private String timeBattlePhaseTwoTextFour;
+    private String timeBattlePhaseTwoTextFive;
+    private String timeBattlePhaseTwoTextSix;
+    private String timeBattlePhaseThreeTextOne;
+    private String timeBattlePhaseThreeTextTwo;
+    private String timeBattlePhaseThreeTextThree;
+    private String timeBattlePhaseThreeTextFour;
+    private String timeBattlePhaseFourTextOne;
+    private String timeBattlePhaseFourTextTwo;
+    private String timeBattlePhaseFourTextThree;
+    private String timeBattlePhaseFourTextFour;
+    private String timeBattlePhaseFourTextFive;
+    private String timeBattlePhaseFiveTextOne;
+    private String timeBattlePhaseFiveTextTwo;
+    private String timeBattlePhaseFiveTextThree;
+    private String timeBattlePhaseSixTextOne;
+
+    private List<String> squirgleHelpTextPhaseOneList;
+    private List<String> squirgleHelpTextPhaseTwoList;
+    private List<String> squirgleHelpTextPhaseThreeList;
+    private List<String> squirgleHelpTextPhaseFourList;
+    private List<String> squirgleHelpTextPhaseFiveList;
+    private List<String> squirgleHelpTextPhaseSixList;
+
+    private List<String> battleHelpTextPhaseOneList;
+    private List<String> battleHelpTextPhaseTwoList;
+    private List<String> battleHelpTextPhaseThreeList;
+    private List<String> battleHelpTextPhaseFourList;
+    private List<String> battleHelpTextPhaseFiveList;
+    private List<String> battleHelpTextPhaseSixList;
+
+    private List<String> timeAttackHelpTextPhaseOneList;
+    private List<String> timeAttackHelpTextPhaseTwoList;
+    private List<String> timeAttackHelpTextPhaseThreeList;
+    private List<String> timeAttackHelpTextPhaseFourList;
+    private List<String> timeAttackHelpTextPhaseFiveList;
+    private List<String> timeAttackHelpTextPhaseSixList;
+
+    private List<String> timeBattleHelpTextPhaseOneList;
+    private List<String> timeBattleHelpTextPhaseTwoList;
+    private List<String> timeBattleHelpTextPhaseThreeList;
+    private List<String> timeBattleHelpTextPhaseFourList;
+    private List<String> timeBattleHelpTextPhaseFiveList;
+    private List<String> timeBattleHelpTextPhaseSixList;
+
+    private Map<Integer, List<String>> squirglePhaseMap;
+    private Map<Integer, List<String>> battlePhaseMap;
+    private Map<Integer, List<String>> timeAttackPhaseMap;
+    private Map<Integer, List<String>> timeBattlePhaseMap;
+    private Map<Integer, Map<Integer, List<String>>> helpTextMap;
 
     public TutorialScreen(final Squirgle game, final int gameplayType) {
         this.game = game;
@@ -1821,9 +1933,6 @@ public class TutorialScreen implements Screen, InputProcessor {
             }
             if(player == null || player.equals(P1)) {
                 if (inputTouchedResults && showResults) {
-                    if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-                        unlockNewBase();
-                    }
                     handleResultsInput();
                 }
             }
@@ -2313,12 +2422,12 @@ public class TutorialScreen implements Screen, InputProcessor {
         inputTouchedGameplayP2 = false;
     }
 
-    public void unlockNewBase() {
-        //Unlock new base options
-        if(game.base == game.maxBase && score >= Squirgle.SCORE_TO_UNLOCK_NEW_BASE && game.maxBase < Squirgle.MAX_POSSIBLE_BASE && gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-            game.maxBase++;
-            game.updateSave(game.SAVE_MAX_BASE, game.maxBase);
-        }
+    public String getCurrentHelpText() {
+        return helpTextMap.get(gameplayType).get(phase).get(currentHelpTextIndex);
+    }
+
+    public int getHelpTextMaxIndex() {
+        return helpTextMap.get(gameplayType).get(phase).size() - 1;
     }
 
     public void setUpNonFinalStaticData() {
@@ -2633,6 +2742,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         inputTouchedResults = false;
         targetArcColor = new Color();
         clearColor = new Color(backgroundColorShape.getColor());
+        phase = PHASE_ONE;
+        currentHelpTextIndex = 0;
         score = 0;
         scoreP1 = 0;
         scoreP2 = 0;
@@ -2678,7 +2789,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirglePhaseOneTextFive = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
         squirglePhaseTwoTextOne = "These are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
         squirglePhaseTwoTextTwo = "SQUIRGLE is, in a sense, a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this, however, is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
-        squirglePhaseTwoTextThree = "Using these rules, the fundamental aim of SQUIRGLE is to create target shapes from the shape(s) in our hand using the inputs at our disposal. Again, if we're asked to create a SQUARE (4) from a TRIANGLE (3), we would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in SQUIRGLE, and we rather use remainders to acheive the same effect.";
+        squirglePhaseTwoTextThree = "Using these rules, the fundamental aim of SQUIRGLE is to create target shapes from the shape(s) in our hand using the inputs at our disposal. Again, if we're asked to create a SQUARE (4) from a TRIANGLE (3), we would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in SQUIRGLE, and we rather use remainders to achieve the same effect.";
         squirglePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASEs. Right now, we are operating in a base of " + game.base + " because that's how many inputs we have at our disposal, and that's the number of vertices our largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
         squirglePhaseTwoTextFive = "Now that we understand what BASEs are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that we've got a TRIANGLE in our hand, we're operating within a base of 4, and we're tasked with creating a LINE. If we were to add a POINT to our TRIANGLE, we would get a SQUARE (which is also our base), but if we add something larger than a POINT, we EXCEED our BASE, and the amount by which we've EXCEEDED it becomes the new shape we've made. For instance, if we add a LINE to our TRIANGLE, we've created a POINT, since we've EXCEEDED our BASE by 1. If we add a TRIANGLE to our TRIANGLE, we've created a LINE, since we've EXCEEDED our BASE by 2, and we've successfully created the shape for which we've been prompted.";
         squirglePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in our hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
@@ -2695,8 +2806,269 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirglePhaseFiveTextThree = "In representing how much time you have left to play, the three TIMELINES also represent the radius of the shape currently in your hand, for the game comes to an end when that shape's radius becomes so large that the shape touches any of the screen's sides. Because of this, when you manage to create both shapes within a SQUIRGLE from the shape(s) in your hand, in addition to reverting the TIMELINES to their original lengths, you also revert the shape in your hand's radius to its minimum value as well. When you are ready to play the game in full, press the NEXT button, and the TIMELINES' behavior will become as if outside of a tutorial.";
         squirglePhaseSixTextOne = "Use everything you've learned to rack up as many points as possible. Good luck!";
 
-        phaseMap = new HashMap<Integer, List<String>>();
-        gameplayTypeMap = new HashMap<Integer, Map<Integer, List<String>>>();
+        battlePhaseOneTextOne = "Welcome to the BATTLE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of BATTLE.";
+        battlePhaseOneTextTwo = "This is the HELP button. If, at any point in this tutorial, you wish to pause/unpause the action and consult/dismiss instructional text such as this, just press this button.";
+        battlePhaseOneTextThree = "This is the PAUSE button. If, at any point in this tutorial, you wish to completely pause the game, press this button. Once paused, you may press the BACK button to unpause or the STOP button to quit.";
+        battlePhaseOneTextFour = "In BATTLE mode, the screen is divided between player and opponent. The bottom half of the screen is the player 1 section; this contains all the inputs of which you--player 1--will take advantage.";
+        battlePhaseOneTextFive = "The top half of the screen is the player 2 section. This showcases the actions your opponent--player 2--is taking.";
+        battlePhaseOneTextSix = "This white, hollow shape is the shape currently in your hand. This is the shape you will be manipulating to progress through BATTLE.";
+        battlePhaseOneTextSeven = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
+        battlePhaseTwoTextOne = "These are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
+        battlePhaseTwoTextTwo = "BATTLE is, in a sense, a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this, however, is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
+        battlePhaseTwoTextThree = "Using these rules, the fundamental aim of BATTLE is to create target shapes from the shape(s) in our hand using the inputs at our disposal. Again, if we're asked to create a SQUARE (4) from a TRIANGLE (3), we would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in BATTLE, and we rather use remainders to achieve the same effect.";
+        battlePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASEs. Right now, we are operating in a base of " + game.base + " because that's how many inputs we have at our disposal, and that's the number of vertices our largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
+        battlePhaseTwoTextFive = "Now that we understand what BASEs are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that we've got a TRIANGLE in our hand, we're operating within a base of 4, and we're tasked with creating a LINE. If we were to add a POINT to our TRIANGLE, we would get a SQUARE (which is also our base), but if we add something larger than a POINT, we EXCEED our BASE, and the amount by which we've EXCEEDED it becomes the new shape we've made. For instance, if we add a LINE to our TRIANGLE, we've created a POINT, since we've EXCEEDED our BASE by 1. If we add a TRIANGLE to our TRIANGLE, we've created a LINE, since we've EXCEEDED our BASE by 2, and we've successfully created the shape for which we've been prompted.";
+        battlePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in our hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
+        battlePhaseThreeTextOne = "In the upper left corner of the player 1 section, you'll now see two shapes separated by a circle, next to which is a number.";
+        battlePhaseThreeTextTwo = "The shape within the circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
+        battlePhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating; for clarity, this number also alternates between various colors.";
+        battlePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
+        battlePhaseFourTextOne = "In the upper right corner of the player 1 section, you'll now see some text saying P1, a number, and a TRIANGLE populated by a number of small notches. The text represents which player you are (P1 = Player 1), the number represents the number of vertices possessed by the shape currently in your hand, and the notched TRIANGLE represents your BURST meter.";
+        battlePhaseFourTextTwo = "The BURST meter is the gauge by which we determine whether player 1 or player 2 wins the battle. If your BURST meter reaches its threshold, you lose; if your opponent's BURST meter reaches its threshold, you win; if time runs out before either BURST meter reaches its threshold, the player with the smaller BURST value wins; if both BURST values are equal, the round results in a tie.";
+        battlePhaseFourTextThree = "In order to add to your opponent's burst meter, simply create the target shapes from the shape(s) in your hand. If you correctly match both shapes in a target series, your opponent's BURST meter will increase by 1. If, however, the two shapes you just matched constitute a SQUIRGLE, your opponent's BURST meter will increase by 5, and your BURST meter will decrease by 3. Note, though, that if you press an incorrect input, your BURST meter increases by 1.";
+        battlePhaseFourTextFour = "Play around with this knowledge by matching the shape(s) in your hand with the targets, and seeing how correct and incorrect inputs adjust your BURST meter and that of your opponent. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
+        battlePhaseFiveTextOne = "At the left of the screen, you will now see a series of color swatches and three white lines. The colors represent the background colors that are forthcoming, and the three lines represent how much time you have to continue playing and attempting to best your opponent.";
+        battlePhaseFiveTextTwo = "As far as concerns the colors, when one passes to the left of the screen, it then becomes the new background color. Whenever you correctly create the current target shape from the shape in your hand, that correctly matched target shape's color is set to that of the current background, and if you manage to match both target shapes of the same color, you are prompted for a special series of shapes known as a SQUIRGLE. This series consists of a SQUARE and a TRIANGLE separated by a circle, and once both SQUARE and TRIANGLE have been created from the shape(s) in your hand, your opponent's BURST meter increases by 5, while your BURST meter decreases by 1.";
+        battlePhaseFiveTextThree = "Note that in BATTLE mode, there is no correlation between the shape in your hand's radius and the lengths of the timelines. This is because there is instead a correlation between the shape in your hand's radius and your BURST meter. As your BURST value increases, so too does the radius of the shape in your hand, implying a game over scenario should both become too large. The game will still end, however, when all timelines are fully depleted.";
+        battlePhaseSixTextOne = "Use everything you've learned to rack up as many points as possible. Good luck!";
+
+        timeAttackPhaseOneTextOne = "Welcome to the TIME ATTACK tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of TIME ATTACK.";
+        timeAttackPhaseOneTextTwo = "This is the HELP button. If, at any point in this tutorial, you wish to pause/unpause the action and consult/dismiss instructional text such as this, just press this button.";
+        timeAttackPhaseOneTextThree = "This is the PAUSE button. If, at any point in this tutorial, you wish to completely pause the game, press this button. Once paused, you may press the BACK button to unpause or the STOP button to quit.";
+        timeAttackPhaseOneTextFour = "This white, hollow shape is the shape currently in your hand. This is the shape you will be manipulating to progress through TIME ATTACK.";
+        timeAttackPhaseOneTextFive = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
+        timeAttackPhaseTwoTextOne = "These are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
+        timeAttackPhaseTwoTextTwo = "TIME ATTACK is, in a sense, a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this, however, is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
+        timeAttackPhaseTwoTextThree = "Using these rules, the fundamental aim of TIME ATTACK is to create target shapes from the shape(s) in our hand using the inputs at our disposal. Again, if we're asked to create a SQUARE (4) from a TRIANGLE (3), we would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in TIME ATTACK, and we rather use remainders to achieve the same effect.";
+        timeAttackPhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASEs. Right now, we are operating in a base of " + game.base + " because that's how many inputs we have at our disposal, and that's the number of vertices our largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
+        timeAttackPhaseTwoTextFive = "Now that we understand what BASEs are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that we've got a TRIANGLE in our hand, we're operating within a base of 4, and we're tasked with creating a LINE. If we were to add a POINT to our TRIANGLE, we would get a SQUARE (which is also our base), but if we add something larger than a POINT, we EXCEED our BASE, and the amount by which we've EXCEEDED it becomes the new shape we've made. For instance, if we add a LINE to our TRIANGLE, we've created a POINT, since we've EXCEEDED our BASE by 1. If we add a TRIANGLE to our TRIANGLE, we've created a LINE, since we've EXCEEDED our BASE by 2, and we've successfully created the shape for which we've been prompted.";
+        timeAttackPhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in our hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
+        timeAttackPhaseThreeTextOne = "In the upper left corner of the screen, you'll now see two shapes separated by a circle, next to which is a number.";
+        timeAttackPhaseThreeTextTwo = "The shape within the circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
+        timeAttackPhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating; for clarity, this number also alternates between various colors.";
+        timeAttackPhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
+        timeAttackPhaseFourTextOne = "In the upper right corner of the screen, you'll now see three numbers. The leftmost number represents the number of vertices possessed by the shape currently in your hand, the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
+        timeAttackPhaseFourTextTwo = "Your score increases by your multiplier every time you correctly match a full series of two target shapes.";
+        timeAttackPhaseFourTextThree = "So long as your multiplier is below its maximum value of 5, it increases by 1 every time you correctly match a full series of target shapes. Should you press an incorrect input, however, your multiplier will be reverted back to its original value of 1.";
+        timeAttackPhaseFourTextFour = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your score and multiplier. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
+        timeAttackPhaseFiveTextOne = "At the left of the screen, you will now see three white lines. These three lines represent how much time you have to continue playing and racking up points.";
+        timeAttackPhaseFiveTextTwo = "Since there are no color swatches in TIME ATTACK, a SQUIRGLE is not a special series of shapes in this mode, and will thus crop up and act just like any other.";
+        timeAttackPhaseFiveTextThree = "In representing how much time you have left to play, the three TIMELINES also represent the radius of the shape currently in your hand, for the game comes to an end when that shape's radius becomes so large that the shape touches any of the screen's sides. There is no way to garner more time in TIME ATTACK, so you will only ever have 1, 3, or 5 minutes to play this mode, depending on the length of time you've chosen at the outset.";
+        timeAttackPhaseSixTextOne = "Use everything you've learned to rack up as many points as possible. Good luck!";
+
+        timeBattlePhaseOneTextOne = "Welcome to the TIME BATTLE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of TIME BATTLE.";
+        timeBattlePhaseOneTextTwo = "This is the HELP button. If, at any point in this tutorial, you wish to pause/unpause the action and consult/dismiss instructional text such as this, just press this button.";
+        timeBattlePhaseOneTextThree = "This is the PAUSE button. If, at any point in this tutorial, you wish to completely pause the game, press this button. Once paused, you may press the BACK button to unpause or the STOP button to quit.";
+        timeBattlePhaseOneTextFour = "In TIME BATTLE mode, the screen is divided between player and opponent. The bottom half of the screen is the player 1 section; this contains all the inputs of which you--player 1--will take advantage.";
+        timeBattlePhaseOneTextFive = "The top half of the screen is the player 2 section. This showcases the actions your opponent--player 2--is taking.";
+        timeBattlePhaseOneTextSix = "This white, hollow shape is the shape currently in your hand. This is the shape you will be manipulating to progress through TIME BATTLE.";
+        timeBattlePhaseOneTextSeven = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
+        timeBattlePhaseTwoTextOne = "These are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
+        timeBattlePhaseTwoTextTwo = "TIME BATTLE is, in a sense, a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this, however, is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
+        timeBattlePhaseTwoTextThree = "Using these rules, the fundamental aim of TIME BATTLE is to create target shapes from the shape(s) in our hand using the inputs at our disposal. Again, if we're asked to create a SQUARE (4) from a TRIANGLE (3), we would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in TIME BATTLE, and we rather use remainders to achieve the same effect.";
+        timeBattlePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASEs. Right now, we are operating in a base of " + game.base + " because that's how many inputs we have at our disposal, and that's the number of vertices our largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
+        timeBattlePhaseTwoTextFive = "Now that we understand what BASEs are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that we've got a TRIANGLE in our hand, we're operating within a base of 4, and we're tasked with creating a LINE. If we were to add a POINT to our TRIANGLE, we would get a SQUARE (which is also our base), but if we add something larger than a POINT, we EXCEED our BASE, and the amount by which we've EXCEEDED it becomes the new shape we've made. For instance, if we add a LINE to our TRIANGLE, we've created a POINT, since we've EXCEEDED our BASE by 1. If we add a TRIANGLE to our TRIANGLE, we've created a LINE, since we've EXCEEDED our BASE by 2, and we've successfully created the shape for which we've been prompted.";
+        timeBattlePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in our hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
+        timeBattlePhaseThreeTextOne = "In the upper left corner of the player 1 section, you'll now see two shapes separated by a circle, next to which is a number.";
+        timeBattlePhaseThreeTextTwo = "The shape within the circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
+        timeBattlePhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating; for clarity, this number also alternates between various colors.";
+        timeBattlePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
+        timeBattlePhaseFourTextOne = "In the upper right corner of the player 1 section, you'll now see some text saying P1, and three numbers. The text represents which player you are (P1 = Player 1), the leftmost number represents the number of vertices possessed by the shape currently in your hand, the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
+        timeBattlePhaseFourTextTwo = "Your score increases by your multiplier every time you correctly match a full series of two target shapes. Every time you press an incorrect input, however, your score decreases by 1 (unless you already possess the minimum score of 0).";
+        timeBattlePhaseFourTextThree = "So long as your multiplier is below its maximum value of 5, it increases by 1 every time you correctly match a full series of target shapes. Should you press an incorrect input, however, your multiplier will be reverted back to its original value of 1.";
+        timeBattlePhaseFourTextFour = "Your score is the gauge by which we determine whether player 1 or player 2 wins the battle. Come the game's end, if your score is greater than your opponent's, you win; if your opponent's score is greater than yours, you lose; if your score and your opponent's are equal, the round results in a tie.";
+        timeBattlePhaseFourTextFive = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your score and multiplier. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
+        timeBattlePhaseFiveTextOne = "At the left of the screen, you will now see three white lines. These three lines represent how much time you have to continue playing and racking up points.";
+        timeBattlePhaseFiveTextTwo = "Since there are no color swatches in TIME BATTLE, a SQUIRGLE is not a special series of shapes in this mode, and will thus crop up and act just like any other.";
+        timeBattlePhaseFiveTextThree = "In representing how much time you have left to play, the three TIMELINES also represent the radius of the shape currently in your hand, for the game comes to an end when that shape's radius becomes so large that the shape touches any of the screen's sides. There is no way to garner more time in TIME BATTLE, so you will only ever have 1, 3, or 5 minutes to play this mode, depending on the length of time you've chosen at the outset.";
+        timeBattlePhaseSixTextOne = "Use everything you've learned to rack up as many points as possible. Good luck!";
+
+        squirgleHelpTextPhaseOneList = new ArrayList<String>();
+        squirgleHelpTextPhaseTwoList = new ArrayList<String>();
+        squirgleHelpTextPhaseThreeList = new ArrayList<String>();
+        squirgleHelpTextPhaseFourList = new ArrayList<String>();
+        squirgleHelpTextPhaseFiveList = new ArrayList<String>();
+        squirgleHelpTextPhaseSixList = new ArrayList<String>();
+
+        battleHelpTextPhaseOneList = new ArrayList<String>();
+        battleHelpTextPhaseTwoList = new ArrayList<String>();
+        battleHelpTextPhaseThreeList = new ArrayList<String>();
+        battleHelpTextPhaseFourList = new ArrayList<String>();
+        battleHelpTextPhaseFiveList = new ArrayList<String>();
+        battleHelpTextPhaseSixList = new ArrayList<String>();
+
+        timeAttackHelpTextPhaseOneList = new ArrayList<String>();
+        timeAttackHelpTextPhaseTwoList = new ArrayList<String>();
+        timeAttackHelpTextPhaseThreeList = new ArrayList<String>();
+        timeAttackHelpTextPhaseFourList = new ArrayList<String>();
+        timeAttackHelpTextPhaseFiveList = new ArrayList<String>();
+        timeAttackHelpTextPhaseSixList = new ArrayList<String>();
+
+        timeBattleHelpTextPhaseOneList = new ArrayList<String>();
+        timeBattleHelpTextPhaseTwoList = new ArrayList<String>();
+        timeBattleHelpTextPhaseThreeList = new ArrayList<String>();
+        timeBattleHelpTextPhaseFourList = new ArrayList<String>();
+        timeBattleHelpTextPhaseFiveList = new ArrayList<String>();
+        timeBattleHelpTextPhaseSixList = new ArrayList<String>();
+
+        squirglePhaseMap = new HashMap<Integer, List<String>>();
+        battlePhaseMap = new HashMap<Integer, List<String>>();
+        timeAttackPhaseMap = new HashMap<Integer, List<String>>();
+        timeBattlePhaseMap = new HashMap<Integer, List<String>>();
+        helpTextMap = new HashMap<Integer, Map<Integer, List<String>>>();
+
+        squirgleHelpTextPhaseOneList.add(squirglePhaseOneTextOne);
+        squirgleHelpTextPhaseOneList.add(squirglePhaseOneTextTwo);
+        squirgleHelpTextPhaseOneList.add(squirglePhaseOneTextThree);
+        squirgleHelpTextPhaseOneList.add(squirglePhaseOneTextFour);
+
+        squirgleHelpTextPhaseTwoList.add(squirglePhaseTwoTextOne);
+        squirgleHelpTextPhaseTwoList.add(squirglePhaseTwoTextTwo);
+        squirgleHelpTextPhaseTwoList.add(squirglePhaseTwoTextThree);
+        squirgleHelpTextPhaseTwoList.add(squirglePhaseTwoTextFour);
+        squirgleHelpTextPhaseTwoList.add(squirglePhaseTwoTextFive);
+        squirgleHelpTextPhaseTwoList.add(squirglePhaseTwoTextSix);
+
+        squirgleHelpTextPhaseThreeList.add(squirglePhaseThreeTextOne);
+        squirgleHelpTextPhaseThreeList.add(squirglePhaseThreeTextTwo);
+        squirgleHelpTextPhaseThreeList.add(squirglePhaseThreeTextThree);
+        squirgleHelpTextPhaseThreeList.add(squirglePhaseThreeTextFour);
+
+        squirgleHelpTextPhaseFourList.add(squirglePhaseFourTextOne);
+        squirgleHelpTextPhaseFourList.add(squirglePhaseFourTextTwo);
+        squirgleHelpTextPhaseFourList.add(squirglePhaseFourTextThree);
+        squirgleHelpTextPhaseFourList.add(squirglePhaseFourTextFour);
+
+        squirgleHelpTextPhaseFiveList.add(squirglePhaseFiveTextOne);
+        squirgleHelpTextPhaseFiveList.add(squirglePhaseFiveTextTwo);
+        squirgleHelpTextPhaseFiveList.add(squirglePhaseFiveTextThree);
+
+        squirgleHelpTextPhaseSixList.add(squirglePhaseSixTextOne);
+
+        battleHelpTextPhaseOneList.add(battlePhaseOneTextOne);
+        battleHelpTextPhaseOneList.add(battlePhaseOneTextTwo);
+        battleHelpTextPhaseOneList.add(battlePhaseOneTextThree);
+        battleHelpTextPhaseOneList.add(battlePhaseOneTextFour);
+        battleHelpTextPhaseOneList.add(battlePhaseOneTextFive);
+        battleHelpTextPhaseOneList.add(battlePhaseOneTextSix);
+        battleHelpTextPhaseOneList.add(battlePhaseOneTextSeven);
+
+        battleHelpTextPhaseTwoList.add(battlePhaseTwoTextOne);
+        battleHelpTextPhaseTwoList.add(battlePhaseTwoTextTwo);
+        battleHelpTextPhaseTwoList.add(battlePhaseTwoTextThree);
+        battleHelpTextPhaseTwoList.add(battlePhaseTwoTextFour);
+        battleHelpTextPhaseTwoList.add(battlePhaseTwoTextFive);
+        battleHelpTextPhaseTwoList.add(battlePhaseTwoTextSix);
+
+        battleHelpTextPhaseThreeList.add(battlePhaseThreeTextOne);
+        battleHelpTextPhaseThreeList.add(battlePhaseThreeTextTwo);
+        battleHelpTextPhaseThreeList.add(battlePhaseThreeTextThree);
+        battleHelpTextPhaseThreeList.add(battlePhaseThreeTextFour);
+
+        battleHelpTextPhaseFourList.add(battlePhaseFourTextOne);
+        battleHelpTextPhaseFourList.add(battlePhaseFourTextTwo);
+        battleHelpTextPhaseFourList.add(battlePhaseFourTextThree);
+        battleHelpTextPhaseFourList.add(battlePhaseFourTextFour);
+
+        battleHelpTextPhaseFiveList.add(battlePhaseFiveTextOne);
+        battleHelpTextPhaseFiveList.add(battlePhaseFiveTextTwo);
+        battleHelpTextPhaseFiveList.add(battlePhaseFiveTextThree);
+
+        battleHelpTextPhaseSixList.add(battlePhaseSixTextOne);
+
+        timeAttackHelpTextPhaseOneList.add(timeAttackPhaseOneTextOne);
+        timeAttackHelpTextPhaseOneList.add(timeAttackPhaseOneTextTwo);
+        timeAttackHelpTextPhaseOneList.add(timeAttackPhaseOneTextThree);
+        timeAttackHelpTextPhaseOneList.add(timeAttackPhaseOneTextFour);
+        timeAttackHelpTextPhaseOneList.add(timeAttackPhaseOneTextFive);
+
+        timeAttackHelpTextPhaseTwoList.add(timeAttackPhaseTwoTextOne);
+        timeAttackHelpTextPhaseTwoList.add(timeAttackPhaseTwoTextTwo);
+        timeAttackHelpTextPhaseTwoList.add(timeAttackPhaseTwoTextThree);
+        timeAttackHelpTextPhaseTwoList.add(timeAttackPhaseTwoTextFour);
+        timeAttackHelpTextPhaseTwoList.add(timeAttackPhaseTwoTextFive);
+        timeAttackHelpTextPhaseTwoList.add(timeAttackPhaseTwoTextSix);
+
+        timeAttackHelpTextPhaseThreeList.add(timeAttackPhaseThreeTextOne);
+        timeAttackHelpTextPhaseThreeList.add(timeAttackPhaseThreeTextTwo);
+        timeAttackHelpTextPhaseThreeList.add(timeAttackPhaseThreeTextThree);
+        timeAttackHelpTextPhaseThreeList.add(timeAttackPhaseThreeTextFour);
+
+        timeAttackHelpTextPhaseFourList.add(timeAttackPhaseFourTextOne);
+        timeAttackHelpTextPhaseFourList.add(timeAttackPhaseFourTextTwo);
+        timeAttackHelpTextPhaseFourList.add(timeAttackPhaseFourTextThree);
+        timeAttackHelpTextPhaseFourList.add(timeAttackPhaseFourTextFour);
+
+        timeAttackHelpTextPhaseFiveList.add(timeAttackPhaseFiveTextOne);
+        timeAttackHelpTextPhaseFiveList.add(timeAttackPhaseFiveTextTwo);
+        timeAttackHelpTextPhaseFiveList.add(timeAttackPhaseFiveTextThree);
+
+        timeAttackHelpTextPhaseSixList.add(timeAttackPhaseSixTextOne);
+
+        timeBattleHelpTextPhaseOneList.add(timeBattlePhaseOneTextOne);
+        timeBattleHelpTextPhaseOneList.add(timeBattlePhaseOneTextTwo);
+        timeBattleHelpTextPhaseOneList.add(timeBattlePhaseOneTextThree);
+        timeBattleHelpTextPhaseOneList.add(timeBattlePhaseOneTextFour);
+        timeBattleHelpTextPhaseOneList.add(timeBattlePhaseOneTextFive);
+        timeBattleHelpTextPhaseOneList.add(timeBattlePhaseOneTextSix);
+        timeBattleHelpTextPhaseOneList.add(timeBattlePhaseOneTextSeven);
+
+        timeBattleHelpTextPhaseTwoList.add(timeBattlePhaseTwoTextOne);
+        timeBattleHelpTextPhaseTwoList.add(timeBattlePhaseTwoTextTwo);
+        timeBattleHelpTextPhaseTwoList.add(timeBattlePhaseTwoTextThree);
+        timeBattleHelpTextPhaseTwoList.add(timeBattlePhaseTwoTextFour);
+        timeBattleHelpTextPhaseTwoList.add(timeBattlePhaseTwoTextFive);
+        timeBattleHelpTextPhaseTwoList.add(timeBattlePhaseTwoTextSix);
+
+        timeBattleHelpTextPhaseThreeList.add(timeBattlePhaseThreeTextOne);
+        timeBattleHelpTextPhaseThreeList.add(timeBattlePhaseThreeTextTwo);
+        timeBattleHelpTextPhaseThreeList.add(timeBattlePhaseThreeTextThree);
+        timeBattleHelpTextPhaseThreeList.add(timeBattlePhaseThreeTextFour);
+
+        timeBattleHelpTextPhaseFourList.add(timeBattlePhaseFourTextOne);
+        timeBattleHelpTextPhaseFourList.add(timeBattlePhaseFourTextTwo);
+        timeBattleHelpTextPhaseFourList.add(timeBattlePhaseFourTextThree);
+        timeBattleHelpTextPhaseFourList.add(timeBattlePhaseFourTextFour);
+        timeBattleHelpTextPhaseFourList.add(timeBattlePhaseFourTextFive);
+
+        timeBattleHelpTextPhaseFiveList.add(timeBattlePhaseFiveTextOne);
+        timeBattleHelpTextPhaseFiveList.add(timeBattlePhaseFiveTextTwo);
+        timeBattleHelpTextPhaseFiveList.add(timeBattlePhaseFiveTextThree);
+
+        timeBattleHelpTextPhaseSixList.add(timeBattlePhaseSixTextOne);
+
+        squirglePhaseMap.put(PHASE_ONE, squirgleHelpTextPhaseOneList);
+        squirglePhaseMap.put(PHASE_TWO, squirgleHelpTextPhaseTwoList);
+        squirglePhaseMap.put(PHASE_THREE, squirgleHelpTextPhaseThreeList);
+        squirglePhaseMap.put(PHASE_FOUR, squirgleHelpTextPhaseFourList);
+        squirglePhaseMap.put(PHASE_FIVE, squirgleHelpTextPhaseFiveList);
+        squirglePhaseMap.put(PHASE_SIX, squirgleHelpTextPhaseSixList);
+
+        battlePhaseMap.put(PHASE_ONE, battleHelpTextPhaseOneList);
+        battlePhaseMap.put(PHASE_TWO, battleHelpTextPhaseTwoList);
+        battlePhaseMap.put(PHASE_THREE, battleHelpTextPhaseThreeList);
+        battlePhaseMap.put(PHASE_FOUR, battleHelpTextPhaseFourList);
+        battlePhaseMap.put(PHASE_FIVE, battleHelpTextPhaseFiveList);
+        battlePhaseMap.put(PHASE_SIX, battleHelpTextPhaseSixList);
+
+        timeAttackPhaseMap.put(PHASE_ONE, timeAttackHelpTextPhaseOneList);
+        timeAttackPhaseMap.put(PHASE_TWO, timeAttackHelpTextPhaseTwoList);
+        timeAttackPhaseMap.put(PHASE_THREE, timeAttackHelpTextPhaseThreeList);
+        timeAttackPhaseMap.put(PHASE_FOUR, timeAttackHelpTextPhaseFourList);
+        timeAttackPhaseMap.put(PHASE_FIVE, timeAttackHelpTextPhaseFiveList);
+        timeAttackPhaseMap.put(PHASE_SIX, timeAttackHelpTextPhaseSixList);
+
+        timeBattlePhaseMap.put(PHASE_ONE, timeBattleHelpTextPhaseOneList);
+        timeBattlePhaseMap.put(PHASE_TWO, timeBattleHelpTextPhaseTwoList);
+        timeBattlePhaseMap.put(PHASE_THREE, timeBattleHelpTextPhaseThreeList);
+        timeBattlePhaseMap.put(PHASE_FOUR, timeBattleHelpTextPhaseFourList);
+        timeBattlePhaseMap.put(PHASE_FIVE, timeBattleHelpTextPhaseFiveList);
+        timeBattlePhaseMap.put(PHASE_SIX, timeBattleHelpTextPhaseSixList);
+
+        helpTextMap.put(Squirgle.GAMEPLAY_SQUIRGLE, squirglePhaseMap);
+        helpTextMap.put(Squirgle.GAMEPLAY_BATTLE, battlePhaseMap);
+        helpTextMap.put(Squirgle.GAMEPLAY_TIME_ATTACK, timeAttackPhaseMap);
+        helpTextMap.put(Squirgle.GAMEPLAY_TIME_BATTLE, timeBattlePhaseMap);
     }
 
     public void setUpGL() {
