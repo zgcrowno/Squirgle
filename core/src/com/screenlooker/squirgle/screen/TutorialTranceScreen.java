@@ -32,6 +32,18 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
     private final static int PAUSE_INPUT_DISAPPEARANCE_TIME = 5;
     private final static int ONE_THOUSAND = 1000;
 
+    /*
+    -Screen displaying help button, and zooming through shapes
+    -User presses next button in help window
+    */
+    public final static int PHASE_ONE = 0;
+
+    /*
+    -User simply plays w/ full mechanics until they decide to leave
+    -Tutorial is over, & user chooses to replay, navigate to menu or quit
+     */
+    public final static int PHASE_TWO = 1;
+
     private float promptIncrease;
     private Shape promptShape;
     private Shape lastPromptShape;

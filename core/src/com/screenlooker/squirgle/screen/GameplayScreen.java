@@ -310,7 +310,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                             blackAndWhite ? Color.WHITE : Color.BLACK,
                             game.camera.viewportHeight / 2 > game.camera.viewportWidth ? (3 * game.camera.viewportWidth) / 8 : (3 * (game.camera.viewportHeight / 2)) / 8,
                             promptShapeP1);
-                    game.draw.drawScreenDivision(blackAndWhite);
+                    game.draw.drawScreenDivision(blackAndWhite, multiplayer);
                 }
                 game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor);
                 game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
@@ -2106,11 +2106,12 @@ public class GameplayScreen implements Screen, InputProcessor {
         //The wrong shape was touched
         if(player == null) {
             if(!blackAndWhite) {
-                float radiusIncrease = game.widthOrHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));
+                float radiusIncrease = game.widthOrHeight * ((backgroundColorShapeList.get(2).getCoordinates().y - backgroundColorShapeList.get(3).getCoordinates().y) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));
 
                 if (promptShape.getRadius() + radiusIncrease > (game.widthOrHeight / 2)) {
                     promptShape.setRadius(game.widthOrHeight / 2);
                 } else {
+                    System.out.println(radiusIncrease);
                     promptShape.setRadius(promptShape.getRadius() + radiusIncrease);
                 }
             } else {

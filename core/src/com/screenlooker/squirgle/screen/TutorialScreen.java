@@ -107,7 +107,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private final static float SQUIRGLE_OPACITY_DECREMENT = .03f;
 
     /*
-    -All gray screen except for black outlined prompt shape (point), pause input and help input
+    -Screen displaying prompt shape and pause and help buttons
     -User presses next button in help window
     */
     public final static int PHASE_ONE = 0;
@@ -120,22 +120,19 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     /*
     -Target is now displayed in upper left corner
-    -If user hits wrong shape, disconfirmation sound is played, and phase resets
-    -If user hits correct shape, confirmation sound is played, and new shape is targeted
     -User presses next button in help window
     */
     public final static int PHASE_THREE = 2;
 
     /*
-    -Score & multiplier are now displayed in upper right-hand corner of screen
-    -Targets are now formed as per usual until user presses next button in help window
+    -Score/multiplier/burst meter are now displayed in upper right-hand corner of screen
+    -User presses next button in help window
     */
     public final static int PHASE_FOUR = 3;
 
     /*
     -Colors are now displayed @ left of screen
     -Timelines are now displayed @ left of screen
-    -Pause input is now displayed @ right-hand side of screen
     -Colors are now sifted through, affecting background, prompt shape & nested shapes
     -Prompt shape (& nested shapes) also begins to grow now, but it will stop doing so once it reaches 2/3 of its max size
     -The game remains in this phase until the user presses next button in help window
@@ -144,7 +141,7 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     /*
     -User simply plays w/ full mechanics until game over
-    -Tutorial is over, & user is sent to menu
+    -Tutorial is over, & user chooses to replay, navigate to menu or quit
     */
     public final static int PHASE_SIX = 5;
 
@@ -305,7 +302,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String squirglePhaseFiveTextOne;
     private String squirglePhaseFiveTextTwo;
     private String squirglePhaseFiveTextThree;
-    private String squirglePhaseSixTextOne;
+    private String squirglePhaseFiveTextFour;
 
     private String battlePhaseOneTextOne;
     private String battlePhaseOneTextTwo;
@@ -330,7 +327,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String battlePhaseFiveTextOne;
     private String battlePhaseFiveTextTwo;
     private String battlePhaseFiveTextThree;
-    private String battlePhaseSixTextOne;
+    private String battlePhaseFiveTextFour;
 
     private String timeAttackPhaseOneTextOne;
     private String timeAttackPhaseOneTextTwo;
@@ -353,7 +350,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String timeAttackPhaseFiveTextOne;
     private String timeAttackPhaseFiveTextTwo;
     private String timeAttackPhaseFiveTextThree;
-    private String timeAttackPhaseSixTextOne;
+    private String timeAttackPhaseFiveTextFour;
 
     private String timeBattlePhaseOneTextOne;
     private String timeBattlePhaseOneTextTwo;
@@ -379,35 +376,31 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String timeBattlePhaseFiveTextOne;
     private String timeBattlePhaseFiveTextTwo;
     private String timeBattlePhaseFiveTextThree;
-    private String timeBattlePhaseSixTextOne;
+    private String timeBattlePhaseFiveTextFour;
 
     private List<String> squirgleHelpTextPhaseOneList;
     private List<String> squirgleHelpTextPhaseTwoList;
     private List<String> squirgleHelpTextPhaseThreeList;
     private List<String> squirgleHelpTextPhaseFourList;
     private List<String> squirgleHelpTextPhaseFiveList;
-    private List<String> squirgleHelpTextPhaseSixList;
 
     private List<String> battleHelpTextPhaseOneList;
     private List<String> battleHelpTextPhaseTwoList;
     private List<String> battleHelpTextPhaseThreeList;
     private List<String> battleHelpTextPhaseFourList;
     private List<String> battleHelpTextPhaseFiveList;
-    private List<String> battleHelpTextPhaseSixList;
 
     private List<String> timeAttackHelpTextPhaseOneList;
     private List<String> timeAttackHelpTextPhaseTwoList;
     private List<String> timeAttackHelpTextPhaseThreeList;
     private List<String> timeAttackHelpTextPhaseFourList;
     private List<String> timeAttackHelpTextPhaseFiveList;
-    private List<String> timeAttackHelpTextPhaseSixList;
 
     private List<String> timeBattleHelpTextPhaseOneList;
     private List<String> timeBattleHelpTextPhaseTwoList;
     private List<String> timeBattleHelpTextPhaseThreeList;
     private List<String> timeBattleHelpTextPhaseFourList;
     private List<String> timeBattleHelpTextPhaseFiveList;
-    private List<String> timeBattleHelpTextPhaseSixList;
 
     private Map<Integer, List<String>> squirglePhaseMap;
     private Map<Integer, List<String>> battlePhaseMap;
@@ -473,11 +466,15 @@ public class TutorialScreen implements Screen, InputProcessor {
         primaryShapeAtThresholdP1 = primaryShapeP1.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP2 = primaryShapeP2.getRadius() >= primaryShapeThreshold;
 
-        if(!splitScreen) {
-            increasePromptRadius();
+        if (!splitScreen) {
+            if((phase == PHASE_FIVE && promptShape.getRadius() <= game.thirdOfScreen) || phase >= PHASE_SIX) {
+                increasePromptRadius();
+            }
         } else {
-            managePromptRadii();
-            increaseDummyPromptRadius();
+            if((phase == PHASE_FIVE && dummyPromptForTimelines.getRadius() <= game.thirdOfScreen) || phase >= PHASE_SIX) {
+                managePromptRadii();
+                increaseDummyPromptRadius();
+            }
         }
 
         managePrimaryShapeLineWidth();
@@ -503,12 +500,16 @@ public class TutorialScreen implements Screen, InputProcessor {
                             blackAndWhite ? Color.WHITE : Color.BLACK,
                             game.camera.viewportHeight / 2 > game.camera.viewportWidth ? (3 * game.camera.viewportWidth) / 8 : (3 * (game.camera.viewportHeight / 2)) / 8,
                             promptShapeP1);
-                    game.draw.drawScreenDivisionTutorial(blackAndWhite);
+                    game.draw.drawScreenDivisionTutorial(helpTextVisible, blackAndWhite);
                 }
-                game.draw.drawBackgroundColorShapeListTutorial(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor);
-                game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
+                if(phase >= PHASE_FIVE) {
+                    game.draw.drawBackgroundColorShapeListTutorial(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor);
+                    game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
+                }
                 SoundUtils.playMusic(splitScreen ? dummyPromptForTimelines : promptShape, game);
-                game.draw.drawTargetSemicirclesTutorial(splitScreen, local);
+                if(phase >= PHASE_THREE) {
+                    game.draw.drawTargetSemicirclesTutorial(splitScreen, local);
+                }
             }
             if(!splitScreen) {
                 game.draw.drawPrompt(false, promptShape, priorShapeList, 0, backgroundColorShape, false, false);
@@ -534,10 +535,14 @@ public class TutorialScreen implements Screen, InputProcessor {
             }
         }
 
-        if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-            increaseSpeed();
-        } else {
-            maintainSpeed();
+        if(phase >= PHASE_FIVE) {
+            if (gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+                if(phase >= PHASE_SIX) {
+                    increaseSpeed();
+                }
+            } else {
+                maintainSpeed();
+            }
         }
         if(!splitScreen) {
             decrementSquirgleOpacity();
@@ -571,37 +576,51 @@ public class TutorialScreen implements Screen, InputProcessor {
             }
         }
 
-        if(splitScreen && !multiplayer) {
-            executeOpponenentAI();
+        if(phase >= PHASE_THREE) {
+            if (splitScreen && !multiplayer) {
+                executeOpponenentAI();
+            }
         }
 
         drawEquations();
 
         if(!paused) {
             if (!gameOver) {
-                game.draw.drawInputButtonsTutorial(splitScreen, local, backgroundColorShape.getColor(), game);
-                game.draw.drawScoreTrianglesTutorial(splitScreen, local, backgroundColorShape.getColor());
-                if(useSaturation) {
-                    if(saturationP1 > 0) {
-                        game.draw.drawSaturationTrianglesTutorial(P1, local, saturationP1);
-                    }
-                    if(saturationP2 > 0) {
-                        game.draw.drawSaturationTrianglesTutorial(P2, local, saturationP2);
-                    }
-                    game.draw.drawSaturationIncrementsTutorial(local, backgroundColorShape.getColor());
+                if(phase >= PHASE_TWO) {
+                    game.draw.drawInputButtonsTutorial(splitScreen, local, backgroundColorShape.getColor(), game);
                 }
-                if(!splitScreen) {
-                    game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
-                    game.draw.drawShapes(false, targetShapeList, outsideTargetShape, false);
-                } else {
-                    game.draw.drawPrompt(false, outsideTargetShapeP1, targetShapeListP1, targetShapesMatchedP1, backgroundColorShape, false, true);
-                    game.draw.drawShapes(false, targetShapeListP1, outsideTargetShapeP1, false);
-                    game.draw.drawPrompt(local, outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true);
-                    game.draw.drawShapes(local, targetShapeListP2, outsideTargetShapeP2, false);
+                if(phase >= PHASE_FOUR) {
+                    game.draw.drawScoreTrianglesTutorial(splitScreen, local, backgroundColorShape.getColor());
+                }
+                if(phase >= PHASE_FOUR) {
+                    if (useSaturation) {
+                        if (saturationP1 > 0) {
+                            game.draw.drawSaturationTrianglesTutorial(P1, local, saturationP1);
+                        }
+                        if (saturationP2 > 0) {
+                            game.draw.drawSaturationTrianglesTutorial(P2, local, saturationP2);
+                        }
+                        game.draw.drawSaturationIncrementsTutorial(local, backgroundColorShape.getColor());
+                    }
+                }
+                if(phase >= PHASE_THREE) {
+                    if (!splitScreen) {
+                        game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
+                        game.draw.drawShapes(false, targetShapeList, outsideTargetShape, false);
+                    } else {
+                        game.draw.drawPrompt(false, outsideTargetShapeP1, targetShapeListP1, targetShapesMatchedP1, backgroundColorShape, false, true);
+                        game.draw.drawShapes(false, targetShapeListP1, outsideTargetShapeP1, false);
+                        game.draw.drawPrompt(local, outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true);
+                        game.draw.drawShapes(local, targetShapeListP2, outsideTargetShapeP2, false);
+                    }
                 }
                 game.draw.drawPauseInputTutorial(splitScreen, local, game);
-                game.draw.drawHelpInput(splitScreen);
-                drawTargetArcs();
+                if(phase < PHASE_SIX) {
+                    game.draw.drawHelpInput(splitScreen);
+                }
+                if(phase >= PHASE_THREE) {
+                    drawTargetArcs();
+                }
             }
         }
 
@@ -949,227 +968,239 @@ public class TutorialScreen implements Screen, InputProcessor {
         float targetPolypRadius = (TARGET_RADIUS / 4);
         float targetPolypOffset = (float)(Math.sqrt(Math.pow(TARGET_RADIUS, 2) + Math.pow(TARGET_RADIUS / 4, 2)) - TARGET_RADIUS);
         if(!splitScreen) {
-            //Score
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    String.valueOf(score),
-                    game.camera.viewportWidth - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
-                    game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
-                    SCORE_ANGLE,
-                    1);
+            if(phase >= PHASE_FOUR) {
+                //Score
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        String.valueOf(score),
+                        game.camera.viewportWidth - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
+                        game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
+                        SCORE_ANGLE,
+                        1);
 
-            //Multiplier
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    Color.WHITE,
-                    X + String.valueOf(multiplier),
-                    game.camera.viewportWidth - (TARGET_RADIUS / 4),
-                    game.camera.viewportHeight - TARGET_RADIUS + (game.fontScore.getCapHeight() / 5.5f),
-                    SCORE_ANGLE,
-                    1);
+                //Multiplier
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        Color.WHITE,
+                        X + String.valueOf(multiplier),
+                        game.camera.viewportWidth - (TARGET_RADIUS / 4),
+                        game.camera.viewportHeight - TARGET_RADIUS + (game.fontScore.getCapHeight() / 5.5f),
+                        SCORE_ANGLE,
+                        1);
 
-            //Prompt number
-            String promptNumber = String.valueOf(promptShape.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    promptNumber,
-                    game.camera.viewportWidth - TARGET_RADIUS,
-                    game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
-                    0,
-                    1);
+                //Prompt number
+                String promptNumber = String.valueOf(promptShape.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        promptNumber,
+                        game.camera.viewportWidth - TARGET_RADIUS,
+                        game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
+                        0,
+                        1);
+            }
 
             //Target number
-            String targetNumber = String.valueOf(currentTargetShape.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    currentTargetShape.getColor(),
-                    targetNumber,
-                    TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
-                    game.camera.viewportHeight - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
-                    0,
-                    1);
+            if(phase >= PHASE_THREE) {
+                String targetNumber = String.valueOf(currentTargetShape.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        currentTargetShape.getColor(),
+                        targetNumber,
+                        TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
+                        game.camera.viewportHeight - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
+                        0,
+                        1);
+            }
         } else if(blackAndWhite) {
             //We're in a time battle mode
 
-            //Scores
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    String.valueOf(scoreP1),
-                    game.camera.viewportWidth - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
-                    (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
-                    SCORE_ANGLE,
-                    1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    String.valueOf(scoreP2),
-                    local ? (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 2.1f) : game.camera.viewportWidth - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
-                    local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 2.1f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
-                    local ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
-                    1);
+            if(phase >= PHASE_FOUR) {
+                //Scores
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        String.valueOf(scoreP1),
+                        game.camera.viewportWidth - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
+                        (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
+                        SCORE_ANGLE,
+                        1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        String.valueOf(scoreP2),
+                        local ? (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 2.1f) : game.camera.viewportWidth - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
+                        local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 2.1f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
+                        local ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
+                        1);
 
-            //Player designations
-            game.layout.setText(game.fontTarget, P1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    Color.WHITE,
-                    P1,
-                    game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius,
-                    (game.camera.viewportHeight / 2) - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4),
-                    0,
-                    1);
-            game.layout.setText(game.fontTarget, P2);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    Color.WHITE,
-                    P2,
-                    local ? TARGET_RADIUS + targetPolypRadius : game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius,
-                    local ? (game.camera.viewportHeight / 2) + (2 * targetPolypRadius) + ((3 * game.layout.height) / 4) : game.camera.viewportHeight - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4),
-                    local ? Draw.ONE_HUNDRED_AND_EIGHTY_DEGREES : 0,
-                    1);
+                //Player designations
+                game.layout.setText(game.fontTarget, P1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        Color.WHITE,
+                        P1,
+                        game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius,
+                        (game.camera.viewportHeight / 2) - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4),
+                        0,
+                        1);
+                game.layout.setText(game.fontTarget, P2);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        Color.WHITE,
+                        P2,
+                        local ? TARGET_RADIUS + targetPolypRadius : game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius,
+                        local ? (game.camera.viewportHeight / 2) + (2 * targetPolypRadius) + ((3 * game.layout.height) / 4) : game.camera.viewportHeight - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4),
+                        local ? Draw.ONE_HUNDRED_AND_EIGHTY_DEGREES : 0,
+                        1);
 
-            //Multipliers
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    Color.WHITE,
-                    X + multiplierP1,
-                    game.camera.viewportWidth - (TARGET_RADIUS / 4) - (game.fontScore.getCapHeight() / 4.7f),
-                    (game.camera.viewportHeight / 2) - ((3 * TARGET_RADIUS) / 4) - (game.fontScore.getCapHeight() / 4.7f),
-                    SCORE_ANGLE,
-                    1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    Color.WHITE,
-                    X + multiplierP2,
-                    local ? (TARGET_RADIUS / 4) + (game.fontScore.getCapHeight() / 4.7f) : game.camera.viewportWidth - (TARGET_RADIUS / 4) - (game.fontScore.getCapHeight() / 4.7f),
-                    local ? (game.camera.viewportHeight / 2) + ((3 * TARGET_RADIUS) / 4) + (game.fontScore.getCapHeight() / 4.7f) : game.camera.viewportHeight - ((3 * TARGET_RADIUS) / 4) - (game.fontScore.getCapHeight() / 4.7f),
-                    local ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
-                    1);
+                //Multipliers
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        Color.WHITE,
+                        X + multiplierP1,
+                        game.camera.viewportWidth - (TARGET_RADIUS / 4) - (game.fontScore.getCapHeight() / 4.7f),
+                        (game.camera.viewportHeight / 2) - ((3 * TARGET_RADIUS) / 4) - (game.fontScore.getCapHeight() / 4.7f),
+                        SCORE_ANGLE,
+                        1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        Color.WHITE,
+                        X + multiplierP2,
+                        local ? (TARGET_RADIUS / 4) + (game.fontScore.getCapHeight() / 4.7f) : game.camera.viewportWidth - (TARGET_RADIUS / 4) - (game.fontScore.getCapHeight() / 4.7f),
+                        local ? (game.camera.viewportHeight / 2) + ((3 * TARGET_RADIUS) / 4) + (game.fontScore.getCapHeight() / 4.7f) : game.camera.viewportHeight - ((3 * TARGET_RADIUS) / 4) - (game.fontScore.getCapHeight() / 4.7f),
+                        local ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
+                        1);
 
-            //Prompt numbers
-            String promptNumberP1 = String.valueOf(promptShapeP1.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    promptNumberP1,
-                    game.camera.viewportWidth - TARGET_RADIUS,
-                    (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
-                    0,
-                    1);
-            String promptNumberP2 = String.valueOf(promptShapeP2.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    promptNumberP2,
-                    local ? TARGET_RADIUS : game.camera.viewportWidth - TARGET_RADIUS,
-                    local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 1.48f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
-                    local ? 180 : 0,
-                    1);
+                //Prompt numbers
+                String promptNumberP1 = String.valueOf(promptShapeP1.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        promptNumberP1,
+                        game.camera.viewportWidth - TARGET_RADIUS,
+                        (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
+                        0,
+                        1);
+                String promptNumberP2 = String.valueOf(promptShapeP2.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        promptNumberP2,
+                        local ? TARGET_RADIUS : game.camera.viewportWidth - TARGET_RADIUS,
+                        local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 1.48f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
+                        local ? 180 : 0,
+                        1);
+            }
 
-            //Target numbers
-            String targetNumberP1 = String.valueOf(currentTargetShapeP1.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    currentTargetShapeP1.getColor(),
-                    targetNumberP1,
-                    TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
-                    (game.camera.viewportHeight / 2) - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
-                    0,
-                    1);
-            String targetNumberP2 = String.valueOf(currentTargetShapeP2.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    currentTargetShapeP2.getColor(),
-                    targetNumberP2,
-                    local ? game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius + targetPolypOffset : TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
-                    local ? (game.camera.viewportHeight / 2) + targetPolypRadius - (game.fontScore.getCapHeight() / 5.5f) : game.camera.viewportHeight - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
-                    local ? 180 : 0,
-                    1);
+            if(phase >= PHASE_THREE) {
+                //Target numbers
+                String targetNumberP1 = String.valueOf(currentTargetShapeP1.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        currentTargetShapeP1.getColor(),
+                        targetNumberP1,
+                        TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
+                        (game.camera.viewportHeight / 2) - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
+                        0,
+                        1);
+                String targetNumberP2 = String.valueOf(currentTargetShapeP2.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        currentTargetShapeP2.getColor(),
+                        targetNumberP2,
+                        local ? game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius + targetPolypOffset : TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
+                        local ? (game.camera.viewportHeight / 2) + targetPolypRadius - (game.fontScore.getCapHeight() / 5.5f) : game.camera.viewportHeight - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
+                        local ? 180 : 0,
+                        1);
+            }
         } else {
             //We're in a non-time battle mode
 
-            //Player designations
-            game.layout.setText(game.fontTarget, P1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    Color.WHITE,
-                    P1,
-                    game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius,
-                    (game.camera.viewportHeight / 2) - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4),
-                    0,
-                    1);
-            game.layout.setText(game.fontTarget, P2);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    Color.WHITE,
-                    P2,
-                    local ? TARGET_RADIUS + targetPolypRadius : game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius,
-                    local ? (game.camera.viewportHeight / 2) + (2 * targetPolypRadius) + ((3 * game.layout.height) / 4) : game.camera.viewportHeight - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4),
-                    local ? Draw.ONE_HUNDRED_AND_EIGHTY_DEGREES : 0,
-                    1);
+            if(phase >= PHASE_FOUR) {
+                //Player designations
+                game.layout.setText(game.fontTarget, P1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        Color.WHITE,
+                        P1,
+                        game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius,
+                        (game.camera.viewportHeight / 2) - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4),
+                        0,
+                        1);
+                game.layout.setText(game.fontTarget, P2);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        Color.WHITE,
+                        P2,
+                        local ? TARGET_RADIUS + targetPolypRadius : game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius,
+                        local ? (game.camera.viewportHeight / 2) + (2 * targetPolypRadius) + ((3 * game.layout.height) / 4) : game.camera.viewportHeight - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4),
+                        local ? Draw.ONE_HUNDRED_AND_EIGHTY_DEGREES : 0,
+                        1);
 
-            //Prompt numbers
-            String promptNumberP1 = String.valueOf(promptShapeP1.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    promptNumberP1,
-                    game.camera.viewportWidth - TARGET_RADIUS,
-                    (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
-                    0,
-                    1);
-            String promptNumberP2 = String.valueOf(promptShapeP2.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    promptNumberP2,
-                    local ? TARGET_RADIUS : game.camera.viewportWidth - TARGET_RADIUS,
-                    local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 1.48f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
-                    local ? 180 : 0,
-                    1);
+                //Prompt numbers
+                String promptNumberP1 = String.valueOf(promptShapeP1.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        promptNumberP1,
+                        game.camera.viewportWidth - TARGET_RADIUS,
+                        (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
+                        0,
+                        1);
+                String promptNumberP2 = String.valueOf(promptShapeP2.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        promptNumberP2,
+                        local ? TARGET_RADIUS : game.camera.viewportWidth - TARGET_RADIUS,
+                        local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 1.48f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
+                        local ? 180 : 0,
+                        1);
+            }
 
-            //Target numbers
-            String targetNumberP1 = String.valueOf(currentTargetShapeP1.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    currentTargetShapeP1.getColor(),
-                    targetNumberP1,
-                    TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
-                    (game.camera.viewportHeight / 2) - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
-                    0,
-                    1);
-            String targetNumberP2 = String.valueOf(currentTargetShapeP2.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    currentTargetShapeP2.getColor(),
-                    targetNumberP2,
-                    local ? game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius + targetPolypOffset : TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
-                    local ? (game.camera.viewportHeight / 2) + targetPolypRadius - (game.fontScore.getCapHeight() / 5.5f) : game.camera.viewportHeight - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
-                    local ? 180 : 0,
-                    1);
+            if(phase >= PHASE_THREE) {
+                //Target numbers
+                String targetNumberP1 = String.valueOf(currentTargetShapeP1.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        currentTargetShapeP1.getColor(),
+                        targetNumberP1,
+                        TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
+                        (game.camera.viewportHeight / 2) - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
+                        0,
+                        1);
+                String targetNumberP2 = String.valueOf(currentTargetShapeP2.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        currentTargetShapeP2.getColor(),
+                        targetNumberP2,
+                        local ? game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius + targetPolypOffset : TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
+                        local ? (game.camera.viewportHeight / 2) + targetPolypRadius - (game.fontScore.getCapHeight() / 5.5f) : game.camera.viewportHeight - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
+                        local ? 180 : 0,
+                        1);
+            }
         }
     }
 
@@ -1573,20 +1604,20 @@ public class TutorialScreen implements Screen, InputProcessor {
             if(!gameOver) {
                 if(!splitScreen) {
                     if (equationWidth > 0) {
-                        game.draw.drawEquationTutorial(false, null, lastShapeTouched, lastPromptShape, lastTargetShape, equationWidth);
+                        game.draw.drawEquationTutorial(false, null, phase, lastShapeTouched, lastPromptShape, lastTargetShape, equationWidth);
                         equationWidth -= INPUT_RADIUS / EQUATION_WIDTH_DIVISOR;
                     } else {
                         equationWidth = 0;
                     }
                 } else {
                     if(equationWidthP1 > 0) {
-                        game.draw.drawEquationTutorial(false, P1, lastShapeTouchedP1, lastPromptShapeP1, lastTargetShapeP1, equationWidthP1);
+                        game.draw.drawEquationTutorial(false, P1, phase, lastShapeTouchedP1, lastPromptShapeP1, lastTargetShapeP1, equationWidthP1);
                         equationWidthP1 -= INPUT_RADIUS / EQUATION_WIDTH_DIVISOR;
                     } else {
                         equationWidthP1 = 0;
                     }
                     if(equationWidthP2 > 0) {
-                        game.draw.drawEquationTutorial(local, P2, lastShapeTouchedP2, lastPromptShapeP2, lastTargetShapeP2, equationWidthP2);
+                        game.draw.drawEquationTutorial(local, P2, phase, lastShapeTouchedP2, lastPromptShapeP2, lastTargetShapeP2, equationWidthP2);
                         equationWidthP2 -= INPUT_RADIUS / EQUATION_WIDTH_DIVISOR;
                     } else {
                         equationWidthP2 = 0;
@@ -1673,149 +1704,182 @@ public class TutorialScreen implements Screen, InputProcessor {
             pointTouched = touchPoint.x > INPUT_POINT_SPAWN.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_POINT_SPAWN.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_POINT_SPAWN.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_POINT_SPAWN.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_POINT_SPAWN.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             lineTouched = touchPoint.x > INPUT_LINE_SPAWN.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_LINE_SPAWN.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_LINE_SPAWN.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_LINE_SPAWN.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_LINE_SPAWN.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             triangleTouched = touchPoint.x > INPUT_TRIANGLE_SPAWN.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_TRIANGLE_SPAWN.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_TRIANGLE_SPAWN.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_TRIANGLE_SPAWN.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_TRIANGLE_SPAWN.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             squareTouched = touchPoint.x > INPUT_SQUARE_SPAWN.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_SQUARE_SPAWN.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_SQUARE_SPAWN.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_SQUARE_SPAWN.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_SQUARE_SPAWN.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             pentagonTouched = touchPoint.x > INPUT_PENTAGON_SPAWN.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_PENTAGON_SPAWN.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_PENTAGON_SPAWN.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_PENTAGON_SPAWN.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_PENTAGON_SPAWN.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             hexagonTouched = touchPoint.x > INPUT_HEXAGON_SPAWN.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_HEXAGON_SPAWN.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_HEXAGON_SPAWN.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_HEXAGON_SPAWN.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_HEXAGON_SPAWN.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             septagonTouched = touchPoint.x > INPUT_SEPTAGON_SPAWN.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_SEPTAGON_SPAWN.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_SEPTAGON_SPAWN.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_SEPTAGON_SPAWN.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_SEPTAGON_SPAWN.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             octagonTouched = touchPoint.x > INPUT_OCTAGON_SPAWN.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_OCTAGON_SPAWN.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_OCTAGON_SPAWN.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_OCTAGON_SPAWN.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_OCTAGON_SPAWN.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             nonagonTouched = touchPoint.x > INPUT_NONAGON_SPAWN.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_NONAGON_SPAWN.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_NONAGON_SPAWN.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_NONAGON_SPAWN.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_NONAGON_SPAWN.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
                     && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
                     && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
             helpTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
                     && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 10) - (game.camera.viewportWidth / 20)
-                    && touchPoint.y < (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 10) + (game.camera.viewportWidth / 20);
+                    && touchPoint.y < (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 10) + (game.camera.viewportWidth / 20)
+                    && phase < PHASE_SIX;
         } else {
             pointTouchedP1 = touchPoint.x > INPUT_POINT_SPAWN_P1.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_POINT_SPAWN_P1.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_POINT_SPAWN_P1.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             lineTouchedP1 = touchPoint.x > INPUT_LINE_SPAWN_P1.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_LINE_SPAWN_P1.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_LINE_SPAWN_P1.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_LINE_SPAWN_P1.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_LINE_SPAWN_P1.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             triangleTouchedP1 = touchPoint.x > INPUT_TRIANGLE_SPAWN_P1.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_TRIANGLE_SPAWN_P1.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_TRIANGLE_SPAWN_P1.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_TRIANGLE_SPAWN_P1.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_TRIANGLE_SPAWN_P1.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             squareTouchedP1 = touchPoint.x > INPUT_SQUARE_SPAWN_P1.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_SQUARE_SPAWN_P1.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_SQUARE_SPAWN_P1.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_SQUARE_SPAWN_P1.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_SQUARE_SPAWN_P1.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             pentagonTouchedP1 = touchPoint.x > INPUT_PENTAGON_SPAWN_P1.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_PENTAGON_SPAWN_P1.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_PENTAGON_SPAWN_P1.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_PENTAGON_SPAWN_P1.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_PENTAGON_SPAWN_P1.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             hexagonTouchedP1 = touchPoint.x > INPUT_HEXAGON_SPAWN_P1.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_HEXAGON_SPAWN_P1.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_HEXAGON_SPAWN_P1.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_HEXAGON_SPAWN_P1.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_HEXAGON_SPAWN_P1.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             septagonTouchedP1 = touchPoint.x > INPUT_SEPTAGON_SPAWN_P1.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_SEPTAGON_SPAWN_P1.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_SEPTAGON_SPAWN_P1.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_SEPTAGON_SPAWN_P1.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_SEPTAGON_SPAWN_P1.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             octagonTouchedP1 = touchPoint.x > INPUT_OCTAGON_SPAWN_P1.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_OCTAGON_SPAWN_P1.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_OCTAGON_SPAWN_P1.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_OCTAGON_SPAWN_P1.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_OCTAGON_SPAWN_P1.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             nonagonTouchedP1 = touchPoint.x > INPUT_NONAGON_SPAWN_P1.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_NONAGON_SPAWN_P1.x + INPUT_RADIUS
                     && touchPoint.y > INPUT_NONAGON_SPAWN_P1.y - INPUT_RADIUS
-                    && touchPoint.y < INPUT_NONAGON_SPAWN_P1.y + INPUT_RADIUS;
+                    && touchPoint.y < INPUT_NONAGON_SPAWN_P1.y + INPUT_RADIUS
+                    && phase >= PHASE_TWO;
             if(game.widthGreater) {
                 pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 40)
-                        && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 40)
-                        && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) + (game.camera.viewportWidth / 40);
+                        && touchPoint.y > (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS) + (((game.camera.viewportHeight / 2) - TARGET_RADIUS - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 2) + (game.camera.viewportWidth / 40) - (game.camera.viewportWidth / 40)
+                        && touchPoint.y < (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS) + (((game.camera.viewportHeight / 2) - TARGET_RADIUS - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 2) + (game.camera.viewportWidth / 40) + (game.camera.viewportWidth / 40);
                 helpTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 40)
-                        && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 20) - (game.camera.viewportWidth / 40)
-                        && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 20) + (game.camera.viewportWidth / 40);
+                        && touchPoint.y > (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS) + (((game.camera.viewportHeight / 2) - TARGET_RADIUS - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 2) - (game.camera.viewportWidth / 40) - (game.camera.viewportWidth / 40)
+                        && touchPoint.y < (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS) + (((game.camera.viewportHeight / 2) - TARGET_RADIUS - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 2) - (game.camera.viewportWidth / 40) + (game.camera.viewportWidth / 40)
+                        && phase < PHASE_SIX;
             } else {
                 pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
-                        && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 20)
-                        && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) + (game.camera.viewportWidth / 20);
+                        && touchPoint.y > (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS) + (((game.camera.viewportHeight / 2) - TARGET_RADIUS - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 2) + (game.camera.viewportWidth / 20) - (game.camera.viewportWidth / 20)
+                        && touchPoint.y < (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS) + (((game.camera.viewportHeight / 2) - TARGET_RADIUS - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 2) + (game.camera.viewportWidth / 20) + (game.camera.viewportWidth / 20);
                 helpTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
-                        && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 10) - (game.camera.viewportWidth / 20)
-                        && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 10) + (game.camera.viewportWidth / 20);
+                        && touchPoint.y > (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS) + (((game.camera.viewportHeight / 2) - TARGET_RADIUS - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 2) - (game.camera.viewportWidth / 20) - (game.camera.viewportWidth / 20)
+                        && touchPoint.y < (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS) + (((game.camera.viewportHeight / 2) - TARGET_RADIUS - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 2) - (game.camera.viewportWidth / 20) + (game.camera.viewportWidth / 20)
+                        && phase < PHASE_SIX;
             }
             if(multiplayer) {
                 pointTouchedP2 = touchPoint.x > INPUT_POINT_SPAWN_P2.x - INPUT_RADIUS
                         && touchPoint.x < INPUT_POINT_SPAWN_P2.x + INPUT_RADIUS
                         && touchPoint.y > INPUT_POINT_SPAWN_P2.y - INPUT_RADIUS
-                        && touchPoint.y < INPUT_POINT_SPAWN_P2.y + INPUT_RADIUS;
+                        && touchPoint.y < INPUT_POINT_SPAWN_P2.y + INPUT_RADIUS
+                        && phase >= PHASE_TWO;
                 lineTouchedP2 = touchPoint.x > INPUT_LINE_SPAWN_P2.x - INPUT_RADIUS
                         && touchPoint.x < INPUT_LINE_SPAWN_P2.x + INPUT_RADIUS
                         && touchPoint.y > INPUT_LINE_SPAWN_P2.y - INPUT_RADIUS
-                        && touchPoint.y < INPUT_LINE_SPAWN_P2.y + INPUT_RADIUS;
+                        && touchPoint.y < INPUT_LINE_SPAWN_P2.y + INPUT_RADIUS
+                        && phase >= PHASE_TWO;
                 triangleTouchedP2 = touchPoint.x > INPUT_TRIANGLE_SPAWN_P2.x - INPUT_RADIUS
                         && touchPoint.x < INPUT_TRIANGLE_SPAWN_P2.x + INPUT_RADIUS
                         && touchPoint.y > INPUT_TRIANGLE_SPAWN_P2.y - INPUT_RADIUS
-                        && touchPoint.y < INPUT_TRIANGLE_SPAWN_P2.y + INPUT_RADIUS;
+                        && touchPoint.y < INPUT_TRIANGLE_SPAWN_P2.y + INPUT_RADIUS
+                        && phase >= PHASE_TWO;
                 squareTouchedP2 = touchPoint.x > INPUT_SQUARE_SPAWN_P2.x - INPUT_RADIUS
                         && touchPoint.x < INPUT_SQUARE_SPAWN_P2.x + INPUT_RADIUS
                         && touchPoint.y > INPUT_SQUARE_SPAWN_P2.y - INPUT_RADIUS
-                        && touchPoint.y < INPUT_SQUARE_SPAWN_P2.y + INPUT_RADIUS;
+                        && touchPoint.y < INPUT_SQUARE_SPAWN_P2.y + INPUT_RADIUS
+                        && phase >= PHASE_TWO;
                 pentagonTouchedP2 = touchPoint.x > INPUT_PENTAGON_SPAWN_P2.x - INPUT_RADIUS
                         && touchPoint.x < INPUT_PENTAGON_SPAWN_P2.x + INPUT_RADIUS
                         && touchPoint.y > INPUT_PENTAGON_SPAWN_P2.y - INPUT_RADIUS
-                        && touchPoint.y < INPUT_PENTAGON_SPAWN_P2.y + INPUT_RADIUS;
+                        && touchPoint.y < INPUT_PENTAGON_SPAWN_P2.y + INPUT_RADIUS
+                        && phase >= PHASE_TWO;
                 hexagonTouchedP2 = touchPoint.x > INPUT_HEXAGON_SPAWN_P2.x - INPUT_RADIUS
                         && touchPoint.x < INPUT_HEXAGON_SPAWN_P2.x + INPUT_RADIUS
                         && touchPoint.y > INPUT_HEXAGON_SPAWN_P2.y - INPUT_RADIUS
-                        && touchPoint.y < INPUT_HEXAGON_SPAWN_P2.y + INPUT_RADIUS;
+                        && touchPoint.y < INPUT_HEXAGON_SPAWN_P2.y + INPUT_RADIUS
+                        && phase >= PHASE_TWO;
                 septagonTouchedP2 = touchPoint.x > INPUT_SEPTAGON_SPAWN_P2.x - INPUT_RADIUS
                         && touchPoint.x < INPUT_SEPTAGON_SPAWN_P2.x + INPUT_RADIUS
                         && touchPoint.y > INPUT_SEPTAGON_SPAWN_P2.y - INPUT_RADIUS
-                        && touchPoint.y < INPUT_SEPTAGON_SPAWN_P2.y + INPUT_RADIUS;
+                        && touchPoint.y < INPUT_SEPTAGON_SPAWN_P2.y + INPUT_RADIUS
+                        && phase >= PHASE_TWO;
                 octagonTouchedP2 = touchPoint.x > INPUT_OCTAGON_SPAWN_P2.x - INPUT_RADIUS
                         && touchPoint.x < INPUT_OCTAGON_SPAWN_P2.x + INPUT_RADIUS
                         && touchPoint.y > INPUT_OCTAGON_SPAWN_P2.y - INPUT_RADIUS
-                        && touchPoint.y < INPUT_OCTAGON_SPAWN_P2.y + INPUT_RADIUS;
+                        && touchPoint.y < INPUT_OCTAGON_SPAWN_P2.y + INPUT_RADIUS
+                        && phase >= PHASE_TWO;
                 nonagonTouchedP2 = touchPoint.x > INPUT_NONAGON_SPAWN_P2.x - INPUT_RADIUS
                         && touchPoint.x < INPUT_NONAGON_SPAWN_P2.x + INPUT_RADIUS
                         && touchPoint.y > INPUT_NONAGON_SPAWN_P2.y - INPUT_RADIUS
-                        && touchPoint.y < INPUT_NONAGON_SPAWN_P2.y + INPUT_RADIUS;
+                        && touchPoint.y < INPUT_NONAGON_SPAWN_P2.y + INPUT_RADIUS
+                        && phase >= PHASE_TWO;
                 inputTouchedGameplayP2 = pointTouchedP2 || lineTouchedP2 || triangleTouchedP2 || squareTouchedP2 || pentagonTouchedP2 || hexagonTouchedP2 || septagonTouchedP2 || octagonTouchedP2 || nonagonTouchedP2;
             }
         }
         helpChevronDownTouched = touchPoint.x > helpLabel.getX() - helpInputGirth
                 && touchPoint.x < helpLabel.getX()
                 && touchPoint.y > helpLabel.getY() - helpInputGirth
-                && touchPoint.y < helpLabel.getY() + helpLabel.getHeight();
+                && touchPoint.y < helpLabel.getY() + helpLabel.getHeight()
+                && helpTextVisible;
         helpChevronUpTouched = touchPoint.x > helpLabel.getX() + helpLabel.getWidth()
                 && touchPoint.x < helpLabel.getX() + helpLabel.getWidth() + helpInputGirth
                 && touchPoint.y > helpLabel.getY() - helpInputGirth
-                && touchPoint.y < helpLabel.getY() + helpLabel.getHeight();;
+                && touchPoint.y < helpLabel.getY() + helpLabel.getHeight()
+                && helpTextVisible;
         helpNextTouched = touchPoint.x > helpLabel.getX() + (helpLabel.getWidth() / 2)
                 && touchPoint.x < helpLabel.getX() + helpLabel.getWidth()
                 && touchPoint.y > helpLabel.getY() - helpInputGirth
                 && touchPoint.y < helpLabel.getY()
+                && helpTextVisible
                 && currentHelpTextIndex == getHelpTextMaxIndex();
         playTouched = touchPoint.x > INPUT_PLAY_SPAWN.x - INPUT_RADIUS
                 && touchPoint.x < INPUT_PLAY_SPAWN.x + INPUT_RADIUS
@@ -1848,28 +1912,28 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public void determineKeyedInput(int keycode) {
         if(!splitScreen) {
-            pointTouched = keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1;
-            lineTouched = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2;
-            triangleTouched = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3;
-            squareTouched = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4;
-            pentagonTouched = keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5;
-            hexagonTouched = keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6;
-            septagonTouched = keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7;
-            octagonTouched = keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8;
-            nonagonTouched = keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9;
+            pointTouched = (keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1) && phase >= PHASE_TWO;
+            lineTouched = (keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2) && phase >= PHASE_TWO;
+            triangleTouched = (keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3) && phase >= PHASE_TWO;
+            squareTouched = (keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4) && phase >= PHASE_TWO;
+            pentagonTouched = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && phase >= PHASE_TWO;
+            hexagonTouched = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && phase >= PHASE_TWO;
+            septagonTouched = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && phase >= PHASE_TWO;
+            octagonTouched = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && phase >= PHASE_TWO;
+            nonagonTouched = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && phase >= PHASE_TWO;
             playTouched = pointTouched;
             homeTouched = lineTouched;
             exitTouched = triangleTouched;
         } else {
-            pointTouchedP1 = keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1;
-            lineTouchedP1 = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2;
-            triangleTouchedP1 = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3;
-            squareTouchedP1 = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4;
-            pentagonTouchedP1 = keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5;
-            hexagonTouchedP1 = keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6;
-            septagonTouchedP1 = keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7;
-            octagonTouchedP1 = keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8;
-            nonagonTouchedP1 = keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9;
+            pointTouchedP1 = (keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1) && phase >= PHASE_TWO;
+            lineTouchedP1 = (keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2) && phase >= PHASE_TWO;
+            triangleTouchedP1 = (keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3) && phase >= PHASE_TWO;
+            squareTouchedP1 = (keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4) && phase >= PHASE_TWO;
+            pentagonTouchedP1 = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && phase >= PHASE_TWO;
+            hexagonTouchedP1 = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && phase >= PHASE_TWO;
+            septagonTouchedP1 = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && phase >= PHASE_TWO;
+            octagonTouchedP1 = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && phase >= PHASE_TWO;
+            nonagonTouchedP1 = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && phase >= PHASE_TWO;
             playTouched = pointTouchedP1;
             homeTouched = lineTouchedP1;
             exitTouched = triangleTouchedP1;
@@ -1883,6 +1947,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             inputTouchedGameplayP1 = pointTouchedP1 || lineTouchedP1 || triangleTouchedP1 || squareTouchedP1 || pentagonTouchedP1 || hexagonTouchedP1 || septagonTouchedP1 || octagonTouchedP1 || nonagonTouchedP1;
         }
         inputTouchedResults = playTouched || homeTouched || exitTouched;
+        inputTouchedHelp = false;
     }
 
     public void handleInput(String player) {
@@ -1960,23 +2025,25 @@ public class TutorialScreen implements Screen, InputProcessor {
                     }
                 }
             }
-            if(player == null) {
-                if (inputTouchedGameplay && !gameOver && promptShape.getShape() == currentTargetShape.getShape()) {
-                    shapesMatchedBehavior(null);
-                } else if (!gameOver && inputTouchedGameplay) {
-                    shapesMismatchedBehavior(null);
-                }
-            } else if(player.equals(P1)) {
-                if (inputTouchedGameplayP1 && !gameOver && promptShapeP1.getShape() == currentTargetShapeP1.getShape()) {
-                    shapesMatchedBehavior(P1);
-                } else if (!gameOver && inputTouchedGameplayP1) {
-                    shapesMismatchedBehavior(P1);
-                }
-            } else {
-                if (inputTouchedGameplayP2 && !gameOver && promptShapeP2.getShape() == currentTargetShapeP2.getShape()) {
-                    shapesMatchedBehavior(P2);
-                } else if (!gameOver && inputTouchedGameplayP2) {
-                    shapesMismatchedBehavior(P2);
+            if(phase >= PHASE_THREE) {
+                if (player == null) {
+                    if (inputTouchedGameplay && !gameOver && promptShape.getShape() == currentTargetShape.getShape()) {
+                        shapesMatchedBehavior(null);
+                    } else if (!gameOver && inputTouchedGameplay) {
+                        shapesMismatchedBehavior(null);
+                    }
+                } else if (player.equals(P1)) {
+                    if (inputTouchedGameplayP1 && !gameOver && promptShapeP1.getShape() == currentTargetShapeP1.getShape()) {
+                        shapesMatchedBehavior(P1);
+                    } else if (!gameOver && inputTouchedGameplayP1) {
+                        shapesMismatchedBehavior(P1);
+                    }
+                } else {
+                    if (inputTouchedGameplayP2 && !gameOver && promptShapeP2.getShape() == currentTargetShapeP2.getShape()) {
+                        shapesMatchedBehavior(P2);
+                    } else if (!gameOver && inputTouchedGameplayP2) {
+                        shapesMismatchedBehavior(P2);
+                    }
                 }
             }
             if(player == null || player.equals(P1)) {
@@ -2036,7 +2103,11 @@ public class TutorialScreen implements Screen, InputProcessor {
             phase++;
             currentHelpTextIndex = 0;
         }
-        helpLabel.setText(getCurrentHelpText());
+        if(phase < PHASE_SIX) {
+            helpLabel.setText(getCurrentHelpText());
+        } else {
+            helpTextVisible = false;
+        }
     }
 
     public void transitionShape(String player, int shapeAdded) {
@@ -2114,12 +2185,14 @@ public class TutorialScreen implements Screen, InputProcessor {
                 currentTargetShape = outsideTargetShape;
             } else {
                 targetShapesMatched = 0;
-                score += multiplier;
-                if (multiplier < MAX_MULTIPLIER) {
-                    multiplier++;
+                if(phase >= PHASE_FOUR) {
+                    score += multiplier;
+                    if (multiplier < MAX_MULTIPLIER) {
+                        multiplier++;
+                    }
                 }
                 targetShapeList.clear();
-                if (priorShapeList.get(priorShapeList.size() - TWO_SHAPES_AGO).getColor().equals(priorShapeList.get(priorShapeList.size() - ONE_SHAPE_AGO).getColor()) && admitsOfSquirgle) {
+                if (priorShapeList.get(priorShapeList.size() - TWO_SHAPES_AGO).getColor().equals(priorShapeList.get(priorShapeList.size() - ONE_SHAPE_AGO).getColor()) && admitsOfSquirgle && phase >= PHASE_FIVE) {
                     //SQUIRGLE!!!
                     outsideTargetShape.setShape(Shape.TRIANGLE);
                     outsideTargetShape.setColor(Color.BLACK);
@@ -2197,14 +2270,16 @@ public class TutorialScreen implements Screen, InputProcessor {
                 currentTargetShapeP1 = outsideTargetShapeP1;
             } else {
                 targetShapesMatchedP1 = 0;
-                if(!useSaturation) {
-                    scoreP1 += multiplierP1;
-                    if (multiplierP1 < MAX_MULTIPLIER) {
-                        multiplierP1++;
+                if(phase >= PHASE_FOUR) {
+                    if (!useSaturation) {
+                        scoreP1 += multiplierP1;
+                        if (multiplierP1 < MAX_MULTIPLIER) {
+                            multiplierP1++;
+                        }
                     }
                 }
                 targetShapeListP1.clear();
-                if (priorShapeListP1.get(priorShapeListP1.size() - TWO_SHAPES_AGO).getColor().equals(priorShapeListP1.get(priorShapeListP1.size() - ONE_SHAPE_AGO).getColor()) && admitsOfSquirgle) {
+                if (priorShapeListP1.get(priorShapeListP1.size() - TWO_SHAPES_AGO).getColor().equals(priorShapeListP1.get(priorShapeListP1.size() - ONE_SHAPE_AGO).getColor()) && admitsOfSquirgle && phase >= PHASE_FIVE) {
                     //SQUIRGLE!!!
                     outsideTargetShapeP1.setShape(Shape.TRIANGLE);
                     outsideTargetShapeP1.setColor(Color.BLACK);
@@ -2256,7 +2331,9 @@ public class TutorialScreen implements Screen, InputProcessor {
                     }
                     game.stats.incrementNumSquirgles(gameplayType, game.base, game.difficulty);
                 } else if(useSaturation) {
-                    saturationP2++;
+                    if(phase >= PHASE_FOUR) {
+                        saturationP2++;
+                    }
                 }
                 currentTargetShapeP1 = targetShapeListP1.get(0);
             }
@@ -2285,14 +2362,16 @@ public class TutorialScreen implements Screen, InputProcessor {
                 currentTargetShapeP2 = outsideTargetShapeP2;
             } else {
                 targetShapesMatchedP2 = 0;
-                if(!useSaturation) {
-                    scoreP2 += multiplierP2;
-                    if (multiplierP2 < MAX_MULTIPLIER) {
-                        multiplierP2++;
+                if(phase >= PHASE_FOUR) {
+                    if (!useSaturation) {
+                        scoreP2 += multiplierP2;
+                        if (multiplierP2 < MAX_MULTIPLIER) {
+                            multiplierP2++;
+                        }
                     }
                 }
                 targetShapeListP2.clear();
-                if (priorShapeListP2.get(priorShapeListP2.size() - TWO_SHAPES_AGO).getColor().equals(priorShapeListP2.get(priorShapeListP2.size() - ONE_SHAPE_AGO).getColor()) && admitsOfSquirgle) {
+                if (priorShapeListP2.get(priorShapeListP2.size() - TWO_SHAPES_AGO).getColor().equals(priorShapeListP2.get(priorShapeListP2.size() - ONE_SHAPE_AGO).getColor()) && admitsOfSquirgle && phase >= PHASE_FIVE) {
                     //SQUIRGLE!!!
                     outsideTargetShapeP2.setShape(Shape.TRIANGLE);
                     outsideTargetShapeP2.setColor(Color.BLACK);
@@ -2348,8 +2427,10 @@ public class TutorialScreen implements Screen, InputProcessor {
                     }
                     game.stats.incrementNumSquirgles(gameplayType, game.base, game.difficulty);
                 } else {
-                    if(useSaturation) {
-                        saturationP1++;
+                    if(phase >= PHASE_FOUR) {
+                        if (useSaturation) {
+                            saturationP1++;
+                        }
                     }
                 }
                 currentTargetShapeP2 = targetShapeListP2.get(0);
@@ -2362,12 +2443,16 @@ public class TutorialScreen implements Screen, InputProcessor {
         //The wrong shape was touched
         if(player == null) {
             if(!blackAndWhite) {
-                float radiusIncrease = game.widthOrHeight * ((backgroundColorShapeList.get(3).getCoordinates().x - backgroundColorShapeList.get(2).getCoordinates().x) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));
+                if(phase >= PHASE_FIVE) {
+                    float radiusIncrease = game.widthOrHeight * ((backgroundColorShapeList.get(2).getCoordinates().y - backgroundColorShapeList.get(3).getCoordinates().y) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));
 
-                if (promptShape.getRadius() + radiusIncrease > (game.widthOrHeight / 2)) {
-                    promptShape.setRadius(game.widthOrHeight / 2);
-                } else {
-                    promptShape.setRadius(promptShape.getRadius() + radiusIncrease);
+                    if (phase < PHASE_SIX && promptShape.getRadius() + radiusIncrease > game.thirdOfScreen) {
+                        promptShape.setRadius(game.thirdOfScreen);
+                    } else if (promptShape.getRadius() + radiusIncrease > (game.widthOrHeight / 2)) {
+                        promptShape.setRadius(game.widthOrHeight / 2);
+                    } else {
+                        promptShape.setRadius(promptShape.getRadius() + radiusIncrease);
+                    }
                 }
             } else {
                 if(score > 0) {
@@ -2399,6 +2484,14 @@ public class TutorialScreen implements Screen, InputProcessor {
     }
 
     public void keepSaturationsInBounds() {
+        if(phase < PHASE_SIX) {
+            if(saturationP1 > 5) {
+                saturationP1 = 5;
+            }
+            if(saturationP2 > 5) {
+                saturationP2 = 5;
+            }
+        }
         if(saturationP1 < 0) {
             saturationP1 = 0;
         } else if(saturationP1 > MAX_SATURATION) {
@@ -2949,8 +3042,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirglePhaseTwoTextOne = "The buttons at the bottom of the screen are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
         squirglePhaseTwoTextTwo = "SQUIRGLE is essentially a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
         squirglePhaseTwoTextThree = "Using these rules, the fundamental aim of SQUIRGLE is to create target shapes from the shape in your hand by using the inputs at your disposal. Again, if you're asked to create a SQUARE (4) from a TRIANGLE (3), you would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in SQUIRGLE, and we rather use remainders to achieve the same effect.";
-        squirglePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASES. Right now, you are operating in a base of " + game.base + " because that's how many inputs you have at your disposal, and that's the number of vertices the game's largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
-        squirglePhaseTwoTextFive = "Now that we understand what BASEs are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that you've got a TRIANGLE in your hand, you're operating within a base of 4, and you're tasked with creating a LINE. If you were to add a POINT to your TRIANGLE, you would get a SQUARE (which is also your base), but if you add something larger than a POINT, you EXCEED your BASE, and the amount by which you've EXCEEDED it becomes the new shape you've made. For instance, if you add a LINE to your TRIANGLE, you've created a POINT (since you've EXCEEDED your BASE by 1). If you add a TRIANGLE to your TRIANGLE, you've created a LINE (since you've EXCEEDED your BASE by 2), and you've successfully created the shape for which you've been prompted.";
+        squirglePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASES. Right now, you are operating in a BASE of " + game.base + " because that's how many inputs you have at your disposal, and that's the number of vertices the game's largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available BASE options; new BASES and their associated music tracks are unlocked by attaining a score of " + Squirgle.SCORE_TO_UNLOCK_NEW_BASE + " with the largest available BASE in SQUIRGLE mode.";
+        squirglePhaseTwoTextFive = "Now that we understand what BASES are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that you've got a TRIANGLE in your hand, you're operating within a BASE of 4, and you're tasked with creating a LINE. If you were to add a POINT to your TRIANGLE, you would get a SQUARE (which is also your BASE), but if you add something larger than a POINT, you EXCEED your BASE, and the amount by which you've EXCEEDED it becomes the new shape you've made. For instance, if you add a LINE to your TRIANGLE, you've created a POINT (since you've EXCEEDED your BASE by 1). If you add a TRIANGLE to your TRIANGLE, you've created a LINE (since you've EXCEEDED your BASE by 2), and you've successfully created the shape for which you've been prompted.";
         squirglePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in your hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
         squirglePhaseThreeTextOne = "In the upper left corner of the screen, you'll now see two shapes separated by a black circle, next to which is a number.";
         squirglePhaseThreeTextTwo = "The shape within the black circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the black circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
@@ -2958,12 +3051,12 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirglePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
         squirglePhaseFourTextOne = "In the upper right corner of the screen, you'll now see three numbers. The leftmost number represents the number of vertices possessed by the shape currently in your hand, the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
         squirglePhaseFourTextTwo = "Your score increases by your multiplier every time you correctly match a full series of two target shapes.";
-        squirglePhaseFourTextThree = "So long as your multiplier is below its maximum value of 5, it increases by 1 every time you correctly match a full series of target shapes. Should you press an incorrect input, however, your multiplier will be reverted back to its original value of 1.";
+        squirglePhaseFourTextThree = "So long as your multiplier is below its maximum value of 5, it increases by 1 every time you correctly match a full series of target shapes. Should you press an incorrect input, however, your multiplier will be reverted back to its original value of 1, and the radius of the shape in your hand will be increased, allotting you less time to play.";
         squirglePhaseFourTextFour = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your score and multiplier. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
-        squirglePhaseFiveTextOne = "At the left of the screen, you will now see a series of color swatches and three white lines. The colors represent the background colors that are forthcoming, and the three lines represent how much time you have to continue playing and racking up points.";
-        squirglePhaseFiveTextTwo = "As far as concerns the colors, when one passes to the left of the screen, it then becomes the new background color. Whenever you correctly create the current target shape from the shape in your hand, that correctly matched target shape's color is set to that of the current background, and if you manage to match both target shapes of the same color, you are prompted for a special series of shapes known as a SQUIRGLE. This series consists of a SQUARE and a TRIANGLE separated by a black circle, and once both SQUARE and TRIANGLE have been created from the shape in your hand, the three white TIMELINES are reset to their original lengths, affording you more time to play. In this phase of the tutorial, only the first TIMELINE depletes completely.";
-        squirglePhaseFiveTextThree = "In representing how much time you have left to play, the three TIMELINES also represent the radius of the shape currently in your hand, for the game comes to an end when that shape's radius becomes so large that the shape touches any of the screen's sides. Because of this, when you manage to create both shapes within a SQUIRGLE from the shape(s) in your hand, in addition to reverting the TIMELINES to their original lengths, you also revert the shape in your hand's radius to its minimum value as well. When you are ready to play the game in full, press the NEXT button, and the TIMELINES' behavior will become as if outside of a tutorial.";
-        squirglePhaseSixTextOne = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to rack up as many points as possible. Good luck!";
+        squirglePhaseFiveTextOne = "At the left of the screen, you will now see a series of color swatches and three white lines. The colors represent the background colors that are forthcoming, and the three lines represent how much time you have to continue playing and racking up points. In this phase of the tutorial, only the first TIMELINE depletes completely.";
+        squirglePhaseFiveTextTwo = "As far as concerns the colors, when one passes to the left of the screen, it then becomes the new background color. Whenever you correctly create the current target shape from the shape in your hand, that correctly matched target shape's color is set to that of the current background, and if you manage to match both target shapes of the same color, you are prompted for a special series of shapes known as a SQUIRGLE. This series consists of a SQUARE and a TRIANGLE separated by a black circle, and once both SQUARE and TRIANGLE have been created from the shape in your hand, the three white TIMELINES are reset to their original lengths, affording you more time to play.";
+        squirglePhaseFiveTextThree = "In representing how much time you have left to play, the three TIMELINES also represent the radius of the shape currently in your hand, for the game comes to an end when that shape's radius becomes so large that the shape touches any of the screen's sides. Because of this, when you manage to create both shapes within a SQUIRGLE from the shape in your hand, in addition to reverting the TIMELINES to their original lengths, you also revert the shape in your hand's radius to its minimum value as well. When you are ready to play the game in full, press the NEXT button, and the TIMELINES' behavior will become as if outside of a tutorial.";
+        squirglePhaseFiveTextFour = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to rack up as many points as possible. Good luck!";
 
         battlePhaseOneTextOne = "Welcome to the BATTLE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of BATTLE.";
         battlePhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
@@ -2974,8 +3067,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         battlePhaseTwoTextOne = "The buttons at the bottom of the screen are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
         battlePhaseTwoTextTwo = "BATTLE is essentially a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
         battlePhaseTwoTextThree = "Using these rules, the fundamental aim of BATTLE is to create target shapes from the shape in your hand using the inputs at your disposal. Again, if you're asked to create a SQUARE (4) from a TRIANGLE (3), you would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in BATTLE, and we rather use remainders to achieve the same effect.";
-        battlePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASES. Right now, you are operating in a base of " + game.base + " because that's how many inputs you have at your disposal, and that's the number of vertices the game's largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
-        battlePhaseTwoTextFive = "Now that we understand what BASES are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that you've got a TRIANGLE in your hand, you're operating within a base of 4, and you're tasked with creating a LINE. If you were to add a POINT to your TRIANGLE, you would get a SQUARE (which is also your base), but if you add something larger than a POINT, you EXCEED your BASE, and the amount by which you've EXCEEDED it becomes the new shape you've made. For instance, if you add a LINE to your TRIANGLE, you've created a POINT (since you've EXCEEDED your BASE by 1). If you add a TRIANGLE to your TRIANGLE, you've created a LINE (since you've EXCEEDED your BASE by 2), and you've successfully created the shape for which you've been prompted.";
+        battlePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASES. Right now, you are operating in a BASE of " + game.base + " because that's how many inputs you have at your disposal, and that's the number of vertices the game's largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available BASE options; new BASES and their associated music tracks are unlocked by attaining a score of " + Squirgle.SCORE_TO_UNLOCK_NEW_BASE + " with the largest available BASE in SQUIRGLE mode.";
+        battlePhaseTwoTextFive = "Now that we understand what BASES are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that you've got a TRIANGLE in your hand, you're operating within a BASE of 4, and you're tasked with creating a LINE. If you were to add a POINT to your TRIANGLE, you would get a SQUARE (which is also your BASE), but if you add something larger than a POINT, you EXCEED your BASE, and the amount by which you've EXCEEDED it becomes the new shape you've made. For instance, if you add a LINE to your TRIANGLE, you've created a POINT (since you've EXCEEDED your BASE by 1). If you add a TRIANGLE to your TRIANGLE, you've created a LINE (since you've EXCEEDED your BASE by 2), and you've successfully created the shape for which you've been prompted.";
         battlePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in your hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
         battlePhaseThreeTextOne = "In the upper left corner of the player 1 section, you'll now see two shapes separated by a black circle, next to which is a number.";
         battlePhaseThreeTextTwo = "The shape within the black circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the black circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
@@ -2983,12 +3076,12 @@ public class TutorialScreen implements Screen, InputProcessor {
         battlePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
         battlePhaseFourTextOne = "In the upper right corner of the player 1 section, you'll now see some text saying \"P1\", a number, and a TRIANGLE populated by a number of small notches. The text represents which player you are (P1 = Player 1), the number represents the number of vertices possessed by the shape currently in your hand, and the notched TRIANGLE represents your BURST meter.";
         battlePhaseFourTextTwo = "The BURST meter is the gauge by which is determined whether player 1 or player 2 wins the battle. If your BURST meter reaches its threshold, you lose; if your opponent's BURST meter reaches its threshold, you win; if time runs out before either BURST meter reaches its threshold, the player with the smaller BURST value wins; if both BURST values are equal, the round results in a tie.";
-        battlePhaseFourTextThree = "In order to add to your opponent's burst meter, simply create the target shapes from the shape in your hand. If you correctly match both shapes in a target series, your opponent's BURST meter will increase by 1. If, however, the two shapes you just matched constitute a SQUIRGLE, your opponent's BURST meter will increase by 5, and your BURST meter will decrease by 3. Note, though, that if you press an incorrect input, your BURST meter increases by 1.";
+        battlePhaseFourTextThree = "In order to add to your opponent's burst meter, simply create the target shapes from the shape in your hand. If you correctly match both shapes in a target series, your opponent's BURST meter will increase by 1. If, however, the two shapes you just matched constitute a SQUIRGLE, your opponent's BURST meter will increase by 3, and your BURST meter will decrease by 5. Note, though, that if you press an incorrect input, your BURST meter increases by 1.  In this phase of the tutorial, neither player 1's nor player 2's BURST meter may increase beyond 5.";
         battlePhaseFourTextFour = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your BURST meter and that of your opponent. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
-        battlePhaseFiveTextOne = "At the left of the screen, you will now see a series of color swatches and three white lines. The colors represent the background colors that are forthcoming, and the three lines represent how much time you have to continue playing and attempting to best your opponent.";
+        battlePhaseFiveTextOne = "At the left of the screen, you will now see a series of color swatches and three white lines. The colors represent the background colors that are forthcoming, and the three lines represent how much time you have to continue playing and attempting to best your opponent. In this phase of the tutorial, only the first TIMELINE depletes completely.";
         battlePhaseFiveTextTwo = "As far as concerns the colors, when one passes to the left of the screen, it then becomes the new background color. Whenever you correctly create the current target shape from the shape in your hand, that correctly matched target shape's color is set to that of the current background, and if you manage to match both target shapes of the same color, you are prompted for a special series of shapes known as a SQUIRGLE. This series consists of a SQUARE and a TRIANGLE separated by a black circle, and once both SQUARE and TRIANGLE have been created from the shape in your hand, your opponent's BURST meter increases by 5, while your BURST meter decreases by 3.";
         battlePhaseFiveTextThree = "Note that in BATTLE mode, there is no correlation between the shape in your hand's radius and the lengths of the timelines. This is because there is instead a correlation between the shape in your hand's radius and your BURST meter. As your BURST value increases, so too does the radius of the shape in your hand, implying a game over scenario should both become too large. The game will still end, however, when all timelines are fully depleted.";
-        battlePhaseSixTextOne = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to best your opponent. Good luck!";
+        battlePhaseFiveTextFour = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to best your opponent. Good luck!";
 
         timeAttackPhaseOneTextOne = "Welcome to the TIME ATTACK tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of TIME ATTACK.";
         timeAttackPhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
@@ -2996,22 +3089,22 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackPhaseOneTextFour = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
         timeAttackPhaseTwoTextOne = "The buttons at the bottom of the screen are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
         timeAttackPhaseTwoTextTwo = "TIME ATTACK is essentially a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
-        timeAttackPhaseTwoTextThree = "Using these rules, the fundamental aim of TIME ATTACK is to create target shapes from the shape in your hand using the inputs at our disposal. Again, if you're asked to create a SQUARE (4) from a TRIANGLE (3), you would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in TIME ATTACK, and we rather use remainders to achieve the same effect.";
-        timeAttackPhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASES. Right now, you are operating in a base of " + game.base + " because that's how many inputs you have at your disposal, and that's the number of vertices the game's largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
-        timeAttackPhaseTwoTextFive = "Now that we understand what BASES are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that you've got a TRIANGLE in your hand, you're operating within a base of 4, and you're tasked with creating a LINE. If you were to add a POINT to your TRIANGLE, you would get a SQUARE (which is also your base), but if you add something larger than a POINT, you EXCEED your BASE, and the amount by which you've EXCEEDED it becomes the new shape you've made. For instance, if you add a LINE to your TRIANGLE, you've created a POINT (since you've EXCEEDED your BASE by 1). If you add a TRIANGLE to your TRIANGLE, you've created a LINE (since you've EXCEEDED your BASE by 2), and you've successfully created the shape for which you've been prompted.";
+        timeAttackPhaseTwoTextThree = "Using these rules, the fundamental aim of TIME ATTACK is to create target shapes from the shape in your hand using the inputs at your disposal. Again, if you're asked to create a SQUARE (4) from a TRIANGLE (3), you would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in TIME ATTACK, and we rather use remainders to achieve the same effect.";
+        timeAttackPhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASES. Right now, you are operating in a BASE of " + game.base + " because that's how many inputs you have at your disposal, and that's the number of vertices the game's largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available BASE options; new BASES and their associated music tracks are unlocked by attaining a score of " + Squirgle.SCORE_TO_UNLOCK_NEW_BASE + " with the largest available BASE in SQUIRGLE mode.";
+        timeAttackPhaseTwoTextFive = "Now that we understand what BASES are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that you've got a TRIANGLE in your hand, you're operating within a BASE of 4, and you're tasked with creating a LINE. If you were to add a POINT to your TRIANGLE, you would get a SQUARE (which is also your BASE), but if you add something larger than a POINT, you EXCEED your BASE, and the amount by which you've EXCEEDED it becomes the new shape you've made. For instance, if you add a LINE to your TRIANGLE, you've created a POINT (since you've EXCEEDED your BASE by 1). If you add a TRIANGLE to your TRIANGLE, you've created a LINE (since you've EXCEEDED your BASE by 2), and you've successfully created the shape for which you've been prompted.";
         timeAttackPhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in your hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
         timeAttackPhaseThreeTextOne = "In the upper left corner of the screen, you'll now see two shapes separated by a black circle, next to which is a number.";
         timeAttackPhaseThreeTextTwo = "The shape within the black circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the black circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
         timeAttackPhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating; for clarity, this number also alternates between various colors.";
         timeAttackPhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
         timeAttackPhaseFourTextOne = "In the upper right corner of the screen, you'll now see three numbers. The leftmost number represents the number of vertices possessed by the shape currently in your hand, the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
-        timeAttackPhaseFourTextTwo = "Your score increases by your multiplier every time you correctly match a full series of two target shapes.";
+        timeAttackPhaseFourTextTwo = "Your score increases by your multiplier every time you correctly match a full series of two target shapes. Every time you press an incorrect input, however, your score decreases by 1 (unless you already possess the minimum score of 0).";
         timeAttackPhaseFourTextThree = "So long as your multiplier is below its maximum value of 5, it increases by 1 every time you correctly match a full series of target shapes. Should you press an incorrect input, however, your multiplier will be reverted back to its original value of 1.";
         timeAttackPhaseFourTextFour = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your score and multiplier. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
-        timeAttackPhaseFiveTextOne = "At the left of the screen, you will now see three white lines. These three lines represent how much time you have to continue playing and racking up points.";
+        timeAttackPhaseFiveTextOne = "At the left of the screen, you will now see three white lines. These three lines represent how much time you have to continue playing and racking up points. In this phase of the tutorial, only the first TIMELINE depletes completely.";
         timeAttackPhaseFiveTextTwo = "Since there are no color swatches in TIME ATTACK, a SQUIRGLE is not a special series of shapes in this mode, and will thus crop up and act just like any other.";
         timeAttackPhaseFiveTextThree = "In representing how much time you have left to play, the three TIMELINES also represent the radius of the shape currently in your hand, for the game comes to an end when that shape's radius becomes so large that the shape touches any of the screen's sides. There is no way to garner more time in TIME ATTACK, so you will only ever have 1, 3, or 5 minutes to play this mode, depending on the length of time you've chosen at the outset.";
-        timeAttackPhaseSixTextOne = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to rack up as many points as possible. Good luck!";
+        timeAttackPhaseFiveTextFour = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to rack up as many points as possible. Good luck!";
 
         timeBattlePhaseOneTextOne = "Welcome to the TIME BATTLE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of TIME BATTLE.";
         timeBattlePhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
@@ -3021,9 +3114,9 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattlePhaseOneTextSix = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
         timeBattlePhaseTwoTextOne = "The buttons at the bottom of the screen are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
         timeBattlePhaseTwoTextTwo = "TIME BATTLE is essentially a game of addition--only you're adding the vertices of shapes (the circular corners of the shapes you see) instead of numbers. The easiest way to think about this is to think of each shape as being analogous to a number. For instance, a POINT equals 1, a LINE equals 2, a TRIANGLE equals 3, and so on. Under these rules, a POINT (1) plus a LINE (2) equals a TRIANGLE (3).";
-        timeBattlePhaseTwoTextThree = "Using these rules, the fundamental aim of TIME BATTLE is to create target shapes from the shape in your hand using the inputs at our disposal. Again, if you're asked to create a SQUARE (4) from a TRIANGLE (3), you would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in TIME BATTLE, and we rather use remainders to achieve the same effect.";
-        timeBattlePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASES. Right now, you are operating in a base of " + game.base + " because that's how many inputs you have at your disposal, and that's the number of vertices the game's largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available base options.";
-        timeBattlePhaseTwoTextFive = "Now that we understand what BASES are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that you've got a TRIANGLE in your hand, you're operating within a base of 4, and you're tasked with creating a LINE. If you were to add a POINT to your TRIANGLE, you would get a SQUARE (which is also your base), but if you add something larger than a POINT, you EXCEED your BASE, and the amount by which you've EXCEEDED it becomes the new shape you've made. For instance, if you add a LINE to your TRIANGLE, you've created a POINT (since you've EXCEEDED your BASE by 1). If you add a TRIANGLE to your TRIANGLE, you've created a LINE (since you've EXCEEDED your BASE by 2), and you've successfully created the shape for which you've been prompted.";
+        timeBattlePhaseTwoTextThree = "Using these rules, the fundamental aim of TIME BATTLE is to create target shapes from the shape in your hand using the inputs at your disposal. Again, if you're asked to create a SQUARE (4) from a TRIANGLE (3), you would add a POINT (1) to it. Notice, however, that we haven't broached the subject of subtraction. This is because there is no subtraction in TIME BATTLE, and we rather use remainders to achieve the same effect.";
+        timeBattlePhaseTwoTextFour = "Before we articulate the concept of these remainders, however, we must understand the concept of BASES. Right now, you are operating in a BASE of " + game.base + " because that's how many inputs you have at your disposal, and that's the number of vertices the game's largest shape is capable of having. Depending on your progress through the game, 4, 5, 6, 7, 8 and 9 are all eventually available BASE options; new BASES and their associated music tracks are unlocked by attaining a score of " + Squirgle.SCORE_TO_UNLOCK_NEW_BASE + " with the largest available BASE in SQUIRGLE mode.";
+        timeBattlePhaseTwoTextFive = "Now that we understand what BASES are, we are equipped to learn how to create a shape with fewer vertices from a shape with more. Let's say, for instance, that you've got a TRIANGLE in your hand, you're operating within a BASE of 4, and you're tasked with creating a LINE. If you were to add a POINT to your TRIANGLE, you would get a SQUARE (which is also your BASE), but if you add something larger than a POINT, you EXCEED your BASE, and the amount by which you've EXCEEDED it becomes the new shape you've made. For instance, if you add a LINE to your TRIANGLE, you've created a POINT (since you've EXCEEDED your BASE by 1). If you add a TRIANGLE to your TRIANGLE, you've created a LINE (since you've EXCEEDED your BASE by 2), and you've successfully created the shape for which you've been prompted.";
         timeBattlePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in your hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
         timeBattlePhaseThreeTextOne = "In the upper left corner of the player 1 section, you'll now see two shapes separated by a black circle, next to which is a number.";
         timeBattlePhaseThreeTextTwo = "The shape within the black circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the black circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
@@ -3034,38 +3127,34 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattlePhaseFourTextThree = "So long as your multiplier is below its maximum value of 5, it increases by 1 every time you correctly match a full series of target shapes. Should you press an incorrect input, however, your multiplier will be reverted back to its original value of 1.";
         timeBattlePhaseFourTextFour = "Your score is the gauge by which is determined whether player 1 or player 2 wins the battle. Come the game's end, if your score is greater than your opponent's, you win; if your opponent's score is greater than yours, you lose; if your score and your opponent's are equal, the round results in a tie.";
         timeBattlePhaseFourTextFive = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your score and multiplier. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
-        timeBattlePhaseFiveTextOne = "At the left of the screen, you will now see three white lines. These three lines represent how much time you have to continue playing and racking up points.";
+        timeBattlePhaseFiveTextOne = "At the left of the screen, you will now see three white lines. These three lines represent how much time you have to continue playing and racking up points. In this phase of the tutorial, only the first TIMELINE depletes completely.";
         timeBattlePhaseFiveTextTwo = "Since there are no color swatches in TIME BATTLE, a SQUIRGLE is not a special series of shapes in this mode, and will thus crop up and act just like any other.";
         timeBattlePhaseFiveTextThree = "In representing how much time you have left to play, the three TIMELINES also represent the radius of the shape currently in your hand, for the game comes to an end when that shape's radius becomes so large that the shape touches any of the screen's sides. There is no way to garner more time in TIME BATTLE, so you will only ever have 1, 3, or 5 minutes to play this mode, depending on the length of time you've chosen at the outset.";
-        timeBattlePhaseSixTextOne = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to rack up as many points as possible. Good luck!";
+        timeBattlePhaseFiveTextFour = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to rack up as many points as possible. Good luck!";
 
         squirgleHelpTextPhaseOneList = new ArrayList<String>();
         squirgleHelpTextPhaseTwoList = new ArrayList<String>();
         squirgleHelpTextPhaseThreeList = new ArrayList<String>();
         squirgleHelpTextPhaseFourList = new ArrayList<String>();
         squirgleHelpTextPhaseFiveList = new ArrayList<String>();
-        squirgleHelpTextPhaseSixList = new ArrayList<String>();
 
         battleHelpTextPhaseOneList = new ArrayList<String>();
         battleHelpTextPhaseTwoList = new ArrayList<String>();
         battleHelpTextPhaseThreeList = new ArrayList<String>();
         battleHelpTextPhaseFourList = new ArrayList<String>();
         battleHelpTextPhaseFiveList = new ArrayList<String>();
-        battleHelpTextPhaseSixList = new ArrayList<String>();
 
         timeAttackHelpTextPhaseOneList = new ArrayList<String>();
         timeAttackHelpTextPhaseTwoList = new ArrayList<String>();
         timeAttackHelpTextPhaseThreeList = new ArrayList<String>();
         timeAttackHelpTextPhaseFourList = new ArrayList<String>();
         timeAttackHelpTextPhaseFiveList = new ArrayList<String>();
-        timeAttackHelpTextPhaseSixList = new ArrayList<String>();
 
         timeBattleHelpTextPhaseOneList = new ArrayList<String>();
         timeBattleHelpTextPhaseTwoList = new ArrayList<String>();
         timeBattleHelpTextPhaseThreeList = new ArrayList<String>();
         timeBattleHelpTextPhaseFourList = new ArrayList<String>();
         timeBattleHelpTextPhaseFiveList = new ArrayList<String>();
-        timeBattleHelpTextPhaseSixList = new ArrayList<String>();
 
         squirglePhaseMap = new HashMap<Integer, List<String>>();
         battlePhaseMap = new HashMap<Integer, List<String>>();
@@ -3098,8 +3187,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleHelpTextPhaseFiveList.add(squirglePhaseFiveTextOne);
         squirgleHelpTextPhaseFiveList.add(squirglePhaseFiveTextTwo);
         squirgleHelpTextPhaseFiveList.add(squirglePhaseFiveTextThree);
-
-        squirgleHelpTextPhaseSixList.add(squirglePhaseSixTextOne);
+        squirgleHelpTextPhaseFiveList.add(squirglePhaseFiveTextFour);
 
         battleHelpTextPhaseOneList.add(battlePhaseOneTextOne);
         battleHelpTextPhaseOneList.add(battlePhaseOneTextTwo);
@@ -3128,8 +3216,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         battleHelpTextPhaseFiveList.add(battlePhaseFiveTextOne);
         battleHelpTextPhaseFiveList.add(battlePhaseFiveTextTwo);
         battleHelpTextPhaseFiveList.add(battlePhaseFiveTextThree);
-
-        battleHelpTextPhaseSixList.add(battlePhaseSixTextOne);
+        battleHelpTextPhaseFiveList.add(battlePhaseFiveTextFour);
 
         timeAttackHelpTextPhaseOneList.add(timeAttackPhaseOneTextOne);
         timeAttackHelpTextPhaseOneList.add(timeAttackPhaseOneTextTwo);
@@ -3156,8 +3243,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackHelpTextPhaseFiveList.add(timeAttackPhaseFiveTextOne);
         timeAttackHelpTextPhaseFiveList.add(timeAttackPhaseFiveTextTwo);
         timeAttackHelpTextPhaseFiveList.add(timeAttackPhaseFiveTextThree);
-
-        timeAttackHelpTextPhaseSixList.add(timeAttackPhaseSixTextOne);
+        timeAttackHelpTextPhaseFiveList.add(timeAttackPhaseFiveTextFour);
 
         timeBattleHelpTextPhaseOneList.add(timeBattlePhaseOneTextOne);
         timeBattleHelpTextPhaseOneList.add(timeBattlePhaseOneTextTwo);
@@ -3187,36 +3273,31 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleHelpTextPhaseFiveList.add(timeBattlePhaseFiveTextOne);
         timeBattleHelpTextPhaseFiveList.add(timeBattlePhaseFiveTextTwo);
         timeBattleHelpTextPhaseFiveList.add(timeBattlePhaseFiveTextThree);
-
-        timeBattleHelpTextPhaseSixList.add(timeBattlePhaseSixTextOne);
+        timeBattleHelpTextPhaseFiveList.add(timeBattlePhaseFiveTextFour);
 
         squirglePhaseMap.put(PHASE_ONE, squirgleHelpTextPhaseOneList);
         squirglePhaseMap.put(PHASE_TWO, squirgleHelpTextPhaseTwoList);
         squirglePhaseMap.put(PHASE_THREE, squirgleHelpTextPhaseThreeList);
         squirglePhaseMap.put(PHASE_FOUR, squirgleHelpTextPhaseFourList);
         squirglePhaseMap.put(PHASE_FIVE, squirgleHelpTextPhaseFiveList);
-        squirglePhaseMap.put(PHASE_SIX, squirgleHelpTextPhaseSixList);
 
         battlePhaseMap.put(PHASE_ONE, battleHelpTextPhaseOneList);
         battlePhaseMap.put(PHASE_TWO, battleHelpTextPhaseTwoList);
         battlePhaseMap.put(PHASE_THREE, battleHelpTextPhaseThreeList);
         battlePhaseMap.put(PHASE_FOUR, battleHelpTextPhaseFourList);
         battlePhaseMap.put(PHASE_FIVE, battleHelpTextPhaseFiveList);
-        battlePhaseMap.put(PHASE_SIX, battleHelpTextPhaseSixList);
 
         timeAttackPhaseMap.put(PHASE_ONE, timeAttackHelpTextPhaseOneList);
         timeAttackPhaseMap.put(PHASE_TWO, timeAttackHelpTextPhaseTwoList);
         timeAttackPhaseMap.put(PHASE_THREE, timeAttackHelpTextPhaseThreeList);
         timeAttackPhaseMap.put(PHASE_FOUR, timeAttackHelpTextPhaseFourList);
         timeAttackPhaseMap.put(PHASE_FIVE, timeAttackHelpTextPhaseFiveList);
-        timeAttackPhaseMap.put(PHASE_SIX, timeAttackHelpTextPhaseSixList);
 
         timeBattlePhaseMap.put(PHASE_ONE, timeBattleHelpTextPhaseOneList);
         timeBattlePhaseMap.put(PHASE_TWO, timeBattleHelpTextPhaseTwoList);
         timeBattlePhaseMap.put(PHASE_THREE, timeBattleHelpTextPhaseThreeList);
         timeBattlePhaseMap.put(PHASE_FOUR, timeBattleHelpTextPhaseFourList);
         timeBattlePhaseMap.put(PHASE_FIVE, timeBattleHelpTextPhaseFiveList);
-        timeBattlePhaseMap.put(PHASE_SIX, timeBattleHelpTextPhaseSixList);
 
         helpTextMap.put(Squirgle.GAMEPLAY_SQUIRGLE, squirglePhaseMap);
         helpTextMap.put(Squirgle.GAMEPLAY_BATTLE, battlePhaseMap);
