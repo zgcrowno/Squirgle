@@ -2469,6 +2469,14 @@ public class Draw {
 
     }
 
+    public void drawPauseInputTutorialTrance(Squirgle game) {
+        float inputRadius = game.camera.viewportWidth / 20;
+
+        drawPoint(game.camera.viewportWidth, (game.camera.viewportHeight / 2) + inputRadius, inputRadius, Color.WHITE);
+        drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), (game.camera.viewportHeight / 2) + inputRadius, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
+
+    }
+
     public void drawHelpInput(boolean splitScreen) {
         float inputRadius = splitScreen && game.widthGreater ? game.camera.viewportWidth / 40 : game.camera.viewportWidth / 20;
 
@@ -2479,6 +2487,13 @@ public class Draw {
             drawPoint(game.camera.viewportWidth, (TutorialScreen.INPUT_POINT_SPAWN_P1.y + TutorialScreen.INPUT_RADIUS) + (((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS - (TutorialScreen.INPUT_POINT_SPAWN_P1.y + TutorialScreen.INPUT_RADIUS)) / 2) - inputRadius, inputRadius, Color.WHITE);
             drawQuestionMark(game.camera.viewportWidth - (inputRadius / 2), (TutorialScreen.INPUT_POINT_SPAWN_P1.y + TutorialScreen.INPUT_RADIUS) + (((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS - (TutorialScreen.INPUT_POINT_SPAWN_P1.y + TutorialScreen.INPUT_RADIUS)) / 2) - inputRadius, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, Color.WHITE);
         }
+    }
+
+    public void drawHelpInputTrance() {
+        float inputRadius = game.camera.viewportWidth / 20;
+
+        drawPoint(game.camera.viewportWidth, (game.camera.viewportHeight / 2) - inputRadius, inputRadius, Color.WHITE);
+        drawQuestionMark(game.camera.viewportWidth - (inputRadius / 2), (game.camera.viewportHeight / 2) - inputRadius, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK, Color.WHITE);
     }
 
     public void drawTouchDownPointsTutorial(List<Shape> touchDownShapeList) {

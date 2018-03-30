@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SoundUtils {
 
-    public static void playMusic(Shape promptShape, Squirgle game) {
+    public static void setVolume(Shape promptShape, Squirgle game) {
         float maxVolume = game.volume / 10f;
 
         if(game.usePhases) {

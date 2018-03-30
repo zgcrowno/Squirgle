@@ -8,14 +8,20 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
+import com.screenlooker.squirgle.util.FontUtils;
 import com.screenlooker.squirgle.util.SoundUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TutorialTranceScreen implements Screen, InputProcessor {
     final Squirgle game;
@@ -23,6 +29,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
     public static float INIT_PROMPT_RADIUS;
     public static float PAUSE_INPUT_WIDTH;
     public static float PAUSE_INPUT_HEIGHT;
+    public static float FONT_TUTORIAL_HELP_SIZE_DIVISOR;
 
     private final static int PAUSE_BACK = 0;
     private final static int PAUSE_QUIT = 1;
@@ -45,13 +52,21 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
     public final static int PHASE_TWO = 1;
 
     private float promptIncrease;
+    private float helpInputGirth;
     private Shape promptShape;
     private Shape lastPromptShape;
     private List<Shape> priorShapeList;
     private Vector3 touchPoint;
+    boolean helpTouched;
+    boolean helpChevronDownTouched;
+    boolean helpChevronUpTouched;
+    boolean helpNextTouched;
     boolean pauseTouched;
     boolean pauseBackTouched;
     boolean pauseQuitTouched;
+    boolean inputTouchedHelp;
+    private int phase;
+    private int currentHelpTextIndex;
     private boolean paused;
     private long startTime;
     private long endTime;
@@ -63,6 +78,19 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
     Shape primaryShape;
     float primaryShapeThreshold;
     boolean primaryShapeAtThreshold;
+    private boolean helpTextVisible;
+    public Label.LabelStyle helpLabelStyle;
+    public Label helpLabel;
+    private Stage stage;
+
+    private String phaseOneTextOne;
+    private String phaseOneTextTwo;
+    private String phaseOneTextThree;
+
+    private List<String> helpTextPhaseOneList;
+
+    private Map<Integer, List<String>> phaseMap;
+    private Map<Integer, Map<Integer, List<String>>> helpTextMap;
 
     public TutorialTranceScreen(final Squirgle game) {
         this.game = game;
@@ -74,6 +102,8 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         setUpNonFinalStaticData();
 
         setUpNonFinalNonStaticData();
+
+        SoundUtils.setVolume(promptShape, game);
 
         playMusic();
 
@@ -113,8 +143,6 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
             //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
             //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
             game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
-
-            SoundUtils.playMusic(promptShape, game);
         }
 
         destroyOversizedShapesAndAddNewOnes();
@@ -127,12 +155,23 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
             drawInputRectangles();
         }
 
-        if(!paused && (System.currentTimeMillis() - timeSinceTouched) / ONE_THOUSAND < PAUSE_INPUT_DISAPPEARANCE_TIME) {
-            game.draw.drawPauseInput(false, false, game);
+        showHelpText();
+
+        if(!paused) {
+            if((System.currentTimeMillis() - timeSinceTouched) / ONE_THOUSAND < PAUSE_INPUT_DISAPPEARANCE_TIME) {
+                game.draw.drawPauseInputTutorialTrance(game);
+            }
+            if(phase < PHASE_TWO) {
+                game.draw.drawHelpInputTrance();
+            }
         }
 
         game.shapeRendererFilled.end();
         game.shapeRendererLine.end();
+
+        stage.draw();
+
+        showHelpTextFooter();
     }
 
     @Override
@@ -342,8 +381,8 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
         pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
-                && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
-                && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
+                && touchPoint.y > (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20) - (game.camera.viewportWidth / 20)
+                && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20) + (game.camera.viewportWidth / 20);
         pauseBackTouched = touchPoint.x > game.camera.viewportWidth - game.partitionSize - PAUSE_INPUT_WIDTH
                 && touchPoint.x < game.camera.viewportWidth - game.partitionSize
                 && touchPoint.y > game.partitionSize
@@ -352,18 +391,42 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
                 && touchPoint.x < (2 * game.partitionSize) + (2 * PAUSE_INPUT_WIDTH)
                 && touchPoint.y > game.partitionSize
                 && touchPoint.y < game.camera.viewportHeight - game.partitionSize;
+        helpTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
+                && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20) - (game.camera.viewportWidth / 20)
+                && touchPoint.y < (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20) + (game.camera.viewportWidth / 20)
+                && phase < PHASE_TWO;
+        helpChevronDownTouched = touchPoint.x > helpLabel.getX() - helpInputGirth
+                && touchPoint.x < helpLabel.getX()
+                && touchPoint.y > helpLabel.getY() - helpInputGirth
+                && touchPoint.y < helpLabel.getY() + helpLabel.getHeight()
+                && helpTextVisible;
+        helpChevronUpTouched = touchPoint.x > helpLabel.getX() + helpLabel.getWidth()
+                && touchPoint.x < helpLabel.getX() + helpLabel.getWidth() + helpInputGirth
+                && touchPoint.y > helpLabel.getY() - helpInputGirth
+                && touchPoint.y < helpLabel.getY() + helpLabel.getHeight()
+                && helpTextVisible;
+        helpNextTouched = touchPoint.x > helpLabel.getX() + (helpLabel.getWidth() / 2)
+                && touchPoint.x < helpLabel.getX() + helpLabel.getWidth()
+                && touchPoint.y > helpLabel.getY() - helpInputGirth
+                && touchPoint.y < helpLabel.getY()
+                && helpTextVisible
+                && currentHelpTextIndex == getHelpTextMaxIndex();
+        inputTouchedHelp = helpTouched || helpChevronDownTouched || helpChevronUpTouched || helpNextTouched;
     }
 
     public void determineKeyedInput(int keycode) {
         pauseTouched = keycode == Input.Keys.ESCAPE;
         pauseBackTouched = pauseTouched;
         pauseQuitTouched = keycode == Input.Keys.X;
+        inputTouchedHelp = false;
     }
 
     public void handleInput() {
         if(!paused) {
             if (pauseTouched) {
                 pause();
+            } else {
+                handleHelpInput();
             }
         } else {
             handlePauseInput();
@@ -383,14 +446,129 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         }
     }
 
+    public void handleHelpInput() {
+        if(helpTouched) {
+            helpTextVisible = !helpTextVisible;
+        }else if(helpChevronDownTouched) {
+            if(currentHelpTextIndex > 0) {
+                currentHelpTextIndex--;
+            } else {
+                currentHelpTextIndex = getHelpTextMaxIndex();
+            }
+        } else if(helpChevronUpTouched) {
+            if(currentHelpTextIndex < getHelpTextMaxIndex()) {
+                currentHelpTextIndex++;
+            } else {
+                currentHelpTextIndex = 0;
+            }
+        } else if(helpNextTouched) {
+            phase++;
+            currentHelpTextIndex = 0;
+        }
+        if(phase < PHASE_TWO) {
+            helpLabel.setText(getCurrentHelpText());
+        } else {
+            helpTextVisible = false;
+        }
+    }
+
+    public String getCurrentHelpText() {
+        return helpTextMap.get(Squirgle.GAMEPLAY_TRANCE).get(phase).get(currentHelpTextIndex);
+    }
+
+    public int getHelpTextMaxIndex() {
+        return helpTextMap.get(Squirgle.GAMEPLAY_TRANCE).get(phase).size() - 1;
+    }
+
+    public void showHelpText() {
+        helpLabel.setVisible(helpTextVisible && !paused);
+        if(helpTextVisible && !paused) {
+            game.draw.rect(helpLabel.getX() - helpInputGirth,
+                    helpLabel.getY() - helpInputGirth,
+                    helpLabel.getWidth() + (game.camera.viewportWidth / 8),
+                    helpLabel.getHeight() + helpInputGirth,
+                    Color.WHITE);
+            game.draw.drawChevronLeft(helpLabel.getX() - (helpInputGirth / 2),
+                    helpLabel.getY() + (helpLabel.getHeight() / 2) - (helpInputGirth / 2),
+                    helpInputGirth / 2,
+                    (helpInputGirth / 2) / Draw.LINE_WIDTH_DIVISOR,
+                    Color.BLACK);
+            game.draw.drawChevronRight(helpLabel.getX() + helpLabel.getWidth() + (helpInputGirth / 2),
+                    helpLabel.getY() + (helpLabel.getHeight() / 2) - (helpInputGirth / 2),
+                    helpInputGirth / 2,
+                    (helpInputGirth / 2) / Draw.LINE_WIDTH_DIVISOR,
+                    Color.BLACK);
+            game.shapeRendererLine.setColor(Color.BLACK);
+            game.shapeRendererLine.line(helpLabel.getX(),
+                    helpLabel.getY() + helpLabel.getHeight(),
+                    helpLabel.getX(),
+                    helpLabel.getY() - helpInputGirth);
+            game.shapeRendererLine.line(helpLabel.getX() + helpLabel.getWidth(),
+                    helpLabel.getY() + helpLabel.getHeight(),
+                    helpLabel.getX() + helpLabel.getWidth(),
+                    helpLabel.getY() - helpInputGirth);
+            game.shapeRendererLine.line(helpLabel.getX(),
+                    helpLabel.getY(),
+                    helpLabel.getX() + helpLabel.getWidth(),
+                    helpLabel.getY());
+            if(currentHelpTextIndex == getHelpTextMaxIndex()) {
+                game.shapeRendererLine.line(helpLabel.getX() + (helpLabel.getWidth() / 2),
+                        helpLabel.getY(),
+                        helpLabel.getX() + (helpLabel.getWidth() / 2),
+                        helpLabel.getY() - helpInputGirth);
+            }
+        }
+    }
+
+    public void showHelpTextFooter() {
+        if(helpTextVisible && !paused) {
+            if(currentHelpTextIndex == getHelpTextMaxIndex()) {
+                FontUtils.printText(game.batch,
+                        game.fontTutorialHelp,
+                        game.layout,
+                        Color.BLACK,
+                        (currentHelpTextIndex + 1) + "/" + (getHelpTextMaxIndex() + 1),
+                        helpLabel.getX() + (helpLabel.getWidth() / 4),
+                        helpLabel.getY() - (helpInputGirth / 2),
+                        0,
+                        1);
+                FontUtils.printText(game.batch,
+                        game.fontTutorialHelp,
+                        game.layout,
+                        Color.BLACK,
+                        "NEXT",
+                        helpLabel.getX() + ((3 * helpLabel.getWidth()) / 4),
+                        helpLabel.getY() - (helpInputGirth / 2),
+                        0,
+                        1);
+            } else {
+                FontUtils.printText(game.batch,
+                        game.fontTutorialHelp,
+                        game.layout,
+                        Color.BLACK,
+                        (currentHelpTextIndex + 1) + "/" + (getHelpTextMaxIndex() + 1),
+                        helpLabel.getX() + (helpLabel.getWidth() / 2),
+                        helpLabel.getY() - (helpInputGirth / 2),
+                        0,
+                        1);
+            }
+        }
+    }
+
     public void setUpNonFinalStaticData() {
         PAUSE_INPUT_WIDTH = (game.camera.viewportWidth - (4 * game.partitionSize)) / 3;
         PAUSE_INPUT_HEIGHT = game.camera.viewportHeight - (2 * game.partitionSize);
         INIT_PROMPT_RADIUS = game.widthOrHeight / 4;
+        if(game.widthGreater) {
+            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 71f;
+        } else {
+            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+        }
     }
 
     public void setUpNonFinalNonStaticData() {
         promptIncrease = 1.07f;
+        helpInputGirth = game.camera.viewportWidth / 16;
         promptShape = new Shape(MathUtils.random(Shape.NONAGON),
                 INIT_PROMPT_RADIUS,
                 ColorUtils.randomColor(),
@@ -418,10 +596,17 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
             }
         }
         touchPoint = new Vector3();
+        helpTouched = false;
+        helpChevronDownTouched = false;
+        helpChevronUpTouched = false;
+        helpNextTouched = false;
         pauseTouched = false;
         pauseBackTouched = false;
         pauseQuitTouched = false;
+        phase = PHASE_ONE;
+        currentHelpTextIndex = 0;
         paused = false;
+        helpTextVisible = true;
         startTime = System.currentTimeMillis();
         endTime = 0;
         pauseStartTime = 0;
@@ -432,6 +617,37 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         primaryShape = priorShapeList.size() > 0 ? priorShapeList.get(0) : promptShape;
         primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
+
+        phaseOneTextOne = "Welcome to the TRANCE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of TRANCE.";
+        phaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] button. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, however, simply tap anywhere on your screen, and the PAUSE [||] input will appear next to the HELP [?] input for a few seconds. While the PAUSE [||] input is visible, you may press it to enter into the PAUSE menu, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
+        phaseOneTextThree = "The purpose of TRANCE mode is literally to listen to music while letting a dope series of SQUIRGLE shapes wash over you; that's it. There probably shouldn't even be a tutorial for this mode, as it's 99% passive. When you're ready to experience TRANCE mode in full, simply press the NEXT button to zone out until you're satisfied, at which point you ought to tap anywhere on the screen to bring up the PAUSE [||] button and quit. Note that when playing the non-tutorial version of this mode, you'll be able to choose the accompanying music track beforehand.";
+
+        helpTextPhaseOneList = new ArrayList<String>();
+
+        phaseMap = new HashMap<Integer, List<String>>();
+        helpTextMap = new HashMap<Integer, Map<Integer, List<String>>>();
+
+        helpTextPhaseOneList.add(phaseOneTextOne);
+        helpTextPhaseOneList.add(phaseOneTextTwo);
+        helpTextPhaseOneList.add(phaseOneTextThree);
+
+        phaseMap.put(PHASE_ONE, helpTextPhaseOneList);
+        helpTextMap.put(Squirgle.GAMEPLAY_TRANCE, phaseMap);
+
+        game.setUpFontTutorialHelp(MathUtils.round(game.camera.viewportWidth / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
+
+        helpLabelStyle = new Label.LabelStyle();
+        helpLabelStyle.font = game.fontTutorialHelp;
+        helpLabelStyle.fontColor = Color.BLACK;
+        helpLabel = new Label(getCurrentHelpText(), helpLabelStyle);
+        helpLabel.setSize((3 * game.camera.viewportWidth) / 8, (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 16));
+        helpLabel.setPosition((5 * game.camera.viewportWidth) / 16, (game.camera.viewportHeight / 4) + (game.camera.viewportWidth / 16));
+        helpLabel.setAlignment(Align.topLeft);
+        helpLabel.setWrap(true);
+        helpLabel.setVisible(helpTextVisible && !paused);
+
+        stage = new Stage(game.viewport);
+        stage.addActor(helpLabel);
     }
 
     public void setUpGL() {

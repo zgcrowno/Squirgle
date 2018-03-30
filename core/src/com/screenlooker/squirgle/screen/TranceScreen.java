@@ -64,6 +64,8 @@ public class TranceScreen implements Screen, InputProcessor {
 
         setUpNonFinalNonStaticData();
 
+        SoundUtils.setVolume(promptShape, game);
+
         playMusic();
 
         game.stats.incrementNumTimesPlayedBaseOrTrack(false, game.track, Squirgle.GAMEPLAY_TRANCE);
@@ -102,8 +104,6 @@ public class TranceScreen implements Screen, InputProcessor {
             //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
             //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
             game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
-
-            SoundUtils.playMusic(promptShape, game);
         }
 
         destroyOversizedShapesAndAddNewOnes();

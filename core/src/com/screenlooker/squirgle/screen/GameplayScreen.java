@@ -248,6 +248,8 @@ public class GameplayScreen implements Screen, InputProcessor {
         game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
         game.setUpFontSquirgle(MathUtils.round(game.camera.viewportWidth / FONT_SQUIRGLE_SIZE_DIVISOR));
 
+        SoundUtils.setVolume(splitScreen ? dummyPromptForTimelines : promptShape, game);
+
         playMusic();
 
         game.stats.incrementNumTimesPlayedMode(gameplayType);
@@ -314,7 +316,6 @@ public class GameplayScreen implements Screen, InputProcessor {
                 }
                 game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor);
                 game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
-                SoundUtils.playMusic(splitScreen ? dummyPromptForTimelines : promptShape, game);
                 game.draw.drawTargetSemicircles(splitScreen, local);
             }
             if(!splitScreen) {
