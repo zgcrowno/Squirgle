@@ -42,8 +42,8 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
     private final static String FASTEST_VICTORY = "FASTEST VICTORY: ";
     private final static String NUM_WINS = "WINS: ";
     private final static String NUM_LOSSES = "LOSSES: ";
-    private final static String MINUTES = "M";
-    private final static String SECONDS = "S";
+    private final static String MINUTES = "m";
+    private final static String SECONDS = "s";
 
     private float inputWidth;
     private float inputHeight;

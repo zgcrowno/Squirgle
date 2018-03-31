@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
@@ -103,6 +104,9 @@ public class GameplayScreen implements Screen, InputProcessor {
     public final static int MAX_SATURATION = 15;
     private final static String X = "X";
     private final static String COLON = ":";
+    private final static String MINUTES = "m";
+    private final static String SECONDS = "s";
+    private final static String NEW_BEST = "NEW BEST";
     private final static String SQUIRGLE = "SQUIRGLE";
 
     private float promptIncrease;
@@ -221,6 +225,12 @@ public class GameplayScreen implements Screen, InputProcessor {
     private boolean multiplayer;
     private boolean local;
     private boolean online;
+    private boolean newHighScore;
+    private boolean newLongestRun;
+    private boolean newFastestVictory;
+    private boolean skipZoom;
+    private Color veilColor;
+    private float veilOpacity;
 
     public GameplayScreen(final Squirgle game, final int gameplayType) {
         this.game = game;
@@ -318,26 +328,28 @@ public class GameplayScreen implements Screen, InputProcessor {
                 game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
                 game.draw.drawTargetSemicircles(splitScreen, local);
             }
-            if(!splitScreen) {
-                game.draw.drawPrompt(false, promptShape, priorShapeList, 0, backgroundColorShape, false, false);
-                game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
-            } else if(useSaturation) {
-                if(!(gameOver && saturationP1 > saturationP2)) {
-                    game.draw.drawPrompt(false, promptShapeP1, priorShapeListP1, 0, backgroundColorShape, false, false);
-                    game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
-                }
-                if(!(gameOver && saturationP2 >= saturationP1)) {
-                    game.draw.drawPrompt(local, promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false);
-                    game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
-                }
-            } else {
-                if(!(gameOver && scoreP1 < scoreP2)) {
-                    game.draw.drawPrompt(false, promptShapeP1, priorShapeListP1, 0, backgroundColorShape, false, false);
-                    game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
-                }
-                if(!(gameOver && scoreP2 <= scoreP1)) {
-                    game.draw.drawPrompt(local, promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false);
-                    game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+            if(!skipZoom) {
+                if (!splitScreen) {
+                    game.draw.drawPrompt(false, promptShape, priorShapeList, 0, backgroundColorShape, false, false);
+                    game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
+                } else if (useSaturation) {
+                    if (!(gameOver && saturationP1 > saturationP2)) {
+                        game.draw.drawPrompt(false, promptShapeP1, priorShapeListP1, 0, backgroundColorShape, false, false);
+                        game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                    }
+                    if (!(gameOver && saturationP2 >= saturationP1)) {
+                        game.draw.drawPrompt(local, promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false);
+                        game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                    }
+                } else {
+                    if (!(gameOver && scoreP1 < scoreP2)) {
+                        game.draw.drawPrompt(false, promptShapeP1, priorShapeListP1, 0, backgroundColorShape, false, false);
+                        game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                    }
+                    if (!(gameOver && scoreP2 <= scoreP1)) {
+                        game.draw.drawPrompt(local, promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false);
+                        game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                    }
                 }
             }
         }
@@ -360,21 +372,23 @@ public class GameplayScreen implements Screen, InputProcessor {
             //the screen to the right.
             //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
             //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
-            if(!splitScreen) {
-                game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
-            } else if(useSaturation) {
-                if(!(gameOver && saturationP1 > saturationP2)) {
-                    game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
-                }
-                if(!(gameOver && saturationP2 >= saturationP1)) {
-                    game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
-                }
-            } else {
-                if(!(gameOver && scoreP1 < scoreP2)) {
-                    game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
-                }
-                if(!(gameOver && scoreP2 <= scoreP1)) {
-                    game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+            if(!skipZoom) {
+                if (!splitScreen) {
+                    game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
+                } else if (useSaturation) {
+                    if (!(gameOver && saturationP1 > saturationP2)) {
+                        game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                    }
+                    if (!(gameOver && saturationP2 >= saturationP1)) {
+                        game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                    }
+                } else {
+                    if (!(gameOver && scoreP1 < scoreP2)) {
+                        game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                    }
+                    if (!(gameOver && scoreP2 <= scoreP1)) {
+                        game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                    }
                 }
             }
         }
@@ -431,6 +445,8 @@ public class GameplayScreen implements Screen, InputProcessor {
             drawInputRectangles();
         }
 
+        game.draw.drawVeil(veilColor, veilOpacity);
+
         game.shapeRendererFilled.end();
         game.shapeRendererLine.end();
 
@@ -443,6 +459,10 @@ public class GameplayScreen implements Screen, InputProcessor {
         } else {
             ColorUtils.transitionColor(currentTargetShapeP1);
             ColorUtils.transitionColor(currentTargetShapeP2);
+        }
+
+        if(veilOpacity > 0) {
+            veilOpacity -= 0.01;
         }
     }
 
@@ -489,11 +509,15 @@ public class GameplayScreen implements Screen, InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         //TODO: Maybe remove gameOver check once I add animations to screen switches
-        if (button != Input.Buttons.LEFT || pointer > 0 || gameOver) {
+        if (button != Input.Buttons.LEFT || pointer > 0) {
             return false;
         }
 
-        determineTouchedInput(screenX, screenY);
+        if(gameOver) {
+            skipZoom = true;
+            veilOpacity = 0;
+            showResults = true;
+        }
 
         return true;
     }
@@ -624,6 +648,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         }
     }
 
+    //TODO: Add text for time of run and victory time (as well as new best text for each)
     public void drawText() {
         if(!paused) {
             if (!gameOver) {
@@ -681,26 +706,108 @@ public class GameplayScreen implements Screen, InputProcessor {
                     }
                 }
                 if(!splitScreen) {
-                    FontUtils.printText(game.batch,
-                            game.fontScore,
-                            game.layout,
-                            resultsColor,
-                            String.valueOf(score),
-                            game.camera.viewportWidth / 2,
-                            game.camera.viewportHeight / 2,
-                            0,
-                            1);
+                    if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+                        long minutesPlayed = MathUtils.floor((endTime - startTime) / 1000 / 60);
+                        long secondsPlayed = MathUtils.floor((endTime - startTime) / 1000 - (minutesPlayed * 60));
+                        String timePlayed = minutesPlayed + MINUTES + secondsPlayed + SECONDS;
+
+                        FontUtils.printText(game.batch,
+                                game.fontScore,
+                                game.layout,
+                                resultsColor,
+                                String.valueOf(score),
+                                game.camera.viewportWidth / 2,
+                                (2 * game.camera.viewportHeight) / 3,
+                                0,
+                                1);
+                        FontUtils.printText(game.batch,
+                                game.fontScore,
+                                game.layout,
+                                resultsColor,
+                                timePlayed,
+                                game.camera.viewportWidth / 2,
+                                game.camera.viewportHeight / 3,
+                                0,
+                                1);
+                        if(newHighScore) {
+                            FontUtils.printText(game.batch,
+                                    game.fontScore,
+                                    game.layout,
+                                    currentTargetShape.getColor(),
+                                    NEW_BEST,
+                                    (3 * game.camera.viewportWidth) / 4,
+                                    (2 * game.camera.viewportHeight) / 3,
+                                    0,
+                                    1);
+                        }
+                        if(newLongestRun) {
+                            FontUtils.printText(game.batch,
+                                    game.fontScore,
+                                    game.layout,
+                                    currentTargetShape.getColor(),
+                                    NEW_BEST,
+                                    (3 * game.camera.viewportWidth) / 4,
+                                    game.camera.viewportHeight / 3,
+                                    0,
+                                    1);
+                        }
+                    } else {
+                        FontUtils.printText(game.batch,
+                                game.fontScore,
+                                game.layout,
+                                resultsColor,
+                                String.valueOf(score),
+                                game.camera.viewportWidth / 2,
+                                game.camera.viewportHeight / 2,
+                                0,
+                                1);
+                        if(newHighScore) {
+                            FontUtils.printText(game.batch,
+                                    game.fontScore,
+                                    game.layout,
+                                    currentTargetShape.getColor(),
+                                    NEW_BEST,
+                                    (3 * game.camera.viewportWidth) / 4,
+                                    game.camera.viewportHeight / 2,
+                                    0,
+                                    1);
+                        }
+                    }
                 } else {
                     if(useSaturation) {
+                        long minutesPlayed = MathUtils.floor((endTime - startTime) / 1000 / 60);
+                        long secondsPlayed = MathUtils.floor((endTime - startTime) / 1000 - (minutesPlayed * 60));
+                        String timePlayed = minutesPlayed + MINUTES + secondsPlayed + SECONDS;
+
                         FontUtils.printText(game.batch,
                                 game.fontScore,
                                 game.layout,
                                 resultsColor,
                                 saturationP1 > saturationP2 ? Squirgle.RESULTS_DEFEAT : saturationP1 < saturationP2 ? Squirgle.RESULTS_VICTORY : Squirgle.RESULTS_TIE,
                                 game.camera.viewportWidth / 2,
-                                game.camera.viewportHeight / 2,
+                                (2 * game.camera.viewportHeight) / 3,
                                 0,
                                 1);
+                        FontUtils.printText(game.batch,
+                                game.fontScore,
+                                game.layout,
+                                resultsColor,
+                                timePlayed,
+                                game.camera.viewportWidth / 2,
+                                game.camera.viewportHeight / 3,
+                                0,
+                                1);
+                        if(newFastestVictory) {
+                            FontUtils.printText(game.batch,
+                                    game.fontScore,
+                                    game.layout,
+                                    currentTargetShapeP1.getColor(),
+                                    NEW_BEST,
+                                    (3 * game.camera.viewportWidth) / 4,
+                                    game.camera.viewportHeight / 3,
+                                    0,
+                                    1);
+                        }
                     } else {
                         FontUtils.printText(game.batch,
                                 game.fontScore,
@@ -729,6 +836,17 @@ public class GameplayScreen implements Screen, InputProcessor {
                                 (3 * game.camera.viewportHeight) / 4,
                                 0,
                                 1);
+                        if(newHighScore) {
+                            FontUtils.printText(game.batch,
+                                    game.fontScore,
+                                    game.layout,
+                                    currentTargetShapeP1.getColor(),
+                                    NEW_BEST,
+                                    (3 * game.camera.viewportWidth) / 4,
+                                    game.camera.viewportHeight / 4,
+                                    0,
+                                    1);
+                        }
                     }
                 }
             }
@@ -1445,13 +1563,29 @@ public class GameplayScreen implements Screen, InputProcessor {
             stopMusic();
             promptIncrease = 1;
             endTime = System.currentTimeMillis();
+            veilOpacity = 1;
             game.stats.updateTimePlayed(endTime - startTime, gameplayType);
-            game.stats.updateHighestScore(splitScreen ? scoreP1 : score, gameplayType, game.base, game.timeAttackNumSeconds, game.difficulty);
+            newHighScore = game.stats.updateHighestScore(splitScreen ? scoreP1 : score, gameplayType, game.base, game.timeAttackNumSeconds, game.difficulty);
             game.stats.incrementNumTimesWonOrLost(scoreP1 > scoreP2 || saturationP1 < saturationP2, gameplayType, game.base, game.timeAttackNumSeconds, game.difficulty);
             if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-                game.stats.updateLongestRun(endTime - startTime, game.base);
+                newLongestRun = game.stats.updateLongestRun(endTime - startTime, game.base);
             } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
-                game.stats.updateFastestVictory(endTime - startTime, game.base, game.difficulty);
+                newFastestVictory = game.stats.updateFastestVictory(endTime - startTime, game.base, game.difficulty);
+            }
+            if(splitScreen) {
+                if (useSaturation) {
+                    if (saturationP1 <= saturationP2) {
+                        promptShapeP1.setCoordinates(new Vector2(promptShapeP1.getCoordinates().x, game.camera.viewportHeight / 2));
+                    } else {
+                        promptShapeP2.setCoordinates(new Vector2(promptShapeP2.getCoordinates().x, game.camera.viewportHeight / 2));
+                    }
+                } else {
+                    if (scoreP1 >= scoreP2) {
+                        promptShapeP1.setCoordinates(new Vector2(promptShapeP1.getCoordinates().x, game.camera.viewportHeight / 2));
+                    } else {
+                        promptShapeP2.setCoordinates(new Vector2(promptShapeP2.getCoordinates().x, game.camera.viewportHeight / 2));
+                    }
+                }
             }
         }
     }
@@ -2112,7 +2246,6 @@ public class GameplayScreen implements Screen, InputProcessor {
                 if (promptShape.getRadius() + radiusIncrease > (game.widthOrHeight / 2)) {
                     promptShape.setRadius(game.widthOrHeight / 2);
                 } else {
-                    System.out.println(radiusIncrease);
                     promptShape.setRadius(promptShape.getRadius() + radiusIncrease);
                 }
             } else {
@@ -2570,6 +2703,10 @@ public class GameplayScreen implements Screen, InputProcessor {
         gameOver = false;
         showResults = false;
         paused = false;
+        newHighScore = false;
+        newLongestRun = false;
+        newFastestVictory = false;
+        skipZoom = false;
         startTime = System.currentTimeMillis();
         endTime = 0;
         lastSpeedIncreaseTime = System.currentTimeMillis();
@@ -2598,6 +2735,9 @@ public class GameplayScreen implements Screen, InputProcessor {
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP1 = primaryShapeP1.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP2 = primaryShapeP2.getRadius() >= primaryShapeThreshold;
+
+        veilColor = Color.WHITE;
+        veilOpacity = 0;
     }
 
     public void setUpGL() {

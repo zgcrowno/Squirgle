@@ -13,7 +13,7 @@ import java.util.List;
 //TODO: Consolidate all tutorial stuff into standard gameplay screen
 //TODO: Maybe remove lineWidth as parameter from all methods, since it seems to be formulated the same way from radius every time.
 public class Draw {
-    public static final int THRESHOLD_MULTIPLIER = 4;
+    public static final int THRESHOLD_MULTIPLIER = 8;
     public static final int LINE_WIDTH_DIVISOR = 8;
     public static final int NUM_BACKGROUND_COLOR_SHAPE_COLUMNS = 6;
     public static final int NUM_ARC_SEGMENTS = 90;

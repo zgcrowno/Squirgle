@@ -1378,56 +1378,66 @@ public class Stats {
         game.updateSave(SAVE_NUM_SQUIRGLES, numSquirgles);
     }
 
-    public void updateLongestRun(long newAmount, int base) {
+    public boolean updateLongestRun(long newAmount, int base) {
         if(base == 4) {
             if(newAmount > longestRunSquirgleSquare) {
                 longestRunSquirgleSquare = newAmount;
                 game.updateSave(SAVE_LONGEST_RUN_SQUIRGLE_SQUARE, longestRunSquirgleSquare);
+                return true;
             }
         } else if(base == 5) {
             if(newAmount > longestRunSquirglePentagon) {
                 longestRunSquirglePentagon = newAmount;
                 game.updateSave(SAVE_LONGEST_RUN_SQUIRGLE_PENTAGON, longestRunSquirglePentagon);
+                return true;
             }
         } else if(base == 6) {
             if(newAmount > longestRunSquirgleHexagon) {
                 longestRunSquirgleHexagon = newAmount;
                 game.updateSave(SAVE_LONGEST_RUN_SQUIRGLE_HEXAGON, longestRunSquirgleHexagon);
+                return true;
             }
         } else if(base == 7) {
             if(newAmount > longestRunSquirgleSeptagon) {
                 longestRunSquirgleSeptagon = newAmount;
                 game.updateSave(SAVE_LONGEST_RUN_SQUIRGLE_SEPTAGON, longestRunSquirgleSeptagon);
+                return true;
             }
         } else if(base == 8) {
             if(newAmount > longestRunSquirgleOctagon) {
                 longestRunSquirgleOctagon = newAmount;
                 game.updateSave(SAVE_LONGEST_RUN_SQUIRGLE_OCTAGON, longestRunSquirgleOctagon);
+                return true;
             }
         } else if(base == 9) {
             if(newAmount > longestRunSquirgleNonagon) {
                 longestRunSquirgleNonagon = newAmount;
                 game.updateSave(SAVE_LONGEST_RUN_SQUIRGLE_NONAGON, longestRunSquirgleNonagon);
+                return true;
             }
         }
+        return false;
     }
 
-    public void updateFastestVictory(long newAmount, int base, String difficulty) {
+    public boolean updateFastestVictory(long newAmount, int base, String difficulty) {
         if(base == 4) {
             if(difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
                 if(newAmount < fastestVictorySquareEasy || fastestVictorySquareEasy == 0) {
                     fastestVictorySquareEasy = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_SQUARE_EASY, fastestVictorySquareEasy);
+                    return true;
                 }
             } else if(difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
                 if(newAmount < fastestVictorySquareMedium || fastestVictorySquareMedium == 0) {
                     fastestVictorySquareMedium = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_SQUARE_MEDIUM, fastestVictorySquareMedium);
+                    return true;
                 }
             } else if(difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
                 if(newAmount < fastestVictorySquareHard || fastestVictorySquareHard == 0) {
                     fastestVictorySquareHard = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_SQUARE_HARD, fastestVictorySquareHard);
+                    return true;
                 }
             }
         } else if(base == 5) {
@@ -1435,16 +1445,19 @@ public class Stats {
                 if(newAmount < fastestVictoryPentagonEasy || fastestVictoryPentagonEasy == 0) {
                     fastestVictoryPentagonEasy = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_PENTAGON_EASY, fastestVictoryPentagonEasy);
+                    return true;
                 }
             } else if(difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
                 if(newAmount < fastestVictoryPentagonMedium || fastestVictoryPentagonMedium == 0) {
                     fastestVictoryPentagonMedium = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_PENTAGON_MEDIUM, fastestVictoryPentagonMedium);
+                    return true;
                 }
             } else if(difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
                 if(newAmount < fastestVictoryPentagonHard || fastestVictoryPentagonHard == 0) {
                     fastestVictoryPentagonHard = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_PENTAGON_HARD, fastestVictoryPentagonHard);
+                    return true;
                 }
             }
         } else if(base == 6) {
@@ -1452,16 +1465,19 @@ public class Stats {
                 if(newAmount < fastestVictoryHexagonEasy || fastestVictoryHexagonEasy == 0) {
                     fastestVictoryHexagonEasy = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_HEXAGON_EASY, fastestVictoryHexagonEasy);
+                    return true;
                 }
             } else if(difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
                 if(newAmount < fastestVictoryHexagonMedium || fastestVictoryHexagonMedium == 0) {
                     fastestVictoryHexagonMedium = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_HEXAGON_MEDIUM, fastestVictoryHexagonMedium);
+                    return true;
                 }
             } else if(difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
                 if(newAmount < fastestVictoryHexagonHard || fastestVictoryHexagonHard == 0) {
                     fastestVictoryHexagonHard = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_HEXAGON_HARD, fastestVictoryHexagonHard);
+                    return true;
                 }
             }
         } else if(base == 7) {
@@ -1469,16 +1485,19 @@ public class Stats {
                 if(newAmount < fastestVictorySeptagonEasy || fastestVictorySeptagonEasy == 0) {
                     fastestVictorySeptagonEasy = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_SEPTAGON_EASY, fastestVictorySeptagonEasy);
+                    return true;
                 }
             } else if(difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
                 if(newAmount < fastestVictorySeptagonMedium || fastestVictorySeptagonMedium == 0) {
                     fastestVictorySeptagonMedium = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_SEPTAGON_MEDIUM, fastestVictorySeptagonMedium);
+                    return true;
                 }
             } else if(difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
                 if(newAmount < fastestVictorySeptagonHard || fastestVictorySeptagonHard == 0) {
                     fastestVictorySeptagonHard = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_SEPTAGON_HARD, fastestVictorySeptagonHard);
+                    return true;
                 }
             }
         } else if(base == 8) {
@@ -1486,16 +1505,19 @@ public class Stats {
                 if(newAmount < fastestVictoryOctagonEasy || fastestVictoryOctagonEasy == 0) {
                     fastestVictoryOctagonEasy = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_OCTAGON_EASY, fastestVictoryOctagonEasy);
+                    return true;
                 }
             } else if(difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
                 if(newAmount < fastestVictoryOctagonMedium || fastestVictoryOctagonMedium == 0) {
                     fastestVictoryOctagonMedium = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_OCTAGON_MEDIUM, fastestVictoryOctagonMedium);
+                    return true;
                 }
             } else if(difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
                 if(newAmount < fastestVictoryOctagonHard || fastestVictoryOctagonHard == 0) {
                     fastestVictoryOctagonHard = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_OCTAGON_HARD, fastestVictoryOctagonHard);
+                    return true;
                 }
             }
         } else if(base == 9) {
@@ -1503,52 +1525,62 @@ public class Stats {
                 if(newAmount < fastestVictoryNonagonEasy || fastestVictoryNonagonEasy == 0) {
                     fastestVictoryNonagonEasy = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_NONAGON_EASY, fastestVictoryNonagonEasy);
+                    return true;
                 }
             } else if(difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
                 if(newAmount < fastestVictoryNonagonMedium || fastestVictoryNonagonMedium == 0) {
                     fastestVictoryNonagonMedium = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_NONAGON_MEDIUM, fastestVictoryNonagonMedium);
+                    return true;
                 }
             } else if(difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
                 if(newAmount < fastestVictoryNonagonHard || fastestVictoryNonagonHard == 0) {
                     fastestVictoryNonagonHard = newAmount;
                     game.updateSave(SAVE_FASTEST_VICTORY_NONAGON_HARD, fastestVictoryNonagonHard);
+                    return true;
                 }
             }
         }
+        return false;
     }
 
-    public void updateHighestScore(long newScore, int gameplayType, int base, int gameLength, String difficulty) {
+    public boolean updateHighestScore(long newScore, int gameplayType, int base, int gameLength, String difficulty) {
         if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
             if(base == 4) {
                 if(newScore > highestScoreSquirgleSquare) {
                     highestScoreSquirgleSquare = newScore;
                     game.updateSave(SAVE_HIGHEST_SCORE_SQUIRGLE_SQUARE, highestScoreSquirgleSquare);
+                    return true;
                 }
             } else if(base == 5) {
                 if(newScore > highestScoreSquirglePentagon) {
                     highestScoreSquirglePentagon = newScore;
                     game.updateSave(SAVE_HIGHEST_SCORE_SQUIRGLE_PENTAGON, highestScoreSquirglePentagon);
+                    return true;
                 }
             } else if(base == 6) {
                 if(newScore > highestScoreSquirgleHexagon) {
                     highestScoreSquirgleHexagon = newScore;
                     game.updateSave(SAVE_HIGHEST_SCORE_SQUIRGLE_HEXAGON, highestScoreSquirgleHexagon);
+                    return true;
                 }
             } else if(base == 7) {
                 if(newScore > highestScoreSquirgleSeptagon) {
                     highestScoreSquirgleSeptagon = newScore;
                     game.updateSave(SAVE_HIGHEST_SCORE_SQUIRGLE_SEPTAGON, highestScoreSquirgleSeptagon);
+                    return true;
                 }
             } else if(base == 8) {
                 if(newScore > highestScoreSquirgleOctagon) {
                     highestScoreSquirgleOctagon = newScore;
                     game.updateSave(SAVE_HIGHEST_SCORE_SQUIRGLE_OCTAGON, highestScoreSquirgleOctagon);
+                    return true;
                 }
             } else if(base == 9) {
                 if(newScore > highestScoreSquirgleNonagon) {
                     highestScoreSquirgleNonagon = newScore;
                     game.updateSave(SAVE_HIGHEST_SCORE_SQUIRGLE_NONAGON, highestScoreSquirgleNonagon);
+                    return true;
                 }
             }
         } else if(gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
@@ -1557,16 +1589,19 @@ public class Stats {
                     if(newScore > highestScoreTimeAttackSquareOneMinute) {
                         highestScoreTimeAttackSquareOneMinute = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_SQUARE_ONE_MINUTE, highestScoreTimeAttackSquareOneMinute);
+                        return true;
                     }
                 } else if(gameLength == Squirgle.THREE_MINUTES) {
                     if(newScore > highestScoreTimeAttackSquareThreeMinutes) {
                         highestScoreTimeAttackSquareThreeMinutes = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_SQUARE_THREE_MINUTES, highestScoreTimeAttackSquareThreeMinutes);
+                        return true;
                     }
                 } else if(gameLength == Squirgle.FIVE_MINUTES) {
                     if(newScore > highestScoreTimeAttackSquareFiveMinutes) {
                         highestScoreTimeAttackSquareFiveMinutes = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_SQUARE_FIVE_MINUTES, highestScoreTimeAttackSquareFiveMinutes);
+                        return true;
                     }
                 }
             } else if(base == 5) {
@@ -1574,16 +1609,19 @@ public class Stats {
                     if(newScore > highestScoreTimeAttackPentagonOneMinute) {
                         highestScoreTimeAttackPentagonOneMinute = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_PENTAGON_ONE_MINUTE, highestScoreTimeAttackPentagonOneMinute);
+                        return true;
                     }
                 } else if(gameLength == Squirgle.THREE_MINUTES) {
                     if(newScore > highestScoreTimeAttackPentagonThreeMinutes) {
                         highestScoreTimeAttackPentagonThreeMinutes = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_PENTAGON_THREE_MINUTES, highestScoreTimeAttackPentagonThreeMinutes);
+                        return true;
                     }
                 } else if(gameLength == Squirgle.FIVE_MINUTES) {
                     if(newScore > highestScoreTimeAttackPentagonFiveMinutes) {
                         highestScoreTimeAttackPentagonFiveMinutes = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_PENTAGON_FIVE_MINUTES, highestScoreTimeAttackPentagonFiveMinutes);
+                        return true;
                     }
                 }
             } else if(base == 6) {
@@ -1591,16 +1629,19 @@ public class Stats {
                     if(newScore > highestScoreTimeAttackHexagonOneMinute) {
                         highestScoreTimeAttackHexagonOneMinute = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_HEXAGON_ONE_MINUTE, highestScoreTimeAttackHexagonOneMinute);
+                        return true;
                     }
                 } else if(gameLength == Squirgle.THREE_MINUTES) {
                     if(newScore > highestScoreTimeAttackHexagonThreeMinutes) {
                         highestScoreTimeAttackHexagonThreeMinutes = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_HEXAGON_THREE_MINUTES, highestScoreTimeAttackHexagonThreeMinutes);
+                        return true;
                     }
                 } else if(gameLength == Squirgle.FIVE_MINUTES) {
                     if(newScore > highestScoreTimeAttackHexagonFiveMinutes) {
                         highestScoreTimeAttackHexagonFiveMinutes = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_HEXAGON_FIVE_MINUTES, highestScoreTimeAttackHexagonFiveMinutes);
+                        return true;
                     }
                 }
             } else if(base == 7) {
@@ -1608,16 +1649,19 @@ public class Stats {
                     if(newScore > highestScoreTimeAttackSeptagonOneMinute) {
                         highestScoreTimeAttackSeptagonOneMinute = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_SEPTAGON_ONE_MINUTE, highestScoreTimeAttackSeptagonOneMinute);
+                        return true;
                     }
                 } else if(gameLength == Squirgle.THREE_MINUTES) {
                     if(newScore > highestScoreTimeAttackSeptagonThreeMinutes) {
                         highestScoreTimeAttackSeptagonThreeMinutes = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_SEPTAGON_THREE_MINUTES, highestScoreTimeAttackSeptagonThreeMinutes);
+                        return true;
                     }
                 } else if(gameLength == Squirgle.FIVE_MINUTES) {
                     if(newScore > highestScoreTimeAttackSeptagonFiveMinutes) {
                         highestScoreTimeAttackSeptagonFiveMinutes = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_SEPTAGON_FIVE_MINUTES, highestScoreTimeAttackSeptagonFiveMinutes);
+                        return true;
                     }
                 }
             } else if(base == 8) {
@@ -1625,16 +1669,19 @@ public class Stats {
                     if(newScore > highestScoreTimeAttackOctagonOneMinute) {
                         highestScoreTimeAttackOctagonOneMinute = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_OCTAGON_ONE_MINUTE, highestScoreTimeAttackOctagonOneMinute);
+                        return true;
                     }
                 } else if(gameLength == Squirgle.THREE_MINUTES) {
                     if(newScore > highestScoreTimeAttackOctagonThreeMinutes) {
                         highestScoreTimeAttackOctagonThreeMinutes = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_OCTAGON_THREE_MINUTES, highestScoreTimeAttackOctagonThreeMinutes);
+                        return true;
                     }
                 } else if(gameLength == Squirgle.FIVE_MINUTES) {
                     if(newScore > highestScoreTimeAttackOctagonFiveMinutes) {
                         highestScoreTimeAttackOctagonFiveMinutes = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_OCTAGON_FIVE_MINUTES, highestScoreTimeAttackOctagonFiveMinutes);
+                        return true;
                     }
                 }
             } else if(base == 9) {
@@ -1642,36 +1689,42 @@ public class Stats {
                     if(newScore > highestScoreTimeAttackNonagonOneMinute) {
                         highestScoreTimeAttackNonagonOneMinute = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_NONAGON_ONE_MINUTE, highestScoreTimeAttackNonagonOneMinute);
+                        return true;
                     }
                 } else if(gameLength == Squirgle.THREE_MINUTES) {
                     if(newScore > highestScoreTimeAttackNonagonThreeMinutes) {
                         highestScoreTimeAttackNonagonThreeMinutes = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_NONAGON_THREE_MINUTES, highestScoreTimeAttackNonagonThreeMinutes);
+                        return true;
                     }
                 } else if(gameLength == Squirgle.FIVE_MINUTES) {
                     if(newScore > highestScoreTimeAttackNonagonFiveMinutes) {
                         highestScoreTimeAttackNonagonFiveMinutes = newScore;
                         game.updateSave(SAVE_HIGHEST_SCORE_TIME_ATTACK_NONAGON_FIVE_MINUTES, highestScoreTimeAttackNonagonFiveMinutes);
+                        return true;
                     }
                 }
             }
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
+        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
             if(base == 4) {
                 if(difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
                     if(gameLength == Squirgle.ONE_MINUTE) {
                         if(newScore > highestScoreTimeBattleSquareEasyOneMinute) {
                             highestScoreTimeBattleSquareEasyOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SQUARE_EASY_ONE_MINUTE, highestScoreTimeBattleSquareEasyOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleSquareEasyThreeMinutes) {
                             highestScoreTimeBattleSquareEasyThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SQUARE_EASY_THREE_MINUTES, highestScoreTimeBattleSquareEasyThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleSquareEasyFiveMinutes) {
                             highestScoreTimeBattleSquareEasyFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SQUARE_EASY_FIVE_MINUTES, highestScoreTimeBattleSquareEasyFiveMinutes);
+                            return true;
                         }
                     }
                 } else if(difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
@@ -1679,16 +1732,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleSquareMediumOneMinute) {
                             highestScoreTimeBattleSquareMediumOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SQUARE_MEDIUM_ONE_MINUTE, highestScoreTimeBattleSquareMediumOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleSquareMediumThreeMinutes) {
                             highestScoreTimeBattleSquareMediumThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SQUARE_MEDIUM_THREE_MINUTES, highestScoreTimeBattleSquareMediumThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleSquareMediumFiveMinutes) {
                             highestScoreTimeBattleSquareMediumFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SQUARE_MEDIUM_FIVE_MINUTES, highestScoreTimeBattleSquareMediumFiveMinutes);
+                            return true;
                         }
                     }
                 } else if(difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
@@ -1696,16 +1752,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleSquareHardOneMinute) {
                             highestScoreTimeBattleSquareHardOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SQUARE_HARD_ONE_MINUTE, highestScoreTimeBattleSquareHardOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleSquareHardThreeMinutes) {
                             highestScoreTimeBattleSquareHardThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SQUARE_HARD_THREE_MINUTES, highestScoreTimeBattleSquareHardThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleSquareHardFiveMinutes) {
                             highestScoreTimeBattleSquareHardFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SQUARE_HARD_FIVE_MINUTES, highestScoreTimeBattleSquareHardFiveMinutes);
+                            return true;
                         }
                     }
                 }
@@ -1715,16 +1774,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattlePentagonEasyOneMinute) {
                             highestScoreTimeBattlePentagonEasyOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_PENTAGON_EASY_ONE_MINUTE, highestScoreTimeBattlePentagonEasyOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattlePentagonEasyThreeMinutes) {
                             highestScoreTimeBattlePentagonEasyThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_PENTAGON_EASY_THREE_MINUTES, highestScoreTimeBattlePentagonEasyThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattlePentagonEasyFiveMinutes) {
                             highestScoreTimeBattlePentagonEasyFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_PENTAGON_EASY_FIVE_MINUTES, highestScoreTimeBattlePentagonEasyFiveMinutes);
+                            return true;
                         }
                     }
                 } else if(difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
@@ -1732,16 +1794,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattlePentagonMediumOneMinute) {
                             highestScoreTimeBattlePentagonMediumOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_PENTAGON_MEDIUM_ONE_MINUTE, highestScoreTimeBattlePentagonMediumOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattlePentagonMediumThreeMinutes) {
                             highestScoreTimeBattlePentagonMediumThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_PENTAGON_MEDIUM_THREE_MINUTES, highestScoreTimeBattlePentagonMediumThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattlePentagonMediumFiveMinutes) {
                             highestScoreTimeBattlePentagonMediumFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_PENTAGON_MEDIUM_FIVE_MINUTES, highestScoreTimeBattlePentagonMediumFiveMinutes);
+                            return true;
                         }
                     }
                 } else if(difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
@@ -1749,16 +1814,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattlePentagonHardOneMinute) {
                             highestScoreTimeBattlePentagonHardOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_PENTAGON_HARD_ONE_MINUTE, highestScoreTimeBattlePentagonHardOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattlePentagonHardThreeMinutes) {
                             highestScoreTimeBattlePentagonHardThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_PENTAGON_HARD_THREE_MINUTES, highestScoreTimeBattlePentagonHardThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattlePentagonHardFiveMinutes) {
                             highestScoreTimeBattlePentagonHardFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_PENTAGON_HARD_FIVE_MINUTES, highestScoreTimeBattlePentagonHardFiveMinutes);
+                            return true;
                         }
                     }
                 }
@@ -1768,16 +1836,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleHexagonEasyOneMinute) {
                             highestScoreTimeBattleHexagonEasyOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_HEXAGON_EASY_ONE_MINUTE, highestScoreTimeBattleHexagonEasyOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleHexagonEasyThreeMinutes) {
                             highestScoreTimeBattleHexagonEasyThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_HEXAGON_EASY_THREE_MINUTES, highestScoreTimeBattleHexagonEasyThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleHexagonEasyFiveMinutes) {
                             highestScoreTimeBattleHexagonEasyFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_HEXAGON_EASY_FIVE_MINUTES, highestScoreTimeBattleHexagonEasyFiveMinutes);
+                            return true;
                         }
                     }
                 } else if(difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
@@ -1785,16 +1856,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleHexagonMediumOneMinute) {
                             highestScoreTimeBattleHexagonMediumOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_HEXAGON_MEDIUM_ONE_MINUTE, highestScoreTimeBattleHexagonMediumOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleHexagonMediumThreeMinutes) {
                             highestScoreTimeBattleHexagonMediumThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_HEXAGON_MEDIUM_THREE_MINUTES, highestScoreTimeBattleHexagonMediumThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleHexagonMediumFiveMinutes) {
                             highestScoreTimeBattleHexagonMediumFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_HEXAGON_MEDIUM_FIVE_MINUTES, highestScoreTimeBattleHexagonMediumFiveMinutes);
+                            return true;
                         }
                     }
                 } else if(difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
@@ -1802,16 +1876,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleHexagonHardOneMinute) {
                             highestScoreTimeBattleHexagonHardOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_HEXAGON_HARD_ONE_MINUTE, highestScoreTimeBattleHexagonHardOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleHexagonHardThreeMinutes) {
                             highestScoreTimeBattleHexagonHardThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_HEXAGON_HARD_THREE_MINUTES, highestScoreTimeBattleHexagonHardThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleHexagonHardFiveMinutes) {
                             highestScoreTimeBattleHexagonHardFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_HEXAGON_HARD_FIVE_MINUTES, highestScoreTimeBattleHexagonHardFiveMinutes);
+                            return true;
                         }
                     }
                 }
@@ -1821,16 +1898,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleSeptagonEasyOneMinute) {
                             highestScoreTimeBattleSeptagonEasyOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SEPTAGON_EASY_ONE_MINUTE, highestScoreTimeBattleSeptagonEasyOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleSeptagonEasyThreeMinutes) {
                             highestScoreTimeBattleSeptagonEasyThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SEPTAGON_EASY_THREE_MINUTES, highestScoreTimeBattleSeptagonEasyThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleSeptagonEasyFiveMinutes) {
                             highestScoreTimeBattleSeptagonEasyFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SEPTAGON_EASY_FIVE_MINUTES, highestScoreTimeBattleSeptagonEasyFiveMinutes);
+                            return true;
                         }
                     }
                 } else if(difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
@@ -1838,16 +1918,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleSeptagonMediumOneMinute) {
                             highestScoreTimeBattleSeptagonMediumOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SEPTAGON_MEDIUM_ONE_MINUTE, highestScoreTimeBattleSeptagonMediumOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleSeptagonMediumThreeMinutes) {
                             highestScoreTimeBattleSeptagonMediumThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SEPTAGON_MEDIUM_THREE_MINUTES, highestScoreTimeBattleSeptagonMediumThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleSeptagonMediumFiveMinutes) {
                             highestScoreTimeBattleSeptagonMediumFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SEPTAGON_MEDIUM_FIVE_MINUTES, highestScoreTimeBattleSeptagonMediumFiveMinutes);
+                            return true;
                         }
                     }
                 } else if(difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
@@ -1855,16 +1938,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleSeptagonHardOneMinute) {
                             highestScoreTimeBattleSeptagonHardOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SEPTAGON_HARD_ONE_MINUTE, highestScoreTimeBattleSeptagonHardOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleSeptagonHardThreeMinutes) {
                             highestScoreTimeBattleSeptagonHardThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SEPTAGON_HARD_THREE_MINUTES, highestScoreTimeBattleSeptagonHardThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleSeptagonHardFiveMinutes) {
                             highestScoreTimeBattleSeptagonHardFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_SEPTAGON_HARD_FIVE_MINUTES, highestScoreTimeBattleSeptagonHardFiveMinutes);
+                            return true;
                         }
                     }
                 }
@@ -1874,16 +1960,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleOctagonEasyOneMinute) {
                             highestScoreTimeBattleOctagonEasyOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_OCTAGON_EASY_ONE_MINUTE, highestScoreTimeBattleOctagonEasyOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleOctagonEasyThreeMinutes) {
                             highestScoreTimeBattleOctagonEasyThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_OCTAGON_EASY_THREE_MINUTES, highestScoreTimeBattleOctagonEasyThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleOctagonEasyFiveMinutes) {
                             highestScoreTimeBattleOctagonEasyFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_OCTAGON_EASY_FIVE_MINUTES, highestScoreTimeBattleOctagonEasyFiveMinutes);
+                            return true;
                         }
                     }
                 } else if(difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
@@ -1891,16 +1980,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleOctagonMediumOneMinute) {
                             highestScoreTimeBattleOctagonMediumOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_OCTAGON_MEDIUM_ONE_MINUTE, highestScoreTimeBattleOctagonMediumOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleOctagonMediumThreeMinutes) {
                             highestScoreTimeBattleOctagonMediumThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_OCTAGON_MEDIUM_THREE_MINUTES, highestScoreTimeBattleOctagonMediumThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleOctagonMediumFiveMinutes) {
                             highestScoreTimeBattleOctagonMediumFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_OCTAGON_MEDIUM_FIVE_MINUTES, highestScoreTimeBattleOctagonMediumFiveMinutes);
+                            return true;
                         }
                     }
                 } else if(difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
@@ -1908,16 +2000,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleOctagonHardOneMinute) {
                             highestScoreTimeBattleOctagonHardOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_OCTAGON_HARD_ONE_MINUTE, highestScoreTimeBattleOctagonHardOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleOctagonHardThreeMinutes) {
                             highestScoreTimeBattleOctagonHardThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_OCTAGON_HARD_THREE_MINUTES, highestScoreTimeBattleOctagonHardThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleOctagonHardFiveMinutes) {
                             highestScoreTimeBattleOctagonHardFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_OCTAGON_HARD_FIVE_MINUTES, highestScoreTimeBattleOctagonHardFiveMinutes);
+                            return true;
                         }
                     }
                 }
@@ -1927,16 +2022,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleNonagonEasyOneMinute) {
                             highestScoreTimeBattleNonagonEasyOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_NONAGON_EASY_ONE_MINUTE, highestScoreTimeBattleNonagonEasyOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleNonagonEasyThreeMinutes) {
                             highestScoreTimeBattleNonagonEasyThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_NONAGON_EASY_THREE_MINUTES, highestScoreTimeBattleNonagonEasyThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleNonagonEasyFiveMinutes) {
                             highestScoreTimeBattleNonagonEasyFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_NONAGON_EASY_FIVE_MINUTES, highestScoreTimeBattleNonagonEasyFiveMinutes);
+                            return true;
                         }
                     }
                 } else if(difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
@@ -1944,16 +2042,19 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleNonagonMediumOneMinute) {
                             highestScoreTimeBattleNonagonMediumOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_NONAGON_MEDIUM_ONE_MINUTE, highestScoreTimeBattleNonagonMediumOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleNonagonMediumThreeMinutes) {
                             highestScoreTimeBattleNonagonMediumThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_NONAGON_MEDIUM_THREE_MINUTES, highestScoreTimeBattleNonagonMediumThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleNonagonMediumFiveMinutes) {
                             highestScoreTimeBattleNonagonMediumFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_NONAGON_MEDIUM_FIVE_MINUTES, highestScoreTimeBattleNonagonMediumFiveMinutes);
+                            return true;
                         }
                     }
                 } else if(difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
@@ -1961,21 +2062,25 @@ public class Stats {
                         if(newScore > highestScoreTimeBattleNonagonHardOneMinute) {
                             highestScoreTimeBattleNonagonHardOneMinute = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_NONAGON_HARD_ONE_MINUTE, highestScoreTimeBattleNonagonHardOneMinute);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.THREE_MINUTES) {
                         if(newScore > highestScoreTimeBattleNonagonHardThreeMinutes) {
                             highestScoreTimeBattleNonagonHardThreeMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_NONAGON_HARD_THREE_MINUTES, highestScoreTimeBattleNonagonHardThreeMinutes);
+                            return true;
                         }
                     } else if(gameLength == Squirgle.FIVE_MINUTES) {
                         if(newScore > highestScoreTimeBattleNonagonHardFiveMinutes) {
                             highestScoreTimeBattleNonagonHardFiveMinutes = newScore;
                             game.updateSave(SAVE_HIGHEST_SCORE_TIME_BATTLE_NONAGON_HARD_FIVE_MINUTES, highestScoreTimeBattleNonagonHardFiveMinutes);
+                            return true;
                         }
                     }
                 }
             }
         }
+        return false;
     }
 
     //TODO: Maybe update this to account for ties?
@@ -2624,7 +2729,7 @@ public class Stats {
     }
 
     public void incrementNumTimesPlayedDifficulty(String difficulty, int gameplayType) {
-        if(gameplayType == Squirgle.GAMEPLAY_BATTLE || gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL) {
+        if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
             if(difficulty == Squirgle.DIFFICULTY_EASY) {
                 numTimesPlayedEasyBattle++;
                 game.updateSave(SAVE_NUM_TIMES_PLAYED_EASY_BATTLE, numTimesPlayedEasyBattle);
@@ -2646,7 +2751,7 @@ public class Stats {
                 favoriteDifficultyBattle = Squirgle.DIFFICULTY_HARD;
             }
             game.updateSave(SAVE_FAVORITE_DIFFICULTY_BATTLE, favoriteDifficultyBattle);
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE || gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
+        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
             if(difficulty == Squirgle.DIFFICULTY_EASY) {
                 numTimesPlayedEasyTimeBattle++;
                 game.updateSave(SAVE_NUM_TIMES_PLAYED_EASY_TIME_BATTLE, numTimesPlayedEasyTimeBattle);

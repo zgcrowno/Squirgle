@@ -45,8 +45,8 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
     private final static String FAVORITE_MODE = "FAVORITE MODE: ";
     private final static String FAVORITE_TRACK = "FAVORITE TRACK: ";
     private final static String HOURS = "H";
-    private final static String MINUTES = "M";
-    private final static String SECONDS = "S";
+    private final static String MINUTES = "m";
+    private final static String SECONDS = "s";
 
     private float inputWidth;
     private float inputHeight;
@@ -192,8 +192,6 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 drawStatsText();
             }
         }
-
-        drawStatsText();
 
         transitionSquirgleColors();
     }
