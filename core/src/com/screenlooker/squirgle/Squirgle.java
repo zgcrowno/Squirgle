@@ -109,6 +109,7 @@ public class Squirgle extends Game {
 	public boolean usePhases;
 
 	public boolean widthGreater;
+	public boolean showWipeDataPrompt;
 	public float widthOrHeight;
 	public float fourthOfScreen;
 	public float thirdOfScreen;
@@ -131,6 +132,7 @@ public class Squirgle extends Game {
 	public BitmapFont fontPlayer;
 	public BitmapFont fontStats;
 	public BitmapFont fontTutorialHelp;
+	public BitmapFont fontSkip;
 	public GlyphLayout layout;
 	public FreeTypeFontGenerator generator;
 	public OrthographicCamera camera;
@@ -182,6 +184,7 @@ public class Squirgle extends Game {
 		viewport = new StretchViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
 		camera.position.set(VIRTUAL_WIDTH/2,VIRTUAL_HEIGHT/2,0);
 		widthGreater = camera.viewportWidth > camera.viewportHeight;
+		showWipeDataPrompt = false;
 		widthOrHeight = widthGreater ? camera.viewportHeight : camera.viewportWidth;
 		fourthOfScreen = widthOrHeight / 4;
 		thirdOfScreen = widthOrHeight / 3;
@@ -245,6 +248,8 @@ public class Squirgle extends Game {
 			fontStats.dispose();
 		if(fontTutorialHelp != null)
 			fontTutorialHelp.dispose();
+		if(fontSkip != null)
+			fontSkip.dispose();
 		generator.dispose();
 		shapeRendererFilled.dispose();
 		shapeRendererLine.dispose();
@@ -361,6 +366,14 @@ public class Squirgle extends Game {
 		parameter.size = size;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
 		fontTutorialHelp = generator.generateFont(parameter);
+	}
+
+	public void setUpFontSkip(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		fontSkip = generator.generateFont(parameter);
 	}
 
 	public void setUpMusicTitleList() {
@@ -552,5 +565,15 @@ public class Squirgle extends Game {
 			save.putString(key, (String) val);
 		}
 		save.flush();
+	}
+
+	public void wipeSave() {
+		base = 4;
+		maxBase = base;
+		track = MUSIC_POINTILLISM;
+		updateSave(SAVE_TRACK, track);
+		updateSave(SAVE_MAX_BASE, base);
+
+		stats.wipeSave();
 	}
 }

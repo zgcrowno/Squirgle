@@ -39,6 +39,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     public static float FONT_SCORE_SIZE_DIVISOR;
     public static float FONT_TARGET_SIZE_DIVISOR;
     public static float FONT_SQUIRGLE_SIZE_DIVISOR;
+    public static float FONT_SKIP_SIZE_DIVISOR;
     public static Vector2 INPUT_POINT_SPAWN;
     public static Vector2 INPUT_LINE_SPAWN;
     public static Vector2 INPUT_TRIANGLE_SPAWN;
@@ -90,6 +91,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private final static int THIRTY_DEGREES = 30;
     private final static int TWO_HUNDRED_AND_SEVENTY_DEGREES = 270;
     private final static int THREE_HUNDRED_AND_THIRTY_DEGREES = 330;
+    private final static int SKIP_TEXT_DISAPPEARANCE_TIME = 5;
 
     private final static float FONT_MULTIPLIER_INPUT = 1.39f;
     private final static float SCORE_DIVISOR = 3.16f;
@@ -107,6 +109,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private final static String MINUTES = "m";
     private final static String SECONDS = "s";
     private final static String NEW_BEST = "NEW BEST";
+    private final static String SKIP_TEXT = "TAP AGAIN TO SKIP";
     private final static String SQUIRGLE = "SQUIRGLE";
 
     private float promptIncrease;
@@ -204,6 +207,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private long pauseStartTime;
     private long timePaused;
     private long opponentTime;
+    private long timeSinceTouched;
     private int destructionIndex;
     private float firstPriorShapePreviousX;
     private float firstPriorShapePreviousXP1;
@@ -229,6 +233,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private boolean newLongestRun;
     private boolean newFastestVictory;
     private boolean skipZoom;
+    private boolean shouldUnlockNewBase;
     private Color veilColor;
     private float veilOpacity;
 
@@ -257,6 +262,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         game.setUpFontScore(MathUtils.round(game.camera.viewportWidth / FONT_SCORE_SIZE_DIVISOR));
         game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
         game.setUpFontSquirgle(MathUtils.round(game.camera.viewportWidth / FONT_SQUIRGLE_SIZE_DIVISOR));
+        game.setUpFontSkip(MathUtils.round(game.camera.viewportWidth / FONT_SKIP_SIZE_DIVISOR));
 
         SoundUtils.setVolume(splitScreen ? dummyPromptForTimelines : promptShape, game);
 
@@ -447,6 +453,10 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         game.draw.drawVeil(veilColor, veilOpacity);
 
+        if(!paused && !showResults && (System.currentTimeMillis() - timeSinceTouched) / ONE_THOUSAND < SKIP_TEXT_DISAPPEARANCE_TIME) {
+            drawSkipTextBox();
+        }
+
         game.shapeRendererFilled.end();
         game.shapeRendererLine.end();
 
@@ -508,15 +518,49 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        //TODO: Maybe remove gameOver check once I add animations to screen switches
         if (button != Input.Buttons.LEFT || pointer > 0) {
             return false;
         }
 
-        if(gameOver) {
+        if(!paused && !showResults && (System.currentTimeMillis() - timeSinceTouched) / ONE_THOUSAND < SKIP_TEXT_DISAPPEARANCE_TIME) {
+            List<Shape> priorShapeListToUse = new ArrayList<Shape>();
+            if(!splitScreen) {
+                priorShapeListToUse = priorShapeList;
+            } else if(useSaturation) {
+                if(saturationP1 > saturationP2) {
+                    priorShapeListToUse = priorShapeListP2;
+                } else {
+                    priorShapeListToUse = priorShapeListP1;
+                }
+            } else {
+                if(scoreP1 >= scoreP2) {
+                    priorShapeListToUse = priorShapeListP1;
+                } else {
+                    priorShapeListToUse = priorShapeListP2;
+                }
+            }
+
+            if(!blackAndWhite) {
+                if (priorShapeListToUse.size() > 0 && (priorShapeListToUse.get(0).getShape() == Shape.LINE || priorShapeListToUse.get(0).getShape() == Shape.POINT)) {
+                    clearColor = Color.WHITE;
+                } else {
+                    clearColor = Color.BLACK;
+                }
+            } else {
+                if (priorShapeListToUse.size() > 0 && (priorShapeListToUse.get(0).getShape() != Shape.LINE && priorShapeListToUse.get(0).getShape() != Shape.POINT)) {
+                    clearColor = Color.WHITE;
+                } else {
+                    clearColor = Color.BLACK;
+                }
+            }
+
             skipZoom = true;
             veilOpacity = 0;
             showResults = true;
+        }
+
+        if(gameOver && !showResults) {
+            timeSinceTouched = System.currentTimeMillis();
         }
 
         return true;
@@ -648,6 +692,26 @@ public class GameplayScreen implements Screen, InputProcessor {
         }
     }
 
+    public void drawSkipTextBox() {
+        game.draw.rect((3 * game.camera.viewportWidth) / 8,
+                game.camera.viewportHeight / 4,
+                game.camera.viewportWidth / 4,
+                game.camera.viewportHeight / 10,
+                blackAndWhite ? Color.BLACK : Color.WHITE);
+    }
+
+    public void drawSkipText() {
+        FontUtils.printText(game.batch,
+                game.fontSkip,
+                game.layout,
+                blackAndWhite ? Color.WHITE : Color.BLACK,
+                SKIP_TEXT,
+                game.camera.viewportWidth / 2,
+                (game.camera.viewportHeight / 4) + (game.camera.viewportHeight / 20) + (game.fontSkip.getCapHeight() / 4),
+                0,
+                1);
+    }
+
     //TODO: Add text for time of run and victory time (as well as new best text for each)
     public void drawText() {
         if(!paused) {
@@ -673,9 +737,13 @@ public class GameplayScreen implements Screen, InputProcessor {
                             SCORE_ANGLE,
                             1);
                 }*/
+            } else {
+                if(!paused && !showResults && (System.currentTimeMillis() - timeSinceTouched) / ONE_THOUSAND < SKIP_TEXT_DISAPPEARANCE_TIME) {
+                    drawSkipText();
+                }
             }
 
-            if (showResults) {
+            if (showResults && !shouldUnlockNewBase) {
                 List<Shape> priorShapeListToUse = new ArrayList<Shape>();
                 if(!splitScreen) {
                     priorShapeListToUse = priorShapeList;
@@ -1543,7 +1611,12 @@ public class GameplayScreen implements Screen, InputProcessor {
     public void drawResultsInputButtons() {
         if(!paused) {
             if (showResults) {
-                game.draw.drawResultsInputButtons(resultsColor, INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN);
+                if(game.base == game.maxBase && score >= Squirgle.SCORE_TO_UNLOCK_NEW_BASE && game.maxBase < Squirgle.MAX_POSSIBLE_BASE && gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+                    shouldUnlockNewBase = true;
+                    unlockNewBase();
+                } else {
+                    game.draw.drawResultsInputButtons(resultsColor, INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN);
+                }
             }
         }
     }
@@ -1564,6 +1637,10 @@ public class GameplayScreen implements Screen, InputProcessor {
             promptIncrease = 1;
             endTime = System.currentTimeMillis();
             veilOpacity = 1;
+            clearColor.set(backgroundColorShape.getColor().r,
+                    backgroundColorShape.getColor().g,
+                    backgroundColorShape.getColor().b,
+                    backgroundColorShape.getColor().a);
             game.stats.updateTimePlayed(endTime - startTime, gameplayType);
             newHighScore = game.stats.updateHighestScore(splitScreen ? scoreP1 : score, gameplayType, game.base, game.timeAttackNumSeconds, game.difficulty);
             game.stats.incrementNumTimesWonOrLost(scoreP1 > scoreP2 || saturationP1 < saturationP2, gameplayType, game.base, game.timeAttackNumSeconds, game.difficulty);
@@ -1882,9 +1959,6 @@ public class GameplayScreen implements Screen, InputProcessor {
             }
             if(player == null || player.equals(P1)) {
                 if (inputTouchedResults && showResults) {
-                    if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-                        unlockNewBase();
-                    }
                     handleResultsInput();
                 }
             }
@@ -2376,10 +2450,16 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     public void unlockNewBase() {
         //Unlock new base options
-        if(game.base == game.maxBase && score >= Squirgle.SCORE_TO_UNLOCK_NEW_BASE && game.maxBase < Squirgle.MAX_POSSIBLE_BASE && gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-            game.maxBase++;
-            game.updateSave(game.SAVE_MAX_BASE, game.maxBase);
+        game.maxBase++;
+        game.updateSave(game.SAVE_MAX_BASE, game.maxBase);
+
+        Color passedBackgroundColor = new Color();
+        if(primaryShape.getShape() == Shape.POINT || primaryShape.getShape() == Shape.LINE) {
+            passedBackgroundColor = primaryShape.getColor();
+        } else {
+            passedBackgroundColor = Color.BLACK;
         }
+        game.setScreen(new BaseUnlockScreen(game, passedBackgroundColor));
     }
 
     public void setUpNonFinalStaticData() {
@@ -2491,6 +2571,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             FONT_TARGET_SIZE_DIVISOR = 35.5f;
             FONT_SQUIRGLE_SIZE_DIVISOR = 5f;
         }
+        FONT_SKIP_SIZE_DIVISOR = 30f;
         INPUT_PLAY_SPAWN = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         INPUT_HOME_SPAWN = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         INPUT_EXIT_SPAWN = new Vector2((3 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
@@ -2707,12 +2788,14 @@ public class GameplayScreen implements Screen, InputProcessor {
         newLongestRun = false;
         newFastestVictory = false;
         skipZoom = false;
+        shouldUnlockNewBase = false;
         startTime = System.currentTimeMillis();
         endTime = 0;
         lastSpeedIncreaseTime = System.currentTimeMillis();
         pauseStartTime = 0;
         timePaused = 0;
         opponentTime = System.currentTimeMillis();
+        timeSinceTouched = SKIP_TEXT_DISAPPEARANCE_TIME;
         equationWidth = 0;
         equationWidthP1 = 0;
         equationWidthP2 = 0;

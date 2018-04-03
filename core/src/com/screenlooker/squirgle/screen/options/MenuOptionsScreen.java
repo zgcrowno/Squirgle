@@ -10,6 +10,9 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
@@ -24,32 +27,46 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
+    private final static String WIPE_DATA_STRING = "Are you sure you wish to delete all of your save data?";
+
     private final static int NUM_INPUTS_HORIZONTAL = 3;
-    private final static int NUM_INPUTS_VERTICAL = 1;
+    private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
+    private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
+    private final static int NUM_MIDDLE_INPUTS_VERTICAL = 2;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
-    private final static int NUM_PARTITIONS_VERTICAL = NUM_INPUTS_VERTICAL + 1;
+    private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
+    private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
+    private final static int NUM_MIDDLE_PARTITIONS_VERTICAL = NUM_MIDDLE_INPUTS_VERTICAL + 1;
     public final static int NUM_SOUND_INPUT_ELEMENTS = 4;
 
     private final static float FONT_VOLUME_SIZE_DIVISOR = 11.1f;
+    private static float FONT_TUTORIAL_HELP_SIZE_DIVISOR;
 
     private float inputWidth;
-    private float inputHeight;
+    private float inputHeightMiddle;
+    private float inputHeightBack;
+    private float helpInputGirth;
 
     private float symbolRadius;
 
     private Vector3 touchPoint;
 
     private Color volumeColor;
+    private Color wipeDataColor;
     private Color backColor;
 
     private boolean volumeDownChevronTouched;
     private boolean volumeUpChevronTouched;
+    private boolean helpConfirmTouched;
+    private boolean helpDisconfirmTouched;
+    private boolean nonHelpTouched;
     private boolean backTouched;
 
     private Button volumeButton;
     private Button volumeWavesButton;
     private Button volumeChevronDownButton;
     private Button volumeChevronUpButton;
+    private Button wipeDataButton;
     private Button backButton;
 
     private List<Button> buttonList;
@@ -57,24 +74,38 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private Color veilColor;
     private float veilOpacity;
 
+    public Label.LabelStyle helpLabelStyle;
+    public Label helpLabel;
+    private Stage stage;
+
     //TODO: Set up fontScore
     public MenuOptionsScreen(final Squirgle game, Color veilColor) {
         this.game = game;
 
         game.resetInstanceData();
 
+        if(game.widthGreater) {
+            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 71f;
+        } else {
+            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+        }
+
         game.setUpFontVolume(MathUtils.round(game.camera.viewportWidth / FONT_VOLUME_SIZE_DIVISOR));
+        game.setUpFontTutorialHelp(MathUtils.round(game.camera.viewportWidth / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
 
         Gdx.input.setInputProcessor(this);
 
         inputWidth = (game.camera.viewportWidth - (game.partitionSize * NUM_PARTITIONS_HORIZONTAL)) / NUM_INPUTS_HORIZONTAL;
-        inputHeight = (game.camera.viewportHeight - (game.partitionSize * NUM_PARTITIONS_VERTICAL)) / NUM_INPUTS_VERTICAL;
+        inputHeightMiddle = (game.camera.viewportHeight - (game.partitionSize * NUM_MIDDLE_PARTITIONS_VERTICAL)) / NUM_MIDDLE_INPUTS_VERTICAL;
+        inputHeightBack = (game.camera.viewportHeight - (game.partitionSize * NUM_RIGHT_PARTITIONS_VERTICAL)) / NUM_RIGHT_INPUTS_VERTICAL;
+        helpInputGirth = game.camera.viewportWidth / 16;
 
-        symbolRadius = inputWidth > inputHeight ? inputHeight / 2 : inputWidth / 2;
+        symbolRadius = inputWidth > inputHeightBack ? inputHeightBack / 2 : inputWidth / 2;
 
         touchPoint = new Vector3();
 
         volumeColor = ColorUtils.randomColor();
+        wipeDataColor = ColorUtils.randomColor();
         backColor = ColorUtils.randomColor();
 
         volumeDownChevronTouched = false;
@@ -82,15 +113,15 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         backTouched = false;
 
         volumeButton = new Button((2 * game.partitionSize) + inputWidth,
-                game.partitionSize,
+                (2 * game.partitionSize) + inputHeightMiddle,
                 inputWidth,
-                inputHeight,
+                inputHeightMiddle,
                 Button.BUTTON_VOLUME,
                 volumeColor,
                 Color.BLACK,
                 game);
         volumeWavesButton = new Button((2 * game.partitionSize) + inputWidth + (inputWidth / 10),
-                game.partitionSize + (inputHeight / 2) - (inputWidth / 10),
+                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
                 inputWidth / 5,
                 inputWidth / 5,
                 Button.BUTTON_VOLUME_WAVES,
@@ -98,7 +129,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 game);
         volumeChevronDownButton = new Button((2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 10),
-                game.partitionSize + (inputHeight / 2) - (inputWidth / 10),
+                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
                 inputWidth / 5,
                 inputWidth / 5,
                 Button.BUTTON_VOLUME_CHEVRON_DOWN,
@@ -106,17 +137,25 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 game);
         volumeChevronUpButton = new Button((2 * game.partitionSize) + inputWidth + ((7 * inputWidth) / 10),
-                game.partitionSize + (inputHeight / 2) - (inputWidth / 10),
+                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
                 inputWidth / 5,
                 inputWidth / 5,
                 Button.BUTTON_VOLUME_CHEVRON_UP,
                 volumeColor,
                 Color.BLACK,
                 game);
+        wipeDataButton = new Button((2 * game.partitionSize) + inputWidth,
+                game.partitionSize,
+                inputWidth,
+                inputHeightMiddle,
+                Button.BUTTON_WIPE_DATA,
+                wipeDataColor,
+                Color.BLACK,
+                game);
         backButton = new Button(game.camera.viewportWidth - game.partitionSize - inputWidth,
                 game.partitionSize,
                 inputWidth,
-                inputHeight,
+                inputHeightBack,
                 Button.BUTTON_OPTIONS_BACK,
                 backColor,
                 Color.BLACK,
@@ -127,10 +166,24 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         buttonList.add(volumeWavesButton);
         buttonList.add(volumeChevronDownButton);
         buttonList.add(volumeChevronUpButton);
+        buttonList.add(wipeDataButton);
         buttonList.add(backButton);
 
         this.veilColor = veilColor;
         veilOpacity = 1;
+
+        helpLabelStyle = new Label.LabelStyle();
+        helpLabelStyle.font = game.fontTutorialHelp;
+        helpLabelStyle.fontColor = Color.BLACK;
+        helpLabel = new Label(WIPE_DATA_STRING, helpLabelStyle);
+        helpLabel.setSize(inputWidth, inputHeightMiddle - helpInputGirth);
+        helpLabel.setPosition((2 * game.partitionSize) + inputWidth, game.partitionSize + helpInputGirth);
+        helpLabel.setAlignment(Align.center);
+        helpLabel.setWrap(true);
+        helpLabel.setVisible(game.showWipeDataPrompt);
+
+        stage = new Stage(game.viewport);
+        stage.addActor(helpLabel);
     }
 
     @Override
@@ -146,6 +199,9 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         game.batch.setProjectionMatrix(game.camera.combined);
 
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+        game.shapeRendererLine.begin(ShapeRenderer.ShapeType.Line);
+
+        drawTitle();
 
         for(Button button : buttonList) {
             button.draw();
@@ -155,13 +211,16 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
             button.drawTransitionCircles(this);
         }
 
-        for(Button button : buttonList) {
-            button.drawTransitionCircles(this);
-        }
+        showHelpText();
 
         game.draw.drawVeil(veilColor, veilOpacity);
 
         game.shapeRendererFilled.end();
+        game.shapeRendererLine.end();
+
+        stage.draw();
+
+        showHelpTextFooter();
 
         if(veilOpacity > 0) {
             veilOpacity -= 0.1;
@@ -217,8 +276,10 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        for(Button btn : buttonList) {
-            btn.touchDown(touchPoint);
+        if(!game.showWipeDataPrompt) {
+            for (Button btn : buttonList) {
+                btn.touchDown(touchPoint);
+            }
         }
 
         return true;
@@ -232,8 +293,30 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
         game.camera.unproject(touchPoint.set(screenX, screenY, 0));
 
-        for(Button btn : buttonList) {
-            btn.touchUp(touchPoint);
+        if(!game.showWipeDataPrompt) {
+            for (Button btn : buttonList) {
+                btn.touchUp(touchPoint);
+            }
+        } else {
+            helpConfirmTouched = touchPoint.x > helpLabel.getX() + (helpLabel.getWidth() / 2)
+                    && touchPoint.x < helpLabel.getX() + helpLabel.getWidth()
+                    && touchPoint.y > helpLabel.getY() - helpInputGirth
+                    && touchPoint.y < helpLabel.getY();
+            helpDisconfirmTouched = touchPoint.x > helpLabel.getX()
+                    && touchPoint.x < helpLabel.getX() + (helpLabel.getWidth() / 2)
+                    && touchPoint.y > helpLabel.getY() - helpInputGirth
+                    && touchPoint.y < helpLabel.getY();
+            nonHelpTouched = touchPoint.x > (2 * game.partitionSize) + (2 * inputWidth)
+                    || touchPoint.x < (2 * game.partitionSize) + inputWidth
+                    || touchPoint.y > game.partitionSize + inputHeightMiddle
+                    || touchPoint.y < game.partitionSize;
+
+            if(helpConfirmTouched) {
+                game.wipeSave();
+                game.showWipeDataPrompt = false;
+            } else if(helpDisconfirmTouched || nonHelpTouched) {
+                game.showWipeDataPrompt = false;
+            }
         }
 
         return true;
@@ -271,6 +354,49 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
             }
         }
         return false;
+    }
+
+    public void showHelpText() {
+        helpLabel.setVisible(game.showWipeDataPrompt);
+        if(game.showWipeDataPrompt) {
+            game.draw.rect(helpLabel.getX(),
+                    helpLabel.getY() - helpInputGirth,
+                    inputWidth,
+                    inputHeightMiddle,
+                    wipeDataColor);
+            game.shapeRendererLine.setColor(Color.BLACK);
+            game.shapeRendererLine.line(helpLabel.getX(),
+                    helpLabel.getY(),
+                    helpLabel.getX() + helpLabel.getWidth(),
+                    helpLabel.getY());
+            game.shapeRendererLine.line(helpLabel.getX() + (helpLabel.getWidth() / 2),
+                    helpLabel.getY(),
+                    helpLabel.getX() + (helpLabel.getWidth() / 2),
+                    helpLabel.getY() - helpInputGirth);
+        }
+    }
+
+    public void showHelpTextFooter() {
+        if(game.showWipeDataPrompt) {
+            FontUtils.printText(game.batch,
+                    game.fontTutorialHelp,
+                    game.layout,
+                    Color.BLACK,
+                    "NO",
+                    helpLabel.getX() + (helpLabel.getWidth() / 4),
+                    helpLabel.getY() - (helpInputGirth / 2),
+                    0,
+                    1);
+            FontUtils.printText(game.batch,
+                    game.fontTutorialHelp,
+                    game.layout,
+                    Color.BLACK,
+                    "YES",
+                    helpLabel.getX() + ((3 * helpLabel.getWidth()) / 4),
+                    helpLabel.getY() - (helpInputGirth / 2),
+                    0,
+                    1);
+        }
     }
 
     public void drawTitle() {

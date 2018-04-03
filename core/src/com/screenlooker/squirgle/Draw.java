@@ -2978,6 +2978,39 @@ public class Draw {
         game.shapeRendererFilled.rect(x - ((4 * radius) / 5), y - radius + (twoTimesRadius / 5) - (fourthHeight / 2), (8 * radius) / 5, firstHeight);
     }
 
+    public void drawWipeDataSymbol(float x, float y, float radius, Color primaryColor, Color secondaryColor) {
+        game.shapeRendererFilled.setColor(Color.FIREBRICK);
+        game.shapeRendererFilled.circle(x, y, radius);
+
+        game.shapeRendererFilled.setColor(secondaryColor);
+        game.shapeRendererFilled.circle(x, y, (9 * radius) / 10);
+
+        game.shapeRendererFilled.setColor(primaryColor);
+        game.shapeRendererFilled.rect(x - (radius / 2),
+                y - (radius / 2),
+                radius,
+                radius);
+
+        game.shapeRendererFilled.setColor(secondaryColor);
+        game.shapeRendererFilled.rect(x - (radius / 4),
+                y + (radius / 4),
+                radius / 2,
+                radius / 2);
+
+        rect(x + (radius / 20),
+                y + (radius / 4) + (radius / 20),
+                radius / 12,
+                radius / 6,
+                primaryColor);
+
+        game.shapeRendererFilled.setColor(Color.FIREBRICK);
+        game.shapeRendererFilled.rectLine(x - ((2 * radius) / 3),
+                y - ((2 * radius) / 3),
+                x + ((2 * radius) / 3),
+                y + ((2 * radius) / 3),
+                radius / 20);
+    }
+
     public void rect(float x, float y, float width, float height, Color color) {
         float cornerRadius = width > height ? height / 10 : width / 10;
 

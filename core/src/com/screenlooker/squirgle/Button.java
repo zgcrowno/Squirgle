@@ -180,6 +180,7 @@ public class Button {
     public static final int BUTTON_VOLUME_WAVES = 162;
     public static final int BUTTON_VOLUME_CHEVRON_DOWN = 163;
     public static final int BUTTON_VOLUME_CHEVRON_UP = 164;
+    public static final int BUTTON_WIPE_DATA = 165;
 
     public static final String QUESTION_MARK = "?";
     private final static String HIGHEST_SCORE = "HIGHEST SCORE: ";
@@ -1602,6 +1603,14 @@ public class Button {
                         containedColor);
                 break;
             }
+            case BUTTON_WIPE_DATA : {
+                game.draw.drawWipeDataSymbol(centerX,
+                        centerY,
+                        radius,
+                        containedColor,
+                        containerColor);
+                break;
+            }
         }
     }
 
@@ -2396,6 +2405,9 @@ public class Button {
                 break;
             }
             case BUTTON_VOLUME_CHEVRON_UP : {
+                break;
+            }
+            case BUTTON_WIPE_DATA : {
                 break;
             }
         }
@@ -3644,6 +3656,10 @@ public class Button {
                     game.confirmSound.play((float) (game.volume / 10.0));
                     return false;
                 }
+                case BUTTON_WIPE_DATA : {
+                    game.showWipeDataPrompt = !game.showWipeDataPrompt;
+                    return false;
+                }
             }
         return false;
     }
@@ -3664,7 +3680,8 @@ public class Button {
                 && buttonType != BUTTON_TIME_CHEVRON_UP
                 && buttonType != BUTTON_VOLUME_WAVES
                 && buttonType != BUTTON_VOLUME_CHEVRON_DOWN
-                && buttonType != BUTTON_VOLUME_CHEVRON_UP;
+                && buttonType != BUTTON_VOLUME_CHEVRON_UP
+                && buttonType != BUTTON_WIPE_DATA;
     }
 
     public boolean isMusicTypeButton() {

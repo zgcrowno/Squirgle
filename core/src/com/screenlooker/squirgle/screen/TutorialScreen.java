@@ -441,6 +441,9 @@ public class TutorialScreen implements Screen, InputProcessor {
         game.stats.incrementNumTimesPlayedMode(gameplayType);
         game.stats.incrementNumTimesPlayedBaseOrTrack(true, game.base, gameplayType);
         game.stats.incrementNumTimesPlayedBaseOrTrack(false, game.track, gameplayType);
+
+        game.playedBefore = true;
+        game.updateSave(Squirgle.SAVE_PLAYED_BEFORE, game.playedBefore);
     }
 
     @Override
@@ -1687,6 +1690,10 @@ public class TutorialScreen implements Screen, InputProcessor {
             stopMusic();
             promptIncrease = 1;
             endTime = System.currentTimeMillis();
+            clearColor.set(backgroundColorShape.getColor().r,
+                    backgroundColorShape.getColor().g,
+                    backgroundColorShape.getColor().b,
+                    backgroundColorShape.getColor().a);
             game.stats.updateTimePlayed(endTime - startTime, gameplayType);
             game.stats.updateHighestScore(splitScreen ? scoreP1 : score, gameplayType, game.base, game.timeAttackNumSeconds, game.difficulty);
             game.stats.incrementNumTimesWonOrLost(scoreP1 > scoreP2 || saturationP1 < saturationP2, gameplayType, game.base, game.timeAttackNumSeconds, game.difficulty);
