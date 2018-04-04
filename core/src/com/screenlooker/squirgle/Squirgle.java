@@ -157,6 +157,13 @@ public class Squirgle extends Game {
 	public Map<Integer, List<Music>> trackMapPhase;
 
 	public void create() {
+		/*
+		This line may very well be needed when putting on Google Play Store. I'll have to remove the contents of the assets folder
+		and upload those separately in an expansion file, and then uncomment this so those assets can still be accessed. I should
+		consider making an Android-specific branch for this...
+		 */
+		//((AndroidFiles)Gdx.files).setAPKExpansion(1, 0);
+
 		VIRTUAL_WIDTH = Gdx.graphics.getWidth();
 		VIRTUAL_HEIGHT = Gdx.graphics.getHeight();
 		ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
