@@ -560,7 +560,8 @@ public class TutorialScreen implements Screen, InputProcessor {
             //This way, the shapes are drawn with their new values, and the first element in priorShapeList doesn't veer off
             //the screen to the right.
             //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
-            //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
+            //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times. In fact, doing so may
+            //TODO: be responsible for another layer of shapes occasionally appearing behind the foremost one.
             if(!splitScreen) {
                 game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
             } else if(useSaturation) {
@@ -650,6 +651,8 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         game.shapeRendererFilled.end();
         game.shapeRendererLine.end();
+
+        SoundUtils.setVolume(splitScreen ? dummyPromptForTimelines : promptShape, game);
 
         drawText();
 
@@ -2789,9 +2792,9 @@ public class TutorialScreen implements Screen, InputProcessor {
             FONT_SQUIRGLE_SIZE_DIVISOR = 5f;
         }
         if(game.widthGreater) {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 71f;
-        } else {
             FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+        } else {
+            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 17.25f;
         }
         INPUT_PLAY_SPAWN = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         INPUT_HOME_SPAWN = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
@@ -3063,7 +3066,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirglePhaseFourTextFour = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your score and multiplier. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
         squirglePhaseFiveTextOne = "At the left of the screen, you will now see a series of color swatches and three white lines. The colors represent the background colors that are forthcoming, and the three lines represent how much time you have to continue playing and racking up points. In this phase of the tutorial, only the first TIMELINE depletes completely.";
         squirglePhaseFiveTextTwo = "As far as concerns the colors, when one passes to the left of the screen, it then becomes the new background color. Whenever you correctly create the current target shape from the shape in your hand, that correctly matched target shape's color is set to that of the current background, and if you manage to match both target shapes of the same color, you are prompted for a special series of shapes known as a SQUIRGLE. This series consists of a SQUARE and a TRIANGLE separated by a black circle, and once both SQUARE and TRIANGLE have been created from the shape in your hand, the three white TIMELINES are reset to their original lengths, affording you more time to play.";
-        squirglePhaseFiveTextThree = "In representing how much time you have left to play, the three TIMELINES also represent the radius of the shape currently in your hand, for the game comes to an end when that shape's radius becomes so large that the shape touches any of the screen's sides. Because of this, when you manage to create both shapes within a SQUIRGLE from the shape in your hand, in addition to reverting the TIMELINES to their original lengths, you also revert the shape in your hand's radius to its minimum value as well. When you are ready to play the game in full, press the NEXT button, and the TIMELINES' behavior will become as if outside of a tutorial.";
+        squirglePhaseFiveTextThree = "In representing how much time you have left to play, the three TIMELINES also represent the radius of the shape currently in your hand, for the game comes to an end when that shape's radius becomes so large that the shape touches any of the screen's sides. Because of this, when you manage to create both shapes within a SQUIRGLE from the shape in your hand, in addition to reverting the TIMELINES to their original lengths, you also revert the shape in your hand's radius to its minimum value as well.";
         squirglePhaseFiveTextFour = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to rack up as many points as possible. Good luck!";
 
         battlePhaseOneTextOne = "Welcome to the BATTLE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of BATTLE.";
@@ -3312,7 +3315,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         helpTextMap.put(Squirgle.GAMEPLAY_TIME_ATTACK, timeAttackPhaseMap);
         helpTextMap.put(Squirgle.GAMEPLAY_TIME_BATTLE, timeBattlePhaseMap);
 
-        game.setUpFontTutorialHelp(MathUtils.round(game.camera.viewportWidth / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
+        game.setUpFontTutorialHelp(MathUtils.round(game.widthOrHeight / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
 
         helpLabelStyle = new Label.LabelStyle();
         helpLabelStyle.font = game.fontTutorialHelp;

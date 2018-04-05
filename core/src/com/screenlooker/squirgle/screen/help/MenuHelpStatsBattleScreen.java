@@ -712,7 +712,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 game.layout,
                 game.difficulty.equals(Squirgle.DIFFICULTY_EASY) ? Color.WHITE : Color.BLACK,
                 easyString,
-                game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
+                game.difficulty.equals(Squirgle.DIFFICULTY_EASY) ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 8) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + ((5 * inputHeight) / 6),
                 0,
                 1);
@@ -723,7 +723,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 game.layout,
                 game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM) ? Color.WHITE : Color.BLACK,
                 mediumString,
-                game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
+                game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM) ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 8) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + (inputHeight / 2),
                 0,
                 1);
@@ -734,7 +734,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 game.layout,
                 game.difficulty.equals(Squirgle.DIFFICULTY_HARD) ? Color.WHITE : Color.BLACK,
                 hardString,
-                game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
+                game.difficulty.equals(Squirgle.DIFFICULTY_HARD) ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 8) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + (inputHeight / 6),
                 0,
                 1);

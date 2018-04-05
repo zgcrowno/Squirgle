@@ -60,6 +60,8 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
     private float octagonY;
     private float nonagonY;
 
+    private float difficultyBlockHeight;
+    private float difficultyBlockWidth;
     private float gameLengthBlockWidth;
     private float gameLengthBlockHeight;
     private float gameLengthMinY;
@@ -128,20 +130,22 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
         octagonY = ((5 * (game.camera.viewportHeight - ((2 * NUM_STATS_ELEMENTS) * subElementShapeRadius))) / (NUM_STATS_ELEMENTS + 1)) + (9 * subElementShapeRadius);
         nonagonY = ((6 * (game.camera.viewportHeight - ((2 * NUM_STATS_ELEMENTS) * subElementShapeRadius))) / (NUM_STATS_ELEMENTS + 1)) + (11 * subElementShapeRadius);
 
-        gameLengthBlockWidth = ((inputWidth / 4) - (4 * game.partitionSize)) / 3;
+        difficultyBlockHeight = (inputHeight - (4 * game.partitionSize)) / 3;
+        difficultyBlockWidth = inputWidth / 4;
+        gameLengthBlockWidth = (inputWidth / 4) / 3;
         gameLengthBlockHeight = ((inputHeight - (4 * game.partitionSize)) / 3) / 4;
         gameLengthMinY = 0;
         gameLengthMaxY = 0;
 
         if(game.difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
-            gameLengthMinY = game.partitionSize + ((2 * inputHeight) / 3);
-            gameLengthMaxY = game.partitionSize + ((2 * inputHeight) / 3) + gameLengthBlockHeight;
+            gameLengthMinY = game.camera.viewportHeight - (2 * game.partitionSize) - difficultyBlockHeight;
+            gameLengthMaxY = game.camera.viewportHeight - (2 * game.partitionSize) - difficultyBlockHeight + gameLengthBlockHeight;
         } else if(game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
-            gameLengthMinY = game.partitionSize + (inputHeight / 3);
-            gameLengthMaxY = game.partitionSize + (inputHeight / 3) + gameLengthBlockHeight;
+            gameLengthMinY = game.camera.viewportHeight - (3 * game.partitionSize) - (2 * difficultyBlockHeight);
+            gameLengthMaxY = game.camera.viewportHeight - (3 * game.partitionSize) - (2 * difficultyBlockHeight) + gameLengthBlockHeight;
         } else if(game.difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
-            gameLengthMinY = game.partitionSize;
-            gameLengthMaxY = game.partitionSize + gameLengthBlockHeight;
+            gameLengthMinY = game.camera.viewportHeight - (4 * game.partitionSize) - (3 * difficultyBlockHeight);
+            gameLengthMaxY = game.camera.viewportHeight - (4 * game.partitionSize) - (3 * difficultyBlockHeight) + gameLengthBlockHeight;
         }
 
         touchPoint = new Vector3();
@@ -288,16 +292,16 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 && touchPoint.x < game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth
                 && touchPoint.y > game.partitionSize
                 && touchPoint.y < game.partitionSize + (inputHeight / 3);
-        gameLength1MTouched = touchPoint.x > game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + game.partitionSize
-                && touchPoint.x < game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + game.partitionSize + gameLengthBlockWidth
+        gameLength1MTouched = touchPoint.x > game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4)
+                && touchPoint.x < game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + gameLengthBlockWidth
                 && touchPoint.y > gameLengthMinY
                 && touchPoint.y < gameLengthMaxY;
-        gameLength3MTouched = touchPoint.x > game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + (2 * game.partitionSize) + gameLengthBlockWidth
-                && touchPoint.x < game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + (2 * game.partitionSize) + (2 * gameLengthBlockWidth)
+        gameLength3MTouched = touchPoint.x > game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + gameLengthBlockWidth
+                && touchPoint.x < game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + (2 * gameLengthBlockWidth)
                 && touchPoint.y > gameLengthMinY
                 && touchPoint.y < gameLengthMaxY;
-        gameLength5MTouched = touchPoint.x >  game.camera.viewportWidth - (3 * game.partitionSize) - inputWidth - gameLengthBlockWidth
-                && touchPoint.x < game.camera.viewportWidth - (3 * game.partitionSize) - inputWidth
+        gameLength5MTouched = touchPoint.x >  game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + (2 * gameLengthBlockWidth)
+                && touchPoint.x < game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + (3 * gameLengthBlockWidth)
                 && touchPoint.y > gameLengthMinY
                 && touchPoint.y < gameLengthMaxY;
 
@@ -322,14 +326,14 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
         }
 
         if(game.difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
-            gameLengthMinY = game.partitionSize + ((2 * inputHeight) / 3);
-            gameLengthMaxY = game.partitionSize + ((2 * inputHeight) / 3) + gameLengthBlockHeight;
+            gameLengthMinY = game.camera.viewportHeight - (2 * game.partitionSize) - difficultyBlockHeight;
+            gameLengthMaxY = game.camera.viewportHeight - (2 * game.partitionSize) - difficultyBlockHeight + gameLengthBlockHeight;
         } else if(game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
-            gameLengthMinY = game.partitionSize + (inputHeight / 3);
-            gameLengthMaxY = game.partitionSize + (inputHeight / 3) + gameLengthBlockHeight;
+            gameLengthMinY = game.camera.viewportHeight - (3 * game.partitionSize) - (2 * difficultyBlockHeight);
+            gameLengthMaxY = game.camera.viewportHeight - (3 * game.partitionSize) - (2 * difficultyBlockHeight) + gameLengthBlockHeight;
         } else if(game.difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
-            gameLengthMinY = game.partitionSize;
-            gameLengthMaxY = game.partitionSize + gameLengthBlockHeight;
+            gameLengthMinY = game.camera.viewportHeight - (4 * game.partitionSize) - (3 * difficultyBlockHeight);
+            gameLengthMaxY = game.camera.viewportHeight - (4 * game.partitionSize) - (3 * difficultyBlockHeight) + gameLengthBlockHeight;
         }
 
         for(Button btn : buttonList) {
@@ -414,8 +418,6 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 }
             }
             case GAME_LENGTH : {
-                float difficultyBlockHeight = (inputHeight - (4 * game.partitionSize)) / 3;
-                float difficultyBlockWidth = inputWidth / 4;
                 float rectY = 0;
                 float rectX = 0;
                 if(game.difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
@@ -426,11 +428,11 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                     rectY = (2 * game.partitionSize);
                 }
                 if(game.timeAttackNumSeconds == Squirgle.ONE_MINUTE) {
-                    rectX = game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + game.partitionSize;
+                    rectX = game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4);
                 } else if(game.timeAttackNumSeconds == Squirgle.THREE_MINUTES) {
-                    rectX = game.camera.viewportWidth - inputWidth - (inputWidth / 4) + gameLengthBlockWidth;
+                    rectX = game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + gameLengthBlockWidth;
                 } else if(game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES) {
-                    rectX = game.camera.viewportWidth - (3 * game.partitionSize) - inputWidth - gameLengthBlockWidth;
+                    rectX = game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - gameLengthBlockWidth;
                 }
                 game.draw.rect(rectX,
                         rectY,
@@ -691,7 +693,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 game.layout,
                 game.difficulty.equals(Squirgle.DIFFICULTY_EASY) ? Color.WHITE : Color.BLACK,
                 easyString,
-                game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
+                game.difficulty.equals(Squirgle.DIFFICULTY_EASY) ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (difficultyBlockWidth / 2) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + ((5 * inputHeight) / 6),
                 0,
                 1);
@@ -702,7 +704,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 game.layout,
                 game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM) ? Color.WHITE : Color.BLACK,
                 mediumString,
-                game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
+                game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM) ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (difficultyBlockWidth / 2) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + (inputHeight / 2),
                 0,
                 1);
@@ -713,7 +715,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 game.layout,
                 game.difficulty.equals(Squirgle.DIFFICULTY_HARD) ? Color.WHITE : Color.BLACK,
                 hardString,
-                game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
+                game.difficulty.equals(Squirgle.DIFFICULTY_HARD) ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (difficultyBlockWidth / 2) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + (inputHeight / 6),
                 0,
                 1);
@@ -727,7 +729,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 game.layout,
                 game.timeAttackNumSeconds == Squirgle.ONE_MINUTE ? Color.BLACK : Color.WHITE,
                 oneMinuteString,
-                game.camera.viewportWidth - game.partitionSize - inputWidth - (inputWidth / 4) + (gameLengthBlockWidth / 2),
+                game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + (gameLengthBlockWidth / 2),
                 gameLengthMinY + (gameLengthBlockHeight / 2),
                 0,
                 1);
@@ -738,7 +740,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 game.layout,
                 game.timeAttackNumSeconds == Squirgle.THREE_MINUTES ? Color.BLACK : Color.WHITE,
                 threeMinutesString,
-                game.camera.viewportWidth - inputWidth - (inputWidth / 4) + gameLengthBlockWidth + (gameLengthBlockWidth / 2),
+                game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + gameLengthBlockWidth + (gameLengthBlockWidth / 2),
                 gameLengthMinY + (gameLengthBlockHeight / 2),
                 0,
                 1);
@@ -749,7 +751,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 game.layout,
                 game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES ? Color.BLACK : Color.WHITE,
                 fiveMinutesString,
-                game.camera.viewportWidth - (3 * game.partitionSize) - inputWidth - (gameLengthBlockWidth / 2),
+                game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (gameLengthBlockWidth / 2),
                 gameLengthMinY + (gameLengthBlockHeight / 2),
                 0,
                 1);

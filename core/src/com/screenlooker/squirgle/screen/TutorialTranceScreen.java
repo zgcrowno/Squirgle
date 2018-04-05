@@ -169,6 +169,8 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.end();
         game.shapeRendererLine.end();
 
+        SoundUtils.setVolume(promptShape, game);
+
         stage.draw();
 
         showHelpTextFooter();
@@ -560,9 +562,9 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         PAUSE_INPUT_HEIGHT = game.camera.viewportHeight - (2 * game.partitionSize);
         INIT_PROMPT_RADIUS = game.widthOrHeight / 4;
         if(game.widthGreater) {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 71f;
-        } else {
             FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+        } else {
+            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 17.25f;
         }
     }
 
@@ -634,7 +636,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         phaseMap.put(PHASE_ONE, helpTextPhaseOneList);
         helpTextMap.put(Squirgle.GAMEPLAY_TRANCE, phaseMap);
 
-        game.setUpFontTutorialHelp(MathUtils.round(game.camera.viewportWidth / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
+        game.setUpFontTutorialHelp(MathUtils.round(game.widthOrHeight / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
 
         helpLabelStyle = new Label.LabelStyle();
         helpLabelStyle.font = game.fontTutorialHelp;

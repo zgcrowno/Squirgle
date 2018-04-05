@@ -177,7 +177,7 @@ public class Squirgle extends Game {
 		difficulty = save.getString(SAVE_DIFFICULTY, DIFFICULTY_MEDIUM);
 
 		playedBefore = save.getBoolean(SAVE_PLAYED_BEFORE, false);
-		usePhases = save.getBoolean(SAVE_USE_PHASES, true);
+		usePhases = save.getBoolean(SAVE_USE_PHASES, false);
 
 		base = 4;
 		maxBase = save.getInteger(SAVE_MAX_BASE, 4);

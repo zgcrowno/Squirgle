@@ -377,7 +377,8 @@ public class GameplayScreen implements Screen, InputProcessor {
             //This way, the shapes are drawn with their new values, and the first element in priorShapeList doesn't veer off
             //the screen to the right.
             //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
-            //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
+            //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times. In fact, doing so may
+            //TODO: be responsible for another layer of shapes occasionally appearing behind the foremost one.
             if(!skipZoom) {
                 if (!splitScreen) {
                     game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
@@ -459,6 +460,8 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         game.shapeRendererFilled.end();
         game.shapeRendererLine.end();
+
+        SoundUtils.setVolume(splitScreen ? dummyPromptForTimelines : promptShape, game);
 
         drawText();
 

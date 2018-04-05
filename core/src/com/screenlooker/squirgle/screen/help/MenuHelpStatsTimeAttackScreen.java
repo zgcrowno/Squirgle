@@ -468,7 +468,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.layout,
                 game.timeAttackNumSeconds == Squirgle.ONE_MINUTE ? Color.WHITE : Color.BLACK,
                 oneMinuteString,
-                game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
+                game.timeAttackNumSeconds == Squirgle.ONE_MINUTE ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 8) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + ((5 * inputHeight) / 6),
                 0,
                 1);
@@ -479,7 +479,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.layout,
                 game.timeAttackNumSeconds == Squirgle.THREE_MINUTES ? Color.WHITE : Color.BLACK,
                 threeMinutesString,
-                game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
+                game.timeAttackNumSeconds == Squirgle.THREE_MINUTES ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 8) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + (inputHeight / 2),
                 0,
                 1);
@@ -490,7 +490,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.layout,
                 game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES ? Color.WHITE : Color.BLACK,
                 fiveMinutesString,
-                game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
+                game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 8) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + (inputHeight / 6),
                 0,
                 1);

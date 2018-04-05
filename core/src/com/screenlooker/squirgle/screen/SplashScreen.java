@@ -63,6 +63,8 @@ public class SplashScreen implements Screen, InputProcessor {
 
         if((System.currentTimeMillis() - startTime) / 1000 > 5) {
             if(!game.playedBefore) {
+                game.usePhases = false;
+                game.track = Squirgle.MUSIC_LINEAGE;
                 game.setScreen(new TutorialScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
             } else {
                 game.setScreen(new MainMenuScreen(game, Color.BLACK));

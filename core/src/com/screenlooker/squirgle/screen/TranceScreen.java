@@ -122,6 +122,8 @@ public class TranceScreen implements Screen, InputProcessor {
 
         game.shapeRendererFilled.end();
         game.shapeRendererLine.end();
+
+        SoundUtils.setVolume(promptShape, game);
     }
 
     @Override

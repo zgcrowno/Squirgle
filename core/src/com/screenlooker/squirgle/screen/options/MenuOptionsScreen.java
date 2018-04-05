@@ -85,13 +85,13 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         game.resetInstanceData();
 
         if(game.widthGreater) {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 71f;
-        } else {
             FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+        } else {
+            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 17.25f;
         }
 
         game.setUpFontVolume(MathUtils.round(game.camera.viewportWidth / FONT_VOLUME_SIZE_DIVISOR));
-        game.setUpFontTutorialHelp(MathUtils.round(game.camera.viewportWidth / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
+        game.setUpFontTutorialHelp(MathUtils.round(game.widthOrHeight / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
 
         Gdx.input.setInputProcessor(this);
 
