@@ -396,19 +396,19 @@ public class Squirgle extends Game {
 		//TODO: Add the rest of the tracks once they're written/recorded
 
 		//themeFromSquirgle
-		Music themeFromSquirgle = Gdx.audio.newMusic(Gdx.files.internal("music/Theme from Squirgle.ogg"));
+		Music themeFromSquirgle = Gdx.audio.newMusic(Gdx.files.internal("music/Theme from Squirgle.wav"));
 		themeFromSquirgle.setLooping(true);
 		trackMapFull.put(MUSIC_THEME_FROM_SQUIRGLE, themeFromSquirgle);
 
 		//pointillism (full)
-		Music pointillism = Gdx.audio.newMusic(Gdx.files.internal("music/Pointillism (Full).ogg"));
+		Music pointillism = Gdx.audio.newMusic(Gdx.files.internal("music/Pointillism (Full).wav"));
 		pointillism.setLooping(true);
 		trackMapFull.put(MUSIC_POINTILLISM, pointillism);
 
 		//pointillism (phases)
-		Music pointillismPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Pointillism (Phase 1).ogg"));
-		Music pointillismPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Pointillism (Phase 2).ogg"));
-		Music pointillismPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Pointillism (Phase 3).ogg"));
+		Music pointillismPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Pointillism (Phase 1).wav"));
+		Music pointillismPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Pointillism (Phase 2).wav"));
+		Music pointillismPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Pointillism (Phase 3).wav"));
 		pointillismPhase1.setLooping(true);
 		pointillismPhase2.setLooping(true);
 		pointillismPhase3.setLooping(true);
@@ -418,15 +418,15 @@ public class Squirgle extends Game {
 		trackMapPhase.put(MUSIC_POINTILLISM, pointillismPhaseList);
 
 		//lineage (full)
-		Music lineage = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Full).ogg"));
+		Music lineage = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Full).wav"));
 		lineage.setLooping(true);
 		trackMapFull.put(MUSIC_LINEAGE, lineage);
 
 		//TODO: Figure out why Pointillism is playing when Lineage is chosen as phased.
 		//lineage (phases)
-		Music lineagePhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Phase 1).ogg"));
-		Music lineagePhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Phase 2).ogg"));
-		Music lineagePhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Phase 3).ogg"));
+		Music lineagePhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Phase 1).wav"));
+		Music lineagePhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Phase 2).wav"));
+		Music lineagePhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Phase 3).wav"));
 		lineagePhase1.setLooping(true);
 		lineagePhase2.setLooping(true);
 		lineagePhase3.setLooping(true);
@@ -436,14 +436,14 @@ public class Squirgle extends Game {
 		trackMapPhase.put(MUSIC_LINEAGE, lineagePhaseList);
 
 		//triTheWaltz (full)
-		Music triTheWaltz = Gdx.audio.newMusic(Gdx.files.internal("music/Tri the Waltz (Full).ogg"));
+		Music triTheWaltz = Gdx.audio.newMusic(Gdx.files.internal("music/Tri the Waltz (Full).wav"));
 		triTheWaltz.setLooping(true);
 		trackMapFull.put(MUSIC_TRI_THE_WALTZ, triTheWaltz);
 
 		//triTheWaltz (phases)
-		Music triTheWaltzPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Tri the Waltz (Phase 1).ogg"));
-		Music triTheWaltzPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Tri the Waltz (Phase 2).ogg"));
-		Music triTheWaltzPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Tri the Waltz (Phase 3).ogg"));
+		Music triTheWaltzPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Tri the Waltz (Phase 1).wav"));
+		Music triTheWaltzPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Tri the Waltz (Phase 2).wav"));
+		Music triTheWaltzPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Tri the Waltz (Phase 3).wav"));
 		triTheWaltzPhase1.setLooping(true);
 		triTheWaltzPhase2.setLooping(true);
 		triTheWaltzPhase3.setLooping(true);
@@ -453,14 +453,14 @@ public class Squirgle extends Game {
 		trackMapPhase.put(MUSIC_TRI_THE_WALTZ, triTheWaltzPhaseList);
 
 		//squaredOff (full)
-		Music squaredOff = Gdx.audio.newMusic(Gdx.files.internal("music/Squared Off (Full).ogg"));
+		Music squaredOff = Gdx.audio.newMusic(Gdx.files.internal("music/Squared Off (Full).wav"));
 		squaredOff.setLooping(true);
 		trackMapFull.put(MUSIC_SQUARED_OFF, squaredOff);
 
 		//squaredOff (phases)
-		Music squaredOffPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Squared Off (Phase 1).ogg"));
-		Music squaredOffPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Squared Off (Phase 2).ogg"));
-		Music squaredOffPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Squared Off (Phase 3).ogg"));
+		Music squaredOffPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Squared Off (Phase 1).wav"));
+		Music squaredOffPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Squared Off (Phase 2).wav"));
+		Music squaredOffPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Squared Off (Phase 3).wav"));
 		squaredOffPhase1.setLooping(true);
 		squaredOffPhase2.setLooping(true);
 		squaredOffPhase3.setLooping(true);
@@ -470,14 +470,14 @@ public class Squirgle extends Game {
 		trackMapPhase.put(MUSIC_SQUARED_OFF, squaredOffPhaseList);
 
 		//pentUp (full)
-		Music pentUp = Gdx.audio.newMusic(Gdx.files.internal("music/Pent Up (Full).ogg"));
+		Music pentUp = Gdx.audio.newMusic(Gdx.files.internal("music/Pent Up (Full).wav"));
 		pentUp.setLooping(true);
 		trackMapFull.put(MUSIC_PENT_UP, pentUp);
 
 		//pentUp (phases)
-		Music pentUpPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Pent Up (Phase 1).ogg"));
-		Music pentUpPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Pent Up (Phase 2).ogg"));
-		Music pentUpPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Pent Up (Phase 3).ogg"));
+		Music pentUpPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Pent Up (Phase 1).wav"));
+		Music pentUpPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Pent Up (Phase 2).wav"));
+		Music pentUpPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Pent Up (Phase 3).wav"));
 		pentUpPhase1.setLooping(true);
 		pentUpPhase2.setLooping(true);
 		pentUpPhase3.setLooping(true);
@@ -487,14 +487,14 @@ public class Squirgle extends Game {
 		trackMapPhase.put(MUSIC_PENT_UP, pentUpPhaseList);
 
 		//hexidecibel (full)
-		Music hexidecibel = Gdx.audio.newMusic(Gdx.files.internal("music/Hexidecibel (Full).ogg"));
+		Music hexidecibel = Gdx.audio.newMusic(Gdx.files.internal("music/Hexidecibel (Full).wav"));
 		hexidecibel.setLooping(true);
 		trackMapFull.put(MUSIC_HEXIDECIBEL, hexidecibel);
 
 		//hexidecibel (phases)
-		Music hexidecibelPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Hexidecibel (Phase 1).ogg"));
-		Music hexidecibelPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Hexidecibel (Phase 2).ogg"));
-		Music hexidecibelPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Hexidecibel (Phase 3).ogg"));
+		Music hexidecibelPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Hexidecibel (Phase 1).wav"));
+		Music hexidecibelPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Hexidecibel (Phase 2).wav"));
+		Music hexidecibelPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Hexidecibel (Phase 3).wav"));
 		hexidecibelPhase1.setLooping(true);
 		hexidecibelPhase2.setLooping(true);
 		hexidecibelPhase3.setLooping(true);
@@ -504,14 +504,14 @@ public class Squirgle extends Game {
 		trackMapPhase.put(MUSIC_HEXIDECIBEL, hexidecibelPhaseList);
 
 		//interseptor (full)
-		Music interseptor = Gdx.audio.newMusic(Gdx.files.internal("music/Interseptor (Full).ogg"));
+		Music interseptor = Gdx.audio.newMusic(Gdx.files.internal("music/Interseptor (Full).wav"));
 		interseptor.setLooping(true);
 		trackMapFull.put(MUSIC_INTERSEPTOR, interseptor);
 
 		//interseptor (phases)
-		Music interseptorPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Interseptor (Phase 1).ogg"));
-		Music interseptorPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Interseptor (Phase 2).ogg"));
-		Music interseptorPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Interseptor (Phase 3).ogg"));
+		Music interseptorPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Interseptor (Phase 1).wav"));
+		Music interseptorPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Interseptor (Phase 2).wav"));
+		Music interseptorPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Interseptor (Phase 3).wav"));
 		interseptorPhase1.setLooping(true);
 		interseptorPhase2.setLooping(true);
 		interseptorPhase3.setLooping(true);
@@ -521,14 +521,14 @@ public class Squirgle extends Game {
 		trackMapPhase.put(MUSIC_INTERSEPTOR, interseptorPhaseList);
 
 		//roctopus (full)
-		Music roctopus = Gdx.audio.newMusic(Gdx.files.internal("music/Roctopus (Full).ogg"));
+		Music roctopus = Gdx.audio.newMusic(Gdx.files.internal("music/Roctopus (Full).wav"));
 		roctopus.setLooping(true);
 		trackMapFull.put(MUSIC_ROCTOPUS, roctopus);
 
 		//roctopus (phases)
-		Music roctopusPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Roctopus (Phase 1).ogg"));
-		Music roctopusPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Roctopus (Phase 2).ogg"));
-		Music roctopusPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Roctopus (Phase 3).ogg"));
+		Music roctopusPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Roctopus (Phase 1).wav"));
+		Music roctopusPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Roctopus (Phase 2).wav"));
+		Music roctopusPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Roctopus (Phase 3).wav"));
 		roctopusPhase1.setLooping(true);
 		roctopusPhase2.setLooping(true);
 		roctopusPhase3.setLooping(true);
@@ -538,14 +538,14 @@ public class Squirgle extends Game {
 		trackMapPhase.put(MUSIC_ROCTOPUS, roctopusPhaseList);
 
 		//nonplussed (full)
-		Music nonplussed = Gdx.audio.newMusic(Gdx.files.internal("music/Nonplussed (Full).ogg"));
+		Music nonplussed = Gdx.audio.newMusic(Gdx.files.internal("music/Nonplussed (Full).wav"));
 		nonplussed.setLooping(true);
 		trackMapFull.put(MUSIC_NONPLUSSED, nonplussed);
 
 		//nonplussed (phases)
-		Music nonplussedPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Nonplussed (Phase 1).ogg"));
-		Music nonplussedPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Nonplussed (Phase 2).ogg"));
-		Music nonplussedPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Nonplussed (Phase 3).ogg"));
+		Music nonplussedPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Nonplussed (Phase 1).wav"));
+		Music nonplussedPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Nonplussed (Phase 2).wav"));
+		Music nonplussedPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Nonplussed (Phase 3).wav"));
 		nonplussedPhase1.setLooping(true);
 		nonplussedPhase2.setLooping(true);
 		nonplussedPhase3.setLooping(true);
