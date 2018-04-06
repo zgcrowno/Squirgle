@@ -564,7 +564,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         if(game.widthGreater) {
             FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
         } else {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 17.25f;
+            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
         }
     }
 

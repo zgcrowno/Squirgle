@@ -2794,7 +2794,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         if(game.widthGreater) {
             FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
         } else {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 17.25f;
+            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
         }
         INPUT_PLAY_SPAWN = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         INPUT_HOME_SPAWN = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));

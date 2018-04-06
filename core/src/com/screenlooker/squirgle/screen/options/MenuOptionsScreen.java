@@ -87,7 +87,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         if(game.widthGreater) {
             FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
         } else {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 17.25f;
+            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
         }
 
         game.setUpFontVolume(MathUtils.round(game.camera.viewportWidth / FONT_VOLUME_SIZE_DIVISOR));
