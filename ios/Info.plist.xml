@@ -24,6 +24,8 @@
     <string>????</string>
     <key>CFBundleVersion</key>
     <string>${app.build}</string>
+    <key>CFBundleIconName</key>
+    <string>AppIcon</string>
     <key>LSRequiresIPhoneOS</key>
     <true/>
     <key>UIViewControllerBasedStatusBarAppearance</key>
@@ -47,19 +49,19 @@
         <string>UIInterfaceOrientationLandscapeLeft</string>
         <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
-    <key>CFBundleIcons</key>
-    <dict>
-        <key>CFBundlePrimaryIcon</key>
-        <dict>
-            <key>CFBundleIconFiles</key>
-            <array>
-                <string>Icon</string>
-                <string>Icon-60</string>
-                <string>Icon-72</string>
-                <string>Icon-76</string>
-            </array>
-        </dict>
-    </dict>
+    <!--<key>CFBundleIcons</key>-->
+    <!--<dict>-->
+        <!--<key>CFBundlePrimaryIcon</key>-->
+        <!--<dict>-->
+            <!--<key>CFBundleIconFiles</key>-->
+            <!--<array>-->
+                <!--<string>Icon</string>-->
+                <!--<string>Icon-60</string>-->
+                <!--<string>Icon-72</string>-->
+                <!--<string>Icon-76</string>-->
+            <!--</array>-->
+        <!--</dict>-->
+    <!--</dict>-->
     <key>FacebookAppID</key>
     <string>308417666344618</string>
     <key>FacebookDisplayName</key>
