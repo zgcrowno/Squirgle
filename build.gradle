@@ -98,6 +98,25 @@ project(":ios") {
     apply plugin: "java"
     apply plugin: "robovm"
 
+    robovm {
+        // Find this value by running:
+        // security find-identity -v -p codesigning
+        iosSignIdentity = "A093BE8F0779ACB23114E0E6857DF155C2B362ED"
+
+        // Find this value by reading the files in
+        // ~/Library/MobileDevice/Provisioning Profiles/
+        // and picking the base name of the one corresponding to your
+        // production profile.
+        iosProvisioningProfile = "dcb55bba-7507-4791-9339-2d7b65e563e8"
+
+        iosSkipSigning = false
+
+        // Enable these to fix any "file unwritable" exceptions if they crop up.
+        // Was not a problem for me.
+        // stdoutFifo = null
+        // stderrFifo = null
+    }
+
 
     dependencies {
         compile project(":core")

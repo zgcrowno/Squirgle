@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>MinimumOSVersion</key>
+    <string>10.3.3</string>
     <key>CFBundleDevelopmentRegion</key>
     <string>en</string>
     <key>CFBundleDisplayName</key>
@@ -41,6 +43,7 @@
     <key>UISupportedInterfaceOrientations</key>
     <array>
         <string>UIInterfaceOrientationPortrait</string>
+        <string>UIInterfaceOrientationPortraitUpsideDown</string>
         <string>UIInterfaceOrientationLandscapeLeft</string>
         <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
@@ -51,7 +54,9 @@
             <key>CFBundleIconFiles</key>
             <array>
                 <string>Icon</string>
+                <string>Icon-60</string>
                 <string>Icon-72</string>
+                <string>Icon-76</string>
             </array>
         </dict>
     </dict>
@@ -68,5 +73,7 @@
             </array>
         </dict>
     </array>
+    <key>UIRequiresFullScreen</key>
+    <true/>
 </dict>
 </plist>
