@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Button;
@@ -82,6 +83,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
         squirgleRadius = game.camera.viewportHeight / 4;
         squirgleHeightOffset = squirgleRadius / 4;
+
+        game.setUpFontButton(MathUtils.round(symbolRadius / 2.5f));
 
         touchPoint = new Vector3();
 
@@ -193,6 +196,12 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
         if(veilOpacity > 0) {
             veilOpacity -= 0.05f;
+        } else {
+            if(!buttonTouched()) {
+                for (Button button : buttonList) {
+                    button.drawText();
+                }
+            }
         }
     }
 
@@ -283,6 +292,15 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
     @Override
     public boolean scrolled(int amount) {
+        return false;
+    }
+
+    public boolean buttonTouched() {
+        for(Button btn : buttonList) {
+            if(btn.touched) {
+                return true;
+            }
+        }
         return false;
     }
 

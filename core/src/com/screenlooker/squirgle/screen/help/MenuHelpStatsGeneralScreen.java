@@ -40,7 +40,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
     private final static String FAVORITE_BASE = "FAVORITE BASE: ";
     private final static String FAVORITE_MODE = "FAVORITE MODE: ";
     private final static String FAVORITE_TRACK = "FAVORITE TRACK: ";
-    private final static String HOURS = "H";
+    private final static String HOURS = "h";
     private final static String MINUTES = "m";
     private final static String SECONDS = "s";
 

@@ -27,16 +27,16 @@ import java.util.List;
 import java.util.Map;
 
 public class Squirgle extends Game {
-	private static int VIRTUAL_WIDTH;
-	private static int VIRTUAL_HEIGHT;
-	private static float ASPECT_RATIO;
+	public static int VIRTUAL_WIDTH;
+	public static int VIRTUAL_HEIGHT;
+	public static float ASPECT_RATIO;
 
 	public final static int PARTITION_DIVISOR = 80;
 	public final static int LINE_WIDTH = 20;
 	public final static int END_LINE_WIDTH_INCREASE = 2;
 	public final static int FPS = 60;
 	public final static int MAX_POSSIBLE_BASE = 9;
-	public final static int SCORE_TO_UNLOCK_NEW_BASE = 100;
+	public final static int SCORE_TO_UNLOCK_NEW_BASE = 120;
 	public final static int ONE_MINUTE = 60;
 	public final static int THREE_MINUTES = 180;
 	public final static int FIVE_MINUTES = 300;
@@ -110,7 +110,8 @@ public class Squirgle extends Game {
 
 	public boolean widthGreater;
 	public boolean showWipeDataPrompt;
-	public float widthOrHeight;
+	public float widthOrHeightSmaller;
+	public float widthOrHeightBigger;
 	public float fourthOfScreen;
 	public float thirdOfScreen;
 	public float fiveTwelfthsOfScreen;
@@ -133,6 +134,7 @@ public class Squirgle extends Game {
 	public BitmapFont fontStats;
 	public BitmapFont fontTutorialHelp;
 	public BitmapFont fontSkip;
+	public BitmapFont fontButton;
 	public GlyphLayout layout;
 	public FreeTypeFontGenerator generator;
 	public OrthographicCamera camera;
@@ -163,7 +165,6 @@ public class Squirgle extends Game {
 
 		VIRTUAL_WIDTH = Gdx.graphics.getWidth();
 		VIRTUAL_HEIGHT = Gdx.graphics.getHeight();
-		ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
 
 		manager = new AssetManager();
 
@@ -189,11 +190,15 @@ public class Squirgle extends Game {
 		camera.position.set(VIRTUAL_WIDTH/2,VIRTUAL_HEIGHT/2,0);
 		widthGreater = camera.viewportWidth > camera.viewportHeight;
 		showWipeDataPrompt = false;
-		widthOrHeight = widthGreater ? camera.viewportHeight : camera.viewportWidth;
-		fourthOfScreen = widthOrHeight / 4;
-		thirdOfScreen = widthOrHeight / 3;
-		fiveTwelfthsOfScreen = (5 * widthOrHeight) / 12;
-		partitionSize = widthOrHeight / PARTITION_DIVISOR;
+		widthOrHeightSmaller = widthGreater ? camera.viewportHeight : camera.viewportWidth;
+		widthOrHeightBigger = widthGreater ? camera.viewportWidth : camera.viewportHeight;
+
+		ASPECT_RATIO = widthOrHeightBigger / widthOrHeightSmaller;
+
+		fourthOfScreen = widthOrHeightSmaller / 4;
+		thirdOfScreen = widthOrHeightSmaller / 3;
+		fiveTwelfthsOfScreen = (5 * widthOrHeightSmaller) / 12;
+		partitionSize = widthOrHeightSmaller / PARTITION_DIVISOR;
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);
@@ -254,6 +259,8 @@ public class Squirgle extends Game {
 			fontTutorialHelp.dispose();
 		if(fontSkip != null)
 			fontSkip.dispose();
+		if(fontButton != null)
+			fontButton.dispose();
 		generator.dispose();
 		shapeRendererFilled.dispose();
 		shapeRendererLine.dispose();
@@ -378,6 +385,14 @@ public class Squirgle extends Game {
 		parameter.size = size;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
 		fontSkip = generator.generateFont(parameter);
+	}
+
+	public void setUpFontButton(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		fontButton = generator.generateFont(parameter);
 	}
 
 	public void setUpMusicTitleList() {

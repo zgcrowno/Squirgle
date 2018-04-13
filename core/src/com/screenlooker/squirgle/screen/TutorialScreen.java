@@ -45,7 +45,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     public static float FONT_SCORE_SIZE_DIVISOR;
     public static float FONT_TARGET_SIZE_DIVISOR;
     public static float FONT_SQUIRGLE_SIZE_DIVISOR;
-    public static float FONT_TUTORIAL_HELP_SIZE_DIVISOR;
+    public static float FONT_TUTORIAL_HELP_SIZE_MULTIPLIER;
     public static Vector2 INPUT_POINT_SPAWN;
     public static Vector2 INPUT_LINE_SPAWN;
     public static Vector2 INPUT_TRIANGLE_SPAWN;
@@ -462,7 +462,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         primaryShapeP2 = priorShapeListP2.size() > 0 ? priorShapeListP2.get(0) : promptShapeP2;
 
         if(!splitScreen) {
-            primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
+            primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
         } else {
             //TODO: Update this when I determine dimensions
             primaryShapeThreshold = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER : (game.camera.viewportHeight / 2) * game.draw.THRESHOLD_MULTIPLIER;
@@ -492,7 +492,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     game.draw.drawPerimeter(game.camera.viewportWidth / 2,
                             game.camera.viewportHeight / 2,
                             blackAndWhite ? Color.WHITE : Color.BLACK,
-                            (3 * game.widthOrHeight) / 8,
+                            (3 * game.widthOrHeightSmaller) / 8,
                             promptShape);
                 } else {
                     game.draw.drawPerimeter(game.camera.viewportWidth / 2,
@@ -1492,7 +1492,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     lastSpeedIncreaseTime = System.currentTimeMillis();
                     game.draw.setColorListSpeed(game.draw.getColorListSpeed() + COLOR_LIST_SPEED_ADDITIVE);
                     game.draw.setColorSpeed(game.draw.getColorSpeed() + COLOR_SPEED_ADDITIVE);
-                    promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
+                    promptIncrease = (game.widthOrHeightSmaller * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
                 }
             }
         }
@@ -1503,7 +1503,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             if(!paused) {
                 float actualFPS = Gdx.graphics.getRawDeltaTime() * game.FPS;
                 game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.timeAttackNumSeconds * actualFPS * game.FPS));
-                promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
+                promptIncrease = (game.widthOrHeightSmaller * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
             }
         }
     }
@@ -1682,9 +1682,9 @@ public class TutorialScreen implements Screen, InputProcessor {
         //Game over condition
         boolean gameOverCondition = false;
         if(!splitScreen) {
-            gameOverCondition = promptShape.getRadius() >= game.widthOrHeight / 2 && !gameOver;
+            gameOverCondition = promptShape.getRadius() >= game.widthOrHeightSmaller / 2 && !gameOver;
         } else {
-            gameOverCondition = (dummyPromptForTimelines.getRadius() >= game.widthOrHeight / 2
+            gameOverCondition = (dummyPromptForTimelines.getRadius() >= game.widthOrHeightSmaller / 2
                     || saturationP1 >= MAX_SATURATION || saturationP2 >= MAX_SATURATION)
                     && !gameOver;
         }
@@ -2455,12 +2455,12 @@ public class TutorialScreen implements Screen, InputProcessor {
         if(player == null) {
             if(!blackAndWhite) {
                 if(phase >= PHASE_FIVE) {
-                    float radiusIncrease = game.widthOrHeight * ((backgroundColorShapeList.get(2).getCoordinates().y - backgroundColorShapeList.get(3).getCoordinates().y) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));
+                    float radiusIncrease = game.widthOrHeightSmaller * ((backgroundColorShapeList.get(2).getCoordinates().y - backgroundColorShapeList.get(3).getCoordinates().y) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));
 
                     if (phase < PHASE_SIX && promptShape.getRadius() + radiusIncrease > game.thirdOfScreen) {
                         promptShape.setRadius(game.thirdOfScreen);
-                    } else if (promptShape.getRadius() + radiusIncrease > (game.widthOrHeight / 2)) {
-                        promptShape.setRadius(game.widthOrHeight / 2);
+                    } else if (promptShape.getRadius() + radiusIncrease > (game.widthOrHeightSmaller / 2)) {
+                        promptShape.setRadius(game.widthOrHeightSmaller / 2);
                     } else {
                         promptShape.setRadius(promptShape.getRadius() + radiusIncrease);
                     }
@@ -2781,7 +2781,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         }
         BACKGROUND_COLOR_SHAPE_LIST_WIDTH = BACKGROUND_COLOR_SHAPE_LIST_MAX_X - BACKGROUND_COLOR_SHAPE_LIST_MIN_X;
         COLOR_LIST_SPEED_ADDITIVE =  BACKGROUND_COLOR_SHAPE_LIST_HEIGHT / 5000;
-        INIT_PROMPT_RADIUS = splitScreen ? game.widthOrHeight / 8 : game.widthOrHeight / 4;
+        INIT_PROMPT_RADIUS = splitScreen ? game.widthOrHeightSmaller / 8 : game.widthOrHeightSmaller / 4;
         if(splitScreen && game.widthGreater) {
             FONT_SCORE_SIZE_DIVISOR = 30f;
             FONT_TARGET_SIZE_DIVISOR = 71f;
@@ -2792,9 +2792,9 @@ public class TutorialScreen implements Screen, InputProcessor {
             FONT_SQUIRGLE_SIZE_DIVISOR = 5f;
         }
         if(game.widthGreater) {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 17f;
         } else {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 24f;
         }
         INPUT_PLAY_SPAWN = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         INPUT_HOME_SPAWN = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
@@ -2825,7 +2825,7 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         //Set prompt increase such that without player input, three passes of backgroundColorShapeList will
         //occur before game over
-        promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
+        promptIncrease = (game.widthOrHeightSmaller * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
         targetArcStart = -Draw.NINETY_ONE_DEGREES;
         targetArcStartP1 = -Draw.NINETY_ONE_DEGREES;
         targetArcStartP2 = local ? Draw.NINETY_ONE_DEGREES : -Draw.NINETY_ONE_DEGREES;
@@ -3036,7 +3036,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         primaryShapeP2 = priorShapeListP2.size() > 0 ? priorShapeListP2.get(0) : promptShapeP2;
 
         if(!splitScreen) {
-            primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
+            primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
         } else {
             //TODO: Update this when I determine dimensions
             primaryShapeThreshold = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER : (game.camera.viewportHeight / 2) * game.draw.THRESHOLD_MULTIPLIER;
@@ -3315,7 +3315,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         helpTextMap.put(Squirgle.GAMEPLAY_TIME_ATTACK, timeAttackPhaseMap);
         helpTextMap.put(Squirgle.GAMEPLAY_TIME_BATTLE, timeBattlePhaseMap);
 
-        game.setUpFontTutorialHelp(MathUtils.round(game.widthOrHeight / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
+        game.setUpFontTutorialHelp(MathUtils.round(game.ASPECT_RATIO * FONT_TUTORIAL_HELP_SIZE_MULTIPLIER));
 
         helpLabelStyle = new Label.LabelStyle();
         helpLabelStyle.font = game.fontTutorialHelp;

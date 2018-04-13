@@ -40,7 +40,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     public final static int NUM_SOUND_INPUT_ELEMENTS = 4;
 
     private final static float FONT_VOLUME_SIZE_DIVISOR = 11.1f;
-    private static float FONT_TUTORIAL_HELP_SIZE_DIVISOR;
+    private static float FONT_TUTORIAL_HELP_SIZE_MULTIPLIER;
 
     private float inputWidth;
     private float inputHeightMiddle;
@@ -85,13 +85,13 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         game.resetInstanceData();
 
         if(game.widthGreater) {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 35.5f;
         } else {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 42f;
         }
 
         game.setUpFontVolume(MathUtils.round(game.camera.viewportWidth / FONT_VOLUME_SIZE_DIVISOR));
-        game.setUpFontTutorialHelp(MathUtils.round(game.widthOrHeight / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
+        game.setUpFontTutorialHelp(MathUtils.round(game.ASPECT_RATIO * FONT_TUTORIAL_HELP_SIZE_MULTIPLIER));
 
         Gdx.input.setInputProcessor(this);
 

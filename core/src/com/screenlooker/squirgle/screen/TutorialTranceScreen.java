@@ -29,7 +29,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
     public static float INIT_PROMPT_RADIUS;
     public static float PAUSE_INPUT_WIDTH;
     public static float PAUSE_INPUT_HEIGHT;
-    public static float FONT_TUTORIAL_HELP_SIZE_DIVISOR;
+    public static float FONT_TUTORIAL_HELP_SIZE_MULTIPLIER;
 
     private final static int PAUSE_BACK = 0;
     private final static int PAUSE_QUIT = 1;
@@ -122,7 +122,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         game.shapeRendererLine.begin(ShapeRenderer.ShapeType.Line);
 
         primaryShape = priorShapeList.size() > 0 ? priorShapeList.get(0) : promptShape;
-        primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
+        primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
 
         increasePromptRadius();
@@ -560,11 +560,11 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
     public void setUpNonFinalStaticData() {
         PAUSE_INPUT_WIDTH = (game.camera.viewportWidth - (4 * game.partitionSize)) / 3;
         PAUSE_INPUT_HEIGHT = game.camera.viewportHeight - (2 * game.partitionSize);
-        INIT_PROMPT_RADIUS = game.widthOrHeight / 4;
+        INIT_PROMPT_RADIUS = game.widthOrHeightSmaller / 4;
         if(game.widthGreater) {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 20f;
         } else {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 28f;
         }
     }
 
@@ -617,7 +617,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         destructionIndex = 1;
         firstPriorShapePreviousX = 0;
         primaryShape = priorShapeList.size() > 0 ? priorShapeList.get(0) : promptShape;
-        primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
+        primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
 
         phaseOneTextOne = "Welcome to the TRANCE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of TRANCE.";
@@ -636,7 +636,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         phaseMap.put(PHASE_ONE, helpTextPhaseOneList);
         helpTextMap.put(Squirgle.GAMEPLAY_TRANCE, phaseMap);
 
-        game.setUpFontTutorialHelp(MathUtils.round(game.widthOrHeight / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
+        game.setUpFontTutorialHelp(MathUtils.round(game.ASPECT_RATIO * FONT_TUTORIAL_HELP_SIZE_MULTIPLIER));
 
         helpLabelStyle = new Label.LabelStyle();
         helpLabelStyle.font = game.fontTutorialHelp;

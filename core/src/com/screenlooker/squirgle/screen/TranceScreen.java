@@ -83,7 +83,7 @@ public class TranceScreen implements Screen, InputProcessor {
         game.shapeRendererLine.begin(ShapeRenderer.ShapeType.Line);
 
         primaryShape = priorShapeList.size() > 0 ? priorShapeList.get(0) : promptShape;
-        primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
+        primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
 
         increasePromptRadius();
@@ -377,7 +377,7 @@ public class TranceScreen implements Screen, InputProcessor {
     public void setUpNonFinalStaticData() {
         PAUSE_INPUT_WIDTH = (game.camera.viewportWidth - (4 * game.partitionSize)) / 3;
         PAUSE_INPUT_HEIGHT = game.camera.viewportHeight - (2 * game.partitionSize);
-        INIT_PROMPT_RADIUS = game.widthOrHeight / 4;
+        INIT_PROMPT_RADIUS = game.widthOrHeightSmaller / 4;
     }
 
     public void setUpNonFinalNonStaticData() {
@@ -421,7 +421,7 @@ public class TranceScreen implements Screen, InputProcessor {
         destructionIndex = 1;
         firstPriorShapePreviousX = 0;
         primaryShape = priorShapeList.size() > 0 ? priorShapeList.get(0) : promptShape;
-        primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
+        primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
     }
 

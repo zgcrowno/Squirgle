@@ -89,7 +89,7 @@ public class Draw {
     public void drawPerimeter(float x, float y, Color color, float visibilityPoint, Shape promptShape) {
         float opacity = 0f;
         if(promptShape.getRadius() >= visibilityPoint) {
-            opacity = (promptShape.getRadius() - visibilityPoint) / (game.widthOrHeight / 4);
+            opacity = (promptShape.getRadius() - visibilityPoint) / (game.widthOrHeightSmaller / 4);
         }
         game.shapeRendererLine.setColor(new Color(color.r, color.g, color.b, opacity));
         game.shapeRendererLine.circle(x, y, promptShape.getRadius());
@@ -509,7 +509,7 @@ public class Draw {
                 }
 
                 //Only draw the shape if it's large enough to be relevant
-                if(shape.getRadius() >= game.widthOrHeight / SHAPE_VISIBLE_DIVISOR) {
+                if(shape.getRadius() >= game.widthOrHeightSmaller / SHAPE_VISIBLE_DIVISOR) {
                     drawShape(localPlayer2, shape);
                 }
             }
@@ -2070,7 +2070,7 @@ public class Draw {
         if(promptShape.getRadius() <= game.fiveTwelfthsOfScreen) {
             thirdY = firstColorShape.getCoordinates().y;
         } else {
-            thirdY = firstColorShape.getCoordinates().y + ((lastColorShape.getCoordinates().y - firstColorShape.getCoordinates().y) * ((promptShape.getRadius() - game.fiveTwelfthsOfScreen) / ((game.widthOrHeight / 2) - game.fiveTwelfthsOfScreen)));
+            thirdY = firstColorShape.getCoordinates().y + ((lastColorShape.getCoordinates().y - firstColorShape.getCoordinates().y) * ((promptShape.getRadius() - game.fiveTwelfthsOfScreen) / ((game.widthOrHeightSmaller / 2) - game.fiveTwelfthsOfScreen)));
         }
 
         if(promptShape.getRadius() <= game.thirdOfScreen) {

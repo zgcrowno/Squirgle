@@ -43,9 +43,9 @@ public class LoadingScreen implements Screen {
 
         game.resetInstanceData();
 
-        game.setUpFontLoading(MathUtils.round(game.widthOrHeight / FONT_LOADING_SIZE_DIVISOR));
+        game.setUpFontLoading(MathUtils.round(game.widthOrHeightSmaller / FONT_LOADING_SIZE_DIVISOR));
 
-        squirgleRadius = game.widthOrHeight / 4;
+        squirgleRadius = game.widthOrHeightSmaller / 4;
 
         squareColor = ColorUtils.randomTransitionColor();
         circleColor = ColorUtils.randomTransitionColor();

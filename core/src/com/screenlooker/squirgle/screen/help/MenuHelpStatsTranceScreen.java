@@ -36,7 +36,7 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
 
     private final static String TIME_PLAYED = "TIME PLAYED: ";
     private final static String FAVORITE_TRACK = "FAVORITE TRACK: ";
-    private final static String HOURS = "H";
+    private final static String HOURS = "h";
     private final static String MINUTES = "m";
     private final static String SECONDS = "s";
 
