@@ -217,38 +217,52 @@ public class Button {
     private static final String CREDITS_STRING = "CREDITS";
     private static final String GENERAL_STRING = "GENERAL";
 
-    private float x;
-    private float y;
-    private float width;
-    private float height;
-    private float radius;
-    private float squirgleHeightOffset;
-    private float transitionThreshold;
-    private float transitionIncrement;
-    private int buttonType;
+    public float x;
+    public float y;
+    public float width;
+    public float height;
+    public float radius;
+    public float centerX;
+    public float centerY;
+    public float symbolX;
+    public float symbolY;
+    public float symbolRadius;
+    public float symbolTextOverlap;
+    public float squirgleHeightOffset;
+    public float transitionThreshold;
+    public float transitionIncrement;
+    public int buttonType;
     public boolean touched;
-    private Color containerColor;
-    private Color containedColor;
-    private Color originalContainerColor;
-    private Color squareColor;
-    private Color circleColor;
-    private Color triangleColor;
-    private List<Shape> transitionCirclesList;
-    private List<Shape> squirgleShapeList;
-    private List<Shape> squirgleShapeListBattleOne;
-    private List<Shape> squirgleShapeListBattleTwo;
-    private Shape squirglePrompt;
-    private Shape squirglePromptBattleOne;
-    private Shape squirglePromptBattleTwo;
-    private Squirgle game;
+    public Color containerColor;
+    public Color containedColor;
+    public Color originalContainerColor;
+    public Color squareColor;
+    public Color circleColor;
+    public Color triangleColor;
+    public List<Shape> transitionCirclesList;
+    public List<Shape> squirgleShapeList;
+    public List<Shape> squirgleShapeListBattleOne;
+    public List<Shape> squirgleShapeListBattleTwo;
+    public Shape squirglePrompt;
+    public Shape squirglePromptBattleOne;
+    public Shape squirglePromptBattleTwo;
+    public Squirgle game;
 
     public Button() {
+        game.layout.setText(game.fontButton, PLAY_STRING); //Setting this so I have access to the button's text's height
+
         this.game = new Squirgle();
         this.x = 0;
         this.y = 0;
         this.width = 0;
         this.height = 0;
         this.radius = 0;
+        this.centerX = x + (width / 2);
+        this.centerY = y + (height / 2);
+        this.symbolTextOverlap = (y + game.layout.height) - (centerY - radius);
+        this.symbolX = centerX;
+        this.symbolY = symbolTextOverlap > 0 ? centerY + (symbolTextOverlap / 2) : centerY;
+        this.symbolRadius = symbolTextOverlap > 0 ? radius - (symbolTextOverlap / 2) : radius;
         this.squirgleHeightOffset = radius / 4;
         this.transitionThreshold = (float) Math.sqrt(Math.pow(game.camera.viewportWidth, 2) + Math.pow(game.camera.viewportHeight, 2));
         this.transitionIncrement = game.widthOrHeightSmaller / 5;
@@ -321,12 +335,20 @@ public class Button {
     }
 
     public Button(float x, float y, float width, float height, int buttonType, Color containerColor, Color containedColor, Squirgle game) {
+        game.layout.setText(game.fontButton, PLAY_STRING); //Setting this so I have access to the button's text's height
+
         this.game = game;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.radius = width > height ? height / 2 : width / 2;
+        this.centerX = x + (width / 2);
+        this.centerY = y + (height / 2);
+        this.symbolTextOverlap = (y + game.layout.height) - (centerY - radius);
+        this.symbolX = centerX;
+        this.symbolY = symbolTextOverlap > 0 ? centerY + (symbolTextOverlap / 2) : centerY;
+        this.symbolRadius = symbolTextOverlap > 0 ? radius - (symbolTextOverlap / 2) : radius;
         this.squirgleHeightOffset = radius / 4;
         this.transitionThreshold = (float) Math.sqrt(Math.pow(game.camera.viewportWidth, 2) + Math.pow(game.camera.viewportHeight, 2));
         this.transitionIncrement = game.widthOrHeightSmaller / 5;
@@ -440,79 +462,78 @@ public class Button {
     }
 
     public void drawSymbol() {
-        float centerX = x + (width / 2);
-        float centerY = y + (height / 2);
-
         switch(buttonType) {
             case BUTTON_TYPE : {
                 game.draw.drawPlayButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_OPTIONS : {
                 game.draw.drawWrench(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_HELP : {
                 game.draw.drawQuestionMark(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_QUIT : {
                 game.draw.drawX(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER : {
+                symbolRadius = symbolTextOverlap > 0 ? (radius / 3) - (symbolTextOverlap / 2) : radius / 3;
                 game.draw.drawFace(centerX,
-                        centerY,
-                        radius / 3,
-                        (radius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL : {
+                symbolRadius = symbolTextOverlap > 0 ? (radius / 3) - (symbolTextOverlap / 2) : radius / 3;
                 game.draw.drawFace((game.camera.viewportWidth / 2) - radius + (radius / 3),
-                        game.camera.viewportHeight / 4,
-                        radius / 3,
-                        (radius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor,
                         containerColor);
                 game.draw.drawFace((game.camera.viewportWidth / 2) + radius - (radius / 3),
-                        game.camera.viewportHeight / 4,
-                        radius / 3,
-                        (radius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor,
                         containerColor);
                 game.shapeRendererFilled.setColor(containedColor);
                 game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 2) - radius,
-                        game.camera.viewportHeight / 4,
+                        symbolY,
                         (game.camera.viewportWidth / 2) + radius,
-                        game.camera.viewportHeight / 4,
+                        symbolY,
                         (radius / 2) / Draw.LINE_WIDTH_DIVISOR);
                 break;
             }
             case BUTTON_TYPE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
@@ -527,8 +548,8 @@ public class Button {
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK : {
                 game.draw.drawClock(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
@@ -539,269 +560,269 @@ public class Button {
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE : {
                 game.draw.drawTranceSymbol(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY : {
                 game.draw.drawPlayButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
@@ -823,269 +844,270 @@ public class Button {
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_OPTIONS_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION : {
+                game.layout.setText(game.fontButton, ADDITION_TABLE_STRING);
                 game.draw.drawPlus(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_STATS : {
                 game.draw.drawModulo(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL : {
                 game.draw.drawTutorialSymbol(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_HELP_CREDITS : {
                 game.draw.drawCreditsSymbol(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_COLOR : {
                 game.draw.drawColorWheel(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_COLOR_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_BASE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_STATS_GENERAL : {
                 game.draw.drawSigma(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
@@ -1101,8 +1123,8 @@ public class Button {
             }
             case BUTTON_HELP_STATS_TIME_ATTACK : {
                 game.draw.drawClock(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
@@ -1113,33 +1135,33 @@ public class Button {
             }
             case BUTTON_HELP_STATS_TRANCE : {
                 game.draw.drawTranceSymbol(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_HELP_STATS_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_STATS_GENERAL_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_STATS_SQUIRGLE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
@@ -1154,9 +1176,9 @@ public class Button {
             }
             case BUTTON_HELP_STATS_BATTLE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
@@ -1171,9 +1193,9 @@ public class Button {
             }
             case BUTTON_HELP_STATS_TIME_ATTACK_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
@@ -1215,17 +1237,17 @@ public class Button {
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_STATS_TRANCE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
@@ -1240,8 +1262,8 @@ public class Button {
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK : {
                 game.draw.drawClock(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
@@ -1252,269 +1274,269 @@ public class Button {
             }
             case BUTTON_HELP_TUTORIAL_TRANCE : {
                 game.draw.drawTranceSymbol(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_MUSIC : {
-                game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (radius / 4) + ((radius / Draw.LINE_WIDTH_DIVISOR) / 2),
-                        game.partitionSize + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (symbolRadius / 4) + ((symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
@@ -1634,8 +1656,8 @@ public class Button {
             }
             case BUTTON_WIPE_DATA : {
                 game.draw.drawWipeDataSymbol(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;

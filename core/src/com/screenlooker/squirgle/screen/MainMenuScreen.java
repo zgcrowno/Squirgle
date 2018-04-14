@@ -84,7 +84,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
         squirgleRadius = game.camera.viewportHeight / 4;
         squirgleHeightOffset = squirgleRadius / 4;
 
-        game.setUpFontButton(MathUtils.round(symbolRadius / 2.5f));
+        game.setUpFontButton(MathUtils.round(symbolRadius / 2.75f));
 
         touchPoint = new Vector3();
 

@@ -330,8 +330,6 @@ public class GameplayScreen implements Screen, InputProcessor {
                             promptShapeP1);
                     game.draw.drawScreenDivision(blackAndWhite, multiplayer);
                 }
-                game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor);
-                game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
                 game.draw.drawTargetSemicircles(splitScreen, local);
             }
             if(!skipZoom) {
@@ -409,6 +407,18 @@ public class GameplayScreen implements Screen, InputProcessor {
         if(!paused) {
             if (!gameOver) {
                 game.draw.drawInputButtons(splitScreen, local, backgroundColorShape.getColor(), game);
+                if(!splitScreen) {
+                    game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
+                    game.draw.drawShapes(false, targetShapeList, outsideTargetShape, false);
+                } else {
+                    game.draw.drawPrompt(false, outsideTargetShapeP1, targetShapeListP1, targetShapesMatchedP1, backgroundColorShape, false, true);
+                    game.draw.drawShapes(false, targetShapeListP1, outsideTargetShapeP1, false);
+                    game.draw.drawPrompt(local, outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true);
+                    game.draw.drawShapes(local, targetShapeListP2, outsideTargetShapeP2, false);
+                }
+                drawTargetArcs();
+                game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor);
+                game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
                 game.draw.drawScoreTriangles(splitScreen, local, backgroundColorShape.getColor());
                 if(useSaturation) {
                     if(saturationP1 > 0) {
@@ -419,18 +429,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     }
                     game.draw.drawSaturationIncrements(local, backgroundColorShape.getColor());
                 }
-                if(!splitScreen) {
-                    game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
-                    game.draw.drawShapes(false, targetShapeList, outsideTargetShape, false);
-                } else {
-                    game.draw.drawPrompt(false, outsideTargetShapeP1, targetShapeListP1, targetShapesMatchedP1, backgroundColorShape, false, true);
-                    game.draw.drawShapes(false, targetShapeListP1, outsideTargetShapeP1, false);
-                    game.draw.drawPrompt(local, outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true);
-                    game.draw.drawShapes(local, targetShapeListP2, outsideTargetShapeP2, false);
-                }
                 //TODO: Draw another pause input for local multiplayer
                 game.draw.drawPauseInput(splitScreen, local, game);
-                drawTargetArcs();
             }
         }
 
@@ -1349,7 +1349,6 @@ public class GameplayScreen implements Screen, InputProcessor {
         }
     }
 
-    //TODO: Configure this for local multiplayer
     public void drawTargetArcs() {
         if(!splitScreen) {
             game.draw.drawArc(0, game.camera.viewportHeight, targetArcStart, targetArcColor);

@@ -507,10 +507,6 @@ public class TutorialScreen implements Screen, InputProcessor {
                             promptShapeP1);
                     game.draw.drawScreenDivisionTutorial(helpTextVisible, blackAndWhite);
                 }
-                if(phase >= PHASE_FIVE) {
-                    game.draw.drawBackgroundColorShapeListTutorial(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor);
-                    game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
-                }
                 if(phase >= PHASE_THREE) {
                     game.draw.drawTargetSemicirclesTutorial(splitScreen, local);
                 }
@@ -594,6 +590,22 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if(phase >= PHASE_TWO) {
                     game.draw.drawInputButtonsTutorial(splitScreen, local, backgroundColorShape.getColor(), game);
                 }
+                if(phase >= PHASE_THREE) {
+                    if (!splitScreen) {
+                        game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
+                        game.draw.drawShapes(false, targetShapeList, outsideTargetShape, false);
+                    } else {
+                        game.draw.drawPrompt(false, outsideTargetShapeP1, targetShapeListP1, targetShapesMatchedP1, backgroundColorShape, false, true);
+                        game.draw.drawShapes(false, targetShapeListP1, outsideTargetShapeP1, false);
+                        game.draw.drawPrompt(local, outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true);
+                        game.draw.drawShapes(local, targetShapeListP2, outsideTargetShapeP2, false);
+                    }
+                    drawTargetArcs();
+                }
+                if(phase >= PHASE_FIVE) {
+                    game.draw.drawBackgroundColorShapeListTutorial(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor);
+                    game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
+                }
                 if(phase >= PHASE_FOUR) {
                     game.draw.drawScoreTrianglesTutorial(splitScreen, local, backgroundColorShape.getColor());
                 }
@@ -608,23 +620,9 @@ public class TutorialScreen implements Screen, InputProcessor {
                         game.draw.drawSaturationIncrementsTutorial(local, backgroundColorShape.getColor());
                     }
                 }
-                if(phase >= PHASE_THREE) {
-                    if (!splitScreen) {
-                        game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
-                        game.draw.drawShapes(false, targetShapeList, outsideTargetShape, false);
-                    } else {
-                        game.draw.drawPrompt(false, outsideTargetShapeP1, targetShapeListP1, targetShapesMatchedP1, backgroundColorShape, false, true);
-                        game.draw.drawShapes(false, targetShapeListP1, outsideTargetShapeP1, false);
-                        game.draw.drawPrompt(local, outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true);
-                        game.draw.drawShapes(local, targetShapeListP2, outsideTargetShapeP2, false);
-                    }
-                }
                 game.draw.drawPauseInputTutorial(splitScreen, local, game);
                 if(phase < PHASE_SIX) {
                     game.draw.drawHelpInput(splitScreen);
-                }
-                if(phase >= PHASE_THREE) {
-                    drawTargetArcs();
                 }
             }
         }

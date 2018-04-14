@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
@@ -76,6 +77,8 @@ public class MenuTypeScreen implements Screen, InputProcessor {
         symbolRadius = inputWidth > inputHeightBack ? inputHeightBack / 2 : inputWidth / 2;
 
         inputShapeRadius = inputWidth > inputHeightType ? (inputHeightType / 2) : (inputWidth / 2);
+
+        game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
 
         touchPoint = new Vector3();
 

@@ -74,6 +74,8 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
 
         symbolRadius = inputWidth > inputHeight ? inputHeight / 2 : inputWidth / 2;
 
+        game.setUpFontButton(MathUtils.round(symbolRadius / 2.75f));
+
         touchPoint = new Vector3();
 
         statsColor = ColorUtils.randomColor();
