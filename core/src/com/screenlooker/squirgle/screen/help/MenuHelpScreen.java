@@ -101,11 +101,11 @@ public class MenuHelpScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        additionColor = ColorUtils.randomColor();
-        statsColor = ColorUtils.randomColor();
-        tutorialColor = ColorUtils.randomColor();
-        creditsColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        additionColor = ColorUtils.COLOR_SKY_BLUE;
+        statsColor = ColorUtils.COLOR_BLUE;
+        tutorialColor = ColorUtils.COLOR_ORANGE;
+        creditsColor = ColorUtils.COLOR_VERMILLION;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         base4Touched = false;
         base5Touched = false;

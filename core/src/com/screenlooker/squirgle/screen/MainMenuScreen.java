@@ -97,10 +97,10 @@ public class MainMenuScreen implements Screen, InputProcessor {
         while(triangleColor.equals(circleColor) || triangleColor.equals(squareColor)) {
             triangleColor = ColorUtils.randomTransitionColor();
         }
-        optionsColor = ColorUtils.randomColor();
-        playColor = ColorUtils.randomColor();
-        tutorialColor = ColorUtils.randomColor();
-        quitColor = ColorUtils.randomColor();
+        optionsColor = ColorUtils.COLOR_ORANGE;
+        playColor = ColorUtils.COLOR_BLUISH_GREEN;
+        tutorialColor = ColorUtils.COLOR_SKY_BLUE;
+        quitColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         squirgleShapeList = new ArrayList<Shape>();
         squirgleShapeList.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));

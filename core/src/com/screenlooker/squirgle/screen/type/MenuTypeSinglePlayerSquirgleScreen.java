@@ -143,14 +143,14 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
 
         touchPoint = new Vector3();
 
-        base4Color = ColorUtils.randomColor();
-        base5Color = ColorUtils.randomColor();
-        base6Color = ColorUtils.randomColor();
-        base7Color = ColorUtils.randomColor();
-        base8Color = ColorUtils.randomColor();
-        base9Color = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
-        musicColor = ColorUtils.randomColor();
+        base4Color = ColorUtils.COLOR_BLUISH_GREEN;
+        base5Color = ColorUtils.COLOR_VERMILLION;
+        base6Color = ColorUtils.COLOR_ORANGE;
+        base7Color = ColorUtils.COLOR_BLUE;
+        base8Color = ColorUtils.COLOR_SKY_BLUE;
+        base9Color = ColorUtils.COLOR_REDDISH_PURPLE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
+        musicColor = ColorUtils.COLOR_BLUE;
 
         base4Touched = false;
         base5Touched = false;
@@ -309,12 +309,26 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
             float x = 2 * game.partitionSize + inputWidth;
             float y = ((2 * game.partitionSize) + inputHeightBase) + (i * (game.partitionSize + inputHeightBase));
             int buttonType = Button.BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SQUARE + i;
+            Color color = new Color();
+            if(i == 0) {
+                color = base4Color;
+            } else if(i == 1) {
+                color = base5Color;
+            } else if(i ==2) {
+                color = base6Color;
+            } else if(i == 3) {
+                color = base7Color;
+            } else if(i == 4) {
+                color = base8Color;
+            } else if(i == 5) {
+                color = base9Color;
+            }
             buttonList.add(new Button(x,
                     y,
                     inputWidth,
                     inputHeightBase,
                     buttonType,
-                    ColorUtils.randomColor(),
+                    color,
                     Color.BLACK,
                     game));
         }

@@ -263,7 +263,7 @@ public class Button {
         this.symbolX = centerX;
         this.symbolY = symbolTextOverlap > 0 ? centerY + (symbolTextOverlap / 2) : centerY;
         this.symbolRadius = symbolTextOverlap > 0 ? radius - (symbolTextOverlap / 2) : radius;
-        this.squirgleHeightOffset = radius / 4;
+        this.squirgleHeightOffset = symbolRadius / 4;
         this.transitionThreshold = (float) Math.sqrt(Math.pow(game.camera.viewportWidth, 2) + Math.pow(game.camera.viewportHeight, 2));
         this.transitionIncrement = game.widthOrHeightSmaller / 5;
         this.buttonType = 0;
@@ -315,23 +315,23 @@ public class Button {
         this.squirgleShapeListBattleTwo.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
         this.squirgleShapeListBattleTwo.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
         this.squirglePrompt = new Shape(Shape.TRIANGLE,
-                radius,
+                symbolRadius,
                 triangleColor,
                 null,
-                radius / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(x + (width / 2), (y + (height / 2)) - squirgleHeightOffset));
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(symbolX, symbolY - squirgleHeightOffset));
         this.squirglePromptBattleOne = new Shape(Shape.TRIANGLE,
-                radius / 2,
+                symbolRadius / 2,
                 triangleColor,
                 null,
-                (radius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(x + (width / 4), y + ((3 *height) / 4)));
+                (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(x + (width / 4), y + game.layout.height + ((3 * (height - game.layout.height)) / 4) - squirgleHeightOffset));
         this.squirglePromptBattleTwo = new Shape(Shape.TRIANGLE,
-                radius / 2,
+                symbolRadius / 2,
                 triangleColor,
                 null,
-                (radius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(x + ((3 * width) / 4), y + (height / 4)));
+                (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(x + ((3 * width) / 4), y + game.layout.height + ((height - game.layout.height) / 4)));
     }
 
     public Button(float x, float y, float width, float height, int buttonType, Color containerColor, Color containedColor, Squirgle game) {
@@ -349,7 +349,7 @@ public class Button {
         this.symbolX = centerX;
         this.symbolY = symbolTextOverlap > 0 ? centerY + (symbolTextOverlap / 2) : centerY;
         this.symbolRadius = symbolTextOverlap > 0 ? radius - (symbolTextOverlap / 2) : radius;
-        this.squirgleHeightOffset = radius / 4;
+        this.squirgleHeightOffset = symbolRadius / 4;
         this.transitionThreshold = (float) Math.sqrt(Math.pow(game.camera.viewportWidth, 2) + Math.pow(game.camera.viewportHeight, 2));
         this.transitionIncrement = game.widthOrHeightSmaller / 5;
         this.buttonType = buttonType;
@@ -401,23 +401,23 @@ public class Button {
         this.squirgleShapeListBattleTwo.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
         this.squirgleShapeListBattleTwo.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
         this.squirglePrompt = new Shape(Shape.TRIANGLE,
-                radius,
+                symbolRadius,
                 triangleColor,
                 null,
-                radius / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(x + (width / 2), (y + (height / 2)) - squirgleHeightOffset));
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(symbolX, symbolY - squirgleHeightOffset));
         this.squirglePromptBattleOne = new Shape(Shape.TRIANGLE,
-                radius / 2,
+                symbolRadius / 2,
                 triangleColor,
                 null,
-                (radius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(x + (width / 4), y + ((3 *height) / 4) - squirgleHeightOffset));
+                (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(x + (width / 4), y + game.layout.height + ((3 * (height - game.layout.height)) / 4) - squirgleHeightOffset));
         this.squirglePromptBattleTwo = new Shape(Shape.TRIANGLE,
-                radius / 2,
+                symbolRadius / 2,
                 triangleColor,
                 null,
-                (radius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(x + ((3 * width) / 4), y + (height / 4)));
+                (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(x + ((3 * width) / 4), y + game.layout.height + ((height - game.layout.height) / 4)));
     }
 
     public void draw() {
@@ -3746,8 +3746,8 @@ public class Button {
 
     public void drawBattleSymbol() {
         game.shapeRendererFilled.setColor(containedColor);
-        game.shapeRendererFilled.rectLine(x,
-                    y,
+        game.shapeRendererFilled.rectLine(x - (game.partitionSize / 2),
+                    y + game.layout.height + (game.partitionSize / 2),
                     x + width,
                     y + height,
                     game.partitionSize);
@@ -3759,19 +3759,19 @@ public class Button {
 
     public void drawTimeBattleSymbol() {
         game.shapeRendererFilled.setColor(containedColor);
-        game.shapeRendererFilled.rectLine(x,
-                y,
+        game.shapeRendererFilled.rectLine(x - (game.partitionSize / 2),
+                y + game.layout.height + (game.partitionSize / 2),
                 x + width,
                 y + height,
                 game.partitionSize);
         game.draw.drawClock(x + (width / 4),
-                    y + (height / 2) + (height / 6),
-                    radius / 2,
+                    y + game.layout.height + ((height - game.layout.height) / 2) + ((height - game.layout.height) / 6),
+                    symbolRadius / 2,
                     containedColor,
                     containerColor);
         game.draw.drawClock(x + (width / 2) + (width / 4),
-                    y + (height / 2) - (height / 6),
-                    radius / 2,
+                    y + game.layout.height + ((height - game.layout.height) / 2) - ((height - game.layout.height) / 6),
+                    symbolRadius / 2,
                     containedColor,
                     containerColor);
     }

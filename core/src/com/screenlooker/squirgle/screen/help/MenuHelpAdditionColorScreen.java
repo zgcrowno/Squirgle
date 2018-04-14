@@ -92,7 +92,7 @@ public class MenuHelpAdditionColorScreen implements Screen, InputProcessor {
         while(triangleColor.equals(circleColor) || triangleColor.equals(squareColor)) {
             triangleColor = ColorUtils.randomTransitionColor();
         }
-        backColor = ColorUtils.randomColor();
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         squirgleShapeList = new ArrayList<Shape>();
         squirgleShapeList.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));

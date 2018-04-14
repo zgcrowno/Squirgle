@@ -106,9 +106,9 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        volumeColor = ColorUtils.randomColor();
-        wipeDataColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        volumeColor = ColorUtils.COLOR_SKY_BLUE;
+        wipeDataColor = ColorUtils.COLOR_BLUE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         volumeDownChevronTouched = false;
         volumeUpChevronTouched = false;
@@ -229,7 +229,9 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         } else {
             if(!buttonTouched()) {
                 for (Button button : buttonList) {
-                    button.drawText();
+                    if(!(button.buttonType == Button.BUTTON_WIPE_DATA && game.showWipeDataPrompt)) {
+                        button.drawText();
+                    }
                 }
             }
         }

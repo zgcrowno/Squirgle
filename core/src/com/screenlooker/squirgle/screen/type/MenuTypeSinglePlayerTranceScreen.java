@@ -104,9 +104,9 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
 
         touchPoint = new Vector3();
 
-        playColor = ColorUtils.randomColor();
-        musicColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        playColor = ColorUtils.COLOR_BLUISH_GREEN;
+        musicColor = ColorUtils.COLOR_BLUE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         playTouched = false;
         backTouched = false;

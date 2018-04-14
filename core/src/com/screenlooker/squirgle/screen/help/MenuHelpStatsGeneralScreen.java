@@ -82,8 +82,8 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        statsColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        statsColor = Color.WHITE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         backTouched = false;
 

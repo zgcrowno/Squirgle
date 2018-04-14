@@ -77,7 +77,7 @@ public class MenuHelpAdditionBaseScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        backColor = ColorUtils.randomColor();
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         backTouched = false;
 

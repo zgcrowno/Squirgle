@@ -109,8 +109,8 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        statsColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        statsColor = ColorUtils.COLOR_ORANGE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         gameLength1MTouched = false;
         gameLength3MTouched = false;

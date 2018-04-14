@@ -152,8 +152,8 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        statsColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        statsColor = ColorUtils.COLOR_ORANGE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         difficultyNameEasyTouched = false;
         difficultyNameMediumTouched = false;

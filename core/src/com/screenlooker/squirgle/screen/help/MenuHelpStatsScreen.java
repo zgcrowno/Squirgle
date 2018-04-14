@@ -113,13 +113,13 @@ public class MenuHelpStatsScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        generalColor = ColorUtils.randomColor();
-        squirgleColor = ColorUtils.randomColor();
-        battleColor = ColorUtils.randomColor();
-        timeAttackColor = ColorUtils.randomColor();
-        timeBattleColor = ColorUtils.randomColor();
-        tranceColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        generalColor = ColorUtils.COLOR_BLUISH_GREEN;
+        squirgleColor = ColorUtils.COLOR_SKY_BLUE;
+        battleColor = ColorUtils.COLOR_BLUE;
+        timeAttackColor = ColorUtils.COLOR_ORANGE;
+        timeBattleColor = ColorUtils.COLOR_VERMILLION;
+        tranceColor = ColorUtils.COLOR_BLUISH_GREEN;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         generalTouched = false;
         squirgleTouched = false;

@@ -94,9 +94,9 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        battleColor = ColorUtils.randomColor();
-        timeBattleColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        battleColor = ColorUtils.COLOR_SKY_BLUE;
+        timeBattleColor = ColorUtils.COLOR_BLUE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         battleTouched = false;
         timeBattleTouched = false;

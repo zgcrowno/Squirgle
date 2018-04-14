@@ -108,12 +108,12 @@ public class MenuTypeSinglePlayerScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        squirgleColor = ColorUtils.randomColor();
-        battleColor = ColorUtils.randomColor();
-        timeAttackColor = ColorUtils.randomColor();
-        timeBattleColor = ColorUtils.randomColor();
-        tranceColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        squirgleColor = ColorUtils.COLOR_SKY_BLUE;
+        battleColor = ColorUtils.COLOR_BLUE;
+        timeAttackColor = ColorUtils.COLOR_ORANGE;
+        timeBattleColor = ColorUtils.COLOR_VERMILLION;
+        tranceColor = ColorUtils.COLOR_BLUISH_GREEN;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         squirgleTouched = false;
         battleTouched = false;
