@@ -236,6 +236,7 @@ public class Button {
     public float squirgleHeightOffset;
     public float transitionThreshold;
     public float transitionIncrement;
+    public float textOpacity;
     public int buttonType;
     public boolean touched;
     public Color containerColor;
@@ -271,6 +272,7 @@ public class Button {
         this.squirgleHeightOffset = symbolRadius / 4;
         this.transitionThreshold = (float) Math.sqrt(Math.pow(game.camera.viewportWidth, 2) + Math.pow(game.camera.viewportHeight, 2));
         this.transitionIncrement = game.widthOrHeightSmaller / 5;
+        this.textOpacity = 0;
         this.buttonType = 0;
         this.touched = false;
         this.containerColor = Color.BLACK;
@@ -357,6 +359,7 @@ public class Button {
         this.squirgleHeightOffset = symbolRadius / 4;
         this.transitionThreshold = (float) Math.sqrt(Math.pow(game.camera.viewportWidth, 2) + Math.pow(game.camera.viewportHeight, 2));
         this.transitionIncrement = game.widthOrHeightSmaller / 5;
+        this.textOpacity = 0;
         this.buttonType = buttonType;
         this.touched = false;
         this.containerColor = containerColor;
@@ -1712,7 +1715,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_OPTIONS : {
@@ -1725,7 +1728,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP : {
@@ -1738,7 +1741,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_QUIT : {
@@ -1751,7 +1754,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER : {
@@ -1764,7 +1767,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL : {
@@ -1777,7 +1780,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_BACK : {
@@ -1790,7 +1793,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE : {
@@ -1803,7 +1806,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE : {
@@ -1816,7 +1819,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK : {
@@ -1829,7 +1832,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE : {
@@ -1842,7 +1845,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE : {
@@ -1855,7 +1858,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BACK : {
@@ -1868,7 +1871,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SQUARE : {
@@ -1881,7 +1884,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_PENTAGON : {
@@ -1894,7 +1897,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_HEXAGON : {
@@ -1907,7 +1910,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SEPTAGON : {
@@ -1920,7 +1923,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_OCTAGON : {
@@ -1933,7 +1936,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_NONAGON : {
@@ -1946,7 +1949,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK : {
@@ -1959,7 +1962,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SQUARE : {
@@ -1972,7 +1975,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_PENTAGON : {
@@ -1985,7 +1988,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_HEXAGON : {
@@ -1998,7 +2001,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SEPTAGON : {
@@ -2011,7 +2014,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_OCTAGON : {
@@ -2024,7 +2027,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_NONAGON : {
@@ -2037,7 +2040,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK : {
@@ -2050,7 +2053,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SQUARE : {
@@ -2063,7 +2066,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_PENTAGON : {
@@ -2076,7 +2079,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_HEXAGON : {
@@ -2089,7 +2092,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SEPTAGON : {
@@ -2102,7 +2105,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_OCTAGON : {
@@ -2115,7 +2118,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_NONAGON : {
@@ -2128,7 +2131,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK : {
@@ -2141,7 +2144,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SQUARE : {
@@ -2154,7 +2157,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_PENTAGON : {
@@ -2167,7 +2170,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_HEXAGON : {
@@ -2180,7 +2183,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SEPTAGON : {
@@ -2193,7 +2196,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_OCTAGON : {
@@ -2206,7 +2209,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_NONAGON : {
@@ -2219,7 +2222,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK : {
@@ -2232,7 +2235,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY : {
@@ -2245,7 +2248,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_BACK : {
@@ -2258,7 +2261,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE : {
@@ -2271,7 +2274,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE : {
@@ -2284,7 +2287,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK : {
@@ -2297,7 +2300,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SQUARE : {
@@ -2310,7 +2313,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_PENTAGON : {
@@ -2323,7 +2326,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_HEXAGON : {
@@ -2336,7 +2339,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SEPTAGON : {
@@ -2349,7 +2352,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_OCTAGON : {
@@ -2362,7 +2365,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_NONAGON : {
@@ -2375,7 +2378,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK : {
@@ -2388,7 +2391,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SQUARE : {
@@ -2401,7 +2404,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_PENTAGON : {
@@ -2414,7 +2417,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_HEXAGON : {
@@ -2427,7 +2430,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SEPTAGON : {
@@ -2440,7 +2443,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_OCTAGON : {
@@ -2453,7 +2456,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_NONAGON : {
@@ -2466,7 +2469,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK : {
@@ -2479,7 +2482,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_OPTIONS_BACK : {
@@ -2492,7 +2495,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION : {
@@ -2505,7 +2508,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS : {
@@ -2518,7 +2521,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL : {
@@ -2531,7 +2534,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_CREDITS : {
@@ -2544,7 +2547,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_BACK : {
@@ -2557,7 +2560,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_COLOR : {
@@ -2570,7 +2573,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_SQUARE : {
@@ -2583,7 +2586,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_PENTAGON : {
@@ -2596,7 +2599,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_HEXAGON : {
@@ -2609,7 +2612,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_SEPTAGON : {
@@ -2622,7 +2625,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_OCTAGON : {
@@ -2635,7 +2638,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_NONAGON : {
@@ -2648,7 +2651,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_BACK : {
@@ -2661,7 +2664,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_COLOR_BACK : {
@@ -2674,7 +2677,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_BASE_BACK : {
@@ -2687,7 +2690,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_GENERAL : {
@@ -2700,7 +2703,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_SQUIRGLE : {
@@ -2713,7 +2716,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_BATTLE : {
@@ -2726,7 +2729,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_ATTACK : {
@@ -2739,7 +2742,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE : {
@@ -2752,7 +2755,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TRANCE : {
@@ -2765,7 +2768,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_BACK : {
@@ -2778,7 +2781,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_GENERAL_BACK : {
@@ -2791,7 +2794,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_SQUIRGLE_BACK : {
@@ -2804,7 +2807,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_BATTLE_EASY : {
@@ -2817,7 +2820,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_BATTLE_MEDIUM : {
@@ -2830,7 +2833,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_BATTLE_HARD : {
@@ -2843,7 +2846,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_BATTLE_BACK : {
@@ -2856,7 +2859,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_ATTACK_ONE_MINUTE : {
@@ -2869,7 +2872,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_ATTACK_THREE_MINUTES : {
@@ -2882,7 +2885,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_ATTACK_FIVE_MINUTES : {
@@ -2895,7 +2898,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_ATTACK_BACK : {
@@ -2908,7 +2911,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_EASY : {
@@ -2921,7 +2924,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM : {
@@ -2934,7 +2937,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_HARD : {
@@ -2947,7 +2950,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_EASY_ONE_MINUTE : {
@@ -2960,7 +2963,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_EASY_THREE_MINUTES : {
@@ -2973,7 +2976,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_EASY_FIVE_MINUTES : {
@@ -2986,7 +2989,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_ONE_MINUTE : {
@@ -2999,7 +3002,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_THREE_MINUTES : {
@@ -3012,7 +3015,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_FIVE_MINUTES : {
@@ -3025,7 +3028,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_HARD_ONE_MINUTE : {
@@ -3038,7 +3041,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_HARD_THREE_MINUTES : {
@@ -3051,7 +3054,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_HARD_FIVE_MINUTES : {
@@ -3064,7 +3067,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_BACK : {
@@ -3077,7 +3080,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TRANCE_BACK : {
@@ -3090,7 +3093,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE : {
@@ -3103,7 +3106,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE : {
@@ -3116,7 +3119,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK : {
@@ -3129,7 +3132,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE : {
@@ -3142,7 +3145,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TRANCE : {
@@ -3155,7 +3158,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BACK : {
@@ -3168,7 +3171,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_SQUARE : {
@@ -3181,7 +3184,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_PENTAGON : {
@@ -3194,7 +3197,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_HEXAGON : {
@@ -3207,7 +3210,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_SEPTAGON : {
@@ -3220,7 +3223,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_OCTAGON : {
@@ -3233,7 +3236,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_NONAGON : {
@@ -3246,7 +3249,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_BACK : {
@@ -3259,7 +3262,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_SQUARE : {
@@ -3272,7 +3275,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_PENTAGON : {
@@ -3285,7 +3288,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_HEXAGON : {
@@ -3298,7 +3301,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_SEPTAGON : {
@@ -3311,7 +3314,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_OCTAGON : {
@@ -3324,7 +3327,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_NONAGON : {
@@ -3337,7 +3340,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_BACK : {
@@ -3350,7 +3353,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SQUARE : {
@@ -3363,7 +3366,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_PENTAGON : {
@@ -3376,7 +3379,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_HEXAGON : {
@@ -3389,7 +3392,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SEPTAGON : {
@@ -3402,7 +3405,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_OCTAGON : {
@@ -3415,7 +3418,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_NONAGON : {
@@ -3428,7 +3431,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_BACK : {
@@ -3441,7 +3444,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SQUARE : {
@@ -3454,7 +3457,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_PENTAGON : {
@@ -3467,7 +3470,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_HEXAGON : {
@@ -3480,7 +3483,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SEPTAGON : {
@@ -3493,7 +3496,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_OCTAGON : {
@@ -3506,7 +3509,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_NONAGON : {
@@ -3519,7 +3522,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_BACK : {
@@ -3532,7 +3535,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC : {
@@ -3545,7 +3548,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_FULL : {
@@ -3558,7 +3561,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_SPLIT : {
@@ -3571,7 +3574,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_POINTILLISM : {
@@ -3584,7 +3587,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_LINEAGE : {
@@ -3597,7 +3600,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_TRI_THE_WALTZ : {
@@ -3610,7 +3613,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_SQUARED_OFF : {
@@ -3623,7 +3626,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_PENT_UP : {
@@ -3636,7 +3639,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_HEXIDECIBEL : {
@@ -3649,7 +3652,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_INTERSEPTOR : {
@@ -3662,7 +3665,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_ROCTOPUS : {
@@ -3675,7 +3678,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_NONPLUSSED : {
@@ -3688,7 +3691,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_DIFFICULTY : {
@@ -3701,7 +3704,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 drawDifficultyText();
                 break;
             }
@@ -3724,7 +3727,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 drawTimeText();
                 break;
             }
@@ -3747,7 +3750,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 drawVolumeText();
                 break;
             }
@@ -3770,7 +3773,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HARDCORE : {
@@ -3783,7 +3786,7 @@ public class Button {
                         centerX,
                         y + ((2.7f * game.layout.height) / 4),
                         0,
-                        1);
+                        textOpacity);
                 drawHardcoreText();
                 break;
             }
@@ -3796,6 +3799,9 @@ public class Button {
             case BUTTON_HARDCORE_CHEVRON_UP : {
                 break;
             }
+        }
+        if(textOpacity < 1) {
+            textOpacity += 0.1;
         }
     }
 

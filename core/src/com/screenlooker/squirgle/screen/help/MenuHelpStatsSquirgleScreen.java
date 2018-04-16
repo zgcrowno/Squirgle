@@ -83,6 +83,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
 
     private Color veilColor;
     private float veilOpacity;
+    private float textOpacity;
 
     //TODO: Set up fontScore
     public MenuHelpStatsSquirgleScreen(final Squirgle game, Color veilColor) {
@@ -153,6 +154,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
 
         this.veilColor = veilColor;
         veilOpacity = 1;
+        textOpacity = 0;
     }
 
     @Override
@@ -193,6 +195,10 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 }
                 drawStatsText();
             }
+        }
+
+        if(textOpacity < 1) {
+            textOpacity += 0.05;
         }
 
         transitionSquirgleColors();
@@ -368,7 +374,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 squareY + ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
         long minutesPlayedSquare = MathUtils.floor(game.stats.longestRunSquirgleSquare / 1000 / 60);
         long secondsPlayedSquare = MathUtils.floor(game.stats.longestRunSquirgleSquare / 1000 - (minutesPlayedSquare * 60));
         String longestRunSquareString = LONGEST_RUN + minutesPlayedSquare + MINUTES + secondsPlayedSquare + SECONDS;
@@ -381,7 +387,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 squareY,
                 0,
-                1);
+                textOpacity);
         String highestScoreSquareString = HIGHEST_SCORE + game.stats.highestScoreSquirgleSquare;
         game.layout.setText(game.fontStats, highestScoreSquareString);
         FontUtils.printText(game.batch,
@@ -392,7 +398,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 squareY - ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
 
         //Pentagon
         String numSquirglesPentagonString = NUM_SQUIRGLES + game.stats.numSquirglesSquirglePentagon;
@@ -405,7 +411,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 pentagonY + ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
         long minutesPlayedPentagon = MathUtils.floor(game.stats.longestRunSquirglePentagon / 1000 / 60);
         long secondsPlayedPentagon = MathUtils.floor(game.stats.longestRunSquirglePentagon / 1000 - (minutesPlayedPentagon * 60));
         String longestRunPentagonString = LONGEST_RUN + minutesPlayedPentagon + MINUTES + secondsPlayedPentagon + SECONDS;
@@ -418,7 +424,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 pentagonY,
                 0,
-                1);
+                textOpacity);
         String highestScorePentagonString = HIGHEST_SCORE + game.stats.highestScoreSquirglePentagon;
         game.layout.setText(game.fontStats, highestScorePentagonString);
         FontUtils.printText(game.batch,
@@ -429,7 +435,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 pentagonY - ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
 
         //Hexagon
         String numSquirglesHexagonString = NUM_SQUIRGLES + game.stats.numSquirglesSquirgleHexagon;
@@ -442,7 +448,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 hexagonY + ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
         long minutesPlayedHexagon = MathUtils.floor(game.stats.longestRunSquirgleHexagon / 1000 / 60);
         long secondsPlayedHexagon = MathUtils.floor(game.stats.longestRunSquirgleHexagon / 1000 - (minutesPlayedHexagon * 60));
         String longestRunHexagonString = LONGEST_RUN + minutesPlayedHexagon + MINUTES + secondsPlayedHexagon + SECONDS;
@@ -455,7 +461,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 hexagonY,
                 0,
-                1);
+                textOpacity);
         String highestScoreHexagonString = HIGHEST_SCORE + game.stats.highestScoreSquirgleHexagon;
         game.layout.setText(game.fontStats, highestScoreHexagonString);
         FontUtils.printText(game.batch,
@@ -466,7 +472,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 hexagonY - ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
 
         //Septagon
         String numSquirglesSeptagonString = NUM_SQUIRGLES + game.stats.numSquirglesSquirgleSeptagon;
@@ -479,7 +485,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 septagonY + ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
         long minutesPlayedSeptagon = MathUtils.floor(game.stats.longestRunSquirgleSeptagon / 1000 / 60);
         long secondsPlayedSeptagon = MathUtils.floor(game.stats.longestRunSquirgleSeptagon / 1000 - (minutesPlayedSeptagon * 60));
         String longestRunSeptagonString = LONGEST_RUN + minutesPlayedSeptagon + MINUTES + secondsPlayedSeptagon + SECONDS;
@@ -492,7 +498,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 septagonY,
                 0,
-                1);
+                textOpacity);
         String highestScoreSeptagonString = HIGHEST_SCORE + game.stats.highestScoreSquirgleSeptagon;
         game.layout.setText(game.fontStats, highestScoreSeptagonString);
         FontUtils.printText(game.batch,
@@ -503,7 +509,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 septagonY - ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
 
         //Octagon
         String numSquirglesOctagonString = NUM_SQUIRGLES + game.stats.numSquirglesSquirgleOctagon;
@@ -516,7 +522,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 octagonY + ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
         long minutesPlayedOctagon = MathUtils.floor(game.stats.longestRunSquirgleOctagon / 1000 / 60);
         long secondsPlayedOctagon = MathUtils.floor(game.stats.longestRunSquirgleOctagon / 1000 - (minutesPlayedOctagon * 60));
         String longestRunOctagonString = LONGEST_RUN + minutesPlayedOctagon + MINUTES + secondsPlayedOctagon + SECONDS;
@@ -529,7 +535,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 octagonY,
                 0,
-                1);
+                textOpacity);
         String highestScoreOctagonString = HIGHEST_SCORE + game.stats.highestScoreSquirgleOctagon;
         game.layout.setText(game.fontStats, highestScoreOctagonString);
         FontUtils.printText(game.batch,
@@ -540,7 +546,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 octagonY - ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
 
         //Nonagon
         String numSquirglesNonagonString = NUM_SQUIRGLES + game.stats.numSquirglesSquirgleNonagon;
@@ -553,7 +559,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 nonagonY + ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
         long minutesPlayedNonagon = MathUtils.floor(game.stats.longestRunSquirgleNonagon / 1000 / 60);
         long secondsPlayedNonagon = MathUtils.floor(game.stats.longestRunSquirgleNonagon / 1000 - (minutesPlayedNonagon * 60));
         String longestRunNonagonString = LONGEST_RUN + minutesPlayedNonagon + MINUTES + secondsPlayedNonagon + SECONDS;
@@ -566,7 +572,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 nonagonY,
                 0,
-                1);
+                textOpacity);
         String highestScoreNonagonString = HIGHEST_SCORE + game.stats.highestScoreSquirgleNonagon;
         game.layout.setText(game.fontStats, highestScoreNonagonString);
         FontUtils.printText(game.batch,
@@ -577,7 +583,7 @@ public class MenuHelpStatsSquirgleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 nonagonY - ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
     }
 
     public void drawTitle() {

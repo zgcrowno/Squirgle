@@ -58,6 +58,7 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
 
     private Color veilColor;
     private float veilOpacity;
+    private float textOpacity;
 
     //TODO: Set up fontScore
     public MenuHelpStatsTranceScreen(final Squirgle game, Color veilColor) {
@@ -97,6 +98,7 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
 
         this.veilColor = veilColor;
         veilOpacity = 1;
+        textOpacity = 0;
     }
 
     @Override
@@ -136,6 +138,10 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
                 }
                 drawStatsText();
             }
+        }
+
+        if(textOpacity < 1) {
+            textOpacity += 0.05;
         }
     }
 
@@ -273,7 +279,7 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (inputHeight / (NUM_STATS_ELEMENTS + 1)),
                 0,
-                1);
+                textOpacity);
 
         String favoriteTrackString = FAVORITE_TRACK + game.stats.favoriteTrackTrance;
         game.layout.setText(game.fontStats, favoriteTrackString);
@@ -285,7 +291,7 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (2 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
                 0,
-                1);
+                textOpacity);
     }
 
     public void drawTitle() {

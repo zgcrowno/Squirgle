@@ -62,6 +62,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
 
     private Color veilColor;
     private float veilOpacity;
+    private float textOpacity;
 
     //TODO: Set up fontScore
     public MenuHelpStatsGeneralScreen(final Squirgle game, Color veilColor) {
@@ -101,6 +102,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
 
         this.veilColor = veilColor;
         veilOpacity = 1;
+        textOpacity = 0;
     }
 
     @Override
@@ -140,6 +142,10 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 }
                 drawStatsText();
             }
+        }
+
+        if(textOpacity < 1) {
+            textOpacity += 0.05;
         }
     }
 
@@ -277,7 +283,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (inputHeight / (NUM_STATS_ELEMENTS + 1)),
                 0,
-                1);
+                textOpacity);
 
         String numSquirglesString = NUM_SQUIRGLES + game.stats.numSquirgles;
         game.layout.setText(game.fontStats, numSquirglesString);
@@ -289,7 +295,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (2 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
                 0,
-                1);
+                textOpacity);
 
         String favoriteBaseString = FAVORITE_BASE + (game.stats.favoriteBase == 0 ? game.stats.NA : game.stats.favoriteBase);
         game.layout.setText(game.fontStats, favoriteBaseString);
@@ -301,7 +307,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (3 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
                 0,
-                1);
+                textOpacity);
 
         String favoriteModeString = FAVORITE_MODE + game.stats.favoriteMode;
         game.layout.setText(game.fontStats, favoriteModeString);
@@ -313,7 +319,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (4 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
                 0,
-                1);
+                textOpacity);
 
         String favoriteTrackString = FAVORITE_TRACK + game.stats.favoriteTrack;
         game.layout.setText(game.fontStats, favoriteTrackString);
@@ -325,7 +331,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (5 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
                 0,
-                1);
+                textOpacity);
     }
 
     public void drawTitle() {

@@ -80,6 +80,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
 
     private Color veilColor;
     private float veilOpacity;
+    private float textOpacity;
 
     //TODO: Set up fontScore
     public MenuHelpStatsTimeAttackScreen(final Squirgle game, Color veilColor) {
@@ -131,6 +132,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
 
         this.veilColor = veilColor;
         veilOpacity = 1;
+        textOpacity = 0;
 
         setStatsStrings();
     }
@@ -174,6 +176,10 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 drawStatsText();
                 drawGameLengthText();
             }
+        }
+
+        if(textOpacity < 1) {
+            textOpacity += 0.05;
         }
     }
 
@@ -399,7 +405,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 squareY,
                 0,
-                1);
+                textOpacity);
 
         //Pentagon
         game.layout.setText(game.fontStats, highestScorePentagonString);
@@ -411,7 +417,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 pentagonY,
                 0,
-                1);
+                textOpacity);
 
         //Hexagon
         game.layout.setText(game.fontStats, highestScoreHexagonString);
@@ -423,7 +429,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 hexagonY,
                 0,
-                1);
+                textOpacity);
 
         //Septagon
         game.layout.setText(game.fontStats, highestScoreSeptagonString);
@@ -435,7 +441,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 septagonY,
                 0,
-                1);
+                textOpacity);
 
         //Octagon
         game.layout.setText(game.fontStats, highestScoreOctagonString);
@@ -447,7 +453,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 octagonY,
                 0,
-                1);
+                textOpacity);
 
         //Nonagon
         game.layout.setText(game.fontStats, highestScoreNonagonString);
@@ -459,7 +465,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 nonagonY,
                 0,
-                1);
+                textOpacity);
     }
 
     public void drawGameLengthText() {
@@ -473,7 +479,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.timeAttackNumSeconds == Squirgle.ONE_MINUTE ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 8) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + ((5 * inputHeight) / 6),
                 0,
-                1);
+                textOpacity);
         String threeMinutesString = THREE_MINUTES;
         game.layout.setText(game.fontStats, threeMinutesString);
         FontUtils.printText(game.batch,
@@ -484,7 +490,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.timeAttackNumSeconds == Squirgle.THREE_MINUTES ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 8) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + (inputHeight / 2),
                 0,
-                1);
+                textOpacity);
         String fiveMinutesString = FIVE_MINUTES;
         game.layout.setText(game.fontStats, fiveMinutesString);
         FontUtils.printText(game.batch,
@@ -495,7 +501,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 8) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + (inputHeight / 6),
                 0,
-                1);
+                textOpacity);
     }
 
     public void drawTitle() {

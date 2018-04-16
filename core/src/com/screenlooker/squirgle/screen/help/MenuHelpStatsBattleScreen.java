@@ -110,6 +110,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
 
     private Color veilColor;
     private float veilOpacity;
+    private float textOpacity;
 
     //TODO: Set up fontScore
     public MenuHelpStatsBattleScreen(final Squirgle game, Color veilColor) {
@@ -193,6 +194,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
 
         this.veilColor = veilColor;
         veilOpacity = 1;
+        textOpacity = 0;
 
         setStatsStrings();
     }
@@ -236,6 +238,10 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 drawStatsText();
                 drawDifficultyText();
             }
+        }
+
+        if(textOpacity < 1) {
+            textOpacity += 0.05;
         }
 
         transitionSquirgleColors();
@@ -463,7 +469,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 squareY + ((15 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, fastestVictorySquareString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -473,7 +479,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 squareY + ((5 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numWinsSquareString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -483,7 +489,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 squareY - ((5 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numLossesSquareString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -493,7 +499,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 squareY - ((15 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
 
         //Pentagon
         game.layout.setText(game.fontStats, numSquirglesPentagonString);
@@ -505,7 +511,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 pentagonY + ((15 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, fastestVictoryPentagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -515,7 +521,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 pentagonY + ((5 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numWinsPentagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -525,7 +531,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 pentagonY - ((5 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numLossesPentagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -535,7 +541,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 pentagonY - ((15 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
 
         //Hexagon
         game.layout.setText(game.fontStats, numSquirglesHexagonString);
@@ -547,7 +553,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 hexagonY + ((15 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, fastestVictoryHexagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -557,7 +563,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 hexagonY + ((5 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numWinsHexagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -567,7 +573,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 hexagonY - ((5 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numLossesHexagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -577,7 +583,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 hexagonY - ((15 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
 
         //Septagon
         game.layout.setText(game.fontStats, numSquirglesSeptagonString);
@@ -589,7 +595,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 septagonY + ((15 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, fastestVictorySeptagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -599,7 +605,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 septagonY + ((5 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numWinsSeptagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -609,7 +615,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 septagonY - ((5 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numLossesSeptagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -619,7 +625,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 septagonY - ((15 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
 
         //Octagon
         game.layout.setText(game.fontStats, numSquirglesOctagonString);
@@ -631,7 +637,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 octagonY + ((15 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, fastestVictoryOctagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -641,7 +647,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 octagonY + ((5 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numWinsOctagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -651,7 +657,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 octagonY - ((5 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numLossesOctagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -661,7 +667,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 octagonY - ((15 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
 
         //Nonagon
         game.layout.setText(game.fontStats, numSquirglesNonagonString);
@@ -673,7 +679,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 nonagonY + ((15 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, fastestVictoryNonagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -683,7 +689,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 nonagonY + ((5 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numWinsNonagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -693,7 +699,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 nonagonY - ((5 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numLossesNonagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -703,7 +709,7 @@ public class MenuHelpStatsBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 nonagonY - ((15 * game.layout.height) / 8),
                 0,
-                1);
+                textOpacity);
     }
 
     public void drawDifficultyText() {
