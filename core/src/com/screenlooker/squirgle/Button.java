@@ -181,6 +181,10 @@ public class Button {
     public static final int BUTTON_VOLUME_CHEVRON_DOWN = 163;
     public static final int BUTTON_VOLUME_CHEVRON_UP = 164;
     public static final int BUTTON_WIPE_DATA = 165;
+    public static final int BUTTON_HARDCORE = 166;
+    public static final int BUTTON_HARDCORE_SKULL = 167;
+    public static final int BUTTON_HARDCORE_CHEVRON_DOWN = 168;
+    public static final int BUTTON_HARDCORE_CHEVRON_UP = 169;
 
     public static final String QUESTION_MARK = "?";
     private final static String HIGHEST_SCORE = "HIGHEST SCORE: ";
@@ -216,6 +220,7 @@ public class Button {
     private static final String TUTORIAL_STRING = "TUTORIALS";
     private static final String CREDITS_STRING = "CREDITS";
     private static final String GENERAL_STRING = "GENERAL";
+    private static final String HARDCORE_STRING = "HARDCORE MODE";
 
     public float x;
     public float y;
@@ -1660,6 +1665,33 @@ public class Button {
                         symbolRadius,
                         containedColor,
                         containerColor);
+                break;
+            }
+            case BUTTON_HARDCORE : {
+                break;
+            }
+            case BUTTON_HARDCORE_SKULL : {
+                game.draw.drawSkull(centerX,
+                        centerY,
+                        radius,
+                        containedColor,
+                        containerColor);
+                break;
+            }
+            case BUTTON_HARDCORE_CHEVRON_DOWN : {
+                game.draw.drawChevronLeft(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HARDCORE_CHEVRON_UP : {
+                game.draw.drawChevronRight(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
                 break;
             }
         }
@@ -3741,6 +3773,29 @@ public class Button {
                         1);
                 break;
             }
+            case BUTTON_HARDCORE : {
+                game.layout.setText(game.fontButton, HARDCORE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HARDCORE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        1);
+                drawHardcoreText();
+                break;
+            }
+            case BUTTON_HARDCORE_SKULL : {
+                break;
+            }
+            case BUTTON_HARDCORE_CHEVRON_DOWN : {
+                break;
+            }
+            case BUTTON_HARDCORE_CHEVRON_UP : {
+                break;
+            }
         }
     }
 
@@ -3869,6 +3924,18 @@ public class Button {
                 game.layout,
                 containedColor,
                 String.valueOf(game.volume),
+                x + ((3 * width) / 5),
+                y + (height / 2),
+                0,
+                1);
+    }
+
+    public void drawHardcoreText() {
+        FontUtils.printText(game.batch,
+                game.fontHardcore,
+                game.layout,
+                containedColor,
+                game.hardcore ? game.HARDCORE_ENABLED : game.HARDCORE_DISABLED,
                 x + ((3 * width) / 5),
                 y + (height / 2),
                 0,
@@ -4363,6 +4430,7 @@ public class Button {
                 case BUTTON_OPTIONS_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
                     game.updateSave(game.SAVE_VOLUME, game.volume);
+                    game.updateSave(game.SAVE_HARDCORE, game.hardcore);
                     game.setScreen(new MainMenuScreen(game, containerColor));
                     return true;
                 }
@@ -5043,6 +5111,20 @@ public class Button {
                     game.showWipeDataPrompt = !game.showWipeDataPrompt;
                     return false;
                 }
+                case BUTTON_HARDCORE : {
+                    return false;
+                }
+                case BUTTON_HARDCORE_SKULL : {
+                    return false;
+                }
+                case BUTTON_HARDCORE_CHEVRON_DOWN : {
+                    game.hardcore = !game.hardcore;
+                    return false;
+                }
+                case BUTTON_HARDCORE_CHEVRON_UP : {
+                    game.hardcore = !game.hardcore;
+                    return false;
+                }
             }
         return false;
     }
@@ -5064,7 +5146,11 @@ public class Button {
                 && buttonType != BUTTON_VOLUME_WAVES
                 && buttonType != BUTTON_VOLUME_CHEVRON_DOWN
                 && buttonType != BUTTON_VOLUME_CHEVRON_UP
-                && buttonType != BUTTON_WIPE_DATA;
+                && buttonType != BUTTON_WIPE_DATA
+                && buttonType != BUTTON_HARDCORE
+                && buttonType != BUTTON_HARDCORE_SKULL
+                && buttonType != BUTTON_HARDCORE_CHEVRON_DOWN
+                && buttonType != BUTTON_HARDCORE_CHEVRON_UP;
     }
 
     public boolean isMusicTypeButton() {
