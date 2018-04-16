@@ -514,6 +514,12 @@ public class Button {
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL : {
                 symbolRadius = symbolTextOverlap > 0 ? (radius / 3) - (symbolTextOverlap / 2) : radius / 3;
+                game.shapeRendererFilled.setColor(containedColor);
+                game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 2) - radius + (radius / 3),
+                        symbolY,
+                        (game.camera.viewportWidth / 2) + radius - (radius / 3),
+                        symbolY,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR);
                 game.draw.drawFace((game.camera.viewportWidth / 2) - radius + (radius / 3),
                         symbolY,
                         symbolRadius,
@@ -526,12 +532,6 @@ public class Button {
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor,
                         containerColor);
-                game.shapeRendererFilled.setColor(containedColor);
-                game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 2) - radius,
-                        symbolY,
-                        (game.camera.viewportWidth / 2) + radius,
-                        symbolY,
-                        (radius / 2) / Draw.LINE_WIDTH_DIVISOR);
                 break;
             }
             case BUTTON_TYPE_BACK : {

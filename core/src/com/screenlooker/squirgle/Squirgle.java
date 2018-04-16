@@ -125,6 +125,7 @@ public class Squirgle extends Game {
 	public int minBase;
 	public int timeAttackNumSeconds;
 	public float partitionSize;
+	public boolean desktop;
 	public SpriteBatch batch;
 	public BitmapFont fontLoading;
 	public BitmapFont fontVolume;
@@ -206,6 +207,7 @@ public class Squirgle extends Game {
 		thirdOfScreen = widthOrHeightSmaller / 3;
 		fiveTwelfthsOfScreen = (5 * widthOrHeightSmaller) / 12;
 		partitionSize = widthOrHeightSmaller / PARTITION_DIVISOR;
+		desktop = Gdx.app.getType().equals(Application.ApplicationType.Desktop);
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);
