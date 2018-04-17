@@ -41,6 +41,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
     private final static float FONT_VOLUME_SIZE_DIVISOR = 30f;
     private final static float FONT_HARDCORE_SIZE_DIVISOR = 45f;
+    private final static float FONT_OPTIONS_SIZE_DIVISOR = 15f;
     private static float FONT_TUTORIAL_HELP_SIZE_MULTIPLIER;
 
     private float inputWidth;
@@ -49,6 +50,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private float helpInputGirth;
 
     private float symbolRadius;
+    private float inputShapeRadius;
 
     private Vector3 touchPoint;
 
@@ -96,9 +98,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
             FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 42f;
         }
 
-        game.setUpFontVolume(MathUtils.round(game.camera.viewportWidth / FONT_VOLUME_SIZE_DIVISOR));
         game.setUpFontTutorialHelp(MathUtils.round(game.ASPECT_RATIO * FONT_TUTORIAL_HELP_SIZE_MULTIPLIER));
-        game.setUpFontHardcore(MathUtils.round(game.camera.viewportWidth / FONT_HARDCORE_SIZE_DIVISOR));
 
         Gdx.input.setInputProcessor(this);
 
@@ -109,7 +109,10 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
         symbolRadius = inputWidth > inputHeightBack ? inputHeightBack / 2 : inputWidth / 2;
 
-        game.setUpFontButton(MathUtils.round(symbolRadius / 2.75f));
+        inputShapeRadius = inputWidth > inputHeightMiddle ? (inputHeightMiddle / 2) : (inputWidth / 2);
+
+        game.setUpFontOptions(MathUtils.round(inputWidth / FONT_OPTIONS_SIZE_DIVISOR));
+        game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
 
         touchPoint = new Vector3();
 

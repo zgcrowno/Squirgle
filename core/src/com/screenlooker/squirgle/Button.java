@@ -547,7 +547,7 @@ public class Button {
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE : {
                 game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
-                game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE : {
@@ -1122,7 +1122,7 @@ public class Button {
             }
             case BUTTON_HELP_STATS_SQUIRGLE : {
                 game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
-                game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
                 break;
             }
             case BUTTON_HELP_STATS_BATTLE : {
@@ -1261,7 +1261,7 @@ public class Button {
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE : {
                 game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
-                game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE : {
@@ -3813,9 +3813,9 @@ public class Button {
                     y + height,
                     game.partitionSize);
         game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
-        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
+        game.draw.orientAndDrawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
         game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
-        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
+        game.draw.orientAndDrawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
     }
 
     public void drawTimeBattleSymbol() {
@@ -3867,7 +3867,7 @@ public class Button {
 
     public void drawDifficultyText() {
         FontUtils.printText(game.batch,
-                game.fontDifficulty,
+                game.fontOptions,
                 game.layout,
                 Color.BLACK,
                 game.difficulty,
@@ -3879,7 +3879,7 @@ public class Button {
 
     public void drawTimeText() {
         FontUtils.printText(game.batch,
-                game.fontTime,
+                game.fontOptions,
                 game.layout,
                 Color.BLACK,
                 String.valueOf(game.timeAttackNumSeconds / Squirgle.ONE_MINUTE),
@@ -3926,7 +3926,7 @@ public class Button {
 
     public void drawVolumeText() {
         FontUtils.printText(game.batch,
-                game.fontVolume,
+                game.fontOptions,
                 game.layout,
                 containedColor,
                 String.valueOf(game.volume),
@@ -3938,7 +3938,7 @@ public class Button {
 
     public void drawHardcoreText() {
         FontUtils.printText(game.batch,
-                game.fontHardcore,
+                game.fontOptions,
                 game.layout,
                 containedColor,
                 game.hardcore ? game.HARDCORE_ENABLED : game.HARDCORE_DISABLED,

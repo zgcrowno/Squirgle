@@ -298,7 +298,7 @@ public class MenuHelpAdditionColorScreen implements Screen, InputProcessor {
                     squirglePrompt.setCoordinates(new Vector2(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),
                             game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)) - (symbolRadius / 4)));
                     game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
-                    game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+                    game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
                 } else {
                     //Draw dash
                     game.draw.drawDash(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),

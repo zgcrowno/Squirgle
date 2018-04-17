@@ -368,7 +368,7 @@ public class MenuHelpTutorialSquirgleScreen implements Screen, InputProcessor {
                 Color.BLACK);
 
         game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
-        game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+        game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
     }
 
     public void transitionSquirgleColors() {

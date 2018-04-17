@@ -92,18 +92,13 @@ public class TranceScreen implements Screen, InputProcessor {
 
         if(!paused) {
             game.draw.drawPrompt(false, promptShape, priorShapeList, 0, null, true, false);
-            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
+            game.draw.orientShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
         }
 
         zoomThroughShapes();
 
         if(!paused) {
-            //This code is being executed three times: once before setting the prompt's end game coordinates, and again afterwards.
-            //This way, the shapes are drawn with their new values, and the first element in priorShapeList doesn't veer off
-            //the screen to the right.
-            //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
-            //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
-            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
+            game.draw.orientAndDrawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
         }
 
         destroyOversizedShapesAndAddNewOnes();

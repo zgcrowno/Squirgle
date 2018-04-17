@@ -280,6 +280,8 @@ public class TutorialScreen implements Screen, InputProcessor {
     public Label.LabelStyle helpLabelStyle;
     public Label helpLabel;
     private Stage stage;
+    private Color veilColor;
+    private float veilOpacity;
 
     private String squirglePhaseOneTextOne;
     private String squirglePhaseOneTextTwo;
@@ -461,12 +463,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         primaryShapeP1 = priorShapeListP1.size() > 0 ? priorShapeListP1.get(0) : promptShapeP1;
         primaryShapeP2 = priorShapeListP2.size() > 0 ? priorShapeListP2.get(0) : promptShapeP2;
 
-        if(!splitScreen) {
-            primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
-        } else {
-            //TODO: Update this when I determine dimensions
-            primaryShapeThreshold = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER : (game.camera.viewportHeight / 2) * game.draw.THRESHOLD_MULTIPLIER;
-        }
+        primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP1 = primaryShapeP1.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP2 = primaryShapeP2.getRadius() >= primaryShapeThreshold;
@@ -513,24 +510,24 @@ public class TutorialScreen implements Screen, InputProcessor {
             }
             if(!splitScreen) {
                 game.draw.drawPrompt(false, promptShape, priorShapeList, 0, backgroundColorShape, false, false);
-                game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
+                game.draw.orientShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
             } else if(useSaturation) {
                 if(!(gameOver && saturationP1 > saturationP2)) {
                     game.draw.drawPrompt(false, promptShapeP1, priorShapeListP1, 0, backgroundColorShape, false, false);
-                    game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                    game.draw.orientShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
                 }
                 if(!(gameOver && saturationP2 >= saturationP1)) {
                     game.draw.drawPrompt(local, promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false);
-                    game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                    game.draw.orientShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
                 }
             } else {
                 if(!(gameOver && scoreP1 < scoreP2)) {
                     game.draw.drawPrompt(false, promptShapeP1, priorShapeListP1, 0, backgroundColorShape, false, false);
-                    game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                    game.draw.orientShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
                 }
                 if(!(gameOver && scoreP2 <= scoreP1)) {
                     game.draw.drawPrompt(local, promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false);
-                    game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                    game.draw.orientShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
                 }
             }
         }
@@ -552,27 +549,21 @@ public class TutorialScreen implements Screen, InputProcessor {
         zoomThroughShapes();
 
         if(!paused) {
-            //This code is being executed three times: once before setting the prompt's end game coordinates, and again afterwards.
-            //This way, the shapes are drawn with their new values, and the first element in priorShapeList doesn't veer off
-            //the screen to the right.
-            //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
-            //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times. In fact, doing so may
-            //TODO: be responsible for another layer of shapes occasionally appearing behind the foremost one.
             if(!splitScreen) {
-                game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
+                game.draw.orientAndDrawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
             } else if(useSaturation) {
                 if(!(gameOver && saturationP1 > saturationP2)) {
-                    game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                    game.draw.orientAndDrawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
                 }
                 if(!(gameOver && saturationP2 >= saturationP1)) {
-                    game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                    game.draw.orientAndDrawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
                 }
             } else {
                 if(!(gameOver && scoreP1 < scoreP2)) {
-                    game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                    game.draw.orientAndDrawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
                 }
                 if(!(gameOver && scoreP2 <= scoreP1)) {
-                    game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                    game.draw.orientAndDrawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
                 }
             }
         }
@@ -593,12 +584,15 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if(phase >= PHASE_THREE) {
                     if (!splitScreen) {
                         game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
-                        game.draw.drawShapes(false, targetShapeList, outsideTargetShape, false);
+                        game.draw.orientShapes(false, targetShapeList, outsideTargetShape, false);
+                        game.draw.drawShapes(false, targetShapeList);
                     } else {
                         game.draw.drawPrompt(false, outsideTargetShapeP1, targetShapeListP1, targetShapesMatchedP1, backgroundColorShape, false, true);
-                        game.draw.drawShapes(false, targetShapeListP1, outsideTargetShapeP1, false);
+                        game.draw.orientShapes(false, targetShapeListP1, outsideTargetShapeP1, false);
+                        game.draw.drawShapes(false, targetShapeListP1);
                         game.draw.drawPrompt(local, outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true);
-                        game.draw.drawShapes(local, targetShapeListP2, outsideTargetShapeP2, false);
+                        game.draw.orientShapes(local, targetShapeListP2, outsideTargetShapeP2, false);
+                        game.draw.drawShapes(local, targetShapeListP2);
                     }
                     drawTargetArcs();
                 }
@@ -645,6 +639,8 @@ public class TutorialScreen implements Screen, InputProcessor {
             drawInputRectangles();
         }
 
+        game.draw.drawVeil(veilColor, veilOpacity);
+
         showHelpText();
 
         game.shapeRendererFilled.end();
@@ -665,6 +661,10 @@ public class TutorialScreen implements Screen, InputProcessor {
         } else {
             ColorUtils.transitionColor(currentTargetShapeP1);
             ColorUtils.transitionColor(currentTargetShapeP2);
+        }
+
+        if(veilOpacity > 0) {
+            veilOpacity -= 0.01;
         }
     }
 
@@ -921,7 +921,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                             resultsColor,
                             String.valueOf(score),
                             game.camera.viewportWidth / 2,
-                            game.camera.viewportHeight / 2,
+                            INPUT_POINT_SPAWN.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN.y + INPUT_RADIUS)) / 2),
                             0,
                             1);
                 } else {
@@ -932,7 +932,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 saturationP1 > saturationP2 ? Squirgle.RESULTS_DEFEAT : saturationP1 < saturationP2 ? Squirgle.RESULTS_VICTORY : Squirgle.RESULTS_TIE,
                                 game.camera.viewportWidth / 2,
-                                game.camera.viewportHeight / 2,
+                                INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 2),
                                 0,
                                 1);
                     } else {
@@ -942,7 +942,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 scoreP1 < scoreP2 ? Squirgle.RESULTS_DEFEAT : scoreP1 > scoreP2 ? Squirgle.RESULTS_VICTORY : Squirgle.RESULTS_TIE,
                                 game.camera.viewportWidth / 2,
-                                game.camera.viewportHeight / 2,
+                                INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 2),
                                 0,
                                 1);
                         FontUtils.printText(game.batch,
@@ -951,7 +951,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 P1 + COLON + scoreP1,
                                 game.camera.viewportWidth / 2,
-                                game.camera.viewportHeight / 4,
+                                INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 4),
                                 0,
                                 1);
                         FontUtils.printText(game.batch,
@@ -960,7 +960,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 P2 + COLON + scoreP2,
                                 game.camera.viewportWidth / 2,
-                                (3 * game.camera.viewportHeight) / 4,
+                                INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((3 * (game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS))) / 4),
                                 0,
                                 1);
                     }
@@ -1558,7 +1558,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 primaryShape.setLineWidth(primaryShape.getLineWidth() * END_LINE_WIDTH_INCREASE);
                             } else if (primaryShape.getShape() == Shape.LINE) {
                                 //Prevent shape lines from being visible in the event that primaryShape is promptShape
-                                primaryShape.setColor(clearColor);
+                                clearColor = primaryShape.getColor();
                             }
                             if (primaryShape.getShape() != Shape.LINE || primaryShape.getLineWidth() >= (game.camera.viewportWidth * 4)) {
                                 showResults = true;
@@ -1575,7 +1575,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 primaryShapeP1.setLineWidth(primaryShapeP1.getLineWidth() * END_LINE_WIDTH_INCREASE);
                             } else if (primaryShapeP1.getShape() == Shape.LINE) {
                                 //Prevent shape lines from being visible in the event that primaryShape is promptShape
-                                primaryShapeP1.setColor(clearColor);
+                                clearColor = primaryShape.getColor();
                             }
                             if (primaryShapeP1.getShape() != Shape.LINE || primaryShapeP1.getLineWidth() >= (game.camera.viewportWidth * 4)) {
                                 showResults = true;
@@ -1592,7 +1592,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 primaryShapeP2.setLineWidth(primaryShapeP2.getLineWidth() * END_LINE_WIDTH_INCREASE);
                             } else if (primaryShapeP2.getShape() == Shape.LINE) {
                                 //Prevent shape lines from being visible in the event that primaryShape is promptShape
-                                primaryShapeP2.setColor(clearColor);
+                                clearColor = primaryShape.getColor();
                             }
                             if (primaryShapeP2.getShape() != Shape.LINE || primaryShapeP2.getLineWidth() >= (game.camera.viewportWidth * 4)) {
                                 showResults = true;
@@ -1691,17 +1691,29 @@ public class TutorialScreen implements Screen, InputProcessor {
             stopMusic();
             promptIncrease = 1;
             endTime = System.currentTimeMillis();
+            veilOpacity = 1;
             clearColor.set(backgroundColorShape.getColor().r,
                     backgroundColorShape.getColor().g,
                     backgroundColorShape.getColor().b,
                     backgroundColorShape.getColor().a);
             game.stats.updateTimePlayed(endTime - startTime, gameplayType);
-            game.stats.updateHighestScore(splitScreen ? scoreP1 : score, gameplayType, game.base, game.timeAttackNumSeconds, game.difficulty);
-            game.stats.incrementNumTimesWonOrLost(scoreP1 > scoreP2 || saturationP1 < saturationP2, gameplayType, game.base, game.timeAttackNumSeconds, game.difficulty);
-            if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-                game.stats.updateLongestRun(endTime - startTime, game.base);
-            } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
-                game.stats.updateFastestVictory(endTime - startTime, game.base, game.difficulty);
+            if(splitScreen) {
+                if (useSaturation) {
+                    //We have to set the radii here to prevent stuttering when zooming through the shapes.
+                    if (saturationP1 <= saturationP2) {
+                        promptShapeP1.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
+                        promptShapeP1.setCoordinates(new Vector2(promptShapeP1.getCoordinates().x, game.camera.viewportHeight / 2));
+                    } else {
+                        promptShapeP2.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
+                        promptShapeP2.setCoordinates(new Vector2(promptShapeP2.getCoordinates().x, game.camera.viewportHeight / 2));
+                    }
+                } else {
+                    if (scoreP1 >= scoreP2) {
+                        promptShapeP1.setCoordinates(new Vector2(promptShapeP1.getCoordinates().x, game.camera.viewportHeight / 2));
+                    } else {
+                        promptShapeP2.setCoordinates(new Vector2(promptShapeP2.getCoordinates().x, game.camera.viewportHeight / 2));
+                    }
+                }
             }
         }
     }
@@ -3033,12 +3045,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         primaryShapeP1 = priorShapeListP1.size() > 0 ? priorShapeListP1.get(0) : promptShapeP1;
         primaryShapeP2 = priorShapeListP2.size() > 0 ? priorShapeListP2.get(0) : promptShapeP2;
 
-        if(!splitScreen) {
-            primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
-        } else {
-            //TODO: Update this when I determine dimensions
-            primaryShapeThreshold = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER : (game.camera.viewportHeight / 2) * game.draw.THRESHOLD_MULTIPLIER;
-        }
+        primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
 
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP1 = primaryShapeP1.getRadius() >= primaryShapeThreshold;
@@ -3313,7 +3320,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         helpTextMap.put(Squirgle.GAMEPLAY_TIME_ATTACK, timeAttackPhaseMap);
         helpTextMap.put(Squirgle.GAMEPLAY_TIME_BATTLE, timeBattlePhaseMap);
 
-        game.setUpFontTutorialHelp(MathUtils.round(game.ASPECT_RATIO * FONT_TUTORIAL_HELP_SIZE_MULTIPLIER));
+        game.setUpFontTutorialHelp(MathUtils.round(game.ASPECT_RATIO * ((1920 / 1080) * FONT_TUTORIAL_HELP_SIZE_MULTIPLIER) / (1920 / 1080))); //Using 1920 / 1080 because that's the OG resolution--the one for which I originally developed--and I wish to scale it for other devices.
 
         helpLabelStyle = new Label.LabelStyle();
         helpLabelStyle.font = game.fontTutorialHelp;
@@ -3327,6 +3334,9 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         stage = new Stage(game.viewport);
         stage.addActor(helpLabel);
+
+        veilColor = Color.WHITE;
+        veilOpacity = 0;
     }
 
     public void setUpGL() {

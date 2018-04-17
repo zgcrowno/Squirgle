@@ -82,7 +82,7 @@ public class LoadingScreen implements Screen {
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
         game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
-        game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+        game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
 
         game.shapeRendererFilled.end();
 

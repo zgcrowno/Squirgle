@@ -444,7 +444,85 @@ public class Draw {
         }
     }
 
-    public void drawShapes(boolean localMobilePlayer2, List<Shape> priorShapeList, Shape promptShape, boolean primaryShapeAtThreshold) {
+    public void orientShapes(boolean localMobilePlayer2, List<Shape> priorShapeList, Shape promptShape, boolean primaryShapeAtThreshold) {
+        if (!priorShapeList.isEmpty()) {
+            //We go through the priorShapeList "backwards" because we want to draw the smaller shapes (those added earliest) last
+            //so that they'll overlay the larger shapes.
+            for (int i = priorShapeList.size() - 1; i >= 0; i--) {
+                Shape shape = priorShapeList.get(i);
+                Shape priorShape;
+
+                //Determine whether to compare current shape with prompt or next shape in list
+                if (i == priorShapeList.size() - 1) {
+                    //Shape is at end of list, so compare with prompt
+                    priorShape = promptShape;
+                } else {
+                    //Shape is not at end of list, so compare with next shape in list
+                    priorShape = priorShapeList.get(i + 1);
+                }
+
+                //Ensure that current element of list initially has same radius and coordinates as prior shape
+                shape.setRadius(priorShape.getRadius());
+                if (!primaryShapeAtThreshold) {
+                    shape.setLineWidth(priorShape.getRadius() / LINE_WIDTH_DIVISOR);
+                }
+                shape.setCoordinates(priorShape.getCoordinates());
+
+                //Lines and points must be shrunken and re-coordinated when encircled, except if the line is the first member of the list
+                if (shape.getShape() == Shape.POINT) {
+                    shape.setRadius(priorShape.getRadius() / 2);
+                    if (i != 0) {
+                        shape.setCoordinates(new Vector2(localMobilePlayer2 ? priorShape.getCoordinates().x + shape.getRadius() : priorShape.getCoordinates().x - shape.getRadius(), shape.getCoordinates().y));
+                    }
+                } else if (shape.getShape() == Shape.LINE) {
+                    if (i != 0) {
+                        shape.setRadius(priorShape.getRadius() / 2);
+                        shape.setCoordinates(new Vector2(localMobilePlayer2 ? priorShape.getCoordinates().x + shape.getRadius() : priorShape.getCoordinates().x - shape.getRadius(), shape.getCoordinates().y));
+                    }
+                }
+
+                //Determine radius/coordinates of current shape based on prior one
+                //Also, current shape is guaranteed to be a circle if any of these conditions hold
+                if (priorShape.getShape() == Shape.POINT) {
+                    if (priorShape == promptShape) {
+                        shape.setRadius(priorShape.getRadius() / 2);
+                        shape.setCoordinates(new Vector2(localMobilePlayer2 ? priorShape.getCoordinates().x - shape.getRadius() : priorShape.getCoordinates().x + shape.getRadius(),
+                                priorShape.getCoordinates().y));
+                    } else {
+                        shape.setCoordinates(new Vector2(localMobilePlayer2 ? priorShape.getCoordinates().x - (shape.getRadius() * 2) : priorShape.getCoordinates().x + (shape.getRadius() * 2),
+                                priorShape.getCoordinates().y));
+                    }
+                } else if (priorShape.getShape() == Shape.LINE) {
+                    if (priorShape == promptShape) {
+                        shape.setRadius(priorShape.getRadius() - (priorShape.getLineWidth() * 1.1f));
+                        shape.setCoordinates(new Vector2(localMobilePlayer2 ? priorShape.getCoordinates().x - (priorShape.getLineWidth() * 1.7f) - (priorShape.getLineWidth() / 2) + (priorShape.getRadius() - shape.getRadius()) : priorShape.getCoordinates().x + (priorShape.getLineWidth() * 1.7f) + (priorShape.getLineWidth() / 2) - (priorShape.getRadius() - shape.getRadius()),
+                                priorShape.getCoordinates().y));
+                    } else {
+                        shape.setCoordinates(new Vector2(localMobilePlayer2 ? priorShape.getCoordinates().x - priorShape.getRadius() - (priorShape.getLineWidth() / 2) : priorShape.getCoordinates().x + priorShape.getRadius() + (priorShape.getLineWidth() / 2),
+                                priorShape.getCoordinates().y));
+                    }
+                } else if (priorShape.getShape() == Shape.TRIANGLE) {
+                    shape.setRadius((priorShape.getRadius() / 2) - priorShape.getLineWidth());
+                } else if (priorShape.getShape() != Shape.CIRCLE) {
+                    //The inradius of a regular polygon with n > 3 sides is equal to its apothem, which is defined by [apothem = radius * MathUtils.cos(MathUtils.PI / sides)]
+                    shape.setRadius((priorShape.getRadius() * MathUtils.cos(MathUtils.PI / (priorShape.getShape() + 1))) - (1.4f * priorShape.getLineWidth()));
+                }
+            }
+        }
+    }
+
+    public void drawShapes(boolean localMobilePlayer2, List<Shape> priorShapeList) {
+        for (int i = priorShapeList.size() - 1; i >= 0; i--) {
+            Shape shape = priorShapeList.get(i);
+
+            //Only draw the shape if it's large enough to be relevant
+            if(shape.getRadius() >= game.widthOrHeightSmaller / SHAPE_VISIBLE_DIVISOR) {
+                drawShape(localMobilePlayer2, shape);
+            }
+        }
+    }
+
+    public void orientAndDrawShapes(boolean localMobilePlayer2, List<Shape> priorShapeList, Shape promptShape, boolean primaryShapeAtThreshold) {
         if (!priorShapeList.isEmpty()) {
             //We go through the priorShapeList "backwards" because we want to draw the smaller shapes (those added earliest) last
             //so that they'll overlay the larger shapes.

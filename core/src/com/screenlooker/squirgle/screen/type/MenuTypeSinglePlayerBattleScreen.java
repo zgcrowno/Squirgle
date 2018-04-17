@@ -48,6 +48,7 @@ public class MenuTypeSinglePlayerBattleScreen implements Screen, InputProcessor 
     private final static int NUM_DIFFICULTY_INPUT_ELEMENTS = 4;
 
     private final static float FONT_DIFFICULTY_SIZE_DIVISOR = 35f;
+    private final static float FONT_OPTIONS_SIZE_DIVISOR = 15f;
 
     private final static float FONT_TRACK_NAME_DIVISOR = 6.5f;
     private final static float FONT_TRACK_TYPE_DIVISOR = 2f;
@@ -136,9 +137,6 @@ public class MenuTypeSinglePlayerBattleScreen implements Screen, InputProcessor 
 
         game.resetInstanceData();
 
-        //TODO: Make sure this is being determined by inputShapeRadius instead of viewport width in ALL screens
-        game.setUpFontDifficulty(MathUtils.round(game.camera.viewportWidth / FONT_DIFFICULTY_SIZE_DIVISOR));
-
         Gdx.input.setInputProcessor(this);
 
         numberOfBaseInputs = game.maxBase - game.minBase + 1;
@@ -155,6 +153,7 @@ public class MenuTypeSinglePlayerBattleScreen implements Screen, InputProcessor 
 
         inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 2) : (inputWidth / 2);
 
+        game.setUpFontOptions(MathUtils.round(inputWidth / FONT_OPTIONS_SIZE_DIVISOR));
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
 
         touchPoint = new Vector3();
@@ -566,9 +565,9 @@ public class MenuTypeSinglePlayerBattleScreen implements Screen, InputProcessor 
         game.shapeRendererFilled.circle((game.camera.viewportWidth / 6) + (symbolRadius / 3), (game.camera.viewportHeight / 6) + (symbolRadius / 3), (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
 
         game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
-        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
+        game.draw.orientAndDrawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
         game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
-        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
+        game.draw.orientAndDrawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
     }
 
     public void transitionSquirgleColors() {

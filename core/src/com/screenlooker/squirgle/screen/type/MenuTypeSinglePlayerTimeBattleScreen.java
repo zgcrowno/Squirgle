@@ -51,6 +51,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
     private final static float FONT_TRACK_NAME_DIVISOR = 6.5f;
     private final static float FONT_TRACK_TYPE_DIVISOR = 2f;
     private final static float FONT_TIME_DIVISOR = 1.2f;
+    private final static float FONT_OPTIONS_SIZE_DIVISOR = 15f;
 
     private int numberOfBaseInputs;
 
@@ -149,8 +150,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
         inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 2) : (inputWidth / 2);
 
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
-        game.setUpFontTime(MathUtils.round(inputShapeRadius / FONT_TIME_DIVISOR));
-        game.setUpFontDifficulty(MathUtils.round(game.camera.viewportWidth / FONT_DIFFICULTY_SIZE_DIVISOR));
+        game.setUpFontOptions(MathUtils.round(inputWidth / FONT_OPTIONS_SIZE_DIVISOR));
 
         touchPoint = new Vector3();
 
