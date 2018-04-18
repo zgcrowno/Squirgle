@@ -181,48 +181,102 @@ public class Button {
     public static final int BUTTON_VOLUME_CHEVRON_DOWN = 163;
     public static final int BUTTON_VOLUME_CHEVRON_UP = 164;
     public static final int BUTTON_WIPE_DATA = 165;
+    public static final int BUTTON_HARDCORE = 166;
+    public static final int BUTTON_HARDCORE_SKULL = 167;
+    public static final int BUTTON_HARDCORE_CHEVRON_DOWN = 168;
+    public static final int BUTTON_HARDCORE_CHEVRON_UP = 169;
+
+    public static final String SINGLE_PLAYER_SYMBOL_STRING = "1P";
+    public static final String MULTIPLAYER_SYMBOL_STRING = "2P";
 
     public static final String QUESTION_MARK = "?";
     private final static String HIGHEST_SCORE = "HIGHEST SCORE: ";
-    private final static String ONE_MINUTE = "1M";
-    private final static String THREE_MINUTES = "3M";
-    private final static String FIVE_MINUTES = "5M";
+    private final static String ONE_MINUTE = "1m";
+    private final static String THREE_MINUTES = "3m";
+    private final static String FIVE_MINUTES = "5m";
+    private final static String MINUTES = "m";
 
-    private float x;
-    private float y;
-    private float width;
-    private float height;
-    private float radius;
-    private float squirgleHeightOffset;
-    private float transitionThreshold;
-    private float transitionIncrement;
-    private int buttonType;
+    private static final String PLAY_STRING = "PLAY";
+    private static final String OPTIONS_STRING = "OPTIONS";
+    private static final String HELP_STRING = "HELP";
+    private static final String QUIT_STRING = "QUIT";
+    private static final String SINGLE_PLAYER_STRING = "SINGLE PLAYER";
+    private static final String MULTIPLAYER_STRING = "MULTIPLAYER";
+    private static final String BACK_STRING = "BACK";
+    private static final String SQUIRGLE_STRING = "SQUIRGLE";
+    private static final String BATTLE_STRING = "BATTLE";
+    private static final String TIME_ATTACK_STRING = "TIME ATTACK";
+    private static final String TIME_BATTLE_STRING = "TIME BATTLE";
+    private static final String TRANCE_STRING = "TRANCE";
+    private static final String MUSIC_STRING = "MUSIC";
+    private static final String SQUARE_STRING = "SQUARE";
+    private static final String PENTAGON_STRING = "PENTAGON";
+    private static final String HEXAGON_STRING = "HEXAGON";
+    private static final String SEPTAGON_STRING = "SEPTAGON";
+    private static final String OCTAGON_STRING = "OCTAGON";
+    private static final String NONAGON_STRING = "NONAGON";
+    private static final String DIFFICULTY_STRING = "DIFFICULTY";
+    private static final String TIME_LIMIT_STRING = "TIME LIMIT";
+    private static final String VOLUME_STRING = "VOLUME";
+    private static final String ERASE_DATA_STRING = "ERASE DATA";
+    private static final String ADDITION_TABLE_STRING = "ADDITION TABLES";
+    private static final String STATS_STRING = "STATS";
+    private static final String TUTORIAL_STRING = "TUTORIALS";
+    private static final String CREDITS_STRING = "CREDITS";
+    private static final String GENERAL_STRING = "GENERAL";
+    private static final String HARDCORE_STRING = "HARDCORE MODE";
+
+    public float x;
+    public float y;
+    public float width;
+    public float height;
+    public float radius;
+    public float centerX;
+    public float centerY;
+    public float symbolX;
+    public float symbolY;
+    public float symbolRadius;
+    public float symbolTextOverlap;
+    public float squirgleHeightOffset;
+    public float transitionThreshold;
+    public float transitionIncrement;
+    public float textOpacity;
+    public int buttonType;
     public boolean touched;
-    private Color containerColor;
-    private Color containedColor;
-    private Color originalContainerColor;
-    private Color squareColor;
-    private Color circleColor;
-    private Color triangleColor;
-    private List<Shape> transitionCirclesList;
-    private List<Shape> squirgleShapeList;
-    private List<Shape> squirgleShapeListBattleOne;
-    private List<Shape> squirgleShapeListBattleTwo;
-    private Shape squirglePrompt;
-    private Shape squirglePromptBattleOne;
-    private Shape squirglePromptBattleTwo;
-    private Squirgle game;
+    public Color containerColor;
+    public Color containedColor;
+    public Color originalContainerColor;
+    public Color squareColor;
+    public Color circleColor;
+    public Color triangleColor;
+    public List<Shape> transitionCirclesList;
+    public List<Shape> squirgleShapeList;
+    public List<Shape> squirgleShapeListBattleOne;
+    public List<Shape> squirgleShapeListBattleTwo;
+    public Shape squirglePrompt;
+    public Shape squirglePromptBattleOne;
+    public Shape squirglePromptBattleTwo;
+    public Squirgle game;
 
     public Button() {
+        game.layout.setText(game.fontButton, PLAY_STRING); //Setting this so I have access to the button's text's height
+
         this.game = new Squirgle();
         this.x = 0;
         this.y = 0;
         this.width = 0;
         this.height = 0;
         this.radius = 0;
-        this.squirgleHeightOffset = radius / 4;
+        this.centerX = x + (width / 2);
+        this.centerY = y + (height / 2);
+        this.symbolTextOverlap = (y + game.layout.height) - (centerY - radius);
+        this.symbolX = centerX;
+        this.symbolY = symbolTextOverlap > 0 ? centerY + (symbolTextOverlap / 2) : centerY;
+        this.symbolRadius = symbolTextOverlap > 0 ? radius - (symbolTextOverlap / 2) : radius;
+        this.squirgleHeightOffset = symbolRadius / 4;
         this.transitionThreshold = (float) Math.sqrt(Math.pow(game.camera.viewportWidth, 2) + Math.pow(game.camera.viewportHeight, 2));
-        this.transitionIncrement = game.widthOrHeight / 5;
+        this.transitionIncrement = game.widthOrHeightSmaller / 5;
+        this.textOpacity = 0;
         this.buttonType = 0;
         this.touched = false;
         this.containerColor = Color.BLACK;
@@ -272,35 +326,44 @@ public class Button {
         this.squirgleShapeListBattleTwo.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
         this.squirgleShapeListBattleTwo.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
         this.squirglePrompt = new Shape(Shape.TRIANGLE,
-                radius,
+                symbolRadius,
                 triangleColor,
                 null,
-                radius / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(x + (width / 2), (y + (height / 2)) - squirgleHeightOffset));
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(symbolX, symbolY - squirgleHeightOffset));
         this.squirglePromptBattleOne = new Shape(Shape.TRIANGLE,
-                radius / 2,
+                symbolRadius / 2,
                 triangleColor,
                 null,
-                (radius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(x + (width / 4), y + ((3 *height) / 4)));
+                (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(x + (width / 4), y + game.layout.height + ((3 * (height - game.layout.height)) / 4) - squirgleHeightOffset));
         this.squirglePromptBattleTwo = new Shape(Shape.TRIANGLE,
-                radius / 2,
+                symbolRadius / 2,
                 triangleColor,
                 null,
-                (radius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(x + ((3 * width) / 4), y + (height / 4)));
+                (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(x + ((3 * width) / 4), y + game.layout.height + ((height - game.layout.height) / 4)));
     }
 
     public Button(float x, float y, float width, float height, int buttonType, Color containerColor, Color containedColor, Squirgle game) {
+        game.layout.setText(game.fontButton, PLAY_STRING); //Setting this so I have access to the button's text's height
+
         this.game = game;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.radius = width > height ? height / 2 : width / 2;
-        this.squirgleHeightOffset = radius / 4;
+        this.centerX = x + (width / 2);
+        this.centerY = y + (height / 2);
+        this.symbolTextOverlap = (y + game.layout.height) - (centerY - radius);
+        this.symbolX = centerX;
+        this.symbolY = symbolTextOverlap > 0 ? centerY + (symbolTextOverlap / 2) : centerY;
+        this.symbolRadius = symbolTextOverlap > 0 ? radius - (symbolTextOverlap / 2) : radius;
+        this.squirgleHeightOffset = symbolRadius / 4;
         this.transitionThreshold = (float) Math.sqrt(Math.pow(game.camera.viewportWidth, 2) + Math.pow(game.camera.viewportHeight, 2));
-        this.transitionIncrement = game.widthOrHeight / 5;
+        this.transitionIncrement = game.widthOrHeightSmaller / 5;
+        this.textOpacity = 0;
         this.buttonType = buttonType;
         this.touched = false;
         this.containerColor = containerColor;
@@ -350,23 +413,23 @@ public class Button {
         this.squirgleShapeListBattleTwo.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
         this.squirgleShapeListBattleTwo.add(new Shape(Shape.CIRCLE, 0, circleColor, null, 0, new Vector2()));
         this.squirglePrompt = new Shape(Shape.TRIANGLE,
-                radius,
+                symbolRadius,
                 triangleColor,
                 null,
-                radius / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(x + (width / 2), (y + (height / 2)) - squirgleHeightOffset));
+                symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(symbolX, symbolY - squirgleHeightOffset));
         this.squirglePromptBattleOne = new Shape(Shape.TRIANGLE,
-                radius / 2,
+                symbolRadius / 2,
                 triangleColor,
                 null,
-                (radius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(x + (width / 4), y + ((3 *height) / 4) - squirgleHeightOffset));
+                (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(x + (width / 4), y + game.layout.height + ((3 * (height - game.layout.height)) / 4) - squirgleHeightOffset));
         this.squirglePromptBattleTwo = new Shape(Shape.TRIANGLE,
-                radius / 2,
+                symbolRadius / 2,
                 triangleColor,
                 null,
-                (radius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(x + ((3 * width) / 4), y + (height / 4)));
+                (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
+                new Vector2(x + ((3 * width) / 4), y + game.layout.height + ((height - game.layout.height) / 4)));
     }
 
     public void draw() {
@@ -411,85 +474,57 @@ public class Button {
     }
 
     public void drawSymbol() {
-        float centerX = x + (width / 2);
-        float centerY = y + (height / 2);
-
         switch(buttonType) {
             case BUTTON_TYPE : {
                 game.draw.drawPlayButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_OPTIONS : {
                 game.draw.drawWrench(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_HELP : {
                 game.draw.drawQuestionMark(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_QUIT : {
-                game.draw.drawX(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                game.draw.drawStopSymbol(centerX,
+                        symbolY,
+                        symbolRadius,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER : {
-                game.draw.drawFace(centerX,
-                        centerY,
-                        radius / 3,
-                        (radius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor,
-                        containerColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL : {
-                game.draw.drawFace((game.camera.viewportWidth / 2) - radius + (radius / 3),
-                        game.camera.viewportHeight / 4,
-                        radius / 3,
-                        (radius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor,
-                        containerColor);
-                game.draw.drawFace((game.camera.viewportWidth / 2) + radius - (radius / 3),
-                        game.camera.viewportHeight / 4,
-                        radius / 3,
-                        (radius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor,
-                        containerColor);
-                game.shapeRendererFilled.setColor(containedColor);
-                game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 2) - radius,
-                        game.camera.viewportHeight / 4,
-                        (game.camera.viewportWidth / 2) + radius,
-                        game.camera.viewportHeight / 4,
-                        (radius / 2) / Draw.LINE_WIDTH_DIVISOR);
                 break;
             }
             case BUTTON_TYPE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE : {
                 game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
-                game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE : {
@@ -498,8 +533,8 @@ public class Button {
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK : {
                 game.draw.drawClock(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
@@ -510,269 +545,269 @@ public class Button {
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE : {
                 game.draw.drawTranceSymbol(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY : {
                 game.draw.drawPlayButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
@@ -794,276 +829,277 @@ public class Button {
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_OPTIONS_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
-                        y + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION : {
+                game.layout.setText(game.fontButton, ADDITION_TABLE_STRING);
                 game.draw.drawPlus(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_STATS : {
                 game.draw.drawModulo(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL : {
                 game.draw.drawTutorialSymbol(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_HELP_CREDITS : {
                 game.draw.drawCreditsSymbol(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_COLOR : {
                 game.draw.drawColorWheel(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_COLOR_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_ADDITION_BASE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_STATS_GENERAL : {
                 game.draw.drawSigma(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_HELP_STATS_SQUIRGLE : {
                 game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
-                game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
                 break;
             }
             case BUTTON_HELP_STATS_BATTLE : {
@@ -1072,8 +1108,8 @@ public class Button {
             }
             case BUTTON_HELP_STATS_TIME_ATTACK : {
                 game.draw.drawClock(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
@@ -1084,33 +1120,33 @@ public class Button {
             }
             case BUTTON_HELP_STATS_TRANCE : {
                 game.draw.drawTranceSymbol(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_HELP_STATS_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_STATS_GENERAL_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_STATS_SQUIRGLE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
@@ -1125,9 +1161,9 @@ public class Button {
             }
             case BUTTON_HELP_STATS_BATTLE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
@@ -1142,9 +1178,9 @@ public class Button {
             }
             case BUTTON_HELP_STATS_TIME_ATTACK_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
@@ -1186,23 +1222,23 @@ public class Button {
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_STATS_TRANCE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE : {
                 game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
-                game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE : {
@@ -1211,8 +1247,8 @@ public class Button {
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK : {
                 game.draw.drawClock(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
@@ -1223,269 +1259,269 @@ public class Button {
             }
             case BUTTON_HELP_TUTORIAL_TRANCE : {
                 game.draw.drawTranceSymbol(centerX,
-                        centerY,
-                        radius,
+                        symbolY,
+                        symbolRadius,
                         containedColor,
                         containerColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SQUARE : {
                 game.draw.drawSquare(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_PENTAGON : {
                 game.draw.drawPentagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_HEXAGON : {
                 game.draw.drawHexagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SEPTAGON : {
                 game.draw.drawSeptagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_OCTAGON : {
                 game.draw.drawOctagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_NONAGON : {
                 game.draw.drawNonagon(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         0,
                         containedColor);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_BACK : {
                 game.draw.drawBackButton(centerX,
-                        centerY,
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_MUSIC : {
-                game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (radius / 4) + ((radius / Draw.LINE_WIDTH_DIVISOR) / 2),
-                        game.partitionSize + (height / 2),
-                        radius,
-                        radius / Draw.LINE_WIDTH_DIVISOR,
+                game.draw.drawQuarterNote((game.camera.viewportWidth / 2) - (symbolRadius / 4) + ((symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
@@ -1605,10 +1641,37 @@ public class Button {
             }
             case BUTTON_WIPE_DATA : {
                 game.draw.drawWipeDataSymbol(centerX,
+                        symbolY,
+                        symbolRadius,
+                        containedColor,
+                        containerColor);
+                break;
+            }
+            case BUTTON_HARDCORE : {
+                break;
+            }
+            case BUTTON_HARDCORE_SKULL : {
+                game.draw.drawSkull(centerX,
                         centerY,
                         radius,
                         containedColor,
                         containerColor);
+                break;
+            }
+            case BUTTON_HARDCORE_CHEVRON_DOWN : {
+                game.draw.drawChevronLeft(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HARDCORE_CHEVRON_UP : {
+                game.draw.drawChevronRight(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
                 break;
             }
         }
@@ -1620,258 +1683,1126 @@ public class Button {
 
         switch(buttonType) {
             case BUTTON_TYPE : {
+                game.layout.setText(game.fontButton, PLAY_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PLAY_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_OPTIONS : {
+                game.layout.setText(game.fontButton, OPTIONS_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OPTIONS_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP : {
+                game.layout.setText(game.fontButton, HELP_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HELP_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_QUIT : {
+                game.layout.setText(game.fontButton, QUIT_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        QUIT_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER : {
+                FontUtils.printText(game.batch,
+                        game.fontNumPlayers,
+                        game.layout,
+                        Color.BLACK,
+                        SINGLE_PLAYER_SYMBOL_STRING,
+                        symbolX,
+                        symbolY,
+                        0,
+                        1);
+                game.layout.setText(game.fontButton, SINGLE_PLAYER_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SINGLE_PLAYER_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL : {
+                FontUtils.printText(game.batch,
+                        game.fontNumPlayers,
+                        game.layout,
+                        Color.BLACK,
+                        MULTIPLAYER_SYMBOL_STRING,
+                        symbolX,
+                        symbolY,
+                        0,
+                        1);
+                game.layout.setText(game.fontButton, MULTIPLAYER_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        MULTIPLAYER_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE : {
+                game.layout.setText(game.fontButton, SQUIRGLE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUIRGLE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE : {
+                game.layout.setText(game.fontButton, BATTLE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BATTLE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK : {
+                game.layout.setText(game.fontButton, TIME_ATTACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        TIME_ATTACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE : {
+                game.layout.setText(game.fontButton, TIME_BATTLE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        TIME_BATTLE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE : {
+                game.layout.setText(game.fontButton, TRANCE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        TRANCE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SQUARE : {
+                game.layout.setText(game.fontButton, SQUARE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUARE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_PENTAGON : {
+                game.layout.setText(game.fontButton, PENTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PENTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_HEXAGON : {
+                game.layout.setText(game.fontButton, HEXAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HEXAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SEPTAGON : {
+                game.layout.setText(game.fontButton, SEPTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SEPTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_OCTAGON : {
+                game.layout.setText(game.fontButton, OCTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OCTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_NONAGON : {
+                game.layout.setText(game.fontButton, NONAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        NONAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SQUARE : {
+                game.layout.setText(game.fontButton, SQUARE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUARE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_PENTAGON : {
+                game.layout.setText(game.fontButton, PENTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PENTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_HEXAGON : {
+                game.layout.setText(game.fontButton, HEXAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HEXAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SEPTAGON : {
+                game.layout.setText(game.fontButton, SEPTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SEPTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_OCTAGON : {
+                game.layout.setText(game.fontButton, OCTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OCTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_NONAGON : {
+                game.layout.setText(game.fontButton, NONAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        NONAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SQUARE : {
+                game.layout.setText(game.fontButton, SQUARE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUARE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_PENTAGON : {
+                game.layout.setText(game.fontButton, PENTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PENTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_HEXAGON : {
+                game.layout.setText(game.fontButton, HEXAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HEXAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SEPTAGON : {
+                game.layout.setText(game.fontButton, SEPTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SEPTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_OCTAGON : {
+                game.layout.setText(game.fontButton, OCTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OCTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_NONAGON : {
+                game.layout.setText(game.fontButton, NONAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        NONAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SQUARE : {
+                game.layout.setText(game.fontButton, SQUARE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUARE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_PENTAGON : {
+                game.layout.setText(game.fontButton, PENTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PENTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_HEXAGON : {
+                game.layout.setText(game.fontButton, HEXAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HEXAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SEPTAGON : {
+                game.layout.setText(game.fontButton, SEPTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SEPTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_OCTAGON : {
+                game.layout.setText(game.fontButton, OCTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OCTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_NONAGON : {
+                game.layout.setText(game.fontButton, NONAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        NONAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY : {
+                game.layout.setText(game.fontButton, PLAY_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PLAY_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE : {
+                game.layout.setText(game.fontButton, BATTLE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BATTLE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE : {
+                game.layout.setText(game.fontButton, TIME_BATTLE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        TIME_BATTLE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SQUARE : {
+                game.layout.setText(game.fontButton, SQUARE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUARE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_PENTAGON : {
+                game.layout.setText(game.fontButton, PENTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PENTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_HEXAGON : {
+                game.layout.setText(game.fontButton, HEXAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HEXAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SEPTAGON : {
+                game.layout.setText(game.fontButton, SEPTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SEPTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_OCTAGON : {
+                game.layout.setText(game.fontButton, OCTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OCTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_NONAGON : {
+                game.layout.setText(game.fontButton, NONAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        NONAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SQUARE : {
+                game.layout.setText(game.fontButton, SQUARE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUARE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_PENTAGON : {
+                game.layout.setText(game.fontButton, PENTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PENTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_HEXAGON : {
+                game.layout.setText(game.fontButton, HEXAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HEXAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SEPTAGON : {
+                game.layout.setText(game.fontButton, SEPTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SEPTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_OCTAGON : {
+                game.layout.setText(game.fontButton, OCTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OCTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_NONAGON : {
+                game.layout.setText(game.fontButton, NONAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        NONAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_OPTIONS_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION : {
+                game.layout.setText(game.fontButton, ADDITION_TABLE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        ADDITION_TABLE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS : {
+                game.layout.setText(game.fontButton, STATS_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        STATS_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL : {
+                game.layout.setText(game.fontButton, TUTORIAL_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        TUTORIAL_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_CREDITS : {
+                game.layout.setText(game.fontButton, CREDITS_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        CREDITS_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_COLOR : {
+                game.layout.setText(game.fontButton, SQUIRGLE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUIRGLE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_SQUARE : {
+                game.layout.setText(game.fontButton, SQUARE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUARE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_PENTAGON : {
+                game.layout.setText(game.fontButton, PENTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PENTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_HEXAGON : {
+                game.layout.setText(game.fontButton, HEXAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HEXAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_SEPTAGON : {
+                game.layout.setText(game.fontButton, SEPTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SEPTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_OCTAGON : {
+                game.layout.setText(game.fontButton, OCTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OCTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_NONAGON : {
+                game.layout.setText(game.fontButton, NONAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        NONAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_COLOR_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_ADDITION_BASE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_GENERAL : {
+                game.layout.setText(game.fontButton, GENERAL_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        GENERAL_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_SQUIRGLE : {
+                game.layout.setText(game.fontButton, SQUIRGLE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUIRGLE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_BATTLE : {
+                game.layout.setText(game.fontButton, BATTLE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BATTLE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_ATTACK : {
+                game.layout.setText(game.fontButton, TIME_ATTACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        TIME_ATTACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE : {
+                game.layout.setText(game.fontButton, TIME_BATTLE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        TIME_BATTLE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TRANCE : {
+                game.layout.setText(game.fontButton, TRANCE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        TRANCE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_GENERAL_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_SQUIRGLE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_BATTLE_EASY : {
@@ -1884,7 +2815,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_BATTLE_MEDIUM : {
@@ -1897,7 +2828,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_BATTLE_HARD : {
@@ -1910,10 +2841,20 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_BATTLE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_ATTACK_ONE_MINUTE : {
@@ -1926,7 +2867,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_ATTACK_THREE_MINUTES : {
@@ -1939,7 +2880,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_ATTACK_FIVE_MINUTES : {
@@ -1952,10 +2893,20 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_ATTACK_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_EASY : {
@@ -1968,7 +2919,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM : {
@@ -1981,7 +2932,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_HARD : {
@@ -1994,7 +2945,7 @@ public class Button {
                         x + width - (game.layout.width / 2),
                         y + (height / 2) - (game.layout.height / 2),
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_EASY_ONE_MINUTE : {
@@ -2007,7 +2958,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_EASY_THREE_MINUTES : {
@@ -2020,7 +2971,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_EASY_FIVE_MINUTES : {
@@ -2033,7 +2984,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_ONE_MINUTE : {
@@ -2046,7 +2997,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_THREE_MINUTES : {
@@ -2059,7 +3010,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_MEDIUM_FIVE_MINUTES : {
@@ -2072,7 +3023,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_HARD_ONE_MINUTE : {
@@ -2085,7 +3036,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_HARD_THREE_MINUTES : {
@@ -2098,7 +3049,7 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_HARD_FIVE_MINUTES : {
@@ -2111,118 +3062,488 @@ public class Button {
                         centerX,
                         centerY,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TIME_BATTLE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_STATS_TRANCE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE : {
+                game.layout.setText(game.fontButton, SQUIRGLE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUIRGLE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE : {
+                game.layout.setText(game.fontButton, BATTLE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BATTLE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK : {
+                game.layout.setText(game.fontButton, TIME_ATTACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        TIME_ATTACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE : {
+                game.layout.setText(game.fontButton, TIME_BATTLE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        TIME_BATTLE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TRANCE : {
+                game.layout.setText(game.fontButton, TRANCE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        TRANCE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_SQUARE : {
+                game.layout.setText(game.fontButton, SQUARE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUARE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_PENTAGON : {
+                game.layout.setText(game.fontButton, PENTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PENTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_HEXAGON : {
+                game.layout.setText(game.fontButton, HEXAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HEXAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_SEPTAGON : {
+                game.layout.setText(game.fontButton, SEPTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SEPTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_OCTAGON : {
+                game.layout.setText(game.fontButton, OCTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OCTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_NONAGON : {
+                game.layout.setText(game.fontButton, NONAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        NONAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_SQUIRGLE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_SQUARE : {
+                game.layout.setText(game.fontButton, SQUARE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUARE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_PENTAGON : {
+                game.layout.setText(game.fontButton, PENTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PENTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_HEXAGON : {
+                game.layout.setText(game.fontButton, HEXAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HEXAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_SEPTAGON : {
+                game.layout.setText(game.fontButton, SEPTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SEPTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_OCTAGON : {
+                game.layout.setText(game.fontButton, OCTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OCTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_NONAGON : {
+                game.layout.setText(game.fontButton, NONAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        NONAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_BATTLE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SQUARE : {
+                game.layout.setText(game.fontButton, SQUARE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUARE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_PENTAGON : {
+                game.layout.setText(game.fontButton, PENTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PENTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_HEXAGON : {
+                game.layout.setText(game.fontButton, HEXAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HEXAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_SEPTAGON : {
+                game.layout.setText(game.fontButton, SEPTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SEPTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_OCTAGON : {
+                game.layout.setText(game.fontButton, OCTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OCTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_NONAGON : {
+                game.layout.setText(game.fontButton, NONAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        NONAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_ATTACK_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SQUARE : {
+                game.layout.setText(game.fontButton, SQUARE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUARE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_PENTAGON : {
+                game.layout.setText(game.fontButton, PENTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PENTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_HEXAGON : {
+                game.layout.setText(game.fontButton, HEXAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HEXAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SEPTAGON : {
+                game.layout.setText(game.fontButton, SEPTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SEPTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_OCTAGON : {
+                game.layout.setText(game.fontButton, OCTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OCTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_NONAGON : {
+                game.layout.setText(game.fontButton, NONAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        NONAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_HELP_TUTORIAL_TIME_BATTLE_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC : {
+                game.layout.setText(game.fontButton, MUSIC_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        MUSIC_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_FULL : {
@@ -2235,7 +3556,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_SPLIT : {
@@ -2248,7 +3569,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_POINTILLISM : {
@@ -2261,7 +3582,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_LINEAGE : {
@@ -2274,7 +3595,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_TRI_THE_WALTZ : {
@@ -2287,7 +3608,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_SQUARED_OFF : {
@@ -2300,7 +3621,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_PENT_UP : {
@@ -2313,7 +3634,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_HEXIDECIBEL : {
@@ -2326,7 +3647,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_INTERSEPTOR : {
@@ -2339,7 +3660,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_ROCTOPUS : {
@@ -2352,7 +3673,7 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_MUSIC_NONPLUSSED : {
@@ -2365,10 +3686,20 @@ public class Button {
                         centerX,
                         centerY + game.layout.height / 6,
                         0,
-                        1);
+                        textOpacity);
                 break;
             }
             case BUTTON_DIFFICULTY : {
+                game.layout.setText(game.fontButton, DIFFICULTY_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        DIFFICULTY_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 drawDifficultyText();
                 break;
             }
@@ -2382,6 +3713,16 @@ public class Button {
                 break;
             }
             case BUTTON_TIME : {
+                game.layout.setText(game.fontButton, TIME_LIMIT_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        TIME_LIMIT_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 drawTimeText();
                 break;
             }
@@ -2395,6 +3736,16 @@ public class Button {
                 break;
             }
             case BUTTON_VOLUME : {
+                game.layout.setText(game.fontButton, VOLUME_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        VOLUME_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 drawVolumeText();
                 break;
             }
@@ -2408,39 +3759,77 @@ public class Button {
                 break;
             }
             case BUTTON_WIPE_DATA : {
+                game.layout.setText(game.fontButton, ERASE_DATA_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        ERASE_DATA_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
                 break;
             }
+            case BUTTON_HARDCORE : {
+                game.layout.setText(game.fontButton, HARDCORE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HARDCORE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                drawHardcoreText();
+                break;
+            }
+            case BUTTON_HARDCORE_SKULL : {
+                break;
+            }
+            case BUTTON_HARDCORE_CHEVRON_DOWN : {
+                break;
+            }
+            case BUTTON_HARDCORE_CHEVRON_UP : {
+                break;
+            }
+        }
+        if(textOpacity < 1) {
+            textOpacity += 0.1;
         }
     }
 
     public void drawBattleSymbol() {
+        game.layout.setText(game.fontButton, PLAY_STRING);
         game.shapeRendererFilled.setColor(containedColor);
-        game.shapeRendererFilled.rectLine(x,
-                    y,
+        game.shapeRendererFilled.rectLine(x - (game.partitionSize / 2),
+                    y + game.layout.height + (game.partitionSize / 2),
                     x + width,
                     y + height,
                     game.partitionSize);
         game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
-        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
+        game.draw.orientAndDrawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
         game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
-        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
+        game.draw.orientAndDrawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
     }
 
     public void drawTimeBattleSymbol() {
+        game.layout.setText(game.fontButton, PLAY_STRING);
         game.shapeRendererFilled.setColor(containedColor);
-        game.shapeRendererFilled.rectLine(x,
-                y,
+        game.shapeRendererFilled.rectLine(x - (game.partitionSize / 2),
+                y + game.layout.height + (game.partitionSize / 2),
                 x + width,
                 y + height,
                 game.partitionSize);
         game.draw.drawClock(x + (width / 4),
-                    y + (height / 2) + (height / 6),
-                    radius / 2,
+                    y + game.layout.height + ((height - game.layout.height) / 2) + ((height - game.layout.height) / 6),
+                    symbolRadius / 2,
                     containedColor,
                     containerColor);
         game.draw.drawClock(x + (width / 2) + (width / 4),
-                    y + (height / 2) - (height / 6),
-                    radius / 2,
+                    y + game.layout.height + ((height - game.layout.height) / 2) - ((height - game.layout.height) / 6),
+                    symbolRadius / 2,
                     containedColor,
                     containerColor);
     }
@@ -2475,7 +3864,7 @@ public class Button {
 
     public void drawDifficultyText() {
         FontUtils.printText(game.batch,
-                game.fontDifficulty,
+                game.fontOptions,
                 game.layout,
                 Color.BLACK,
                 game.difficulty,
@@ -2487,10 +3876,10 @@ public class Button {
 
     public void drawTimeText() {
         FontUtils.printText(game.batch,
-                game.fontTime,
+                game.fontOptions,
                 game.layout,
                 Color.BLACK,
-                String.valueOf(game.timeAttackNumSeconds / Squirgle.ONE_MINUTE),
+                (game.timeAttackNumSeconds / Squirgle.ONE_MINUTE) + MINUTES,
                 x + ((3 * width) / 5),
                 y + (height / 2),
                 0,
@@ -2534,10 +3923,22 @@ public class Button {
 
     public void drawVolumeText() {
         FontUtils.printText(game.batch,
-                game.fontVolume,
+                game.fontOptions,
                 game.layout,
                 containedColor,
                 String.valueOf(game.volume),
+                x + ((3 * width) / 5),
+                y + (height / 2),
+                0,
+                1);
+    }
+
+    public void drawHardcoreText() {
+        FontUtils.printText(game.batch,
+                game.fontOptions,
+                game.layout,
+                containedColor,
+                game.hardcore ? game.HARDCORE_ENABLED : game.HARDCORE_DISABLED,
                 x + ((3 * width) / 5),
                 y + (height / 2),
                 0,
@@ -3032,6 +4433,7 @@ public class Button {
                 case BUTTON_OPTIONS_BACK : {
                     game.disconfirmSound.play((float) (game.volume / 10.0));
                     game.updateSave(game.SAVE_VOLUME, game.volume);
+                    game.updateSave(game.SAVE_HARDCORE, game.hardcore);
                     game.setScreen(new MainMenuScreen(game, containerColor));
                     return true;
                 }
@@ -3712,6 +5114,20 @@ public class Button {
                     game.showWipeDataPrompt = !game.showWipeDataPrompt;
                     return false;
                 }
+                case BUTTON_HARDCORE : {
+                    return false;
+                }
+                case BUTTON_HARDCORE_SKULL : {
+                    return false;
+                }
+                case BUTTON_HARDCORE_CHEVRON_DOWN : {
+                    game.hardcore = !game.hardcore;
+                    return false;
+                }
+                case BUTTON_HARDCORE_CHEVRON_UP : {
+                    game.hardcore = !game.hardcore;
+                    return false;
+                }
             }
         return false;
     }
@@ -3733,7 +5149,11 @@ public class Button {
                 && buttonType != BUTTON_VOLUME_WAVES
                 && buttonType != BUTTON_VOLUME_CHEVRON_DOWN
                 && buttonType != BUTTON_VOLUME_CHEVRON_UP
-                && buttonType != BUTTON_WIPE_DATA;
+                && buttonType != BUTTON_WIPE_DATA
+                && buttonType != BUTTON_HARDCORE
+                && buttonType != BUTTON_HARDCORE_SKULL
+                && buttonType != BUTTON_HARDCORE_CHEVRON_DOWN
+                && buttonType != BUTTON_HARDCORE_CHEVRON_UP;
     }
 
     public boolean isMusicTypeButton() {

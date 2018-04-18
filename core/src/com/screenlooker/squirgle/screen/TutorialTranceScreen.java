@@ -29,7 +29,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
     public static float INIT_PROMPT_RADIUS;
     public static float PAUSE_INPUT_WIDTH;
     public static float PAUSE_INPUT_HEIGHT;
-    public static float FONT_TUTORIAL_HELP_SIZE_DIVISOR;
+    public static float FONT_TUTORIAL_HELP_SIZE_MULTIPLIER;
 
     private final static int PAUSE_BACK = 0;
     private final static int PAUSE_QUIT = 1;
@@ -122,7 +122,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         game.shapeRendererLine.begin(ShapeRenderer.ShapeType.Line);
 
         primaryShape = priorShapeList.size() > 0 ? priorShapeList.get(0) : promptShape;
-        primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
+        primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
 
         increasePromptRadius();
@@ -131,18 +131,13 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
 
         if(!paused) {
             game.draw.drawPrompt(false, promptShape, priorShapeList, 0, null, true, false);
-            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
+            game.draw.orientShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
         }
 
         zoomThroughShapes();
 
         if(!paused) {
-            //This code is being executed three times: once before setting the prompt's end game coordinates, and again afterwards.
-            //This way, the shapes are drawn with their new values, and the first element in priorShapeList doesn't veer off
-            //the screen to the right.
-            //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
-            //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times.
-            game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
+            game.draw.orientAndDrawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
         }
 
         destroyOversizedShapesAndAddNewOnes();
@@ -302,10 +297,9 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
 
     public void drawPauseQuitInput() {
         drawInputRectangle(PAUSE_QUIT);
-        game.draw.drawX(game.camera.viewportWidth / 2,
+        game.draw.drawStopSymbol(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
-                (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK);
     }
 
@@ -560,11 +554,11 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
     public void setUpNonFinalStaticData() {
         PAUSE_INPUT_WIDTH = (game.camera.viewportWidth - (4 * game.partitionSize)) / 3;
         PAUSE_INPUT_HEIGHT = game.camera.viewportHeight - (2 * game.partitionSize);
-        INIT_PROMPT_RADIUS = game.widthOrHeight / 4;
+        INIT_PROMPT_RADIUS = game.widthOrHeightSmaller / 4;
         if(game.widthGreater) {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 20f;
         } else {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 28f;
         }
     }
 
@@ -617,11 +611,11 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         destructionIndex = 1;
         firstPriorShapePreviousX = 0;
         primaryShape = priorShapeList.size() > 0 ? priorShapeList.get(0) : promptShape;
-        primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
+        primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
 
         phaseOneTextOne = "Welcome to the TRANCE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of TRANCE.";
-        phaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] button. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, however, simply tap anywhere on your screen, and the PAUSE [||] input will appear next to the HELP [?] input for a few seconds. While the PAUSE [||] input is visible, you may press it to enter into the PAUSE menu, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
+        phaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] button. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, however, simply tap anywhere on your screen, and the PAUSE [||] input will appear next to the HELP [?] input for a few seconds. While the PAUSE [||] input is visible, you may press it to enter into the PAUSE menu, at which point you may press the BACK button to unpause or the STOP button to quit.";
         phaseOneTextThree = "The purpose of TRANCE mode is literally to listen to music while letting a dope series of SQUIRGLE shapes wash over you; that's it. There probably shouldn't even be a tutorial for this mode, as it's 99% passive. When you're ready to experience TRANCE mode in full, simply press the NEXT button to zone out until you're satisfied, at which point you ought to tap anywhere on the screen to bring up the PAUSE [||] button and quit. Note that when playing the non-tutorial version of this mode, you'll be able to choose the accompanying music track beforehand.";
 
         helpTextPhaseOneList = new ArrayList<String>();
@@ -636,7 +630,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         phaseMap.put(PHASE_ONE, helpTextPhaseOneList);
         helpTextMap.put(Squirgle.GAMEPLAY_TRANCE, phaseMap);
 
-        game.setUpFontTutorialHelp(MathUtils.round(game.widthOrHeight / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
+        game.setUpFontTutorialHelp(MathUtils.round(game.ASPECT_RATIO * ((1920 / 1080) * FONT_TUTORIAL_HELP_SIZE_MULTIPLIER) / (1920 / 1080))); //Using 1920 / 1080 because that's the OG resolution--the one for which I originally developed--and I wish to scale it for other devices.
 
         helpLabelStyle = new Label.LabelStyle();
         helpLabelStyle.font = game.fontTutorialHelp;

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Button;
@@ -72,9 +73,11 @@ public class MenuHelpAdditionBaseScreen implements Screen, InputProcessor {
 
         symbolRadius = inputWidth > inputHeightTable ? inputHeightTable / 2 : inputWidth / 2;
 
+        game.setUpFontButton(MathUtils.round(symbolRadius / 2.75f));
+
         touchPoint = new Vector3();
 
-        backColor = ColorUtils.randomColor();
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         backTouched = false;
 

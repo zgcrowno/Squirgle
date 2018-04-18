@@ -137,18 +137,19 @@ public class MenuHelpTutorialBattleScreen implements Screen, InputProcessor {
 
         inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 2) : (inputWidth / 2);
 
+        game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
         game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
         game.setUpFontTrackType(MathUtils.round(inputShapeRadius / FONT_TRACK_TYPE_DIVISOR));
 
         touchPoint = new Vector3();
 
-        base4Color = ColorUtils.randomColor();
-        base5Color = ColorUtils.randomColor();
-        base6Color = ColorUtils.randomColor();
-        base7Color = ColorUtils.randomColor();
-        base8Color = ColorUtils.randomColor();
-        base9Color = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        base4Color = ColorUtils.COLOR_BLUISH_GREEN;
+        base5Color = ColorUtils.COLOR_VERMILLION;
+        base6Color = ColorUtils.COLOR_ORANGE;
+        base7Color = ColorUtils.COLOR_BLUE;
+        base8Color = ColorUtils.COLOR_SKY_BLUE;
+        base9Color = ColorUtils.COLOR_REDDISH_PURPLE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
         musicColor = ColorUtils.randomColor();
         difficultyColor = ColorUtils.randomColor();
 
@@ -209,12 +210,26 @@ public class MenuHelpTutorialBattleScreen implements Screen, InputProcessor {
             float x = 2 * game.partitionSize + inputWidth;
             float y = game.partitionSize + (i * (game.partitionSize + inputHeightBase));
             int buttonType = Button.BUTTON_HELP_TUTORIAL_BATTLE_SQUARE + i;
+            Color color = new Color();
+            if(i == 0) {
+                color = base4Color;
+            } else if(i == 1) {
+                color = base5Color;
+            } else if(i ==2) {
+                color = base6Color;
+            } else if(i == 3) {
+                color = base7Color;
+            } else if(i == 4) {
+                color = base8Color;
+            } else if(i == 5) {
+                color = base9Color;
+            }
             buttonList.add(new Button(x,
                     y,
                     inputWidth,
                     inputHeightBase,
                     buttonType,
-                    ColorUtils.randomColor(),
+                    color,
                     Color.BLACK,
                     game));
         }
@@ -387,9 +402,9 @@ public class MenuHelpTutorialBattleScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.circle((game.camera.viewportWidth / 6) + (symbolRadius / 3), (game.camera.viewportHeight / 6) + (symbolRadius / 3), (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
 
         game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
-        game.draw.drawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
+        game.draw.orientAndDrawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
         game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
-        game.draw.drawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
+        game.draw.orientAndDrawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
     }
 
     public void transitionSquirgleColors() {

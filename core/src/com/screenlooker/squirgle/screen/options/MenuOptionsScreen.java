@@ -32,15 +32,17 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
-    private final static int NUM_MIDDLE_INPUTS_VERTICAL = 2;
+    private final static int NUM_MIDDLE_INPUTS_VERTICAL = 3;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
     private final static int NUM_MIDDLE_PARTITIONS_VERTICAL = NUM_MIDDLE_INPUTS_VERTICAL + 1;
     public final static int NUM_SOUND_INPUT_ELEMENTS = 4;
 
-    private final static float FONT_VOLUME_SIZE_DIVISOR = 11.1f;
-    private static float FONT_TUTORIAL_HELP_SIZE_DIVISOR;
+    private final static float FONT_VOLUME_SIZE_DIVISOR = 30f;
+    private final static float FONT_HARDCORE_SIZE_DIVISOR = 45f;
+    private final static float FONT_OPTIONS_SIZE_DIVISOR = 15f;
+    private static float FONT_TUTORIAL_HELP_SIZE_MULTIPLIER;
 
     private float inputWidth;
     private float inputHeightMiddle;
@@ -48,10 +50,12 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private float helpInputGirth;
 
     private float symbolRadius;
+    private float inputShapeRadius;
 
     private Vector3 touchPoint;
 
     private Color volumeColor;
+    private Color hardcoreColor;
     private Color wipeDataColor;
     private Color backColor;
 
@@ -66,6 +70,10 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private Button volumeWavesButton;
     private Button volumeChevronDownButton;
     private Button volumeChevronUpButton;
+    private Button hardcoreButton;
+    private Button hardcoreSkullButton;
+    private Button hardcoreChevronDownButton;
+    private Button hardcoreChevronUpButton;
     private Button wipeDataButton;
     private Button backButton;
 
@@ -85,13 +93,12 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         game.resetInstanceData();
 
         if(game.widthGreater) {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 35.5f;
         } else {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 42f;
         }
 
-        game.setUpFontVolume(MathUtils.round(game.camera.viewportWidth / FONT_VOLUME_SIZE_DIVISOR));
-        game.setUpFontTutorialHelp(MathUtils.round(game.widthOrHeight / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
+        game.setUpFontTutorialHelp(MathUtils.round(game.ASPECT_RATIO * FONT_TUTORIAL_HELP_SIZE_MULTIPLIER));
 
         Gdx.input.setInputProcessor(this);
 
@@ -102,18 +109,24 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
         symbolRadius = inputWidth > inputHeightBack ? inputHeightBack / 2 : inputWidth / 2;
 
+        inputShapeRadius = inputWidth > inputHeightMiddle ? (inputHeightMiddle / 2) : (inputWidth / 2);
+
+        game.setUpFontOptions(MathUtils.round(inputWidth / FONT_OPTIONS_SIZE_DIVISOR));
+        game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
+
         touchPoint = new Vector3();
 
-        volumeColor = ColorUtils.randomColor();
-        wipeDataColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        volumeColor = ColorUtils.COLOR_ORANGE;
+        hardcoreColor = ColorUtils.COLOR_VERMILLION;
+        wipeDataColor = ColorUtils.COLOR_BLUE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         volumeDownChevronTouched = false;
         volumeUpChevronTouched = false;
         backTouched = false;
 
         volumeButton = new Button((2 * game.partitionSize) + inputWidth,
-                (2 * game.partitionSize) + inputHeightMiddle,
+                (3 * game.partitionSize) + (2 * inputHeightMiddle),
                 inputWidth,
                 inputHeightMiddle,
                 Button.BUTTON_VOLUME,
@@ -121,7 +134,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 game);
         volumeWavesButton = new Button((2 * game.partitionSize) + inputWidth + (inputWidth / 10),
-                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
+                (3 * game.partitionSize) + (2 * inputHeightMiddle) + (inputHeightMiddle / 2) - (inputWidth / 10),
                 inputWidth / 5,
                 inputWidth / 5,
                 Button.BUTTON_VOLUME_WAVES,
@@ -129,7 +142,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 game);
         volumeChevronDownButton = new Button((2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 10),
-                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
+                (3 * game.partitionSize) + (2 * inputHeightMiddle) + (inputHeightMiddle / 2) - (inputWidth / 10),
                 inputWidth / 5,
                 inputWidth / 5,
                 Button.BUTTON_VOLUME_CHEVRON_DOWN,
@@ -137,11 +150,43 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 game);
         volumeChevronUpButton = new Button((2 * game.partitionSize) + inputWidth + ((7 * inputWidth) / 10),
-                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
+                (3 * game.partitionSize) + (2 * inputHeightMiddle) + (inputHeightMiddle / 2) - (inputWidth / 10),
                 inputWidth / 5,
                 inputWidth / 5,
                 Button.BUTTON_VOLUME_CHEVRON_UP,
                 volumeColor,
+                Color.BLACK,
+                game);
+        hardcoreButton = new Button((2 * game.partitionSize) + inputWidth,
+                (2 * game.partitionSize) + inputHeightMiddle,
+                inputWidth,
+                inputHeightMiddle,
+                Button.BUTTON_HARDCORE,
+                hardcoreColor,
+                Color.BLACK,
+                game);
+        hardcoreSkullButton = new Button((2 * game.partitionSize) + inputWidth + (inputWidth / 10),
+                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
+                inputWidth / 5,
+                inputWidth / 5,
+                Button.BUTTON_HARDCORE_SKULL,
+                hardcoreColor,
+                Color.BLACK,
+                game);
+        hardcoreChevronDownButton = new Button((2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 10),
+                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
+                inputWidth / 5,
+                inputWidth / 5,
+                Button.BUTTON_HARDCORE_CHEVRON_DOWN,
+                hardcoreColor,
+                Color.BLACK,
+                game);
+        hardcoreChevronUpButton = new Button((2 * game.partitionSize) + inputWidth + ((7 * inputWidth) / 10),
+                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
+                inputWidth / 5,
+                inputWidth / 5,
+                Button.BUTTON_HARDCORE_CHEVRON_UP,
+                hardcoreColor,
                 Color.BLACK,
                 game);
         wipeDataButton = new Button((2 * game.partitionSize) + inputWidth,
@@ -166,6 +211,10 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         buttonList.add(volumeWavesButton);
         buttonList.add(volumeChevronDownButton);
         buttonList.add(volumeChevronUpButton);
+        buttonList.add(hardcoreButton);
+        buttonList.add(hardcoreSkullButton);
+        buttonList.add(hardcoreChevronDownButton);
+        buttonList.add(hardcoreChevronUpButton);
         buttonList.add(wipeDataButton);
         buttonList.add(backButton);
 
@@ -227,7 +276,9 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         } else {
             if(!buttonTouched()) {
                 for (Button button : buttonList) {
-                    button.drawText();
+                    if(!(button.buttonType == Button.BUTTON_WIPE_DATA && game.showWipeDataPrompt)) {
+                        button.drawText();
+                    }
                 }
             }
         }

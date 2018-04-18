@@ -27,16 +27,16 @@ import java.util.List;
 import java.util.Map;
 
 public class Squirgle extends Game {
-	private static int VIRTUAL_WIDTH;
-	private static int VIRTUAL_HEIGHT;
-	private static float ASPECT_RATIO;
+	public static int VIRTUAL_WIDTH;
+	public static int VIRTUAL_HEIGHT;
+	public static float ASPECT_RATIO;
 
 	public final static int PARTITION_DIVISOR = 80;
 	public final static int LINE_WIDTH = 20;
 	public final static int END_LINE_WIDTH_INCREASE = 2;
 	public final static int FPS = 60;
 	public final static int MAX_POSSIBLE_BASE = 9;
-	public final static int SCORE_TO_UNLOCK_NEW_BASE = 100;
+	public final static int SCORE_TO_UNLOCK_NEW_BASE = 120;
 	public final static int ONE_MINUTE = 60;
 	public final static int THREE_MINUTES = 180;
 	public final static int FIVE_MINUTES = 300;
@@ -79,6 +79,9 @@ public class Squirgle extends Game {
 	public final static String DIFFICULTY_MEDIUM = "MEDIUM";
 	public final static String DIFFICULTY_HARD = "HARD";
 
+	public final static String HARDCORE_ENABLED = "ENABLED";
+	public final static String HARDCORE_DISABLED = "DISABLED";
+
 	public final static String RESULTS_VICTORY = "VICTORY";
 	public final static String RESULTS_DEFEAT = "DEFEAT";
 	public final static String RESULTS_TIE = "TIE";
@@ -91,6 +94,7 @@ public class Squirgle extends Game {
 	public final static String SAVE_MAX_BASE = "maxBase";
 	public final static String SAVE_TIME_ATTACK_NUM_SECONDS = "timeAttackNumSeconds";
 	public final static String SAVE_DIFFICULTY = "difficulty";
+	public final static String SAVE_HARDCORE = "hardcore";
 
 	public final static String TARGET = "TARGET";
 	public final static String HAND = "HAND";
@@ -104,13 +108,15 @@ public class Squirgle extends Game {
 	public int volume;
 	public int track;
 	public String difficulty;
+	public boolean hardcore;
 
 	public boolean playedBefore;
 	public boolean usePhases;
 
 	public boolean widthGreater;
 	public boolean showWipeDataPrompt;
-	public float widthOrHeight;
+	public float widthOrHeightSmaller;
+	public float widthOrHeightBigger;
 	public float fourthOfScreen;
 	public float thirdOfScreen;
 	public float fiveTwelfthsOfScreen;
@@ -119,6 +125,7 @@ public class Squirgle extends Game {
 	public int minBase;
 	public int timeAttackNumSeconds;
 	public float partitionSize;
+	public boolean desktop;
 	public SpriteBatch batch;
 	public BitmapFont fontLoading;
 	public BitmapFont fontVolume;
@@ -133,6 +140,11 @@ public class Squirgle extends Game {
 	public BitmapFont fontStats;
 	public BitmapFont fontTutorialHelp;
 	public BitmapFont fontSkip;
+	public BitmapFont fontButton;
+	public BitmapFont fontHardcore;
+	public BitmapFont fontOptions;
+	public BitmapFont fontNumPlayers;
+	public BitmapFont fontSquirgleMainMenu;
 	public GlyphLayout layout;
 	public FreeTypeFontGenerator generator;
 	public OrthographicCamera camera;
@@ -163,7 +175,6 @@ public class Squirgle extends Game {
 
 		VIRTUAL_WIDTH = Gdx.graphics.getWidth();
 		VIRTUAL_HEIGHT = Gdx.graphics.getHeight();
-		ASPECT_RATIO = VIRTUAL_WIDTH / VIRTUAL_HEIGHT;
 
 		manager = new AssetManager();
 
@@ -172,6 +183,7 @@ public class Squirgle extends Game {
 		volume = save.getInteger(SAVE_VOLUME, 10);
 		track = save.getInteger(SAVE_TRACK, MUSIC_POINTILLISM);
 		difficulty = save.getString(SAVE_DIFFICULTY, DIFFICULTY_MEDIUM);
+		hardcore = save.getBoolean(SAVE_HARDCORE, false);
 
 		playedBefore = save.getBoolean(SAVE_PLAYED_BEFORE, false);
 		usePhases = save.getBoolean(SAVE_USE_PHASES, false);
@@ -189,11 +201,16 @@ public class Squirgle extends Game {
 		camera.position.set(VIRTUAL_WIDTH/2,VIRTUAL_HEIGHT/2,0);
 		widthGreater = camera.viewportWidth > camera.viewportHeight;
 		showWipeDataPrompt = false;
-		widthOrHeight = widthGreater ? camera.viewportHeight : camera.viewportWidth;
-		fourthOfScreen = widthOrHeight / 4;
-		thirdOfScreen = widthOrHeight / 3;
-		fiveTwelfthsOfScreen = (5 * widthOrHeight) / 12;
-		partitionSize = widthOrHeight / PARTITION_DIVISOR;
+		widthOrHeightSmaller = widthGreater ? camera.viewportHeight : camera.viewportWidth;
+		widthOrHeightBigger = widthGreater ? camera.viewportWidth : camera.viewportHeight;
+
+		ASPECT_RATIO = widthOrHeightBigger / widthOrHeightSmaller;
+
+		fourthOfScreen = widthOrHeightSmaller / 4;
+		thirdOfScreen = widthOrHeightSmaller / 3;
+		fiveTwelfthsOfScreen = (5 * widthOrHeightSmaller) / 12;
+		partitionSize = widthOrHeightSmaller / PARTITION_DIVISOR;
+		desktop = Gdx.app.getType().equals(Application.ApplicationType.Desktop);
 		shapeRendererFilled = new ShapeRenderer();
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);
@@ -254,6 +271,17 @@ public class Squirgle extends Game {
 			fontTutorialHelp.dispose();
 		if(fontSkip != null)
 			fontSkip.dispose();
+		if(fontButton != null)
+			fontButton.dispose();
+		if(fontHardcore != null)
+			fontHardcore.dispose();
+		if(fontOptions != null)
+			fontOptions.dispose();
+		if(fontNumPlayers != null)
+			fontNumPlayers.dispose();
+		if(fontSquirgleMainMenu != null) {
+			fontSquirgleMainMenu.dispose();
+		}
 		generator.dispose();
 		shapeRendererFilled.dispose();
 		shapeRendererLine.dispose();
@@ -378,6 +406,46 @@ public class Squirgle extends Game {
 		parameter.size = size;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
 		fontSkip = generator.generateFont(parameter);
+	}
+
+	public void setUpFontButton(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		fontButton = generator.generateFont(parameter);
+	}
+
+	public void setUpFontHardcore(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		fontHardcore = generator.generateFont(parameter);
+	}
+
+	public void setUpFontOptions(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		fontOptions = generator.generateFont(parameter);
+	}
+
+	public void setUpFontNumPlayers(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		fontNumPlayers = generator.generateFont(parameter);
+	}
+
+	public void setUpFontSquirgleMainMenu(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		fontSquirgleMainMenu = generator.generateFont(parameter);
 	}
 
 	public void setUpMusicTitleList() {

@@ -288,12 +288,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         primaryShapeP1 = priorShapeListP1.size() > 0 ? priorShapeListP1.get(0) : promptShapeP1;
         primaryShapeP2 = priorShapeListP2.size() > 0 ? priorShapeListP2.get(0) : promptShapeP2;
 
-        if(!splitScreen) {
-            primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
-        } else {
-            //TODO: Update this when I determine dimensions
-            primaryShapeThreshold = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER : (game.camera.viewportHeight / 2) * game.draw.THRESHOLD_MULTIPLIER;
-        }
+        primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP1 = primaryShapeP1.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP2 = primaryShapeP2.getRadius() >= primaryShapeThreshold;
@@ -315,7 +310,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.draw.drawPerimeter(game.camera.viewportWidth / 2,
                             game.camera.viewportHeight / 2,
                             blackAndWhite ? Color.WHITE : Color.BLACK,
-                            (3 * game.widthOrHeight) / 8,
+                            (3 * game.widthOrHeightSmaller) / 8,
                             promptShape);
                 } else {
                     game.draw.drawPerimeter(game.camera.viewportWidth / 2,
@@ -330,31 +325,29 @@ public class GameplayScreen implements Screen, InputProcessor {
                             promptShapeP1);
                     game.draw.drawScreenDivision(blackAndWhite, multiplayer);
                 }
-                game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor);
-                game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
-                game.draw.drawTargetSemicircles(splitScreen, local);
+                game.draw.drawTargetSemicircles(splitScreen, local && !game.desktop);
             }
             if(!skipZoom) {
                 if (!splitScreen) {
                     game.draw.drawPrompt(false, promptShape, priorShapeList, 0, backgroundColorShape, false, false);
-                    game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
+                    game.draw.orientShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
                 } else if (useSaturation) {
                     if (!(gameOver && saturationP1 > saturationP2)) {
                         game.draw.drawPrompt(false, promptShapeP1, priorShapeListP1, 0, backgroundColorShape, false, false);
-                        game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                        game.draw.orientShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
                     }
                     if (!(gameOver && saturationP2 >= saturationP1)) {
-                        game.draw.drawPrompt(local, promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false);
-                        game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                        game.draw.drawPrompt(local && !game.desktop, promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false);
+                        game.draw.orientShapes(local && !game.desktop, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
                     }
                 } else {
                     if (!(gameOver && scoreP1 < scoreP2)) {
                         game.draw.drawPrompt(false, promptShapeP1, priorShapeListP1, 0, backgroundColorShape, false, false);
-                        game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                        game.draw.orientShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
                     }
                     if (!(gameOver && scoreP2 <= scoreP1)) {
-                        game.draw.drawPrompt(local, promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false);
-                        game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                        game.draw.drawPrompt(local && !game.desktop, promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false);
+                        game.draw.orientShapes(local && !game.desktop, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
                     }
                 }
             }
@@ -373,28 +366,22 @@ public class GameplayScreen implements Screen, InputProcessor {
         zoomThroughShapes();
 
         if(!paused) {
-            //This code is being executed three times: once before setting the prompt's end game coordinates, and again afterwards.
-            //This way, the shapes are drawn with their new values, and the first element in priorShapeList doesn't veer off
-            //the screen to the right.
-            //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
-            //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times. In fact, doing so may
-            //TODO: be responsible for another layer of shapes occasionally appearing behind the foremost one.
             if(!skipZoom) {
                 if (!splitScreen) {
-                    game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
+                    game.draw.orientAndDrawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
                 } else if (useSaturation) {
                     if (!(gameOver && saturationP1 > saturationP2)) {
-                        game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                        game.draw.orientAndDrawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
                     }
                     if (!(gameOver && saturationP2 >= saturationP1)) {
-                        game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                        game.draw.orientAndDrawShapes(local && !game.desktop, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
                     }
                 } else {
                     if (!(gameOver && scoreP1 < scoreP2)) {
-                        game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                        game.draw.orientAndDrawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
                     }
                     if (!(gameOver && scoreP2 <= scoreP1)) {
-                        game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                        game.draw.orientAndDrawShapes(local && !game.desktop, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
                     }
                 }
             }
@@ -408,29 +395,34 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         if(!paused) {
             if (!gameOver) {
-                game.draw.drawInputButtons(splitScreen, local, backgroundColorShape.getColor(), game);
-                game.draw.drawScoreTriangles(splitScreen, local, backgroundColorShape.getColor());
+                game.draw.drawInputButtons(splitScreen, local && !game.desktop, backgroundColorShape.getColor(), game);
+                if(!splitScreen) {
+                    game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
+                    game.draw.orientShapes(false, targetShapeList, outsideTargetShape, false);
+                    game.draw.drawShapes(false, targetShapeList);
+                } else {
+                    game.draw.drawPrompt(false, outsideTargetShapeP1, targetShapeListP1, targetShapesMatchedP1, backgroundColorShape, false, true);
+                    game.draw.orientShapes(false, targetShapeListP1, outsideTargetShapeP1, false);
+                    game.draw.drawShapes(false, targetShapeListP1);
+                    game.draw.drawPrompt(local && !game.desktop, outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true);
+                    game.draw.orientShapes(local && !game.desktop, targetShapeListP2, outsideTargetShapeP2, false);
+                    game.draw.drawShapes(local && !game.desktop, targetShapeListP2);
+                }
+                drawTargetArcs();
+                game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, local && !game.desktop, backgroundColorShapeList, backgroundColorShape, clearColor);
+                game.draw.drawTimelines(splitScreen, local && !game.desktop, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
+                game.draw.drawScoreTriangles(splitScreen, local && !game.desktop, backgroundColorShape.getColor());
                 if(useSaturation) {
                     if(saturationP1 > 0) {
                         game.draw.drawSaturationTriangles(P1, local, saturationP1);
                     }
                     if(saturationP2 > 0) {
-                        game.draw.drawSaturationTriangles(P2, local, saturationP2);
+                        game.draw.drawSaturationTriangles(P2, local && !game.desktop, saturationP2);
                     }
-                    game.draw.drawSaturationIncrements(local, backgroundColorShape.getColor());
-                }
-                if(!splitScreen) {
-                    game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
-                    game.draw.drawShapes(false, targetShapeList, outsideTargetShape, false);
-                } else {
-                    game.draw.drawPrompt(false, outsideTargetShapeP1, targetShapeListP1, targetShapesMatchedP1, backgroundColorShape, false, true);
-                    game.draw.drawShapes(false, targetShapeListP1, outsideTargetShapeP1, false);
-                    game.draw.drawPrompt(local, outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true);
-                    game.draw.drawShapes(local, targetShapeListP2, outsideTargetShapeP2, false);
+                    game.draw.drawSaturationIncrements(local && !game.desktop, backgroundColorShape.getColor());
                 }
                 //TODO: Draw another pause input for local multiplayer
                 game.draw.drawPauseInput(splitScreen, local, game);
-                drawTargetArcs();
             }
         }
 
@@ -659,10 +651,9 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     public void drawPauseQuitInput() {
         drawInputRectangle(PAUSE_QUIT);
-        game.draw.drawX(game.camera.viewportWidth / 2,
+        game.draw.drawStopSymbol(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
-                (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK);
     }
 
@@ -788,7 +779,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 String.valueOf(score),
                                 game.camera.viewportWidth / 2,
-                                (2 * game.camera.viewportHeight) / 3,
+                                INPUT_POINT_SPAWN.y + INPUT_RADIUS + ((2 * (game.camera.viewportHeight - (INPUT_POINT_SPAWN.y + INPUT_RADIUS))) / 3),
                                 0,
                                 1);
                         FontUtils.printText(game.batch,
@@ -797,7 +788,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 timePlayed,
                                 game.camera.viewportWidth / 2,
-                                game.camera.viewportHeight / 3,
+                                INPUT_POINT_SPAWN.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN.y + INPUT_RADIUS)) / 3),
                                 0,
                                 1);
                         if(newHighScore) {
@@ -807,7 +798,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                     currentTargetShape.getColor(),
                                     NEW_BEST,
                                     (3 * game.camera.viewportWidth) / 4,
-                                    (2 * game.camera.viewportHeight) / 3,
+                                    INPUT_POINT_SPAWN.y + INPUT_RADIUS + ((2 * (game.camera.viewportHeight - (INPUT_POINT_SPAWN.y + INPUT_RADIUS))) / 3),
                                     0,
                                     1);
                         }
@@ -818,7 +809,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                     currentTargetShape.getColor(),
                                     NEW_BEST,
                                     (3 * game.camera.viewportWidth) / 4,
-                                    game.camera.viewportHeight / 3,
+                                    INPUT_POINT_SPAWN.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN.y + INPUT_RADIUS)) / 3),
                                     0,
                                     1);
                         }
@@ -829,7 +820,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 String.valueOf(score),
                                 game.camera.viewportWidth / 2,
-                                game.camera.viewportHeight / 2,
+                                INPUT_POINT_SPAWN.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN.y + INPUT_RADIUS)) / 2),
                                 0,
                                 1);
                         if(newHighScore) {
@@ -839,7 +830,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                     currentTargetShape.getColor(),
                                     NEW_BEST,
                                     (3 * game.camera.viewportWidth) / 4,
-                                    game.camera.viewportHeight / 2,
+                                    INPUT_POINT_SPAWN.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN.y + INPUT_RADIUS)) / 2),
                                     0,
                                     1);
                         }
@@ -856,7 +847,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 saturationP1 > saturationP2 ? Squirgle.RESULTS_DEFEAT : saturationP1 < saturationP2 ? Squirgle.RESULTS_VICTORY : Squirgle.RESULTS_TIE,
                                 game.camera.viewportWidth / 2,
-                                (2 * game.camera.viewportHeight) / 3,
+                                INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((2 * (game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS))) / 3),
                                 0,
                                 1);
                         FontUtils.printText(game.batch,
@@ -865,7 +856,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 timePlayed,
                                 game.camera.viewportWidth / 2,
-                                game.camera.viewportHeight / 3,
+                                INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 3),
                                 0,
                                 1);
                         if(newFastestVictory) {
@@ -875,7 +866,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                     currentTargetShapeP1.getColor(),
                                     NEW_BEST,
                                     (3 * game.camera.viewportWidth) / 4,
-                                    game.camera.viewportHeight / 3,
+                                    INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 3),
                                     0,
                                     1);
                         }
@@ -886,7 +877,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 scoreP1 < scoreP2 ? Squirgle.RESULTS_DEFEAT : scoreP1 > scoreP2 ? Squirgle.RESULTS_VICTORY : Squirgle.RESULTS_TIE,
                                 game.camera.viewportWidth / 2,
-                                game.camera.viewportHeight / 2,
+                                INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 2),
                                 0,
                                 1);
                         FontUtils.printText(game.batch,
@@ -895,7 +886,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 P1 + COLON + scoreP1,
                                 game.camera.viewportWidth / 2,
-                                game.camera.viewportHeight / 4,
+                                INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 4),
                                 0,
                                 1);
                         FontUtils.printText(game.batch,
@@ -904,7 +895,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 P2 + COLON + scoreP2,
                                 game.camera.viewportWidth / 2,
-                                (3 * game.camera.viewportHeight) / 4,
+                                INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((3 * (game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS))) / 4),
                                 0,
                                 1);
                         if(newHighScore) {
@@ -914,7 +905,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                     currentTargetShapeP1.getColor(),
                                     NEW_BEST,
                                     (3 * game.camera.viewportWidth) / 4,
-                                    game.camera.viewportHeight / 4,
+                                    INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 4),
                                     0,
                                     1);
                         }
@@ -950,29 +941,31 @@ public class GameplayScreen implements Screen, InputProcessor {
                     SCORE_ANGLE,
                     1);
 
-            //Prompt number
-            String promptNumber = String.valueOf(promptShape.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    promptNumber,
-                    game.camera.viewportWidth - TARGET_RADIUS,
-                    game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
-                    0,
-                    1);
+            if(!game.hardcore) {
+                //Prompt number
+                String promptNumber = String.valueOf(promptShape.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        promptNumber,
+                        game.camera.viewportWidth - TARGET_RADIUS,
+                        game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
+                        0,
+                        1);
 
-            //Target number
-            String targetNumber = String.valueOf(currentTargetShape.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    currentTargetShape.getColor(),
-                    targetNumber,
-                    TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
-                    game.camera.viewportHeight - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
-                    0,
-                    1);
+                //Target number
+                String targetNumber = String.valueOf(currentTargetShape.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        currentTargetShape.getColor(),
+                        targetNumber,
+                        TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
+                        game.camera.viewportHeight - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
+                        0,
+                        1);
+            }
         } else if(blackAndWhite) {
             //We're in a time battle mode
 
@@ -991,9 +984,9 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     backgroundColorShape.getColor(),
                     String.valueOf(scoreP2),
-                    local ? (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 2.1f) : game.camera.viewportWidth - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
-                    local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 2.1f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
-                    local ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
+                    local && !game.desktop ? (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 2.1f) : game.camera.viewportWidth - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
+                    local && !game.desktop ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 2.1f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 2.1f),
+                    local && !game.desktop ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
                     1);
 
             //Player designations
@@ -1001,21 +994,21 @@ public class GameplayScreen implements Screen, InputProcessor {
             FontUtils.printText(game.batch,
                     game.fontScore,
                     game.layout,
-                    Color.WHITE,
+                    !game.hardcore ? Color.WHITE : backgroundColorShape.getColor(),
                     P1,
-                    game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius,
-                    (game.camera.viewportHeight / 2) - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4),
+                    !game.hardcore ? game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius : game.camera.viewportWidth - TARGET_RADIUS,
+                    !game.hardcore ? (game.camera.viewportHeight / 2) - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4) : (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
                     0,
                     1);
             game.layout.setText(game.fontTarget, P2);
             FontUtils.printText(game.batch,
                     game.fontScore,
                     game.layout,
-                    Color.WHITE,
+                    !game.hardcore ? Color.WHITE : backgroundColorShape.getColor(),
                     P2,
-                    local ? TARGET_RADIUS + targetPolypRadius : game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius,
-                    local ? (game.camera.viewportHeight / 2) + (2 * targetPolypRadius) + ((3 * game.layout.height) / 4) : game.camera.viewportHeight - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4),
-                    local ? Draw.ONE_HUNDRED_AND_EIGHTY_DEGREES : 0,
+                    !game.hardcore ? (local && !game.desktop ? TARGET_RADIUS + targetPolypRadius : game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius) : (local && !game.desktop ? TARGET_RADIUS : game.camera.viewportWidth - TARGET_RADIUS),
+                    !game.hardcore ? (local && !game.desktop ? (game.camera.viewportHeight / 2) + (2 * targetPolypRadius) + ((3 * game.layout.height) / 4) : game.camera.viewportHeight - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4)) : (local && !game.desktop ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 1.48f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f)),
+                    local && !game.desktop && !game.desktop ? Draw.ONE_HUNDRED_AND_EIGHTY_DEGREES : 0,
                     1);
 
             //Multipliers
@@ -1033,54 +1026,56 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     Color.WHITE,
                     X + multiplierP2,
-                    local ? (TARGET_RADIUS / 4) + (game.fontScore.getCapHeight() / 4.7f) : game.camera.viewportWidth - (TARGET_RADIUS / 4) - (game.fontScore.getCapHeight() / 4.7f),
-                    local ? (game.camera.viewportHeight / 2) + ((3 * TARGET_RADIUS) / 4) + (game.fontScore.getCapHeight() / 4.7f) : game.camera.viewportHeight - ((3 * TARGET_RADIUS) / 4) - (game.fontScore.getCapHeight() / 4.7f),
-                    local ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
+                    local && !game.desktop ? (TARGET_RADIUS / 4) + (game.fontScore.getCapHeight() / 4.7f) : game.camera.viewportWidth - (TARGET_RADIUS / 4) - (game.fontScore.getCapHeight() / 4.7f),
+                    local && !game.desktop ? (game.camera.viewportHeight / 2) + ((3 * TARGET_RADIUS) / 4) + (game.fontScore.getCapHeight() / 4.7f) : game.camera.viewportHeight - ((3 * TARGET_RADIUS) / 4) - (game.fontScore.getCapHeight() / 4.7f),
+                    local && !game.desktop ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
                     1);
 
-            //Prompt numbers
-            String promptNumberP1 = String.valueOf(promptShapeP1.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    promptNumberP1,
-                    game.camera.viewportWidth - TARGET_RADIUS,
-                    (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
-                    0,
-                    1);
-            String promptNumberP2 = String.valueOf(promptShapeP2.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    promptNumberP2,
-                    local ? TARGET_RADIUS : game.camera.viewportWidth - TARGET_RADIUS,
-                    local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 1.48f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
-                    local ? 180 : 0,
-                    1);
+            if(!game.hardcore) {
+                //Prompt numbers
+                String promptNumberP1 = String.valueOf(promptShapeP1.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        promptNumberP1,
+                        game.camera.viewportWidth - TARGET_RADIUS,
+                        (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
+                        0,
+                        1);
+                String promptNumberP2 = String.valueOf(promptShapeP2.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        promptNumberP2,
+                        local && !game.desktop ? TARGET_RADIUS : game.camera.viewportWidth - TARGET_RADIUS,
+                        local && !game.desktop ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 1.48f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
+                        local && !game.desktop ? 180 : 0,
+                        1);
 
-            //Target numbers
-            String targetNumberP1 = String.valueOf(currentTargetShapeP1.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    currentTargetShapeP1.getColor(),
-                    targetNumberP1,
-                    TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
-                    (game.camera.viewportHeight / 2) - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
-                    0,
-                    1);
-            String targetNumberP2 = String.valueOf(currentTargetShapeP2.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    currentTargetShapeP2.getColor(),
-                    targetNumberP2,
-                    local ? game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius + targetPolypOffset : TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
-                    local ? (game.camera.viewportHeight / 2) + targetPolypRadius - (game.fontScore.getCapHeight() / 5.5f) : game.camera.viewportHeight - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
-                    local ? 180 : 0,
-                    1);
+                //Target numbers
+                String targetNumberP1 = String.valueOf(currentTargetShapeP1.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        currentTargetShapeP1.getColor(),
+                        targetNumberP1,
+                        TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
+                        (game.camera.viewportHeight / 2) - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
+                        0,
+                        1);
+                String targetNumberP2 = String.valueOf(currentTargetShapeP2.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        currentTargetShapeP2.getColor(),
+                        targetNumberP2,
+                        local && !game.desktop ? game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius + targetPolypOffset : TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
+                        local && !game.desktop ? (game.camera.viewportHeight / 2) + targetPolypRadius - (game.fontScore.getCapHeight() / 5.5f) : game.camera.viewportHeight - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
+                        local && !game.desktop ? 180 : 0,
+                        1);
+            }
         } else {
             //We're in a non-time battle mode
 
@@ -1089,66 +1084,68 @@ public class GameplayScreen implements Screen, InputProcessor {
             FontUtils.printText(game.batch,
                     game.fontScore,
                     game.layout,
-                    Color.WHITE,
+                    !game.hardcore ? Color.WHITE : backgroundColorShape.getColor(),
                     P1,
-                    game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius,
-                    (game.camera.viewportHeight / 2) - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4),
+                    !game.hardcore ? game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius : game.camera.viewportWidth - TARGET_RADIUS,
+                    !game.hardcore ? (game.camera.viewportHeight / 2) - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4) : (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
                     0,
                     1);
             game.layout.setText(game.fontTarget, P2);
             FontUtils.printText(game.batch,
                     game.fontScore,
                     game.layout,
-                    Color.WHITE,
+                    !game.hardcore ? Color.WHITE : backgroundColorShape.getColor(),
                     P2,
-                    local ? TARGET_RADIUS + targetPolypRadius : game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius,
-                    local ? (game.camera.viewportHeight / 2) + (2 * targetPolypRadius) + ((3 * game.layout.height) / 4) : game.camera.viewportHeight - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4),
-                    local ? Draw.ONE_HUNDRED_AND_EIGHTY_DEGREES : 0,
+                    !game.hardcore ? (local && !game.desktop ? TARGET_RADIUS + targetPolypRadius : game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius) : (local && !game.desktop ? TARGET_RADIUS : game.camera.viewportWidth - TARGET_RADIUS),
+                    !game.hardcore ? (local && !game.desktop ? (game.camera.viewportHeight / 2) + (2 * targetPolypRadius) + ((3 * game.layout.height) / 4) : game.camera.viewportHeight - (2 * targetPolypRadius) - ((3 * game.layout.height) / 4)) : (local && !game.desktop ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 1.48f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f)),
+                    local && !game.desktop ? Draw.ONE_HUNDRED_AND_EIGHTY_DEGREES : 0,
                     1);
 
-            //Prompt numbers
-            String promptNumberP1 = String.valueOf(promptShapeP1.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    promptNumberP1,
-                    game.camera.viewportWidth - TARGET_RADIUS,
-                    (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
-                    0,
-                    1);
-            String promptNumberP2 = String.valueOf(promptShapeP2.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    backgroundColorShape.getColor(),
-                    promptNumberP2,
-                    local ? TARGET_RADIUS : game.camera.viewportWidth - TARGET_RADIUS,
-                    local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 1.48f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
-                    local ? 180 : 0,
-                    1);
+            if(!game.hardcore) {
+                //Prompt numbers
+                String promptNumberP1 = String.valueOf(promptShapeP1.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        promptNumberP1,
+                        game.camera.viewportWidth - TARGET_RADIUS,
+                        (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
+                        0,
+                        1);
+                String promptNumberP2 = String.valueOf(promptShapeP2.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        backgroundColorShape.getColor(),
+                        promptNumberP2,
+                        local && !game.desktop ? TARGET_RADIUS : game.camera.viewportWidth - TARGET_RADIUS,
+                        local && !game.desktop ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2) - (game.fontScore.getCapHeight() / 1.48f) : game.camera.viewportHeight - (TARGET_RADIUS / 2) + (game.fontScore.getCapHeight() / 1.48f),
+                        local && !game.desktop ? 180 : 0,
+                        1);
 
-            //Target numbers
-            String targetNumberP1 = String.valueOf(currentTargetShapeP1.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    currentTargetShapeP1.getColor(),
-                    targetNumberP1,
-                    TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
-                    (game.camera.viewportHeight / 2) - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
-                    0,
-                    1);
-            String targetNumberP2 = String.valueOf(currentTargetShapeP2.getShape() + 1);
-            FontUtils.printText(game.batch,
-                    game.fontScore,
-                    game.layout,
-                    currentTargetShapeP2.getColor(),
-                    targetNumberP2,
-                    local ? game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius + targetPolypOffset : TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
-                    local ? (game.camera.viewportHeight / 2) + targetPolypRadius - (game.fontScore.getCapHeight() / 5.5f) : game.camera.viewportHeight - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
-                    local ? 180 : 0,
-                    1);
+                //Target numbers
+                String targetNumberP1 = String.valueOf(currentTargetShapeP1.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        currentTargetShapeP1.getColor(),
+                        targetNumberP1,
+                        TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
+                        (game.camera.viewportHeight / 2) - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
+                        0,
+                        1);
+                String targetNumberP2 = String.valueOf(currentTargetShapeP2.getShape() + 1);
+                FontUtils.printText(game.batch,
+                        game.fontScore,
+                        game.layout,
+                        currentTargetShapeP2.getColor(),
+                        targetNumberP2,
+                        local && !game.desktop ? game.camera.viewportWidth - TARGET_RADIUS - targetPolypRadius + targetPolypOffset : TARGET_RADIUS + targetPolypRadius - targetPolypOffset,
+                        local && !game.desktop ? (game.camera.viewportHeight / 2) + targetPolypRadius - (game.fontScore.getCapHeight() / 5.5f) : game.camera.viewportHeight - targetPolypRadius + (game.fontScore.getCapHeight() / 5.5f),
+                        local && !game.desktop ? 180 : 0,
+                        1);
+            }
         }
     }
 
@@ -1179,9 +1176,9 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.layout,
                     backgroundColorShape.getColor(),
                     Squirgle.HAND,
-                    local ? game.layout.width / 2 : game.camera.viewportWidth - (game.layout.width / 2),
-                    local ? (game.camera.viewportHeight / 2) + TARGET_RADIUS - ((29 * game.layout.height) / 16) : game.camera.viewportHeight - TARGET_RADIUS + ((29 * game.layout.height) / 16),
-                    local ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
+                    local && !game.desktop ? game.layout.width / 2 : game.camera.viewportWidth - (game.layout.width / 2),
+                    local && !game.desktop ? (game.camera.viewportHeight / 2) + TARGET_RADIUS - ((29 * game.layout.height) / 16) : game.camera.viewportHeight - TARGET_RADIUS + ((29 * game.layout.height) / 16),
+                    local && !game.desktop ? 3 * -SCORE_ANGLE : SCORE_ANGLE,
                     1);
         }
     }
@@ -1221,7 +1218,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         (float) ((game.camera.viewportHeight / 2) + ((2 * game.fontTarget.getCapHeight()) / 3) + (TARGET_RADIUS * Math.sin(Math.toRadians(degreesP1 + Math.atan(TARGET_RADIUS / game.fontTarget.getSpaceWidth()))))),
                         degreesP1 - TWO_HUNDRED_AND_SEVENTY_DEGREES,
                         1);
-                if(local) {
+                if(local && !game.desktop) {
                     FontUtils.printText(game.batch,
                             game.fontTarget,
                             game.layout,
@@ -1277,7 +1274,7 @@ public class GameplayScreen implements Screen, InputProcessor {
 //                        1);
 //            }
 //            for(int i = 0; i < shapeTextP2.length(); i++, degreesP2 += degreeP2) {
-//                if(local) {
+//                if(local && !game.desktop) {
 //                    FontUtils.printText(game.batch,
 //                            game.fontTarget,
 //                            game.layout,
@@ -1315,7 +1312,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         0,
                         squirgleOpacity);
             } else {
-                if(local) {
+                if(local && !game.desktop) {
                     FontUtils.printText(game.batch,
                             game.fontSquirgle,
                             game.layout,
@@ -1349,7 +1346,6 @@ public class GameplayScreen implements Screen, InputProcessor {
         }
     }
 
-    //TODO: Configure this for local multiplayer
     public void drawTargetArcs() {
         if(!splitScreen) {
             game.draw.drawArc(0, game.camera.viewportHeight, targetArcStart, targetArcColor);
@@ -1361,7 +1357,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             if(targetArcStartP1 > -Draw.NINETY_ONE_DEGREES) {
                 targetArcStartP1 -= TARGET_ARC_SPEED;
             }
-            if(local) {
+            if(local && !game.desktop) {
                 game.draw.drawArc(game.camera.viewportWidth, game.camera.viewportHeight / 2, targetArcStartP2, targetArcColor);
                 if(targetArcStartP2 > Draw.NINETY_ONE_DEGREES) {
                     targetArcStartP2 -= TARGET_ARC_SPEED;
@@ -1433,7 +1429,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                     lastSpeedIncreaseTime = System.currentTimeMillis();
                     game.draw.setColorListSpeed(game.draw.getColorListSpeed() + COLOR_LIST_SPEED_ADDITIVE);
                     game.draw.setColorSpeed(game.draw.getColorSpeed() + COLOR_SPEED_ADDITIVE);
-                    promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
+                    promptIncrease = (game.widthOrHeightSmaller * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
                 }
             }
         }
@@ -1444,7 +1440,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             if(!paused) {
                 float actualFPS = Gdx.graphics.getRawDeltaTime() * game.FPS;
                 game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.timeAttackNumSeconds * actualFPS * game.FPS));
-                promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
+                promptIncrease = (game.widthOrHeightSmaller * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
             }
         }
     }
@@ -1501,7 +1497,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                 primaryShape.setLineWidth(primaryShape.getLineWidth() * END_LINE_WIDTH_INCREASE);
                             } else if (primaryShape.getShape() == Shape.LINE) {
                                 //Prevent shape lines from being visible in the event that primaryShape is promptShape
-                                primaryShape.setColor(clearColor);
+                                clearColor = primaryShape.getColor();
                             }
                             if (primaryShape.getShape() != Shape.LINE || primaryShape.getLineWidth() >= (game.camera.viewportWidth * 4)) {
                                 showResults = true;
@@ -1518,7 +1514,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                 primaryShapeP1.setLineWidth(primaryShapeP1.getLineWidth() * END_LINE_WIDTH_INCREASE);
                             } else if (primaryShapeP1.getShape() == Shape.LINE) {
                                 //Prevent shape lines from being visible in the event that primaryShape is promptShape
-                                primaryShapeP1.setColor(clearColor);
+                                clearColor = primaryShape.getColor();
                             }
                             if (primaryShapeP1.getShape() != Shape.LINE || primaryShapeP1.getLineWidth() >= (game.camera.viewportWidth * 4)) {
                                 showResults = true;
@@ -1535,7 +1531,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                                 primaryShapeP2.setLineWidth(primaryShapeP2.getLineWidth() * END_LINE_WIDTH_INCREASE);
                             } else if (primaryShapeP2.getShape() == Shape.LINE) {
                                 //Prevent shape lines from being visible in the event that primaryShape is promptShape
-                                primaryShapeP2.setColor(clearColor);
+                                clearColor = primaryShape.getColor();
                             }
                             if (primaryShapeP2.getShape() != Shape.LINE || primaryShapeP2.getLineWidth() >= (game.camera.viewportWidth * 4)) {
                                 showResults = true;
@@ -1565,7 +1561,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         equationWidthP1 = 0;
                     }
                     if(equationWidthP2 > 0) {
-                        game.draw.drawEquation(local, P2, lastShapeTouchedP2, lastPromptShapeP2, lastTargetShapeP2, equationWidthP2);
+                        game.draw.drawEquation(local && !game.desktop, P2, lastShapeTouchedP2, lastPromptShapeP2, lastTargetShapeP2, equationWidthP2);
                         equationWidthP2 -= INPUT_RADIUS / EQUATION_WIDTH_DIVISOR;
                     } else {
                         equationWidthP2 = 0;
@@ -1628,9 +1624,9 @@ public class GameplayScreen implements Screen, InputProcessor {
         //Game over condition
         boolean gameOverCondition = false;
         if(!splitScreen) {
-            gameOverCondition = promptShape.getRadius() >= game.widthOrHeight / 2 && !gameOver;
+            gameOverCondition = promptShape.getRadius() >= game.widthOrHeightSmaller / 2 && !gameOver;
         } else {
-            gameOverCondition = (dummyPromptForTimelines.getRadius() >= game.widthOrHeight / 2
+            gameOverCondition = (dummyPromptForTimelines.getRadius() >= game.widthOrHeightSmaller / 2
                     || saturationP1 >= MAX_SATURATION || saturationP2 >= MAX_SATURATION)
                     && !gameOver;
         }
@@ -1654,9 +1650,12 @@ public class GameplayScreen implements Screen, InputProcessor {
             }
             if(splitScreen) {
                 if (useSaturation) {
+                    //We have to set the radii here to prevent stuttering when zooming through the shapes.
                     if (saturationP1 <= saturationP2) {
+                        promptShapeP1.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
                         promptShapeP1.setCoordinates(new Vector2(promptShapeP1.getCoordinates().x, game.camera.viewportHeight / 2));
                     } else {
+                        promptShapeP2.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
                         promptShapeP2.setCoordinates(new Vector2(promptShapeP2.getCoordinates().x, game.camera.viewportHeight / 2));
                     }
                 } else {
@@ -2266,7 +2265,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                             INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                             new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                                     game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
-                    if(local) {
+                    if(local && !game.desktop) {
                         targetArcStartP2 = 3 * Draw.NINETY_ONE_DEGREES;
                     } else {
                         targetArcStartP2 = Draw.NINETY_ONE_DEGREES;
@@ -2318,10 +2317,10 @@ public class GameplayScreen implements Screen, InputProcessor {
         //The wrong shape was touched
         if(player == null) {
             if(!blackAndWhite) {
-                float radiusIncrease = game.widthOrHeight * ((backgroundColorShapeList.get(2).getCoordinates().y - backgroundColorShapeList.get(3).getCoordinates().y) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));
+                float radiusIncrease = game.widthOrHeightSmaller * ((backgroundColorShapeList.get(2).getCoordinates().y - backgroundColorShapeList.get(3).getCoordinates().y) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));
 
-                if (promptShape.getRadius() + radiusIncrease > (game.widthOrHeight / 2)) {
-                    promptShape.setRadius(game.widthOrHeight / 2);
+                if (promptShape.getRadius() + radiusIncrease > (game.widthOrHeightSmaller / 2)) {
+                    promptShape.setRadius(game.widthOrHeightSmaller / 2);
                 } else {
                     promptShape.setRadius(promptShape.getRadius() + radiusIncrease);
                 }
@@ -2497,7 +2496,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             }
 
             //P2
-            if(local) {
+            if(local && !game.desktop) {
                 inputVector = new Vector2(game.camera.viewportWidth - ((i * (game.camera.viewportWidth - ((2 * game.base) * INPUT_RADIUS))) / (game.base + 1) + ((i + i - 1) * INPUT_RADIUS)), game.camera.viewportHeight - (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
                 switch (i) {
                     case 1:
@@ -2564,7 +2563,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         }
         BACKGROUND_COLOR_SHAPE_LIST_WIDTH = BACKGROUND_COLOR_SHAPE_LIST_MAX_X - BACKGROUND_COLOR_SHAPE_LIST_MIN_X;
         COLOR_LIST_SPEED_ADDITIVE =  BACKGROUND_COLOR_SHAPE_LIST_HEIGHT / 5000;
-        INIT_PROMPT_RADIUS = splitScreen ? game.widthOrHeight / 8 : game.widthOrHeight / 4;
+        INIT_PROMPT_RADIUS = splitScreen ? game.widthOrHeightSmaller / 8 : game.widthOrHeightSmaller / 4;
         if(splitScreen && game.widthGreater) {
             FONT_SCORE_SIZE_DIVISOR = 30f;
             FONT_TARGET_SIZE_DIVISOR = 71f;
@@ -2604,10 +2603,10 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         //Set prompt increase such that without player input, three passes of backgroundColorShapeList will
         //occur before game over
-        promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
+        promptIncrease = (game.widthOrHeightSmaller * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
         targetArcStart = -Draw.NINETY_ONE_DEGREES;
         targetArcStartP1 = -Draw.NINETY_ONE_DEGREES;
-        targetArcStartP2 = local ? Draw.NINETY_ONE_DEGREES : -Draw.NINETY_ONE_DEGREES;
+        targetArcStartP2 = local && !game.desktop ? Draw.NINETY_ONE_DEGREES : -Draw.NINETY_ONE_DEGREES;
         squirgleOpacity = 0;
         squirgleOpacityP1 = 0;
         squirgleOpacityP2 = 0;
@@ -2663,8 +2662,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 null,
                 (TARGET_RADIUS / TARGET_RADIUS_DIVISOR) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2(local ? game.camera.viewportWidth - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR) : TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
-                        local ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / TARGET_RADIUS_DIVISOR) : game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR)));
+                new Vector2(local && !game.desktop ? game.camera.viewportWidth - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR) : TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
+                        local && !game.desktop ? (game.camera.viewportHeight / 2) + (TARGET_RADIUS / TARGET_RADIUS_DIVISOR) : game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR)));
         priorShapeList = new ArrayList<Shape>();
         priorShapeListP1 = new ArrayList<Shape>();
         priorShapeListP2 = new ArrayList<Shape>();
@@ -2811,12 +2810,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         primaryShapeP1 = priorShapeListP1.size() > 0 ? priorShapeListP1.get(0) : promptShapeP1;
         primaryShapeP2 = priorShapeListP2.size() > 0 ? priorShapeListP2.get(0) : promptShapeP2;
 
-        if(!splitScreen) {
-            primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
-        } else {
-            //TODO: Update this when I determine dimensions
-            primaryShapeThreshold = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER : (game.camera.viewportHeight / 2) * game.draw.THRESHOLD_MULTIPLIER;
-        }
+        primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
 
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP1 = primaryShapeP1.getRadius() >= primaryShapeThreshold;

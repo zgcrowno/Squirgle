@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Button;
@@ -103,14 +104,16 @@ public class MenuHelpTutorialScreen implements Screen, InputProcessor {
         inputShapeRadius = inputWidth > inputHeightType ? (inputHeightType / 2) : (inputWidth / 2);
         squirgleHeightOffset = inputShapeRadius / 4;
 
+        game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
+
         touchPoint = new Vector3();
 
-        squirgleColor = ColorUtils.randomColor();
-        battleColor = ColorUtils.randomColor();
-        timeAttackColor = ColorUtils.randomColor();
-        timeBattleColor = ColorUtils.randomColor();
-        tranceColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        squirgleColor = ColorUtils.COLOR_SKY_BLUE;
+        battleColor = ColorUtils.COLOR_BLUE;
+        timeAttackColor = ColorUtils.COLOR_ORANGE;
+        timeBattleColor = ColorUtils.COLOR_VERMILLION;
+        tranceColor = ColorUtils.COLOR_BLUISH_GREEN;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         squirgleTouched = false;
         battleTouched = false;

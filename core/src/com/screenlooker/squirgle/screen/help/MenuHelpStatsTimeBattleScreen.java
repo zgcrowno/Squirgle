@@ -42,9 +42,9 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
     private final static String HIGHEST_SCORE = "HIGHEST SCORE: ";
     private final static String NUM_WINS = "WINS: ";
     private final static String NUM_LOSSES = "LOSSES: ";
-    private final static String ONE_MINUTE = "1M";
-    private final static String THREE_MINUTES = "3M";
-    private final static String FIVE_MINUTES = "5M";
+    private final static String ONE_MINUTE = "1m";
+    private final static String THREE_MINUTES = "3m";
+    private final static String FIVE_MINUTES = "5m";
 
     private float inputWidth;
     private float inputHeight;
@@ -105,6 +105,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
 
     private Color veilColor;
     private float veilOpacity;
+    private float textOpacity;
 
     //TODO: Set up fontScore
     public MenuHelpStatsTimeBattleScreen(final Squirgle game, Color veilColor) {
@@ -130,6 +131,8 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
         octagonY = ((5 * (game.camera.viewportHeight - ((2 * NUM_STATS_ELEMENTS) * subElementShapeRadius))) / (NUM_STATS_ELEMENTS + 1)) + (9 * subElementShapeRadius);
         nonagonY = ((6 * (game.camera.viewportHeight - ((2 * NUM_STATS_ELEMENTS) * subElementShapeRadius))) / (NUM_STATS_ELEMENTS + 1)) + (11 * subElementShapeRadius);
 
+        game.setUpFontButton(MathUtils.round(symbolRadius / 2.75f));
+
         difficultyBlockHeight = (inputHeight - (4 * game.partitionSize)) / 3;
         difficultyBlockWidth = inputWidth / 4;
         gameLengthBlockWidth = (inputWidth / 4) / 3;
@@ -150,8 +153,8 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
 
         touchPoint = new Vector3();
 
-        statsColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        statsColor = ColorUtils.COLOR_ORANGE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         difficultyNameEasyTouched = false;
         difficultyNameMediumTouched = false;
@@ -175,6 +178,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
 
         this.veilColor = veilColor;
         veilOpacity = 1;
+        textOpacity = 0;
 
         setStatsStrings();
     }
@@ -220,6 +224,8 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 drawGameLengthText();
             }
         }
+
+        textOpacity = buttonList.get(0).textOpacity;
     }
 
     @Override
@@ -502,7 +508,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 squareY + ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numWinsSquareString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -512,7 +518,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 squareY,
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numLossesSquareString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -522,7 +528,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 squareY - ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
 
         //Pentagon
         game.layout.setText(game.fontStats, highestScorePentagonString);
@@ -534,7 +540,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 pentagonY + ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numWinsPentagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -544,7 +550,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 pentagonY,
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numLossesPentagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -554,7 +560,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 pentagonY - ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
 
         //Hexagon
         game.layout.setText(game.fontStats, highestScoreHexagonString);
@@ -566,7 +572,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 hexagonY + ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numWinsHexagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -576,7 +582,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 hexagonY,
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numLossesHexagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -586,7 +592,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 hexagonY - ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
 
         //Septagon
         game.layout.setText(game.fontStats, highestScoreSeptagonString);
@@ -598,7 +604,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 septagonY + ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numWinsSeptagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -608,7 +614,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 septagonY,
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numLossesSeptagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -618,7 +624,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 septagonY - ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
 
         //Octagon
         game.layout.setText(game.fontStats, highestScoreOctagonString);
@@ -630,7 +636,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 octagonY + ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numWinsOctagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -640,7 +646,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 octagonY,
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numLossesOctagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -650,7 +656,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 octagonY - ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
 
         //Nonagon
         game.layout.setText(game.fontStats, highestScoreNonagonString);
@@ -662,7 +668,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 nonagonY + ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numWinsNonagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -672,7 +678,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 nonagonY,
                 0,
-                1);
+                textOpacity);
         game.layout.setText(game.fontStats, numLossesNonagonString);
         FontUtils.printText(game.batch,
                 game.fontStats,
@@ -682,7 +688,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 nonagonY - ((5 * game.layout.height) / 4),
                 0,
-                1);
+                textOpacity);
     }
 
     public void drawDifficultyText() {
@@ -696,7 +702,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 game.difficulty.equals(Squirgle.DIFFICULTY_EASY) ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (difficultyBlockWidth / 2) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + ((5 * inputHeight) / 6),
                 0,
-                1);
+                textOpacity);
         String mediumString = Squirgle.DIFFICULTY_MEDIUM;
         game.layout.setText(game.fontStats, mediumString);
         FontUtils.printText(game.batch,
@@ -707,7 +713,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM) ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (difficultyBlockWidth / 2) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + (inputHeight / 2),
                 0,
-                1);
+                textOpacity);
         String hardString = Squirgle.DIFFICULTY_HARD;
         game.layout.setText(game.fontStats, hardString);
         FontUtils.printText(game.batch,
@@ -718,7 +724,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 game.difficulty.equals(Squirgle.DIFFICULTY_HARD) ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (difficultyBlockWidth / 2) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + (inputHeight / 6),
                 0,
-                1);
+                textOpacity);
     }
 
     public void drawGameLengthText() {
@@ -732,7 +738,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + (gameLengthBlockWidth / 2),
                 gameLengthMinY + (gameLengthBlockHeight / 2),
                 0,
-                1);
+                textOpacity);
         String threeMinutesString = THREE_MINUTES;
         game.layout.setText(game.fontStats, threeMinutesString);
         FontUtils.printText(game.batch,
@@ -743,7 +749,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 4) + gameLengthBlockWidth + (gameLengthBlockWidth / 2),
                 gameLengthMinY + (gameLengthBlockHeight / 2),
                 0,
-                1);
+                textOpacity);
         String fiveMinutesString = FIVE_MINUTES;
         game.layout.setText(game.fontStats, fiveMinutesString);
         FontUtils.printText(game.batch,
@@ -754,7 +760,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (gameLengthBlockWidth / 2),
                 gameLengthMinY + (gameLengthBlockHeight / 2),
                 0,
-                1);
+                textOpacity);
     }
 
     public void drawTitle() {

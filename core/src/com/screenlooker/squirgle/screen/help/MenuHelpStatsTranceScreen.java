@@ -36,7 +36,7 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
 
     private final static String TIME_PLAYED = "TIME PLAYED: ";
     private final static String FAVORITE_TRACK = "FAVORITE TRACK: ";
-    private final static String HOURS = "H";
+    private final static String HOURS = "h";
     private final static String MINUTES = "m";
     private final static String SECONDS = "s";
 
@@ -58,6 +58,7 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
 
     private Color veilColor;
     private float veilOpacity;
+    private float textOpacity;
 
     //TODO: Set up fontScore
     public MenuHelpStatsTranceScreen(final Squirgle game, Color veilColor) {
@@ -74,10 +75,12 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
 
         symbolRadius = inputWidth > inputHeight ? inputHeight / 2 : inputWidth / 2;
 
+        game.setUpFontButton(MathUtils.round(symbolRadius / 2.75f));
+
         touchPoint = new Vector3();
 
-        statsColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        statsColor = Color.WHITE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         backTouched = false;
 
@@ -95,6 +98,7 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
 
         this.veilColor = veilColor;
         veilOpacity = 1;
+        textOpacity = 0;
     }
 
     @Override
@@ -135,6 +139,8 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
                 drawStatsText();
             }
         }
+
+        textOpacity = buttonList.get(0).textOpacity;
     }
 
     @Override
@@ -271,7 +277,7 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (inputHeight / (NUM_STATS_ELEMENTS + 1)),
                 0,
-                1);
+                textOpacity);
 
         String favoriteTrackString = FAVORITE_TRACK + game.stats.favoriteTrackTrance;
         game.layout.setText(game.fontStats, favoriteTrackString);
@@ -283,7 +289,7 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (2 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
                 0,
-                1);
+                textOpacity);
     }
 
     public void drawTitle() {

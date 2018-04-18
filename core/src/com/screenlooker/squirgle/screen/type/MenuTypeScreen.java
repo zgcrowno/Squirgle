@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
@@ -77,11 +78,13 @@ public class MenuTypeScreen implements Screen, InputProcessor {
 
         inputShapeRadius = inputWidth > inputHeightType ? (inputHeightType / 2) : (inputWidth / 2);
 
+        game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
+
         touchPoint = new Vector3();
 
-        singlePlayerColor = ColorUtils.randomColor();
-        multiplayerLocalColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        singlePlayerColor = ColorUtils.COLOR_SKY_BLUE;
+        multiplayerLocalColor = ColorUtils.COLOR_BLUE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         singlePlayerTouched = false;
         multiplayerLocalTouched = false;
@@ -111,6 +114,8 @@ public class MenuTypeScreen implements Screen, InputProcessor {
                 backColor,
                 Color.BLACK,
                 game);
+
+        game.setUpFontNumPlayers(MathUtils.round(singlePlayerButton.symbolRadius));
 
         buttonList = new ArrayList<Button>();
         buttonList.add(singlePlayerButton);

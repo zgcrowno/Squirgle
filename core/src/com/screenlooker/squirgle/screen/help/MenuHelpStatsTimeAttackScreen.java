@@ -39,9 +39,9 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
     private final static float FONT_STATS_SIZE_DIVISOR = 55.5f;
 
     private final static String HIGHEST_SCORE = "HIGHEST SCORE: ";
-    private final static String ONE_MINUTE = "1M";
-    private final static String THREE_MINUTES = "3M";
-    private final static String FIVE_MINUTES = "5M";
+    private final static String ONE_MINUTE = "1m";
+    private final static String THREE_MINUTES = "3m";
+    private final static String FIVE_MINUTES = "5m";
 
     private float inputWidth;
     private float inputHeight;
@@ -80,6 +80,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
 
     private Color veilColor;
     private float veilOpacity;
+    private float textOpacity;
 
     //TODO: Set up fontScore
     public MenuHelpStatsTimeAttackScreen(final Squirgle game, Color veilColor) {
@@ -105,10 +106,12 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
         octagonY = ((5 * (game.camera.viewportHeight - ((2 * NUM_STATS_ELEMENTS) * subElementShapeRadius))) / (NUM_STATS_ELEMENTS + 1)) + (9 * subElementShapeRadius);
         nonagonY = ((6 * (game.camera.viewportHeight - ((2 * NUM_STATS_ELEMENTS) * subElementShapeRadius))) / (NUM_STATS_ELEMENTS + 1)) + (11 * subElementShapeRadius);
 
+        game.setUpFontButton(MathUtils.round(symbolRadius / 2.75f));
+
         touchPoint = new Vector3();
 
-        statsColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        statsColor = ColorUtils.COLOR_ORANGE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         gameLength1MTouched = false;
         gameLength3MTouched = false;
@@ -129,6 +132,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
 
         this.veilColor = veilColor;
         veilOpacity = 1;
+        textOpacity = 0;
 
         setStatsStrings();
     }
@@ -173,6 +177,8 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 drawGameLengthText();
             }
         }
+
+        textOpacity = buttonList.get(0).textOpacity;
     }
 
     @Override
@@ -397,7 +403,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 squareY,
                 0,
-                1);
+                textOpacity);
 
         //Pentagon
         game.layout.setText(game.fontStats, highestScorePentagonString);
@@ -409,7 +415,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 pentagonY,
                 0,
-                1);
+                textOpacity);
 
         //Hexagon
         game.layout.setText(game.fontStats, highestScoreHexagonString);
@@ -421,7 +427,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 hexagonY,
                 0,
-                1);
+                textOpacity);
 
         //Septagon
         game.layout.setText(game.fontStats, highestScoreSeptagonString);
@@ -433,7 +439,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 septagonY,
                 0,
-                1);
+                textOpacity);
 
         //Octagon
         game.layout.setText(game.fontStats, highestScoreOctagonString);
@@ -445,7 +451,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 octagonY,
                 0,
-                1);
+                textOpacity);
 
         //Nonagon
         game.layout.setText(game.fontStats, highestScoreNonagonString);
@@ -457,7 +463,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 subElementShapeX + subElementShapeRadius + (game.layout.width / 2),
                 nonagonY,
                 0,
-                1);
+                textOpacity);
     }
 
     public void drawGameLengthText() {
@@ -471,7 +477,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.timeAttackNumSeconds == Squirgle.ONE_MINUTE ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 8) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + ((5 * inputHeight) / 6),
                 0,
-                1);
+                textOpacity);
         String threeMinutesString = THREE_MINUTES;
         game.layout.setText(game.fontStats, threeMinutesString);
         FontUtils.printText(game.batch,
@@ -482,7 +488,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.timeAttackNumSeconds == Squirgle.THREE_MINUTES ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 8) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + (inputHeight / 2),
                 0,
-                1);
+                textOpacity);
         String fiveMinutesString = FIVE_MINUTES;
         game.layout.setText(game.fontStats, fiveMinutesString);
         FontUtils.printText(game.batch,
@@ -493,7 +499,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES ? game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (inputWidth / 8) : game.camera.viewportWidth - (2 * game.partitionSize) - inputWidth - (game.layout.width / 2),
                 game.partitionSize + (inputHeight / 6),
                 0,
-                1);
+                textOpacity);
     }
 
     public void drawTitle() {

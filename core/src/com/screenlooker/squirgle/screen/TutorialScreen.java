@@ -45,7 +45,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     public static float FONT_SCORE_SIZE_DIVISOR;
     public static float FONT_TARGET_SIZE_DIVISOR;
     public static float FONT_SQUIRGLE_SIZE_DIVISOR;
-    public static float FONT_TUTORIAL_HELP_SIZE_DIVISOR;
+    public static float FONT_TUTORIAL_HELP_SIZE_MULTIPLIER;
     public static Vector2 INPUT_POINT_SPAWN;
     public static Vector2 INPUT_LINE_SPAWN;
     public static Vector2 INPUT_TRIANGLE_SPAWN;
@@ -280,6 +280,8 @@ public class TutorialScreen implements Screen, InputProcessor {
     public Label.LabelStyle helpLabelStyle;
     public Label helpLabel;
     private Stage stage;
+    private Color veilColor;
+    private float veilOpacity;
 
     private String squirglePhaseOneTextOne;
     private String squirglePhaseOneTextTwo;
@@ -461,12 +463,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         primaryShapeP1 = priorShapeListP1.size() > 0 ? priorShapeListP1.get(0) : promptShapeP1;
         primaryShapeP2 = priorShapeListP2.size() > 0 ? priorShapeListP2.get(0) : promptShapeP2;
 
-        if(!splitScreen) {
-            primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
-        } else {
-            //TODO: Update this when I determine dimensions
-            primaryShapeThreshold = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER : (game.camera.viewportHeight / 2) * game.draw.THRESHOLD_MULTIPLIER;
-        }
+        primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP1 = primaryShapeP1.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP2 = primaryShapeP2.getRadius() >= primaryShapeThreshold;
@@ -492,7 +489,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     game.draw.drawPerimeter(game.camera.viewportWidth / 2,
                             game.camera.viewportHeight / 2,
                             blackAndWhite ? Color.WHITE : Color.BLACK,
-                            (3 * game.widthOrHeight) / 8,
+                            (3 * game.widthOrHeightSmaller) / 8,
                             promptShape);
                 } else {
                     game.draw.drawPerimeter(game.camera.viewportWidth / 2,
@@ -507,34 +504,30 @@ public class TutorialScreen implements Screen, InputProcessor {
                             promptShapeP1);
                     game.draw.drawScreenDivisionTutorial(helpTextVisible, blackAndWhite);
                 }
-                if(phase >= PHASE_FIVE) {
-                    game.draw.drawBackgroundColorShapeListTutorial(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor);
-                    game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
-                }
                 if(phase >= PHASE_THREE) {
                     game.draw.drawTargetSemicirclesTutorial(splitScreen, local);
                 }
             }
             if(!splitScreen) {
                 game.draw.drawPrompt(false, promptShape, priorShapeList, 0, backgroundColorShape, false, false);
-                game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
+                game.draw.orientShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
             } else if(useSaturation) {
                 if(!(gameOver && saturationP1 > saturationP2)) {
                     game.draw.drawPrompt(false, promptShapeP1, priorShapeListP1, 0, backgroundColorShape, false, false);
-                    game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                    game.draw.orientShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
                 }
                 if(!(gameOver && saturationP2 >= saturationP1)) {
                     game.draw.drawPrompt(local, promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false);
-                    game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                    game.draw.orientShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
                 }
             } else {
                 if(!(gameOver && scoreP1 < scoreP2)) {
                     game.draw.drawPrompt(false, promptShapeP1, priorShapeListP1, 0, backgroundColorShape, false, false);
-                    game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                    game.draw.orientShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
                 }
                 if(!(gameOver && scoreP2 <= scoreP1)) {
                     game.draw.drawPrompt(local, promptShapeP2, priorShapeListP2, 0, backgroundColorShape, false, false);
-                    game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                    game.draw.orientShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
                 }
             }
         }
@@ -556,27 +549,21 @@ public class TutorialScreen implements Screen, InputProcessor {
         zoomThroughShapes();
 
         if(!paused) {
-            //This code is being executed three times: once before setting the prompt's end game coordinates, and again afterwards.
-            //This way, the shapes are drawn with their new values, and the first element in priorShapeList doesn't veer off
-            //the screen to the right.
-            //TODO: separate draw methods out into distinct ones, one of which assigns radii and coordinates, and the other of
-            //TODO: which actually draws the shapes. It's overkill to draw the shapes multiple times. In fact, doing so may
-            //TODO: be responsible for another layer of shapes occasionally appearing behind the foremost one.
             if(!splitScreen) {
-                game.draw.drawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
+                game.draw.orientAndDrawShapes(false, priorShapeList, promptShape, primaryShapeAtThreshold);
             } else if(useSaturation) {
                 if(!(gameOver && saturationP1 > saturationP2)) {
-                    game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                    game.draw.orientAndDrawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
                 }
                 if(!(gameOver && saturationP2 >= saturationP1)) {
-                    game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                    game.draw.orientAndDrawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
                 }
             } else {
                 if(!(gameOver && scoreP1 < scoreP2)) {
-                    game.draw.drawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
+                    game.draw.orientAndDrawShapes(false, priorShapeListP1, promptShapeP1, primaryShapeAtThresholdP1);
                 }
                 if(!(gameOver && scoreP2 <= scoreP1)) {
-                    game.draw.drawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
+                    game.draw.orientAndDrawShapes(local, priorShapeListP2, promptShapeP2, primaryShapeAtThresholdP2);
                 }
             }
         }
@@ -594,6 +581,25 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if(phase >= PHASE_TWO) {
                     game.draw.drawInputButtonsTutorial(splitScreen, local, backgroundColorShape.getColor(), game);
                 }
+                if(phase >= PHASE_THREE) {
+                    if (!splitScreen) {
+                        game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
+                        game.draw.orientShapes(false, targetShapeList, outsideTargetShape, false);
+                        game.draw.drawShapes(false, targetShapeList);
+                    } else {
+                        game.draw.drawPrompt(false, outsideTargetShapeP1, targetShapeListP1, targetShapesMatchedP1, backgroundColorShape, false, true);
+                        game.draw.orientShapes(false, targetShapeListP1, outsideTargetShapeP1, false);
+                        game.draw.drawShapes(false, targetShapeListP1);
+                        game.draw.drawPrompt(local, outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true);
+                        game.draw.orientShapes(local, targetShapeListP2, outsideTargetShapeP2, false);
+                        game.draw.drawShapes(local, targetShapeListP2);
+                    }
+                    drawTargetArcs();
+                }
+                if(phase >= PHASE_FIVE) {
+                    game.draw.drawBackgroundColorShapeListTutorial(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor);
+                    game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
+                }
                 if(phase >= PHASE_FOUR) {
                     game.draw.drawScoreTrianglesTutorial(splitScreen, local, backgroundColorShape.getColor());
                 }
@@ -608,23 +614,9 @@ public class TutorialScreen implements Screen, InputProcessor {
                         game.draw.drawSaturationIncrementsTutorial(local, backgroundColorShape.getColor());
                     }
                 }
-                if(phase >= PHASE_THREE) {
-                    if (!splitScreen) {
-                        game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
-                        game.draw.drawShapes(false, targetShapeList, outsideTargetShape, false);
-                    } else {
-                        game.draw.drawPrompt(false, outsideTargetShapeP1, targetShapeListP1, targetShapesMatchedP1, backgroundColorShape, false, true);
-                        game.draw.drawShapes(false, targetShapeListP1, outsideTargetShapeP1, false);
-                        game.draw.drawPrompt(local, outsideTargetShapeP2, targetShapeListP2, targetShapesMatchedP2, backgroundColorShape, false, true);
-                        game.draw.drawShapes(local, targetShapeListP2, outsideTargetShapeP2, false);
-                    }
-                }
                 game.draw.drawPauseInputTutorial(splitScreen, local, game);
                 if(phase < PHASE_SIX) {
                     game.draw.drawHelpInput(splitScreen);
-                }
-                if(phase >= PHASE_THREE) {
-                    drawTargetArcs();
                 }
             }
         }
@@ -647,6 +639,8 @@ public class TutorialScreen implements Screen, InputProcessor {
             drawInputRectangles();
         }
 
+        game.draw.drawVeil(veilColor, veilOpacity);
+
         showHelpText();
 
         game.shapeRendererFilled.end();
@@ -667,6 +661,10 @@ public class TutorialScreen implements Screen, InputProcessor {
         } else {
             ColorUtils.transitionColor(currentTargetShapeP1);
             ColorUtils.transitionColor(currentTargetShapeP2);
+        }
+
+        if(veilOpacity > 0) {
+            veilOpacity -= 0.01;
         }
     }
 
@@ -824,10 +822,9 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public void drawPauseQuitInput() {
         drawInputRectangle(PAUSE_QUIT);
-        game.draw.drawX(game.camera.viewportWidth / 2,
+        game.draw.drawStopSymbol(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
-                (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK);
     }
 
@@ -923,7 +920,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                             resultsColor,
                             String.valueOf(score),
                             game.camera.viewportWidth / 2,
-                            game.camera.viewportHeight / 2,
+                            INPUT_POINT_SPAWN.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN.y + INPUT_RADIUS)) / 2),
                             0,
                             1);
                 } else {
@@ -934,7 +931,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 saturationP1 > saturationP2 ? Squirgle.RESULTS_DEFEAT : saturationP1 < saturationP2 ? Squirgle.RESULTS_VICTORY : Squirgle.RESULTS_TIE,
                                 game.camera.viewportWidth / 2,
-                                game.camera.viewportHeight / 2,
+                                INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 2),
                                 0,
                                 1);
                     } else {
@@ -944,7 +941,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 scoreP1 < scoreP2 ? Squirgle.RESULTS_DEFEAT : scoreP1 > scoreP2 ? Squirgle.RESULTS_VICTORY : Squirgle.RESULTS_TIE,
                                 game.camera.viewportWidth / 2,
-                                game.camera.viewportHeight / 2,
+                                INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 2),
                                 0,
                                 1);
                         FontUtils.printText(game.batch,
@@ -953,7 +950,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 P1 + COLON + scoreP1,
                                 game.camera.viewportWidth / 2,
-                                game.camera.viewportHeight / 4,
+                                INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS)) / 4),
                                 0,
                                 1);
                         FontUtils.printText(game.batch,
@@ -962,7 +959,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 resultsColor,
                                 P2 + COLON + scoreP2,
                                 game.camera.viewportWidth / 2,
-                                (3 * game.camera.viewportHeight) / 4,
+                                INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS + ((3 * (game.camera.viewportHeight - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS))) / 4),
                                 0,
                                 1);
                     }
@@ -1492,7 +1489,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     lastSpeedIncreaseTime = System.currentTimeMillis();
                     game.draw.setColorListSpeed(game.draw.getColorListSpeed() + COLOR_LIST_SPEED_ADDITIVE);
                     game.draw.setColorSpeed(game.draw.getColorSpeed() + COLOR_SPEED_ADDITIVE);
-                    promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
+                    promptIncrease = (game.widthOrHeightSmaller * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
                 }
             }
         }
@@ -1503,7 +1500,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             if(!paused) {
                 float actualFPS = Gdx.graphics.getRawDeltaTime() * game.FPS;
                 game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.timeAttackNumSeconds * actualFPS * game.FPS));
-                promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
+                promptIncrease = (game.widthOrHeightSmaller * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
             }
         }
     }
@@ -1560,7 +1557,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 primaryShape.setLineWidth(primaryShape.getLineWidth() * END_LINE_WIDTH_INCREASE);
                             } else if (primaryShape.getShape() == Shape.LINE) {
                                 //Prevent shape lines from being visible in the event that primaryShape is promptShape
-                                primaryShape.setColor(clearColor);
+                                clearColor = primaryShape.getColor();
                             }
                             if (primaryShape.getShape() != Shape.LINE || primaryShape.getLineWidth() >= (game.camera.viewportWidth * 4)) {
                                 showResults = true;
@@ -1577,7 +1574,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 primaryShapeP1.setLineWidth(primaryShapeP1.getLineWidth() * END_LINE_WIDTH_INCREASE);
                             } else if (primaryShapeP1.getShape() == Shape.LINE) {
                                 //Prevent shape lines from being visible in the event that primaryShape is promptShape
-                                primaryShapeP1.setColor(clearColor);
+                                clearColor = primaryShape.getColor();
                             }
                             if (primaryShapeP1.getShape() != Shape.LINE || primaryShapeP1.getLineWidth() >= (game.camera.viewportWidth * 4)) {
                                 showResults = true;
@@ -1594,7 +1591,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                                 primaryShapeP2.setLineWidth(primaryShapeP2.getLineWidth() * END_LINE_WIDTH_INCREASE);
                             } else if (primaryShapeP2.getShape() == Shape.LINE) {
                                 //Prevent shape lines from being visible in the event that primaryShape is promptShape
-                                primaryShapeP2.setColor(clearColor);
+                                clearColor = primaryShape.getColor();
                             }
                             if (primaryShapeP2.getShape() != Shape.LINE || primaryShapeP2.getLineWidth() >= (game.camera.viewportWidth * 4)) {
                                 showResults = true;
@@ -1682,9 +1679,9 @@ public class TutorialScreen implements Screen, InputProcessor {
         //Game over condition
         boolean gameOverCondition = false;
         if(!splitScreen) {
-            gameOverCondition = promptShape.getRadius() >= game.widthOrHeight / 2 && !gameOver;
+            gameOverCondition = promptShape.getRadius() >= game.widthOrHeightSmaller / 2 && !gameOver;
         } else {
-            gameOverCondition = (dummyPromptForTimelines.getRadius() >= game.widthOrHeight / 2
+            gameOverCondition = (dummyPromptForTimelines.getRadius() >= game.widthOrHeightSmaller / 2
                     || saturationP1 >= MAX_SATURATION || saturationP2 >= MAX_SATURATION)
                     && !gameOver;
         }
@@ -1693,17 +1690,29 @@ public class TutorialScreen implements Screen, InputProcessor {
             stopMusic();
             promptIncrease = 1;
             endTime = System.currentTimeMillis();
+            veilOpacity = 1;
             clearColor.set(backgroundColorShape.getColor().r,
                     backgroundColorShape.getColor().g,
                     backgroundColorShape.getColor().b,
                     backgroundColorShape.getColor().a);
             game.stats.updateTimePlayed(endTime - startTime, gameplayType);
-            game.stats.updateHighestScore(splitScreen ? scoreP1 : score, gameplayType, game.base, game.timeAttackNumSeconds, game.difficulty);
-            game.stats.incrementNumTimesWonOrLost(scoreP1 > scoreP2 || saturationP1 < saturationP2, gameplayType, game.base, game.timeAttackNumSeconds, game.difficulty);
-            if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-                game.stats.updateLongestRun(endTime - startTime, game.base);
-            } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
-                game.stats.updateFastestVictory(endTime - startTime, game.base, game.difficulty);
+            if(splitScreen) {
+                if (useSaturation) {
+                    //We have to set the radii here to prevent stuttering when zooming through the shapes.
+                    if (saturationP1 <= saturationP2) {
+                        promptShapeP1.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
+                        promptShapeP1.setCoordinates(new Vector2(promptShapeP1.getCoordinates().x, game.camera.viewportHeight / 2));
+                    } else {
+                        promptShapeP2.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
+                        promptShapeP2.setCoordinates(new Vector2(promptShapeP2.getCoordinates().x, game.camera.viewportHeight / 2));
+                    }
+                } else {
+                    if (scoreP1 >= scoreP2) {
+                        promptShapeP1.setCoordinates(new Vector2(promptShapeP1.getCoordinates().x, game.camera.viewportHeight / 2));
+                    } else {
+                        promptShapeP2.setCoordinates(new Vector2(promptShapeP2.getCoordinates().x, game.camera.viewportHeight / 2));
+                    }
+                }
             }
         }
     }
@@ -2455,12 +2464,12 @@ public class TutorialScreen implements Screen, InputProcessor {
         if(player == null) {
             if(!blackAndWhite) {
                 if(phase >= PHASE_FIVE) {
-                    float radiusIncrease = game.widthOrHeight * ((backgroundColorShapeList.get(2).getCoordinates().y - backgroundColorShapeList.get(3).getCoordinates().y) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));
+                    float radiusIncrease = game.widthOrHeightSmaller * ((backgroundColorShapeList.get(2).getCoordinates().y - backgroundColorShapeList.get(3).getCoordinates().y) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));
 
                     if (phase < PHASE_SIX && promptShape.getRadius() + radiusIncrease > game.thirdOfScreen) {
                         promptShape.setRadius(game.thirdOfScreen);
-                    } else if (promptShape.getRadius() + radiusIncrease > (game.widthOrHeight / 2)) {
-                        promptShape.setRadius(game.widthOrHeight / 2);
+                    } else if (promptShape.getRadius() + radiusIncrease > (game.widthOrHeightSmaller / 2)) {
+                        promptShape.setRadius(game.widthOrHeightSmaller / 2);
                     } else {
                         promptShape.setRadius(promptShape.getRadius() + radiusIncrease);
                     }
@@ -2781,7 +2790,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         }
         BACKGROUND_COLOR_SHAPE_LIST_WIDTH = BACKGROUND_COLOR_SHAPE_LIST_MAX_X - BACKGROUND_COLOR_SHAPE_LIST_MIN_X;
         COLOR_LIST_SPEED_ADDITIVE =  BACKGROUND_COLOR_SHAPE_LIST_HEIGHT / 5000;
-        INIT_PROMPT_RADIUS = splitScreen ? game.widthOrHeight / 8 : game.widthOrHeight / 4;
+        INIT_PROMPT_RADIUS = splitScreen ? game.widthOrHeightSmaller / 8 : game.widthOrHeightSmaller / 4;
         if(splitScreen && game.widthGreater) {
             FONT_SCORE_SIZE_DIVISOR = 30f;
             FONT_TARGET_SIZE_DIVISOR = 71f;
@@ -2792,9 +2801,9 @@ public class TutorialScreen implements Screen, InputProcessor {
             FONT_SQUIRGLE_SIZE_DIVISOR = 5f;
         }
         if(game.widthGreater) {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 17f;
         } else {
-            FONT_TUTORIAL_HELP_SIZE_DIVISOR = 35.5f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 24f;
         }
         INPUT_PLAY_SPAWN = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         INPUT_HOME_SPAWN = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
@@ -2825,7 +2834,7 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         //Set prompt increase such that without player input, three passes of backgroundColorShapeList will
         //occur before game over
-        promptIncrease = (game.widthOrHeight * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
+        promptIncrease = (game.widthOrHeightSmaller * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
         targetArcStart = -Draw.NINETY_ONE_DEGREES;
         targetArcStartP1 = -Draw.NINETY_ONE_DEGREES;
         targetArcStartP2 = local ? Draw.NINETY_ONE_DEGREES : -Draw.NINETY_ONE_DEGREES;
@@ -3035,19 +3044,14 @@ public class TutorialScreen implements Screen, InputProcessor {
         primaryShapeP1 = priorShapeListP1.size() > 0 ? priorShapeListP1.get(0) : promptShapeP1;
         primaryShapeP2 = priorShapeListP2.size() > 0 ? priorShapeListP2.get(0) : promptShapeP2;
 
-        if(!splitScreen) {
-            primaryShapeThreshold = game.widthOrHeight * game.draw.THRESHOLD_MULTIPLIER;
-        } else {
-            //TODO: Update this when I determine dimensions
-            primaryShapeThreshold = game.camera.viewportHeight / 2 > game.camera.viewportWidth ? game.camera.viewportWidth * game.draw.THRESHOLD_MULTIPLIER : (game.camera.viewportHeight / 2) * game.draw.THRESHOLD_MULTIPLIER;
-        }
+        primaryShapeThreshold = game.widthOrHeightSmaller * game.draw.THRESHOLD_MULTIPLIER;
 
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP1 = primaryShapeP1.getRadius() >= primaryShapeThreshold;
         primaryShapeAtThresholdP2 = primaryShapeP2.getRadius() >= primaryShapeThreshold;
 
         squirglePhaseOneTextOne = "Welcome to the SQUIRGLE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of SQUIRGLE.";
-        squirglePhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
+        squirglePhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK button to unpause or the STOP button to quit.";
         squirglePhaseOneTextThree = "The white, hollow shape in the center of the screen is the shape currently in your hand (press the HELP [?] button to temporarily dismiss this text and examine it). This is the shape you will be manipulating to progress through SQUIRGLE.";
         squirglePhaseOneTextFour = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
         squirglePhaseTwoTextOne = "The buttons at the bottom of the screen are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
@@ -3058,9 +3062,9 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirglePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in your hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
         squirglePhaseThreeTextOne = "In the upper left corner of the screen, you'll now see two shapes separated by a black circle, next to which is a number.";
         squirglePhaseThreeTextTwo = "The shape within the black circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the black circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
-        squirglePhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating; for clarity, this number also alternates between various colors.";
-        squirglePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
-        squirglePhaseFourTextOne = "In the upper right corner of the screen, you'll now see three numbers. The leftmost number represents the number of vertices possessed by the shape currently in your hand, the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
+        squirglePhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating (this number is not displayed when playing in hardcore mode). For clarity, this number also alternates between various colors.";
+        squirglePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets (and the target shape you just created is placed either within or next to the shape in your hand to give you a better idea of your performance). When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
+        squirglePhaseFourTextOne = "In the upper right corner of the screen, you'll now see three numbers. The leftmost number represents the number of vertices possessed by the shape currently in your hand (this number is not displayed when playing in hardcore mode), the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
         squirglePhaseFourTextTwo = "Your score increases by your multiplier every time you correctly match a full series of two target shapes.";
         squirglePhaseFourTextThree = "So long as your multiplier is below its maximum value of 5, it increases by 1 every time you correctly match a full series of target shapes. Should you press an incorrect input, however, your multiplier will be reverted back to its original value of 1, and the radius of the shape in your hand will be increased, allotting you less time to play.";
         squirglePhaseFourTextFour = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your score and multiplier. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
@@ -3070,7 +3074,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirglePhaseFiveTextFour = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to rack up as many points as possible. Good luck!";
 
         battlePhaseOneTextOne = "Welcome to the BATTLE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of BATTLE.";
-        battlePhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
+        battlePhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK  button to unpause or the STOP button to quit.";
         battlePhaseOneTextThree = "In BATTLE mode, the screen is divided between player and opponent. The bottom half of the screen is the player 1 section; this contains all the inputs of which you--player 1--will take advantage.";
         battlePhaseOneTextFour = "The top half of the screen is the player 2 section. This showcases the actions your opponent--player 2--is taking.";
         battlePhaseOneTextFive = "The white, hollow shape in the center of the player 1 section is the shape currently in your hand (press the HELP [?] button to temporarily dismiss this text and examine it more clearly). This is the shape you will be manipulating to progress through BATTLE.";
@@ -3083,9 +3087,9 @@ public class TutorialScreen implements Screen, InputProcessor {
         battlePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in your hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
         battlePhaseThreeTextOne = "In the upper left corner of the player 1 section, you'll now see two shapes separated by a black circle, next to which is a number.";
         battlePhaseThreeTextTwo = "The shape within the black circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the black circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
-        battlePhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating; for clarity, this number also alternates between various colors.";
-        battlePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
-        battlePhaseFourTextOne = "In the upper right corner of the player 1 section, you'll now see some text saying \"P1\", a number, and a TRIANGLE populated by a number of small notches. The text represents which player you are (P1 = Player 1), the number represents the number of vertices possessed by the shape currently in your hand, and the notched TRIANGLE represents your BURST meter.";
+        battlePhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating (this number is not displayed when playing in hardcore mode). For clarity, this number also alternates between various colors.";
+        battlePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets (and the target shape you just created is placed either within or next to the shape in your hand to give you a better idea of your performance). When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
+        battlePhaseFourTextOne = "In the upper right corner of the player 1 section, you'll now see some text saying \"P1\", a number, and a TRIANGLE populated by a number of small notches. The text represents which player you are (P1 = Player 1), the number represents the number of vertices possessed by the shape currently in your hand (this number is not displayed when playing in hardcore mode), and the notched TRIANGLE represents your BURST meter.";
         battlePhaseFourTextTwo = "The BURST meter is the gauge by which is determined whether player 1 or player 2 wins the battle. If your BURST meter reaches its threshold, you lose; if your opponent's BURST meter reaches its threshold, you win; if time runs out before either BURST meter reaches its threshold, the player with the smaller BURST value wins; if both BURST values are equal, the round results in a tie.";
         battlePhaseFourTextThree = "In order to add to your opponent's burst meter, simply create the target shapes from the shape in your hand. If you correctly match both shapes in a target series, your opponent's BURST meter will increase by 1. If, however, the two shapes you just matched constitute a SQUIRGLE, your opponent's BURST meter will increase by 3, and your BURST meter will decrease by 5. Note, though, that if you press an incorrect input, your BURST meter increases by 1.  In this phase of the tutorial, neither player 1's nor player 2's BURST meter may increase beyond 5.";
         battlePhaseFourTextFour = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your BURST meter and that of your opponent. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
@@ -3095,7 +3099,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         battlePhaseFiveTextFour = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to best your opponent. Good luck!";
 
         timeAttackPhaseOneTextOne = "Welcome to the TIME ATTACK tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of TIME ATTACK.";
-        timeAttackPhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
+        timeAttackPhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK button to unpause or the STOP button to quit.";
         timeAttackPhaseOneTextThree = "The white, hollow shape in the center of the screen is the shape currently in your hand (press the HELP [?] button to temporarily dismiss this text and examine it). This is the shape you will be manipulating to progress through TIME ATTACK.";
         timeAttackPhaseOneTextFour = "On the last page of every phase of this tutorial, you will see the NEXT button. Press this once you're comfortable with what you've learned, and wish to proceed to the next section.";
         timeAttackPhaseTwoTextOne = "The buttons at the bottom of the screen are your inputs--that is, these are the buttons you'll press to manipulate the shape in your hand.";
@@ -3106,9 +3110,9 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackPhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in your hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
         timeAttackPhaseThreeTextOne = "In the upper left corner of the screen, you'll now see two shapes separated by a black circle, next to which is a number.";
         timeAttackPhaseThreeTextTwo = "The shape within the black circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the black circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
-        timeAttackPhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating; for clarity, this number also alternates between various colors.";
-        timeAttackPhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
-        timeAttackPhaseFourTextOne = "In the upper right corner of the screen, you'll now see three numbers. The leftmost number represents the number of vertices possessed by the shape currently in your hand, the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
+        timeAttackPhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating (this number is not displayed when playing in hardcore mode). For clarity, this number also alternates between various colors.";
+        timeAttackPhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets (and the target shape you just created is placed either within or next to the shape in your hand to give you a better idea of your performance). When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
+        timeAttackPhaseFourTextOne = "In the upper right corner of the screen, you'll now see three numbers. The leftmost number represents the number of vertices possessed by the shape currently in your hand (this number is not displayed when playing in hardcore mode), the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
         timeAttackPhaseFourTextTwo = "Your score increases by your multiplier every time you correctly match a full series of two target shapes. Every time you press an incorrect input, however, your score decreases by 1 (unless you already possess the minimum score of 0).";
         timeAttackPhaseFourTextThree = "So long as your multiplier is below its maximum value of 5, it increases by 1 every time you correctly match a full series of target shapes. Should you press an incorrect input, however, your multiplier will be reverted back to its original value of 1.";
         timeAttackPhaseFourTextFour = "Play around with this knowledge by matching the shape in your hand with the targets, and seeing how correct and incorrect inputs adjust your score and multiplier. When you're ready, press the NEXT button to proceed to the next phase of the tutorial.";
@@ -3118,7 +3122,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackPhaseFiveTextFour = "When you're ready, press the NEXT button to play the game in full and use everything you've learned to rack up as many points as possible. Good luck!";
 
         timeBattlePhaseOneTextOne = "Welcome to the TIME BATTLE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of TIME BATTLE.";
-        timeBattlePhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
+        timeBattlePhaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] and PAUSE [||] buttons. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, press the PAUSE [||] button, at which point you may press the BACK button to unpause or the STOP button to quit.";
         timeBattlePhaseOneTextThree = "In TIME BATTLE mode, the screen is divided between player and opponent. The bottom half of the screen is the player 1 section; this contains all the inputs of which you--player 1--will take advantage.";
         timeBattlePhaseOneTextFour = "The top half of the screen is the player 2 section. This showcases the actions your opponent--player 2--is taking.";
         timeBattlePhaseOneTextFive = "The white, hollow shape in the center of the player 1 section is the shape currently in your hand (press the HELP [?] button to temporarily dismiss this text and examine it more clearly). This is the shape you will be manipulating to progress through TIME BATTLE.";
@@ -3131,9 +3135,9 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattlePhaseTwoTextSix = "Play around with the inputs at the bottom of the screen to see how they interact with the shape in your hand to create new shapes. Once you're finished, press the NEXT button to proceed to the next phase of the tutorial.";
         timeBattlePhaseThreeTextOne = "In the upper left corner of the player 1 section, you'll now see two shapes separated by a black circle, next to which is a number.";
         timeBattlePhaseThreeTextTwo = "The shape within the black circle is the first shape you're tasked with creating from the shape in your hand, while the shape outside of the black circle is the second shape you are to make. The shape you CURRENTLY need to make is that which is alternating between various colors. Once you have successfully created both target shapes from the shape within your hand, you will be prompted to create two more in the same manner.";
-        timeBattlePhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating; for clarity, this number also alternates between various colors.";
-        timeBattlePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets. When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
-        timeBattlePhaseFourTextOne = "In the upper right corner of the player 1 section, you'll now see some text saying \"P1\", and three numbers. The text represents which player you are (P1 = Player 1), the leftmost number represents the number of vertices possessed by the shape currently in your hand, the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
+        timeBattlePhaseThreeTextThree = "The number next to these shapes represents the number of vertices possessed by the shape you are currently tasked with creating (this number is not displayed when playing in hardcore mode). For clarity, this number also alternates between various colors.";
+        timeBattlePhaseThreeTextFour = "Play around with this knowledge by trying to make the target shapes from the shape in your hand. Notice that when you have pressed the correct input, an equality is displayed between your hand and your targets (and the target shape you just created is placed either within or next to the shape in your hand to give you a better idea of your performance). When you press an incorrect input, no such equality is displayed. When you feel confident, press the NEXT button to proceed to the next phase of the tutorial.";
+        timeBattlePhaseFourTextOne = "In the upper right corner of the player 1 section, you'll now see some text saying \"P1\", and three numbers. The text represents which player you are (P1 = Player 1), the leftmost number represents the number of vertices possessed by the shape currently in your hand (this number is not displayed when playing in hardcore mode), the middle number represents your score, and the rightmost number (accompanied by an X) represents your score's multiplier.";
         timeBattlePhaseFourTextTwo = "Your score increases by your multiplier every time you correctly match a full series of two target shapes. Every time you press an incorrect input, however, your score decreases by 1 (unless you already possess the minimum score of 0).";
         timeBattlePhaseFourTextThree = "So long as your multiplier is below its maximum value of 5, it increases by 1 every time you correctly match a full series of target shapes. Should you press an incorrect input, however, your multiplier will be reverted back to its original value of 1.";
         timeBattlePhaseFourTextFour = "Your score is the gauge by which is determined whether player 1 or player 2 wins the battle. Come the game's end, if your score is greater than your opponent's, you win; if your opponent's score is greater than yours, you lose; if your score and your opponent's are equal, the round results in a tie.";
@@ -3315,7 +3319,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         helpTextMap.put(Squirgle.GAMEPLAY_TIME_ATTACK, timeAttackPhaseMap);
         helpTextMap.put(Squirgle.GAMEPLAY_TIME_BATTLE, timeBattlePhaseMap);
 
-        game.setUpFontTutorialHelp(MathUtils.round(game.widthOrHeight / FONT_TUTORIAL_HELP_SIZE_DIVISOR));
+        game.setUpFontTutorialHelp(MathUtils.round(game.ASPECT_RATIO * ((1920 / 1080) * FONT_TUTORIAL_HELP_SIZE_MULTIPLIER) / (1920 / 1080))); //Using 1920 / 1080 because that's the OG resolution--the one for which I originally developed--and I wish to scale it for other devices.
 
         helpLabelStyle = new Label.LabelStyle();
         helpLabelStyle.font = game.fontTutorialHelp;
@@ -3329,6 +3333,9 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         stage = new Stage(game.viewport);
         stage.addActor(helpLabel);
+
+        veilColor = Color.WHITE;
+        veilOpacity = 0;
     }
 
     public void setUpGL() {

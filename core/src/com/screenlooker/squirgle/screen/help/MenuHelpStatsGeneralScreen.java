@@ -40,7 +40,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
     private final static String FAVORITE_BASE = "FAVORITE BASE: ";
     private final static String FAVORITE_MODE = "FAVORITE MODE: ";
     private final static String FAVORITE_TRACK = "FAVORITE TRACK: ";
-    private final static String HOURS = "H";
+    private final static String HOURS = "h";
     private final static String MINUTES = "m";
     private final static String SECONDS = "s";
 
@@ -62,6 +62,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
 
     private Color veilColor;
     private float veilOpacity;
+    private float textOpacity;
 
     //TODO: Set up fontScore
     public MenuHelpStatsGeneralScreen(final Squirgle game, Color veilColor) {
@@ -78,10 +79,12 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
 
         symbolRadius = inputWidth > inputHeight ? inputHeight / 2 : inputWidth / 2;
 
+        game.setUpFontButton(MathUtils.round(symbolRadius / 2.75f));
+
         touchPoint = new Vector3();
 
-        statsColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        statsColor = Color.WHITE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         backTouched = false;
 
@@ -99,6 +102,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
 
         this.veilColor = veilColor;
         veilOpacity = 1;
+        textOpacity = 0;
     }
 
     @Override
@@ -139,6 +143,8 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 drawStatsText();
             }
         }
+
+        textOpacity = buttonList.get(0).textOpacity;
     }
 
     @Override
@@ -275,7 +281,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (inputHeight / (NUM_STATS_ELEMENTS + 1)),
                 0,
-                1);
+                textOpacity);
 
         String numSquirglesString = NUM_SQUIRGLES + game.stats.numSquirgles;
         game.layout.setText(game.fontStats, numSquirglesString);
@@ -287,7 +293,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (2 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
                 0,
-                1);
+                textOpacity);
 
         String favoriteBaseString = FAVORITE_BASE + (game.stats.favoriteBase == 0 ? game.stats.NA : game.stats.favoriteBase);
         game.layout.setText(game.fontStats, favoriteBaseString);
@@ -299,7 +305,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (3 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
                 0,
-                1);
+                textOpacity);
 
         String favoriteModeString = FAVORITE_MODE + game.stats.favoriteMode;
         game.layout.setText(game.fontStats, favoriteModeString);
@@ -311,7 +317,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (4 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
                 0,
-                1);
+                textOpacity);
 
         String favoriteTrackString = FAVORITE_TRACK + game.stats.favoriteTrack;
         game.layout.setText(game.fontStats, favoriteTrackString);
@@ -323,7 +329,7 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 (2 * game.partitionSize) + inputWidth + (game.layout.width / 2),
                 game.camera.viewportHeight - game.partitionSize - (5 * (inputHeight / (NUM_STATS_ELEMENTS + 1))),
                 0,
-                1);
+                textOpacity);
     }
 
     public void drawTitle() {

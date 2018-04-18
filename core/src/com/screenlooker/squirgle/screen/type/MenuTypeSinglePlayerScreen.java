@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Button;
@@ -15,6 +16,7 @@ import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
+import com.screenlooker.squirgle.util.FontUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,14 +105,17 @@ public class MenuTypeSinglePlayerScreen implements Screen, InputProcessor {
         inputShapeRadius = inputWidth > inputHeightType ? (inputHeightType / 2) : (inputWidth / 2);
         squirgleHeightOffset = inputShapeRadius / 4;
 
+        game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
+        game.setUpFontNumPlayers(MathUtils.round(symbolRadius / 2));
+
         touchPoint = new Vector3();
 
-        squirgleColor = ColorUtils.randomColor();
-        battleColor = ColorUtils.randomColor();
-        timeAttackColor = ColorUtils.randomColor();
-        timeBattleColor = ColorUtils.randomColor();
-        tranceColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        squirgleColor = ColorUtils.COLOR_SKY_BLUE;
+        battleColor = ColorUtils.COLOR_BLUE;
+        timeAttackColor = ColorUtils.COLOR_ORANGE;
+        timeBattleColor = ColorUtils.COLOR_VERMILLION;
+        tranceColor = ColorUtils.COLOR_BLUISH_GREEN;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         squirgleTouched = false;
         battleTouched = false;
@@ -254,6 +259,7 @@ public class MenuTypeSinglePlayerScreen implements Screen, InputProcessor {
                 for (Button button : buttonList) {
                     button.drawText();
                 }
+                drawTitleText();
             }
         }
 
@@ -365,12 +371,19 @@ public class MenuTypeSinglePlayerScreen implements Screen, InputProcessor {
                 symbolRadius / 2,
                 (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE);
-        game.draw.drawFace(game.partitionSize + (inputWidth / 2),
-                game.camera.viewportHeight / 4,
-                symbolRadius / 2,
-                (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
+    }
+
+    public void drawTitleText() {
+        FontUtils.printText(game.batch,
+                game.fontNumPlayers,
+                game.layout,
                 Color.WHITE,
-                Color.BLACK);
+                Button.SINGLE_PLAYER_SYMBOL_STRING,
+                game.partitionSize + (inputWidth / 2),
+                game.camera.viewportHeight / 4,
+                0,
+                1);
+
     }
 
     public void transitionSquirgleColors() {

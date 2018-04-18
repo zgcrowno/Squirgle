@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.Button;
@@ -78,6 +79,8 @@ public class MenuHelpAdditionColorScreen implements Screen, InputProcessor {
 
         symbolRadius = inputWidth > inputHeightTable ? inputHeightTable / 2 : inputWidth / 2;
 
+        game.setUpFontButton(MathUtils.round(symbolRadius / 2.75f));
+
         touchPoint = new Vector3();
 
         squareColor = ColorUtils.randomTransitionColor();
@@ -89,7 +92,7 @@ public class MenuHelpAdditionColorScreen implements Screen, InputProcessor {
         while(triangleColor.equals(circleColor) || triangleColor.equals(squareColor)) {
             triangleColor = ColorUtils.randomTransitionColor();
         }
-        backColor = ColorUtils.randomColor();
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         squirgleShapeList = new ArrayList<Shape>();
         squirgleShapeList.add(new Shape(Shape.SQUARE, 0, squareColor, null, 0, new Vector2()));
@@ -295,7 +298,7 @@ public class MenuHelpAdditionColorScreen implements Screen, InputProcessor {
                     squirglePrompt.setCoordinates(new Vector2(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),
                             game.camera.viewportHeight - (game.partitionSize + (inputHeightTable / 2) + ((j - 1) * game.partitionSize) + ((j - 1) * inputHeightTable)) - (symbolRadius / 4)));
                     game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
-                    game.draw.drawShapes(false, squirgleShapeList, squirglePrompt, false);
+                    game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
                 } else {
                     //Draw dash
                     game.draw.drawDash(inputWidth + (2 * game.partitionSize) + (inputWidth / 2) + ((i - 1) * game.partitionSize) + ((i - 1) * inputWidth),

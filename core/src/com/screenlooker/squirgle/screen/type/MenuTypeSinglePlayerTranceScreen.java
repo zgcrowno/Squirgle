@@ -100,13 +100,14 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
 
         inputShapeRadius = inputWidth > inputHeightMiddle ? (inputHeightMiddle / 2) : (inputWidth / 2);
 
-        game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
+        game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
+        game.setUpFontNumPlayers(MathUtils.round(symbolRadius / 3));
 
         touchPoint = new Vector3();
 
-        playColor = ColorUtils.randomColor();
-        musicColor = ColorUtils.randomColor();
-        backColor = ColorUtils.randomColor();
+        playColor = ColorUtils.COLOR_BLUISH_GREEN;
+        musicColor = ColorUtils.COLOR_BLUE;
+        backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
         playTouched = false;
         backTouched = false;
@@ -127,73 +128,76 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
                 musicColor,
                 Color.BLACK,
                 game);
-        musicPointillismButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+
+        game.setUpFontTrackName(MathUtils.round(musicButton.symbolRadius / FONT_TRACK_NAME_DIVISOR));
+
+        musicPointillismButton = new Button(game.camera.viewportWidth / 2 + ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (0 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
-                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (inputWidth / 2) - game.partitionSize - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 (7 * game.fontTrackName.getCapHeight()) / 4,
                 Button.BUTTON_MUSIC_POINTILLISM,
                 musicColor,
                 Color.BLACK,
                 game);
-        musicLineageButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+        musicLineageButton = new Button(game.camera.viewportWidth / 2 + ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (1 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
-                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (inputWidth / 2) - game.partitionSize - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 (7 * game.fontTrackName.getCapHeight()) / 4,
                 Button.BUTTON_MUSIC_LINEAGE,
                 musicColor,
                 Color.BLACK,
                 game);
-        musicTriTheWaltzButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+        musicTriTheWaltzButton = new Button(game.camera.viewportWidth / 2 + ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (2 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
-                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (inputWidth / 2) - game.partitionSize - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 (7 * game.fontTrackName.getCapHeight()) / 4,
                 Button.BUTTON_MUSIC_TRI_THE_WALTZ,
                 musicColor,
                 Color.BLACK,
                 game);
-        musicSquaredOffButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+        musicSquaredOffButton = new Button(game.camera.viewportWidth / 2 + ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (3 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
-                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (inputWidth / 2) - game.partitionSize - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 (7 * game.fontTrackName.getCapHeight()) / 4,
                 Button.BUTTON_MUSIC_SQUARED_OFF,
                 musicColor,
                 Color.BLACK,
                 game);
-        musicPentUpButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+        musicPentUpButton = new Button(game.camera.viewportWidth / 2 + ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (4 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
-                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (inputWidth / 2) - game.partitionSize - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 (7 * game.fontTrackName.getCapHeight()) / 4,
                 Button.BUTTON_MUSIC_PENT_UP,
                 musicColor,
                 Color.BLACK,
                 game);
-        musicHexidecibelButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+        musicHexidecibelButton = new Button(game.camera.viewportWidth / 2 + ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (5 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
-                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (inputWidth / 2) - game.partitionSize - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 (7 * game.fontTrackName.getCapHeight()) / 4,
                 Button.BUTTON_MUSIC_HEXIDECIBEL,
                 musicColor,
                 Color.BLACK,
                 game);
-        musicInterseptorButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+        musicInterseptorButton = new Button(game.camera.viewportWidth / 2 + ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (6 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
-                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (inputWidth / 2) - game.partitionSize - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 (7 * game.fontTrackName.getCapHeight()) / 4,
                 Button.BUTTON_MUSIC_INTERSEPTOR,
                 musicColor,
                 Color.BLACK,
                 game);
-        musicRoctopusButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+        musicRoctopusButton = new Button(game.camera.viewportWidth / 2 + ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (7 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
-                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (inputWidth / 2) - game.partitionSize - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 (7 * game.fontTrackName.getCapHeight()) / 4,
                 Button.BUTTON_MUSIC_ROCTOPUS,
                 musicColor,
                 Color.BLACK,
                 game);
-        musicNonplussedButton = new Button(game.camera.viewportWidth / 2 + ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+        musicNonplussedButton = new Button(game.camera.viewportWidth / 2 + ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 game.partitionSize + inputHeightMiddle - ((inputHeightMiddle - (inputShapeRadius * 2)) / 2) - (game.fontTrackName.getCapHeight() * 2) - (8 * ((3 * game.fontTrackName.getCapHeight()) / 2)),
-                (inputWidth / 2) - game.partitionSize - ((inputShapeRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
+                (inputWidth / 2) - game.partitionSize - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 (7 * game.fontTrackName.getCapHeight()) / 4,
                 Button.BUTTON_MUSIC_NONPLUSSED,
                 musicColor,
@@ -261,6 +265,7 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
                 for (Button button : buttonList) {
                     button.drawText();
                 }
+                drawTitleText();
             }
         }
     }
@@ -371,17 +376,22 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
                 (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE);
 
-        game.draw.drawFace(game.camera.viewportWidth / 6,
-                game.camera.viewportHeight / 2,
-                symbolRadius / 3,
-                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                Color.BLACK);
-
         game.draw.drawTranceSymbol(game.camera.viewportWidth / 6,
                 game.camera.viewportHeight / 6,
                 symbolRadius / 3,
                 Color.WHITE,
                 Color.BLACK);
+    }
+
+    public void drawTitleText() {
+        FontUtils.printText(game.batch,
+                game.fontNumPlayers,
+                game.layout,
+                Color.WHITE,
+                Button.SINGLE_PLAYER_SYMBOL_STRING,
+                game.camera.viewportWidth / 6,
+                game.camera.viewportHeight / 2,
+                0,
+                1);
     }
 }

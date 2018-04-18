@@ -19,16 +19,23 @@ public class ColorUtils {
     public static final int VERMILLION = 4;
     public static final int REDDISH_PURPLE = 5;
 
+    public static final Color COLOR_ORANGE = new Color(230/MAX_RGB_VALUE, 159/MAX_RGB_VALUE, 0, 1);
+    public static final Color COLOR_SKY_BLUE = new Color(86/MAX_RGB_VALUE, 180/MAX_RGB_VALUE, 233/MAX_RGB_VALUE, 1);
+    public static final Color COLOR_BLUISH_GREEN = new Color(0, 158/MAX_RGB_VALUE, 115/MAX_RGB_VALUE, 1);
+    public static final Color COLOR_BLUE = new Color(0, 114/MAX_RGB_VALUE, 178/MAX_RGB_VALUE, 1);
+    public static final Color COLOR_VERMILLION = new Color(213/MAX_RGB_VALUE, 94/MAX_RGB_VALUE, 0, 1);
+    public static final Color COLOR_REDDISH_PURPLE = new Color(204/MAX_RGB_VALUE, 121/MAX_RGB_VALUE, 167/MAX_RGB_VALUE, 1);
+
     public static Color randomColor() {
         final int color = MathUtils.random(REDDISH_PURPLE);
 
         switch(color) {
-            case ORANGE : return new Color(230/MAX_RGB_VALUE, 159/MAX_RGB_VALUE, 0, 1);
-            case SKY_BLUE : return new Color(86/MAX_RGB_VALUE, 180/MAX_RGB_VALUE, 233/MAX_RGB_VALUE, 1);
-            case BLUISH_GREEN : return new Color(0, 158/MAX_RGB_VALUE, 115/MAX_RGB_VALUE, 1);
-            case BLUE : return new Color(0, 114/MAX_RGB_VALUE, 178/MAX_RGB_VALUE, 1);
-            case VERMILLION : return new Color(213/MAX_RGB_VALUE, 94/MAX_RGB_VALUE, 0, 1);
-            case REDDISH_PURPLE : return new Color(204/MAX_RGB_VALUE, 121/MAX_RGB_VALUE, 167/MAX_RGB_VALUE, 1);
+            case ORANGE : return COLOR_ORANGE;
+            case SKY_BLUE : return COLOR_SKY_BLUE;
+            case BLUISH_GREEN : return COLOR_BLUISH_GREEN;
+            case BLUE : return COLOR_BLUE;
+            case VERMILLION : return COLOR_VERMILLION;
+            case REDDISH_PURPLE : return COLOR_REDDISH_PURPLE;
         }
 
         return null;
