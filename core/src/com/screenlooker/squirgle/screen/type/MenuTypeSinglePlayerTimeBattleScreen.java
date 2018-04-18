@@ -151,6 +151,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
 
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
         game.setUpFontOptions(MathUtils.round(inputWidth / FONT_OPTIONS_SIZE_DIVISOR));
+        game.setUpFontNumPlayers(MathUtils.round(symbolRadius / 3));
 
         touchPoint = new Vector3();
 
@@ -438,6 +439,7 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
                 for (Button button : buttonList) {
                     button.drawText();
                 }
+                drawTitleText();
             }
         }
     }
@@ -547,12 +549,6 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
                 symbolRadius / 3,
                 (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE);
-        game.draw.drawFace(game.partitionSize + (inputWidth / 2),
-                game.camera.viewportHeight / 2,
-                symbolRadius / 3,
-                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                Color.BLACK);
 
         game.shapeRendererFilled.setColor(Color.WHITE);
         game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 6) - (symbolRadius / 3),
@@ -573,5 +569,17 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
                 (symbolRadius / 2) / 3,
                 Color.WHITE,
                 Color.BLACK);
+    }
+
+    public void drawTitleText() {
+        FontUtils.printText(game.batch,
+                game.fontNumPlayers,
+                game.layout,
+                Color.WHITE,
+                Button.SINGLE_PLAYER_SYMBOL_STRING,
+                game.partitionSize + (inputWidth / 2),
+                game.camera.viewportHeight / 2,
+                0,
+                1);
     }
 }

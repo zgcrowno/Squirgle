@@ -19,6 +19,7 @@ import com.screenlooker.squirgle.screen.help.MenuHelpScreen;
 import com.screenlooker.squirgle.screen.options.MenuOptionsScreen;
 import com.screenlooker.squirgle.screen.type.MenuTypeScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
+import com.screenlooker.squirgle.util.FontUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,8 @@ public class MainMenuScreen implements Screen, InputProcessor {
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_PARTITIONS_VERTICAL = NUM_INPUTS_VERTICAL + 1;
 
+    private final static String SQUIRGLE_STRING = "SQUIRGLE";
+
     private float inputWidth;
     private float inputHeight;
 
@@ -39,6 +42,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
     private float squirgleRadius;
     private float squirgleHeightOffset;
+    private float squirgleTextHeightOffset;
 
     private Vector3 touchPoint;
 
@@ -82,8 +86,10 @@ public class MainMenuScreen implements Screen, InputProcessor {
         symbolRadius = inputWidth > inputHeight ? inputHeight / 2 : inputWidth / 2;
 
         squirgleRadius = game.camera.viewportHeight / 4;
-        squirgleHeightOffset = squirgleRadius / 4;
+        squirgleHeightOffset = squirgleRadius / 16;
+        squirgleTextHeightOffset = squirgleRadius / 1.735f;
 
+        game.setUpFontSquirgleMainMenu(MathUtils.round(squirgleRadius / 2));
         game.setUpFontButton(MathUtils.round(symbolRadius / 2.75f));
 
         touchPoint = new Vector3();
@@ -201,6 +207,7 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 for (Button button : buttonList) {
                     button.drawText();
                 }
+                drawSquirgleText();
             }
         }
     }
@@ -302,6 +309,19 @@ public class MainMenuScreen implements Screen, InputProcessor {
             }
         }
         return false;
+    }
+
+    public void drawSquirgleText() {
+        game.layout.setText(game.fontSquirgleMainMenu, SQUIRGLE_STRING);
+        FontUtils.printText(game.batch,
+                game.fontSquirgleMainMenu,
+                game.layout,
+                triangleColor,
+                SQUIRGLE_STRING,
+                squirglePrompt.getCoordinates().x,
+                squirglePrompt.getCoordinates().y - squirglePrompt.getRadius() + squirgleTextHeightOffset - (game.layout.height / 2),
+                0,
+                buttonList.get(0).textOpacity);
     }
 
     public void transitionSquirgleColors() {

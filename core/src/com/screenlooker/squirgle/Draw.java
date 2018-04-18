@@ -1137,7 +1137,7 @@ public class Draw {
         //Exit
         game.shapeRendererFilled.setColor(resultsColor);
         game.shapeRendererFilled.circle(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS);
-        drawX(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, symbolColor);
+        drawStopSymbol(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS, symbolColor);
     }
 
     public void drawResultsInputButtonsTutorial(Color resultsColor, Vector2 inputPlaySpawn, Vector2 inputHomeSpawn, Vector2 inputExitSpawn) {
@@ -1156,7 +1156,7 @@ public class Draw {
         //Exit
         game.shapeRendererFilled.setColor(resultsColor);
         game.shapeRendererFilled.circle(inputExitSpawn.x, inputExitSpawn.y, TutorialScreen.INPUT_RADIUS);
-        drawX(inputExitSpawn.x, inputExitSpawn.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, symbolColor);
+        drawStopSymbol(inputExitSpawn.x, inputExitSpawn.y, TutorialScreen.INPUT_RADIUS, symbolColor);
     }
 
     public void drawEquation(boolean localMobilePlayer2, String player, Shape lastShapeTouched, Shape lastPromptShape, Shape lastTargetShape, float equationWidth) {
@@ -2642,47 +2642,76 @@ public class Draw {
     }
 
     public void drawPlayButton(float x, float y, float radius, float lineWidth, Color color) {
-        game.shapeRendererFilled.setColor(color);
-        game.shapeRendererFilled.rectLine(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth);
-        game.shapeRendererFilled.rectLine(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                x + radius - lineWidth,
+        float xOffset = radius / 4;
+//        game.shapeRendererFilled.rectLine(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth);
+//        game.shapeRendererFilled.rectLine(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                x + radius - lineWidth,
+//                y,
+//                lineWidth);
+//        game.shapeRendererFilled.rectLine(x + radius - lineWidth,
+//                y,
+//                x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth);
+//        drawPoint(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth,
+//                color);
+//        drawPoint(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth,
+//                color);
+//        drawPoint(x + radius - lineWidth,
+//                y,
+//                lineWidth,
+//                color);
+        triangle(x + radius - xOffset,
                 y,
-                lineWidth);
-        game.shapeRendererFilled.rectLine(x + radius - lineWidth,
-                y,
-                x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth);
-        drawPoint(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth,
-                color);
-        drawPoint(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth,
-                color);
-        drawPoint(x + radius - lineWidth,
-                y,
-                lineWidth,
+                x - (MathUtils.cosDeg(SIXTY_DEGREES) * radius) - xOffset,
+                y + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+                x - (MathUtils.cosDeg(SIXTY_DEGREES) * radius) - xOffset,
+                y - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+                radius / 20,
                 color);
     }
 
     public void drawPauseSymbol(float x, float y, float radius, float lineWidth, Color color) {
-        drawLine(x - (radius / 4),
-                y,
-                radius / 2,
+//        drawLine(x - (radius / 4),
+//                y,
+//                radius / 2,
+//                lineWidth,
+//                color);
+//        drawLine(x + (radius / 4),
+//                y,
+//                radius / 2,
+//                lineWidth,
+//                color);
+        game.shapeRendererFilled.setColor(color);
+        game.shapeRendererFilled.rect(x - (radius / 4) - (lineWidth / 2),
+                y - (radius / 2),
                 lineWidth,
-                color);
-        drawLine(x + (radius / 4),
-                y,
-                radius / 2,
+                radius);
+        game.shapeRendererFilled.rect(x + (radius / 4) - (lineWidth / 2),
+                y - (radius / 2),
                 lineWidth,
-                color);
+                radius);
+        game.shapeRendererFilled.circle(x - (radius / 4),
+                y - (radius / 2),
+                lineWidth / 2);
+        game.shapeRendererFilled.circle(x + (radius / 4),
+                y - (radius / 2),
+                lineWidth / 2);
+        game.shapeRendererFilled.circle(x - (radius / 4),
+                y + (radius / 2),
+                lineWidth / 2);
+        game.shapeRendererFilled.circle(x + (radius / 4),
+                y + (radius / 2),
+                lineWidth / 2);
     }
 
     public void drawSoundSymbol(float x, float y, float radius, float lineWidth, Color color) {
@@ -2699,33 +2728,49 @@ public class Draw {
     }
 
     public void drawBackButton(float x, float y, float radius, float lineWidth, Color color) {
-        game.shapeRendererFilled.setColor(color);
-        game.shapeRendererFilled.rectLine(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                x - radius + lineWidth,
+        float xOffset = radius / 3;
+//        game.shapeRendererFilled.rectLine(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                x - radius + lineWidth,
+//                y,
+//                lineWidth);
+//        game.shapeRendererFilled.rectLine(x - radius + lineWidth,
+//                y,
+//                x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth);
+//        game.shapeRendererFilled.rectLine(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth);
+//        drawPoint(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth,
+//                color);
+//        drawPoint(x - radius + lineWidth,
+//                y,
+//                lineWidth,
+//                color);
+//        drawPoint(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth,
+//                color);
+        triangle(x - radius + xOffset,
                 y,
-                lineWidth);
-        game.shapeRendererFilled.rectLine(x - radius + lineWidth,
-                y,
-                x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth);
-        game.shapeRendererFilled.rectLine(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth);
-        drawPoint(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth,
+                x - (radius / 2) + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius / 2)) + xOffset,
+                y - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius / 2)),
+                x - (radius / 2) + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius / 2)) + xOffset,
+                y + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius / 2)),
+                radius / 20,
                 color);
-        drawPoint(x - radius + lineWidth,
+        triangle(x - (radius / 2) + xOffset,
                 y,
-                lineWidth,
-                color);
-        drawPoint(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth,
+                x + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius / 2)) + xOffset,
+                y - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius / 2)),
+                x + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius / 2)) + xOffset,
+                y + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius / 2)),
+                radius / 20,
                 color);
     }
 
@@ -2749,55 +2794,97 @@ public class Draw {
         drawPoint(x + (radius / 2.575f), y - (radius / 2.575f), lineWidth, color);
     }
 
+    public void drawStopSymbol(float x, float y, float radius, Color color) {
+        rect(x - (MathUtils.sinDeg(FORTY_FIVE_DEGREES) * radius),
+                y - (MathUtils.cosDeg(FORTY_FIVE_DEGREES) * radius),
+                2 * (MathUtils.sinDeg(FORTY_FIVE_DEGREES) * radius),
+                2 * (MathUtils.cosDeg(FORTY_FIVE_DEGREES) * radius),
+                color);
+    }
+
     public void drawChevronLeft(float x, float y, float radius, float lineWidth, Color color) {
-        game.shapeRendererFilled.setColor(color);
-        game.shapeRendererFilled.rectLine(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                x - radius + lineWidth,
+        float xOffset = radius / 3;
+//        game.shapeRendererFilled.rectLine(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                x - radius + lineWidth,
+//                y,
+//                lineWidth);
+//        game.shapeRendererFilled.rectLine(x - radius + lineWidth,
+//                y,
+//                x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth);
+//        drawPoint(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth,
+//                color);
+//        drawPoint(x - radius + lineWidth,
+//                y,
+//                lineWidth,
+//                color);
+//        drawPoint(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth,
+//                color);
+
+        triangle(x - radius + xOffset,
                 y,
-                lineWidth);
-        game.shapeRendererFilled.rectLine(x - radius + lineWidth,
-                y,
-                x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth);
-        drawPoint(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth,
+                x - (radius / 2) + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius / 2)) + xOffset,
+                y - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius / 2)),
+                x - (radius / 2) + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius / 2)) + xOffset,
+                y + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius / 2)),
+                radius / 20,
                 color);
-        drawPoint(x - radius + lineWidth,
+        triangle(x - (radius / 2) + xOffset,
                 y,
-                lineWidth,
-                color);
-        drawPoint(x + (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth,
+                x + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius / 2)) + xOffset,
+                y - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius / 2)),
+                x + (MathUtils.cosDeg(SIXTY_DEGREES) * (radius / 2)) + xOffset,
+                y + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius / 2)),
+                radius / 20,
                 color);
     }
 
     public void drawChevronRight(float x, float y, float radius, float lineWidth, Color color) {
-        game.shapeRendererFilled.setColor(color);
-        game.shapeRendererFilled.rectLine(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                x + radius - lineWidth,
+        float xOffset = radius / 3;
+//        game.shapeRendererFilled.rectLine(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                x + radius - lineWidth,
+//                y,
+//                lineWidth);
+//        game.shapeRendererFilled.rectLine(x + radius - lineWidth,
+//                y,
+//                x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth);
+//        drawPoint(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth,
+//                color);
+//        drawPoint(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
+//                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
+//                lineWidth,
+//                color);
+//        drawPoint(x + radius - lineWidth,
+//                y,
+//                lineWidth,
+//                color);
+
+        triangle(x + radius - xOffset,
                 y,
-                lineWidth);
-        game.shapeRendererFilled.rectLine(x + radius - lineWidth,
-                y,
-                x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth);
-        drawPoint(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y + (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth,
+                x + (radius / 2) - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius / 2)) - xOffset,
+                y - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius / 2)),
+                x + (radius / 2) - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius / 2)) - xOffset,
+                y + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius / 2)),
+                radius / 20,
                 color);
-        drawPoint(x - (MathUtils.sinDeg(SIXTY_DEGREES) * radius),
-                y - (MathUtils.cosDeg(SIXTY_DEGREES) * radius),
-                lineWidth,
-                color);
-        drawPoint(x + radius - lineWidth,
+        triangle(x + (radius / 2) - xOffset,
                 y,
-                lineWidth,
+                x - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius / 2)) - xOffset,
+                y - (MathUtils.sinDeg(SIXTY_DEGREES) * (radius / 2)),
+                x - (MathUtils.cosDeg(SIXTY_DEGREES) * (radius / 2)) - xOffset,
+                y + (MathUtils.sinDeg(SIXTY_DEGREES) * (radius / 2)),
+                radius / 20,
                 color);
     }
 
@@ -2928,12 +3015,12 @@ public class Draw {
         game.shapeRendererFilled.circle(x - (radius / 2), y - (radius / 2), lineWidth);
         game.shapeRendererFilled.circle(x + (radius / 2), y + (radius / 2), lineWidth);
 
-        drawPoint(x - (radius / 4),
-                y + (radius / 4),
+        drawPoint(x - (radius / 3),
+                y + (radius / 3),
                 lineWidth,
                 color);
-        drawPoint(x + (radius / 4),
-                y - (radius / 4),
+        drawPoint(x + (radius / 3),
+                y - (radius / 3),
                 lineWidth,
                 color);
     }
@@ -3102,14 +3189,14 @@ public class Draw {
     public void drawSkull(float x, float y, float radius, Color primaryColor, Color secondaryColor) {
         game.shapeRendererFilled.setColor(primaryColor);
         game.shapeRendererFilled.circle(x, (y + radius / 8), (3 * radius) / 4);
-        game.shapeRendererFilled.rect(x - (radius / 6), y - radius, radius / 3, radius / 2);
+        game.shapeRendererFilled.rect(x - (radius / 3), y - radius, (2 * radius) / 3, radius / 2);
 
         game.shapeRendererFilled.setColor(secondaryColor);
-        game.shapeRendererFilled.circle(x - (radius / 3), y + (radius / 6), radius / 4);
-        game.shapeRendererFilled.circle(x + (radius / 3), y + (radius / 6), radius / 4);
+        drawX(x - (radius / 3), y + (radius / 6), radius / 4, (radius / 4) / LINE_WIDTH_DIVISOR, secondaryColor);
+        drawX(x + (radius / 3), y + (radius / 6), radius / 4, (radius / 4) / LINE_WIDTH_DIVISOR, secondaryColor);
         game.shapeRendererFilled.triangle(x - (radius / 12), y - (radius / 12) - (radius / 6), x + (radius / 12), y - (radius / 12) - (radius / 6), x, y + (radius / 12) - (radius / 6));
-        rect(x - (radius / 10), y - radius, radius / 15, radius / 3, secondaryColor);
-        rect(x + (radius / 30), y - radius, radius / 15, radius / 3, secondaryColor);
+        rect(x - (radius / 5), y - radius, (2 * radius) / 15, radius / 3, secondaryColor);
+        rect(x + (radius / 15), y - radius, (2 * radius) / 15, radius / 3, secondaryColor);
     }
 
     public void rect(float x, float y, float width, float height, Color color) {
@@ -3122,5 +3209,17 @@ public class Draw {
         game.shapeRendererFilled.circle(x + cornerRadius, y + cornerRadius, cornerRadius);
         game.shapeRendererFilled.circle(x + width - cornerRadius, y + cornerRadius, cornerRadius);
         game.shapeRendererFilled.circle(x + width - cornerRadius, y + height - cornerRadius, cornerRadius);
+    }
+
+    public void triangle(float x1, float y1, float x2, float y2, float x3, float y3, float cornerRadius, Color color) {
+        //TODO: Be careful with this method, as the way its written could (possibly?) result in overstepping radius bounds.
+        game.shapeRendererFilled.setColor(color);
+        game.shapeRendererFilled.rectLine(x1, y1, x2, y2, 2 * cornerRadius);
+        game.shapeRendererFilled.rectLine(x2, y2, x3, y3, 2 * cornerRadius);
+        game.shapeRendererFilled.rectLine(x3, y3, x1, y1, 2 * cornerRadius);
+        game.shapeRendererFilled.circle(x1, y1, cornerRadius);
+        game.shapeRendererFilled.circle(x2, y2, cornerRadius);
+        game.shapeRendererFilled.circle(x3, y3, cornerRadius);
+        game.shapeRendererFilled.triangle(x1, y1, x2, y2, x3, y3);
     }
 }

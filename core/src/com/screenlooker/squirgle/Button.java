@@ -186,11 +186,15 @@ public class Button {
     public static final int BUTTON_HARDCORE_CHEVRON_DOWN = 168;
     public static final int BUTTON_HARDCORE_CHEVRON_UP = 169;
 
+    public static final String SINGLE_PLAYER_SYMBOL_STRING = "1P";
+    public static final String MULTIPLAYER_SYMBOL_STRING = "2P";
+
     public static final String QUESTION_MARK = "?";
     private final static String HIGHEST_SCORE = "HIGHEST SCORE: ";
-    private final static String ONE_MINUTE = "1M";
-    private final static String THREE_MINUTES = "3M";
-    private final static String FIVE_MINUTES = "5M";
+    private final static String ONE_MINUTE = "1m";
+    private final static String THREE_MINUTES = "3m";
+    private final static String FIVE_MINUTES = "5m";
+    private final static String MINUTES = "m";
 
     private static final String PLAY_STRING = "PLAY";
     private static final String OPTIONS_STRING = "OPTIONS";
@@ -498,43 +502,16 @@ public class Button {
                 break;
             }
             case BUTTON_QUIT : {
-                game.draw.drawX(centerX,
+                game.draw.drawStopSymbol(centerX,
                         symbolY,
                         symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER : {
-                symbolRadius = symbolTextOverlap > 0 ? (radius / 3) - (symbolTextOverlap / 2) : radius / 3;
-                game.draw.drawFace(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor,
-                        containerColor);
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL : {
-                symbolRadius = symbolTextOverlap > 0 ? (radius / 3) - (symbolTextOverlap / 2) : radius / 3;
-                game.shapeRendererFilled.setColor(containedColor);
-                game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 2) - radius + (radius / 3),
-                        symbolY,
-                        (game.camera.viewportWidth / 2) + radius - (radius / 3),
-                        symbolY,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR);
-                game.draw.drawFace((game.camera.viewportWidth / 2) - radius + (radius / 3),
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor,
-                        containerColor);
-                game.draw.drawFace((game.camera.viewportWidth / 2) + radius - (radius / 3),
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor,
-                        containerColor);
                 break;
             }
             case BUTTON_TYPE_BACK : {
@@ -1758,6 +1735,15 @@ public class Button {
                 break;
             }
             case BUTTON_TYPE_SINGLE_PLAYER : {
+                FontUtils.printText(game.batch,
+                        game.fontNumPlayers,
+                        game.layout,
+                        Color.BLACK,
+                        SINGLE_PLAYER_SYMBOL_STRING,
+                        symbolX,
+                        symbolY,
+                        0,
+                        1);
                 game.layout.setText(game.fontButton, SINGLE_PLAYER_STRING);
                 FontUtils.printText(game.batch,
                         game.fontButton,
@@ -1771,6 +1757,15 @@ public class Button {
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL : {
+                FontUtils.printText(game.batch,
+                        game.fontNumPlayers,
+                        game.layout,
+                        Color.BLACK,
+                        MULTIPLAYER_SYMBOL_STRING,
+                        symbolX,
+                        symbolY,
+                        0,
+                        1);
                 game.layout.setText(game.fontButton, MULTIPLAYER_STRING);
                 FontUtils.printText(game.batch,
                         game.fontButton,
@@ -3806,6 +3801,7 @@ public class Button {
     }
 
     public void drawBattleSymbol() {
+        game.layout.setText(game.fontButton, PLAY_STRING);
         game.shapeRendererFilled.setColor(containedColor);
         game.shapeRendererFilled.rectLine(x - (game.partitionSize / 2),
                     y + game.layout.height + (game.partitionSize / 2),
@@ -3819,6 +3815,7 @@ public class Button {
     }
 
     public void drawTimeBattleSymbol() {
+        game.layout.setText(game.fontButton, PLAY_STRING);
         game.shapeRendererFilled.setColor(containedColor);
         game.shapeRendererFilled.rectLine(x - (game.partitionSize / 2),
                 y + game.layout.height + (game.partitionSize / 2),
@@ -3882,7 +3879,7 @@ public class Button {
                 game.fontOptions,
                 game.layout,
                 Color.BLACK,
-                String.valueOf(game.timeAttackNumSeconds / Squirgle.ONE_MINUTE),
+                (game.timeAttackNumSeconds / Squirgle.ONE_MINUTE) + MINUTES,
                 x + ((3 * width) / 5),
                 y + (height / 2),
                 0,

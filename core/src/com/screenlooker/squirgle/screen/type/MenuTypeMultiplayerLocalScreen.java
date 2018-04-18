@@ -16,6 +16,7 @@ import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
+import com.screenlooker.squirgle.util.FontUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +92,7 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
         squirgleHeightOffset = inputShapeRadius / 4;
 
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
+        game.setUpFontNumPlayers(MathUtils.round(symbolRadius / 2));
 
         touchPoint = new Vector3();
 
@@ -201,6 +203,7 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
                 for (Button button : buttonList) {
                     button.drawText();
                 }
+                drawTitleText();
             }
         }
 
@@ -312,25 +315,18 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
                 symbolRadius / 2,
                 (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE);
+    }
 
-        game.draw.drawFace((game.camera.viewportWidth / 6) - (symbolRadius / 2) + ((symbolRadius / 2) / 3),
-                game.camera.viewportHeight / 4,
-                (symbolRadius / 2) / 3,
-                ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR,
+    public void drawTitleText() {
+        FontUtils.printText(game.batch,
+                game.fontNumPlayers,
+                game.layout,
                 Color.WHITE,
-                Color.BLACK);
-        game.draw.drawFace((game.camera.viewportWidth / 6) + (symbolRadius / 2) - ((symbolRadius / 2) / 3),
+                Button.MULTIPLAYER_SYMBOL_STRING,
+                game.partitionSize + (inputWidth / 2),
                 game.camera.viewportHeight / 4,
-                (symbolRadius / 2) / 3,
-                ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                Color.BLACK);
-        game.shapeRendererFilled.setColor(Color.WHITE);
-        game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 6) - (symbolRadius / 2) + ((symbolRadius / 2) / 3),
-                game.camera.viewportHeight / 4,
-                (game.camera.viewportWidth / 6) + (symbolRadius / 2) - ((symbolRadius / 2) / 3),
-                game.camera.viewportHeight / 4,
-                ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
+                0,
+                1);
     }
 
     public void transitionSquirgleColors() {

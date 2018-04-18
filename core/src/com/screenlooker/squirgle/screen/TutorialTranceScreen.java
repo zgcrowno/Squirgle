@@ -297,10 +297,9 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
 
     public void drawPauseQuitInput() {
         drawInputRectangle(PAUSE_QUIT);
-        game.draw.drawX(game.camera.viewportWidth / 2,
+        game.draw.drawStopSymbol(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
-                (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK);
     }
 
@@ -616,7 +615,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         primaryShapeAtThreshold = primaryShape.getRadius() >= primaryShapeThreshold;
 
         phaseOneTextOne = "Welcome to the TRANCE tutorial! Press the chevrons on either side of this text block to peruse the various instructional text that will help introduce you to the world of TRANCE.";
-        phaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] button. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, however, simply tap anywhere on your screen, and the PAUSE [||] input will appear next to the HELP [?] input for a few seconds. While the PAUSE [||] input is visible, you may press it to enter into the PAUSE menu, at which point you may press the BACK [<] button to unpause or the STOP [X] button to quit.";
+        phaseOneTextTwo = "On the right side of the screen, you will see the HELP [?] button. If, at any point in this tutorial, you wish to consult/dismiss instructional text such as this, just press the HELP [?] button. If you wish to navigate to the PAUSE menu, however, simply tap anywhere on your screen, and the PAUSE [||] input will appear next to the HELP [?] input for a few seconds. While the PAUSE [||] input is visible, you may press it to enter into the PAUSE menu, at which point you may press the BACK button to unpause or the STOP button to quit.";
         phaseOneTextThree = "The purpose of TRANCE mode is literally to listen to music while letting a dope series of SQUIRGLE shapes wash over you; that's it. There probably shouldn't even be a tutorial for this mode, as it's 99% passive. When you're ready to experience TRANCE mode in full, simply press the NEXT button to zone out until you're satisfied, at which point you ought to tap anywhere on the screen to bring up the PAUSE [||] button and quit. Note that when playing the non-tutorial version of this mode, you'll be able to choose the accompanying music track beforehand.";
 
         helpTextPhaseOneList = new ArrayList<String>();

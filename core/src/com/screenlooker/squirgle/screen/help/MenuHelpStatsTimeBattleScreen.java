@@ -42,9 +42,9 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
     private final static String HIGHEST_SCORE = "HIGHEST SCORE: ";
     private final static String NUM_WINS = "WINS: ";
     private final static String NUM_LOSSES = "LOSSES: ";
-    private final static String ONE_MINUTE = "1M";
-    private final static String THREE_MINUTES = "3M";
-    private final static String FIVE_MINUTES = "5M";
+    private final static String ONE_MINUTE = "1m";
+    private final static String THREE_MINUTES = "3m";
+    private final static String FIVE_MINUTES = "5m";
 
     private float inputWidth;
     private float inputHeight;
@@ -225,9 +225,7 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
             }
         }
 
-        if(textOpacity < 1) {
-            textOpacity += 0.05;
-        }
+        textOpacity = buttonList.get(0).textOpacity;
     }
 
     @Override

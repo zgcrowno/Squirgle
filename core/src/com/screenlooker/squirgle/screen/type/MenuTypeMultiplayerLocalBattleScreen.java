@@ -142,6 +142,7 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
         inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 2) : (inputWidth / 2);
 
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
+        game.setUpFontNumPlayers(MathUtils.round(symbolRadius / 3));
 
         touchPoint = new Vector3();
 
@@ -384,6 +385,7 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
                 for (Button button : buttonList) {
                     button.drawText();
                 }
+                drawTitleText();
             }
         }
 
@@ -496,25 +498,6 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
                 (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE);
 
-        game.draw.drawFace((game.camera.viewportWidth / 6) - (symbolRadius / 3) + ((symbolRadius / 3) / 3),
-                game.camera.viewportHeight / 2,
-                (symbolRadius / 3) / 3,
-                ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                Color.BLACK);
-        game.draw.drawFace((game.camera.viewportWidth / 6) + (symbolRadius / 3) - ((symbolRadius / 3) / 3),
-                game.camera.viewportHeight / 2,
-                (symbolRadius / 3) / 3,
-                ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                Color.BLACK);
-        game.shapeRendererFilled.setColor(Color.WHITE);
-        game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 6) - (symbolRadius / 3) + ((symbolRadius / 3) / 3),
-                game.camera.viewportHeight / 2,
-                (game.camera.viewportWidth / 6) + (symbolRadius / 3) - ((symbolRadius / 3) / 3),
-                game.camera.viewportHeight / 2,
-                ((symbolRadius / 3) / 3) / Draw.LINE_WIDTH_DIVISOR);
-
         game.shapeRendererFilled.setColor(Color.WHITE);
         game.shapeRendererFilled.rectLine((game.camera.viewportWidth / 6) - (symbolRadius / 3),
                 (game.camera.viewportHeight / 6) - (symbolRadius / 3),
@@ -528,6 +511,18 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
         game.draw.orientAndDrawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
         game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
         game.draw.orientAndDrawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
+    }
+
+    public void drawTitleText() {
+        FontUtils.printText(game.batch,
+                game.fontNumPlayers,
+                game.layout,
+                Color.WHITE,
+                Button.MULTIPLAYER_SYMBOL_STRING,
+                game.partitionSize + (inputWidth / 2),
+                game.camera.viewportHeight / 2,
+                0,
+                1);
     }
 
     public void transitionSquirgleColors() {

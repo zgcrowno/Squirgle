@@ -115,6 +115,8 @@ public class MenuTypeScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 game);
 
+        game.setUpFontNumPlayers(MathUtils.round(singlePlayerButton.symbolRadius));
+
         buttonList = new ArrayList<Button>();
         buttonList.add(singlePlayerButton);
         buttonList.add(multiplayerLocalButton);

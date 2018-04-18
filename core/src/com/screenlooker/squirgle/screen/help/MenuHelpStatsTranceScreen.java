@@ -140,9 +140,7 @@ public class MenuHelpStatsTranceScreen implements Screen, InputProcessor {
             }
         }
 
-        if(textOpacity < 1) {
-            textOpacity += 0.05;
-        }
+        textOpacity = buttonList.get(0).textOpacity;
     }
 
     @Override

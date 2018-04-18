@@ -247,10 +247,9 @@ public class TranceScreen implements Screen, InputProcessor {
 
     public void drawPauseQuitInput() {
         drawInputRectangle(PAUSE_QUIT);
-        game.draw.drawX(game.camera.viewportWidth / 2,
+        game.draw.drawStopSymbol(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
-                (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK);
     }
 
@@ -376,7 +375,7 @@ public class TranceScreen implements Screen, InputProcessor {
     }
 
     public void setUpNonFinalNonStaticData() {
-        promptIncrease = 1.07f;
+        promptIncrease = 1.03f;
         promptShape = new Shape(MathUtils.random(Shape.NONAGON),
                 INIT_PROMPT_RADIUS,
                 ColorUtils.randomColor(),

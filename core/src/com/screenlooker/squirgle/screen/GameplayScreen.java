@@ -651,10 +651,9 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     public void drawPauseQuitInput() {
         drawInputRectangle(PAUSE_QUIT);
-        game.draw.drawX(game.camera.viewportWidth / 2,
+        game.draw.drawStopSymbol(game.camera.viewportWidth / 2,
                 game.camera.viewportHeight / 2,
                 PAUSE_INPUT_WIDTH / 2,
-                (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK);
     }
 

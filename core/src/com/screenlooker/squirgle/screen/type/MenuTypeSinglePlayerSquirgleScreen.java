@@ -140,6 +140,7 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
         inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 2) : (inputWidth / 2);
 
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
+        game.setUpFontNumPlayers(MathUtils.round(symbolRadius / 3));
 
         touchPoint = new Vector3();
 
@@ -372,6 +373,7 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
                 for (Button button : buttonList) {
                     button.drawText();
                 }
+                drawTitleText();
             }
         }
 
@@ -484,15 +486,20 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
                 (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE);
 
-        game.draw.drawFace(game.partitionSize + (inputWidth / 2),
-                game.camera.viewportHeight / 2,
-                symbolRadius / 3,
-                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                Color.BLACK);
-
         game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
         game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
+    }
+
+    public void drawTitleText() {
+        FontUtils.printText(game.batch,
+                game.fontNumPlayers,
+                game.layout,
+                Color.WHITE,
+                Button.SINGLE_PLAYER_SYMBOL_STRING,
+                game.partitionSize + (inputWidth / 2),
+                game.camera.viewportHeight / 2,
+                0,
+                1);
     }
 
     public void transitionSquirgleColors() {

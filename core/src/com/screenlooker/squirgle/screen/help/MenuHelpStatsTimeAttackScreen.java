@@ -39,9 +39,9 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
     private final static float FONT_STATS_SIZE_DIVISOR = 55.5f;
 
     private final static String HIGHEST_SCORE = "HIGHEST SCORE: ";
-    private final static String ONE_MINUTE = "1M";
-    private final static String THREE_MINUTES = "3M";
-    private final static String FIVE_MINUTES = "5M";
+    private final static String ONE_MINUTE = "1m";
+    private final static String THREE_MINUTES = "3m";
+    private final static String FIVE_MINUTES = "5m";
 
     private float inputWidth;
     private float inputHeight;
@@ -178,9 +178,7 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
             }
         }
 
-        if(textOpacity < 1) {
-            textOpacity += 0.05;
-        }
+        textOpacity = buttonList.get(0).textOpacity;
     }
 
     @Override

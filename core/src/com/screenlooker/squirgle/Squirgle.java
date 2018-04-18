@@ -143,6 +143,8 @@ public class Squirgle extends Game {
 	public BitmapFont fontButton;
 	public BitmapFont fontHardcore;
 	public BitmapFont fontOptions;
+	public BitmapFont fontNumPlayers;
+	public BitmapFont fontSquirgleMainMenu;
 	public GlyphLayout layout;
 	public FreeTypeFontGenerator generator;
 	public OrthographicCamera camera;
@@ -275,6 +277,11 @@ public class Squirgle extends Game {
 			fontHardcore.dispose();
 		if(fontOptions != null)
 			fontOptions.dispose();
+		if(fontNumPlayers != null)
+			fontNumPlayers.dispose();
+		if(fontSquirgleMainMenu != null) {
+			fontSquirgleMainMenu.dispose();
+		}
 		generator.dispose();
 		shapeRendererFilled.dispose();
 		shapeRendererLine.dispose();
@@ -423,6 +430,22 @@ public class Squirgle extends Game {
 		parameter.size = size;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
 		fontOptions = generator.generateFont(parameter);
+	}
+
+	public void setUpFontNumPlayers(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		fontNumPlayers = generator.generateFont(parameter);
+	}
+
+	public void setUpFontSquirgleMainMenu(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		fontSquirgleMainMenu = generator.generateFont(parameter);
 	}
 
 	public void setUpMusicTitleList() {

@@ -101,6 +101,7 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
         inputShapeRadius = inputWidth > inputHeightMiddle ? (inputHeightMiddle / 2) : (inputWidth / 2);
 
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
+        game.setUpFontNumPlayers(MathUtils.round(symbolRadius / 3));
 
         touchPoint = new Vector3();
 
@@ -264,6 +265,7 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
                 for (Button button : buttonList) {
                     button.drawText();
                 }
+                drawTitleText();
             }
         }
     }
@@ -374,17 +376,22 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
                 (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
                 Color.WHITE);
 
-        game.draw.drawFace(game.camera.viewportWidth / 6,
-                game.camera.viewportHeight / 2,
-                symbolRadius / 3,
-                (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                Color.WHITE,
-                Color.BLACK);
-
         game.draw.drawTranceSymbol(game.camera.viewportWidth / 6,
                 game.camera.viewportHeight / 6,
                 symbolRadius / 3,
                 Color.WHITE,
                 Color.BLACK);
+    }
+
+    public void drawTitleText() {
+        FontUtils.printText(game.batch,
+                game.fontNumPlayers,
+                game.layout,
+                Color.WHITE,
+                Button.SINGLE_PLAYER_SYMBOL_STRING,
+                game.camera.viewportWidth / 6,
+                game.camera.viewportHeight / 2,
+                0,
+                1);
     }
 }
