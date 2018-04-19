@@ -580,6 +580,9 @@ public class GameplayScreen implements Screen, InputProcessor {
         } else {
             if(multiplayer) {
                 handleInput(P2);
+                if(!game.desktop) {
+                    handleInput(P1);
+                }
             } else {
                 handleInput(P1);
             }
