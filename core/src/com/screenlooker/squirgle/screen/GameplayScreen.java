@@ -578,9 +578,10 @@ public class GameplayScreen implements Screen, InputProcessor {
         if(!splitScreen) {
             handleInput(null);
         } else {
-            handleInput(P1);
             if(multiplayer) {
                 handleInput(P2);
+            } else {
+                handleInput(P1);
             }
         }
 
@@ -1943,6 +1944,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                         transitionShape(P2, Shape.OCTAGON);
                     } else if (nonagonTouchedP2) {
                         transitionShape(P2, Shape.NONAGON);
+                    } else if (pauseTouched) {
+                        pause();
+                        pauseTouched = false;
+                        pauseBackTouched = false;
+                        pauseQuitTouched = false;
                     }
                 }
             }
