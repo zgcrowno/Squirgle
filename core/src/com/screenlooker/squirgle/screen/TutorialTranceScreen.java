@@ -169,6 +169,12 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         stage.draw();
 
         showHelpTextFooter();
+
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
     }
 
     @Override

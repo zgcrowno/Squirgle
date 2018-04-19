@@ -131,6 +131,10 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
 
         game.draw.drawVeil(veilColor, veilOpacity);
 
+        if(game.desktop) {
+            game.draw.drawCursor();
+        }
+
         game.shapeRendererFilled.end();
 
         if(veilOpacity > 0) {
@@ -142,6 +146,12 @@ public class MenuHelpStatsGeneralScreen implements Screen, InputProcessor {
                 }
                 drawStatsText();
             }
+        }
+
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
         }
 
         textOpacity = buttonList.get(0).textOpacity;

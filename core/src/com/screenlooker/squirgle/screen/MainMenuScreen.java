@@ -210,6 +210,12 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 drawSquirgleText();
             }
         }
+
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
     }
 
     @Override

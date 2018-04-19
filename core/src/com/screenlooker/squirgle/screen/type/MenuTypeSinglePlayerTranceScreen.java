@@ -268,6 +268,12 @@ public class MenuTypeSinglePlayerTranceScreen implements Screen, InputProcessor 
                 drawTitleText();
             }
         }
+
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
     }
 
     @Override

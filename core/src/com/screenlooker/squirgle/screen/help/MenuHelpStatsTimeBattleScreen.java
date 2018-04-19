@@ -225,6 +225,12 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
             }
         }
 
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
+
         textOpacity = buttonList.get(0).textOpacity;
     }
 

@@ -104,6 +104,10 @@ public class BaseUnlockScreen implements Screen, InputProcessor {
 
         game.draw.drawVeil(veilColor, veilOpacity);
 
+        if(game.desktop) {
+            game.draw.drawCursor();
+        }
+
         game.shapeRendererFilled.end();
 
         shapeRadius += RADIUS_INCREMENT;

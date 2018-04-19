@@ -276,6 +276,12 @@ public class MenuHelpTutorialBattleScreen implements Screen, InputProcessor {
             }
         }
 
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
+
         transitionSquirgleColors();
     }
 

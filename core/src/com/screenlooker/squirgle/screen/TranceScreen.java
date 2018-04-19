@@ -115,6 +115,10 @@ public class TranceScreen implements Screen, InputProcessor {
             game.draw.drawPauseInput(false, false, game);
         }
 
+        if(game.desktop) {
+            game.draw.drawCursor();
+        }
+
         game.shapeRendererFilled.end();
         game.shapeRendererLine.end();
 

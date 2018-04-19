@@ -389,6 +389,12 @@ public class MenuTypeMultiplayerLocalBattleScreen implements Screen, InputProces
             }
         }
 
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
+
         transitionSquirgleColors();
     }
 

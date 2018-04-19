@@ -29,6 +29,12 @@ public class CreditsScreen implements Screen, InputProcessor {
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
         game.shapeRendererFilled.end();
+
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
     }
 
     @Override

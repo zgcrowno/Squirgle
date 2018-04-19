@@ -230,6 +230,9 @@ public class Squirgle extends Game {
 		trackMapFull = new HashMap<Integer, Music>();
 		trackMapPhase = new HashMap<Integer, List<Music>>();
 
+		//This hides the cursor (so I can replace it with a custom one) on desktop
+		Gdx.input.setCursorCatched(true);
+
 		//manager.load("images/planarGazerLogoSpritesheet.atlas", TextureAtlas.class);
 
 		setUpMusicTitleList();

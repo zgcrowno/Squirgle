@@ -377,6 +377,12 @@ public class MenuTypeSinglePlayerSquirgleScreen implements Screen, InputProcesso
             }
         }
 
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
+
         transitionSquirgleColors();
     }
 

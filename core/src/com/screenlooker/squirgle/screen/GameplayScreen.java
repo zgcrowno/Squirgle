@@ -457,6 +457,12 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         drawText();
 
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
+
         gameOver();
 
         if(!splitScreen) {

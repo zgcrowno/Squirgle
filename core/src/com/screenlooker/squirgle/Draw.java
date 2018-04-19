@@ -1,5 +1,6 @@
 package com.screenlooker.squirgle;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -3221,5 +3222,28 @@ public class Draw {
         game.shapeRendererFilled.circle(x2, y2, cornerRadius);
         game.shapeRendererFilled.circle(x3, y3, cornerRadius);
         game.shapeRendererFilled.triangle(x1, y1, x2, y2, x3, y3);
+    }
+
+    public void drawCursor() {
+        float outerRadius = game.widthOrHeightSmaller / 30;
+        float innerRadius = outerRadius / 1.3f;
+        float innerOffset = innerRadius / outerRadius;
+
+        triangle(Gdx.input.getX(),
+                game.camera.viewportHeight - Gdx.input.getY(),
+                Gdx.input.getX() + (outerRadius / 8),
+                game.camera.viewportHeight - (Gdx.input.getY() + ((3 * outerRadius) / 4)),
+                Gdx.input.getX() + ((2 * outerRadius) / 3),
+                game.camera.viewportHeight - (Gdx.input.getY() + ((5 * outerRadius) / 12)),
+                outerRadius / 20,
+                Color.WHITE);
+        triangle(Gdx.input.getX() + innerOffset,
+                game.camera.viewportHeight - (Gdx.input.getY() + innerOffset),
+                Gdx.input.getX() + (innerRadius / 8) + innerOffset,
+                game.camera.viewportHeight - (Gdx.input.getY() + ((3 * innerRadius) / 4) + innerOffset),
+                Gdx.input.getX() + ((2 * innerRadius) / 3) + innerOffset,
+                game.camera.viewportHeight - (Gdx.input.getY() + ((5 * innerRadius) / 12) + innerOffset),
+                innerRadius / 20,
+                Color.BLACK);
     }
 }

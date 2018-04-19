@@ -656,6 +656,12 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         showHelpTextFooter();
 
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
+
         if(!splitScreen) {
             ColorUtils.transitionColor(currentTargetShape);
         } else {
