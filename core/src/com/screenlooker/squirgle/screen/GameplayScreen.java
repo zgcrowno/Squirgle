@@ -1720,8 +1720,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     && touchPoint.y > INPUT_NONAGON_SPAWN.y - INPUT_RADIUS
                     && touchPoint.y < INPUT_NONAGON_SPAWN.y + INPUT_RADIUS;
             pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
-                    && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
-                    && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
+                    && touchPoint.y > ((game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2)) - (game.camera.viewportWidth / 20)
+                    && touchPoint.y < ((game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2)) + (game.camera.viewportWidth / 20);
         } else {
             pointTouchedP1 = touchPoint.x > INPUT_POINT_SPAWN_P1.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_POINT_SPAWN_P1.x + INPUT_RADIUS
@@ -1761,12 +1761,12 @@ public class GameplayScreen implements Screen, InputProcessor {
                     && touchPoint.y < INPUT_NONAGON_SPAWN_P1.y + INPUT_RADIUS;
             if(game.widthGreater) {
                 pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 40)
-                        && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 40)
-                        && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) + (game.camera.viewportWidth / 40);
+                        && touchPoint.y > (((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2)) - (game.camera.viewportWidth / 40)
+                        && touchPoint.y < (((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2)) + (game.camera.viewportWidth / 40);
             } else {
                 pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
-                        && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 20)
-                        && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) + (game.camera.viewportWidth / 20);
+                        && touchPoint.y > (((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2)) - (game.camera.viewportWidth / 20)
+                        && touchPoint.y < (((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2)) + (game.camera.viewportWidth / 20);
             }
             if(multiplayer) {
                 pointTouchedP2 = touchPoint.x > INPUT_POINT_SPAWN_P2.x - INPUT_RADIUS

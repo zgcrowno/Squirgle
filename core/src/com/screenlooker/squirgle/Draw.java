@@ -2536,11 +2536,11 @@ public class Draw {
         float lineRadius = inputRadius / 2;
 
         if(!splitScreen) {
-            drawPoint(game.camera.viewportWidth, game.camera.viewportHeight / 2, inputRadius, Color.WHITE);
-            drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), game.camera.viewportHeight / 2, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
+            drawPoint(game.camera.viewportWidth, (game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2), inputRadius, Color.WHITE);
+            drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), (game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2), inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
         } else {
-            drawPoint(game.camera.viewportWidth, ((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) / 2, inputRadius, Color.WHITE);
-            drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), ((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) / 2, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
+            drawPoint(game.camera.viewportWidth, ((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2), inputRadius, Color.WHITE);
+            drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), ((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2), inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
         }
 
     }
