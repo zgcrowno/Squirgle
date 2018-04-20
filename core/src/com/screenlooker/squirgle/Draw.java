@@ -2558,6 +2558,13 @@ public class Draw {
 
     }
 
+    public void drawPauseInputTrance(Squirgle game) {
+        float inputRadius = game.camera.viewportWidth / 20;
+
+        drawPoint(game.camera.viewportWidth, game.camera.viewportHeight / 2, inputRadius, Color.WHITE);
+        drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), game.camera.viewportHeight / 2, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
+    }
+
     public void drawPauseInputTutorialTrance(Squirgle game) {
         float inputRadius = game.camera.viewportWidth / 20;
 
