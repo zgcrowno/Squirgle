@@ -15,6 +15,7 @@ import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -120,6 +121,8 @@ public class BaseUnlockScreen implements Screen, InputProcessor {
         if(veilOpacity >= 1) {
             game.setScreen(new MainMenuScreen(game, veilColor));
         }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override

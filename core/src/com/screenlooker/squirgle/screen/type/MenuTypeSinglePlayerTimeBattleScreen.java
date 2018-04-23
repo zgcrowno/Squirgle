@@ -16,6 +16,7 @@ import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.screen.GameplayScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -448,6 +449,8 @@ public class MenuTypeSinglePlayerTimeBattleScreen implements Screen, InputProces
             game.draw.drawCursor();
             game.shapeRendererFilled.end();
         }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override

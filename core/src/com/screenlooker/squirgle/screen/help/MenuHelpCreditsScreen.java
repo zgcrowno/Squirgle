@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.screenlooker.squirgle.Squirgle;
+import com.screenlooker.squirgle.util.InputUtils;
 
 //TODO: Probably refactor this to just be CreditsScreen
 public class MenuHelpCreditsScreen implements Screen, InputProcessor {
@@ -36,6 +37,8 @@ public class MenuHelpCreditsScreen implements Screen, InputProcessor {
             game.draw.drawCursor();
             game.shapeRendererFilled.end();
         }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override

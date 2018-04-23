@@ -4,21 +4,51 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
+import com.screenlooker.squirgle.util.InputUtils;
 
 public class CreditsScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
-    public CreditsScreen(final Squirgle game) {
+    private static final float RADIUS_INCREMENT = 1f;
+    private static final float ROTATION_INCREMENT = 0.01f;
+    private static final float VEIL_OPACITY_INCREMENT = 0.05f;
+
+    private Color backgroundColor;
+    private Color veilColor;
+
+    private float shapeRadius;
+    private float shapeRotation;
+    private float veilOpacity;
+
+    private long startTime;
+
+    public CreditsScreen(final Squirgle game, Color backgroundColor) {
         this.game = game;
+
+        game.resetInstanceData();
+
+        Gdx.input.setInputProcessor(this);
+
+        this.backgroundColor = backgroundColor;
+        this.veilColor = Color.BLACK;
+        this.shapeRadius = 0;
+        this.shapeRotation = 0;
+        this.veilOpacity = 0;
+        this.startTime = System.currentTimeMillis();
     }
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glEnable(GL30.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
+        Gdx.gl.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.camera.update();
@@ -28,13 +58,63 @@ public class CreditsScreen implements Screen, InputProcessor {
 
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
-        game.shapeRendererFilled.end();
+        if(game.maxBase == 5) {
+            game.draw.drawPentagon(game.camera.viewportWidth / 2,
+                    game.camera.viewportHeight / 2,
+                    shapeRadius,
+                    shapeRadius / Draw.LINE_WIDTH_DIVISOR,
+                    shapeRotation,
+                    backgroundColor.equals(Color.BLACK) ? Color.WHITE : Color.BLACK);
+        } else if(game.maxBase == 6) {
+            game.draw.drawHexagon(game.camera.viewportWidth / 2,
+                    game.camera.viewportHeight / 2,
+                    shapeRadius,
+                    shapeRadius / Draw.LINE_WIDTH_DIVISOR,
+                    shapeRotation,
+                    backgroundColor.equals(Color.BLACK) ? Color.WHITE : Color.BLACK);
+        } else if(game.maxBase == 7) {
+            game.draw.drawSeptagon(game.camera.viewportWidth / 2,
+                    game.camera.viewportHeight / 2,
+                    shapeRadius,
+                    shapeRadius / Draw.LINE_WIDTH_DIVISOR,
+                    shapeRotation,
+                    backgroundColor.equals(Color.BLACK) ? Color.WHITE : Color.BLACK);
+        } else if(game.maxBase == 8) {
+            game.draw.drawOctagon(game.camera.viewportWidth / 2,
+                    game.camera.viewportHeight / 2,
+                    shapeRadius,
+                    shapeRadius / Draw.LINE_WIDTH_DIVISOR,
+                    shapeRotation,
+                    backgroundColor.equals(Color.BLACK) ? Color.WHITE : Color.BLACK);
+        } else if(game.maxBase == 9) {
+            game.draw.drawNonagon(game.camera.viewportWidth / 2,
+                    game.camera.viewportHeight / 2,
+                    shapeRadius,
+                    shapeRadius / Draw.LINE_WIDTH_DIVISOR,
+                    shapeRotation,
+                    backgroundColor.equals(Color.BLACK) ? Color.WHITE : Color.BLACK);
+        }
+
+        game.draw.drawVeil(veilColor, veilOpacity);
 
         if(game.desktop) {
-            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
             game.draw.drawCursor();
-            game.shapeRendererFilled.end();
         }
+
+        game.shapeRendererFilled.end();
+
+        shapeRadius += RADIUS_INCREMENT;
+        shapeRotation += ROTATION_INCREMENT;
+
+        if((System.currentTimeMillis() - startTime) / 1000 > 5) {
+            veilOpacity += VEIL_OPACITY_INCREMENT;
+        }
+
+        if(veilOpacity >= 1) {
+            game.setScreen(new MainMenuScreen(game, veilColor));
+        }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override

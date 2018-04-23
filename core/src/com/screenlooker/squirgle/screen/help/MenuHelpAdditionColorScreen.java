@@ -16,6 +16,7 @@ import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -169,6 +170,8 @@ public class MenuHelpAdditionColorScreen implements Screen, InputProcessor {
         }
 
         transitionSquirgleColors();
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -191,6 +192,8 @@ public class MenuHelpAdditionScreen implements Screen, InputProcessor {
             game.draw.drawCursor();
             game.shapeRendererFilled.end();
         }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override

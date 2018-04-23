@@ -13,6 +13,7 @@ import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 import com.screenlooker.squirgle.util.SoundUtils;
 
 import java.util.ArrayList;
@@ -123,6 +124,8 @@ public class TranceScreen implements Screen, InputProcessor {
         game.shapeRendererLine.end();
 
         SoundUtils.setVolume(promptShape, game);
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override

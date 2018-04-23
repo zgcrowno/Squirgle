@@ -18,6 +18,7 @@ import com.screenlooker.squirgle.screen.GameplayScreen;
 import com.screenlooker.squirgle.screen.MainMenuScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 import com.screenlooker.squirgle.util.SoundUtils;
 
 import java.util.ArrayList;
@@ -672,6 +673,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         if(veilOpacity > 0) {
             veilOpacity -= 0.01;
         }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 import com.screenlooker.squirgle.util.SoundUtils;
 
 import java.util.ArrayList;
@@ -175,6 +176,8 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
             game.draw.drawCursor();
             game.shapeRendererFilled.end();
         }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override

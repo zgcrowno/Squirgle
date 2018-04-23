@@ -5039,9 +5039,9 @@ public class Button {
                     return false;
                 }
                 case BUTTON_DIFFICULTY_CHEVRON_DOWN : {
-                    if(game.difficulty == Squirgle.DIFFICULTY_EASY) {
+                    if(game.difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
                         game.difficulty = Squirgle.DIFFICULTY_HARD;
-                    } else if(game.difficulty == Squirgle.DIFFICULTY_MEDIUM) {
+                    } else if(game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
                         game.difficulty = Squirgle.DIFFICULTY_EASY;
                     } else {
                         game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
@@ -5049,9 +5049,9 @@ public class Button {
                     return false;
                 }
                 case BUTTON_DIFFICULTY_CHEVRON_UP : {
-                    if(game.difficulty == Squirgle.DIFFICULTY_EASY) {
+                    if(game.difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
                         game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
-                    } else if(game.difficulty == Squirgle.DIFFICULTY_MEDIUM) {
+                    } else if(game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
                         game.difficulty = Squirgle.DIFFICULTY_HARD;
                     } else {
                         game.difficulty = Squirgle.DIFFICULTY_EASY;

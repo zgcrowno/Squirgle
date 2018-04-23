@@ -15,6 +15,7 @@ import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,6 +108,8 @@ public class LoadingScreen implements Screen {
         if(game.manager.update()) {
             game.setScreen(new SplashScreen(game));
         }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override
