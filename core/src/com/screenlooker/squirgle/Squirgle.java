@@ -36,7 +36,8 @@ public class Squirgle extends Game {
 	public final static int END_LINE_WIDTH_INCREASE = 2;
 	public final static int FPS = 60;
 	public final static int MAX_POSSIBLE_BASE = 9;
-	public final static int SCORE_TO_UNLOCK_NEW_BASE = 120;
+	public final static int SCORE_TO_UNLOCK_NEW_BASE = 100;
+	public final static int THIRTY_SECONDS = 30;
 	public final static int ONE_MINUTE = 60;
 	public final static int THREE_MINUTES = 180;
 	public final static int FIVE_MINUTES = 300;

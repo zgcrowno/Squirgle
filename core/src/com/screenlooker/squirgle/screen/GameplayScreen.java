@@ -256,7 +256,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         setUpNonFinalStaticData();
 
         //TODO: Eventually set this in render using delta? See maintainSpeed() in TimeAttackScreen
-        game.draw.setColorListSpeed(((BACKGROUND_COLOR_SHAPE_LIST_HEIGHT * NUM_TIMELINES) / game.FPS) / game.ONE_MINUTE);
+        game.draw.setColorListSpeed(((BACKGROUND_COLOR_SHAPE_LIST_HEIGHT * NUM_TIMELINES) / game.FPS) / game.THIRTY_SECONDS);
 
         setUpNonFinalNonStaticData();
 
@@ -1452,7 +1452,12 @@ public class GameplayScreen implements Screen, InputProcessor {
         if(!gameOver) {
             if(!paused) {
                 float actualFPS = Gdx.graphics.getRawDeltaTime() * game.FPS;
-                game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.timeAttackNumSeconds * actualFPS * game.FPS));
+                if(blackAndWhite) {
+                    game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.timeAttackNumSeconds * actualFPS * game.FPS));
+                } else {
+                    //We're in Battle mode here
+                    game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.THIRTY_SECONDS * actualFPS * game.FPS));
+                }
                 promptIncrease = (game.widthOrHeightSmaller * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
             }
         }
