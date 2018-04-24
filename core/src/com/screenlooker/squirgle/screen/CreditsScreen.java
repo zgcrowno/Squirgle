@@ -8,26 +8,62 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.screenlooker.squirgle.Draw;
+import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
+import com.screenlooker.squirgle.util.ColorUtils;
+import com.screenlooker.squirgle.util.FontUtils;
 import com.screenlooker.squirgle.util.InputUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CreditsScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
+    public static final float FONT_CREDITS_SIZE_DIVISOR = 6.5f;
+
     private static final float RADIUS_INCREMENT = 1f;
     private static final float ROTATION_INCREMENT = 0.01f;
     private static final float VEIL_OPACITY_INCREMENT = 0.05f;
 
+    private static final String DESIGN_PROGRAMMING_ART = "DESIGN/PROGRAMMING/ART";
+    private static final String MUSIC = "MUSIC";
+    private static final String QA = "QA";
+    private static final String MULTIMEDIA_PRODUCTION = "MULTIMEDIA PRODUCTION";
+    private static final String ZACHARY_CROWNOVER = "ZACHARY CROWNOVER";
+    private static final String NAN = "NaN";
+    private static final String CARL_JOSEPH_EKSTAM = "CARL JOSEPH EKSTAM";
+    private static final String AARON_HAMILTON = "AARON HAMILTON";
+    private static final String DARRYL_LOYD = "DARRYL LOYD";
+    private static final String IAN_MOLICA = "IAN MOLICA";
+    private static final String BRETT_NECKERMANN = "BRETT NECKERMANN";
+    private static final String DUSTIN_RAUCH = "DUSTIN RAUCH";
+    private static final String ALLISON_WILLIAMS = "ALLISON WILLIAMS";
+    private static final String JEFF_WINTERS = "JEFF WINTERS";
+    private static final String CODY_WILLIAMS = "CODY WILLIAMS";
+    private static final String HARRISON_PALMER = "HARRISON PALMER";
+
     private Color backgroundColor;
     private Color veilColor;
 
+    private Shape currentShape;
+
+    private float shapeIncrease;
     private float shapeRadius;
     private float shapeRotation;
+    private float shapePauseRadius;
+    private float shapeResumeRadius;
     private float veilOpacity;
+    private float textOpacity;
 
     private long startTime;
+
+    private List<String> stringList;
+    private List<Shape> shapeList;
 
     public CreditsScreen(final Squirgle game, Color backgroundColor) {
         this.game = game;
@@ -38,10 +74,72 @@ public class CreditsScreen implements Screen, InputProcessor {
 
         this.backgroundColor = backgroundColor;
         this.veilColor = Color.BLACK;
-        this.shapeRadius = 0;
+        this.shapeIncrease = 1.1f;
+        this.shapeRadius = 1;
         this.shapeRotation = 0;
+        this.shapePauseRadius = game.widthOrHeightSmaller / 4;
+        this.shapeResumeRadius = shapePauseRadius + ((RADIUS_INCREMENT * game.FPS) * 2);
         this.veilOpacity = 0;
+        this.textOpacity = 0;
         this.startTime = System.currentTimeMillis();
+        this.stringList = new ArrayList<String>();
+        this.shapeList = new ArrayList<Shape>();
+
+        stringList.add(DESIGN_PROGRAMMING_ART);
+        stringList.add(ZACHARY_CROWNOVER);
+        stringList.add(MUSIC);
+        stringList.add(NAN);
+        stringList.add(QA);
+        stringList.add(CARL_JOSEPH_EKSTAM);
+        stringList.add(AARON_HAMILTON);
+        stringList.add(DARRYL_LOYD);
+        stringList.add(IAN_MOLICA);
+        stringList.add(BRETT_NECKERMANN);
+        stringList.add(DUSTIN_RAUCH);
+        stringList.add(ALLISON_WILLIAMS);
+        stringList.add(CODY_WILLIAMS);
+        stringList.add(JEFF_WINTERS);
+        stringList.add(MULTIMEDIA_PRODUCTION);
+        stringList.add(HARRISON_PALMER);
+        stringList.add(CODY_WILLIAMS);
+
+        for(int i = 0; i < stringList.size(); i++) {
+            shapeList.add(new Shape(MathUtils.random(Shape.PENTAGON, Shape.NONAGON),
+                    shapeRadius,
+                    Color.BLACK,
+                    null,
+                    shapeRadius / Draw.LINE_WIDTH_DIVISOR,
+                    new Vector2(game.camera.viewportWidth / 2,
+                            game.camera.viewportHeight / 2)));
+
+            //TODO: Update this when updating the contributors list.
+            if(stringList.get(i).equals(DESIGN_PROGRAMMING_ART)
+                    || stringList.get(i).equals(MUSIC)
+                    || stringList.get(i).equals(QA)
+                    || stringList.get(i).equals(MULTIMEDIA_PRODUCTION)) {
+                Color newBackgroundColor = new Color();
+                if(stringList.get(i).equals(DESIGN_PROGRAMMING_ART)) {
+                    newBackgroundColor = ColorUtils.COLOR_SKY_BLUE;
+                } else if(stringList.get(i).equals(MUSIC)) {
+                    newBackgroundColor = ColorUtils.COLOR_BLUE;
+                } else if(stringList.get(i).equals(QA)) {
+                    newBackgroundColor = ColorUtils.COLOR_ORANGE;
+                } else if(stringList.get(i).equals(MULTIMEDIA_PRODUCTION)) {
+                    newBackgroundColor = ColorUtils.COLOR_VERMILLION;
+                }
+                shapeList.add(new Shape(Shape.CIRCLE,
+                        shapeRadius,
+                        newBackgroundColor,
+                        null,
+                        (shapeRadius - (shapeRadius / Draw.LINE_WIDTH_DIVISOR)) / Draw.LINE_WIDTH_DIVISOR,
+                        new Vector2(game.camera.viewportWidth / 2,
+                                game.camera.viewportHeight / 2)));
+            }
+        }
+
+        this.currentShape = shapeList.get(0);
+
+        game.setUpFontCredits(MathUtils.round(shapePauseRadius / FONT_CREDITS_SIZE_DIVISOR));
     }
 
     @Override
@@ -58,41 +156,74 @@ public class CreditsScreen implements Screen, InputProcessor {
 
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
-        if(game.maxBase == 5) {
-            game.draw.drawPentagon(game.camera.viewportWidth / 2,
-                    game.camera.viewportHeight / 2,
-                    shapeRadius,
-                    shapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                    shapeRotation,
-                    backgroundColor.equals(Color.BLACK) ? Color.WHITE : Color.BLACK);
-        } else if(game.maxBase == 6) {
-            game.draw.drawHexagon(game.camera.viewportWidth / 2,
-                    game.camera.viewportHeight / 2,
-                    shapeRadius,
-                    shapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                    shapeRotation,
-                    backgroundColor.equals(Color.BLACK) ? Color.WHITE : Color.BLACK);
-        } else if(game.maxBase == 7) {
-            game.draw.drawSeptagon(game.camera.viewportWidth / 2,
-                    game.camera.viewportHeight / 2,
-                    shapeRadius,
-                    shapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                    shapeRotation,
-                    backgroundColor.equals(Color.BLACK) ? Color.WHITE : Color.BLACK);
-        } else if(game.maxBase == 8) {
-            game.draw.drawOctagon(game.camera.viewportWidth / 2,
-                    game.camera.viewportHeight / 2,
-                    shapeRadius,
-                    shapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                    shapeRotation,
-                    backgroundColor.equals(Color.BLACK) ? Color.WHITE : Color.BLACK);
-        } else if(game.maxBase == 9) {
-            game.draw.drawNonagon(game.camera.viewportWidth / 2,
-                    game.camera.viewportHeight / 2,
-                    shapeRadius,
-                    shapeRadius / Draw.LINE_WIDTH_DIVISOR,
-                    shapeRotation,
-                    backgroundColor.equals(Color.BLACK) ? Color.WHITE : Color.BLACK);
+        if(!shapeList.isEmpty()) {
+            currentShape = shapeList.get(0);
+            boolean displayText = currentShape.getRadius() > shapePauseRadius && currentShape.getRadius() < shapeResumeRadius;
+            if (!displayText) {
+                currentShape.setRadius(currentShape.getRadius() * shapeIncrease);
+                if (textOpacity > 0) {
+                    textOpacity -= 0.05f;
+                }
+            } else {
+                currentShape.setRadius(currentShape.getRadius() + RADIUS_INCREMENT);
+                if (textOpacity < 1) {
+                    textOpacity += 0.05f;
+                }
+            }
+
+            //TODO: Update this when updating the contributors list.
+            if(stringList.get(0).equals(DESIGN_PROGRAMMING_ART)
+            || stringList.get(0).equals(MUSIC)
+            || stringList.get(0).equals(QA)
+            || stringList.get(0).equals(MULTIMEDIA_PRODUCTION)) {
+                if(currentShape.getShape() < Shape.SEPTAGON) {
+                    shapeList.get(1).setRadius(currentShape.getRadius() - (1.83f * (currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR)));
+                } else if(currentShape.getShape() < Shape.NONAGON) {
+                    shapeList.get(1).setRadius(currentShape.getRadius() - (1.75f * (currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR)));
+                } else {
+                    shapeList.get(1).setRadius(currentShape.getRadius() - (currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR));
+                }
+                game.draw.drawShape(false, shapeList.get(1));
+            }
+
+            if (currentShape.getShape() == Shape.PENTAGON) {
+                game.draw.drawPentagon(currentShape.getCoordinates().x,
+                        currentShape.getCoordinates().y,
+                        currentShape.getRadius(),
+                        currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR,
+                        shapeRotation,
+                        Color.BLACK);
+            } else if (currentShape.getShape() == Shape.HEXAGON) {
+                game.draw.drawHexagon(currentShape.getCoordinates().x,
+                        currentShape.getCoordinates().y,
+                        currentShape.getRadius(),
+                        currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR,
+                        shapeRotation,
+                        Color.BLACK);
+            } else if (currentShape.getShape() == Shape.SEPTAGON) {
+                game.draw.drawSeptagon(currentShape.getCoordinates().x,
+                        currentShape.getCoordinates().y,
+                        currentShape.getRadius(),
+                        currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR,
+                        shapeRotation,
+                        Color.BLACK);
+            } else if (currentShape.getShape() == Shape.OCTAGON) {
+                game.draw.drawOctagon(currentShape.getCoordinates().x,
+                        currentShape.getCoordinates().y,
+                        currentShape.getRadius(),
+                        currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR,
+                        shapeRotation,
+                        Color.BLACK);
+            } else if (currentShape.getShape() == Shape.NONAGON) {
+                game.draw.drawNonagon(currentShape.getCoordinates().x,
+                        currentShape.getCoordinates().y,
+                        currentShape.getRadius(),
+                        currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR,
+                        shapeRotation,
+                        Color.BLACK);
+            }
+        } else {
+            veilOpacity += VEIL_OPACITY_INCREMENT;
         }
 
         game.draw.drawVeil(veilColor, veilOpacity);
@@ -103,12 +234,11 @@ public class CreditsScreen implements Screen, InputProcessor {
 
         game.shapeRendererFilled.end();
 
-        shapeRadius += RADIUS_INCREMENT;
+        drawText();
+
         shapeRotation += ROTATION_INCREMENT;
 
-        if((System.currentTimeMillis() - startTime) / 1000 > 5) {
-            veilOpacity += VEIL_OPACITY_INCREMENT;
-        }
+        destroyOversizedShapesAndAssociatedStrings();
 
         if(veilOpacity >= 1) {
             game.setScreen(new MainMenuScreen(game, veilColor));
@@ -167,6 +297,8 @@ public class CreditsScreen implements Screen, InputProcessor {
             return false;
         }
 
+        game.setScreen(new MainMenuScreen(game, backgroundColor));
+
         return true;
     }
 
@@ -193,5 +325,37 @@ public class CreditsScreen implements Screen, InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    public void drawText() {
+        if(!stringList.isEmpty()) {
+            FontUtils.printText(game.batch,
+                    game.fontCredits,
+                    game.layout,
+                    Color.BLACK,
+                    stringList.get(0),
+                    game.camera.viewportWidth / 2,
+                    game.camera.viewportHeight / 2,
+                    0,
+                    textOpacity);
+        }
+    }
+
+    public void destroyOversizedShapesAndAssociatedStrings() {
+        //Prevent shapes from getting too large
+        if(!shapeList.isEmpty()) {
+            if (currentShape.getRadius() >= game.widthOrHeightBigger) {
+                shapeList.remove(0);
+                //TODO: Update this when updating the contributors list.
+                if(stringList.get(0).equals(DESIGN_PROGRAMMING_ART)
+                        || stringList.get(0).equals(MUSIC)
+                        || stringList.get(0).equals(QA)
+                        || stringList.get(0).equals(MULTIMEDIA_PRODUCTION)) {
+                    backgroundColor = shapeList.get(0).getColor();
+                    shapeList.remove(0);
+                }
+                stringList.remove(0);
+            }
+        }
     }
 }

@@ -4453,10 +4453,9 @@ public class Button {
                     return true;
                 }
                 case BUTTON_HELP_CREDITS : {
-                    //TODO: Once CreditsScreen is coded, stop theme music, and proceed to correct screen
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
                     game.confirmSound.play((float) (game.volume / 10.0));
-                    //game.setScreen(new CreditsScreen(game));
-                    game.setScreen(new MainMenuScreen(game, containerColor));
+                    game.setScreen(new CreditsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_BACK : {
