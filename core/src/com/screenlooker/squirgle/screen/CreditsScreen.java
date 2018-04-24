@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
@@ -28,7 +29,7 @@ public class CreditsScreen implements Screen, InputProcessor {
 
     private static final float RADIUS_INCREMENT = 1f;
     private static final float ROTATION_INCREMENT = 0.01f;
-    private static final float VEIL_OPACITY_INCREMENT = 0.05f;
+    private static final float OPACITY_INCREMENT = 0.05f;
 
     private static final String DESIGN_PROGRAMMING_ART = "DESIGN/PROGRAMMING/ART";
     private static final String MUSIC = "MUSIC";
@@ -46,6 +47,11 @@ public class CreditsScreen implements Screen, InputProcessor {
     private static final String JEFF_WINTERS = "JEFF WINTERS";
     private static final String CODY_WILLIAMS = "CODY WILLIAMS";
     private static final String HARRISON_PALMER = "HARRISON PALMER";
+    private static final String SELAH_SNOWDEN = "SELAH SNOWDEN";
+    private static final String SQUIRGLER_SUPREME = "SQUIRGLER SUPREME";
+    private static final String YOU_SILLY = "YOU, SILLY";
+    private static final String SO_THANK_YOU = "SO THANK YOU";
+    private static final String AND_KEEP_SQUIRGLIN = "AND KEEP SQUIRGLIN\'";
 
     private Color backgroundColor;
     private Color veilColor;
@@ -101,7 +107,12 @@ public class CreditsScreen implements Screen, InputProcessor {
         stringList.add(JEFF_WINTERS);
         stringList.add(MULTIMEDIA_PRODUCTION);
         stringList.add(HARRISON_PALMER);
+        stringList.add(SELAH_SNOWDEN);
         stringList.add(CODY_WILLIAMS);
+        stringList.add(SQUIRGLER_SUPREME);
+        stringList.add(YOU_SILLY);
+        stringList.add(SO_THANK_YOU);
+        stringList.add(AND_KEEP_SQUIRGLIN);
 
         for(int i = 0; i < stringList.size(); i++) {
             shapeList.add(new Shape(MathUtils.random(Shape.PENTAGON, Shape.NONAGON),
@@ -116,7 +127,8 @@ public class CreditsScreen implements Screen, InputProcessor {
             if(stringList.get(i).equals(DESIGN_PROGRAMMING_ART)
                     || stringList.get(i).equals(MUSIC)
                     || stringList.get(i).equals(QA)
-                    || stringList.get(i).equals(MULTIMEDIA_PRODUCTION)) {
+                    || stringList.get(i).equals(MULTIMEDIA_PRODUCTION)
+                    || stringList.get(i).equals(SQUIRGLER_SUPREME)) {
                 Color newBackgroundColor = new Color();
                 if(stringList.get(i).equals(DESIGN_PROGRAMMING_ART)) {
                     newBackgroundColor = ColorUtils.COLOR_SKY_BLUE;
@@ -126,6 +138,8 @@ public class CreditsScreen implements Screen, InputProcessor {
                     newBackgroundColor = ColorUtils.COLOR_ORANGE;
                 } else if(stringList.get(i).equals(MULTIMEDIA_PRODUCTION)) {
                     newBackgroundColor = ColorUtils.COLOR_VERMILLION;
+                } else if(stringList.get(i).equals(SQUIRGLER_SUPREME)) {
+                    newBackgroundColor = ColorUtils.COLOR_BLUISH_GREEN;
                 }
                 shapeList.add(new Shape(Shape.CIRCLE,
                         shapeRadius,
@@ -140,6 +154,8 @@ public class CreditsScreen implements Screen, InputProcessor {
         this.currentShape = shapeList.get(0);
 
         game.setUpFontCredits(MathUtils.round(shapePauseRadius / FONT_CREDITS_SIZE_DIVISOR));
+
+        playMusic();
     }
 
     @Override
@@ -162,20 +178,21 @@ public class CreditsScreen implements Screen, InputProcessor {
             if (!displayText) {
                 currentShape.setRadius(currentShape.getRadius() * shapeIncrease);
                 if (textOpacity > 0) {
-                    textOpacity -= 0.05f;
+                    textOpacity -= OPACITY_INCREMENT;
                 }
             } else {
                 currentShape.setRadius(currentShape.getRadius() + RADIUS_INCREMENT);
                 if (textOpacity < 1) {
-                    textOpacity += 0.05f;
+                    textOpacity += OPACITY_INCREMENT;
                 }
             }
 
             //TODO: Update this when updating the contributors list.
             if(stringList.get(0).equals(DESIGN_PROGRAMMING_ART)
-            || stringList.get(0).equals(MUSIC)
-            || stringList.get(0).equals(QA)
-            || stringList.get(0).equals(MULTIMEDIA_PRODUCTION)) {
+                    || stringList.get(0).equals(MUSIC)
+                    || stringList.get(0).equals(QA)
+                    || stringList.get(0).equals(MULTIMEDIA_PRODUCTION)
+                    || stringList.get(0).equals(SQUIRGLER_SUPREME)) {
                 if(currentShape.getShape() < Shape.SEPTAGON) {
                     shapeList.get(1).setRadius(currentShape.getRadius() - (1.83f * (currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR)));
                 } else if(currentShape.getShape() < Shape.NONAGON) {
@@ -223,7 +240,8 @@ public class CreditsScreen implements Screen, InputProcessor {
                         Color.BLACK);
             }
         } else {
-            veilOpacity += VEIL_OPACITY_INCREMENT;
+            fadeOutMusic();
+            veilOpacity += OPACITY_INCREMENT;
         }
 
         game.draw.drawVeil(veilColor, veilOpacity);
@@ -241,6 +259,7 @@ public class CreditsScreen implements Screen, InputProcessor {
         destroyOversizedShapesAndAssociatedStrings();
 
         if(veilOpacity >= 1) {
+            game.trackMapFull.get(game.MUSIC_SQUARED_OFF).stop();
             game.setScreen(new MainMenuScreen(game, veilColor));
         }
 
@@ -297,6 +316,7 @@ public class CreditsScreen implements Screen, InputProcessor {
             return false;
         }
 
+        game.trackMapFull.get(game.MUSIC_SQUARED_OFF).stop();
         game.setScreen(new MainMenuScreen(game, backgroundColor));
 
         return true;
@@ -350,12 +370,25 @@ public class CreditsScreen implements Screen, InputProcessor {
                 if(stringList.get(0).equals(DESIGN_PROGRAMMING_ART)
                         || stringList.get(0).equals(MUSIC)
                         || stringList.get(0).equals(QA)
-                        || stringList.get(0).equals(MULTIMEDIA_PRODUCTION)) {
+                        || stringList.get(0).equals(MULTIMEDIA_PRODUCTION)
+                        || stringList.get(0).equals(SQUIRGLER_SUPREME)) {
                     backgroundColor = shapeList.get(0).getColor();
                     shapeList.remove(0);
                 }
                 stringList.remove(0);
+                textOpacity = 0;
             }
         }
+    }
+
+    public void playMusic() {
+        game.trackMapFull.get(game.MUSIC_SQUARED_OFF).setVolume((float) (game.volume / 10.0));
+        game.trackMapFull.get(game.MUSIC_SQUARED_OFF).play();
+    }
+
+    public void fadeOutMusic() {
+        Music track = game.trackMapFull.get(game.MUSIC_SQUARED_OFF);
+        track.setVolume(track.getVolume() - (track.getVolume() * OPACITY_INCREMENT));
+        track.dispose();
     }
 }
