@@ -1628,9 +1628,24 @@ public class GameplayScreen implements Screen, InputProcessor {
     public void drawResultsInputButtons() {
         if(!paused) {
             if (showResults) {
-                if(game.base == game.maxBase && score >= Squirgle.SCORE_TO_UNLOCK_NEW_BASE && game.maxBase < Squirgle.MAX_POSSIBLE_BASE && gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-                    shouldUnlockNewBase = true;
-                    unlockNewBase();
+                if(game.base == game.maxBase && score >= Squirgle.SCORE_TO_UNLOCK_NEW_BASE && gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+                    if(game.maxBase < Squirgle.MAX_POSSIBLE_BASE) {
+                        shouldUnlockNewBase = true;
+                        unlockNewBase();
+                    } else if(!game.beatenBefore) {
+                        game.beatenBefore = true;
+                        game.updateSave(game.SAVE_BEATEN_BEFORE, game.beatenBefore);
+                        Color passedBackgroundColor = new Color();
+                        if(primaryShape.getShape() == Shape.POINT || primaryShape.getShape() == Shape.LINE) {
+                            passedBackgroundColor = primaryShape.getColor();
+                        } else {
+                            passedBackgroundColor = Color.BLACK;
+                        }
+                        game.setScreen(new CreditsScreen(game, passedBackgroundColor));
+                        dispose();
+                    } else {
+                        game.draw.drawResultsInputButtons(resultsColor, INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN);
+                    }
                 } else {
                     game.draw.drawResultsInputButtons(resultsColor, INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN);
                 }
@@ -2488,6 +2503,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             passedBackgroundColor = Color.BLACK;
         }
         game.setScreen(new BaseUnlockScreen(game, passedBackgroundColor));
+        dispose();
     }
 
     public void setUpNonFinalStaticData() {

@@ -91,6 +91,7 @@ public class Squirgle extends Game {
 	public final static String SAVE_VOLUME = "volume";
 	public final static String SAVE_TRACK = "track";
 	public final static String SAVE_PLAYED_BEFORE = "playedBefore";
+	public final static String SAVE_BEATEN_BEFORE = "beatenBefore";
 	public final static String SAVE_USE_PHASES = "usePhases";
 	public final static String SAVE_MAX_BASE = "maxBase";
 	public final static String SAVE_TIME_ATTACK_NUM_SECONDS = "timeAttackNumSeconds";
@@ -112,6 +113,7 @@ public class Squirgle extends Game {
 	public boolean hardcore;
 
 	public boolean playedBefore;
+	public boolean beatenBefore;
 	public boolean usePhases;
 
 	public boolean widthGreater;
@@ -190,6 +192,7 @@ public class Squirgle extends Game {
 		hardcore = save.getBoolean(SAVE_HARDCORE, false);
 
 		playedBefore = save.getBoolean(SAVE_PLAYED_BEFORE, false);
+		beatenBefore = save.getBoolean(SAVE_BEATEN_BEFORE, false);
 		usePhases = save.getBoolean(SAVE_USE_PHASES, false);
 
 		base = 4;

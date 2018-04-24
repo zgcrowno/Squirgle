@@ -25,6 +25,10 @@ public class CreditsScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
+    public static final int SKIP_TEXT_DISAPPEARANCE_TIME = 5;
+    public static final int ONE_THOUSAND = 1000;
+    public static final int FONT_SKIP_SIZE_DIVISOR = 30;
+
     public static final float FONT_CREDITS_SIZE_DIVISOR = 6.5f;
 
     private static final float RADIUS_INCREMENT = 1f;
@@ -53,6 +57,8 @@ public class CreditsScreen implements Screen, InputProcessor {
     private static final String SO_THANK_YOU = "SO THANK YOU";
     private static final String AND_KEEP_SQUIRGLIN = "AND KEEP SQUIRGLIN\'";
 
+    private static final String SKIP_TEXT = "TAP AGAIN TO SKIP";
+
     private Color backgroundColor;
     private Color veilColor;
 
@@ -67,6 +73,7 @@ public class CreditsScreen implements Screen, InputProcessor {
     private float textOpacity;
 
     private long startTime;
+    private long timeSinceTouched;
 
     private List<String> stringList;
     private List<Shape> shapeList;
@@ -88,6 +95,7 @@ public class CreditsScreen implements Screen, InputProcessor {
         this.veilOpacity = 0;
         this.textOpacity = 0;
         this.startTime = System.currentTimeMillis();
+        this.timeSinceTouched = SKIP_TEXT_DISAPPEARANCE_TIME;
         this.stringList = new ArrayList<String>();
         this.shapeList = new ArrayList<Shape>();
 
@@ -117,7 +125,7 @@ public class CreditsScreen implements Screen, InputProcessor {
         for(int i = 0; i < stringList.size(); i++) {
             shapeList.add(new Shape(MathUtils.random(Shape.PENTAGON, Shape.NONAGON),
                     shapeRadius,
-                    Color.BLACK,
+                    i == 0 && backgroundColor.equals(Color.BLACK) ? Color.WHITE : Color.BLACK,
                     null,
                     shapeRadius / Draw.LINE_WIDTH_DIVISOR,
                     new Vector2(game.camera.viewportWidth / 2,
@@ -154,6 +162,7 @@ public class CreditsScreen implements Screen, InputProcessor {
         this.currentShape = shapeList.get(0);
 
         game.setUpFontCredits(MathUtils.round(shapePauseRadius / FONT_CREDITS_SIZE_DIVISOR));
+        game.setUpFontSkip(MathUtils.round(game.camera.viewportWidth / FONT_SKIP_SIZE_DIVISOR));
 
         playMusic();
     }
@@ -246,6 +255,10 @@ public class CreditsScreen implements Screen, InputProcessor {
 
         game.draw.drawVeil(veilColor, veilOpacity);
 
+        if((System.currentTimeMillis() - timeSinceTouched) / ONE_THOUSAND < SKIP_TEXT_DISAPPEARANCE_TIME) {
+            drawSkipTextBox();
+        }
+
         if(game.desktop) {
             game.draw.drawCursor();
         }
@@ -316,8 +329,12 @@ public class CreditsScreen implements Screen, InputProcessor {
             return false;
         }
 
-        game.trackMapFull.get(game.MUSIC_SQUARED_OFF).stop();
-        game.setScreen(new MainMenuScreen(game, backgroundColor));
+        if((System.currentTimeMillis() - timeSinceTouched) / ONE_THOUSAND < SKIP_TEXT_DISAPPEARANCE_TIME) {
+            game.trackMapFull.get(game.MUSIC_SQUARED_OFF).stop();
+            game.setScreen(new MainMenuScreen(game, backgroundColor));
+        }
+
+        timeSinceTouched = System.currentTimeMillis();
 
         return true;
     }
@@ -359,6 +376,9 @@ public class CreditsScreen implements Screen, InputProcessor {
                     0,
                     textOpacity);
         }
+        if((System.currentTimeMillis() - timeSinceTouched) / ONE_THOUSAND < SKIP_TEXT_DISAPPEARANCE_TIME) {
+            drawSkipText();
+        }
     }
 
     public void destroyOversizedShapesAndAssociatedStrings() {
@@ -390,5 +410,25 @@ public class CreditsScreen implements Screen, InputProcessor {
         Music track = game.trackMapFull.get(game.MUSIC_SQUARED_OFF);
         track.setVolume(track.getVolume() - (track.getVolume() * OPACITY_INCREMENT));
         track.dispose();
+    }
+
+    public void drawSkipTextBox() {
+        game.draw.rect((3 * game.camera.viewportWidth) / 8,
+                game.camera.viewportHeight / 4,
+                game.camera.viewportWidth / 4,
+                game.camera.viewportHeight / 10,
+                Color.WHITE);
+    }
+
+    public void drawSkipText() {
+        FontUtils.printText(game.batch,
+                game.fontSkip,
+                game.layout,
+                Color.BLACK,
+                SKIP_TEXT,
+                game.camera.viewportWidth / 2,
+                (game.camera.viewportHeight / 4) + (game.camera.viewportHeight / 20) + (game.fontSkip.getCapHeight() / 4),
+                0,
+                1);
     }
 }
