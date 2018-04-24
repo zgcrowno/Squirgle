@@ -1696,7 +1696,6 @@ public class TutorialScreen implements Screen, InputProcessor {
         }
         if (gameOverCondition) {
             gameOver = true;
-            stopMusic();
             promptIncrease = 1;
             endTime = System.currentTimeMillis();
             veilOpacity = 1;
@@ -1706,8 +1705,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                     backgroundColorShape.getColor().a);
             game.stats.updateTimePlayed(endTime - startTime, gameplayType);
             if(splitScreen) {
+                //We have to set the radii here to prevent stuttering when zooming through the shapes.
                 if (useSaturation) {
-                    //We have to set the radii here to prevent stuttering when zooming through the shapes.
                     if (saturationP1 <= saturationP2) {
                         promptShapeP1.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
                         promptShapeP1.setCoordinates(new Vector2(promptShapeP1.getCoordinates().x, game.camera.viewportHeight / 2));
@@ -1717,8 +1716,10 @@ public class TutorialScreen implements Screen, InputProcessor {
                     }
                 } else {
                     if (scoreP1 >= scoreP2) {
+                        promptShapeP1.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
                         promptShapeP1.setCoordinates(new Vector2(promptShapeP1.getCoordinates().x, game.camera.viewportHeight / 2));
                     } else {
+                        promptShapeP2.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
                         promptShapeP2.setCoordinates(new Vector2(promptShapeP2.getCoordinates().x, game.camera.viewportHeight / 2));
                     }
                 }
@@ -2090,8 +2091,10 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public void handleResultsInput() {
         if (playTouched) {
+            stopMusic();
             game.setScreen(new TutorialScreen(game, gameplayType));
         } else if (homeTouched) {
+            stopMusic();
             game.setScreen(new MainMenuScreen(game, Color.BLACK));
         } else {
             dispose();
