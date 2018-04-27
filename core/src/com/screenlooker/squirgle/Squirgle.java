@@ -89,6 +89,7 @@ public class Squirgle extends Game {
 
 	public final static String SAVE_NAME = "Squirgle Save";
 	public final static String SAVE_VOLUME = "volume";
+	public final static String SAVE_FX_VOLUME = "fxVolume";
 	public final static String SAVE_TRACK = "track";
 	public final static String SAVE_PLAYED_BEFORE = "playedBefore";
 	public final static String SAVE_BEATEN_BEFORE = "beatenBefore";
@@ -108,6 +109,7 @@ public class Squirgle extends Game {
 
 	//Options
 	public int volume;
+	public int fxVolume;
 	public int track;
 	public String difficulty;
 	public boolean hardcore;
@@ -161,6 +163,9 @@ public class Squirgle extends Game {
 	public Stats stats;
 	public Sound confirmSound;
 	public Sound disconfirmSound;
+	public Sound correctInputSound;
+	public Sound incorrectInputSound;
+	public Sound gameOverSound;
 	public List<Music> pointillismPhaseList;
 	public List<Music> lineagePhaseList;
 	public List<Music> triTheWaltzPhaseList;
@@ -187,6 +192,7 @@ public class Squirgle extends Game {
 		save = Gdx.app.getPreferences(SAVE_NAME);
 
 		volume = save.getInteger(SAVE_VOLUME, 10);
+		fxVolume = save.getInteger(SAVE_FX_VOLUME, 3);
 		track = save.getInteger(SAVE_TRACK, MUSIC_POINTILLISM);
 		difficulty = save.getString(SAVE_DIFFICULTY, DIFFICULTY_MEDIUM);
 		hardcore = save.getBoolean(SAVE_HARDCORE, false);
@@ -222,8 +228,11 @@ public class Squirgle extends Game {
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);
 		stats = new Stats(this);
-		confirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/confirm.wav"));
-		disconfirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/disconfirm.wav"));
+		confirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Correct Input Sound.ogg"));
+		disconfirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Incorrect Input Sound.ogg"));
+		correctInputSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Correct Input Sound.ogg"));
+		incorrectInputSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Incorrect Input Sound.ogg"));
+		gameOverSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Game Over Sound.ogg"));
 		pointillismPhaseList = new ArrayList<Music>();
 		lineagePhaseList = new ArrayList<Music>();
 		triTheWaltzPhaseList = new ArrayList<Music>();
@@ -301,7 +310,10 @@ public class Squirgle extends Game {
 		shapeRendererFilled.dispose();
 		shapeRendererLine.dispose();
 		confirmSound.dispose();
+		correctInputSound.dispose();
+		incorrectInputSound.dispose();
 		disconfirmSound.dispose();
+		gameOverSound.dispose();
 		generator.dispose();
 		//manager.dispose();
 		for(int i = 0; i < trackMapFull.size(); i++) {

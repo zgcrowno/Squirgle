@@ -1700,6 +1700,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     && !gameOver;
         }
         if (gameOverCondition) {
+            game.gameOverSound.play((float) (game.fxVolume / 10.0));
             gameOver = true;
             promptIncrease = 1;
             endTime = System.currentTimeMillis();
@@ -2197,6 +2198,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     }
 
     public void shapesMatchedBehavior(String player) {
+        game.correctInputSound.play((float) (game.fxVolume / 10.0));
         if(player == null) {
             targetShapesMatched++;
             Shape circleContainer = new Shape(Shape.CIRCLE,
@@ -2478,6 +2480,7 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public void shapesMismatchedBehavior(String player) {
         //The wrong shape was touched
+        game.incorrectInputSound.play((float) (game.fxVolume / 10.0));
         if(player == null) {
             if(!blackAndWhite) {
                 if(phase >= PHASE_FIVE) {

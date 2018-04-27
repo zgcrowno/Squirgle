@@ -76,7 +76,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private final static int PAUSE_QUIT = 1;
 
     private final static int END_LINE_WIDTH_INCREASE = 2;
-    private final static int NUM_MUSIC_PHASES = 3;
+    public final static int NUM_MUSIC_PHASES = 3;
     private final static int NUM_TIMELINES = 3;
     private final static int SCORE_ANGLE = -45;
     private final static int ONE_THOUSAND = 1000;
@@ -1664,6 +1664,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                     && !gameOver;
         }
         if (gameOverCondition) {
+            game.gameOverSound.play((float) (game.fxVolume / 10.0));
             gameOver = true;
             promptIncrease = 1;
             endTime = System.currentTimeMillis();
@@ -2085,6 +2086,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     }
 
     public void shapesMatchedBehavior(String player) {
+        game.correctInputSound.play((float) (game.fxVolume / 10.0));
         if(player == null) {
             targetShapesMatched++;
             Shape circleContainer = new Shape(Shape.CIRCLE,
@@ -2356,6 +2358,7 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     public void shapesMismatchedBehavior(String player) {
         //The wrong shape was touched
+        game.incorrectInputSound.play((float) (game.fxVolume / 10.0));
         if(player == null) {
             if(!blackAndWhite) {
                 float radiusIncrease = game.widthOrHeightSmaller * ((backgroundColorShapeList.get(2).getCoordinates().y - backgroundColorShapeList.get(3).getCoordinates().y) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));

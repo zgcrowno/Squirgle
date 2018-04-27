@@ -180,11 +180,15 @@ public class Button {
     public static final int BUTTON_VOLUME_WAVES = 162;
     public static final int BUTTON_VOLUME_CHEVRON_DOWN = 163;
     public static final int BUTTON_VOLUME_CHEVRON_UP = 164;
-    public static final int BUTTON_WIPE_DATA = 165;
-    public static final int BUTTON_HARDCORE = 166;
-    public static final int BUTTON_HARDCORE_SKULL = 167;
-    public static final int BUTTON_HARDCORE_CHEVRON_DOWN = 168;
-    public static final int BUTTON_HARDCORE_CHEVRON_UP = 169;
+    public static final int BUTTON_FX_VOLUME = 165;
+    public static final int BUTTON_FX_VOLUME_WAVES = 166;
+    public static final int BUTTON_FX_VOLUME_CHEVRON_DOWN = 167;
+    public static final int BUTTON_FX_VOLUME_CHEVRON_UP = 168;
+    public static final int BUTTON_WIPE_DATA = 169;
+    public static final int BUTTON_HARDCORE = 170;
+    public static final int BUTTON_HARDCORE_SKULL = 171;
+    public static final int BUTTON_HARDCORE_CHEVRON_DOWN = 172;
+    public static final int BUTTON_HARDCORE_CHEVRON_UP = 173;
 
     public static final String SINGLE_PLAYER_SYMBOL_STRING = "1P";
     public static final String MULTIPLAYER_SYMBOL_STRING = "2P";
@@ -217,7 +221,8 @@ public class Button {
     private static final String NONAGON_STRING = "NONAGON";
     private static final String DIFFICULTY_STRING = "DIFFICULTY";
     private static final String TIME_LIMIT_STRING = "TIME LIMIT";
-    private static final String VOLUME_STRING = "VOLUME";
+    private static final String VOLUME_STRING = "MUSIC VOLUME";
+    private static final String FX_VOLUME_STRING = "FX VOLUME";
     private static final String ERASE_DATA_STRING = "ERASE DATA";
     private static final String ADDITION_TABLE_STRING = "ADDITION TABLES";
     private static final String STATS_STRING = "STATS";
@@ -1632,6 +1637,33 @@ public class Button {
                 break;
             }
             case BUTTON_VOLUME_CHEVRON_UP : {
+                game.draw.drawChevronRight(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_FX_VOLUME : {
+                break;
+            }
+            case BUTTON_FX_VOLUME_WAVES : {
+                game.draw.drawSoundSymbol(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containerColor);
+                break;
+            }
+            case BUTTON_FX_VOLUME_CHEVRON_DOWN : {
+                game.draw.drawChevronLeft(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_FX_VOLUME_CHEVRON_UP : {
                 game.draw.drawChevronRight(centerX,
                         centerY,
                         radius,
@@ -3758,6 +3790,29 @@ public class Button {
             case BUTTON_VOLUME_CHEVRON_UP : {
                 break;
             }
+            case BUTTON_FX_VOLUME : {
+                game.layout.setText(game.fontButton, FX_VOLUME_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        FX_VOLUME_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                drawFxVolumeText();
+                break;
+            }
+            case BUTTON_FX_VOLUME_WAVES : {
+                break;
+            }
+            case BUTTON_FX_VOLUME_CHEVRON_DOWN : {
+                break;
+            }
+            case BUTTON_FX_VOLUME_CHEVRON_UP : {
+                break;
+            }
             case BUTTON_WIPE_DATA : {
                 game.layout.setText(game.fontButton, ERASE_DATA_STRING);
                 FontUtils.printText(game.batch,
@@ -3933,6 +3988,18 @@ public class Button {
                 1);
     }
 
+    public void drawFxVolumeText() {
+        FontUtils.printText(game.batch,
+                game.fontOptions,
+                game.layout,
+                containedColor,
+                String.valueOf(game.fxVolume),
+                x + ((3 * width) / 5),
+                y + (height / 2),
+                0,
+                1);
+    }
+
     public void drawHardcoreText() {
         FontUtils.printText(game.batch,
                 game.fontOptions,
@@ -3979,17 +4046,17 @@ public class Button {
     public boolean endTransitionBehavior() {
             switch(buttonType) {
                 case BUTTON_TYPE: {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_OPTIONS: {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuOptionsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP: {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpScreen(game, containerColor));
                     return true;
                 }
@@ -3998,53 +4065,53 @@ public class Button {
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER: {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL: {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeMultiplayerLocalScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MainMenuScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE: {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerSquirgleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE: {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK: {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerTimeAttackScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE: {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerTimeBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TRANCE: {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerTranceScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SQUARE: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 4;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4053,7 +4120,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_PENTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 5;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4062,7 +4129,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_HEXAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 6;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4071,7 +4138,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SEPTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 7;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4080,7 +4147,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_OCTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 8;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4089,7 +4156,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_NONAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 9;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4097,13 +4164,13 @@ public class Button {
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SQUARE: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 4;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4113,7 +4180,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_PENTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 5;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4123,7 +4190,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_HEXAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 6;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4133,7 +4200,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SEPTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 7;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4143,7 +4210,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_OCTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 8;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4153,7 +4220,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_NONAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 9;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4162,13 +4229,13 @@ public class Button {
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SQUARE: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 4;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4177,7 +4244,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_PENTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 5;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4186,7 +4253,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_HEXAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 6;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4195,7 +4262,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SEPTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 7;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4204,7 +4271,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_OCTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 8;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4213,7 +4280,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_NONAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 9;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4221,13 +4288,13 @@ public class Button {
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SQUARE: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 4;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4236,7 +4303,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_PENTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 5;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4245,7 +4312,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_HEXAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 6;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4254,7 +4321,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SEPTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 7;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4263,7 +4330,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_OCTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 8;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4272,7 +4339,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_NONAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 9;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4280,41 +4347,41 @@ public class Button {
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.usePhases = false;
                     game.setScreen(new TranceScreen(game));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE: {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeMultiplayerLocalBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE: {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeMultiplayerLocalTimeBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeScreen(game, containerColor));
                     return true;
 
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SQUARE: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 4;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4323,7 +4390,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_PENTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 5;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4332,7 +4399,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_HEXAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 6;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4341,7 +4408,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SEPTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 7;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4350,7 +4417,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_OCTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 8;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4359,7 +4426,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_NONAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 9;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4367,13 +4434,13 @@ public class Button {
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeMultiplayerLocalScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SQUARE: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 4;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4382,7 +4449,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_PENTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 5;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4391,7 +4458,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_HEXAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 6;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4400,7 +4467,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SEPTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 7;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4409,7 +4476,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_OCTAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 8;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4418,7 +4485,7 @@ public class Button {
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_NONAGON: {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 9;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4426,141 +4493,141 @@ public class Button {
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeMultiplayerLocalScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_OPTIONS_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.updateSave(game.SAVE_VOLUME, game.volume);
                     game.updateSave(game.SAVE_HARDCORE, game.hardcore);
                     game.setScreen(new MainMenuScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpAdditionScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpTutorialScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_CREDITS : {
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new CreditsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MainMenuScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_COLOR : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpAdditionColorScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_SQUARE : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 4;
                     game.setScreen(new MenuHelpAdditionBaseScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_PENTAGON : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 5;
                     game.setScreen(new MenuHelpAdditionBaseScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_HEXAGON : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 6;
                     game.setScreen(new MenuHelpAdditionBaseScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_SEPTAGON : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 7;
                     game.setScreen(new MenuHelpAdditionBaseScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_OCTAGON : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 8;
                     game.setScreen(new MenuHelpAdditionBaseScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_NONAGON : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 9;
                     game.setScreen(new MenuHelpAdditionBaseScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_COLOR_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpAdditionScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_ADDITION_BASE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpAdditionScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_GENERAL : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpStatsGeneralScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_SQUIRGLE : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpStatsSquirgleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_BATTLE : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpStatsBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_TIME_ATTACK : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpStatsTimeAttackScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_TIME_BATTLE : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpStatsTimeBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_TRANCE : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpStatsTranceScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_GENERAL_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_SQUIRGLE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
@@ -4577,7 +4644,7 @@ public class Button {
                     return false;
                 }
                 case BUTTON_HELP_STATS_BATTLE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
@@ -4594,7 +4661,7 @@ public class Button {
                     return false;
                 }
                 case BUTTON_HELP_STATS_TIME_ATTACK_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
@@ -4647,32 +4714,32 @@ public class Button {
                     return false;
                 }
                 case BUTTON_HELP_STATS_TIME_BATTLE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_STATS_TRANCE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpStatsScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_SQUIRGLE : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpTutorialSquirgleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_BATTLE : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpTutorialBattleScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_TIME_ATTACK : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpTutorialTimeAttackScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_TIME_BATTLE : {
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpTutorialTimeBattleScreen(game, containerColor));
                     return true;
                 }
@@ -4680,13 +4747,13 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.usePhases = false;
                     game.setScreen(new TutorialTranceScreen(game));
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpScreen(game, containerColor));
                     return true;
                 }
@@ -4694,7 +4761,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 4;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4705,7 +4772,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 5;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4716,7 +4783,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 6;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4727,7 +4794,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 7;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4738,7 +4805,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 8;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4749,7 +4816,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 9;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4757,7 +4824,7 @@ public class Button {
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_SQUIRGLE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpTutorialScreen(game, containerColor));
                     return true;
                 }
@@ -4765,7 +4832,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 4;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4776,7 +4843,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 5;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4787,7 +4854,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 6;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4798,7 +4865,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 7;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4809,7 +4876,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 8;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4820,7 +4887,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 9;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4828,7 +4895,7 @@ public class Button {
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_BATTLE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpTutorialScreen(game, containerColor));
                     return true;
                 }
@@ -4836,7 +4903,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 4;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4847,7 +4914,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 5;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4858,7 +4925,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 6;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4869,7 +4936,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 7;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4880,7 +4947,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 8;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4891,7 +4958,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 9;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4899,7 +4966,7 @@ public class Button {
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_TIME_ATTACK_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpTutorialScreen(game, containerColor));
                     return true;
                 }
@@ -4907,7 +4974,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 4;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4918,7 +4985,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 5;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4929,7 +4996,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 6;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4940,7 +5007,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 7;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4951,7 +5018,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 8;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4962,7 +5029,7 @@ public class Button {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 9;
                     game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
                     game.updateSave(game.SAVE_TRACK, game.track);
@@ -4970,7 +5037,7 @@ public class Button {
                     return true;
                 }
                 case BUTTON_HELP_TUTORIAL_TIME_BATTLE_BACK : {
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuHelpTutorialScreen(game, containerColor));
                     return true;
                 }
@@ -5096,7 +5163,7 @@ public class Button {
                         game.volume = 10;
                     }
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).setVolume((float) (game.volume / 10.0));
-                    game.disconfirmSound.play((float) (game.volume / 10.0));
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     return false;
                 }
                 case BUTTON_VOLUME_CHEVRON_UP : {
@@ -5106,7 +5173,31 @@ public class Button {
                         game.volume = 0;
                     }
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).setVolume((float) (game.volume / 10.0));
-                    game.confirmSound.play((float) (game.volume / 10.0));
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    return false;
+                }
+                case BUTTON_FX_VOLUME : {
+                    return false;
+                }
+                case BUTTON_FX_VOLUME_WAVES : {
+                    return false;
+                }
+                case BUTTON_FX_VOLUME_CHEVRON_DOWN : {
+                    if(game.fxVolume > 0) {
+                        game.fxVolume -= 1;
+                    } else {
+                        game.fxVolume = 10;
+                    }
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
+                    return false;
+                }
+                case BUTTON_FX_VOLUME_CHEVRON_UP : {
+                    if(game.fxVolume < 10) {
+                        game.fxVolume += 1;
+                    } else {
+                        game.fxVolume = 0;
+                    }
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     return false;
                 }
                 case BUTTON_WIPE_DATA : {
@@ -5137,6 +5228,7 @@ public class Button {
                 && buttonType != BUTTON_DIFFICULTY
                 && buttonType != BUTTON_TIME
                 && buttonType != BUTTON_VOLUME
+                && buttonType != BUTTON_FX_VOLUME
                 && !isMusicTypeButton()
                 && !isMusicNameButton()
                 && buttonType != BUTTON_DIFFICULTY_DIAL
@@ -5148,6 +5240,9 @@ public class Button {
                 && buttonType != BUTTON_VOLUME_WAVES
                 && buttonType != BUTTON_VOLUME_CHEVRON_DOWN
                 && buttonType != BUTTON_VOLUME_CHEVRON_UP
+                && buttonType != BUTTON_FX_VOLUME_WAVES
+                && buttonType != BUTTON_FX_VOLUME_CHEVRON_DOWN
+                && buttonType != BUTTON_FX_VOLUME_CHEVRON_UP
                 && buttonType != BUTTON_WIPE_DATA
                 && buttonType != BUTTON_HARDCORE
                 && buttonType != BUTTON_HARDCORE_SKULL
