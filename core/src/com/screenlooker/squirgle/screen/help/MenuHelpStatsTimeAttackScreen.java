@@ -262,10 +262,19 @@ public class MenuHelpStatsTimeAttackScreen implements Screen, InputProcessor {
                 && touchPoint.y < game.partitionSize + (inputHeight / 3);
 
         if(gameLength1MTouched) {
+            if(game.timeAttackNumSeconds != Squirgle.ONE_MINUTE) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
+            }
             game.timeAttackNumSeconds = Squirgle.ONE_MINUTE;
         } else if(gameLength3MTouched) {
+            if(game.timeAttackNumSeconds != Squirgle.THREE_MINUTES) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
+            }
             game.timeAttackNumSeconds = Squirgle.THREE_MINUTES;
         } else if(gameLength5MTouched) {
+            if(game.timeAttackNumSeconds != Squirgle.FIVE_MINUTES) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
+            }
             game.timeAttackNumSeconds = Squirgle.FIVE_MINUTES;
         }
 

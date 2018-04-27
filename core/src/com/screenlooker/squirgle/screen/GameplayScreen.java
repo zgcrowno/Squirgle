@@ -1867,11 +1867,11 @@ public class GameplayScreen implements Screen, InputProcessor {
             lineTouched = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2;
             triangleTouched = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3;
             squareTouched = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4;
-            pentagonTouched = keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5;
-            hexagonTouched = keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6;
-            septagonTouched = keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7;
-            octagonTouched = keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8;
-            nonagonTouched = keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9;
+            pentagonTouched = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && game.base >= 5;
+            hexagonTouched = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && game.base >= 6;
+            septagonTouched = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && game.base >= 7;
+            octagonTouched = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && game.base >= 8;
+            nonagonTouched = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && game.base >= 9;
             playTouched = pointTouched;
             homeTouched = lineTouched;
             exitTouched = triangleTouched;
@@ -1880,11 +1880,11 @@ public class GameplayScreen implements Screen, InputProcessor {
             lineTouchedP1 = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2;
             triangleTouchedP1 = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3;
             squareTouchedP1 = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4;
-            pentagonTouchedP1 = keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5;
-            hexagonTouchedP1 = keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6;
-            septagonTouchedP1 = keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7;
-            octagonTouchedP1 = keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8;
-            nonagonTouchedP1 = keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9;
+            pentagonTouchedP1 = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && game.base >= 5;
+            hexagonTouchedP1 = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && game.base >= 6;
+            septagonTouchedP1 = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && game.base >= 7;
+            octagonTouchedP1 = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && game.base >= 8;
+            nonagonTouchedP1 = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && game.base >= 9;
             playTouched = pointTouchedP1;
             homeTouched = lineTouchedP1;
             exitTouched = triangleTouchedP1;
@@ -1923,6 +1923,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                     } else if (nonagonTouched) {
                         transitionShape(null, Shape.NONAGON);
                     } else if (pauseTouched) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
                         pause();
                         pauseTouched = false;
                         pauseBackTouched = false;
@@ -1948,6 +1949,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                     } else if (nonagonTouchedP1) {
                         transitionShape(P1, Shape.NONAGON);
                     } else if (pauseTouched) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
                         pause();
                         pauseTouched = false;
                         pauseBackTouched = false;
@@ -1973,6 +1975,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                     } else if (nonagonTouchedP2) {
                         transitionShape(P2, Shape.NONAGON);
                     } else if (pauseTouched) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
                         pause();
                         pauseTouched = false;
                         pauseBackTouched = false;
@@ -2024,6 +2027,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     }
 
     public void handlePauseInput() {
+        game.disconfirmSound.play((float) (game.fxVolume / 10.0));
         if (pauseBackTouched) {
             timePaused += System.currentTimeMillis() - pauseStartTime;
             resume();

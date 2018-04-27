@@ -415,9 +415,11 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                     || touchPoint.y < game.partitionSize;
 
             if(helpConfirmTouched) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
                 game.wipeSave();
                 game.showWipeDataPrompt = false;
             } else if(helpDisconfirmTouched || nonHelpTouched) {
+                game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                 game.showWipeDataPrompt = false;
             }
         }

@@ -355,6 +355,7 @@ public class TranceScreen implements Screen, InputProcessor {
     public void handleInput() {
         if(!paused) {
             if (pauseTouched) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
                 pause();
             }
         } else {
@@ -363,6 +364,7 @@ public class TranceScreen implements Screen, InputProcessor {
     }
 
     public void handlePauseInput() {
+        game.disconfirmSound.play((float) (game.fxVolume / 10.0));
         if (pauseBackTouched) {
             timePaused += System.currentTimeMillis() - pauseStartTime;
             resume();

@@ -1952,11 +1952,11 @@ public class TutorialScreen implements Screen, InputProcessor {
             lineTouched = (keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2) && phase >= PHASE_TWO;
             triangleTouched = (keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3) && phase >= PHASE_TWO;
             squareTouched = (keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4) && phase >= PHASE_TWO;
-            pentagonTouched = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && phase >= PHASE_TWO;
-            hexagonTouched = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && phase >= PHASE_TWO;
-            septagonTouched = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && phase >= PHASE_TWO;
-            octagonTouched = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && phase >= PHASE_TWO;
-            nonagonTouched = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && phase >= PHASE_TWO;
+            pentagonTouched = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && phase >= PHASE_TWO && game.base >= 5;
+            hexagonTouched = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && phase >= PHASE_TWO && game.base >= 6;
+            septagonTouched = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && phase >= PHASE_TWO && game.base >= 7;
+            octagonTouched = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && phase >= PHASE_TWO && game.base >= 8;
+            nonagonTouched = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && phase >= PHASE_TWO && game.base >= 9;
             playTouched = pointTouched;
             homeTouched = lineTouched;
             exitTouched = triangleTouched;
@@ -1965,11 +1965,11 @@ public class TutorialScreen implements Screen, InputProcessor {
             lineTouchedP1 = (keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2) && phase >= PHASE_TWO;
             triangleTouchedP1 = (keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3) && phase >= PHASE_TWO;
             squareTouchedP1 = (keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4) && phase >= PHASE_TWO;
-            pentagonTouchedP1 = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && phase >= PHASE_TWO;
-            hexagonTouchedP1 = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && phase >= PHASE_TWO;
-            septagonTouchedP1 = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && phase >= PHASE_TWO;
-            octagonTouchedP1 = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && phase >= PHASE_TWO;
-            nonagonTouchedP1 = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && phase >= PHASE_TWO;
+            pentagonTouchedP1 = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && phase >= PHASE_TWO && game.base >= 5;
+            hexagonTouchedP1 = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && phase >= PHASE_TWO && game.base >= 6;
+            septagonTouchedP1 = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && phase >= PHASE_TWO && game.base >= 7;
+            octagonTouchedP1 = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && phase >= PHASE_TWO && game.base >= 8;
+            nonagonTouchedP1 = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && phase >= PHASE_TWO && game.base >= 9;
             playTouched = pointTouchedP1;
             homeTouched = lineTouchedP1;
             exitTouched = triangleTouchedP1;
@@ -2009,6 +2009,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     } else if (nonagonTouched) {
                         transitionShape(null, Shape.NONAGON);
                     } else if (pauseTouched) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
                         pause();
                         pauseTouched = false;
                         pauseBackTouched = false;
@@ -2034,6 +2035,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     } else if (nonagonTouchedP1) {
                         transitionShape(P1, Shape.NONAGON);
                     } else if (pauseTouched) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
                         pause();
                         pauseTouched = false;
                         pauseBackTouched = false;
@@ -2110,6 +2112,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     }
 
     public void handlePauseInput() {
+        game.disconfirmSound.play((float) (game.fxVolume / 10.0));
         if (pauseBackTouched) {
             timePaused += System.currentTimeMillis() - pauseStartTime;
             resume();
@@ -2124,20 +2127,28 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public void handleHelpInput() {
         if(helpTouched) {
+            if(helpTextVisible) {
+                game.disconfirmSound.play((float) (game.fxVolume / 10.0));
+            } else {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
+            }
             helpTextVisible = !helpTextVisible;
         }else if(helpChevronDownTouched) {
+            game.disconfirmSound.play((float) (game.fxVolume / 10.0));
             if(currentHelpTextIndex > 0) {
                 currentHelpTextIndex--;
             } else {
                 currentHelpTextIndex = getHelpTextMaxIndex();
             }
         } else if(helpChevronUpTouched) {
+            game.confirmSound.play((float) (game.fxVolume / 10.0));
             if(currentHelpTextIndex < getHelpTextMaxIndex()) {
                 currentHelpTextIndex++;
             } else {
                 currentHelpTextIndex = 0;
             }
         } else if(helpNextTouched) {
+            game.confirmSound.play((float) (game.fxVolume / 10.0));
             phase++;
             currentHelpTextIndex = 0;
         }

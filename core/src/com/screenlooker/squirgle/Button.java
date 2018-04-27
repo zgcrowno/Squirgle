@@ -5045,55 +5045,88 @@ public class Button {
                     return false;
                 }
                 case BUTTON_MUSIC_FULL : {
+                    if(game.usePhases) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    }
                     game.usePhases = false;
                     return false;
                 }
                 case BUTTON_MUSIC_SPLIT : {
+                    if(!game.usePhases) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    }
                     game.usePhases = true;
                     return false;
                 }
                 case BUTTON_MUSIC_POINTILLISM : {
+                    if(game.track != game.MUSIC_POINTILLISM) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    }
                     game.track = game.MUSIC_POINTILLISM;
                     return false;
                 }
                 case BUTTON_MUSIC_LINEAGE : {
+                    if(game.track != game.MUSIC_LINEAGE) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    }
                     game.track = game.MUSIC_LINEAGE;
                     return false;
                 }
                 case BUTTON_MUSIC_TRI_THE_WALTZ : {
+                    if(game.track != game.MUSIC_TRI_THE_WALTZ) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    }
                     game.track = game.MUSIC_TRI_THE_WALTZ;
                     return false;
                 }
                 case BUTTON_MUSIC_SQUARED_OFF : {
+                    if(game.track != game.MUSIC_SQUARED_OFF) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    }
                     game.track = game.MUSIC_SQUARED_OFF;
                     return false;
                 }
                 case BUTTON_MUSIC_PENT_UP : {
                     if(game.maxBase > 4) {
+                        if(game.track != game.MUSIC_PENT_UP) {
+                            game.confirmSound.play((float) (game.fxVolume / 10.0));
+                        }
                         game.track = game.MUSIC_PENT_UP;
                     }
                     return false;
                 }
                 case BUTTON_MUSIC_HEXIDECIBEL : {
                     if(game.maxBase > 5) {
+                        if(game.track != game.MUSIC_HEXIDECIBEL) {
+                            game.confirmSound.play((float) (game.fxVolume / 10.0));
+                        }
                         game.track = game.MUSIC_HEXIDECIBEL;
                     }
                     return false;
                 }
                 case BUTTON_MUSIC_INTERSEPTOR : {
                     if(game.maxBase > 6) {
+                        if(game.track != game.MUSIC_INTERSEPTOR) {
+                            game.confirmSound.play((float) (game.fxVolume / 10.0));
+                        }
                         game.track = game.MUSIC_INTERSEPTOR;
                     }
                     return false;
                 }
                 case BUTTON_MUSIC_ROCTOPUS : {
                     if(game.maxBase > 7) {
+                        if(game.track != game.MUSIC_ROCTOPUS) {
+                            game.confirmSound.play((float) (game.fxVolume / 10.0));
+                        }
                         game.track = game.MUSIC_ROCTOPUS;
                     }
                     return false;
                 }
                 case BUTTON_MUSIC_NONPLUSSED : {
                     if(game.maxBase > 8) {
+                        if(game.track != game.MUSIC_NONPLUSSED) {
+                            game.confirmSound.play((float) (game.fxVolume / 10.0));
+                        }
                         game.track = game.MUSIC_NONPLUSSED;
                     }
                     return false;
@@ -5105,6 +5138,7 @@ public class Button {
                     return false;
                 }
                 case BUTTON_DIFFICULTY_CHEVRON_DOWN : {
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     if(game.difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
                         game.difficulty = Squirgle.DIFFICULTY_HARD;
                     } else if(game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
@@ -5115,6 +5149,7 @@ public class Button {
                     return false;
                 }
                 case BUTTON_DIFFICULTY_CHEVRON_UP : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     if(game.difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
                         game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
                     } else if(game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
@@ -5131,6 +5166,7 @@ public class Button {
                     return false;
                 }
                 case BUTTON_TIME_CHEVRON_DOWN : {
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     if(game.timeAttackNumSeconds == game.ONE_MINUTE) {
                         game.timeAttackNumSeconds = game.FIVE_MINUTES;
                     } else if(game.timeAttackNumSeconds == game.THREE_MINUTES) {
@@ -5141,6 +5177,7 @@ public class Button {
                     return false;
                 }
                 case BUTTON_TIME_CHEVRON_UP : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     if(game.timeAttackNumSeconds == game.ONE_MINUTE) {
                         game.timeAttackNumSeconds = game.THREE_MINUTES;
                     } else if(game.timeAttackNumSeconds == game.THREE_MINUTES) {
@@ -5201,6 +5238,7 @@ public class Button {
                     return false;
                 }
                 case BUTTON_WIPE_DATA : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.showWipeDataPrompt = !game.showWipeDataPrompt;
                     return false;
                 }
@@ -5211,10 +5249,20 @@ public class Button {
                     return false;
                 }
                 case BUTTON_HARDCORE_CHEVRON_DOWN : {
+                    if(game.hardcore) {
+                        game.disconfirmSound.play((float) (game.fxVolume / 10.0));
+                    } else {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    }
                     game.hardcore = !game.hardcore;
                     return false;
                 }
                 case BUTTON_HARDCORE_CHEVRON_UP : {
+                    if(game.hardcore) {
+                        game.disconfirmSound.play((float) (game.fxVolume / 10.0));
+                    } else {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    }
                     game.hardcore = !game.hardcore;
                     return false;
                 }

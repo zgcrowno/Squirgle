@@ -321,18 +321,36 @@ public class MenuHelpStatsTimeBattleScreen implements Screen, InputProcessor {
                 && touchPoint.y < gameLengthMaxY;
 
         if(difficultyNameEasyTouched) {
+            if(!game.difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
+            }
             game.difficulty = Squirgle.DIFFICULTY_EASY;
         } else if(difficultyNameMediumTouched) {
+            if(!game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
+            }
             game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
         } else if(difficultyNameHardTouched) {
+            if(!game.difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
+            }
             game.difficulty = Squirgle.DIFFICULTY_HARD;
         }
 
         if(gameLength1MTouched) {
+            if(game.timeAttackNumSeconds != Squirgle.ONE_MINUTE) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
+            }
             game.timeAttackNumSeconds = Squirgle.ONE_MINUTE;
         } else if(gameLength3MTouched) {
+            if(game.timeAttackNumSeconds != Squirgle.THREE_MINUTES) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
+            }
             game.timeAttackNumSeconds = Squirgle.THREE_MINUTES;
         } else if(gameLength5MTouched) {
+            if(game.timeAttackNumSeconds != Squirgle.FIVE_MINUTES) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
+            }
             game.timeAttackNumSeconds = Squirgle.FIVE_MINUTES;
         }
 
