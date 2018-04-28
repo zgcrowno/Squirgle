@@ -125,6 +125,7 @@ public class Squirgle extends Game {
 	public float fourthOfScreen;
 	public float thirdOfScreen;
 	public float fiveTwelfthsOfScreen;
+	public int gameplayType;
 	public int base;
 	public int maxBase;
 	public int minBase;
@@ -201,6 +202,7 @@ public class Squirgle extends Game {
 		beatenBefore = save.getBoolean(SAVE_BEATEN_BEFORE, false);
 		usePhases = save.getBoolean(SAVE_USE_PHASES, false);
 
+		gameplayType = GAMEPLAY_SQUIRGLE;
 		base = 4;
 		maxBase = save.getInteger(SAVE_MAX_BASE, 4);
 		minBase = 4;

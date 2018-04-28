@@ -28,53 +28,11 @@ public class Button {
     public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE = 10;
     public static final int BUTTON_TYPE_SINGLE_PLAYER_TRANCE = 11;
     public static final int BUTTON_TYPE_SINGLE_PLAYER_BACK = 12;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SQUARE = 13;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_PENTAGON = 14;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_HEXAGON = 15;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SEPTAGON = 16;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_OCTAGON = 17;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_NONAGON = 18;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK = 19;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SQUARE = 20;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_PENTAGON = 21;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_HEXAGON = 22;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SEPTAGON = 23;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_OCTAGON = 24;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_NONAGON = 25;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK = 26;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SQUARE = 27;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_PENTAGON = 28;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_HEXAGON = 29;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SEPTAGON = 30;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_OCTAGON = 31;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_NONAGON = 32;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK = 33;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SQUARE = 34;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_PENTAGON = 35;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_HEXAGON = 36;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SEPTAGON = 37;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_OCTAGON = 38;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_NONAGON = 39;
-    public static final int BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK = 40;
     public static final int BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY = 41;
     public static final int BUTTON_TYPE_SINGLE_PLAYER_TRANCE_BACK = 42;
     public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE = 43;
     public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE = 44;
     public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK = 45;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SQUARE = 46;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_PENTAGON = 47;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_HEXAGON = 48;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SEPTAGON = 49;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_OCTAGON = 50;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_NONAGON = 51;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK = 52;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SQUARE = 53;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_PENTAGON = 54;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_HEXAGON = 55;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SEPTAGON = 56;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_OCTAGON = 57;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_NONAGON = 58;
-    public static final int BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK = 59;
     public static final int BUTTON_OPTIONS_BACK = 60;
     public static final int BUTTON_HELP_ADDITION = 61;
     public static final int BUTTON_HELP_STATS = 62;
@@ -189,6 +147,15 @@ public class Button {
     public static final int BUTTON_HARDCORE_SKULL = 171;
     public static final int BUTTON_HARDCORE_CHEVRON_DOWN = 172;
     public static final int BUTTON_HARDCORE_CHEVRON_UP = 173;
+    public static final int BUTTON_PLAY = 174;
+    public static final int BUTTON_SQUARE = 175;
+    public static final int BUTTON_PENTAGON = 176;
+    public static final int BUTTON_HEXAGON = 177;
+    public static final int BUTTON_SEPTAGON = 178;
+    public static final int BUTTON_OCTAGON = 179;
+    public static final int BUTTON_NONAGON = 180;
+    public static final int BUTTON_BASE_SELECT_BACK = 181;
+    public static final int BUTTON_PRE_GAME_BACK = 182;
 
     public static final String SINGLE_PLAYER_SYMBOL_STRING = "1P";
     public static final String MULTIPLAYER_SYMBOL_STRING = "2P";
@@ -564,250 +531,6 @@ public class Button {
                         containedColor);
                 break;
             }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SQUARE : {
-                game.draw.drawSquare(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_PENTAGON : {
-                game.draw.drawPentagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_HEXAGON : {
-                game.draw.drawHexagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SEPTAGON : {
-                game.draw.drawSeptagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_OCTAGON : {
-                game.draw.drawOctagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_NONAGON : {
-                game.draw.drawNonagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK : {
-                game.draw.drawBackButton(x + (width / 2),
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SQUARE : {
-                game.draw.drawSquare(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_PENTAGON : {
-                game.draw.drawPentagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_HEXAGON : {
-                game.draw.drawHexagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SEPTAGON : {
-                game.draw.drawSeptagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_OCTAGON : {
-                game.draw.drawOctagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_NONAGON : {
-                game.draw.drawNonagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK : {
-                game.draw.drawBackButton(x + (width / 2),
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SQUARE : {
-                game.draw.drawSquare(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_PENTAGON : {
-                game.draw.drawPentagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_HEXAGON : {
-                game.draw.drawHexagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SEPTAGON : {
-                game.draw.drawSeptagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_OCTAGON : {
-                game.draw.drawOctagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_NONAGON : {
-                game.draw.drawNonagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK : {
-                game.draw.drawBackButton(x + (width / 2),
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SQUARE : {
-                game.draw.drawSquare(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_PENTAGON : {
-                game.draw.drawPentagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_HEXAGON : {
-                game.draw.drawHexagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SEPTAGON : {
-                game.draw.drawSeptagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_OCTAGON : {
-                game.draw.drawOctagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_NONAGON : {
-                game.draw.drawNonagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK : {
-                game.draw.drawBackButton(x + (width / 2),
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY : {
                 game.draw.drawPlayButton(centerX,
                         symbolY,
@@ -833,128 +556,6 @@ public class Button {
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK : {
-                game.draw.drawBackButton(x + (width / 2),
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SQUARE : {
-                game.draw.drawSquare(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_PENTAGON : {
-                game.draw.drawPentagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_HEXAGON : {
-                game.draw.drawHexagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SEPTAGON : {
-                game.draw.drawSeptagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_OCTAGON : {
-                game.draw.drawOctagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_NONAGON : {
-                game.draw.drawNonagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK : {
-                game.draw.drawBackButton(x + (width / 2),
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SQUARE : {
-                game.draw.drawSquare(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_PENTAGON : {
-                game.draw.drawPentagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_HEXAGON : {
-                game.draw.drawHexagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SEPTAGON : {
-                game.draw.drawSeptagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_OCTAGON : {
-                game.draw.drawOctagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_NONAGON : {
-                game.draw.drawNonagon(centerX,
-                        symbolY,
-                        symbolRadius,
-                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
-                        containedColor);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK : {
                 game.draw.drawBackButton(x + (width / 2),
                         symbolY,
                         symbolRadius,
@@ -1706,6 +1307,83 @@ public class Button {
                         containedColor);
                 break;
             }
+            case BUTTON_PLAY : {
+                game.draw.drawPlayButton(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_SQUARE : {
+                game.draw.drawSquare(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_PENTAGON : {
+                game.draw.drawPentagon(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HEXAGON : {
+                game.draw.drawHexagon(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_SEPTAGON : {
+                game.draw.drawSeptagon(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_OCTAGON : {
+                game.draw.drawOctagon(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_NONAGON : {
+                game.draw.drawNonagon(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_BASE_SELECT_BACK : {
+                game.draw.drawBackButton(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_PRE_GAME_BACK : {
+                game.draw.drawBackButton(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
         }
     }
 
@@ -1901,370 +1579,6 @@ public class Button {
                         textOpacity);
                 break;
             }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SQUARE : {
-                game.layout.setText(game.fontButton, SQUARE_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        SQUARE_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_PENTAGON : {
-                game.layout.setText(game.fontButton, PENTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        PENTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_HEXAGON : {
-                game.layout.setText(game.fontButton, HEXAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        HEXAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SEPTAGON : {
-                game.layout.setText(game.fontButton, SEPTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        SEPTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_OCTAGON : {
-                game.layout.setText(game.fontButton, OCTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        OCTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_NONAGON : {
-                game.layout.setText(game.fontButton, NONAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        NONAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK : {
-                game.layout.setText(game.fontButton, BACK_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        BACK_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SQUARE : {
-                game.layout.setText(game.fontButton, SQUARE_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        SQUARE_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_PENTAGON : {
-                game.layout.setText(game.fontButton, PENTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        PENTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_HEXAGON : {
-                game.layout.setText(game.fontButton, HEXAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        HEXAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SEPTAGON : {
-                game.layout.setText(game.fontButton, SEPTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        SEPTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_OCTAGON : {
-                game.layout.setText(game.fontButton, OCTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        OCTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_NONAGON : {
-                game.layout.setText(game.fontButton, NONAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        NONAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK : {
-                game.layout.setText(game.fontButton, BACK_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        BACK_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SQUARE : {
-                game.layout.setText(game.fontButton, SQUARE_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        SQUARE_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_PENTAGON : {
-                game.layout.setText(game.fontButton, PENTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        PENTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_HEXAGON : {
-                game.layout.setText(game.fontButton, HEXAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        HEXAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SEPTAGON : {
-                game.layout.setText(game.fontButton, SEPTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        SEPTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_OCTAGON : {
-                game.layout.setText(game.fontButton, OCTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        OCTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_NONAGON : {
-                game.layout.setText(game.fontButton, NONAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        NONAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK : {
-                game.layout.setText(game.fontButton, BACK_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        BACK_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SQUARE : {
-                game.layout.setText(game.fontButton, SQUARE_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        SQUARE_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_PENTAGON : {
-                game.layout.setText(game.fontButton, PENTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        PENTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_HEXAGON : {
-                game.layout.setText(game.fontButton, HEXAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        HEXAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SEPTAGON : {
-                game.layout.setText(game.fontButton, SEPTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        SEPTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_OCTAGON : {
-                game.layout.setText(game.fontButton, OCTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        OCTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_NONAGON : {
-                game.layout.setText(game.fontButton, NONAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        NONAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK : {
-                game.layout.setText(game.fontButton, BACK_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        BACK_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
             case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY : {
                 game.layout.setText(game.fontButton, PLAY_STRING);
                 FontUtils.printText(game.batch,
@@ -2318,188 +1632,6 @@ public class Button {
                 break;
             }
             case BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK : {
-                game.layout.setText(game.fontButton, BACK_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        BACK_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SQUARE : {
-                game.layout.setText(game.fontButton, SQUARE_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        SQUARE_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_PENTAGON : {
-                game.layout.setText(game.fontButton, PENTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        PENTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_HEXAGON : {
-                game.layout.setText(game.fontButton, HEXAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        HEXAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SEPTAGON : {
-                game.layout.setText(game.fontButton, SEPTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        SEPTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_OCTAGON : {
-                game.layout.setText(game.fontButton, OCTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        OCTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_NONAGON : {
-                game.layout.setText(game.fontButton, NONAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        NONAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK : {
-                game.layout.setText(game.fontButton, BACK_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        BACK_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SQUARE : {
-                game.layout.setText(game.fontButton, SQUARE_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        SQUARE_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_PENTAGON : {
-                game.layout.setText(game.fontButton, PENTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        PENTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_HEXAGON : {
-                game.layout.setText(game.fontButton, HEXAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        HEXAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SEPTAGON : {
-                game.layout.setText(game.fontButton, SEPTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        SEPTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_OCTAGON : {
-                game.layout.setText(game.fontButton, OCTAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        OCTAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_NONAGON : {
-                game.layout.setText(game.fontButton, NONAGON_STRING);
-                FontUtils.printText(game.batch,
-                        game.fontButton,
-                        game.layout,
-                        Color.BLACK,
-                        NONAGON_STRING,
-                        centerX,
-                        y + ((2.7f * game.layout.height) / 4),
-                        0,
-                        textOpacity);
-                break;
-            }
-            case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK : {
                 game.layout.setText(game.fontButton, BACK_STRING);
                 FontUtils.printText(game.batch,
                         game.fontButton,
@@ -3849,6 +2981,123 @@ public class Button {
             case BUTTON_HARDCORE_CHEVRON_UP : {
                 break;
             }
+            case BUTTON_PLAY : {
+                game.layout.setText(game.fontButton, PLAY_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PLAY_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_SQUARE : {
+                game.layout.setText(game.fontButton, SQUARE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUARE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_PENTAGON : {
+                game.layout.setText(game.fontButton, PENTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PENTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_HEXAGON : {
+                game.layout.setText(game.fontButton, HEXAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HEXAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_SEPTAGON : {
+                game.layout.setText(game.fontButton, SEPTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SEPTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_OCTAGON : {
+                game.layout.setText(game.fontButton, OCTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OCTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_NONAGON : {
+                game.layout.setText(game.fontButton, NONAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        NONAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_BASE_SELECT_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_PRE_GAME_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
         }
         if(textOpacity < 1) {
             textOpacity += 0.1;
@@ -4081,274 +3330,37 @@ public class Button {
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE: {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerSquirgleScreen(game, containerColor));
+                    game.gameplayType = Squirgle.GAMEPLAY_SQUIRGLE;
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE: {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerBattleScreen(game, containerColor));
+                    game.gameplayType = Squirgle.GAMEPLAY_BATTLE;
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK: {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerTimeAttackScreen(game, containerColor));
+                    game.gameplayType = Squirgle.GAMEPLAY_TIME_ATTACK;
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE: {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerTimeBattleScreen(game, containerColor));
+                    game.gameplayType = Squirgle.GAMEPLAY_TIME_BATTLE;
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TRANCE: {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerTranceScreen(game, containerColor));
+                    game.gameplayType = Squirgle.GAMEPLAY_TRANCE;
+                    game.setScreen(new PreGameScreen(game, containerColor, game.gameplayType));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BACK : {
                     game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.setScreen(new MenuTypeScreen(game, containerColor));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SQUARE: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 4;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_PENTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 5;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_HEXAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 6;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_SEPTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 7;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_OCTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 8;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_NONAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 9;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_SQUIRGLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE_BACK : {
-                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SQUARE: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 4;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.updateSave(game.SAVE_DIFFICULTY, game.difficulty);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_PENTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 5;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.updateSave(game.SAVE_DIFFICULTY, game.difficulty);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_HEXAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 6;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.updateSave(game.SAVE_DIFFICULTY, game.difficulty);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_SEPTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 7;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.updateSave(game.SAVE_DIFFICULTY, game.difficulty);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_OCTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 8;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.updateSave(game.SAVE_DIFFICULTY, game.difficulty);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_NONAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 9;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.updateSave(game.SAVE_DIFFICULTY, game.difficulty);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_BATTLE_BACK : {
-                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SQUARE: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 4;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_PENTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 5;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_HEXAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 6;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_SEPTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 7;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_OCTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 8;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_NONAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 9;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_ATTACK));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK_BACK : {
-                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SQUARE: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 4;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_PENTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 5;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_HEXAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 6;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_SEPTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 7;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_OCTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 8;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_NONAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 9;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE));
-                    return true;
-                }
-                case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE_BACK : {
-                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TRANCE_PLAY: {
@@ -4365,12 +3377,14 @@ public class Button {
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE: {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuTypeMultiplayerLocalBattleScreen(game, containerColor));
+                    game.gameplayType = Squirgle.GAMEPLAY_BATTLE_LOCAL;
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE: {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuTypeMultiplayerLocalTimeBattleScreen(game, containerColor));
+                    game.gameplayType = Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL;
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK : {
@@ -4379,127 +3393,10 @@ public class Button {
                     return true;
 
                 }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SQUARE: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 4;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
-                    return true;
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_PENTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 5;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
-                    return true;
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_HEXAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 6;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
-                    return true;
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_SEPTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 7;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
-                    return true;
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_OCTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 8;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
-                    return true;
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_NONAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 9;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_BATTLE_LOCAL));
-                    return true;
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE_BACK : {
-                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuTypeMultiplayerLocalScreen(game, containerColor));
-                    return true;
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SQUARE: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 4;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
-                    return true;
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_PENTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 5;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
-                    return true;
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_HEXAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 6;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
-                    return true;
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_SEPTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 7;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
-                    return true;
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_OCTAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 8;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
-                    return true;
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_NONAGON: {
-                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
-                    game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.base = 9;
-                    game.updateSave(game.SAVE_USE_PHASES, game.usePhases);
-                    game.updateSave(game.SAVE_TRACK, game.track);
-                    game.setScreen(new GameplayScreen(game, Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL));
-                    return true;
-                }
-                case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE_BACK : {
-                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuTypeMultiplayerLocalScreen(game, containerColor));
-                    return true;
-                }
                 case BUTTON_OPTIONS_BACK : {
                     game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.updateSave(game.SAVE_VOLUME, game.volume);
+                    game.updateSave(game.SAVE_FX_VOLUME, game.fxVolume);
                     game.updateSave(game.SAVE_HARDCORE, game.hardcore);
                     game.setScreen(new MainMenuScreen(game, containerColor));
                     return true;
@@ -5265,6 +4162,74 @@ public class Button {
                     }
                     game.hardcore = !game.hardcore;
                     return false;
+                }
+                case BUTTON_PLAY : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
+                    if(game.gameplayType == Squirgle.GAMEPLAY_TRANCE) {
+                        game.setScreen(new TranceScreen(game));
+                    } else {
+                        game.setScreen(new GameplayScreen(game, game.gameplayType));
+                    }
+                    return true;
+                }
+                case BUTTON_SQUARE : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    game.base = 4;
+                    game.setScreen(new PreGameScreen(game, containerColor, game.gameplayType));
+                    return true;
+                }
+                case BUTTON_PENTAGON : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    game.base = 5;
+                    game.setScreen(new PreGameScreen(game, containerColor, game.gameplayType));
+                    return true;
+                }
+                case BUTTON_HEXAGON : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    game.base = 6;
+                    game.setScreen(new PreGameScreen(game, containerColor, game.gameplayType));
+                    return true;
+                }
+                case BUTTON_SEPTAGON : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    game.base = 7;
+                    game.setScreen(new PreGameScreen(game, containerColor, game.gameplayType));
+                    return true;
+                }
+                case BUTTON_OCTAGON : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    game.base = 8;
+                    game.setScreen(new PreGameScreen(game, containerColor, game.gameplayType));
+                    return true;
+                }
+                case BUTTON_NONAGON : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    game.base = 9;
+                    game.setScreen(new PreGameScreen(game, containerColor, game.gameplayType));
+                    return true;
+                }
+                case BUTTON_BASE_SELECT_BACK : {
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
+                    if(game.gameplayType == Squirgle.GAMEPLAY_SQUIRGLE
+                            || game.gameplayType == Squirgle.GAMEPLAY_BATTLE
+                            || game.gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK
+                            || game.gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE
+                            || game.gameplayType == Squirgle.GAMEPLAY_TRANCE) {
+                        game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
+                    } else {
+                        game.setScreen(new MenuTypeMultiplayerLocalScreen(game, containerColor));
+                    }
+                    return true;
+                }
+                case BUTTON_PRE_GAME_BACK : {
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
+                    if(game.gameplayType == Squirgle.GAMEPLAY_TRANCE) {
+                        game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
+                    } else {
+                        game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
+                    }
+                    return true;
                 }
             }
         return false;
