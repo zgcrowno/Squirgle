@@ -3167,25 +3167,27 @@ public class Button {
     }
 
     public void drawDifficultyText() {
+        game.layout.setText(game.fontOptions, game.difficulty);
         FontUtils.printText(game.batch,
                 game.fontOptions,
                 game.layout,
                 Color.BLACK,
                 game.difficulty,
-                x + ((3 * width) / 5),
-                y + (height / 2),
+                centerX,
+                symbolY + symbolRadius - ((5 * symbolRadius) / 3) + (((2 * symbolRadius) / 3) / 2) + (game.layout.height / 6),
                 0,
                 1);
     }
 
     public void drawTimeText() {
+        game.layout.setText(game.fontOptions, (game.timeAttackNumSeconds / Squirgle.ONE_MINUTE) + MINUTES);
         FontUtils.printText(game.batch,
                 game.fontOptions,
                 game.layout,
                 Color.BLACK,
                 (game.timeAttackNumSeconds / Squirgle.ONE_MINUTE) + MINUTES,
-                x + ((3 * width) / 5),
-                y + (height / 2),
+                centerX,
+                symbolY + symbolRadius - ((5 * symbolRadius) / 3) + (((2 * symbolRadius) / 3) / 2) + (game.layout.height / 6),
                 0,
                 1);
     }
@@ -3226,37 +3228,40 @@ public class Button {
     }
 
     public void drawVolumeText() {
+        game.layout.setText(game.fontOptions, String.valueOf(game.volume));
         FontUtils.printText(game.batch,
                 game.fontOptions,
                 game.layout,
                 containedColor,
                 String.valueOf(game.volume),
-                x + ((3 * width) / 5),
-                y + (height / 2),
+                centerX,
+                symbolY + symbolRadius - ((5 * symbolRadius) / 3) + (((2 * symbolRadius) / 3) / 2) + (game.layout.height / 6),
                 0,
                 1);
     }
 
     public void drawFxVolumeText() {
+        game.layout.setText(game.fontOptions, String.valueOf(game.fxVolume));
         FontUtils.printText(game.batch,
                 game.fontOptions,
                 game.layout,
                 containedColor,
                 String.valueOf(game.fxVolume),
-                x + ((3 * width) / 5),
-                y + (height / 2),
+                centerX,
+                symbolY + symbolRadius - ((5 * symbolRadius) / 3) + (((2 * symbolRadius) / 3) / 2) + (game.layout.height / 6),
                 0,
                 1);
     }
 
     public void drawHardcoreText() {
+        game.layout.setText(game.fontOptions, game.hardcore ? game.HARDCORE_ENABLED : game.HARDCORE_DISABLED);
         FontUtils.printText(game.batch,
                 game.fontOptions,
                 game.layout,
                 containedColor,
                 game.hardcore ? game.HARDCORE_ENABLED : game.HARDCORE_DISABLED,
-                x + ((3 * width) / 5),
-                y + (height / 2),
+                centerX,
+                symbolY + symbolRadius - ((5 * symbolRadius) / 3) + (((2 * symbolRadius) / 3) / 2) + (game.layout.height / 6),
                 0,
                 1);
     }

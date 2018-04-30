@@ -39,7 +39,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     private final static float FONT_TRACK_NAME_DIVISOR = 6.5f;
     private final static float FONT_TRACK_TYPE_DIVISOR = 2f;
     private final static float FONT_TIME_DIVISOR = 1.2f;
-    private final static float FONT_OPTIONS_SIZE_DIVISOR = 15f;
+    private final static float FONT_OPTIONS_SIZE_DIVISOR = 7f;
 
     private int gameplayType;
     private int numMiddleInputsVertical;

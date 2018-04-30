@@ -39,7 +39,7 @@ public class PreGameScreen implements Screen, InputProcessor {
     private final static float FONT_TRACK_NAME_DIVISOR = 6.5f;
     private final static float FONT_TRACK_TYPE_DIVISOR = 2f;
     private final static float FONT_TIME_DIVISOR = 1.2f;
-    private final static float FONT_OPTIONS_SIZE_DIVISOR = 15f;
+    private final static float FONT_OPTIONS_SIZE_DIVISOR = 7f;
 
     private int gameplayType;
     private int numMiddleInputsVertical;
@@ -316,26 +316,26 @@ public class PreGameScreen implements Screen, InputProcessor {
                 difficultyColor,
                 Color.BLACK,
                 game);
-        difficultyDialButton = new Button((2 * game.partitionSize) + inputWidth + (inputWidth / 10),
-                gameplayType == Squirgle.GAMEPLAY_BATTLE ? (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10) : (3 * game.partitionSize) + (2 * inputHeightMiddle) + (inputHeightMiddle / 2) - (inputWidth / 10),
-                inputWidth / 5,
-                inputWidth / 5,
+        difficultyDialButton = new Button(difficultyButton.symbolX - (((2 * difficultyButton.symbolRadius) / 3) / 2),
+                difficultyButton.symbolY + difficultyButton.symbolRadius - ((2 * difficultyButton.symbolRadius) / 3),
+                (2 * difficultyButton.symbolRadius) / 3,
+                (2 * difficultyButton.symbolRadius) / 3,
                 Button.BUTTON_DIFFICULTY_DIAL,
                 difficultyColor,
                 Color.BLACK,
                 game);
-        difficultyChevronDownButton = new Button((2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 10),
-                gameplayType == Squirgle.GAMEPLAY_BATTLE ? (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10) : (3 * game.partitionSize) + (2 * inputHeightMiddle) + (inputHeightMiddle / 2) - (inputWidth / 10),
-                inputWidth / 5,
-                inputWidth / 5,
+        difficultyChevronDownButton = new Button(difficultyButton.x,
+                difficultyButton.symbolY + difficultyButton.symbolRadius - ((5 * difficultyButton.symbolRadius) / 3),
+                (2 * difficultyButton.symbolRadius) / 3,
+                (2 * difficultyButton.symbolRadius) / 3,
                 Button.BUTTON_DIFFICULTY_CHEVRON_DOWN,
                 difficultyColor,
                 Color.BLACK,
                 game);
-        difficultyChevronUpButton = new Button((2 * game.partitionSize) + inputWidth + ((7 * inputWidth) / 10),
-                gameplayType == Squirgle.GAMEPLAY_BATTLE ? (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10) : (3 * game.partitionSize) + (2 * inputHeightMiddle) + (inputHeightMiddle / 2) - (inputWidth / 10),
-                inputWidth / 5,
-                inputWidth / 5,
+        difficultyChevronUpButton = new Button(difficultyButton.x + difficultyButton.width - ((2 * difficultyButton.symbolRadius) / 3),
+                difficultyButton.symbolY + difficultyButton.symbolRadius - ((5 * difficultyButton.symbolRadius) / 3),
+                (2 * difficultyButton.symbolRadius) / 3,
+                (2 * difficultyButton.symbolRadius) / 3,
                 Button.BUTTON_DIFFICULTY_CHEVRON_UP,
                 difficultyColor,
                 Color.BLACK,
@@ -348,26 +348,26 @@ public class PreGameScreen implements Screen, InputProcessor {
                 timeColor,
                 Color.BLACK,
                 game);
-        timeClockButton = new Button((2 * game.partitionSize) + inputWidth + (inputWidth / 10),
-                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
-                inputWidth / 5,
-                inputWidth / 5,
+        timeClockButton = new Button(timeButton.symbolX - (((2 * timeButton.symbolRadius) / 3) / 2),
+                timeButton.symbolY + timeButton.symbolRadius - ((2 * timeButton.symbolRadius) / 3),
+                (2 * timeButton.symbolRadius) / 3,
+                (2 * timeButton.symbolRadius) / 3,
                 Button.BUTTON_TIME_CLOCK,
                 timeColor,
                 Color.BLACK,
                 game);
-        timeChevronDownButton = new Button((2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 10),
-                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
-                inputWidth / 5,
-                inputWidth / 5,
+        timeChevronDownButton = new Button(timeButton.x,
+                timeButton.symbolY + timeButton.symbolRadius - ((5 * timeButton.symbolRadius) / 3),
+                (2 * timeButton.symbolRadius) / 3,
+                (2 * timeButton.symbolRadius) / 3,
                 Button.BUTTON_TIME_CHEVRON_DOWN,
                 timeColor,
                 Color.BLACK,
                 game);
-        timeChevronUpButton = new Button((2 * game.partitionSize) + inputWidth + ((7 * inputWidth) / 10),
-                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
-                inputWidth / 5,
-                inputWidth / 5,
+        timeChevronUpButton = new Button(timeButton.x + timeButton.width - ((2 * timeButton.symbolRadius) / 3),
+                timeButton.symbolY + timeButton.symbolRadius - ((5 * timeButton.symbolRadius) / 3),
+                (2 * timeButton.symbolRadius) / 3,
+                (2 * timeButton.symbolRadius) / 3,
                 Button.BUTTON_TIME_CHEVRON_UP,
                 timeColor,
                 Color.BLACK,
