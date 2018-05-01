@@ -2,6 +2,7 @@ package com.screenlooker.squirgle;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.screenlooker.squirgle.screen.*;
@@ -156,6 +157,27 @@ public class Button {
     public static final int BUTTON_NONAGON = 180;
     public static final int BUTTON_BASE_SELECT_BACK = 181;
     public static final int BUTTON_PRE_GAME_BACK = 182;
+    public static final int BUTTON_SQUARE_STATS = 183;
+    public static final int BUTTON_PENTAGON_STATS = 184;
+    public static final int BUTTON_HEXAGON_STATS = 185;
+    public static final int BUTTON_SEPTAGON_STATS = 186;
+    public static final int BUTTON_OCTAGON_STATS = 187;
+    public static final int BUTTON_NONAGON_STATS = 188;
+    public static final int BUTTON_BASE_SELECT_STATS_BACK = 189;
+    public static final int BUTTON_STATS_BACK = 190;
+    public static final int BUTTON_STATS_GENERAL = 191;
+    public static final int BUTTON_STATS_SQUIRGLE = 192;
+    public static final int BUTTON_STATS_BATTLE = 193;
+    public static final int BUTTON_STATS_TIME_ATTACK = 194;
+    public static final int BUTTON_STATS_TIME_BATTLE = 195;
+    public static final int BUTTON_STATS_TRANCE = 196;
+
+    private final static int NUM_STATS_ELEMENTS_GENERAL = 5;
+    private final static int NUM_STATS_ELEMENTS_SQUIRGLE = 3;
+    private final static int NUM_STATS_ELEMENTS_BATTLE = 4;
+    private final static int NUM_STATS_ELEMENTS_TIME_ATTACK = 1;
+    private final static int NUM_STATS_ELEMENTS_TIME_BATTLE = 3;
+    private final static int NUM_STATS_ELEMENTS_TRANCE = 2;
 
     public static final String SINGLE_PLAYER_SYMBOL_STRING = "1P";
     public static final String MULTIPLAYER_SYMBOL_STRING = "2P";
@@ -198,6 +220,19 @@ public class Button {
     private static final String GENERAL_STRING = "GENERAL";
     private static final String HARDCORE_STRING = "HARDCORE MODE";
 
+    private final static String TIME_PLAYED_STRING = "TIME PLAYED:";
+    private final static String NUM_SQUIRGLES_STRING = "SQUIRGLES:";
+    private final static String LONGEST_RUN_STRING = "LONGEST RUN:";
+    private final static String FAVORITE_BASE_STRING = "FAVORITE BASE:";
+    private final static String FAVORITE_MODE_STRING = "FAVORITE MODE:";
+    private final static String FAVORITE_TRACK_STRING = "FAVORITE TRACK:";
+    private final static String FASTEST_VICTORY_STRING = "FASTEST VICTORY:";
+    private final static String NUM_WINS_STRING = "WINS:";
+    private final static String NUM_LOSSES_STRING = "LOSSES:";
+    private final static String HOURS_STRING = "h";
+    private final static String MINUTES_STRING = "m";
+    private final static String SECONDS_STRING = "s";
+
     public float x;
     public float y;
     public float width;
@@ -228,6 +263,14 @@ public class Button {
     public Shape squirglePrompt;
     public Shape squirglePromptBattleOne;
     public Shape squirglePromptBattleTwo;
+    public String numSquirglesBattleString;
+    public String fastestVictoryBattleString;
+    public String numWinsBattleString;
+    public String numLossesBattleString;
+    public String highestScoreTimeAttackString;
+    public String highestScoreTimeBattleString;
+    public String numWinsTimeBattleString;
+    public String numLossesTimeBattleString;
     public Squirgle game;
 
     public Button() {
@@ -315,6 +358,14 @@ public class Button {
                 null,
                 (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(x + ((3 * width) / 4), y + game.layout.height + ((height - game.layout.height) / 4)));
+        this.numSquirglesBattleString = "";
+        this.fastestVictoryBattleString = "";
+        this.numWinsBattleString = "";
+        this.numLossesBattleString = "";
+        this.highestScoreTimeAttackString = "";
+        this.highestScoreTimeBattleString = "";
+        this.numWinsTimeBattleString = "";
+        this.numLossesTimeBattleString = "";
     }
 
     public Button(float x, float y, float width, float height, int buttonType, Color containerColor, Color containedColor, Squirgle game) {
@@ -402,6 +453,14 @@ public class Button {
                 null,
                 (symbolRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(x + ((3 * width) / 4), y + game.layout.height + ((height - game.layout.height) / 4)));
+        this.numSquirglesBattleString = "";
+        this.fastestVictoryBattleString = "";
+        this.numWinsBattleString = "";
+        this.numLossesBattleString = "";
+        this.highestScoreTimeAttackString = "";
+        this.highestScoreTimeBattleString = "";
+        this.numWinsTimeBattleString = "";
+        this.numLossesTimeBattleString = "";
     }
 
     public void draw() {
@@ -1382,6 +1441,141 @@ public class Button {
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                         containedColor);
+                break;
+            }
+            case BUTTON_SQUARE_STATS : {
+                game.draw.drawSquare(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_PENTAGON_STATS : {
+                game.draw.drawPentagon(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_HEXAGON_STATS : {
+                game.draw.drawHexagon(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_SEPTAGON_STATS : {
+                game.draw.drawSeptagon(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_OCTAGON_STATS : {
+                game.draw.drawOctagon(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_NONAGON_STATS : {
+                game.draw.drawNonagon(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        0,
+                        containedColor);
+                break;
+            }
+            case BUTTON_BASE_SELECT_STATS_BACK : {
+                game.draw.drawBackButton(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_STATS_BACK : {
+                game.draw.drawBackButton(symbolX,
+                        symbolY,
+                        symbolRadius,
+                        symbolRadius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_STATS_GENERAL : {
+                game.shapeRendererFilled.setColor(Color.BLACK);
+                for(int i = 1; i <= NUM_STATS_ELEMENTS_GENERAL; i++) {
+                    game.shapeRendererFilled.rectLine(x,
+                            y + height - (i * (height / (NUM_STATS_ELEMENTS_GENERAL + 1))) - (game.layout.height / 2.47f),
+                            x + width,
+                            y + height - (i * (height / (NUM_STATS_ELEMENTS_GENERAL + 1))) - (game.layout.height / 2.47f),
+                            1);
+                }
+                break;
+            }
+            case BUTTON_STATS_SQUIRGLE : {
+                game.shapeRendererFilled.setColor(Color.BLACK);
+                for(int i = 1; i <= NUM_STATS_ELEMENTS_SQUIRGLE; i++) {
+                    game.shapeRendererFilled.rectLine(x,
+                            y + height - (i * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - (game.layout.height / 2.47f),
+                            x + width,
+                            y + height - (i * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - (game.layout.height / 2.47f),
+                            1);
+                }
+                break;
+            }
+            case BUTTON_STATS_BATTLE : {
+                game.shapeRendererFilled.setColor(Color.BLACK);
+                for(int i = 1; i <= NUM_STATS_ELEMENTS_BATTLE; i++) {
+                    game.shapeRendererFilled.rectLine(x,
+                            y + height - (i * (height / (NUM_STATS_ELEMENTS_BATTLE + 1))) - (game.layout.height / 2.47f),
+                            x + width,
+                            y + height - (i * (height / (NUM_STATS_ELEMENTS_BATTLE + 1))) - (game.layout.height / 2.47f),
+                            1);
+                }
+                break;
+            }
+            case BUTTON_STATS_TIME_ATTACK : {
+                game.shapeRendererFilled.setColor(Color.BLACK);
+                for(int i = 1; i <= NUM_STATS_ELEMENTS_TIME_ATTACK; i++) {
+                    game.shapeRendererFilled.rectLine(x,
+                            y + height - (i * (height / (NUM_STATS_ELEMENTS_TIME_ATTACK + 1))) - (game.layout.height / 2.47f),
+                            x + width,
+                            y + height - (i * (height / (NUM_STATS_ELEMENTS_TIME_ATTACK + 1))) - (game.layout.height / 2.47f),
+                            1);
+                }
+                break;
+            }
+            case BUTTON_STATS_TIME_BATTLE : {
+                game.shapeRendererFilled.setColor(Color.BLACK);
+                for(int i = 1; i <= NUM_STATS_ELEMENTS_TIME_BATTLE; i++) {
+                    game.shapeRendererFilled.rectLine(x,
+                            y + height - (i * (height / (NUM_STATS_ELEMENTS_TIME_BATTLE + 1))) - (game.layout.height / 2.47f),
+                            x + width,
+                            y + height - (i * (height / (NUM_STATS_ELEMENTS_TIME_BATTLE + 1))) - (game.layout.height / 2.47f),
+                            1);
+                }
+                break;
+            }
+            case BUTTON_STATS_TRANCE : {
+                game.shapeRendererFilled.setColor(Color.BLACK);
+                for(int i = 1; i <= NUM_STATS_ELEMENTS_TRANCE; i++) {
+                    game.shapeRendererFilled.rectLine(x,
+                            y + height - (i * (height / (NUM_STATS_ELEMENTS_TRANCE + 1))) - (game.layout.height / 2.47f),
+                            x + width,
+                            y + height - (i * (height / (NUM_STATS_ELEMENTS_TRANCE + 1))) - (game.layout.height / 2.47f),
+                            1);
+                }
                 break;
             }
         }
@@ -3098,6 +3292,932 @@ public class Button {
                         textOpacity);
                 break;
             }
+            case BUTTON_SQUARE_STATS : {
+                game.layout.setText(game.fontButton, SQUARE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SQUARE_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_PENTAGON_STATS : {
+                game.layout.setText(game.fontButton, PENTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        PENTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_HEXAGON_STATS : {
+                game.layout.setText(game.fontButton, HEXAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        HEXAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_SEPTAGON_STATS : {
+                game.layout.setText(game.fontButton, SEPTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        SEPTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_OCTAGON_STATS : {
+                game.layout.setText(game.fontButton, OCTAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        OCTAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_NONAGON_STATS : {
+                game.layout.setText(game.fontButton, NONAGON_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        NONAGON_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_BASE_SELECT_STATS_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_STATS_BACK : {
+                game.layout.setText(game.fontButton, BACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        BACK_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_STATS_GENERAL : {
+                //Time played
+                game.layout.setText(game.fontStats, TIME_PLAYED_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        TIME_PLAYED_STRING,
+                        x + (game.layout.width / 2),
+                        y + height - (height / (NUM_STATS_ELEMENTS_GENERAL + 1)),
+                        0,
+                        textOpacity);
+
+                long hoursPlayed = MathUtils.floor(game.stats.timePlayed / 1000 / 60 / 60);
+                long minutesPlayed = MathUtils.floor(game.stats.timePlayed / 1000 / 60 - (hoursPlayed * 60));
+                long secondsPlayed = MathUtils.floor(game.stats.timePlayed / 1000 - (minutesPlayed * 60) - (hoursPlayed * 60 * 60));
+                String timePlayedString = hoursPlayed + HOURS_STRING + minutesPlayed + MINUTES + secondsPlayed + SECONDS_STRING;
+                game.layout.setText(game.fontStats, timePlayedString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        timePlayedString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (height / (NUM_STATS_ELEMENTS_GENERAL + 1)) - game.layout.height,
+                        0,
+                        textOpacity);
+
+                //Squirgles
+                game.layout.setText(game.fontStats, NUM_SQUIRGLES_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        NUM_SQUIRGLES_STRING,
+                        x + (game.layout.width / 2),
+                        y + height - (2 * (height / (NUM_STATS_ELEMENTS_GENERAL + 1))),
+                        0,
+                        textOpacity);
+
+                String numSquirglesString = String.valueOf(game.stats.numSquirgles);
+                game.layout.setText(game.fontStats, numSquirglesString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        numSquirglesString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (2 * (height / (NUM_STATS_ELEMENTS_GENERAL + 1))) - game.layout.height,
+                        0,
+                        textOpacity);
+
+                //Favorite base
+                game.layout.setText(game.fontStats, FAVORITE_BASE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        FAVORITE_BASE_STRING,
+                        x + (game.layout.width / 2),
+                        y + height - (3 * (height / (NUM_STATS_ELEMENTS_GENERAL + 1))),
+                        0,
+                        textOpacity);
+
+                String favoriteBaseString = String.valueOf(game.stats.favoriteBase == 0 ? game.stats.NA : game.stats.favoriteBase);
+                game.layout.setText(game.fontStats, favoriteBaseString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        favoriteBaseString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (3 * (height / (NUM_STATS_ELEMENTS_GENERAL + 1))) - game.layout.height,
+                        0,
+                        textOpacity);
+
+                //Favorite mode
+                game.layout.setText(game.fontStats, FAVORITE_MODE_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        FAVORITE_MODE_STRING,
+                        x + (game.layout.width / 2),
+                        y + height - (4 * (height / (NUM_STATS_ELEMENTS_GENERAL + 1))),
+                        0,
+                        textOpacity);
+
+                String favoriteModeString = game.stats.favoriteMode;
+                game.layout.setText(game.fontStats, favoriteModeString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        favoriteModeString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (4 * (height / (NUM_STATS_ELEMENTS_GENERAL + 1))) - game.layout.height,
+                        0,
+                        textOpacity);
+
+                //Favorite track
+                game.layout.setText(game.fontStats, FAVORITE_TRACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        FAVORITE_TRACK_STRING,
+                        x + (game.layout.width / 2),
+                        y + height - (5 * (height / (NUM_STATS_ELEMENTS_GENERAL + 1))),
+                        0,
+                        textOpacity);
+
+                String favoriteTrackString = game.stats.favoriteTrack;
+                game.layout.setText(game.fontStats, favoriteTrackString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        favoriteTrackString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (5 * (height / (NUM_STATS_ELEMENTS_GENERAL + 1))) - game.layout.height,
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_STATS_SQUIRGLE : {
+                if(game.base == 4) {
+                    //Squirgles
+                    game.layout.setText(game.fontStats, NUM_SQUIRGLES_STRING);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            NUM_SQUIRGLES_STRING,
+                            x + (game.layout.width / 2),
+                            y + height - (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1)),
+                            0,
+                            textOpacity);
+
+                    String numSquirglesSquareString = String.valueOf(game.stats.numSquirglesSquirgleSquare);
+                    game.layout.setText(game.fontStats, numSquirglesSquareString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            numSquirglesSquareString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1)) - game.layout.height,
+                            0,
+                            textOpacity);
+
+                    //Longest run
+                    game.layout.setText(game.fontStats, LONGEST_RUN_STRING);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            LONGEST_RUN_STRING,
+                            x + (game.layout.width / 2),
+                            y + height - (2 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))),
+                            0,
+                            textOpacity);
+
+                    long minutesPlayedSquare = MathUtils.floor(game.stats.longestRunSquirgleSquare / 1000 / 60);
+                    long secondsPlayedSquare = MathUtils.floor(game.stats.longestRunSquirgleSquare / 1000 - (minutesPlayedSquare * 60));
+                    String longestRunSquareString = minutesPlayedSquare + MINUTES + secondsPlayedSquare + SECONDS_STRING;
+                    game.layout.setText(game.fontStats, longestRunSquareString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            longestRunSquareString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (2 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - game.layout.height,
+                            0,
+                            textOpacity);
+
+                    //Highest score
+                    game.layout.setText(game.fontStats, HIGHEST_SCORE);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            HIGHEST_SCORE,
+                            x + (game.layout.width / 2),
+                            y + height - (3 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))),
+                            0,
+                            textOpacity);
+
+                    String highestScoreSquareString = String.valueOf(game.stats.highestScoreSquirgleSquare);
+                    game.layout.setText(game.fontStats, highestScoreSquareString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            highestScoreSquareString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (3 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - game.layout.height,
+                            0,
+                            textOpacity);
+                } else if(game.base == 5) {
+                    //Squirgles
+                    game.layout.setText(game.fontStats, NUM_SQUIRGLES_STRING);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            NUM_SQUIRGLES_STRING,
+                            x + (game.layout.width / 2),
+                            y + height - (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1)),
+                            0,
+                            textOpacity);
+
+                    String numSquirglesPentagonString = String.valueOf(game.stats.numSquirglesSquirglePentagon);
+                    game.layout.setText(game.fontStats, numSquirglesPentagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            numSquirglesPentagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1)) - game.layout.height,
+                            0,
+                            textOpacity);
+
+                    //Longest run
+                    game.layout.setText(game.fontStats, LONGEST_RUN_STRING);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            LONGEST_RUN_STRING,
+                            x + (game.layout.width / 2),
+                            y + height - (2 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))),
+                            0,
+                            textOpacity);
+
+                    long minutesPlayedPentagon = MathUtils.floor(game.stats.longestRunSquirglePentagon / 1000 / 60);
+                    long secondsPlayedPentagon = MathUtils.floor(game.stats.longestRunSquirglePentagon / 1000 - (minutesPlayedPentagon * 60));
+                    String longestRunPentagonString = minutesPlayedPentagon + MINUTES + secondsPlayedPentagon + SECONDS_STRING;
+                    game.layout.setText(game.fontStats, longestRunPentagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            longestRunPentagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (2 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - game.layout.height,
+                            0,
+                            textOpacity);
+
+                    //Highest score
+                    game.layout.setText(game.fontStats, HIGHEST_SCORE);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            HIGHEST_SCORE,
+                            x + (game.layout.width / 2),
+                            y + height - (3 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))),
+                            0,
+                            textOpacity);
+
+                    String highestScorePentagonString = String.valueOf(game.stats.highestScoreSquirglePentagon);
+                    game.layout.setText(game.fontStats, highestScorePentagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            highestScorePentagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (3 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - game.layout.height,
+                            0,
+                            textOpacity);
+                } else if(game.base == 6) {
+                    //Squirgles
+                    game.layout.setText(game.fontStats, NUM_SQUIRGLES_STRING);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            NUM_SQUIRGLES_STRING,
+                            x + (game.layout.width / 2),
+                            y + height - (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1)),
+                            0,
+                            textOpacity);
+
+                    String numSquirglesHexagonString = String.valueOf(game.stats.numSquirglesSquirgleHexagon);
+                    game.layout.setText(game.fontStats, numSquirglesHexagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            numSquirglesHexagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1)) - game.layout.height,
+                            0,
+                            textOpacity);
+
+                    //Longest run
+                    game.layout.setText(game.fontStats, LONGEST_RUN_STRING);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            LONGEST_RUN_STRING,
+                            x + (game.layout.width / 2),
+                            y + height - (2 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))),
+                            0,
+                            textOpacity);
+
+                    long minutesPlayedHexagon = MathUtils.floor(game.stats.longestRunSquirgleHexagon / 1000 / 60);
+                    long secondsPlayedHexagon = MathUtils.floor(game.stats.longestRunSquirgleHexagon / 1000 - (minutesPlayedHexagon * 60));
+                    String longestRunHexagonString = minutesPlayedHexagon + MINUTES + secondsPlayedHexagon + SECONDS_STRING;
+                    game.layout.setText(game.fontStats, longestRunHexagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            longestRunHexagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (2 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - game.layout.height,
+                            0,
+                            textOpacity);
+
+                    //Highest score
+                    game.layout.setText(game.fontStats, HIGHEST_SCORE);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            HIGHEST_SCORE,
+                            x + (game.layout.width / 2),
+                            y + height - (3 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))),
+                            0,
+                            textOpacity);
+
+                    String highestScoreHexagonString = String.valueOf(game.stats.highestScoreSquirgleHexagon);
+                    game.layout.setText(game.fontStats, highestScoreHexagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            highestScoreHexagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (3 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - game.layout.height,
+                            0,
+                            textOpacity);
+                } else if(game.base == 7) {
+                    //Squirgles
+                    game.layout.setText(game.fontStats, NUM_SQUIRGLES_STRING);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            NUM_SQUIRGLES_STRING,
+                            x + (game.layout.width / 2),
+                            y + height - (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1)),
+                            0,
+                            textOpacity);
+
+                    String numSquirglesSeptagonString = String.valueOf(game.stats.numSquirglesSquirgleSeptagon);
+                    game.layout.setText(game.fontStats, numSquirglesSeptagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            numSquirglesSeptagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1)) - game.layout.height,
+                            0,
+                            textOpacity);
+
+                    //Longest run
+                    game.layout.setText(game.fontStats, LONGEST_RUN_STRING);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            LONGEST_RUN_STRING,
+                            x + (game.layout.width / 2),
+                            y + height - (2 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))),
+                            0,
+                            textOpacity);
+
+                    long minutesPlayedSeptagon = MathUtils.floor(game.stats.longestRunSquirgleSeptagon / 1000 / 60);
+                    long secondsPlayedSeptagon = MathUtils.floor(game.stats.longestRunSquirgleSeptagon / 1000 - (minutesPlayedSeptagon * 60));
+                    String longestRunSeptagonString = minutesPlayedSeptagon + MINUTES + secondsPlayedSeptagon + SECONDS_STRING;
+                    game.layout.setText(game.fontStats, longestRunSeptagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            longestRunSeptagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (2 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - game.layout.height,
+                            0,
+                            textOpacity);
+
+                    //Highest score
+                    game.layout.setText(game.fontStats, HIGHEST_SCORE);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            HIGHEST_SCORE,
+                            x + (game.layout.width / 2),
+                            y + height - (3 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))),
+                            0,
+                            textOpacity);
+
+                    String highestScoreSeptagonString = String.valueOf(game.stats.highestScoreSquirgleSeptagon);
+                    game.layout.setText(game.fontStats, highestScoreSeptagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            highestScoreSeptagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (3 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - game.layout.height,
+                            0,
+                            textOpacity);
+                } else if(game.base == 8) {
+                    //Squirgles
+                    game.layout.setText(game.fontStats, NUM_SQUIRGLES_STRING);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            NUM_SQUIRGLES_STRING,
+                            x + (game.layout.width / 2),
+                            y + height - (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1)),
+                            0,
+                            textOpacity);
+
+                    String numSquirglesOctagonString = String.valueOf(game.stats.numSquirglesSquirgleOctagon);
+                    game.layout.setText(game.fontStats, numSquirglesOctagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            numSquirglesOctagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1)) - game.layout.height,
+                            0,
+                            textOpacity);
+
+                    //Longest run
+                    game.layout.setText(game.fontStats, LONGEST_RUN_STRING);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            LONGEST_RUN_STRING,
+                            x + (game.layout.width / 2),
+                            y + height - (2 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))),
+                            0,
+                            textOpacity);
+
+                    long minutesPlayedOctagon = MathUtils.floor(game.stats.longestRunSquirgleOctagon / 1000 / 60);
+                    long secondsPlayedOctagon = MathUtils.floor(game.stats.longestRunSquirgleOctagon / 1000 - (minutesPlayedOctagon * 60));
+                    String longestRunOctagonString = minutesPlayedOctagon + MINUTES + secondsPlayedOctagon + SECONDS_STRING;
+                    game.layout.setText(game.fontStats, longestRunOctagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            longestRunOctagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (2 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - game.layout.height,
+                            0,
+                            textOpacity);
+
+                    //Highest score
+                    game.layout.setText(game.fontStats, HIGHEST_SCORE);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            HIGHEST_SCORE,
+                            x + (game.layout.width / 2),
+                            y + height - (3 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))),
+                            0,
+                            textOpacity);
+
+                    String highestScoreOctagonString = String.valueOf(game.stats.highestScoreSquirgleOctagon);
+                    game.layout.setText(game.fontStats, highestScoreOctagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            highestScoreOctagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (3 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - game.layout.height,
+                            0,
+                            textOpacity);
+                } else if(game.base == 9) {
+                    //Squirgles
+                    game.layout.setText(game.fontStats, NUM_SQUIRGLES_STRING);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            NUM_SQUIRGLES_STRING,
+                            x + (game.layout.width / 2),
+                            y + height - (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1)),
+                            0,
+                            textOpacity);
+
+                    String numSquirglesNonagonString = String.valueOf(game.stats.numSquirglesSquirgleNonagon);
+                    game.layout.setText(game.fontStats, numSquirglesNonagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            numSquirglesNonagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1)) - game.layout.height,
+                            0,
+                            textOpacity);
+
+                    //Longest run
+                    game.layout.setText(game.fontStats, LONGEST_RUN_STRING);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            LONGEST_RUN_STRING,
+                            x + (game.layout.width / 2),
+                            y + height - (2 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))),
+                            0,
+                            textOpacity);
+
+                    long minutesPlayedNonagon = MathUtils.floor(game.stats.longestRunSquirgleNonagon / 1000 / 60);
+                    long secondsPlayedNonagon = MathUtils.floor(game.stats.longestRunSquirgleNonagon / 1000 - (minutesPlayedNonagon * 60));
+                    String longestRunNonagonString = minutesPlayedNonagon + MINUTES + secondsPlayedNonagon + SECONDS_STRING;
+                    game.layout.setText(game.fontStats, longestRunNonagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            longestRunNonagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (2 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - game.layout.height,
+                            0,
+                            textOpacity);
+
+                    //Highest score
+                    game.layout.setText(game.fontStats, HIGHEST_SCORE);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            HIGHEST_SCORE,
+                            x + (game.layout.width / 2),
+                            y + height - (3 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))),
+                            0,
+                            textOpacity);
+
+                    String highestScoreNonagonString = String.valueOf(game.stats.highestScoreSquirgleNonagon);
+                    game.layout.setText(game.fontStats, highestScoreNonagonString);
+                    FontUtils.printText(game.batch,
+                            game.fontStats,
+                            game.layout,
+                            Color.BLACK,
+                            highestScoreNonagonString,
+                            x + width - (game.layout.width / 2),
+                            y + height - (3 * (height / (NUM_STATS_ELEMENTS_SQUIRGLE + 1))) - game.layout.height,
+                            0,
+                            textOpacity);
+                }
+                break;
+            }
+            case BUTTON_STATS_BATTLE : {
+                setStatsStringsBattle();
+
+                //Squirgles
+                game.layout.setText(game.fontStats, NUM_SQUIRGLES_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        NUM_SQUIRGLES_STRING,
+                        x + (game.layout.width / 2),
+                        y + height - (height / (NUM_STATS_ELEMENTS_BATTLE + 1)),
+                        0,
+                        textOpacity);
+
+                game.layout.setText(game.fontStats, numSquirglesBattleString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        numSquirglesBattleString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (height / (NUM_STATS_ELEMENTS_BATTLE + 1)) - game.layout.height,
+                        0,
+                        textOpacity);
+
+                //Fastest Victory
+                game.layout.setText(game.fontStats, FASTEST_VICTORY_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        FASTEST_VICTORY_STRING,
+                        x + (game.layout.width / 2),
+                        y + height - (2 * (height / (NUM_STATS_ELEMENTS_BATTLE + 1))),
+                        0,
+                        textOpacity);
+
+                game.layout.setText(game.fontStats, fastestVictoryBattleString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        fastestVictoryBattleString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (2 * (height / (NUM_STATS_ELEMENTS_BATTLE + 1))) - game.layout.height,
+                        0,
+                        textOpacity);
+
+                //Wins
+                game.layout.setText(game.fontStats, NUM_WINS_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        NUM_WINS_STRING,
+                        x + (game.layout.width / 2),
+                        y + height - (3 * (height / (NUM_STATS_ELEMENTS_BATTLE + 1))),
+                        0,
+                        textOpacity);
+
+                game.layout.setText(game.fontStats, numWinsBattleString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        numWinsBattleString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (3 * (height / (NUM_STATS_ELEMENTS_BATTLE + 1))) - game.layout.height,
+                        0,
+                        textOpacity);
+
+                //Losses
+                game.layout.setText(game.fontStats, NUM_LOSSES_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        NUM_LOSSES_STRING,
+                        x + (game.layout.width / 2),
+                        y + height - (4 * (height / (NUM_STATS_ELEMENTS_BATTLE + 1))),
+                        0,
+                        textOpacity);
+
+                game.layout.setText(game.fontStats, numLossesBattleString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        numLossesBattleString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (4 * (height / (NUM_STATS_ELEMENTS_BATTLE + 1))) - game.layout.height,
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_STATS_TIME_ATTACK : {
+                setStatsStringsTimeAttack();
+
+                //Highest score
+                game.layout.setText(game.fontStats, HIGHEST_SCORE);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        HIGHEST_SCORE,
+                        x + (game.layout.width / 2),
+                        y + height - (height / (NUM_STATS_ELEMENTS_TIME_ATTACK + 1)),
+                        0,
+                        textOpacity);
+
+                game.layout.setText(game.fontStats, highestScoreTimeAttackString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        highestScoreTimeAttackString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (height / (NUM_STATS_ELEMENTS_TIME_ATTACK + 1)) - game.layout.height,
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_STATS_TIME_BATTLE : {
+                setStatsStringsTimeBattle();
+
+                //Highest score
+                game.layout.setText(game.fontStats, HIGHEST_SCORE);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        HIGHEST_SCORE,
+                        x + (game.layout.width / 2),
+                        y + height - (height / (NUM_STATS_ELEMENTS_TIME_BATTLE + 1)),
+                        0,
+                        textOpacity);
+
+                game.layout.setText(game.fontStats, highestScoreTimeBattleString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        highestScoreTimeBattleString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (height / (NUM_STATS_ELEMENTS_TIME_BATTLE + 1)) - game.layout.height,
+                        0,
+                        textOpacity);
+
+                //Wins
+                game.layout.setText(game.fontStats, NUM_WINS_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        NUM_WINS_STRING,
+                        x + (game.layout.width / 2),
+                        y + height - (2 * (height / (NUM_STATS_ELEMENTS_TIME_BATTLE + 1))),
+                        0,
+                        textOpacity);
+
+                game.layout.setText(game.fontStats, numWinsTimeBattleString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        numWinsTimeBattleString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (2 * (height / (NUM_STATS_ELEMENTS_TIME_BATTLE + 1))) - game.layout.height,
+                        0,
+                        textOpacity);
+
+                //Losses
+                game.layout.setText(game.fontStats, NUM_LOSSES_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        NUM_LOSSES_STRING,
+                        x + (game.layout.width / 2),
+                        y + height - (3 * (height / (NUM_STATS_ELEMENTS_TIME_BATTLE + 1))),
+                        0,
+                        textOpacity);
+
+                game.layout.setText(game.fontStats, numLossesTimeBattleString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        numLossesTimeBattleString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (3 * (height / (NUM_STATS_ELEMENTS_TIME_BATTLE + 1))) - game.layout.height,
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_STATS_TRANCE : {
+                //Time played
+                game.layout.setText(game.fontStats, TIME_PLAYED_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        TIME_PLAYED_STRING,
+                        x + (game.layout.width / 2),
+                        y + height - (height / (NUM_STATS_ELEMENTS_TRANCE + 1)),
+                        0,
+                        textOpacity);
+
+                long hoursPlayed = MathUtils.floor(game.stats.timePlayedTrance / 1000 / 60 / 60);
+                long minutesPlayed = MathUtils.floor(game.stats.timePlayedTrance / 1000 / 60 - (hoursPlayed * 60));
+                long secondsPlayed = MathUtils.floor(game.stats.timePlayedTrance / 1000 - (minutesPlayed * 60) - (hoursPlayed * 60 * 60));
+                String timePlayedString = hoursPlayed + HOURS_STRING + minutesPlayed + MINUTES + secondsPlayed + SECONDS_STRING;
+                game.layout.setText(game.fontStats, timePlayedString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        timePlayedString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (height / (NUM_STATS_ELEMENTS_TRANCE + 1)) - game.layout.height,
+                        0,
+                        textOpacity);
+
+                //Favorite track
+                game.layout.setText(game.fontStats, FAVORITE_TRACK_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        FAVORITE_TRACK_STRING,
+                        x + (game.layout.width / 2),
+                        y + height - (2 * (height / (NUM_STATS_ELEMENTS_TRANCE + 1))),
+                        0,
+                        textOpacity);
+
+                String favoriteTrackString = game.stats.favoriteTrackTrance;
+                game.layout.setText(game.fontStats, favoriteTrackString);
+                FontUtils.printText(game.batch,
+                        game.fontStats,
+                        game.layout,
+                        Color.BLACK,
+                        favoriteTrackString,
+                        x + width - (game.layout.width / 2),
+                        y + height - (2 * (height / (NUM_STATS_ELEMENTS_TRANCE + 1))) - game.layout.height,
+                        0,
+                        textOpacity);
+                break;
+            }
         }
         if(textOpacity < 1) {
             textOpacity += 0.1;
@@ -3336,25 +4456,25 @@ public class Button {
                 case BUTTON_TYPE_SINGLE_PLAYER_SQUIRGLE: {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.gameplayType = Squirgle.GAMEPLAY_SQUIRGLE;
-                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType, false));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_BATTLE: {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.gameplayType = Squirgle.GAMEPLAY_BATTLE;
-                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType, false));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_ATTACK: {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.gameplayType = Squirgle.GAMEPLAY_TIME_ATTACK;
-                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType, false));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TIME_BATTLE: {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.gameplayType = Squirgle.GAMEPLAY_TIME_BATTLE;
-                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType, false));
                     return true;
                 }
                 case BUTTON_TYPE_SINGLE_PLAYER_TRANCE: {
@@ -3383,13 +4503,13 @@ public class Button {
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BATTLE: {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.gameplayType = Squirgle.GAMEPLAY_BATTLE_LOCAL;
-                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType, false));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_TIME_BATTLE: {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.gameplayType = Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL;
-                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType, false));
                     return true;
                 }
                 case BUTTON_TYPE_MULTIPLAYER_LOCAL_BACK : {
@@ -3490,32 +4610,38 @@ public class Button {
                 }
                 case BUTTON_HELP_STATS_GENERAL : {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuHelpStatsGeneralScreen(game, containerColor));
+                    game.gameplayType = Squirgle.GAMEPLAY_GENERAL;
+                    game.setScreen(new StatsScreen(game, containerColor, game.gameplayType));
                     return true;
                 }
                 case BUTTON_HELP_STATS_SQUIRGLE : {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuHelpStatsSquirgleScreen(game, containerColor));
+                    game.gameplayType = Squirgle.GAMEPLAY_SQUIRGLE;
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType, true));
                     return true;
                 }
                 case BUTTON_HELP_STATS_BATTLE : {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuHelpStatsBattleScreen(game, containerColor));
+                    game.gameplayType = Squirgle.GAMEPLAY_BATTLE;
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType, true));
                     return true;
                 }
                 case BUTTON_HELP_STATS_TIME_ATTACK : {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuHelpStatsTimeAttackScreen(game, containerColor));
+                    game.gameplayType = Squirgle.GAMEPLAY_TIME_ATTACK;
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType, true));
                     return true;
                 }
                 case BUTTON_HELP_STATS_TIME_BATTLE : {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuHelpStatsTimeBattleScreen(game, containerColor));
+                    game.gameplayType = Squirgle.GAMEPLAY_TIME_BATTLE;
+                    game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType, true));
                     return true;
                 }
                 case BUTTON_HELP_STATS_TRANCE : {
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
-                    game.setScreen(new MenuHelpStatsTranceScreen(game, containerColor));
+                    game.gameplayType = Squirgle.GAMEPLAY_TRANCE;
+                    game.setScreen(new StatsScreen(game, containerColor, game.gameplayType));
                     return true;
                 }
                 case BUTTON_HELP_STATS_BACK : {
@@ -4232,12 +5358,506 @@ public class Button {
                     if(game.gameplayType == Squirgle.GAMEPLAY_TRANCE) {
                         game.setScreen(new MenuTypeSinglePlayerScreen(game, containerColor));
                     } else {
-                        game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType));
+                        game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType, false));
                     }
                     return true;
                 }
+                case BUTTON_SQUARE_STATS : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    game.base = 4;
+                    game.setScreen(new StatsScreen(game, containerColor, game.gameplayType));
+                    return true;
+                }
+                case BUTTON_PENTAGON_STATS : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    game.base = 5;
+                    game.setScreen(new StatsScreen(game, containerColor, game.gameplayType));
+                    return true;
+                }
+                case BUTTON_HEXAGON_STATS : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    game.base = 6;
+                    game.setScreen(new StatsScreen(game, containerColor, game.gameplayType));
+                    return true;
+                }
+                case BUTTON_SEPTAGON_STATS : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    game.base = 7;
+                    game.setScreen(new StatsScreen(game, containerColor, game.gameplayType));
+                    return true;
+                }
+                case BUTTON_OCTAGON_STATS : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    game.base = 8;
+                    game.setScreen(new StatsScreen(game, containerColor, game.gameplayType));
+                    return true;
+                }
+                case BUTTON_NONAGON_STATS : {
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    game.base = 9;
+                    game.setScreen(new StatsScreen(game, containerColor, game.gameplayType));
+                    return true;
+                }
+                case BUTTON_BASE_SELECT_STATS_BACK : {
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
+                    game.setScreen(new MenuHelpStatsScreen(game, containerColor));
+                    return true;
+                }
+                case BUTTON_STATS_BACK : {
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
+                    if(game.gameplayType == Squirgle.GAMEPLAY_TRANCE || game.gameplayType == Squirgle.GAMEPLAY_GENERAL) {
+                        game.setScreen(new MenuHelpStatsScreen(game, containerColor));
+                    } else {
+                        game.setScreen(new BaseSelectScreen(game, containerColor, game.gameplayType, true));
+                    }
+                    return true;
+                }
+                case BUTTON_STATS_GENERAL : {
+                    return false;
+                }
+                case BUTTON_STATS_SQUIRGLE : {
+                    return false;
+                }
+                case BUTTON_STATS_BATTLE : {
+                    return false;
+                }
+                case BUTTON_STATS_TIME_ATTACK : {
+                    return false;
+                }
+                case BUTTON_STATS_TIME_BATTLE : {
+                    return false;
+                }
+                case BUTTON_STATS_TRANCE : {
+                    return false;
+                }
             }
         return false;
+    }
+
+    public void setStatsStringsBattle() {
+        if(game.difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
+            if(game.base == 4) {
+                long minutesPlayedSquare = MathUtils.floor(game.stats.fastestVictorySquareEasy / 1000 / 60);
+                long secondsPlayedSquare = MathUtils.floor(game.stats.fastestVictorySquareEasy / 1000 - (minutesPlayedSquare * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleSquareEasy);
+                fastestVictoryBattleString = minutesPlayedSquare + MINUTES + secondsPlayedSquare + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleSquareEasy);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleSquareEasy);
+            } else if(game.base == 5) {
+                long minutesPlayedPentagon = MathUtils.floor(game.stats.fastestVictoryPentagonEasy / 1000 / 60);
+                long secondsPlayedPentagon = MathUtils.floor(game.stats.fastestVictoryPentagonEasy / 1000 - (minutesPlayedPentagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattlePentagonEasy);
+                fastestVictoryBattleString = minutesPlayedPentagon + MINUTES + secondsPlayedPentagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattlePentagonEasy);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattlePentagonEasy);
+            } else if(game.base == 6) {
+                long minutesPlayedHexagon = MathUtils.floor(game.stats.fastestVictoryHexagonEasy / 1000 / 60);
+                long secondsPlayedHexagon = MathUtils.floor(game.stats.fastestVictoryHexagonEasy / 1000 - (minutesPlayedHexagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleHexagonEasy);
+                fastestVictoryBattleString = minutesPlayedHexagon + MINUTES + secondsPlayedHexagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleHexagonEasy);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleHexagonEasy);
+            } else if(game.base == 7) {
+                long minutesPlayedSeptagon = MathUtils.floor(game.stats.fastestVictorySeptagonEasy / 1000 / 60);
+                long secondsPlayedSeptagon = MathUtils.floor(game.stats.fastestVictorySeptagonEasy / 1000 - (minutesPlayedSeptagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleSeptagonEasy);
+                fastestVictoryBattleString = minutesPlayedSeptagon + MINUTES + secondsPlayedSeptagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleSeptagonEasy);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleSeptagonEasy);
+            } else if(game.base == 8) {
+                long minutesPlayedOctagon = MathUtils.floor(game.stats.fastestVictoryOctagonEasy / 1000 / 60);
+                long secondsPlayedOctagon = MathUtils.floor(game.stats.fastestVictoryOctagonEasy / 1000 - (minutesPlayedOctagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleOctagonEasy);
+                fastestVictoryBattleString = minutesPlayedOctagon + MINUTES + secondsPlayedOctagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleOctagonEasy);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleOctagonEasy);
+            } else if(game.base == 9) {
+                long minutesPlayedNonagon = MathUtils.floor(game.stats.fastestVictoryNonagonEasy / 1000 / 60);
+                long secondsPlayedNonagon = MathUtils.floor(game.stats.fastestVictoryNonagonEasy / 1000 - (minutesPlayedNonagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleNonagonEasy);
+                fastestVictoryBattleString = minutesPlayedNonagon + MINUTES + secondsPlayedNonagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleNonagonEasy);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleNonagonEasy);
+            }
+        } else if(game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
+            if(game.base == 4) {
+                long minutesPlayedSquare = MathUtils.floor(game.stats.fastestVictorySquareMedium / 1000 / 60);
+                long secondsPlayedSquare = MathUtils.floor(game.stats.fastestVictorySquareMedium / 1000 - (minutesPlayedSquare * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleSquareMedium);
+                fastestVictoryBattleString = minutesPlayedSquare + MINUTES + secondsPlayedSquare + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleSquareMedium);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleSquareMedium);
+            } else if(game.base == 5) {
+                long minutesPlayedPentagon = MathUtils.floor(game.stats.fastestVictoryPentagonMedium / 1000 / 60);
+                long secondsPlayedPentagon = MathUtils.floor(game.stats.fastestVictoryPentagonMedium / 1000 - (minutesPlayedPentagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattlePentagonMedium);
+                fastestVictoryBattleString = minutesPlayedPentagon + MINUTES + secondsPlayedPentagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattlePentagonMedium);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattlePentagonMedium);
+            } else if(game.base == 6) {
+                long minutesPlayedHexagon = MathUtils.floor(game.stats.fastestVictoryHexagonMedium / 1000 / 60);
+                long secondsPlayedHexagon = MathUtils.floor(game.stats.fastestVictoryHexagonMedium / 1000 - (minutesPlayedHexagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleHexagonMedium);
+                fastestVictoryBattleString = minutesPlayedHexagon + MINUTES + secondsPlayedHexagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleHexagonMedium);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleHexagonMedium);
+            } else if(game.base == 7) {
+                long minutesPlayedSeptagon = MathUtils.floor(game.stats.fastestVictorySeptagonMedium / 1000 / 60);
+                long secondsPlayedSeptagon = MathUtils.floor(game.stats.fastestVictorySeptagonMedium / 1000 - (minutesPlayedSeptagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleSeptagonMedium);
+                fastestVictoryBattleString = minutesPlayedSeptagon + MINUTES + secondsPlayedSeptagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleSeptagonMedium);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleSeptagonMedium);
+            } else if(game.base == 8) {
+                long minutesPlayedOctagon = MathUtils.floor(game.stats.fastestVictoryOctagonMedium / 1000 / 60);
+                long secondsPlayedOctagon = MathUtils.floor(game.stats.fastestVictoryOctagonMedium / 1000 - (minutesPlayedOctagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleOctagonMedium);
+                fastestVictoryBattleString = minutesPlayedOctagon + MINUTES + secondsPlayedOctagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleOctagonMedium);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleOctagonMedium);
+            } else if(game.base == 9) {
+                long minutesPlayedNonagon = MathUtils.floor(game.stats.fastestVictoryNonagonMedium / 1000 / 60);
+                long secondsPlayedNonagon = MathUtils.floor(game.stats.fastestVictoryNonagonMedium / 1000 - (minutesPlayedNonagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleNonagonMedium);
+                fastestVictoryBattleString = minutesPlayedNonagon + MINUTES + secondsPlayedNonagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleNonagonMedium);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleNonagonMedium);
+            }
+        } else if(game.difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
+            if(game.base == 4) {
+                long minutesPlayedSquare = MathUtils.floor(game.stats.fastestVictorySquareHard / 1000 / 60);
+                long secondsPlayedSquare = MathUtils.floor(game.stats.fastestVictorySquareHard / 1000 - (minutesPlayedSquare * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleSquareHard);
+                fastestVictoryBattleString = minutesPlayedSquare + MINUTES + secondsPlayedSquare + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleSquareHard);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleSquareHard);
+            } else if(game.base == 5) {
+                long minutesPlayedPentagon = MathUtils.floor(game.stats.fastestVictoryPentagonHard / 1000 / 60);
+                long secondsPlayedPentagon = MathUtils.floor(game.stats.fastestVictoryPentagonHard / 1000 - (minutesPlayedPentagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattlePentagonHard);
+                fastestVictoryBattleString = minutesPlayedPentagon + MINUTES + secondsPlayedPentagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattlePentagonHard);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattlePentagonHard);
+            } else if(game.base == 6) {
+                long minutesPlayedHexagon = MathUtils.floor(game.stats.fastestVictoryHexagonHard / 1000 / 60);
+                long secondsPlayedHexagon = MathUtils.floor(game.stats.fastestVictoryHexagonHard / 1000 - (minutesPlayedHexagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleHexagonHard);
+                fastestVictoryBattleString = minutesPlayedHexagon + MINUTES + secondsPlayedHexagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleHexagonHard);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleHexagonHard);
+            } else if(game.base == 7) {
+                long minutesPlayedSeptagon = MathUtils.floor(game.stats.fastestVictorySeptagonHard / 1000 / 60);
+                long secondsPlayedSeptagon = MathUtils.floor(game.stats.fastestVictorySeptagonHard / 1000 - (minutesPlayedSeptagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleSeptagonHard);
+                fastestVictoryBattleString = minutesPlayedSeptagon + MINUTES + secondsPlayedSeptagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleSeptagonHard);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleSeptagonHard);
+            } else if(game.base == 8) {
+                long minutesPlayedOctagon = MathUtils.floor(game.stats.fastestVictoryOctagonHard / 1000 / 60);
+                long secondsPlayedOctagon = MathUtils.floor(game.stats.fastestVictoryOctagonHard / 1000 - (minutesPlayedOctagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleOctagonHard);
+                fastestVictoryBattleString = minutesPlayedOctagon + MINUTES + secondsPlayedOctagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleOctagonHard);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleOctagonHard);
+            } else if(game.base == 9) {
+                long minutesPlayedNonagon = MathUtils.floor(game.stats.fastestVictoryNonagonHard / 1000 / 60);
+                long secondsPlayedNonagon = MathUtils.floor(game.stats.fastestVictoryNonagonHard / 1000 - (minutesPlayedNonagon * 60));
+                numSquirglesBattleString = String.valueOf(game.stats.numSquirglesBattleNonagonHard);
+                fastestVictoryBattleString = minutesPlayedNonagon + MINUTES + secondsPlayedNonagon + SECONDS_STRING;
+                numWinsBattleString = String.valueOf(game.stats.numTimesWonBattleNonagonHard);
+                numLossesBattleString = String.valueOf(game.stats.numTimesLostBattleNonagonHard);
+            }
+        }
+    }
+
+    public void setStatsStringsTimeAttack() {
+        if(game.timeAttackNumSeconds == Squirgle.ONE_MINUTE) {
+            if(game.base == 4) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackSquareOneMinute);
+            } else if(game.base == 5) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackPentagonOneMinute);
+            } else if(game.base == 6) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackHexagonOneMinute);
+            } else if(game.base == 7) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackSeptagonOneMinute);
+            } else if(game.base == 8) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackOctagonOneMinute);
+            } else if(game.base == 9) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackNonagonOneMinute);
+            }
+        } else if(game.timeAttackNumSeconds == Squirgle.THREE_MINUTES) {
+            if(game.base == 4) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackSquareThreeMinutes);
+            } else if(game.base == 5) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackPentagonThreeMinutes);
+            } else if(game.base == 6) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackHexagonThreeMinutes);
+            } else if(game.base == 7) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackSeptagonThreeMinutes);
+            } else if(game.base == 8) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackOctagonThreeMinutes);
+            } else if(game.base == 9) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackNonagonThreeMinutes);
+            }
+        } else if(game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES) {
+            if(game.base == 4) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackSquareFiveMinutes);
+            } else if(game.base == 5) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackPentagonFiveMinutes);
+            } else if(game.base == 6) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackHexagonFiveMinutes);
+            } else if(game.base == 7) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackSeptagonFiveMinutes);
+            } else if(game.base == 8) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackOctagonFiveMinutes);
+            } else if(game.base == 9) {
+                highestScoreTimeAttackString = String.valueOf(game.stats.highestScoreTimeAttackNonagonFiveMinutes);
+            }
+        }
+    }
+
+    public void setStatsStringsTimeBattle() {
+        if(game.difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
+            if(game.timeAttackNumSeconds == Squirgle.ONE_MINUTE) {
+                if(game.base == 4) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSquareEasyOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSquareEasyOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSquareEasyOneMinute);
+                } else if(game.base == 5) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattlePentagonEasyOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattlePentagonEasyOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattlePentagonEasyOneMinute);
+                } else if(game.base == 6) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleHexagonEasyOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleHexagonEasyOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleHexagonEasyOneMinute);
+                } else if(game.base == 7) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSeptagonEasyOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSeptagonEasyOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSeptagonEasyOneMinute);
+                } else if(game.base == 8) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleOctagonEasyOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleOctagonEasyOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleOctagonEasyOneMinute);
+                } else if(game.base == 9) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleNonagonEasyOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleNonagonEasyOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleNonagonEasyOneMinute);
+                }
+            } else if(game.timeAttackNumSeconds == Squirgle.THREE_MINUTES) {
+                if(game.base == 4) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSquareEasyThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSquareEasyThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSquareEasyThreeMinutes);
+                } else if(game.base == 5) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattlePentagonEasyThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattlePentagonEasyThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattlePentagonEasyThreeMinutes);
+                } else if(game.base == 6) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleHexagonEasyThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleHexagonEasyThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleHexagonEasyThreeMinutes);
+                } else if(game.base == 7) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSeptagonEasyThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSeptagonEasyThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSeptagonEasyThreeMinutes);
+                } else if(game.base == 8) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleOctagonEasyThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleOctagonEasyThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleOctagonEasyThreeMinutes);
+                } else if(game.base == 9) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleNonagonEasyThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleNonagonEasyThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleNonagonEasyThreeMinutes);
+                }
+            } else if(game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES) {
+                if(game.base == 4) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSquareEasyFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSquareEasyFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSquareEasyFiveMinutes);
+                } else if(game.base == 5) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattlePentagonEasyFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattlePentagonEasyFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattlePentagonEasyFiveMinutes);
+                } else if(game.base == 6) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleHexagonEasyFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleHexagonEasyFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleHexagonEasyFiveMinutes);
+                } else if(game.base == 7) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSeptagonEasyFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSeptagonEasyFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSeptagonEasyFiveMinutes);
+                } else if(game.base == 8) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleOctagonEasyFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleOctagonEasyFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleOctagonEasyFiveMinutes);
+                } else if(game.base == 9) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleNonagonEasyFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleNonagonEasyFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleNonagonEasyFiveMinutes);
+                }
+            }
+        } else if(game.difficulty.equals(Squirgle.DIFFICULTY_MEDIUM)) {
+            if(game.timeAttackNumSeconds == Squirgle.ONE_MINUTE) {
+                if(game.base == 4) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSquareMediumOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSquareMediumOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSquareMediumOneMinute);
+                } else if(game.base == 5) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattlePentagonMediumOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattlePentagonMediumOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattlePentagonMediumOneMinute);
+                } else if(game.base == 6) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleHexagonMediumOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleHexagonMediumOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleHexagonMediumOneMinute);
+                } else if(game.base == 7) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSeptagonMediumOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSeptagonMediumOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSeptagonMediumOneMinute);
+                } else if(game.base == 8) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleOctagonMediumOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleOctagonMediumOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleOctagonMediumOneMinute);
+                } else if(game.base == 9) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleNonagonMediumOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleNonagonMediumOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleNonagonMediumOneMinute);
+                }
+            } else if(game.timeAttackNumSeconds == Squirgle.THREE_MINUTES) {
+                if(game.base == 4) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSquareMediumThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSquareMediumThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSquareMediumThreeMinutes);
+                } else if(game.base == 5) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattlePentagonMediumThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattlePentagonMediumThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattlePentagonMediumThreeMinutes);
+                } else if(game.base == 6) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleHexagonMediumThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleHexagonMediumThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleHexagonMediumThreeMinutes);
+                } else if(game.base == 7) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSeptagonMediumThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSeptagonMediumThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSeptagonMediumThreeMinutes);
+                } else if(game.base == 8) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleOctagonMediumThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleOctagonMediumThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleOctagonMediumThreeMinutes);
+                } else if(game.base == 9) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleNonagonMediumThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleNonagonMediumThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleNonagonMediumThreeMinutes);
+                }
+            } else if(game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES) {
+                if(game.base == 4) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSquareMediumFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSquareMediumFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSquareMediumFiveMinutes);
+                } else if(game.base == 5) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattlePentagonMediumFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattlePentagonMediumFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattlePentagonMediumFiveMinutes);
+                } else if(game.base == 6) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleHexagonMediumFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleHexagonMediumFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleHexagonMediumFiveMinutes);
+                } else if(game.base == 7) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSeptagonMediumFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSeptagonMediumFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSeptagonMediumFiveMinutes);
+                } else if(game.base == 8) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleOctagonMediumFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleOctagonMediumFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleOctagonMediumFiveMinutes);
+                } else if(game.base == 9) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleNonagonMediumFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleNonagonMediumFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleNonagonMediumFiveMinutes);
+                }
+            }
+        } else if(game.difficulty.equals(Squirgle.DIFFICULTY_HARD)) {
+            if(game.timeAttackNumSeconds == Squirgle.ONE_MINUTE) {
+                if(game.base == 4) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSquareHardOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSquareHardOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSquareHardOneMinute);
+                } else if(game.base == 5) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattlePentagonHardOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattlePentagonHardOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattlePentagonHardOneMinute);
+                } else if(game.base == 6) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleHexagonHardOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleHexagonHardOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleHexagonHardOneMinute);
+                } else if(game.base == 7) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSeptagonHardOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSeptagonHardOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSeptagonHardOneMinute);
+                } else if(game.base == 8) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleOctagonHardOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleOctagonHardOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleOctagonHardOneMinute);
+                } else if(game.base == 9) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleNonagonHardOneMinute);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleNonagonHardOneMinute);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleNonagonHardOneMinute);
+                }
+            } else if(game.timeAttackNumSeconds == Squirgle.THREE_MINUTES) {
+                if(game.base == 4) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSquareHardThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSquareHardThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSquareHardThreeMinutes);
+                } else if(game.base == 5) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattlePentagonHardThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattlePentagonHardThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattlePentagonHardThreeMinutes);
+                } else if(game.base == 6) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleHexagonHardThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleHexagonHardThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleHexagonHardThreeMinutes);
+                } else if(game.base == 7) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSeptagonHardThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSeptagonHardThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSeptagonHardThreeMinutes);
+                } else if(game.base == 8) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleOctagonHardThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleOctagonHardThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleOctagonHardThreeMinutes);
+                } else if(game.base == 9) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleNonagonHardThreeMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleNonagonHardThreeMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleNonagonHardThreeMinutes);
+                }
+            } else if(game.timeAttackNumSeconds == Squirgle.FIVE_MINUTES) {
+                if(game.base == 4) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSquareHardFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSquareHardFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSquareHardFiveMinutes);
+                } else if(game.base == 5) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattlePentagonHardFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattlePentagonHardFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattlePentagonHardFiveMinutes);
+                } else if(game.base == 6) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleHexagonHardFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleHexagonHardFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleHexagonHardFiveMinutes);
+                } else if(game.base == 7) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleSeptagonHardFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleSeptagonHardFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleSeptagonHardFiveMinutes);
+                } else if(game.base == 8) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleOctagonHardFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleOctagonHardFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleOctagonHardFiveMinutes);
+                } else if(game.base == 9) {
+                    highestScoreTimeBattleString = String.valueOf(game.stats.highestScoreTimeBattleNonagonHardFiveMinutes);
+                    numWinsTimeBattleString = String.valueOf(game.stats.numTimesWonTimeBattleNonagonHardFiveMinutes);
+                    numLossesTimeBattleString = String.valueOf(game.stats.numTimesLostTimeBattleNonagonHardFiveMinutes);
+                }
+            }
+        }
     }
 
     //TODO: Keep updating this method as needed

@@ -62,6 +62,7 @@ public class Squirgle extends Game {
 	public final static int GAMEPLAY_BATTLE_ONLINE = 6;
 	public final static int GAMEPLAY_TIME_BATTLE_ONLINE = 7;
 	public final static int GAMEPLAY_TRANCE = 8;
+	public final static int GAMEPLAY_GENERAL = 9; //This is for the general stats category
 
 
 	public final static String MUSIC_TYPE_FULL = "FULL";

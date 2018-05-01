@@ -56,6 +56,8 @@ public class BaseSelectScreen implements Screen, InputProcessor {
 
     private Vector3 touchPoint;
 
+    private boolean stats;
+
     private Color base4Color;
     private Color base5Color;
     private Color base6Color;
@@ -82,7 +84,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     private Color veilColor;
     private float veilOpacity;
 
-    public BaseSelectScreen(final Squirgle game, Color veilColor, int gameplayType) {
+    public BaseSelectScreen(final Squirgle game, Color veilColor, int gameplayType, boolean stats) {
         this.game = game;
         game.gameplayType = gameplayType;
 
@@ -108,6 +110,8 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         game.setUpFontNumPlayers(MathUtils.round(symbolRadius / 3));
 
         touchPoint = new Vector3();
+
+        this.stats = stats;
 
         base4Color = ColorUtils.COLOR_BLUISH_GREEN;
         base5Color = ColorUtils.COLOR_VERMILLION;
@@ -163,7 +167,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
                 game.partitionSize,
                 inputWidth,
                 inputHeightBack,
-                Button.BUTTON_BASE_SELECT_BACK,
+                stats ? Button.BUTTON_BASE_SELECT_STATS_BACK : Button.BUTTON_BASE_SELECT_BACK,
                 backColor,
                 Color.BLACK,
                 game);
@@ -174,7 +178,7 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         for(int i = 0; i <= game.maxBase - game.minBase; i++) {
             float x = 2 * game.partitionSize + inputWidth;
             float y = game.partitionSize + (i * (game.partitionSize + inputHeightMiddle));
-            int buttonType = Button.BUTTON_SQUARE + i;
+            int buttonType = stats ? Button.BUTTON_SQUARE_STATS + i : Button.BUTTON_SQUARE + i;
             Color color = new Color();
             if(i == 0) {
                 color = base4Color;
@@ -353,206 +357,332 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     }
 
     public void drawTitle() {
-        if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-            game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
-                    (3 * game.camera.viewportHeight) / 4,
-                    symbolRadius / 3,
-                    (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                    Color.WHITE);
+        if(stats) {
+            if (gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+                game.draw.drawQuestionMark(game.partitionSize + (inputWidth / 2),
+                        (3 * game.camera.viewportHeight) / 4,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE,
+                        Color.BLACK);
 
-            game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
-            game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
-        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
-            game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
-                    (3 * game.camera.viewportHeight) / 4,
-                    symbolRadius / 3,
-                    (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                    Color.WHITE);
+                game.draw.drawModulo(game.partitionSize + (inputWidth / 2),
+                        game.camera.viewportHeight / 2,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE);
 
-            game.shapeRendererFilled.setColor(Color.WHITE);
-            game.shapeRendererFilled.rectLine(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) - (symbolRadius / 3),
-                    game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) + (symbolRadius / 3),
-                    ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
-            game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) - (symbolRadius / 3),
-                    (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
-            game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) + (symbolRadius / 3),
-                    (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
-            game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
-            game.draw.orientAndDrawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
-            game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
-            game.draw.orientAndDrawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
-            game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
-                    (3 * game.camera.viewportHeight) / 4,
-                    symbolRadius / 3,
-                    (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                    Color.WHITE);
-            game.draw.drawClock(game.partitionSize + (inputWidth / 2),
-                    game.camera.viewportHeight / 4,
-                    symbolRadius / 3,
-                    Color.WHITE,
-                    Color.BLACK);
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
-            game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
-                    (3 * game.camera.viewportHeight) / 4,
-                    symbolRadius / 3,
-                    (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                    Color.WHITE);
+                game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
+            } else if (gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+                game.draw.drawQuestionMark(game.partitionSize + (inputWidth / 2),
+                        (3 * game.camera.viewportHeight) / 4,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE,
+                        Color.BLACK);
 
-            game.shapeRendererFilled.setColor(Color.WHITE);
-            game.shapeRendererFilled.rectLine(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) - (symbolRadius / 3),
-                    game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) + (symbolRadius / 3),
-                    ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
-            game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) - (symbolRadius / 3),
-                    (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
-            game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) + (symbolRadius / 3),
-                    (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
-            game.draw.drawClock((game.camera.viewportWidth / 6) - (symbolRadius / 6),
-                    (game.camera.viewportHeight / 4) + (symbolRadius / 6),
-                    (symbolRadius / 2) / 3,
-                    Color.WHITE,
-                    Color.BLACK);
-            game.draw.drawClock((game.camera.viewportWidth / 6) + (symbolRadius / 6),
-                    (game.camera.viewportHeight / 4) - (symbolRadius / 6),
-                    (symbolRadius / 2) / 3,
-                    Color.WHITE,
-                    Color.BLACK);
-        } else if(gameplayType == Squirgle.GAMEPLAY_TRANCE) {
-            game.draw.drawPlayButton(game.camera.viewportWidth / 6,
-                    (5 * game.camera.viewportHeight) / 6,
-                    symbolRadius / 3,
-                    (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                    Color.WHITE);
+                game.draw.drawModulo(game.partitionSize + (inputWidth / 2),
+                        game.camera.viewportHeight / 2,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE);
 
-            game.draw.drawTranceSymbol(game.camera.viewportWidth / 6,
-                    game.camera.viewportHeight / 6,
-                    symbolRadius / 3,
-                    Color.WHITE,
-                    Color.BLACK);
-        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL) {
-            game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
-                    (3 * game.camera.viewportHeight) / 4,
-                    symbolRadius / 3,
-                    (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                    Color.WHITE);
+                game.shapeRendererFilled.setColor(Color.WHITE);
+                game.shapeRendererFilled.rectLine(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 3),
+                        game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 3),
+                        ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
+                game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 3),
+                        (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+                game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 3),
+                        (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+                game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
+                game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
+            } else if (gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
+                game.draw.drawQuestionMark(game.partitionSize + (inputWidth / 2),
+                        (3 * game.camera.viewportHeight) / 4,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE,
+                        Color.BLACK);
 
-            game.shapeRendererFilled.setColor(Color.WHITE);
-            game.shapeRendererFilled.rectLine(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) - (symbolRadius / 3),
-                    game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) + (symbolRadius / 3),
-                    ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
-            game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) - (symbolRadius / 3),
-                    (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
-            game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) + (symbolRadius / 3),
-                    (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
-            game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
-            game.draw.orientAndDrawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
-            game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
-            game.draw.orientAndDrawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
-            game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
-                    (3 * game.camera.viewportHeight) / 4,
-                    symbolRadius / 3,
-                    (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
-                    Color.WHITE);
+                game.draw.drawModulo(game.partitionSize + (inputWidth / 2),
+                        game.camera.viewportHeight / 2,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE);
 
-            game.shapeRendererFilled.setColor(Color.WHITE);
-            game.shapeRendererFilled.rectLine(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) - (symbolRadius / 3),
-                    game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) + (symbolRadius / 3),
-                    ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
-            game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) - (symbolRadius / 3),
-                    (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
-            game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
-                    (game.camera.viewportHeight / 4) + (symbolRadius / 3),
-                    (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
-            game.draw.drawClock((game.camera.viewportWidth / 6) - (symbolRadius / 6),
-                    (game.camera.viewportHeight / 4) + (symbolRadius / 6),
-                    (symbolRadius / 2) / 3,
-                    Color.WHITE,
-                    Color.BLACK);
-            game.draw.drawClock((game.camera.viewportWidth / 6) + (symbolRadius / 6),
-                    (game.camera.viewportHeight / 4) - (symbolRadius / 6),
-                    (symbolRadius / 2) / 3,
-                    Color.WHITE,
-                    Color.BLACK);
+                game.draw.drawClock(game.partitionSize + (inputWidth / 2),
+                        game.camera.viewportHeight / 4,
+                        symbolRadius / 3,
+                        Color.WHITE,
+                        Color.BLACK);
+            } else if (gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+                game.draw.drawQuestionMark(game.partitionSize + (inputWidth / 2),
+                        (3 * game.camera.viewportHeight) / 4,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE,
+                        Color.BLACK);
+
+                game.draw.drawModulo(game.partitionSize + (inputWidth / 2),
+                        game.camera.viewportHeight / 2,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE);
+
+                game.shapeRendererFilled.setColor(Color.WHITE);
+                game.shapeRendererFilled.rectLine(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 3),
+                        game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 3),
+                        ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
+                game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 3),
+                        (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+                game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 3),
+                        (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+                game.draw.drawClock((game.camera.viewportWidth / 6) - (symbolRadius / 6),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 6),
+                        (symbolRadius / 2) / 3,
+                        Color.WHITE,
+                        Color.BLACK);
+                game.draw.drawClock((game.camera.viewportWidth / 6) + (symbolRadius / 6),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 6),
+                        (symbolRadius / 2) / 3,
+                        Color.WHITE,
+                        Color.BLACK);
+            } else if (gameplayType == Squirgle.GAMEPLAY_TRANCE) {
+                game.draw.drawQuestionMark(game.partitionSize + (inputWidth / 2),
+                        (3 * game.camera.viewportHeight) / 4,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE,
+                        Color.BLACK);
+
+                game.draw.drawModulo(game.partitionSize + (inputWidth / 2),
+                        game.camera.viewportHeight / 2,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE);
+
+                game.draw.drawTranceSymbol(game.camera.viewportWidth / 6,
+                        game.camera.viewportHeight / 6,
+                        symbolRadius / 3,
+                        Color.WHITE,
+                        Color.BLACK);
+            }
+        } else {
+            if (gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+                game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
+                        (3 * game.camera.viewportHeight) / 4,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE);
+
+                game.draw.drawPrompt(false, squirglePrompt, squirgleShapeList, 0, null, true, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeList, squirglePrompt, false);
+            } else if (gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+                game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
+                        (3 * game.camera.viewportHeight) / 4,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE);
+
+                game.shapeRendererFilled.setColor(Color.WHITE);
+                game.shapeRendererFilled.rectLine(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 3),
+                        game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 3),
+                        ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
+                game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 3),
+                        (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+                game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 3),
+                        (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+                game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
+                game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
+            } else if (gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
+                game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
+                        (3 * game.camera.viewportHeight) / 4,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE);
+                game.draw.drawClock(game.partitionSize + (inputWidth / 2),
+                        game.camera.viewportHeight / 4,
+                        symbolRadius / 3,
+                        Color.WHITE,
+                        Color.BLACK);
+            } else if (gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+                game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
+                        (3 * game.camera.viewportHeight) / 4,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE);
+
+                game.shapeRendererFilled.setColor(Color.WHITE);
+                game.shapeRendererFilled.rectLine(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 3),
+                        game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 3),
+                        ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
+                game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 3),
+                        (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+                game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 3),
+                        (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+                game.draw.drawClock((game.camera.viewportWidth / 6) - (symbolRadius / 6),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 6),
+                        (symbolRadius / 2) / 3,
+                        Color.WHITE,
+                        Color.BLACK);
+                game.draw.drawClock((game.camera.viewportWidth / 6) + (symbolRadius / 6),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 6),
+                        (symbolRadius / 2) / 3,
+                        Color.WHITE,
+                        Color.BLACK);
+            } else if (gameplayType == Squirgle.GAMEPLAY_TRANCE) {
+                game.draw.drawPlayButton(game.camera.viewportWidth / 6,
+                        (5 * game.camera.viewportHeight) / 6,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE);
+
+                game.draw.drawTranceSymbol(game.camera.viewportWidth / 6,
+                        game.camera.viewportHeight / 6,
+                        symbolRadius / 3,
+                        Color.WHITE,
+                        Color.BLACK);
+            } else if (gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL) {
+                game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
+                        (3 * game.camera.viewportHeight) / 4,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE);
+
+                game.shapeRendererFilled.setColor(Color.WHITE);
+                game.shapeRendererFilled.rectLine(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 3),
+                        game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 3),
+                        ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
+                game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 3),
+                        (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+                game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 3),
+                        (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+                game.draw.drawPrompt(false, squirglePromptBattleOne, squirgleShapeListBattleOne, 0, null, true, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeListBattleOne, squirglePromptBattleOne, false);
+                game.draw.drawPrompt(false, squirglePromptBattleTwo, squirgleShapeListBattleTwo, 0, null, true, false);
+                game.draw.orientAndDrawShapes(false, squirgleShapeListBattleTwo, squirglePromptBattleTwo, false);
+            } else if (gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
+                game.draw.drawPlayButton(game.partitionSize + (inputWidth / 2),
+                        (3 * game.camera.viewportHeight) / 4,
+                        symbolRadius / 3,
+                        (symbolRadius / 3) / Draw.LINE_WIDTH_DIVISOR,
+                        Color.WHITE);
+
+                game.shapeRendererFilled.setColor(Color.WHITE);
+                game.shapeRendererFilled.rectLine(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 3),
+                        game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 3),
+                        ((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR);
+                game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) - (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 3),
+                        (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+                game.shapeRendererFilled.circle(game.partitionSize + (inputWidth / 2) + (symbolRadius / 3),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 3),
+                        (((symbolRadius / 2) / 3) / Draw.LINE_WIDTH_DIVISOR) / 2);
+                game.draw.drawClock((game.camera.viewportWidth / 6) - (symbolRadius / 6),
+                        (game.camera.viewportHeight / 4) + (symbolRadius / 6),
+                        (symbolRadius / 2) / 3,
+                        Color.WHITE,
+                        Color.BLACK);
+                game.draw.drawClock((game.camera.viewportWidth / 6) + (symbolRadius / 6),
+                        (game.camera.viewportHeight / 4) - (symbolRadius / 6),
+                        (symbolRadius / 2) / 3,
+                        Color.WHITE,
+                        Color.BLACK);
+            }
         }
     }
 
     public void drawTitleText() {
-        if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-            FontUtils.printText(game.batch,
-                    game.fontNumPlayers,
-                    game.layout,
-                    Color.WHITE,
-                    Button.SINGLE_PLAYER_SYMBOL_STRING,
-                    game.partitionSize + (inputWidth / 2),
-                    game.camera.viewportHeight / 2,
-                    0,
-                    1);
-        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
-            FontUtils.printText(game.batch,
-                    game.fontNumPlayers,
-                    game.layout,
-                    Color.WHITE,
-                    Button.SINGLE_PLAYER_SYMBOL_STRING,
-                    game.partitionSize + (inputWidth / 2),
-                    game.camera.viewportHeight / 2,
-                    0,
-                    1);
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
-            FontUtils.printText(game.batch,
-                    game.fontNumPlayers,
-                    game.layout,
-                    Color.WHITE,
-                    Button.SINGLE_PLAYER_SYMBOL_STRING,
-                    game.partitionSize + (inputWidth / 2),
-                    game.camera.viewportHeight / 2,
-                    0,
-                    1);
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
-            FontUtils.printText(game.batch,
-                    game.fontNumPlayers,
-                    game.layout,
-                    Color.WHITE,
-                    Button.SINGLE_PLAYER_SYMBOL_STRING,
-                    game.partitionSize + (inputWidth / 2),
-                    game.camera.viewportHeight / 2,
-                    0,
-                    1);
-        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL) {
-            FontUtils.printText(game.batch,
-                    game.fontNumPlayers,
-                    game.layout,
-                    Color.WHITE,
-                    Button.MULTIPLAYER_SYMBOL_STRING,
-                    game.partitionSize + (inputWidth / 2),
-                    game.camera.viewportHeight / 2,
-                    0,
-                    1);
-        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
-            FontUtils.printText(game.batch,
-                    game.fontNumPlayers,
-                    game.layout,
-                    Color.WHITE,
-                    Button.MULTIPLAYER_SYMBOL_STRING,
-                    game.partitionSize + (inputWidth / 2),
-                    game.camera.viewportHeight / 2,
-                    0,
-                    1);
+        if(!stats) {
+            if (gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+                FontUtils.printText(game.batch,
+                        game.fontNumPlayers,
+                        game.layout,
+                        Color.WHITE,
+                        Button.SINGLE_PLAYER_SYMBOL_STRING,
+                        game.partitionSize + (inputWidth / 2),
+                        game.camera.viewportHeight / 2,
+                        0,
+                        1);
+            } else if (gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+                FontUtils.printText(game.batch,
+                        game.fontNumPlayers,
+                        game.layout,
+                        Color.WHITE,
+                        Button.SINGLE_PLAYER_SYMBOL_STRING,
+                        game.partitionSize + (inputWidth / 2),
+                        game.camera.viewportHeight / 2,
+                        0,
+                        1);
+            } else if (gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
+                FontUtils.printText(game.batch,
+                        game.fontNumPlayers,
+                        game.layout,
+                        Color.WHITE,
+                        Button.SINGLE_PLAYER_SYMBOL_STRING,
+                        game.partitionSize + (inputWidth / 2),
+                        game.camera.viewportHeight / 2,
+                        0,
+                        1);
+            } else if (gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+                FontUtils.printText(game.batch,
+                        game.fontNumPlayers,
+                        game.layout,
+                        Color.WHITE,
+                        Button.SINGLE_PLAYER_SYMBOL_STRING,
+                        game.partitionSize + (inputWidth / 2),
+                        game.camera.viewportHeight / 2,
+                        0,
+                        1);
+            } else if (gameplayType == Squirgle.GAMEPLAY_BATTLE_LOCAL) {
+                FontUtils.printText(game.batch,
+                        game.fontNumPlayers,
+                        game.layout,
+                        Color.WHITE,
+                        Button.MULTIPLAYER_SYMBOL_STRING,
+                        game.partitionSize + (inputWidth / 2),
+                        game.camera.viewportHeight / 2,
+                        0,
+                        1);
+            } else if (gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE_LOCAL) {
+                FontUtils.printText(game.batch,
+                        game.fontNumPlayers,
+                        game.layout,
+                        Color.WHITE,
+                        Button.MULTIPLAYER_SYMBOL_STRING,
+                        game.partitionSize + (inputWidth / 2),
+                        game.camera.viewportHeight / 2,
+                        0,
+                        1);
+            }
         }
     }
 
