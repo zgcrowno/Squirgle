@@ -33,17 +33,18 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
-    private final static int NUM_MIDDLE_INPUTS_VERTICAL = 4;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
-    private final static int NUM_MIDDLE_PARTITIONS_VERTICAL = NUM_MIDDLE_INPUTS_VERTICAL + 1;
     public final static int NUM_SOUND_INPUT_ELEMENTS = 4;
 
     private final static float FONT_VOLUME_SIZE_DIVISOR = 30f;
     private final static float FONT_HARDCORE_SIZE_DIVISOR = 45f;
     private final static float FONT_OPTIONS_SIZE_DIVISOR = 7f;
     private static float FONT_TUTORIAL_HELP_SIZE_MULTIPLIER;
+
+    private int numMiddleInputsVertical;
+    private int numMiddlePartitionsVertical;
 
     private float inputWidth;
     private float inputHeightMiddle;
@@ -57,6 +58,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
     private Color volumeColor;
     private Color fxVolumeColor;
+    private Color p2ControlsColor;
     private Color hardcoreColor;
     private Color wipeDataColor;
     private Color backColor;
@@ -76,6 +78,10 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private Button fxVolumeWavesButton;
     private Button fxVolumeChevronDownButton;
     private Button fxVolumeChevronUpButton;
+    private Button p2ControlsButton;
+    private Button p2ControlsDPadButton;
+    private Button p2ControlsChevronDownButton;
+    private Button p2ControlsChevronUpButton;
     private Button hardcoreButton;
     private Button hardcoreSkullButton;
     private Button hardcoreChevronDownButton;
@@ -108,8 +114,11 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
+        numMiddleInputsVertical = game.desktop ? 5 : 4;
+        numMiddlePartitionsVertical = numMiddleInputsVertical + 1;
+
         inputWidth = (game.camera.viewportWidth - (game.partitionSize * NUM_PARTITIONS_HORIZONTAL)) / NUM_INPUTS_HORIZONTAL;
-        inputHeightMiddle = (game.camera.viewportHeight - (game.partitionSize * NUM_MIDDLE_PARTITIONS_VERTICAL)) / NUM_MIDDLE_INPUTS_VERTICAL;
+        inputHeightMiddle = (game.camera.viewportHeight - (game.partitionSize * numMiddlePartitionsVertical)) / numMiddleInputsVertical;
         inputHeightBack = (game.camera.viewportHeight - (game.partitionSize * NUM_RIGHT_PARTITIONS_VERTICAL)) / NUM_RIGHT_INPUTS_VERTICAL;
 
         symbolRadius = inputWidth > inputHeightBack ? inputHeightBack / 2 : inputWidth / 2;
@@ -125,6 +134,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
         volumeColor = ColorUtils.COLOR_ORANGE;
         fxVolumeColor = ColorUtils.COLOR_VERMILLION;
+        p2ControlsColor = ColorUtils.COLOR_BLUISH_GREEN;
         hardcoreColor = ColorUtils.COLOR_SKY_BLUE;
         wipeDataColor = ColorUtils.COLOR_BLUE;
         backColor = ColorUtils.COLOR_REDDISH_PURPLE;
@@ -134,7 +144,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         backTouched = false;
 
         volumeButton = new Button((2 * game.partitionSize) + inputWidth,
-                (4 * game.partitionSize) + (3 * inputHeightMiddle),
+                game.camera.viewportHeight - game.partitionSize - inputHeightMiddle,
                 inputWidth,
                 inputHeightMiddle,
                 Button.BUTTON_VOLUME,
@@ -166,7 +176,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 game);
         fxVolumeButton = new Button((2 * game.partitionSize) + inputWidth,
-                (3 * game.partitionSize) + (2 * inputHeightMiddle),
+                game.camera.viewportHeight - (2 * game.partitionSize) - (2 * inputHeightMiddle),
                 inputWidth,
                 inputHeightMiddle,
                 Button.BUTTON_FX_VOLUME,
@@ -195,6 +205,38 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 (2 * fxVolumeButton.symbolRadius) / 3,
                 Button.BUTTON_FX_VOLUME_CHEVRON_UP,
                 fxVolumeColor,
+                Color.BLACK,
+                game);
+        p2ControlsButton = new Button((2 * game.partitionSize) + inputWidth,
+                (3 * game.partitionSize) + (2 * inputHeightMiddle),
+                inputWidth,
+                inputHeightMiddle,
+                Button.BUTTON_P2_CONTROLS,
+                p2ControlsColor,
+                Color.BLACK,
+                game);
+        p2ControlsDPadButton = new Button(p2ControlsButton.symbolX - (((2 * p2ControlsButton.symbolRadius) / 3) / 2),
+                p2ControlsButton.symbolY + p2ControlsButton.symbolRadius - ((2 * p2ControlsButton.symbolRadius) / 3),
+                (2 * p2ControlsButton.symbolRadius) / 3,
+                (2 * p2ControlsButton.symbolRadius) / 3,
+                Button.BUTTON_P2_CONTROLS_DPAD,
+                p2ControlsColor,
+                Color.BLACK,
+                game);
+        p2ControlsChevronDownButton = new Button(p2ControlsButton.x,
+                p2ControlsButton.symbolY + p2ControlsButton.symbolRadius - ((5 * p2ControlsButton.symbolRadius) / 3),
+                (2 * p2ControlsButton.symbolRadius) / 3,
+                (2 * p2ControlsButton.symbolRadius) / 3,
+                Button.BUTTON_P2_CONTROLS_CHEVRON_DOWN,
+                p2ControlsColor,
+                Color.BLACK,
+                game);
+        p2ControlsChevronUpButton = new Button(p2ControlsButton.x + p2ControlsButton.width - ((2 * p2ControlsButton.symbolRadius) / 3),
+                p2ControlsButton.symbolY + p2ControlsButton.symbolRadius - ((5 * p2ControlsButton.symbolRadius) / 3),
+                (2 * p2ControlsButton.symbolRadius) / 3,
+                (2 * p2ControlsButton.symbolRadius) / 3,
+                Button.BUTTON_P2_CONTROLS_CHEVRON_UP,
+                p2ControlsColor,
                 Color.BLACK,
                 game);
         hardcoreButton = new Button((2 * game.partitionSize) + inputWidth,
@@ -255,6 +297,12 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         buttonList.add(fxVolumeWavesButton);
         buttonList.add(fxVolumeChevronDownButton);
         buttonList.add(fxVolumeChevronUpButton);
+        if(game.desktop) {
+            buttonList.add(p2ControlsButton);
+            buttonList.add(p2ControlsDPadButton);
+            buttonList.add(p2ControlsChevronDownButton);
+            buttonList.add(p2ControlsChevronUpButton);
+        }
         buttonList.add(hardcoreButton);
         buttonList.add(hardcoreSkullButton);
         buttonList.add(hardcoreChevronDownButton);

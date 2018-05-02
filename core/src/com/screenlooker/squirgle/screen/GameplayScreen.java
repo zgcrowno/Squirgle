@@ -582,8 +582,12 @@ public class GameplayScreen implements Screen, InputProcessor {
             handleInput(null);
         } else {
             if(multiplayer) {
-                handleInput(P2);
                 if(!game.desktop) {
+                    handleInput(P1);
+                    handleInput(P2);
+                } else if(game.p2Controls == Squirgle.P2_CONTROLS_MOUSE) {
+                    handleInput(P2);
+                } else {
                     handleInput(P1);
                 }
             } else {
@@ -614,7 +618,16 @@ public class GameplayScreen implements Screen, InputProcessor {
             if(!splitScreen) {
                 handleInput(null);
             } else {
-                handleInput(P1);
+                if(multiplayer) {
+                    if((InputUtils.isNumberKeycode(keycode) && game.p2Controls == Squirgle.P2_CONTROLS_NUMBERS)
+                            || (InputUtils.isNumpadKeycode(keycode) && game.p2Controls == Squirgle.P2_CONTROLS_NUMPAD)) {
+                        handleInput(P2);
+                    } else {
+                        handleInput(P1);
+                    }
+                } else {
+                    handleInput(P1);
+                }
             }
 
             return true;
@@ -1888,6 +1901,18 @@ public class GameplayScreen implements Screen, InputProcessor {
             playTouched = pointTouchedP1;
             homeTouched = lineTouchedP1;
             exitTouched = triangleTouchedP1;
+            if(multiplayer) {
+                pointTouchedP2 = keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1;
+                lineTouchedP2 = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2;
+                triangleTouchedP2 = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3;
+                squareTouchedP2 = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4;
+                pentagonTouchedP2 = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && game.base >= 5;
+                hexagonTouchedP2 = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && game.base >= 6;
+                septagonTouchedP2 = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && game.base >= 7;
+                octagonTouchedP2 = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && game.base >= 8;
+                nonagonTouchedP2 = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && game.base >= 9;
+                inputTouchedGameplayP2 = pointTouchedP2 || lineTouchedP2 || triangleTouchedP2 || squareTouchedP2 || pentagonTouchedP2 || hexagonTouchedP2 || septagonTouchedP2 || octagonTouchedP2 || nonagonTouchedP2;
+            }
         }
         pauseTouched = keycode == Input.Keys.ESCAPE;
         pauseBackTouched = pauseTouched;

@@ -3207,6 +3207,167 @@ public class Draw {
         rect(x + (radius / 15), y - radius, (2 * radius) / 15, radius / 3, secondaryColor);
     }
 
+    public void drawDPad(float x, float y, float radius, Color primaryColor, Color secondaryColor) {
+        game.shapeRendererFilled.setColor(primaryColor);
+        game.shapeRendererFilled.circle(x, y, radius);
+
+        game.shapeRendererFilled.setColor(secondaryColor);
+        game.shapeRendererFilled.circle(x, y, (7 * radius) / 8);
+
+        rect(x - ((3 * radius) / 4),
+                y - (((3 * (radius * 2)) / 4) / 8),
+                ((3 * (radius * 2)) / 4),
+                (((3 * (radius * 2)) / 4) / 4),
+                primaryColor);
+        rect(x - (((3 * (radius * 2)) / 4) / 8),
+                y - ((3 * radius) / 4),
+                (((3 * (radius * 2)) / 4) / 4),
+                ((3 * (radius * 2)) / 4),
+                primaryColor);
+
+        game.shapeRendererFilled.setColor(secondaryColor);
+        game.shapeRendererFilled.triangle(x,
+                y + ((3 * radius) / 4) - (radius / 16),
+                x - (((3 * (radius * 2)) / 4) / 16),
+                y + (radius / 2),
+                x + (((3 * (radius * 2)) / 4) / 16),
+                y + (radius / 2));
+        game.shapeRendererFilled.triangle(x - ((3 * radius) / 4) + (radius / 16),
+                y,
+                x - (radius / 2),
+                y - (((3 * (radius * 2)) / 4) / 16),
+                x - (radius / 2),
+                y + (((3 * (radius * 2)) / 4) / 16));
+        game.shapeRendererFilled.triangle(x,
+                y - ((3 * radius) / 4) + (radius / 16),
+                x - (((3 * (radius * 2)) / 4) / 16),
+                y - (radius / 2),
+                x + (((3 * (radius * 2)) / 4) / 16),
+                y - (radius / 2));
+        game.shapeRendererFilled.triangle(x + ((3 * radius) / 4) - (radius / 16),
+                y,
+                x + (radius / 2),
+                y - (((3 * (radius * 2)) / 4) / 16),
+                x + (radius / 2),
+                y + (((3 * (radius * 2)) / 4) / 16));
+    }
+
+    public void drawPoundSymbol(float x, float y, float radius, Color color) {
+        game.shapeRendererFilled.setColor(color);
+        game.shapeRendererFilled.rectLine(x - (radius / 2),
+                y + ((radius / 2) / 3),
+                x + (radius / 2),
+                y + ((radius / 2) / 3),
+                radius / 20);
+        game.shapeRendererFilled.rectLine(x - (radius / 2),
+                y - ((radius / 2) / 3),
+                x + (radius / 2),
+                y - ((radius / 2) / 3),
+                radius / 20);
+        game.shapeRendererFilled.rectLine(x - ((radius / 2) / 3),
+                y + (radius / 2),
+                x - ((radius / 2) / 3),
+                y - (radius / 2),
+                radius / 20);
+        game.shapeRendererFilled.rectLine(x + ((radius / 2) / 3),
+                y + (radius / 2),
+                x + ((radius / 2) / 3),
+                y - (radius / 2),
+                radius / 20);
+    }
+
+    public void drawMouse(float x, float y, float radius, Color primaryColor, Color secondaryColor) {
+        game.shapeRendererFilled.setColor(primaryColor);
+        game.shapeRendererFilled.rect(x - (radius / 2),
+                y - (radius / 2),
+                radius,
+                radius);
+        game.shapeRendererFilled.circle(x,
+                y + (radius / 2),
+                radius / 2);
+        game.shapeRendererFilled.circle(x,
+                y - (radius / 2),
+                radius / 2);
+
+        game.shapeRendererFilled.setColor(secondaryColor);
+        game.shapeRendererFilled.rect(x - ((9 * (radius / 2)) / 10),
+                y - ((9 * (radius / 2)) / 10),
+                ((9 * radius) / 10),
+                ((9 * radius) / 10));
+        game.shapeRendererFilled.circle(x,
+                y + ((9 * (radius / 2)) / 10),
+                ((9 * (radius / 2)) / 10));
+        game.shapeRendererFilled.circle(x,
+                y - ((9 * (radius / 2)) / 10),
+                ((9 * (radius / 2)) / 10));
+
+        game.shapeRendererFilled.setColor(primaryColor);
+        game.shapeRendererFilled.rect(x - (radius / 20),
+                y + (radius / 4),
+                radius / 10,
+                radius / 4);
+        game.shapeRendererFilled.circle(x,
+                y + (radius / 2),
+                radius / 20);
+        game.shapeRendererFilled.circle(x,
+                y + (radius / 4),
+                radius / 20);
+
+        game.shapeRendererFilled.rectLine(x - (radius / 2),
+                y + ((3 * radius) / 8),
+                x + (radius / 2),
+                y + ((3 * radius) / 8),
+                radius / 40);
+
+        game.shapeRendererFilled.rectLine(x,
+                y + ((9 * (radius / 2)) / 5),
+                x,
+                y + ((3 * radius) / 8),
+                radius / 40);
+    }
+
+    public void drawNumPad(float x, float y, float radius, Color primaryColor, Color secondaryColor) {
+        game.shapeRendererFilled.setColor(primaryColor);
+        game.shapeRendererFilled.rect(x - radius,
+                y - radius,
+                radius * 2,
+                radius * 2);
+
+        drawPoundSymbol(x, y, radius * 2, secondaryColor);
+
+        float startingX = x - ((2 * radius) / 3);
+        float startingY = y + ((2 * radius) / 3);
+        float xAdditive = x - startingX;
+        float yAdditive = startingY - y;
+        for(int i = 0; i < 3; i++) {
+            for(int j = 0; j < 3; j++) {
+                drawPoundSymbol(startingX + (i * xAdditive),
+                        startingY - (j * yAdditive),
+                        xAdditive / 2,
+                        secondaryColor);
+            }
+        }
+    }
+
+    public void drawNumbers(float x, float y, float radius, Color primaryColor, Color secondaryColor) {
+        game.shapeRendererFilled.setColor(primaryColor);
+        game.shapeRendererFilled.rect(x - radius,
+                y - (radius / 3),
+                radius * 2,
+                (2 * radius) / 3);
+
+        drawPoundSymbol(x, y, radius * 2, secondaryColor);
+
+        float xAdditive = (radius * 2) / 3;
+        float startingX = x - radius + (xAdditive / 2);
+        for(int i = 0; i < 3; i++) {
+            drawPoundSymbol(startingX + (i * xAdditive),
+                    y,
+                    xAdditive / 2,
+                    secondaryColor);
+        }
+    }
+
     public void rect(float x, float y, float width, float height, Color color) {
         float cornerRadius = width > height ? height / 10 : width / 10;
 

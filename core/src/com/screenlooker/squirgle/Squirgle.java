@@ -64,6 +64,9 @@ public class Squirgle extends Game {
 	public final static int GAMEPLAY_TRANCE = 8;
 	public final static int GAMEPLAY_GENERAL = 9; //This is for the general stats category
 
+	public final static int P2_CONTROLS_MOUSE = 0;
+	public final static int P2_CONTROLS_NUMPAD = 1;
+	public final static int P2_CONTROLS_NUMBERS = 2;
 
 	public final static String MUSIC_TYPE_FULL = "FULL";
 	public final static String MUSIC_TYPE_SPLIT = "SPLIT";
@@ -91,6 +94,7 @@ public class Squirgle extends Game {
 	public final static String SAVE_NAME = "Squirgle Save";
 	public final static String SAVE_VOLUME = "volume";
 	public final static String SAVE_FX_VOLUME = "fxVolume";
+	public final static String SAVE_P2_CONTROLS = "p2Controls";
 	public final static String SAVE_TRACK = "track";
 	public final static String SAVE_PLAYED_BEFORE = "playedBefore";
 	public final static String SAVE_BEATEN_BEFORE = "beatenBefore";
@@ -111,6 +115,7 @@ public class Squirgle extends Game {
 	//Options
 	public int volume;
 	public int fxVolume;
+	public int p2Controls;
 	public int track;
 	public String difficulty;
 	public boolean hardcore;
@@ -195,6 +200,7 @@ public class Squirgle extends Game {
 
 		volume = save.getInteger(SAVE_VOLUME, 10);
 		fxVolume = save.getInteger(SAVE_FX_VOLUME, 3);
+		p2Controls = save.getInteger(SAVE_P2_CONTROLS, P2_CONTROLS_MOUSE);
 		track = save.getInteger(SAVE_TRACK, MUSIC_POINTILLISM);
 		difficulty = save.getString(SAVE_DIFFICULTY, DIFFICULTY_MEDIUM);
 		hardcore = save.getBoolean(SAVE_HARDCORE, false);

@@ -171,6 +171,10 @@ public class Button {
     public static final int BUTTON_STATS_TIME_ATTACK = 194;
     public static final int BUTTON_STATS_TIME_BATTLE = 195;
     public static final int BUTTON_STATS_TRANCE = 196;
+    public static final int BUTTON_P2_CONTROLS = 197;
+    public static final int BUTTON_P2_CONTROLS_DPAD = 198;
+    public static final int BUTTON_P2_CONTROLS_CHEVRON_DOWN = 199;
+    public static final int BUTTON_P2_CONTROLS_CHEVRON_UP = 200;
 
     private final static int NUM_STATS_ELEMENTS_GENERAL = 5;
     private final static int NUM_STATS_ELEMENTS_SQUIRGLE = 3;
@@ -219,6 +223,7 @@ public class Button {
     private static final String CREDITS_STRING = "CREDITS";
     private static final String GENERAL_STRING = "GENERAL";
     private static final String HARDCORE_STRING = "HARDCORE MODE";
+    private static final String P2_CONTROLS_STRING = "P2 CONTROLS";
 
     private final static String TIME_PLAYED_STRING = "TIME PLAYED:";
     private final static String NUM_SQUIRGLES_STRING = "SQUIRGLES:";
@@ -1576,6 +1581,52 @@ public class Button {
                             y + height - (i * (height / (NUM_STATS_ELEMENTS_TRANCE + 1))) - (game.layout.height / 2.47f),
                             1);
                 }
+                break;
+            }
+            case BUTTON_P2_CONTROLS : {
+                if(game.p2Controls == Squirgle.P2_CONTROLS_MOUSE) {
+                    game.draw.drawMouse(symbolX,
+                            symbolY + symbolRadius - ((4 * symbolRadius) / 3),
+                            (2 * symbolRadius) / 3,
+                            containedColor,
+                            containerColor);
+                } else if(game.p2Controls == Squirgle.P2_CONTROLS_NUMPAD) {
+                    game.draw.drawNumPad(symbolX,
+                            symbolY + symbolRadius - ((4 * symbolRadius) / 3),
+                            (2 * symbolRadius) / 3,
+                            containedColor,
+                            containerColor);
+                } else if(game.p2Controls == Squirgle.P2_CONTROLS_NUMBERS) {
+                    game.draw.drawNumbers(symbolX,
+                            symbolY + symbolRadius - ((4 * symbolRadius) / 3),
+                            (2 * symbolRadius) / 3,
+                            containedColor,
+                            containerColor);
+                }
+                break;
+            }
+            case BUTTON_P2_CONTROLS_DPAD : {
+                game.draw.drawDPad(centerX,
+                        centerY,
+                        radius,
+                        containedColor,
+                        containerColor);
+                break;
+            }
+            case BUTTON_P2_CONTROLS_CHEVRON_DOWN : {
+                game.draw.drawChevronLeft(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
+                break;
+            }
+            case BUTTON_P2_CONTROLS_CHEVRON_UP : {
+                game.draw.drawChevronRight(centerX,
+                        centerY,
+                        radius,
+                        radius / Draw.LINE_WIDTH_DIVISOR,
+                        containedColor);
                 break;
             }
         }
@@ -4218,6 +4269,28 @@ public class Button {
                         textOpacity);
                 break;
             }
+            case BUTTON_P2_CONTROLS : {
+                game.layout.setText(game.fontButton, P2_CONTROLS_STRING);
+                FontUtils.printText(game.batch,
+                        game.fontButton,
+                        game.layout,
+                        Color.BLACK,
+                        P2_CONTROLS_STRING,
+                        centerX,
+                        y + ((2.7f * game.layout.height) / 4),
+                        0,
+                        textOpacity);
+                break;
+            }
+            case BUTTON_P2_CONTROLS_DPAD : {
+                break;
+            }
+            case BUTTON_P2_CONTROLS_CHEVRON_DOWN : {
+                break;
+            }
+            case BUTTON_P2_CONTROLS_CHEVRON_UP : {
+                break;
+            }
         }
         if(textOpacity < 1) {
             textOpacity += 0.1;
@@ -4522,6 +4595,7 @@ public class Button {
                     game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                     game.updateSave(game.SAVE_VOLUME, game.volume);
                     game.updateSave(game.SAVE_FX_VOLUME, game.fxVolume);
+                    game.updateSave(game.SAVE_P2_CONTROLS, game.p2Controls);
                     game.updateSave(game.SAVE_HARDCORE, game.hardcore);
                     game.setScreen(new MainMenuScreen(game, containerColor));
                     return true;
@@ -5430,6 +5504,30 @@ public class Button {
                 case BUTTON_STATS_TRANCE : {
                     return false;
                 }
+                case BUTTON_P2_CONTROLS : {
+                    return false;
+                }
+                case BUTTON_P2_CONTROLS_DPAD : {
+                    return false;
+                }
+                case BUTTON_P2_CONTROLS_CHEVRON_DOWN : {
+                    if(game.p2Controls > 0) {
+                        game.p2Controls--;
+                    } else {
+                        game.p2Controls = Squirgle.P2_CONTROLS_NUMBERS;
+                    }
+                    game.disconfirmSound.play((float) (game.fxVolume / 10.0));
+                    return false;
+                }
+                case BUTTON_P2_CONTROLS_CHEVRON_UP : {
+                    if(game.p2Controls < Squirgle.P2_CONTROLS_NUMBERS) {
+                        game.p2Controls++;
+                    } else {
+                        game.p2Controls = 0;
+                    }
+                    game.confirmSound.play((float) (game.fxVolume / 10.0));
+                    return false;
+                }
             }
         return false;
     }
@@ -5885,7 +5983,11 @@ public class Button {
                 && buttonType != BUTTON_HARDCORE
                 && buttonType != BUTTON_HARDCORE_SKULL
                 && buttonType != BUTTON_HARDCORE_CHEVRON_DOWN
-                && buttonType != BUTTON_HARDCORE_CHEVRON_UP;
+                && buttonType != BUTTON_HARDCORE_CHEVRON_UP
+                && buttonType != BUTTON_P2_CONTROLS
+                && buttonType != BUTTON_P2_CONTROLS_DPAD
+                && buttonType != BUTTON_P2_CONTROLS_CHEVRON_DOWN
+                && buttonType != BUTTON_P2_CONTROLS_CHEVRON_UP;
     }
 
     public boolean isMusicTypeButton() {
