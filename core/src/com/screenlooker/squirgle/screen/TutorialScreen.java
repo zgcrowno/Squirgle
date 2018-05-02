@@ -18,6 +18,7 @@ import com.screenlooker.squirgle.screen.GameplayScreen;
 import com.screenlooker.squirgle.screen.MainMenuScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 import com.screenlooker.squirgle.util.SoundUtils;
 
 import java.util.ArrayList;
@@ -656,6 +657,12 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         showHelpTextFooter();
 
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
+
         if(!splitScreen) {
             ColorUtils.transitionColor(currentTargetShape);
         } else {
@@ -666,6 +673,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         if(veilOpacity > 0) {
             veilOpacity -= 0.01;
         }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override
@@ -1499,7 +1508,12 @@ public class TutorialScreen implements Screen, InputProcessor {
         if(!gameOver) {
             if(!paused) {
                 float actualFPS = Gdx.graphics.getRawDeltaTime() * game.FPS;
-                game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.timeAttackNumSeconds * actualFPS * game.FPS));
+                if(blackAndWhite) {
+                    game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.timeAttackNumSeconds * actualFPS * game.FPS));
+                } else {
+                    //We're in Battle mode here
+                    game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.ONE_MINUTE * actualFPS * game.FPS));
+                }
                 promptIncrease = (game.widthOrHeightSmaller * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
             }
         }
@@ -1686,8 +1700,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                     && !gameOver;
         }
         if (gameOverCondition) {
+            game.gameOverSound.play((float) (game.fxVolume / 10.0));
             gameOver = true;
-            stopMusic();
             promptIncrease = 1;
             endTime = System.currentTimeMillis();
             veilOpacity = 1;
@@ -1697,8 +1711,8 @@ public class TutorialScreen implements Screen, InputProcessor {
                     backgroundColorShape.getColor().a);
             game.stats.updateTimePlayed(endTime - startTime, gameplayType);
             if(splitScreen) {
+                //We have to set the radii here to prevent stuttering when zooming through the shapes.
                 if (useSaturation) {
-                    //We have to set the radii here to prevent stuttering when zooming through the shapes.
                     if (saturationP1 <= saturationP2) {
                         promptShapeP1.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
                         promptShapeP1.setCoordinates(new Vector2(promptShapeP1.getCoordinates().x, game.camera.viewportHeight / 2));
@@ -1708,8 +1722,10 @@ public class TutorialScreen implements Screen, InputProcessor {
                     }
                 } else {
                     if (scoreP1 >= scoreP2) {
+                        promptShapeP1.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
                         promptShapeP1.setCoordinates(new Vector2(promptShapeP1.getCoordinates().x, game.camera.viewportHeight / 2));
                     } else {
+                        promptShapeP2.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
                         promptShapeP2.setCoordinates(new Vector2(promptShapeP2.getCoordinates().x, game.camera.viewportHeight / 2));
                     }
                 }
@@ -1936,11 +1952,11 @@ public class TutorialScreen implements Screen, InputProcessor {
             lineTouched = (keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2) && phase >= PHASE_TWO;
             triangleTouched = (keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3) && phase >= PHASE_TWO;
             squareTouched = (keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4) && phase >= PHASE_TWO;
-            pentagonTouched = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && phase >= PHASE_TWO;
-            hexagonTouched = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && phase >= PHASE_TWO;
-            septagonTouched = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && phase >= PHASE_TWO;
-            octagonTouched = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && phase >= PHASE_TWO;
-            nonagonTouched = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && phase >= PHASE_TWO;
+            pentagonTouched = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && phase >= PHASE_TWO && game.base >= 5;
+            hexagonTouched = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && phase >= PHASE_TWO && game.base >= 6;
+            septagonTouched = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && phase >= PHASE_TWO && game.base >= 7;
+            octagonTouched = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && phase >= PHASE_TWO && game.base >= 8;
+            nonagonTouched = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && phase >= PHASE_TWO && game.base >= 9;
             playTouched = pointTouched;
             homeTouched = lineTouched;
             exitTouched = triangleTouched;
@@ -1949,11 +1965,11 @@ public class TutorialScreen implements Screen, InputProcessor {
             lineTouchedP1 = (keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2) && phase >= PHASE_TWO;
             triangleTouchedP1 = (keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3) && phase >= PHASE_TWO;
             squareTouchedP1 = (keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4) && phase >= PHASE_TWO;
-            pentagonTouchedP1 = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && phase >= PHASE_TWO;
-            hexagonTouchedP1 = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && phase >= PHASE_TWO;
-            septagonTouchedP1 = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && phase >= PHASE_TWO;
-            octagonTouchedP1 = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && phase >= PHASE_TWO;
-            nonagonTouchedP1 = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && phase >= PHASE_TWO;
+            pentagonTouchedP1 = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && phase >= PHASE_TWO && game.base >= 5;
+            hexagonTouchedP1 = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && phase >= PHASE_TWO && game.base >= 6;
+            septagonTouchedP1 = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && phase >= PHASE_TWO && game.base >= 7;
+            octagonTouchedP1 = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && phase >= PHASE_TWO && game.base >= 8;
+            nonagonTouchedP1 = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && phase >= PHASE_TWO && game.base >= 9;
             playTouched = pointTouchedP1;
             homeTouched = lineTouchedP1;
             exitTouched = triangleTouchedP1;
@@ -1993,6 +2009,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     } else if (nonagonTouched) {
                         transitionShape(null, Shape.NONAGON);
                     } else if (pauseTouched) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
                         pause();
                         pauseTouched = false;
                         pauseBackTouched = false;
@@ -2018,6 +2035,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     } else if (nonagonTouchedP1) {
                         transitionShape(P1, Shape.NONAGON);
                     } else if (pauseTouched) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
                         pause();
                         pauseTouched = false;
                         pauseBackTouched = false;
@@ -2081,8 +2099,10 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public void handleResultsInput() {
         if (playTouched) {
+            stopMusic();
             game.setScreen(new TutorialScreen(game, gameplayType));
         } else if (homeTouched) {
+            stopMusic();
             game.setScreen(new MainMenuScreen(game, Color.BLACK));
         } else {
             dispose();
@@ -2092,6 +2112,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     }
 
     public void handlePauseInput() {
+        game.disconfirmSound.play((float) (game.fxVolume / 10.0));
         if (pauseBackTouched) {
             timePaused += System.currentTimeMillis() - pauseStartTime;
             resume();
@@ -2106,20 +2127,28 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public void handleHelpInput() {
         if(helpTouched) {
+            if(helpTextVisible) {
+                game.disconfirmSound.play((float) (game.fxVolume / 10.0));
+            } else {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
+            }
             helpTextVisible = !helpTextVisible;
         }else if(helpChevronDownTouched) {
+            game.disconfirmSound.play((float) (game.fxVolume / 10.0));
             if(currentHelpTextIndex > 0) {
                 currentHelpTextIndex--;
             } else {
                 currentHelpTextIndex = getHelpTextMaxIndex();
             }
         } else if(helpChevronUpTouched) {
+            game.confirmSound.play((float) (game.fxVolume / 10.0));
             if(currentHelpTextIndex < getHelpTextMaxIndex()) {
                 currentHelpTextIndex++;
             } else {
                 currentHelpTextIndex = 0;
             }
         } else if(helpNextTouched) {
+            game.confirmSound.play((float) (game.fxVolume / 10.0));
             phase++;
             currentHelpTextIndex = 0;
         }
@@ -2180,6 +2209,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     }
 
     public void shapesMatchedBehavior(String player) {
+        game.correctInputSound.play((float) (game.fxVolume / 10.0));
         if(player == null) {
             targetShapesMatched++;
             Shape circleContainer = new Shape(Shape.CIRCLE,
@@ -2461,6 +2491,7 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public void shapesMismatchedBehavior(String player) {
         //The wrong shape was touched
+        game.incorrectInputSound.play((float) (game.fxVolume / 10.0));
         if(player == null) {
             if(!blackAndWhite) {
                 if(phase >= PHASE_FIVE) {

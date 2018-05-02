@@ -14,8 +14,11 @@ import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 import com.screenlooker.squirgle.util.SoundUtils;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +78,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private final static int PAUSE_QUIT = 1;
 
     private final static int END_LINE_WIDTH_INCREASE = 2;
-    private final static int NUM_MUSIC_PHASES = 3;
+    public final static int NUM_MUSIC_PHASES = 3;
     private final static int NUM_TIMELINES = 3;
     private final static int SCORE_ANGLE = -45;
     private final static int ONE_THOUSAND = 1000;
@@ -255,7 +258,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         setUpNonFinalStaticData();
 
         //TODO: Eventually set this in render using delta? See maintainSpeed() in TimeAttackScreen
-        game.draw.setColorListSpeed(((BACKGROUND_COLOR_SHAPE_LIST_HEIGHT * NUM_TIMELINES) / game.FPS) / game.ONE_MINUTE);
+        game.draw.setColorListSpeed(((BACKGROUND_COLOR_SHAPE_LIST_HEIGHT * NUM_TIMELINES) / game.FPS) / game.THIRTY_SECONDS);
 
         setUpNonFinalNonStaticData();
 
@@ -457,6 +460,12 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         drawText();
 
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
+
         gameOver();
 
         if(!splitScreen) {
@@ -469,6 +478,8 @@ public class GameplayScreen implements Screen, InputProcessor {
         if(veilOpacity > 0) {
             veilOpacity -= 0.01;
         }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override
@@ -572,9 +583,17 @@ public class GameplayScreen implements Screen, InputProcessor {
         if(!splitScreen) {
             handleInput(null);
         } else {
-            handleInput(P1);
             if(multiplayer) {
-                handleInput(P2);
+                if(!game.desktop) {
+                    handleInput(P1);
+                    handleInput(P2);
+                } else if(game.p2Controls == Squirgle.P2_CONTROLS_MOUSE) {
+                    handleInput(P2);
+                } else {
+                    handleInput(P1);
+                }
+            } else {
+                handleInput(P1);
             }
         }
 
@@ -601,7 +620,16 @@ public class GameplayScreen implements Screen, InputProcessor {
             if(!splitScreen) {
                 handleInput(null);
             } else {
-                handleInput(P1);
+                if(multiplayer) {
+                    if((InputUtils.isNumberKeycode(keycode) && game.p2Controls == Squirgle.P2_CONTROLS_NUMBERS)
+                            || (InputUtils.isNumpadKeycode(keycode) && game.p2Controls == Squirgle.P2_CONTROLS_NUMPAD)) {
+                        handleInput(P2);
+                    } else {
+                        handleInput(P1);
+                    }
+                } else {
+                    handleInput(P1);
+                }
             }
 
             return true;
@@ -1439,7 +1467,12 @@ public class GameplayScreen implements Screen, InputProcessor {
         if(!gameOver) {
             if(!paused) {
                 float actualFPS = Gdx.graphics.getRawDeltaTime() * game.FPS;
-                game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.timeAttackNumSeconds * actualFPS * game.FPS));
+                if(blackAndWhite) {
+                    game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.timeAttackNumSeconds * actualFPS * game.FPS));
+                } else {
+                    //We're in Battle mode here
+                    game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.THIRTY_SECONDS * actualFPS * game.FPS));
+                }
                 promptIncrease = (game.widthOrHeightSmaller * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
             }
         }
@@ -1610,9 +1643,24 @@ public class GameplayScreen implements Screen, InputProcessor {
     public void drawResultsInputButtons() {
         if(!paused) {
             if (showResults) {
-                if(game.base == game.maxBase && score >= Squirgle.SCORE_TO_UNLOCK_NEW_BASE && game.maxBase < Squirgle.MAX_POSSIBLE_BASE && gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-                    shouldUnlockNewBase = true;
-                    unlockNewBase();
+                if(game.base == game.maxBase && score >= Squirgle.SCORE_TO_UNLOCK_NEW_BASE && gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+                    if(game.maxBase < Squirgle.MAX_POSSIBLE_BASE) {
+                        shouldUnlockNewBase = true;
+                        unlockNewBase();
+                    } else if(!game.beatenBefore) {
+                        game.beatenBefore = true;
+                        game.updateSave(game.SAVE_BEATEN_BEFORE, game.beatenBefore);
+                        Color passedBackgroundColor = new Color();
+                        if(primaryShape.getShape() == Shape.POINT || primaryShape.getShape() == Shape.LINE) {
+                            passedBackgroundColor = primaryShape.getColor();
+                        } else {
+                            passedBackgroundColor = Color.BLACK;
+                        }
+                        game.setScreen(new CreditsScreen(game, passedBackgroundColor));
+                        dispose();
+                    } else {
+                        game.draw.drawResultsInputButtons(resultsColor, INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN);
+                    }
                 } else {
                     game.draw.drawResultsInputButtons(resultsColor, INPUT_PLAY_SPAWN, INPUT_HOME_SPAWN, INPUT_EXIT_SPAWN);
                 }
@@ -1631,8 +1679,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     && !gameOver;
         }
         if (gameOverCondition) {
+            game.gameOverSound.play((float) (game.fxVolume / 10.0));
             gameOver = true;
-            stopMusic();
             promptIncrease = 1;
             endTime = System.currentTimeMillis();
             veilOpacity = 1;
@@ -1646,11 +1694,13 @@ public class GameplayScreen implements Screen, InputProcessor {
             if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
                 newLongestRun = game.stats.updateLongestRun(endTime - startTime, game.base);
             } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
-                newFastestVictory = game.stats.updateFastestVictory(endTime - startTime, game.base, game.difficulty);
+                if(scoreP1 > scoreP2 || saturationP1 < saturationP2) {
+                    newFastestVictory = game.stats.updateFastestVictory(endTime - startTime, game.base, game.difficulty);
+                }
             }
             if(splitScreen) {
+                //We have to set the radii here to prevent stuttering when zooming through the shapes.
                 if (useSaturation) {
-                    //We have to set the radii here to prevent stuttering when zooming through the shapes.
                     if (saturationP1 <= saturationP2) {
                         promptShapeP1.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
                         promptShapeP1.setCoordinates(new Vector2(promptShapeP1.getCoordinates().x, game.camera.viewportHeight / 2));
@@ -1660,8 +1710,10 @@ public class GameplayScreen implements Screen, InputProcessor {
                     }
                 } else {
                     if (scoreP1 >= scoreP2) {
+                        promptShapeP1.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
                         promptShapeP1.setCoordinates(new Vector2(promptShapeP1.getCoordinates().x, game.camera.viewportHeight / 2));
                     } else {
+                        promptShapeP2.setRadius(game.camera.viewportWidth < (game.camera.viewportHeight / 2) ? game.camera.viewportWidth / 2 : game.camera.viewportHeight / 4);
                         promptShapeP2.setCoordinates(new Vector2(promptShapeP2.getCoordinates().x, game.camera.viewportHeight / 2));
                     }
                 }
@@ -1710,8 +1762,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     && touchPoint.y > INPUT_NONAGON_SPAWN.y - INPUT_RADIUS
                     && touchPoint.y < INPUT_NONAGON_SPAWN.y + INPUT_RADIUS;
             pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
-                    && touchPoint.y > (game.camera.viewportHeight / 2) - (game.camera.viewportWidth / 20)
-                    && touchPoint.y < (game.camera.viewportHeight / 2) + (game.camera.viewportWidth / 20);
+                    && touchPoint.y > ((game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2)) - (game.camera.viewportWidth / 20)
+                    && touchPoint.y < ((game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2)) + (game.camera.viewportWidth / 20);
         } else {
             pointTouchedP1 = touchPoint.x > INPUT_POINT_SPAWN_P1.x - INPUT_RADIUS
                     && touchPoint.x < INPUT_POINT_SPAWN_P1.x + INPUT_RADIUS
@@ -1751,12 +1803,12 @@ public class GameplayScreen implements Screen, InputProcessor {
                     && touchPoint.y < INPUT_NONAGON_SPAWN_P1.y + INPUT_RADIUS;
             if(game.widthGreater) {
                 pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 40)
-                        && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 40)
-                        && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) + (game.camera.viewportWidth / 40);
+                        && touchPoint.y > (((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2)) - (game.camera.viewportWidth / 40)
+                        && touchPoint.y < (((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2)) + (game.camera.viewportWidth / 40);
             } else {
                 pauseTouched = touchPoint.x > game.camera.viewportWidth - (game.camera.viewportWidth / 20)
-                        && touchPoint.y > (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) - (game.camera.viewportWidth / 20)
-                        && touchPoint.y < (((game.camera.viewportHeight / 2) - TARGET_RADIUS) / 2) + (game.camera.viewportWidth / 20);
+                        && touchPoint.y > (((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2)) - (game.camera.viewportWidth / 20)
+                        && touchPoint.y < (((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2)) + (game.camera.viewportWidth / 20);
             }
             if(multiplayer) {
                 pointTouchedP2 = touchPoint.x > INPUT_POINT_SPAWN_P2.x - INPUT_RADIUS
@@ -1832,11 +1884,11 @@ public class GameplayScreen implements Screen, InputProcessor {
             lineTouched = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2;
             triangleTouched = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3;
             squareTouched = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4;
-            pentagonTouched = keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5;
-            hexagonTouched = keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6;
-            septagonTouched = keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7;
-            octagonTouched = keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8;
-            nonagonTouched = keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9;
+            pentagonTouched = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && game.base >= 5;
+            hexagonTouched = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && game.base >= 6;
+            septagonTouched = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && game.base >= 7;
+            octagonTouched = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && game.base >= 8;
+            nonagonTouched = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && game.base >= 9;
             playTouched = pointTouched;
             homeTouched = lineTouched;
             exitTouched = triangleTouched;
@@ -1845,14 +1897,26 @@ public class GameplayScreen implements Screen, InputProcessor {
             lineTouchedP1 = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2;
             triangleTouchedP1 = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3;
             squareTouchedP1 = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4;
-            pentagonTouchedP1 = keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5;
-            hexagonTouchedP1 = keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6;
-            septagonTouchedP1 = keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7;
-            octagonTouchedP1 = keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8;
-            nonagonTouchedP1 = keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9;
+            pentagonTouchedP1 = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && game.base >= 5;
+            hexagonTouchedP1 = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && game.base >= 6;
+            septagonTouchedP1 = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && game.base >= 7;
+            octagonTouchedP1 = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && game.base >= 8;
+            nonagonTouchedP1 = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && game.base >= 9;
             playTouched = pointTouchedP1;
             homeTouched = lineTouchedP1;
             exitTouched = triangleTouchedP1;
+            if(multiplayer) {
+                pointTouchedP2 = keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1;
+                lineTouchedP2 = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2;
+                triangleTouchedP2 = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3;
+                squareTouchedP2 = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4;
+                pentagonTouchedP2 = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && game.base >= 5;
+                hexagonTouchedP2 = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && game.base >= 6;
+                septagonTouchedP2 = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && game.base >= 7;
+                octagonTouchedP2 = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && game.base >= 8;
+                nonagonTouchedP2 = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && game.base >= 9;
+                inputTouchedGameplayP2 = pointTouchedP2 || lineTouchedP2 || triangleTouchedP2 || squareTouchedP2 || pentagonTouchedP2 || hexagonTouchedP2 || septagonTouchedP2 || octagonTouchedP2 || nonagonTouchedP2;
+            }
         }
         pauseTouched = keycode == Input.Keys.ESCAPE;
         pauseBackTouched = pauseTouched;
@@ -1888,6 +1952,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                     } else if (nonagonTouched) {
                         transitionShape(null, Shape.NONAGON);
                     } else if (pauseTouched) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
                         pause();
                         pauseTouched = false;
                         pauseBackTouched = false;
@@ -1913,6 +1978,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                     } else if (nonagonTouchedP1) {
                         transitionShape(P1, Shape.NONAGON);
                     } else if (pauseTouched) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
                         pause();
                         pauseTouched = false;
                         pauseBackTouched = false;
@@ -1937,6 +2003,12 @@ public class GameplayScreen implements Screen, InputProcessor {
                         transitionShape(P2, Shape.OCTAGON);
                     } else if (nonagonTouchedP2) {
                         transitionShape(P2, Shape.NONAGON);
+                    } else if (pauseTouched) {
+                        game.confirmSound.play((float) (game.fxVolume / 10.0));
+                        pause();
+                        pauseTouched = false;
+                        pauseBackTouched = false;
+                        pauseQuitTouched = false;
                     }
                 }
             }
@@ -1971,8 +2043,10 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     public void handleResultsInput() {
         if (playTouched) {
+            stopMusic();
             game.setScreen(new GameplayScreen(game, gameplayType));
         } else if (homeTouched) {
+            stopMusic();
             game.setScreen(new MainMenuScreen(game, Color.BLACK));
         } else {
             dispose();
@@ -1982,6 +2056,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     }
 
     public void handlePauseInput() {
+        game.disconfirmSound.play((float) (game.fxVolume / 10.0));
         if (pauseBackTouched) {
             timePaused += System.currentTimeMillis() - pauseStartTime;
             resume();
@@ -2044,6 +2119,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     }
 
     public void shapesMatchedBehavior(String player) {
+        game.correctInputSound.play((float) (game.fxVolume / 10.0));
         if(player == null) {
             targetShapesMatched++;
             Shape circleContainer = new Shape(Shape.CIRCLE,
@@ -2315,6 +2391,7 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     public void shapesMismatchedBehavior(String player) {
         //The wrong shape was touched
+        game.incorrectInputSound.play((float) (game.fxVolume / 10.0));
         if(player == null) {
             if(!blackAndWhite) {
                 float radiusIncrease = game.widthOrHeightSmaller * ((backgroundColorShapeList.get(2).getCoordinates().y - backgroundColorShapeList.get(3).getCoordinates().y) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));
@@ -2462,6 +2539,7 @@ public class GameplayScreen implements Screen, InputProcessor {
             passedBackgroundColor = Color.BLACK;
         }
         game.setScreen(new BaseUnlockScreen(game, passedBackgroundColor));
+        dispose();
     }
 
     public void setUpNonFinalStaticData() {

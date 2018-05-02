@@ -16,6 +16,7 @@ import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 import com.screenlooker.squirgle.util.SoundUtils;
 
 import java.util.ArrayList;
@@ -169,6 +170,14 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         stage.draw();
 
         showHelpTextFooter();
+
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override
@@ -420,6 +429,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
     public void handleInput() {
         if(!paused) {
             if (pauseTouched) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
                 pause();
             } else {
                 handleHelpInput();
@@ -430,6 +440,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
     }
 
     public void handlePauseInput() {
+        game.disconfirmSound.play((float) (game.fxVolume / 10.0));
         if (pauseBackTouched) {
             timePaused += System.currentTimeMillis() - pauseStartTime;
             resume();
@@ -444,20 +455,28 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
 
     public void handleHelpInput() {
         if(helpTouched) {
+            if(helpTextVisible) {
+                game.disconfirmSound.play((float) (game.fxVolume / 10.0));
+            } else {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
+            }
             helpTextVisible = !helpTextVisible;
         }else if(helpChevronDownTouched) {
+            game.disconfirmSound.play((float) (game.fxVolume / 10.0));
             if(currentHelpTextIndex > 0) {
                 currentHelpTextIndex--;
             } else {
                 currentHelpTextIndex = getHelpTextMaxIndex();
             }
         } else if(helpChevronUpTouched) {
+            game.confirmSound.play((float) (game.fxVolume / 10.0));
             if(currentHelpTextIndex < getHelpTextMaxIndex()) {
                 currentHelpTextIndex++;
             } else {
                 currentHelpTextIndex = 0;
             }
         } else if(helpNextTouched) {
+            game.confirmSound.play((float) (game.fxVolume / 10.0));
             phase++;
             currentHelpTextIndex = 0;
         }

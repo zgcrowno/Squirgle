@@ -8,46 +8,64 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.Array;
-import com.screenlooker.squirgle.Button;
+import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Align;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.InputUtils;
 
-import java.util.ArrayList;
-
-public class SplashScreen implements Screen, InputProcessor {
+public class EpilepsyWarningScreen implements Screen, InputProcessor {
     final Squirgle game;
 
-    private Texture splashTexture;
-    //private TextureAtlas atlas;
-    //private Animation<TextureRegion> splashAnimation;
+    private final static String WARNING = "WARNING:";
+    private final static String WARNING_CONTENT = "IF YOU HAVE A HISTORY OF EPILEPSY OR SEIZURES, CONSULT A DOCTOR BEFORE USE. CERTAIN PATTERNS MAY TRIGGER SEIZURES WITH NO PRIOR HISTORY.";
+
+    public final static float FONT_WARNING_SIZE_MULTIPLIER = 80;
+    public final static float FONT_WARNING_CONTENT_SIZE_MULTIPLIER = 40;
+
     private long startTime;
-    //private float stateTime;
-    private float logoOriginX;
-    private float logoOriginY;
-    private float logoWidth;
-    private float logoHeight;
     private Color veilColor;
     private float veilOpacity;
+    private Label.LabelStyle warningLabelStyle;
+    private Label warningLabel;
+    private Label.LabelStyle warningContentLabelStyle;
+    private Label warningContentLabel;
+    private Stage stage;
 
-    public SplashScreen(final Squirgle game) {
+    public EpilepsyWarningScreen(final Squirgle game) {
         this.game = game;
-        this.splashTexture = new Texture(Gdx.files.internal("images/planarGazerLogo1920.png"));
-        //this.atlas = game.manager.get("images/planarGazerLogoSpritesheet.atlas", TextureAtlas.class);
-        //this.splashAnimation = new Animation<TextureRegion>((float) 1 / Squirgle.FPS, atlas.findRegions("planarGazerLogoKeyframe1920"), Animation.PlayMode.NORMAL);
         this.startTime = System.currentTimeMillis();
-        //this.stateTime = 0f;
-        this.logoOriginX = 0;
-        this.logoOriginY = (game.camera.viewportHeight - (game.camera.viewportWidth / 2)) / 2;
-        this.logoWidth = game.camera.viewportWidth;
-        this.logoHeight = game.camera.viewportWidth / 2;
         this.veilColor = Color.BLACK;
         this.veilOpacity = 1;
+
+        game.setUpFontWarning(MathUtils.round(game.ASPECT_RATIO * ((1920 / 1080) * FONT_WARNING_SIZE_MULTIPLIER) / (1920 / 1080))); //Using 1920 / 1080 because that's the OG resolution--the one for which I originally developed--and I wish to scale it for other devices.
+        game.setUpFontWarningContent(MathUtils.round(game.ASPECT_RATIO * ((1920 / 1080) * FONT_WARNING_CONTENT_SIZE_MULTIPLIER) / (1920 / 1080))); //Using 1920 / 1080 because that's the OG resolution--the one for which I originally developed--and I wish to scale it for other devices.
+
+        warningLabelStyle = new Label.LabelStyle();
+        warningLabelStyle.font = game.fontWarning;
+        warningLabelStyle.fontColor = Color.WHITE;
+        warningLabel = new Label(WARNING, warningLabelStyle);
+        warningLabel.setSize(game.camera.viewportWidth / 2, game.camera.viewportHeight / 6);
+        warningLabel.setPosition(game.camera.viewportWidth / 4, (7 * game.camera.viewportHeight) / 12);
+        warningLabel.setAlignment(Align.bottom);
+        warningLabel.setWrap(true);
+        warningLabel.setVisible(true);
+
+        warningContentLabelStyle = new Label.LabelStyle();
+        warningContentLabelStyle.font = game.fontWarningContent;
+        warningContentLabelStyle.fontColor = Color.WHITE;
+        warningContentLabel = new Label(WARNING_CONTENT, warningContentLabelStyle);
+        warningContentLabel.setSize(game.camera.viewportWidth / 2, game.camera.viewportHeight / 3);
+        warningContentLabel.setPosition(game.camera.viewportWidth / 4, game.camera.viewportHeight / 4);
+        warningContentLabel.setAlignment(Align.top);
+        warningContentLabel.setWrap(true);
+        warningContentLabel.setVisible(true);
+
+        stage = new Stage(game.viewport);
+        stage.addActor(warningLabel);
+        stage.addActor(warningContentLabel);
 
         game.resetInstanceData();
 
@@ -57,19 +75,15 @@ public class SplashScreen implements Screen, InputProcessor {
     @Override
     public void render(float delta) {
         Gdx.gl.glBlendFunc(GL30.GL_SRC_ALPHA, GL30.GL_ONE_MINUS_SRC_ALPHA);
-        Gdx.gl.glClearColor(255, 255, 255, 1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         game.camera.update();
         game.shapeRendererFilled.setProjectionMatrix(game.camera.combined);
         game.batch.setProjectionMatrix(game.camera.combined);
 
-        game.batch.begin();
-        game.batch.draw(splashTexture, logoOriginX, logoOriginY, logoWidth, logoHeight);
+        stage.draw();
 
-        game.batch.end();
-
-        //NOTE: Have to enable and disable blending very deliberately here so batch and shaperenderer don't conflict.
         Gdx.gl.glEnable(GL30.GL_BLEND);
         game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -85,7 +99,7 @@ public class SplashScreen implements Screen, InputProcessor {
         }
 
         if(veilOpacity >= 1) {
-            game.setScreen(new EpilepsyWarningScreen(game));
+            game.setScreen(new HeadphonesRecommendationScreen(game));
             dispose();
         }
 
@@ -142,7 +156,7 @@ public class SplashScreen implements Screen, InputProcessor {
             return false;
         }
 
-        game.setScreen(new EpilepsyWarningScreen(game));
+        game.setScreen(new HeadphonesRecommendationScreen(game));
 
         return true;
     }

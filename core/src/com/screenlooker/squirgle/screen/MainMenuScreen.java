@@ -20,6 +20,7 @@ import com.screenlooker.squirgle.screen.options.MenuOptionsScreen;
 import com.screenlooker.squirgle.screen.type.MenuTypeScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -210,6 +211,14 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 drawSquirgleText();
             }
         }
+
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override

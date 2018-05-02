@@ -19,6 +19,7 @@ import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.screen.MainMenuScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,17 +33,18 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
-    private final static int NUM_MIDDLE_INPUTS_VERTICAL = 3;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
-    private final static int NUM_MIDDLE_PARTITIONS_VERTICAL = NUM_MIDDLE_INPUTS_VERTICAL + 1;
     public final static int NUM_SOUND_INPUT_ELEMENTS = 4;
 
     private final static float FONT_VOLUME_SIZE_DIVISOR = 30f;
     private final static float FONT_HARDCORE_SIZE_DIVISOR = 45f;
-    private final static float FONT_OPTIONS_SIZE_DIVISOR = 15f;
+    private final static float FONT_OPTIONS_SIZE_DIVISOR = 7f;
     private static float FONT_TUTORIAL_HELP_SIZE_MULTIPLIER;
+
+    private int numMiddleInputsVertical;
+    private int numMiddlePartitionsVertical;
 
     private float inputWidth;
     private float inputHeightMiddle;
@@ -55,6 +57,8 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private Vector3 touchPoint;
 
     private Color volumeColor;
+    private Color fxVolumeColor;
+    private Color p2ControlsColor;
     private Color hardcoreColor;
     private Color wipeDataColor;
     private Color backColor;
@@ -70,6 +74,14 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private Button volumeWavesButton;
     private Button volumeChevronDownButton;
     private Button volumeChevronUpButton;
+    private Button fxVolumeButton;
+    private Button fxVolumeWavesButton;
+    private Button fxVolumeChevronDownButton;
+    private Button fxVolumeChevronUpButton;
+    private Button p2ControlsButton;
+    private Button p2ControlsDPadButton;
+    private Button p2ControlsChevronDownButton;
+    private Button p2ControlsChevronUpButton;
     private Button hardcoreButton;
     private Button hardcoreSkullButton;
     private Button hardcoreChevronDownButton;
@@ -93,23 +105,27 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         game.resetInstanceData();
 
         if(game.widthGreater) {
-            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 35.5f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 25.875f;
         } else {
-            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 42f;
+            FONT_TUTORIAL_HELP_SIZE_MULTIPLIER = 31.5f;
         }
 
         game.setUpFontTutorialHelp(MathUtils.round(game.ASPECT_RATIO * FONT_TUTORIAL_HELP_SIZE_MULTIPLIER));
 
         Gdx.input.setInputProcessor(this);
 
+        numMiddleInputsVertical = game.desktop ? 5 : 4;
+        numMiddlePartitionsVertical = numMiddleInputsVertical + 1;
+
         inputWidth = (game.camera.viewportWidth - (game.partitionSize * NUM_PARTITIONS_HORIZONTAL)) / NUM_INPUTS_HORIZONTAL;
-        inputHeightMiddle = (game.camera.viewportHeight - (game.partitionSize * NUM_MIDDLE_PARTITIONS_VERTICAL)) / NUM_MIDDLE_INPUTS_VERTICAL;
+        inputHeightMiddle = (game.camera.viewportHeight - (game.partitionSize * numMiddlePartitionsVertical)) / numMiddleInputsVertical;
         inputHeightBack = (game.camera.viewportHeight - (game.partitionSize * NUM_RIGHT_PARTITIONS_VERTICAL)) / NUM_RIGHT_INPUTS_VERTICAL;
-        helpInputGirth = game.camera.viewportWidth / 16;
 
         symbolRadius = inputWidth > inputHeightBack ? inputHeightBack / 2 : inputWidth / 2;
 
         inputShapeRadius = inputWidth > inputHeightMiddle ? (inputHeightMiddle / 2) : (inputWidth / 2);
+
+        helpInputGirth = inputHeightMiddle / 4;
 
         game.setUpFontOptions(MathUtils.round(inputWidth / FONT_OPTIONS_SIZE_DIVISOR));
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
@@ -117,7 +133,9 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         touchPoint = new Vector3();
 
         volumeColor = ColorUtils.COLOR_ORANGE;
-        hardcoreColor = ColorUtils.COLOR_VERMILLION;
+        fxVolumeColor = ColorUtils.COLOR_VERMILLION;
+        p2ControlsColor = ColorUtils.COLOR_BLUISH_GREEN;
+        hardcoreColor = ColorUtils.COLOR_SKY_BLUE;
         wipeDataColor = ColorUtils.COLOR_BLUE;
         backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
@@ -126,35 +144,99 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         backTouched = false;
 
         volumeButton = new Button((2 * game.partitionSize) + inputWidth,
-                (3 * game.partitionSize) + (2 * inputHeightMiddle),
+                game.camera.viewportHeight - game.partitionSize - inputHeightMiddle,
                 inputWidth,
                 inputHeightMiddle,
                 Button.BUTTON_VOLUME,
                 volumeColor,
                 Color.BLACK,
                 game);
-        volumeWavesButton = new Button((2 * game.partitionSize) + inputWidth + (inputWidth / 10),
-                (3 * game.partitionSize) + (2 * inputHeightMiddle) + (inputHeightMiddle / 2) - (inputWidth / 10),
-                inputWidth / 5,
-                inputWidth / 5,
+        volumeWavesButton = new Button(volumeButton.symbolX - (((2 * volumeButton.symbolRadius) / 3) / 2),
+                volumeButton.symbolY + volumeButton.symbolRadius - ((2 * volumeButton.symbolRadius) / 3),
+                (2 * volumeButton.symbolRadius) / 3,
+                (2 * volumeButton.symbolRadius) / 3,
                 Button.BUTTON_VOLUME_WAVES,
                 volumeColor,
                 Color.BLACK,
                 game);
-        volumeChevronDownButton = new Button((2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 10),
-                (3 * game.partitionSize) + (2 * inputHeightMiddle) + (inputHeightMiddle / 2) - (inputWidth / 10),
-                inputWidth / 5,
-                inputWidth / 5,
+        volumeChevronDownButton = new Button(volumeButton.x,
+                volumeButton.symbolY + volumeButton.symbolRadius - ((5 * volumeButton.symbolRadius) / 3),
+                (2 * volumeButton.symbolRadius) / 3,
+                (2 * volumeButton.symbolRadius) / 3,
                 Button.BUTTON_VOLUME_CHEVRON_DOWN,
                 volumeColor,
                 Color.BLACK,
                 game);
-        volumeChevronUpButton = new Button((2 * game.partitionSize) + inputWidth + ((7 * inputWidth) / 10),
-                (3 * game.partitionSize) + (2 * inputHeightMiddle) + (inputHeightMiddle / 2) - (inputWidth / 10),
-                inputWidth / 5,
-                inputWidth / 5,
+        volumeChevronUpButton = new Button(volumeButton.x + volumeButton.width - ((2 * volumeButton.symbolRadius) / 3),
+                volumeButton.symbolY + volumeButton.symbolRadius - ((5 * volumeButton.symbolRadius) / 3),
+                (2 * volumeButton.symbolRadius) / 3,
+                (2 * volumeButton.symbolRadius) / 3,
                 Button.BUTTON_VOLUME_CHEVRON_UP,
                 volumeColor,
+                Color.BLACK,
+                game);
+        fxVolumeButton = new Button((2 * game.partitionSize) + inputWidth,
+                game.camera.viewportHeight - (2 * game.partitionSize) - (2 * inputHeightMiddle),
+                inputWidth,
+                inputHeightMiddle,
+                Button.BUTTON_FX_VOLUME,
+                fxVolumeColor,
+                Color.BLACK,
+                game);
+        fxVolumeWavesButton = new Button(fxVolumeButton.symbolX - (((2 * fxVolumeButton.symbolRadius) / 3) / 2),
+                fxVolumeButton.symbolY + fxVolumeButton.symbolRadius - ((2 * fxVolumeButton.symbolRadius) / 3),
+                (2 * fxVolumeButton.symbolRadius) / 3,
+                (2 * fxVolumeButton.symbolRadius) / 3,
+                Button.BUTTON_FX_VOLUME_WAVES,
+                fxVolumeColor,
+                Color.BLACK,
+                game);
+        fxVolumeChevronDownButton = new Button(fxVolumeButton.x,
+                fxVolumeButton.symbolY + fxVolumeButton.symbolRadius - ((5 * fxVolumeButton.symbolRadius) / 3),
+                (2 * fxVolumeButton.symbolRadius) / 3,
+                (2 * fxVolumeButton.symbolRadius) / 3,
+                Button.BUTTON_FX_VOLUME_CHEVRON_DOWN,
+                fxVolumeColor,
+                Color.BLACK,
+                game);
+        fxVolumeChevronUpButton = new Button(fxVolumeButton.x + fxVolumeButton.width - ((2 * fxVolumeButton.symbolRadius) / 3),
+                fxVolumeButton.symbolY + fxVolumeButton.symbolRadius - ((5 * fxVolumeButton.symbolRadius) / 3),
+                (2 * fxVolumeButton.symbolRadius) / 3,
+                (2 * fxVolumeButton.symbolRadius) / 3,
+                Button.BUTTON_FX_VOLUME_CHEVRON_UP,
+                fxVolumeColor,
+                Color.BLACK,
+                game);
+        p2ControlsButton = new Button((2 * game.partitionSize) + inputWidth,
+                (3 * game.partitionSize) + (2 * inputHeightMiddle),
+                inputWidth,
+                inputHeightMiddle,
+                Button.BUTTON_P2_CONTROLS,
+                p2ControlsColor,
+                Color.BLACK,
+                game);
+        p2ControlsDPadButton = new Button(p2ControlsButton.symbolX - (((2 * p2ControlsButton.symbolRadius) / 3) / 2),
+                p2ControlsButton.symbolY + p2ControlsButton.symbolRadius - ((2 * p2ControlsButton.symbolRadius) / 3),
+                (2 * p2ControlsButton.symbolRadius) / 3,
+                (2 * p2ControlsButton.symbolRadius) / 3,
+                Button.BUTTON_P2_CONTROLS_DPAD,
+                p2ControlsColor,
+                Color.BLACK,
+                game);
+        p2ControlsChevronDownButton = new Button(p2ControlsButton.x,
+                p2ControlsButton.symbolY + p2ControlsButton.symbolRadius - ((5 * p2ControlsButton.symbolRadius) / 3),
+                (2 * p2ControlsButton.symbolRadius) / 3,
+                (2 * p2ControlsButton.symbolRadius) / 3,
+                Button.BUTTON_P2_CONTROLS_CHEVRON_DOWN,
+                p2ControlsColor,
+                Color.BLACK,
+                game);
+        p2ControlsChevronUpButton = new Button(p2ControlsButton.x + p2ControlsButton.width - ((2 * p2ControlsButton.symbolRadius) / 3),
+                p2ControlsButton.symbolY + p2ControlsButton.symbolRadius - ((5 * p2ControlsButton.symbolRadius) / 3),
+                (2 * p2ControlsButton.symbolRadius) / 3,
+                (2 * p2ControlsButton.symbolRadius) / 3,
+                Button.BUTTON_P2_CONTROLS_CHEVRON_UP,
+                p2ControlsColor,
                 Color.BLACK,
                 game);
         hardcoreButton = new Button((2 * game.partitionSize) + inputWidth,
@@ -165,26 +247,26 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 hardcoreColor,
                 Color.BLACK,
                 game);
-        hardcoreSkullButton = new Button((2 * game.partitionSize) + inputWidth + (inputWidth / 10),
-                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
-                inputWidth / 5,
-                inputWidth / 5,
+        hardcoreSkullButton = new Button(hardcoreButton.symbolX - (((2 * hardcoreButton.symbolRadius) / 3) / 2),
+                hardcoreButton.symbolY + hardcoreButton.symbolRadius - ((2 * hardcoreButton.symbolRadius) / 3),
+                (2 * hardcoreButton.symbolRadius) / 3,
+                (2 * hardcoreButton.symbolRadius) / 3,
                 Button.BUTTON_HARDCORE_SKULL,
                 hardcoreColor,
                 Color.BLACK,
                 game);
-        hardcoreChevronDownButton = new Button((2 * game.partitionSize) + inputWidth + ((3 * inputWidth) / 10),
-                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
-                inputWidth / 5,
-                inputWidth / 5,
+        hardcoreChevronDownButton = new Button(hardcoreButton.x,
+                hardcoreButton.symbolY + hardcoreButton.symbolRadius - ((5 * hardcoreButton.symbolRadius) / 3),
+                (2 * hardcoreButton.symbolRadius) / 3,
+                (2 * hardcoreButton.symbolRadius) / 3,
                 Button.BUTTON_HARDCORE_CHEVRON_DOWN,
                 hardcoreColor,
                 Color.BLACK,
                 game);
-        hardcoreChevronUpButton = new Button((2 * game.partitionSize) + inputWidth + ((7 * inputWidth) / 10),
-                (2 * game.partitionSize) + inputHeightMiddle + (inputHeightMiddle / 2) - (inputWidth / 10),
-                inputWidth / 5,
-                inputWidth / 5,
+        hardcoreChevronUpButton = new Button(hardcoreButton.x + hardcoreButton.width - ((2 * hardcoreButton.symbolRadius) / 3),
+                hardcoreButton.symbolY + hardcoreButton.symbolRadius - ((5 * hardcoreButton.symbolRadius) / 3),
+                (2 * hardcoreButton.symbolRadius) / 3,
+                (2 * hardcoreButton.symbolRadius) / 3,
                 Button.BUTTON_HARDCORE_CHEVRON_UP,
                 hardcoreColor,
                 Color.BLACK,
@@ -211,6 +293,16 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         buttonList.add(volumeWavesButton);
         buttonList.add(volumeChevronDownButton);
         buttonList.add(volumeChevronUpButton);
+        buttonList.add(fxVolumeButton);
+        buttonList.add(fxVolumeWavesButton);
+        buttonList.add(fxVolumeChevronDownButton);
+        buttonList.add(fxVolumeChevronUpButton);
+        if(game.desktop) {
+            buttonList.add(p2ControlsButton);
+            buttonList.add(p2ControlsDPadButton);
+            buttonList.add(p2ControlsChevronDownButton);
+            buttonList.add(p2ControlsChevronUpButton);
+        }
         buttonList.add(hardcoreButton);
         buttonList.add(hardcoreSkullButton);
         buttonList.add(hardcoreChevronDownButton);
@@ -282,6 +374,14 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 }
             }
         }
+
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override
@@ -363,9 +463,11 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                     || touchPoint.y < game.partitionSize;
 
             if(helpConfirmTouched) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
                 game.wipeSave();
                 game.showWipeDataPrompt = false;
             } else if(helpDisconfirmTouched || nonHelpTouched) {
+                game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                 game.showWipeDataPrompt = false;
             }
         }

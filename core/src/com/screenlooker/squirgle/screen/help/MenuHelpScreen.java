@@ -16,6 +16,7 @@ import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.screen.MainMenuScreen;
 import com.screenlooker.squirgle.screen.TutorialScreen;
 import com.screenlooker.squirgle.util.ColorUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -207,6 +208,14 @@ public class MenuHelpScreen implements Screen, InputProcessor {
                 }
             }
         }
+
+        if(game.desktop) {
+            game.shapeRendererFilled.begin(ShapeRenderer.ShapeType.Filled);
+            game.draw.drawCursor();
+            game.shapeRendererFilled.end();
+        }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override

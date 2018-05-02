@@ -36,7 +36,8 @@ public class Squirgle extends Game {
 	public final static int END_LINE_WIDTH_INCREASE = 2;
 	public final static int FPS = 60;
 	public final static int MAX_POSSIBLE_BASE = 9;
-	public final static int SCORE_TO_UNLOCK_NEW_BASE = 120;
+	public final static int SCORE_TO_UNLOCK_NEW_BASE = 100;
+	public final static int THIRTY_SECONDS = 30;
 	public final static int ONE_MINUTE = 60;
 	public final static int THREE_MINUTES = 180;
 	public final static int FIVE_MINUTES = 300;
@@ -61,7 +62,11 @@ public class Squirgle extends Game {
 	public final static int GAMEPLAY_BATTLE_ONLINE = 6;
 	public final static int GAMEPLAY_TIME_BATTLE_ONLINE = 7;
 	public final static int GAMEPLAY_TRANCE = 8;
+	public final static int GAMEPLAY_GENERAL = 9; //This is for the general stats category
 
+	public final static int P2_CONTROLS_MOUSE = 0;
+	public final static int P2_CONTROLS_NUMPAD = 1;
+	public final static int P2_CONTROLS_NUMBERS = 2;
 
 	public final static String MUSIC_TYPE_FULL = "FULL";
 	public final static String MUSIC_TYPE_SPLIT = "SPLIT";
@@ -88,8 +93,11 @@ public class Squirgle extends Game {
 
 	public final static String SAVE_NAME = "Squirgle Save";
 	public final static String SAVE_VOLUME = "volume";
+	public final static String SAVE_FX_VOLUME = "fxVolume";
+	public final static String SAVE_P2_CONTROLS = "p2Controls";
 	public final static String SAVE_TRACK = "track";
 	public final static String SAVE_PLAYED_BEFORE = "playedBefore";
+	public final static String SAVE_BEATEN_BEFORE = "beatenBefore";
 	public final static String SAVE_USE_PHASES = "usePhases";
 	public final static String SAVE_MAX_BASE = "maxBase";
 	public final static String SAVE_TIME_ATTACK_NUM_SECONDS = "timeAttackNumSeconds";
@@ -106,11 +114,14 @@ public class Squirgle extends Game {
 
 	//Options
 	public int volume;
+	public int fxVolume;
+	public int p2Controls;
 	public int track;
 	public String difficulty;
 	public boolean hardcore;
 
 	public boolean playedBefore;
+	public boolean beatenBefore;
 	public boolean usePhases;
 
 	public boolean widthGreater;
@@ -120,6 +131,7 @@ public class Squirgle extends Game {
 	public float fourthOfScreen;
 	public float thirdOfScreen;
 	public float fiveTwelfthsOfScreen;
+	public int gameplayType;
 	public int base;
 	public int maxBase;
 	public int minBase;
@@ -145,6 +157,9 @@ public class Squirgle extends Game {
 	public BitmapFont fontOptions;
 	public BitmapFont fontNumPlayers;
 	public BitmapFont fontSquirgleMainMenu;
+	public BitmapFont fontWarning;
+	public BitmapFont fontWarningContent;
+	public BitmapFont fontCredits;
 	public GlyphLayout layout;
 	public FreeTypeFontGenerator generator;
 	public OrthographicCamera camera;
@@ -155,6 +170,9 @@ public class Squirgle extends Game {
 	public Stats stats;
 	public Sound confirmSound;
 	public Sound disconfirmSound;
+	public Sound correctInputSound;
+	public Sound incorrectInputSound;
+	public Sound gameOverSound;
 	public List<Music> pointillismPhaseList;
 	public List<Music> lineagePhaseList;
 	public List<Music> triTheWaltzPhaseList;
@@ -181,13 +199,17 @@ public class Squirgle extends Game {
 		save = Gdx.app.getPreferences(SAVE_NAME);
 
 		volume = save.getInteger(SAVE_VOLUME, 10);
+		fxVolume = save.getInteger(SAVE_FX_VOLUME, 3);
+		p2Controls = save.getInteger(SAVE_P2_CONTROLS, P2_CONTROLS_MOUSE);
 		track = save.getInteger(SAVE_TRACK, MUSIC_POINTILLISM);
 		difficulty = save.getString(SAVE_DIFFICULTY, DIFFICULTY_MEDIUM);
 		hardcore = save.getBoolean(SAVE_HARDCORE, false);
 
 		playedBefore = save.getBoolean(SAVE_PLAYED_BEFORE, false);
+		beatenBefore = save.getBoolean(SAVE_BEATEN_BEFORE, false);
 		usePhases = save.getBoolean(SAVE_USE_PHASES, false);
 
+		gameplayType = GAMEPLAY_SQUIRGLE;
 		base = 4;
 		maxBase = save.getInteger(SAVE_MAX_BASE, 4);
 		minBase = 4;
@@ -215,8 +237,11 @@ public class Squirgle extends Game {
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);
 		stats = new Stats(this);
-		confirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/confirm.wav"));
-		disconfirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/disconfirm.wav"));
+		confirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Correct Input Sound.ogg"));
+		disconfirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Incorrect Input Sound.ogg"));
+		correctInputSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Correct Input Sound.ogg"));
+		incorrectInputSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Incorrect Input Sound.ogg"));
+		gameOverSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Game Over Sound.ogg"));
 		pointillismPhaseList = new ArrayList<Music>();
 		lineagePhaseList = new ArrayList<Music>();
 		triTheWaltzPhaseList = new ArrayList<Music>();
@@ -229,6 +254,9 @@ public class Squirgle extends Game {
 		musicTitleList = new ArrayList<String>();
 		trackMapFull = new HashMap<Integer, Music>();
 		trackMapPhase = new HashMap<Integer, List<Music>>();
+
+		//This hides the cursor (so I can replace it with a custom one) on desktop
+		Gdx.input.setCursorCatched(true);
 
 		//manager.load("images/planarGazerLogoSpritesheet.atlas", TextureAtlas.class);
 
@@ -279,14 +307,22 @@ public class Squirgle extends Game {
 			fontOptions.dispose();
 		if(fontNumPlayers != null)
 			fontNumPlayers.dispose();
-		if(fontSquirgleMainMenu != null) {
+		if(fontSquirgleMainMenu != null)
 			fontSquirgleMainMenu.dispose();
-		}
+		if(fontWarning != null)
+			fontWarning.dispose();
+		if(fontWarningContent != null)
+			fontWarningContent.dispose();
+		if(fontCredits != null)
+			fontCredits.dispose();
 		generator.dispose();
 		shapeRendererFilled.dispose();
 		shapeRendererLine.dispose();
 		confirmSound.dispose();
+		correctInputSound.dispose();
+		incorrectInputSound.dispose();
 		disconfirmSound.dispose();
+		gameOverSound.dispose();
 		generator.dispose();
 		//manager.dispose();
 		for(int i = 0; i < trackMapFull.size(); i++) {
@@ -308,7 +344,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontLoading = generator.generateFont(parameter);
 	}
 
@@ -316,7 +352,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontVolume = generator.generateFont(parameter);
 	}
 
@@ -324,7 +360,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontScore = generator.generateFont(parameter);
 	}
 
@@ -332,7 +368,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontTarget = generator.generateFont(parameter);
 	}
 
@@ -340,7 +376,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontSquirgle = generator.generateFont(parameter);
 	}
 
@@ -348,7 +384,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontTrackName = generator.generateFont(parameter);
 	}
 
@@ -356,7 +392,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontTrackType = generator.generateFont(parameter);
 	}
 
@@ -364,7 +400,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontTime = generator.generateFont(parameter);
 	}
 
@@ -372,7 +408,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontDifficulty = generator.generateFont(parameter);
 	}
 
@@ -380,7 +416,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontPlayer = generator.generateFont(parameter);
 	}
 
@@ -388,7 +424,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontStats = generator.generateFont(parameter);
 	}
 
@@ -396,7 +432,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontTutorialHelp = generator.generateFont(parameter);
 	}
 
@@ -404,7 +440,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontSkip = generator.generateFont(parameter);
 	}
 
@@ -412,7 +448,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontButton = generator.generateFont(parameter);
 	}
 
@@ -420,7 +456,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontHardcore = generator.generateFont(parameter);
 	}
 
@@ -428,7 +464,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontOptions = generator.generateFont(parameter);
 	}
 
@@ -436,7 +472,7 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontNumPlayers = generator.generateFont(parameter);
 	}
 
@@ -444,8 +480,32 @@ public class Squirgle extends Game {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%\"";
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
 		fontSquirgleMainMenu = generator.generateFont(parameter);
+	}
+
+	public void setUpFontWarning(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
+		fontWarning = generator.generateFont(parameter);
+	}
+
+	public void setUpFontWarningContent(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
+		fontWarningContent = generator.generateFont(parameter);
+	}
+
+	public void setUpFontCredits(int size) {
+		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = size;
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+\"";
+		fontCredits = generator.generateFont(parameter);
 	}
 
 	public void setUpMusicTitleList() {

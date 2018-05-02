@@ -15,6 +15,7 @@ import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +105,10 @@ public class BaseUnlockScreen implements Screen, InputProcessor {
 
         game.draw.drawVeil(veilColor, veilOpacity);
 
+        if(game.desktop) {
+            game.draw.drawCursor();
+        }
+
         game.shapeRendererFilled.end();
 
         shapeRadius += RADIUS_INCREMENT;
@@ -114,8 +119,11 @@ public class BaseUnlockScreen implements Screen, InputProcessor {
         }
 
         if(veilOpacity >= 1) {
+            stopMusic();
             game.setScreen(new MainMenuScreen(game, veilColor));
         }
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override
@@ -194,5 +202,15 @@ public class BaseUnlockScreen implements Screen, InputProcessor {
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    public void stopMusic() {
+        if(game.usePhases) {
+            for (int i = 0; i < GameplayScreen.NUM_MUSIC_PHASES; i++) {
+                game.trackMapPhase.get(game.track).get(i).stop();
+            }
+        } else {
+            game.trackMapFull.get(game.track).stop();
+        }
     }
 }

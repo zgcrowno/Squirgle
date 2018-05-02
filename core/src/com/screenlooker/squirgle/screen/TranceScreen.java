@@ -13,6 +13,7 @@ import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
+import com.screenlooker.squirgle.util.InputUtils;
 import com.screenlooker.squirgle.util.SoundUtils;
 
 import java.util.ArrayList;
@@ -112,13 +113,19 @@ public class TranceScreen implements Screen, InputProcessor {
         }
 
         if(!paused && (System.currentTimeMillis() - timeSinceTouched) / ONE_THOUSAND < PAUSE_INPUT_DISAPPEARANCE_TIME) {
-            game.draw.drawPauseInput(false, false, game);
+            game.draw.drawPauseInputTrance(game);
+        }
+
+        if(game.desktop) {
+            game.draw.drawCursor();
         }
 
         game.shapeRendererFilled.end();
         game.shapeRendererLine.end();
 
         SoundUtils.setVolume(promptShape, game);
+
+        InputUtils.keepCursorInBounds(game);
     }
 
     @Override
@@ -348,6 +355,7 @@ public class TranceScreen implements Screen, InputProcessor {
     public void handleInput() {
         if(!paused) {
             if (pauseTouched) {
+                game.confirmSound.play((float) (game.fxVolume / 10.0));
                 pause();
             }
         } else {
@@ -356,6 +364,7 @@ public class TranceScreen implements Screen, InputProcessor {
     }
 
     public void handlePauseInput() {
+        game.disconfirmSound.play((float) (game.fxVolume / 10.0));
         if (pauseBackTouched) {
             timePaused += System.currentTimeMillis() - pauseStartTime;
             resume();
