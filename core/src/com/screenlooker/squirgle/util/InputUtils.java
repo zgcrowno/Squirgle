@@ -5,6 +5,9 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.MathUtils;
 import com.screenlooker.squirgle.Squirgle;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+
 public class InputUtils {
 
     public static void keepCursorInBounds(Squirgle game) {

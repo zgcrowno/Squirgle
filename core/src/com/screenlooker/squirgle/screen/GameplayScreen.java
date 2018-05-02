@@ -17,6 +17,8 @@ import com.screenlooker.squirgle.util.FontUtils;
 import com.screenlooker.squirgle.util.InputUtils;
 import com.screenlooker.squirgle.util.SoundUtils;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -1692,7 +1694,9 @@ public class GameplayScreen implements Screen, InputProcessor {
             if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
                 newLongestRun = game.stats.updateLongestRun(endTime - startTime, game.base);
             } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
-                newFastestVictory = game.stats.updateFastestVictory(endTime - startTime, game.base, game.difficulty);
+                if(scoreP1 > scoreP2 || saturationP1 < saturationP2) {
+                    newFastestVictory = game.stats.updateFastestVictory(endTime - startTime, game.base, game.difficulty);
+                }
             }
             if(splitScreen) {
                 //We have to set the radii here to prevent stuttering when zooming through the shapes.
