@@ -237,11 +237,11 @@ public class Squirgle extends Game {
 		shapeRendererLine = new ShapeRenderer();
 		draw = new Draw(this);
 		stats = new Stats(this);
-		confirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Correct Input Sound.ogg"));
-		disconfirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Incorrect Input Sound.ogg"));
-		correctInputSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Correct Input Sound.ogg"));
-		incorrectInputSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Incorrect Input Sound.ogg"));
-		gameOverSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Game Over Sound.ogg"));
+		confirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Correct Input Sound.wav"));
+		disconfirmSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Incorrect Input Sound.wav"));
+		correctInputSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Correct Input Sound.wav"));
+		incorrectInputSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Incorrect Input Sound.wav"));
+		gameOverSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Game Over Sound.wav"));
 		pointillismPhaseList = new ArrayList<Music>();
 		lineagePhaseList = new ArrayList<Music>();
 		triTheWaltzPhaseList = new ArrayList<Music>();
