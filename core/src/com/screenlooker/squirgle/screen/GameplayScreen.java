@@ -390,14 +390,15 @@ public class GameplayScreen implements Screen, InputProcessor {
             }
         }
 
-        if(splitScreen && !multiplayer) {
-            executeOpponenentAI();
+        if(splitScreen && !multiplayer && !paused) {
+            executeOpponentAI();
         }
 
         drawEquations();
 
         if(!paused) {
             if (!gameOver) {
+                drawTargetArcs();
                 game.draw.drawInputButtons(splitScreen, local && !game.desktop, backgroundColorShape.getColor(), game);
                 if(!splitScreen) {
                     game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
@@ -411,7 +412,6 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.draw.orientShapes(local && !game.desktop, targetShapeListP2, outsideTargetShapeP2, false);
                     game.draw.drawShapes(local && !game.desktop, targetShapeListP2);
                 }
-                drawTargetArcs();
                 game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, local && !game.desktop, backgroundColorShapeList, backgroundColorShape, clearColor);
                 game.draw.drawTimelines(splitScreen, local && !game.desktop, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
                 game.draw.drawScoreTriangles(splitScreen, local && !game.desktop, backgroundColorShape.getColor());
@@ -2059,6 +2059,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         game.disconfirmSound.play((float) (game.fxVolume / 10.0));
         if (pauseBackTouched) {
             timePaused += System.currentTimeMillis() - pauseStartTime;
+            opponentTime += System.currentTimeMillis() - pauseStartTime;
             resume();
         } else if (pauseQuitTouched) {
             endTime = System.currentTimeMillis();
@@ -2393,18 +2394,21 @@ public class GameplayScreen implements Screen, InputProcessor {
         //The wrong shape was touched
         game.incorrectInputSound.play((float) (game.fxVolume / 10.0));
         if(player == null) {
-            if(!blackAndWhite) {
-                float radiusIncrease = game.widthOrHeightSmaller * ((backgroundColorShapeList.get(2).getCoordinates().y - backgroundColorShapeList.get(3).getCoordinates().y) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));
-
-                if (promptShape.getRadius() + radiusIncrease > (game.widthOrHeightSmaller / 2)) {
-                    promptShape.setRadius(game.widthOrHeightSmaller / 2);
-                } else {
-                    promptShape.setRadius(promptShape.getRadius() + radiusIncrease);
-                }
-            } else {
-                if(score > 0) {
-                    score--;
-                }
+//            if(!blackAndWhite) {
+//                float radiusIncrease = game.widthOrHeightSmaller * ((backgroundColorShapeList.get(2).getCoordinates().y - backgroundColorShapeList.get(3).getCoordinates().y) / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT));
+//
+//                if (promptShape.getRadius() + radiusIncrease > (game.widthOrHeightSmaller / 2)) {
+//                    promptShape.setRadius(game.widthOrHeightSmaller / 2);
+//                } else {
+//                    promptShape.setRadius(promptShape.getRadius() + radiusIncrease);
+//                }
+//            } else {
+//                if(score > 0) {
+//                    score--;
+//                }
+//            }
+            if(score > 0) {
+                score--;
             }
             multiplier = 1;
         } else if(player.equals(P1)) {
@@ -2443,7 +2447,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         }
     }
 
-    public void executeOpponenentAI() {
+    public void executeOpponentAI() {
         int turnTime = 0;
         if(game.difficulty.equals(Squirgle.DIFFICULTY_EASY)) {
             turnTime = 3;
