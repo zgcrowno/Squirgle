@@ -196,10 +196,10 @@ public class Button {
     private static final String PLAY_STRING = "PLAY";
     private static final String OPTIONS_STRING = "OPTIONS";
     private static final String HELP_STRING = "HELP";
-    private static final String QUIT_STRING = "QUIT";
+    public static final String QUIT_STRING = "QUIT";
     private static final String SINGLE_PLAYER_STRING = "SINGLE PLAYER";
     private static final String MULTIPLAYER_STRING = "MULTIPLAYER";
-    private static final String BACK_STRING = "BACK";
+    public static final String BACK_STRING = "BACK";
     private static final String SQUIRGLE_STRING = "SQUIRGLE";
     private static final String BATTLE_STRING = "BATTLE";
     private static final String TIME_ATTACK_STRING = "TIME ATTACK";

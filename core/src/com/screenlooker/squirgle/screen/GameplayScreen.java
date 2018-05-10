@@ -204,12 +204,12 @@ public class GameplayScreen implements Screen, InputProcessor {
     private int multiplier;
     private int multiplierP1;
     private int multiplierP2;
-    private long startTime;
-    private long endTime;
+    public long startTime;
+    public long endTime;
     private long lastSpeedIncreaseTime;
-    private long pauseStartTime;
-    private long timePaused;
-    private long opponentTime;
+    public long pauseStartTime;
+    public long timePaused;
+    public long opponentTime;
     private long timeSinceTouched;
     private int destructionIndex;
     private float firstPriorShapePreviousX;
@@ -227,7 +227,7 @@ public class GameplayScreen implements Screen, InputProcessor {
     private int saturationP2;
     private boolean splitScreen;
     private boolean useSaturation;
-    private boolean blackAndWhite;
+    public boolean blackAndWhite;
     private boolean admitsOfSquirgle;
     private boolean multiplayer;
     private boolean local;
@@ -266,6 +266,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
         game.setUpFontSquirgle(MathUtils.round(game.camera.viewportWidth / FONT_SQUIRGLE_SIZE_DIVISOR));
         game.setUpFontSkip(MathUtils.round(game.camera.viewportWidth / FONT_SKIP_SIZE_DIVISOR));
+        game.setUpFontButton(MathUtils.round(PAUSE_INPUT_WIDTH > PAUSE_INPUT_HEIGHT ? (PAUSE_INPUT_HEIGHT / 2) / 2.75f : (PAUSE_INPUT_WIDTH / 2) / 2.75f));
 
         SoundUtils.setVolume(splitScreen ? dummyPromptForTimelines : promptShape, game);
 
@@ -398,8 +399,6 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         if(!paused) {
             if (!gameOver) {
-                drawTargetArcs();
-                game.draw.drawInputButtons(splitScreen, local && !game.desktop, backgroundColorShape.getColor(), game);
                 if(!splitScreen) {
                     game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
                     game.draw.orientShapes(false, targetShapeList, outsideTargetShape, false);
@@ -412,6 +411,8 @@ public class GameplayScreen implements Screen, InputProcessor {
                     game.draw.orientShapes(local && !game.desktop, targetShapeListP2, outsideTargetShapeP2, false);
                     game.draw.drawShapes(local && !game.desktop, targetShapeListP2);
                 }
+                drawTargetArcs();
+                game.draw.drawInputButtons(splitScreen, local && !game.desktop, backgroundColorShape.getColor(), game);
                 game.draw.drawBackgroundColorShapeList(splitScreen, blackAndWhite, local && !game.desktop, backgroundColorShapeList, backgroundColorShape, clearColor);
                 game.draw.drawTimelines(splitScreen, local && !game.desktop, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
                 game.draw.drawScoreTriangles(splitScreen, local && !game.desktop, backgroundColorShape.getColor());
@@ -509,6 +510,7 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     @Override
     public void resume() {
+        Gdx.input.setInputProcessor(this);
         paused = false;
     }
 
@@ -940,6 +942,30 @@ public class GameplayScreen implements Screen, InputProcessor {
                     }
                 }
             }
+        } else {
+            //Pause quit text
+            game.layout.setText(game.fontButton, Button.QUIT_STRING);
+            FontUtils.printText(game.batch,
+                    game.fontButton,
+                    game.layout,
+                    backgroundColorShape.getColor(),
+                    Button.QUIT_STRING,
+                    game.camera.viewportWidth / 2,
+                    game.partitionSize + ((2.7f * game.layout.height) / 4),
+                    0,
+                    1);
+
+            //Pause back text
+            game.layout.setText(game.fontButton, Button.BACK_STRING);
+            FontUtils.printText(game.batch,
+                    game.fontButton,
+                    game.layout,
+                    backgroundColorShape.getColor(),
+                    Button.BACK_STRING,
+                    (5 * game.camera.viewportWidth) / 6,
+                    game.partitionSize + ((2.7f * game.layout.height) / 4),
+                    0,
+                    1);
         }
     }
 
@@ -2056,12 +2082,13 @@ public class GameplayScreen implements Screen, InputProcessor {
     }
 
     public void handlePauseInput() {
-        game.disconfirmSound.play((float) (game.fxVolume / 10.0));
         if (pauseBackTouched) {
+            game.disconfirmSound.play((float) (game.fxVolume / 10.0));
             timePaused += System.currentTimeMillis() - pauseStartTime;
             opponentTime += System.currentTimeMillis() - pauseStartTime;
             resume();
         } else if (pauseQuitTouched) {
+            game.confirmSound.play((float) (game.fxVolume / 10.0));
             endTime = System.currentTimeMillis();
             game.stats.updateTimePlayed(endTime - startTime, gameplayType);
             stopMusic();

@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
@@ -250,12 +251,12 @@ public class TutorialScreen implements Screen, InputProcessor {
     private int multiplier;
     private int multiplierP1;
     private int multiplierP2;
-    private long startTime;
-    private long endTime;
+    public long startTime;
+    public long endTime;
     private long lastSpeedIncreaseTime;
-    private long pauseStartTime;
-    private long timePaused;
-    private long opponentTime;
+    public long pauseStartTime;
+    public long timePaused;
+    public long opponentTime;
     private int destructionIndex;
     private float firstPriorShapePreviousX;
     private float firstPriorShapePreviousXP1;
@@ -272,7 +273,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private int saturationP2;
     private boolean splitScreen;
     private boolean useSaturation;
-    private boolean blackAndWhite;
+    public boolean blackAndWhite;
     private boolean admitsOfSquirgle;
     private boolean multiplayer;
     private boolean local;
@@ -640,6 +641,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         game.setUpFontScore(MathUtils.round(game.camera.viewportWidth / FONT_SCORE_SIZE_DIVISOR));
         game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
         game.setUpFontSquirgle(MathUtils.round(game.camera.viewportWidth / FONT_SQUIRGLE_SIZE_DIVISOR));
+        game.setUpFontButton(MathUtils.round(PAUSE_INPUT_WIDTH > PAUSE_INPUT_HEIGHT ? (PAUSE_INPUT_HEIGHT / 2) / 2.75f : (PAUSE_INPUT_WIDTH / 2) / 2.75f));
 
         SoundUtils.setVolume(splitScreen ? dummyPromptForTimelines : promptShape, game);
 
@@ -784,12 +786,6 @@ public class TutorialScreen implements Screen, InputProcessor {
         if(!paused) {
             if (!gameOver) {
                 if(phase >= PHASE_THREE) {
-                    drawTargetArcs();
-                }
-                if(phase >= PHASE_TWO) {
-                    game.draw.drawInputButtonsTutorial(splitScreen, local, backgroundColorShape.getColor(), game);
-                }
-                if(phase >= PHASE_THREE) {
                     if (!splitScreen) {
                         game.draw.drawPrompt(false, outsideTargetShape, targetShapeList, targetShapesMatched, backgroundColorShape, false, true);
                         game.draw.orientShapes(false, targetShapeList, outsideTargetShape, false);
@@ -802,6 +798,10 @@ public class TutorialScreen implements Screen, InputProcessor {
                         game.draw.orientShapes(local, targetShapeListP2, outsideTargetShapeP2, false);
                         game.draw.drawShapes(local, targetShapeListP2);
                     }
+                    drawTargetArcs();
+                }
+                if(phase >= PHASE_TWO) {
+                    game.draw.drawInputButtonsTutorial(splitScreen, local, backgroundColorShape.getColor(), game);
                 }
                 if(phase >= PHASE_FIVE) {
                     game.draw.drawBackgroundColorShapeListTutorial(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor);
@@ -916,6 +916,7 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     @Override
     public void resume() {
+        Gdx.input.setInputProcessor(this);
         paused = false;
     }
 
@@ -1186,6 +1187,30 @@ public class TutorialScreen implements Screen, InputProcessor {
                     }
                 }
             }
+        } else {
+            //Pause quit text
+            game.layout.setText(game.fontButton, Button.QUIT_STRING);
+            FontUtils.printText(game.batch,
+                    game.fontButton,
+                    game.layout,
+                    backgroundColorShape.getColor(),
+                    Button.QUIT_STRING,
+                    game.camera.viewportWidth / 2,
+                    game.partitionSize + ((2.7f * game.layout.height) / 4),
+                    0,
+                    1);
+
+            //Pause back text
+            game.layout.setText(game.fontButton, Button.BACK_STRING);
+            FontUtils.printText(game.batch,
+                    game.fontButton,
+                    game.layout,
+                    backgroundColorShape.getColor(),
+                    Button.BACK_STRING,
+                    (5 * game.camera.viewportWidth) / 6,
+                    game.partitionSize + ((2.7f * game.layout.height) / 4),
+                    0,
+                    1);
         }
     }
 
@@ -2324,12 +2349,13 @@ public class TutorialScreen implements Screen, InputProcessor {
     }
 
     public void handlePauseInput() {
-        game.disconfirmSound.play((float) (game.fxVolume / 10.0));
         if (pauseBackTouched) {
+            game.disconfirmSound.play((float) (game.fxVolume / 10.0));
             timePaused += System.currentTimeMillis() - pauseStartTime;
             opponentTime += System.currentTimeMillis() - pauseStartTime;
             resume();
         } else if (pauseQuitTouched) {
+            game.confirmSound.play((float) (game.fxVolume / 10.0));
             endTime = System.currentTimeMillis();
             game.stats.updateTimePlayed(endTime - startTime, gameplayType);
             stopMusic();

@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
@@ -43,10 +44,10 @@ public class TranceScreen implements Screen, InputProcessor {
     boolean pauseBackTouched;
     boolean pauseQuitTouched;
     private boolean paused;
-    private long startTime;
-    private long endTime;
-    private long pauseStartTime;
-    private long timePaused;
+    public long startTime;
+    public long endTime;
+    public long pauseStartTime;
+    public long timePaused;
     private long timeSinceTouched;
     private int destructionIndex;
     private float firstPriorShapePreviousX;
@@ -64,6 +65,8 @@ public class TranceScreen implements Screen, InputProcessor {
         setUpNonFinalStaticData();
 
         setUpNonFinalNonStaticData();
+
+        game.setUpFontButton(MathUtils.round(PAUSE_INPUT_WIDTH > PAUSE_INPUT_HEIGHT ? (PAUSE_INPUT_HEIGHT / 2) / 2.75f : (PAUSE_INPUT_WIDTH / 2) / 2.75f));
 
         SoundUtils.setVolume(promptShape, game);
 
@@ -125,6 +128,8 @@ public class TranceScreen implements Screen, InputProcessor {
 
         SoundUtils.setVolume(promptShape, game);
 
+        drawText();
+
         InputUtils.keepCursorInBounds(game);
     }
 
@@ -151,6 +156,7 @@ public class TranceScreen implements Screen, InputProcessor {
 
     @Override
     public void resume() {
+        Gdx.input.setInputProcessor(this);
         paused = false;
     }
 
@@ -269,6 +275,34 @@ public class TranceScreen implements Screen, InputProcessor {
                 Color.BLACK);
     }
 
+    public void drawText() {
+        if(paused) {
+            //Pause quit text
+            game.layout.setText(game.fontButton, Button.QUIT_STRING);
+            FontUtils.printText(game.batch,
+                    game.fontButton,
+                    game.layout,
+                    Color.BLACK,
+                    Button.QUIT_STRING,
+                    game.camera.viewportWidth / 2,
+                    game.partitionSize + ((2.7f * game.layout.height) / 4),
+                    0,
+                    1);
+
+            //Pause back text
+            game.layout.setText(game.fontButton, Button.BACK_STRING);
+            FontUtils.printText(game.batch,
+                    game.fontButton,
+                    game.layout,
+                    Color.BLACK,
+                    Button.BACK_STRING,
+                    (5 * game.camera.viewportWidth) / 6,
+                    game.partitionSize + ((2.7f * game.layout.height) / 4),
+                    0,
+                    1);
+        }
+    }
+
     public void playMusic() {
         if(game.usePhases) {
             for (int i = 0; i < NUM_MUSIC_PHASES; i++) {
@@ -364,11 +398,12 @@ public class TranceScreen implements Screen, InputProcessor {
     }
 
     public void handlePauseInput() {
-        game.disconfirmSound.play((float) (game.fxVolume / 10.0));
         if (pauseBackTouched) {
+            game.disconfirmSound.play((float) (game.fxVolume / 10.0));
             timePaused += System.currentTimeMillis() - pauseStartTime;
             resume();
         } else if (pauseQuitTouched) {
+            game.confirmSound.play((float) (game.fxVolume / 10.0));
             endTime = System.currentTimeMillis();
             stopMusic();
             game.stats.updateTimePlayed(endTime - startTime, Squirgle.GAMEPLAY_TRANCE);
