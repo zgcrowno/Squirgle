@@ -106,14 +106,9 @@ public class Draw {
         }
     }
 
-    public void drawScreenDivisionTutorial(boolean helpTextVisible, boolean blackAndWhite) {
+    public void drawScreenDivisionTutorial(boolean blackAndWhite) {
         game.shapeRendererLine.setColor(blackAndWhite ? Color.WHITE : Color.BLACK);
-        if(helpTextVisible) {
-            game.shapeRendererLine.line(0, game.camera.viewportHeight / 2, game.camera.viewportWidth / 4, game.camera.viewportHeight / 2);
-            game.shapeRendererLine.line((3 * game.camera.viewportWidth) / 4, game.camera.viewportHeight / 2, game.camera.viewportWidth, game.camera.viewportHeight / 2);
-        } else {
-            game.shapeRendererLine.line(0, game.camera.viewportHeight / 2, game.camera.viewportWidth, game.camera.viewportHeight / 2);
-        }
+        game.shapeRendererLine.line(0, game.camera.viewportHeight / 2, game.camera.viewportWidth, game.camera.viewportHeight / 2);
     }
 
     public void drawPrompt(boolean localMobilePlayer2, Shape promptShape, List<Shape> priorShapeList, int targetShapesMatched, Shape backgroundColorShape, boolean isNonGameplay, boolean isTarget) {
@@ -965,23 +960,29 @@ public class Draw {
         }
     }
 
-    public void drawInputButtonsTutorial(boolean splitScreen, boolean localPlayer2, Color perimeterColor, Squirgle game) {
+    public void drawInputButtonsTutorial(boolean splitScreen, boolean localPlayer2, boolean unrestrictedPlay, int numPlayerInputs, Color perimeterColor, Squirgle game) {
         game.shapeRendererLine.setColor(perimeterColor);
 
         if(game.base >= 1) {
             //Point
             game.shapeRendererFilled.setColor(Color.WHITE);
             if(!splitScreen) {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_POINT_SPAWN.x, TutorialScreen.INPUT_POINT_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-                drawPoint(TutorialScreen.INPUT_POINT_SPAWN.x, TutorialScreen.INPUT_POINT_SPAWN.y, TutorialScreen.INPUT_RADIUS / 2, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_POINT_SPAWN.x, TutorialScreen.INPUT_POINT_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 0) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_POINT_SPAWN.x, TutorialScreen.INPUT_POINT_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                    drawPoint(TutorialScreen.INPUT_POINT_SPAWN.x, TutorialScreen.INPUT_POINT_SPAWN.y, TutorialScreen.INPUT_RADIUS / 2, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_POINT_SPAWN.x, TutorialScreen.INPUT_POINT_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                }
             } else {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_POINT_SPAWN_P1.x, TutorialScreen.INPUT_POINT_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_POINT_SPAWN_P2.x, TutorialScreen.INPUT_POINT_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
-                drawPoint(TutorialScreen.INPUT_POINT_SPAWN_P1.x, TutorialScreen.INPUT_POINT_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS / 2, Color.BLACK);
-                drawPoint(TutorialScreen.INPUT_POINT_SPAWN_P2.x, TutorialScreen.INPUT_POINT_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS / 2, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_POINT_SPAWN_P1.x, TutorialScreen.INPUT_POINT_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                //game.shapeRendererLine.circle(TutorialScreen.INPUT_POINT_SPAWN_P2.x, TutorialScreen.INPUT_POINT_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 0) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_POINT_SPAWN_P1.x, TutorialScreen.INPUT_POINT_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                    drawPoint(TutorialScreen.INPUT_POINT_SPAWN_P1.x, TutorialScreen.INPUT_POINT_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS / 2, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_POINT_SPAWN_P1.x, TutorialScreen.INPUT_POINT_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                }
+                if(unrestrictedPlay) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_POINT_SPAWN_P2.x, TutorialScreen.INPUT_POINT_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                    drawPoint(TutorialScreen.INPUT_POINT_SPAWN_P2.x, TutorialScreen.INPUT_POINT_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS / 2, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_POINT_SPAWN_P2.x, TutorialScreen.INPUT_POINT_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                }
             }
         }
 
@@ -989,16 +990,22 @@ public class Draw {
             //Line
             game.shapeRendererFilled.setColor(Color.WHITE);
             if(!splitScreen) {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_LINE_SPAWN.x, TutorialScreen.INPUT_LINE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-                drawLine(TutorialScreen.INPUT_LINE_SPAWN.x, TutorialScreen.INPUT_LINE_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_LINE_SPAWN.x, TutorialScreen.INPUT_LINE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 1) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_LINE_SPAWN.x, TutorialScreen.INPUT_LINE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                    drawLine(TutorialScreen.INPUT_LINE_SPAWN.x, TutorialScreen.INPUT_LINE_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_LINE_SPAWN.x, TutorialScreen.INPUT_LINE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                }
             } else {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_LINE_SPAWN_P1.x, TutorialScreen.INPUT_LINE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_LINE_SPAWN_P2.x, TutorialScreen.INPUT_LINE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
-                drawLine(TutorialScreen.INPUT_LINE_SPAWN_P1.x, TutorialScreen.INPUT_LINE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
-                drawLine(TutorialScreen.INPUT_LINE_SPAWN_P2.x, TutorialScreen.INPUT_LINE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_LINE_SPAWN_P1.x, TutorialScreen.INPUT_LINE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                //game.shapeRendererLine.circle(TutorialScreen.INPUT_LINE_SPAWN_P2.x, TutorialScreen.INPUT_LINE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 1) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_LINE_SPAWN_P1.x, TutorialScreen.INPUT_LINE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                    drawLine(TutorialScreen.INPUT_LINE_SPAWN_P1.x, TutorialScreen.INPUT_LINE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_LINE_SPAWN_P1.x, TutorialScreen.INPUT_LINE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                }
+                if(unrestrictedPlay) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_LINE_SPAWN_P2.x, TutorialScreen.INPUT_LINE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                    drawLine(TutorialScreen.INPUT_LINE_SPAWN_P2.x, TutorialScreen.INPUT_LINE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_LINE_SPAWN_P2.x, TutorialScreen.INPUT_LINE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                }
             }
         }
 
@@ -1006,16 +1013,22 @@ public class Draw {
             //Triangle
             game.shapeRendererFilled.setColor(Color.WHITE);
             if(!splitScreen) {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN.x, TutorialScreen.INPUT_TRIANGLE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-                drawTriangle(false, TutorialScreen.INPUT_TRIANGLE_SPAWN.x, TutorialScreen.INPUT_TRIANGLE_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN.x, TutorialScreen.INPUT_TRIANGLE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 2) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN.x, TutorialScreen.INPUT_TRIANGLE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                    drawTriangle(false, TutorialScreen.INPUT_TRIANGLE_SPAWN.x, TutorialScreen.INPUT_TRIANGLE_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN.x, TutorialScreen.INPUT_TRIANGLE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                }
             } else {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN_P1.x, TutorialScreen.INPUT_TRIANGLE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN_P2.x, TutorialScreen.INPUT_TRIANGLE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
-                drawTriangle(false, TutorialScreen.INPUT_TRIANGLE_SPAWN_P1.x, TutorialScreen.INPUT_TRIANGLE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
-                drawTriangle(localPlayer2, TutorialScreen.INPUT_TRIANGLE_SPAWN_P2.x, TutorialScreen.INPUT_TRIANGLE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN_P1.x, TutorialScreen.INPUT_TRIANGLE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                //game.shapeRendererLine.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN_P2.x, TutorialScreen.INPUT_TRIANGLE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 2) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN_P1.x, TutorialScreen.INPUT_TRIANGLE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                    drawTriangle(false, TutorialScreen.INPUT_TRIANGLE_SPAWN_P1.x, TutorialScreen.INPUT_TRIANGLE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN_P1.x, TutorialScreen.INPUT_TRIANGLE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                }
+                if(unrestrictedPlay) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN_P2.x, TutorialScreen.INPUT_TRIANGLE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                    drawTriangle(localPlayer2, TutorialScreen.INPUT_TRIANGLE_SPAWN_P2.x, TutorialScreen.INPUT_TRIANGLE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_TRIANGLE_SPAWN_P2.x, TutorialScreen.INPUT_TRIANGLE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                }
             }
         }
 
@@ -1023,16 +1036,22 @@ public class Draw {
             //Square
             game.shapeRendererFilled.setColor(Color.WHITE);
             if(!splitScreen) {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_SQUARE_SPAWN.x, TutorialScreen.INPUT_SQUARE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-                drawSquare(TutorialScreen.INPUT_SQUARE_SPAWN.x, TutorialScreen.INPUT_SQUARE_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_SQUARE_SPAWN.x, TutorialScreen.INPUT_SQUARE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 3) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_SQUARE_SPAWN.x, TutorialScreen.INPUT_SQUARE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                    drawSquare(TutorialScreen.INPUT_SQUARE_SPAWN.x, TutorialScreen.INPUT_SQUARE_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_SQUARE_SPAWN.x, TutorialScreen.INPUT_SQUARE_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                }
             } else {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_SQUARE_SPAWN_P1.x, TutorialScreen.INPUT_SQUARE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_SQUARE_SPAWN_P2.x, TutorialScreen.INPUT_SQUARE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
-                drawSquare(TutorialScreen.INPUT_SQUARE_SPAWN_P1.x, TutorialScreen.INPUT_SQUARE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
-                drawSquare(TutorialScreen.INPUT_SQUARE_SPAWN_P2.x, TutorialScreen.INPUT_SQUARE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_SQUARE_SPAWN_P1.x, TutorialScreen.INPUT_SQUARE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                //game.shapeRendererLine.circle(TutorialScreen.INPUT_SQUARE_SPAWN_P2.x, TutorialScreen.INPUT_SQUARE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 3) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_SQUARE_SPAWN_P1.x, TutorialScreen.INPUT_SQUARE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                    drawSquare(TutorialScreen.INPUT_SQUARE_SPAWN_P1.x, TutorialScreen.INPUT_SQUARE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_SQUARE_SPAWN_P1.x, TutorialScreen.INPUT_SQUARE_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                }
+                if(unrestrictedPlay) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_SQUARE_SPAWN_P2.x, TutorialScreen.INPUT_SQUARE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                    drawSquare(TutorialScreen.INPUT_SQUARE_SPAWN_P2.x, TutorialScreen.INPUT_SQUARE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_SQUARE_SPAWN_P2.x, TutorialScreen.INPUT_SQUARE_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                }
             }
         }
 
@@ -1040,16 +1059,22 @@ public class Draw {
             //Pentagon
             game.shapeRendererFilled.setColor(Color.WHITE);
             if(!splitScreen) {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_PENTAGON_SPAWN.x, TutorialScreen.INPUT_PENTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-                drawPentagon(TutorialScreen.INPUT_PENTAGON_SPAWN.x, TutorialScreen.INPUT_PENTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_PENTAGON_SPAWN.x, TutorialScreen.INPUT_PENTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 4) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_PENTAGON_SPAWN.x, TutorialScreen.INPUT_PENTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                    drawPentagon(TutorialScreen.INPUT_PENTAGON_SPAWN.x, TutorialScreen.INPUT_PENTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_PENTAGON_SPAWN.x, TutorialScreen.INPUT_PENTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                }
             } else {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_PENTAGON_SPAWN_P1.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_PENTAGON_SPAWN_P2.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
-                drawPentagon(TutorialScreen.INPUT_PENTAGON_SPAWN_P1.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                drawPentagon(TutorialScreen.INPUT_PENTAGON_SPAWN_P2.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_PENTAGON_SPAWN_P1.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                //game.shapeRendererLine.circle(TutorialScreen.INPUT_PENTAGON_SPAWN_P2.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 4) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_PENTAGON_SPAWN_P1.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                    drawPentagon(TutorialScreen.INPUT_PENTAGON_SPAWN_P1.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_PENTAGON_SPAWN_P1.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                }
+                if(unrestrictedPlay) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_PENTAGON_SPAWN_P2.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                    drawPentagon(TutorialScreen.INPUT_PENTAGON_SPAWN_P2.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_PENTAGON_SPAWN_P2.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                }
             }
         }
 
@@ -1057,16 +1082,22 @@ public class Draw {
             //Hexagon
             game.shapeRendererFilled.setColor(Color.WHITE);
             if(!splitScreen) {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_HEXAGON_SPAWN.x, TutorialScreen.INPUT_HEXAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-                drawHexagon(TutorialScreen.INPUT_HEXAGON_SPAWN.x, TutorialScreen.INPUT_HEXAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_HEXAGON_SPAWN.x, TutorialScreen.INPUT_HEXAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 5) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_HEXAGON_SPAWN.x, TutorialScreen.INPUT_HEXAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                    drawHexagon(TutorialScreen.INPUT_HEXAGON_SPAWN.x, TutorialScreen.INPUT_HEXAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_HEXAGON_SPAWN.x, TutorialScreen.INPUT_HEXAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                }
             } else {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_HEXAGON_SPAWN_P1.x, TutorialScreen.INPUT_HEXAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_HEXAGON_SPAWN_P2.x, TutorialScreen.INPUT_HEXAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
-                drawHexagon(TutorialScreen.INPUT_HEXAGON_SPAWN_P1.x, TutorialScreen.INPUT_HEXAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                drawHexagon(TutorialScreen.INPUT_HEXAGON_SPAWN_P2.x, TutorialScreen.INPUT_HEXAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_HEXAGON_SPAWN_P1.x, TutorialScreen.INPUT_HEXAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                //game.shapeRendererLine.circle(TutorialScreen.INPUT_HEXAGON_SPAWN_P2.x, TutorialScreen.INPUT_HEXAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 5) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_HEXAGON_SPAWN_P1.x, TutorialScreen.INPUT_HEXAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                    drawHexagon(TutorialScreen.INPUT_HEXAGON_SPAWN_P1.x, TutorialScreen.INPUT_HEXAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_HEXAGON_SPAWN_P1.x, TutorialScreen.INPUT_HEXAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                }
+                if(unrestrictedPlay) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_HEXAGON_SPAWN_P2.x, TutorialScreen.INPUT_HEXAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                    drawHexagon(TutorialScreen.INPUT_HEXAGON_SPAWN_P2.x, TutorialScreen.INPUT_HEXAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_HEXAGON_SPAWN_P2.x, TutorialScreen.INPUT_HEXAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                }
             }
         }
 
@@ -1074,16 +1105,22 @@ public class Draw {
             //Septagon
             game.shapeRendererFilled.setColor(Color.WHITE);
             if(!splitScreen) {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN.x, TutorialScreen.INPUT_SEPTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-                drawSeptagon(TutorialScreen.INPUT_SEPTAGON_SPAWN.x, TutorialScreen.INPUT_SEPTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN.x, TutorialScreen.INPUT_SEPTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 6) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN.x, TutorialScreen.INPUT_SEPTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                    drawSeptagon(TutorialScreen.INPUT_SEPTAGON_SPAWN.x, TutorialScreen.INPUT_SEPTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN.x, TutorialScreen.INPUT_SEPTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                }
             } else {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
-                drawSeptagon(TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                drawSeptagon(TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                //game.shapeRendererLine.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 6) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                    drawSeptagon(TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                }
+                if(unrestrictedPlay) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                    drawSeptagon(TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                }
             }
         }
 
@@ -1091,16 +1128,22 @@ public class Draw {
             //Octagon
             game.shapeRendererFilled.setColor(Color.WHITE);
             if(!splitScreen) {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_OCTAGON_SPAWN.x, TutorialScreen.INPUT_OCTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-                drawOctagon(TutorialScreen.INPUT_OCTAGON_SPAWN.x, TutorialScreen.INPUT_OCTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_OCTAGON_SPAWN.x, TutorialScreen.INPUT_OCTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 7) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_OCTAGON_SPAWN.x, TutorialScreen.INPUT_OCTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                    drawOctagon(TutorialScreen.INPUT_OCTAGON_SPAWN.x, TutorialScreen.INPUT_OCTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_OCTAGON_SPAWN.x, TutorialScreen.INPUT_OCTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                }
             } else {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_OCTAGON_SPAWN_P1.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_OCTAGON_SPAWN_P2.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
-                drawOctagon(TutorialScreen.INPUT_OCTAGON_SPAWN_P1.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                drawOctagon(TutorialScreen.INPUT_OCTAGON_SPAWN_P2.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_OCTAGON_SPAWN_P1.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                //game.shapeRendererLine.circle(TutorialScreen.INPUT_OCTAGON_SPAWN_P2.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 7) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_OCTAGON_SPAWN_P1.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                    drawOctagon(TutorialScreen.INPUT_OCTAGON_SPAWN_P1.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_OCTAGON_SPAWN_P1.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                }
+                if(unrestrictedPlay) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_OCTAGON_SPAWN_P2.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                    drawOctagon(TutorialScreen.INPUT_OCTAGON_SPAWN_P2.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_OCTAGON_SPAWN_P2.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                }
             }
         }
 
@@ -1108,16 +1151,22 @@ public class Draw {
             //Nonagon
             game.shapeRendererFilled.setColor(Color.WHITE);
             if(!splitScreen) {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_NONAGON_SPAWN.x, TutorialScreen.INPUT_NONAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-                drawNonagon(TutorialScreen.INPUT_NONAGON_SPAWN.x, TutorialScreen.INPUT_NONAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_NONAGON_SPAWN.x, TutorialScreen.INPUT_NONAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 8) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_NONAGON_SPAWN.x, TutorialScreen.INPUT_NONAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                    drawNonagon(TutorialScreen.INPUT_NONAGON_SPAWN.x, TutorialScreen.INPUT_NONAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_NONAGON_SPAWN.x, TutorialScreen.INPUT_NONAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
+                }
             } else {
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_NONAGON_SPAWN_P1.x, TutorialScreen.INPUT_NONAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                game.shapeRendererFilled.circle(TutorialScreen.INPUT_NONAGON_SPAWN_P2.x, TutorialScreen.INPUT_NONAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
-                drawNonagon(TutorialScreen.INPUT_NONAGON_SPAWN_P1.x, TutorialScreen.INPUT_NONAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                drawNonagon(TutorialScreen.INPUT_NONAGON_SPAWN_P2.x, TutorialScreen.INPUT_NONAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                game.shapeRendererLine.circle(TutorialScreen.INPUT_NONAGON_SPAWN_P1.x, TutorialScreen.INPUT_NONAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                //game.shapeRendererLine.circle(TutorialScreen.INPUT_NONAGON_SPAWN_P2.x, TutorialScreen.INPUT_NONAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                if(numPlayerInputs > 8) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_NONAGON_SPAWN_P1.x, TutorialScreen.INPUT_NONAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                    drawNonagon(TutorialScreen.INPUT_NONAGON_SPAWN_P1.x, TutorialScreen.INPUT_NONAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_NONAGON_SPAWN_P1.x, TutorialScreen.INPUT_NONAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
+                }
+                if(unrestrictedPlay) {
+                    game.shapeRendererFilled.circle(TutorialScreen.INPUT_NONAGON_SPAWN_P2.x, TutorialScreen.INPUT_NONAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                    drawNonagon(TutorialScreen.INPUT_NONAGON_SPAWN_P2.x, TutorialScreen.INPUT_NONAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    game.shapeRendererLine.circle(TutorialScreen.INPUT_NONAGON_SPAWN_P2.x, TutorialScreen.INPUT_NONAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
+                }
             }
         }
     }
@@ -1580,7 +1629,7 @@ public class Draw {
         drawShape(localMobilePlayer2, lastPromptShape);
     }
 
-    public void drawEquationTutorial(boolean localPlayer2, String player, int phase, Shape lastShapeTouched, Shape lastPromptShape, Shape lastTargetShape, float equationWidth) {
+    public void drawEquationTutorial(boolean localPlayer2, String player, boolean showPlayerTargets, int numPlayerInputs, Shape lastShapeTouched, Shape lastPromptShape, Shape lastTargetShape, float equationWidth) {
         Vector2 spawnBegin = new Vector2();
         Vector2 spawnEnd = new Vector2();
         Vector2 plusSpawn = new Vector2();
@@ -1959,10 +2008,12 @@ public class Draw {
                     lastPromptShape.getCoordinates().y,
                     lastPromptShape.getRadius());
         }
-        game.shapeRendererFilled.circle(equalsSpawn.x,
-                equalsSpawn.y,
-                equationWidth);
-        if(phase >= TutorialScreen.PHASE_THREE) {
+        if(numPlayerInputs > 1) {
+            game.shapeRendererFilled.circle(equalsSpawn.x,
+                    equalsSpawn.y,
+                    equationWidth);
+        }
+        if(showPlayerTargets) {
             if (sum.getShape() == lastTargetShape.getShape()) {
                 game.shapeRendererFilled.circle(equalsTargetSpawn.x,
                         equalsTargetSpawn.y,
@@ -1973,9 +2024,11 @@ public class Draw {
         //Draw the lines
         game.shapeRendererFilled.rectLine(spawnBegin, plusSpawn, equationWidth * 2);
         game.shapeRendererFilled.rectLine(plusSpawn, lastPromptShape.getCoordinates(), equationWidth * 2);
-        game.shapeRendererFilled.rectLine(lastPromptShape.getCoordinates(), equalsSpawn, equationWidth * 2);
-        game.shapeRendererFilled.rectLine(equalsSpawn, spawnEnd, equationWidth * 2);
-        if(phase >= TutorialScreen.PHASE_THREE) {
+        if(numPlayerInputs > 1) {
+            game.shapeRendererFilled.rectLine(lastPromptShape.getCoordinates(), equalsSpawn, equationWidth * 2);
+            game.shapeRendererFilled.rectLine(equalsSpawn, spawnEnd, equationWidth * 2);
+        }
+        if(showPlayerTargets) {
             if (sum.getShape() == lastTargetShape.getShape()) {
                 game.shapeRendererFilled.rectLine(lastPromptShape.getCoordinates(), equalsTargetSpawn, equationWidth * 2);
                 if (player != null && player.equals(TutorialScreen.P1)) {
@@ -1992,8 +2045,10 @@ public class Draw {
         drawPlus(plusSpawn.x, plusSpawn.y, equationWidth, equationWidth / LINE_WIDTH_DIVISOR, Color.BLACK);
 
         //Draw the equals symbol(s)
-        drawEquals(equalsSpawn.x, equalsSpawn.y, equationWidth, equationWidth / LINE_WIDTH_DIVISOR, Color.BLACK);
-        if(phase >= TutorialScreen.PHASE_THREE) {
+        if(numPlayerInputs > 1) {
+            drawEquals(equalsSpawn.x, equalsSpawn.y, equationWidth, equationWidth / LINE_WIDTH_DIVISOR, Color.BLACK);
+        }
+        if(showPlayerTargets) {
             if (sum.getShape() == lastTargetShape.getShape()) {
                 drawEquals(equalsTargetSpawn.x, equalsTargetSpawn.y, equationWidth, equationWidth / LINE_WIDTH_DIVISOR, Color.BLACK);
             }
@@ -2269,19 +2324,16 @@ public class Draw {
         }
     }
 
-    public void drawTargetSemicirclesTutorial(boolean splitScreen, boolean local) {
+    public void drawTargetSemicirclesTutorial(boolean splitScreen, boolean local, boolean showPlayerTargets, boolean unrestrictedPlay) {
         float polypRadius = (TutorialScreen.TARGET_RADIUS / 4);
         float polypOffset = (float)(Math.sqrt(Math.pow(TutorialScreen.TARGET_RADIUS, 2) + Math.pow(TutorialScreen.TARGET_RADIUS / 4, 2)) - TutorialScreen.TARGET_RADIUS);
 
         game.shapeRendererFilled.setColor(Color.WHITE);
-        if(!local) {
+        if((!splitScreen && showPlayerTargets) || (splitScreen && unrestrictedPlay)) {
             game.shapeRendererFilled.circle(0, game.camera.viewportHeight, TutorialScreen.TARGET_RADIUS);
             game.shapeRendererFilled.circle(TutorialScreen.TARGET_RADIUS + polypRadius - polypOffset, game.camera.viewportHeight - polypRadius, polypRadius);
-        } else {
-            game.shapeRendererFilled.arc(game.camera.viewportWidth, game.camera.viewportHeight / 2, TutorialScreen.TARGET_RADIUS, -ONE_HUNDRED_AND_EIGHTY_DEGREES, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
-            game.shapeRendererFilled.circle(game.camera.viewportWidth - TutorialScreen.TARGET_RADIUS - polypRadius + polypOffset, (game.camera.viewportHeight / 2) + polypRadius, polypRadius);
         }
-        if(splitScreen) {
+        if(splitScreen && showPlayerTargets) {
             game.shapeRendererFilled.arc(0, game.camera.viewportHeight / 2, TutorialScreen.TARGET_RADIUS, 0, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
             game.shapeRendererFilled.circle(TutorialScreen.TARGET_RADIUS + polypRadius - polypOffset, (game.camera.viewportHeight / 2) - polypRadius, polypRadius);
         }
@@ -2361,12 +2413,12 @@ public class Draw {
         }
     }
 
-    public void drawScoreTrianglesTutorial(boolean splitScreen, boolean local, Color polypDividerColor) {
+    public void drawScoreTrianglesTutorial(boolean splitScreen, boolean local, boolean showPlayerScore, boolean showOpponentScore, Color polypDividerColor) {
         float polypRadius = (TutorialScreen.TARGET_RADIUS / 2);
 
         game.shapeRendererFilled.setColor(Color.WHITE);
         game.shapeRendererLine.setColor(polypDividerColor);
-        if(!local) {
+        if((!splitScreen && showPlayerScore) || (splitScreen && showOpponentScore)) {
             game.shapeRendererFilled.triangle(game.camera.viewportWidth,
                     game.camera.viewportHeight,
                     game.camera.viewportWidth - TutorialScreen.TARGET_RADIUS,
@@ -2383,25 +2435,8 @@ public class Draw {
                     game.camera.viewportHeight,
                     game.camera.viewportWidth - TutorialScreen.TARGET_RADIUS + polypRadius,
                     game.camera.viewportHeight - polypRadius);
-        } else {
-            game.shapeRendererFilled.triangle(0,
-                    game.camera.viewportHeight / 2,
-                    TutorialScreen.TARGET_RADIUS,
-                    game.camera.viewportHeight / 2,
-                    0,
-                    (game.camera.viewportHeight / 2) + TutorialScreen.TARGET_RADIUS);
-            game.shapeRendererFilled.triangle(TutorialScreen.TARGET_RADIUS,
-                    game.camera.viewportHeight / 2,
-                    TutorialScreen.TARGET_RADIUS + polypRadius,
-                    (game.camera.viewportHeight / 2) + polypRadius,
-                    TutorialScreen.TARGET_RADIUS - polypRadius,
-                    (game.camera.viewportHeight / 2) + polypRadius);
-            game.shapeRendererLine.line(TutorialScreen.TARGET_RADIUS,
-                    game.camera.viewportHeight / 2,
-                    TutorialScreen.TARGET_RADIUS - polypRadius,
-                    (game.camera.viewportHeight / 2) + polypRadius);
         }
-        if(splitScreen) {
+        if(splitScreen && showPlayerScore) {
             game.shapeRendererFilled.triangle(game.camera.viewportWidth,
                     game.camera.viewportHeight / 2,
                     game.camera.viewportWidth - TutorialScreen.TARGET_RADIUS,
@@ -2549,11 +2584,11 @@ public class Draw {
         float inputRadius = splitScreen && game.widthGreater ? game.camera.viewportWidth / 40 : game.camera.viewportWidth / 20;
 
         if(!splitScreen) {
-            drawPoint(game.camera.viewportWidth, game.camera.viewportHeight / 2, inputRadius, Color.WHITE);
-            drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), game.camera.viewportHeight / 2, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
+            drawPoint(game.camera.viewportWidth, (game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS) - (TutorialScreen.INPUT_POINT_SPAWN.y + TutorialScreen.INPUT_RADIUS)) / 2), inputRadius, Color.WHITE);
+            drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), (game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS) - (TutorialScreen.INPUT_POINT_SPAWN.y + TutorialScreen.INPUT_RADIUS)) / 2), inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
         } else {
-            drawPoint(game.camera.viewportWidth, (TutorialScreen.INPUT_POINT_SPAWN_P1.y + TutorialScreen.INPUT_RADIUS) + (((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS - (TutorialScreen.INPUT_POINT_SPAWN_P1.y + TutorialScreen.INPUT_RADIUS)) / 2) + inputRadius, inputRadius, Color.WHITE);
-            drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), (TutorialScreen.INPUT_POINT_SPAWN_P1.y + TutorialScreen.INPUT_RADIUS) + (((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS - (TutorialScreen.INPUT_POINT_SPAWN_P1.y + TutorialScreen.INPUT_RADIUS)) / 2) + inputRadius, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
+            drawPoint(game.camera.viewportWidth, ((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS) - (TutorialScreen.INPUT_POINT_SPAWN.y + TutorialScreen.INPUT_RADIUS)) / 2), inputRadius, Color.WHITE);
+            drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), ((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS) - (TutorialScreen.INPUT_POINT_SPAWN.y + TutorialScreen.INPUT_RADIUS)) / 2), inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
         }
 
     }
