@@ -1387,7 +1387,7 @@ public class TutorialScreen implements Screen, InputProcessor {
 
         gameOver();
 
-        if(!paused) {
+        if(!paused && phase < numPhases) {
             stage.draw();
         }
 
@@ -1404,7 +1404,9 @@ public class TutorialScreen implements Screen, InputProcessor {
             ColorUtils.transitionColor(currentTargetShapeP2);
         }
 
-        updateLabelText();
+        if(phase < numPhases) {
+            updateLabels();
+        }
 
         if(veilOpacity > 0) {
             veilOpacity -= 0.01;
@@ -1472,7 +1474,7 @@ public class TutorialScreen implements Screen, InputProcessor {
             return false;
         }
 
-        if(tapAnywhereToProgress()) {
+        if(phase < numPhases && tapAnywhereToProgress()) {
             phase++;
             correctInput = true;
             return true;
@@ -2814,6 +2816,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                         transitionShape(P2, Shape.NONAGON);
                     }
                 }
+                handleInputIncrementPhase(player);
             }
             if(showPlayerTargets()) {
                 if (player == null) {
@@ -3203,6 +3206,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 currentTargetShapeP2 = targetShapeListP2.get(0);
             }
         }
+        shapesMatchedIncrementPhase(player);
         correctInput = true;
         keepSaturationsInBounds();
     }
@@ -3363,6 +3367,121 @@ public class TutorialScreen implements Screen, InputProcessor {
         inputTouchedGameplayP2 = false;
     }
 
+    public void handleInputIncrementPhase(String player) {
+        Shape promptToUse;
+
+        if(player == null) {
+            promptToUse = promptShape;
+        } else if(player.equals(P1)) {
+            promptToUse = promptShapeP1;
+        } else {
+            promptToUse = promptShapeP2;
+        }
+
+        if(firstInputPhase()) {
+            System.out.println(promptToUse.getShape());
+            if(promptToUse.getShape() == Shape.LINE) {
+                phase++;
+            }
+        } else if(secondInputPhase()) {
+            if(promptToUse.getShape() == Shape.TRIANGLE) {
+                phase++;
+            }
+        } else if(firstRolloverPhase()) {
+            if(promptToUse.getShape() == Shape.POINT) {
+                phase++;
+            }
+        } else if(thirdInputPhase()) {
+            if(promptToUse.getShape() == Shape.TRIANGLE) {
+                phase++;
+            }
+        } else if(fourthInputPhase()) {
+            if(promptToUse.getShape() == Shape.SQUARE) {
+                phase++;
+            }
+        } else if(fifthInputPhase()) {
+            if(promptToUse.getShape() == Shape.LINE) {
+                phase++;
+            }
+        } else if(sixthInputPhase()) {
+            if(promptToUse.getShape() == Shape.LINE) {
+                phase++;
+            }
+        }
+    }
+
+    public void shapesMatchedIncrementPhase(String player) {
+        Shape outsideTargetToUse;
+        List<Shape> targetListToUse;
+        Shape currentTargetToUse;
+        int scoreToUse;
+        int multiplierToUse;
+        float squirgleOpacityToUse;
+
+        if(player == null) {
+            outsideTargetToUse = outsideTargetShape;
+            targetListToUse = targetShapeList;
+            currentTargetToUse = currentTargetShape;
+            scoreToUse = score;
+            multiplierToUse = multiplier;
+            squirgleOpacityToUse = squirgleOpacity;
+        } else if(player.equals(P1)) {
+            outsideTargetToUse = outsideTargetShapeP1;
+            targetListToUse = targetShapeListP1;
+            currentTargetToUse = currentTargetShapeP1;
+            scoreToUse = scoreP1;
+            multiplierToUse = multiplierP1;
+            squirgleOpacityToUse = squirgleOpacityP1;
+        } else {
+            outsideTargetToUse = outsideTargetShapeP2;
+            targetListToUse = targetShapeListP2;
+            currentTargetToUse = currentTargetShapeP2;
+            scoreToUse = scoreP2;
+            multiplierToUse = multiplierP2;
+            squirgleOpacityToUse = squirgleOpacityP2;
+        }
+
+        if(firstTargetPhase()) {
+            if(currentTargetToUse == outsideTargetToUse) {
+                phase++;
+            }
+        } else if(secondTargetPhase()) {
+            if(currentTargetToUse == targetListToUse.get(0)) {
+                phase++;
+            }
+        } else if(firstScorePhase()) {
+            if(useSaturation) {
+                if(saturationP2 >= 5) {
+                    phase++;
+                }
+            } else {
+                if(score >= 3) {
+                    phase++;
+                }
+            }
+        } else if(firstMultiplierPhase()) {
+            if(multiplierToUse >= 5) {
+                phase++;
+            }
+        } else if(secondScorePhase()) {
+            if(scoreToUse >= 30) {
+                phase++;
+            }
+        } else if(thirdTargetPhase()) {
+            if(currentTargetToUse == outsideTargetToUse) {
+                phase++;
+            }
+        } else if(fourthTargetPhase()) {
+            if(outsideTargetToUse.getShape() == Shape.TRIANGLE && targetListToUse.get(0).getShape() == Shape.SQUARE) {
+                phase++;
+            }
+        } else if(firstSquirglePhase()) {
+            if(squirgleOpacityToUse >= 1) {
+                phase++;
+            }
+        }
+    }
+
     public boolean allowMistakes() {
         if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
             return phase >= 32;
@@ -3459,6 +3578,139 @@ public class TutorialScreen implements Screen, InputProcessor {
         return false;
     }
 
+    public boolean firstInputPhase() {
+        if(!splitScreen) {
+            return phase == 4;
+        } else {
+            return phase == 5;
+        }
+    }
+
+    public boolean secondInputPhase() {
+        if(!splitScreen) {
+            return phase == 5;
+        } else {
+            return phase == 6;
+        }
+    }
+
+    public boolean firstRolloverPhase() {
+        if(!splitScreen) {
+            return phase == 6;
+        } else {
+            return phase == 7;
+        }
+    }
+
+    public boolean thirdInputPhase() {
+        if(!splitScreen) {
+            return phase == 11;
+        } else {
+            return phase == 12;
+        }
+    }
+
+    public boolean fourthInputPhase() {
+        if(!splitScreen) {
+            return phase == 12;
+        } else {
+            return phase == 13;
+        }
+    }
+
+    public boolean fifthInputPhase() {
+        if(!splitScreen) {
+            return phase == 13;
+        } else {
+            return phase == 14;
+        }
+    }
+
+    public boolean sixthInputPhase() {
+        if(!splitScreen) {
+            return phase == 14;
+        } else {
+            return phase == 15;
+        }
+    }
+
+    public boolean firstTargetPhase() {
+        if(!splitScreen) {
+            return phase == 17;
+        } else {
+            return phase == 18;
+        }
+    }
+
+    public boolean secondTargetPhase() {
+        if(!splitScreen) {
+            return phase == 20;
+        } else {
+            return phase == 21;
+        }
+    }
+
+    public boolean firstScorePhase() {
+        if(!splitScreen) {
+            return phase == 21;
+        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+            return phase == 27;
+        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+            return phase == 26;
+        }
+        return false;
+    }
+
+    public boolean firstMultiplierPhase() {
+        if(!splitScreen) {
+            return phase == 25;
+        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+            return phase == 30;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean secondScorePhase() {
+        if(!splitScreen) {
+            return phase == 27;
+        } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+            return phase == 32;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean thirdTargetPhase() {
+        if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+            return phase == 34;
+        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+            return phase == 35;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean fourthTargetPhase() {
+        if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+            return phase == 35;
+        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+            return phase == 36;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean firstSquirglePhase() {
+        if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+            return phase == 37;
+        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+            return phase == 38;
+        } else {
+            return false;
+        }
+    }
+
     public String getCurrentHeaderText() {
         return gameplayTypeMap.get(gameplayType).get(correctInput).get(phase - 1).get(0);
     }
@@ -3467,9 +3719,24 @@ public class TutorialScreen implements Screen, InputProcessor {
         return gameplayTypeMap.get(gameplayType).get(correctInput).get(phase - 1).get(1);
     }
 
-    public void updateLabelText() {
+    public void updateLabels() {
         headerLabel.setText(getCurrentHeaderText());
         footerLabel.setText(getCurrentFooterText());
+
+        if(game.widthGreater) {
+            headerLabel.setSize(splitScreen ? promptShapeP1.getCoordinates().x - promptShapeP1.getRadius() - (8 * BACKGROUND_COLOR_LIST_ELEMENT_RADIUS) : promptShape.getCoordinates().x - promptShape.getRadius() - (8 * BACKGROUND_COLOR_LIST_ELEMENT_RADIUS), splitScreen ? (game.camera.viewportHeight / 2) - TARGET_RADIUS - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS) : game.camera.viewportHeight - TARGET_RADIUS - (INPUT_POINT_SPAWN.y + INPUT_RADIUS));
+            headerLabel.setPosition((8 * BACKGROUND_COLOR_LIST_ELEMENT_RADIUS), splitScreen ? INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS : INPUT_POINT_SPAWN.y + INPUT_RADIUS);
+        } else {
+            headerLabel.setSize(game.camera.viewportWidth - (2 * TARGET_RADIUS), splitScreen ? (game.camera.viewportHeight / 2) - (promptShapeP1.getCoordinates().y + promptShapeP1.getRadius()) : game.camera.viewportHeight - (promptShape.getCoordinates().y + promptShape.getRadius()));
+            headerLabel.setPosition(TARGET_RADIUS, splitScreen ? promptShapeP1.getCoordinates().y + promptShapeP1.getRadius() : promptShape.getCoordinates().y + promptShape.getRadius());
+        }
+        if(game.widthGreater) {
+            footerLabel.setSize(splitScreen ? game.camera.viewportWidth - INPUT_RADIUS - (promptShapeP1.getCoordinates().x + promptShapeP1.getRadius()) : game.camera.viewportWidth - INPUT_RADIUS - (promptShape.getCoordinates().x + promptShape.getRadius()), splitScreen ? (game.camera.viewportHeight / 2) - TARGET_RADIUS - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS) : game.camera.viewportHeight - TARGET_RADIUS - (INPUT_POINT_SPAWN.y + INPUT_RADIUS));
+            footerLabel.setPosition(splitScreen ? promptShapeP1.getCoordinates().x + promptShapeP1.getRadius() : promptShape.getCoordinates().x + promptShape.getRadius(), splitScreen ? INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS : INPUT_POINT_SPAWN.y + INPUT_RADIUS);
+        } else {
+            footerLabel.setSize(game.camera.viewportWidth - (2 * TARGET_RADIUS), splitScreen ? promptShapeP1.getCoordinates().y - promptShapeP1.getRadius() - (INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS) : promptShape.getCoordinates().y - promptShape.getRadius() - (INPUT_POINT_SPAWN.y + INPUT_RADIUS));
+            footerLabel.setPosition(TARGET_RADIUS, splitScreen ? INPUT_POINT_SPAWN_P1.y + INPUT_RADIUS : INPUT_POINT_SPAWN.y + INPUT_RADIUS);
+        }
     }
 
     public void setUpNonFinalStaticData() {
@@ -3790,11 +4057,11 @@ public class TutorialScreen implements Screen, InputProcessor {
         targetArcColor = new Color();
         clearColor = new Color(backgroundColorShape.getColor());
         phase = 1;
-        score = 0;
-        scoreP1 = 0;
+        score = 1;
+        scoreP1 = 1;
         scoreP2 = 0;
-        multiplier = 1;
-        multiplierP1 = 1;
+        multiplier = 2;
+        multiplierP1 = 2;
         multiplierP2 = 1;
         gameOver = false;
         showResults = false;
