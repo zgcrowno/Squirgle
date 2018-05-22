@@ -1183,10 +1183,8 @@ public class Draw {
     public void drawResultsInputButtons(Color resultsColor, Vector2 inputPlaySpawn, Vector2 inputHomeSpawn, Vector2 inputExitSpawn) {
         Color symbolColor = resultsColor.equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
 
-        //Play
-        game.shapeRendererFilled.setColor(resultsColor);
-        game.shapeRendererFilled.circle(inputPlaySpawn.x, inputPlaySpawn.y, GameplayScreen.INPUT_RADIUS);
-        drawPlayButton(inputPlaySpawn.x, inputPlaySpawn.y, GameplayScreen.INPUT_RADIUS / 2, (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, symbolColor);
+        //Replay
+        drawReplaySymbol(inputPlaySpawn.x, inputPlaySpawn.y, GameplayScreen.INPUT_RADIUS, symbolColor, resultsColor);
 
         //Home
         game.shapeRendererFilled.setColor(resultsColor);
@@ -1202,10 +1200,8 @@ public class Draw {
     public void drawResultsInputButtonsTutorial(Color resultsColor, Vector2 inputPlaySpawn, Vector2 inputHomeSpawn, Vector2 inputExitSpawn) {
         Color symbolColor = resultsColor.equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
 
-        //Play
-        game.shapeRendererFilled.setColor(resultsColor);
-        game.shapeRendererFilled.circle(inputPlaySpawn.x, inputPlaySpawn.y, TutorialScreen.INPUT_RADIUS);
-        drawPlayButton(inputPlaySpawn.x, inputPlaySpawn.y, TutorialScreen.INPUT_RADIUS / 2, (TutorialScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, symbolColor);
+        //Replay
+        drawReplaySymbol(inputPlaySpawn.x, inputPlaySpawn.y, GameplayScreen.INPUT_RADIUS, symbolColor, resultsColor);
 
         //Home
         game.shapeRendererFilled.setColor(resultsColor);
@@ -2316,20 +2312,20 @@ public class Draw {
         game.shapeRendererFilled.setColor(Color.WHITE);
         if(!localMobile) {
             game.shapeRendererFilled.circle(0, game.camera.viewportHeight, GameplayScreen.TARGET_RADIUS);
-            if(!game.hardcore) {
-                game.shapeRendererFilled.circle(GameplayScreen.TARGET_RADIUS + polypRadius - polypOffset, game.camera.viewportHeight - polypRadius, polypRadius);
-            }
+//            if(!game.hardcore) {
+//                game.shapeRendererFilled.circle(GameplayScreen.TARGET_RADIUS + polypRadius - polypOffset, game.camera.viewportHeight - polypRadius, polypRadius);
+//            }
         } else {
             game.shapeRendererFilled.arc(game.camera.viewportWidth, game.camera.viewportHeight / 2, GameplayScreen.TARGET_RADIUS, -ONE_HUNDRED_AND_EIGHTY_DEGREES, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
-            if(!game.hardcore) {
-                game.shapeRendererFilled.circle(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS - polypRadius + polypOffset, (game.camera.viewportHeight / 2) + polypRadius, polypRadius);
-            }
+//            if(!game.hardcore) {
+//                game.shapeRendererFilled.circle(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS - polypRadius + polypOffset, (game.camera.viewportHeight / 2) + polypRadius, polypRadius);
+//            }
         }
         if(splitScreen) {
             game.shapeRendererFilled.arc(0, game.camera.viewportHeight / 2, GameplayScreen.TARGET_RADIUS, 0, -NINETY_ONE_DEGREES, NUM_ARC_SEGMENTS);
-            if(!game.hardcore) {
-                game.shapeRendererFilled.circle(GameplayScreen.TARGET_RADIUS + polypRadius - polypOffset, (game.camera.viewportHeight / 2) - polypRadius, polypRadius);
-            }
+//            if(!game.hardcore) {
+//                game.shapeRendererFilled.circle(GameplayScreen.TARGET_RADIUS + polypRadius - polypOffset, (game.camera.viewportHeight / 2) - polypRadius, polypRadius);
+//            }
         }
     }
 
@@ -2370,7 +2366,7 @@ public class Draw {
                     game.camera.viewportHeight,
                     game.camera.viewportWidth,
                     game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS);
-            if(!game.hardcore || splitScreen) {
+            if(splitScreen) {
                 game.shapeRendererFilled.triangle(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
                         game.camera.viewportHeight,
                         game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS - polypRadius,
@@ -2389,7 +2385,7 @@ public class Draw {
                     game.camera.viewportHeight / 2,
                     0,
                     (game.camera.viewportHeight / 2) + GameplayScreen.TARGET_RADIUS);
-            if(!game.hardcore || splitScreen) {
+            if(splitScreen) {
                 game.shapeRendererFilled.triangle(GameplayScreen.TARGET_RADIUS,
                         game.camera.viewportHeight / 2,
                         GameplayScreen.TARGET_RADIUS + polypRadius,
@@ -2646,6 +2642,41 @@ public class Draw {
                 shape.setRadius(shape.getRadius() + 1);
             }
         }
+    }
+
+    public void drawReplaySymbol(float x, float y, float radius, Color primaryColor, Color secondaryColor) {
+        float outerRadius = radius;
+        float innerBlackRadius = radius / 2;
+        float innerWhiteRadius = radius / 3;
+        float innerRadiusDifference = innerBlackRadius - innerWhiteRadius;
+        float triangleRadius = innerBlackRadius / 3;
+
+        game.shapeRendererFilled.setColor(secondaryColor);
+        game.shapeRendererFilled.circle(x, y, outerRadius);
+
+        game.shapeRendererFilled.setColor(primaryColor);
+        game.shapeRendererFilled.circle(x, y, innerBlackRadius);
+
+        game.shapeRendererFilled.setColor(secondaryColor);
+        game.shapeRendererFilled.circle(x, y, innerWhiteRadius);
+        triangle(x + innerBlackRadius - ((23 * innerRadiusDifference) / 32),
+                y + (2 * triangleRadius),
+                x + innerBlackRadius - ((23 * innerRadiusDifference) / 32) - (2.5f * triangleRadius),
+                y - triangleRadius,
+                x + innerBlackRadius - ((23 * innerRadiusDifference) / 32) + (2.5f * triangleRadius),
+                y - triangleRadius,
+                triangleRadius / 20,
+                secondaryColor);
+
+        triangle(x + innerBlackRadius - ((23 * innerRadiusDifference) / 32),
+                y + (triangleRadius / 2),
+                x + innerBlackRadius - ((23 * innerRadiusDifference) / 32) - triangleRadius,
+                y - triangleRadius,
+                x + innerBlackRadius - ((23 * innerRadiusDifference) / 32) + triangleRadius,
+                y - triangleRadius,
+                triangleRadius / 20,
+                primaryColor);
+
     }
 
     public void drawDash(float x, float y, float width, Color color) {

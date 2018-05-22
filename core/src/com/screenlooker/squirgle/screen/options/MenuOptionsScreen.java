@@ -114,7 +114,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
 
         Gdx.input.setInputProcessor(this);
 
-        numMiddleInputsVertical = game.desktop ? 5 : 4;
+        numMiddleInputsVertical = game.desktop ? 4 : 3;
         numMiddlePartitionsVertical = numMiddleInputsVertical + 1;
 
         inputWidth = (game.camera.viewportWidth - (game.partitionSize * NUM_PARTITIONS_HORIZONTAL)) / NUM_INPUTS_HORIZONTAL;
@@ -208,7 +208,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 game);
         p2ControlsButton = new Button((2 * game.partitionSize) + inputWidth,
-                (3 * game.partitionSize) + (2 * inputHeightMiddle),
+                (2 * game.partitionSize) + inputHeightMiddle,
                 inputWidth,
                 inputHeightMiddle,
                 Button.BUTTON_P2_CONTROLS,
@@ -239,38 +239,38 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 p2ControlsColor,
                 Color.BLACK,
                 game);
-        hardcoreButton = new Button((2 * game.partitionSize) + inputWidth,
-                (2 * game.partitionSize) + inputHeightMiddle,
-                inputWidth,
-                inputHeightMiddle,
-                Button.BUTTON_HARDCORE,
-                hardcoreColor,
-                Color.BLACK,
-                game);
-        hardcoreSkullButton = new Button(hardcoreButton.symbolX - (((2 * hardcoreButton.symbolRadius) / 3) / 2),
-                hardcoreButton.symbolY + hardcoreButton.symbolRadius - ((2 * hardcoreButton.symbolRadius) / 3),
-                (2 * hardcoreButton.symbolRadius) / 3,
-                (2 * hardcoreButton.symbolRadius) / 3,
-                Button.BUTTON_HARDCORE_SKULL,
-                hardcoreColor,
-                Color.BLACK,
-                game);
-        hardcoreChevronDownButton = new Button(hardcoreButton.x,
-                hardcoreButton.symbolY + hardcoreButton.symbolRadius - ((5 * hardcoreButton.symbolRadius) / 3),
-                (2 * hardcoreButton.symbolRadius) / 3,
-                (2 * hardcoreButton.symbolRadius) / 3,
-                Button.BUTTON_HARDCORE_CHEVRON_DOWN,
-                hardcoreColor,
-                Color.BLACK,
-                game);
-        hardcoreChevronUpButton = new Button(hardcoreButton.x + hardcoreButton.width - ((2 * hardcoreButton.symbolRadius) / 3),
-                hardcoreButton.symbolY + hardcoreButton.symbolRadius - ((5 * hardcoreButton.symbolRadius) / 3),
-                (2 * hardcoreButton.symbolRadius) / 3,
-                (2 * hardcoreButton.symbolRadius) / 3,
-                Button.BUTTON_HARDCORE_CHEVRON_UP,
-                hardcoreColor,
-                Color.BLACK,
-                game);
+//        hardcoreButton = new Button((2 * game.partitionSize) + inputWidth,
+//                (2 * game.partitionSize) + inputHeightMiddle,
+//                inputWidth,
+//                inputHeightMiddle,
+//                Button.BUTTON_HARDCORE,
+//                hardcoreColor,
+//                Color.BLACK,
+//                game);
+//        hardcoreSkullButton = new Button(hardcoreButton.symbolX - (((2 * hardcoreButton.symbolRadius) / 3) / 2),
+//                hardcoreButton.symbolY + hardcoreButton.symbolRadius - ((2 * hardcoreButton.symbolRadius) / 3),
+//                (2 * hardcoreButton.symbolRadius) / 3,
+//                (2 * hardcoreButton.symbolRadius) / 3,
+//                Button.BUTTON_HARDCORE_SKULL,
+//                hardcoreColor,
+//                Color.BLACK,
+//                game);
+//        hardcoreChevronDownButton = new Button(hardcoreButton.x,
+//                hardcoreButton.symbolY + hardcoreButton.symbolRadius - ((5 * hardcoreButton.symbolRadius) / 3),
+//                (2 * hardcoreButton.symbolRadius) / 3,
+//                (2 * hardcoreButton.symbolRadius) / 3,
+//                Button.BUTTON_HARDCORE_CHEVRON_DOWN,
+//                hardcoreColor,
+//                Color.BLACK,
+//                game);
+//        hardcoreChevronUpButton = new Button(hardcoreButton.x + hardcoreButton.width - ((2 * hardcoreButton.symbolRadius) / 3),
+//                hardcoreButton.symbolY + hardcoreButton.symbolRadius - ((5 * hardcoreButton.symbolRadius) / 3),
+//                (2 * hardcoreButton.symbolRadius) / 3,
+//                (2 * hardcoreButton.symbolRadius) / 3,
+//                Button.BUTTON_HARDCORE_CHEVRON_UP,
+//                hardcoreColor,
+//                Color.BLACK,
+//                game);
         wipeDataButton = new Button((2 * game.partitionSize) + inputWidth,
                 game.partitionSize,
                 inputWidth,
@@ -303,10 +303,10 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
             buttonList.add(p2ControlsChevronDownButton);
             buttonList.add(p2ControlsChevronUpButton);
         }
-        buttonList.add(hardcoreButton);
-        buttonList.add(hardcoreSkullButton);
-        buttonList.add(hardcoreChevronDownButton);
-        buttonList.add(hardcoreChevronUpButton);
+//        buttonList.add(hardcoreButton);
+//        buttonList.add(hardcoreSkullButton);
+//        buttonList.add(hardcoreChevronDownButton);
+//        buttonList.add(hardcoreChevronUpButton);
         buttonList.add(wipeDataButton);
         buttonList.add(backButton);
 
