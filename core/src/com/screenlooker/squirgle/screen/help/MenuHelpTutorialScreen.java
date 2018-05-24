@@ -35,7 +35,7 @@ public class MenuHelpTutorialScreen implements Screen, InputProcessor {
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
-    private final static int NUM_MIDDLE_INPUTS_VERTICAL = 5;
+    private final static int NUM_MIDDLE_INPUTS_VERTICAL = 4;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
@@ -163,7 +163,7 @@ public class MenuHelpTutorialScreen implements Screen, InputProcessor {
                 new Vector2((game.camera.viewportWidth / 2) + (inputWidth / 4), ((7 * game.camera.viewportHeight) / 10) - (inputHeightType / 4)));
 
         squirgleButton = new Button((2 * game.partitionSize) + inputWidth,
-                (5 * game.partitionSize) + (4 * inputHeightType),
+                (4 * game.partitionSize) + (3 * inputHeightType),
                 inputWidth,
                 inputHeightType,
                 Button.BUTTON_HELP_TUTORIAL_SQUIRGLE,
@@ -171,7 +171,7 @@ public class MenuHelpTutorialScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 game);
         battleButton = new Button((2 * game.partitionSize) + inputWidth,
-                (4 * game.partitionSize) + (3 * inputHeightType),
+                (3 * game.partitionSize) + (2 * inputHeightType),
                 inputWidth,
                 inputHeightType,
                 Button.BUTTON_HELP_TUTORIAL_BATTLE,
@@ -179,7 +179,7 @@ public class MenuHelpTutorialScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 game);
         timeAttackButton = new Button((2 * game.partitionSize) + inputWidth,
-                (3 * game.partitionSize) + (2 * inputHeightType),
+                (2 * game.partitionSize) + inputHeightType,
                 inputWidth,
                 inputHeightType,
                 Button.BUTTON_HELP_TUTORIAL_TIME_ATTACK,
@@ -187,21 +187,21 @@ public class MenuHelpTutorialScreen implements Screen, InputProcessor {
                 Color.BLACK,
                 game);
         timeBattleButton = new Button((2 * game.partitionSize) + inputWidth,
-                (2 * game.partitionSize) + inputHeightType,
+                game.partitionSize,
                 inputWidth,
                 inputHeightType,
                 Button.BUTTON_HELP_TUTORIAL_TIME_BATTLE,
                 timeBattleColor,
                 Color.BLACK,
                 game);
-        tranceButton = new Button((2 * game.partitionSize) + inputWidth,
-                game.partitionSize,
-                inputWidth,
-                inputHeightType,
-                Button.BUTTON_HELP_TUTORIAL_TRANCE,
-                tranceColor,
-                Color.BLACK,
-                game);
+//        tranceButton = new Button((2 * game.partitionSize) + inputWidth,
+//                game.partitionSize,
+//                inputWidth,
+//                inputHeightType,
+//                Button.BUTTON_HELP_TUTORIAL_TRANCE,
+//                tranceColor,
+//                Color.BLACK,
+//                game);
         backButton = new Button(game.camera.viewportWidth - game.partitionSize - inputWidth,
                 game.partitionSize,
                 inputWidth,
@@ -216,7 +216,7 @@ public class MenuHelpTutorialScreen implements Screen, InputProcessor {
         buttonList.add(battleButton);
         buttonList.add(timeAttackButton);
         buttonList.add(timeBattleButton);
-        buttonList.add(tranceButton);
+        //buttonList.add(tranceButton);
         buttonList.add(backButton);
 
         this.veilColor = veilColor;

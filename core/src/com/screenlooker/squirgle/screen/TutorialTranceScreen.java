@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
+import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
@@ -104,6 +105,8 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
 
         setUpNonFinalNonStaticData();
 
+        game.setUpFontButton(MathUtils.round(PAUSE_INPUT_WIDTH > PAUSE_INPUT_HEIGHT ? (PAUSE_INPUT_HEIGHT / 2) / 2.75f : (PAUSE_INPUT_WIDTH / 2) / 2.75f));
+
         SoundUtils.setVolume(promptShape, game);
 
         playMusic();
@@ -166,6 +169,8 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
         game.shapeRendererLine.end();
 
         SoundUtils.setVolume(promptShape, game);
+
+        drawText();
 
         stage.draw();
 
@@ -319,6 +324,34 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
                 PAUSE_INPUT_WIDTH / 2,
                 (PAUSE_INPUT_WIDTH / 2) / Draw.LINE_WIDTH_DIVISOR,
                 Color.BLACK);
+    }
+
+    public void drawText() {
+        if(paused) {
+            //Pause quit text
+            game.layout.setText(game.fontButton, Button.QUIT_STRING);
+            FontUtils.printText(game.batch,
+                    game.fontButton,
+                    game.layout,
+                    Color.BLACK,
+                    Button.QUIT_STRING,
+                    game.camera.viewportWidth / 2,
+                    game.partitionSize + ((2.7f * game.layout.height) / 4),
+                    0,
+                    1);
+
+            //Pause back text
+            game.layout.setText(game.fontButton, Button.BACK_STRING);
+            FontUtils.printText(game.batch,
+                    game.fontButton,
+                    game.layout,
+                    Color.BLACK,
+                    Button.BACK_STRING,
+                    (5 * game.camera.viewportWidth) / 6,
+                    game.partitionSize + ((2.7f * game.layout.height) / 4),
+                    0,
+                    1);
+        }
     }
 
     public void playMusic() {
@@ -582,7 +615,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
     }
 
     public void setUpNonFinalNonStaticData() {
-        promptIncrease = 1.07f;
+        promptIncrease = 1.03f;
         helpInputGirth = game.camera.viewportWidth / 16;
         promptShape = new Shape(MathUtils.random(Shape.NONAGON),
                 INIT_PROMPT_RADIUS,

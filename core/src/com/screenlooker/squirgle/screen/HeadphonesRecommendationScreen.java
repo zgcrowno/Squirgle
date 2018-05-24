@@ -21,8 +21,8 @@ public class HeadphonesRecommendationScreen implements Screen, InputProcessor {
     private final static String WARNING = "SUGGESTION:";
     private final static String WARNING_CONTENT = "FOR MAXIMUM ENJOYMENT, WE RECOMMEND PLAYING THIS GAME WITH HEADPHONES.";
 
-    public final static float FONT_WARNING_SIZE_MULTIPLIER = 80;
-    public final static float FONT_WARNING_CONTENT_SIZE_MULTIPLIER = 40;
+    private float fontWarningSizeDivisor = 10;
+    private float fontWarningContentSizeDivisor = 30;
 
     private long startTime;
     private Color veilColor;
@@ -39,8 +39,11 @@ public class HeadphonesRecommendationScreen implements Screen, InputProcessor {
         this.veilColor = Color.BLACK;
         this.veilOpacity = 1;
 
-        game.setUpFontWarning(MathUtils.round(game.ASPECT_RATIO * ((1920 / 1080) * FONT_WARNING_SIZE_MULTIPLIER) / (1920 / 1080))); //Using 1920 / 1080 because that's the OG resolution--the one for which I originally developed--and I wish to scale it for other devices.
-        game.setUpFontWarningContent(MathUtils.round(game.ASPECT_RATIO * ((1920 / 1080) * FONT_WARNING_CONTENT_SIZE_MULTIPLIER) / (1920 / 1080))); //Using 1920 / 1080 because that's the OG resolution--the one for which I originally developed--and I wish to scale it for other devices.
+        fontWarningSizeDivisor = 10;
+        fontWarningContentSizeDivisor = game.widthGreater ? 30 : 20;
+
+        game.setUpFontWarning(MathUtils.round(game.camera.viewportWidth / fontWarningSizeDivisor));
+        game.setUpFontWarningContent(MathUtils.round(game.camera.viewportWidth / fontWarningContentSizeDivisor));
 
         warningLabelStyle = new Label.LabelStyle();
         warningLabelStyle.font = game.fontWarning;

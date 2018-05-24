@@ -1,0 +1,3458 @@
+New Squirgle tutorial idea:
+-No text "box". Instead there will be a text header above the prompt shape, and more instructional text below it.
+
+Squirgle tutorial text:
+-Phase 1:
+	-Header: Welcome to the SQUIRGLE tutorial!
+	-Footer: Tap/click anywhere to begin
+-Phase 2:
+	-Header: That shape's your HAND
+	-Footer: Tap/click anywhere to continue
+-Phase 3:
+	-Header: On the right's your PAUSE button
+	-Footer: Tap/click anywhere to continue
+-Phase 4:
+	-Header: That new button's a POINT INPUT
+	-Footer: Press it
+-Phase 5:
+	-Header: Your INPUTS change your HAND
+	-Footer: Add another POINT
+-Phase 6:
+	-Header: Killin' it
+	-Footer: Keep adding POINTS
+-Phase 7:
+	-Header: Looks like your HAND ROLLED OVER to a smaller shape
+	-Footer: Tap/click anywhere to continue
+-Phase 8:
+	-Header: Seems you're in a BASE of [BASE number], or [name of BASE]
+	-Footer: Tap/click anywhere to continue
+-Phase 9:
+	-Header: You can't make your HAND bigger than your BASE!
+	-Footer: Tap/click anywhere to continue
+-Phase 10:
+	-Header: So your HAND ROLLS OVER when it surpasses [name of BASE]
+	-Footer: Tap/click anywhere to continue
+-Phase 11:
+	-Header: Speaking of [name of BASE], you're ready for all the INPUTS
+	-Footer: Add a LINE
+-Phase 12:
+	-Header: POINT + LINE = TRIANGLE. Easy
+	-Footer: Make a SQUARE
+-Phase 13:
+	-Header: Bravo! Let's see if you can get this one.
+	-Footer: Make a LINE
+-Phase 14:
+	-Header: Fantastic. Making use of the ROLLOVER. I like it
+	-Footer: Make a LINE...again
+-phase 15:
+	-Header: Yep, adding your BASE makes any shape from itself
+	-Footer: Tap/click anywhere to continue
+-Phase 16:
+	-Header: Time for a new element. Those shapes are your TARGETS
+	-Footer: Tap/click anywhere to continue
+-Phase 17:
+	-Header: Glowing things tend to be important in games
+	-Footer: Make the glowing TARGET from your HAND
+-Phase 18:
+	-Header: The TARGET you just made is now next to your HAND
+	-Footer: Tap/click anywhere to continue
+-Phase 19:
+	-Header: This gives you a good idea of your performance
+	-Footer: Tap/click anywhere to continue
+-Phase 20:
+	-Header: Looks like there's one more glowing TARGET, though
+	-Footer: Make the other glowing TARGET from your HAND
+-Phase 21:
+	-Header: Awesome! making both of your TARGETS increased your SCORE
+	-Footer: Get a SCORE of 3
+-Phase 22:
+	-Header: Notice that your SCORE jumped from 1 to 3
+	-Footer: Tap/click anywhere to continue
+-Phase 23:
+	-Header: This is because your SCORE increases by your MULTIPLIER
+	-Footer: Tap/click anywhere to continue
+-Phase 24:
+	-Header: Your MULTIPLIER is the number underneath your SCORE ([MULTIPLIER value with "X"])
+	-Footer: Tap/click anywhere to continue
+-Phase 25:
+	-Header: Your MULTIPLIER also increases after making two targets
+	-Footer: Get a MULTIPLIER of 5
+-Phase 26:
+	-Header: Brilliant! Note that your MULTIPLIER can't exceed 5
+	-Footer: Tap/click anywhere to continue
+-Phase 27:
+	-Header: I think we can loosen the reins a bit
+	-Footer: Reach a SCORE of 30. Mistakes are now permitted
+-Phase 28:
+	-Header: Wonderful! Remember that incorrect INPUTS lower your SCORE and MULTIPLIER
+	-Footer: Tap/click anywhere to continue
+-Phase 29:
+	-Header: Last lesson! See those white lines to the left?
+	-Footer: Tap/click anywhere to continue
+-Phase 30:
+	-Header: Those are your TIMELINES. When they deplete, it's GAME OVER
+	-Footer: Tap/click anywhere to continue
+-Phase 31:
+	-Header: While we're still learning, only the first TIMELINE depletes
+	-Footer: Tap/click anywhere to continue
+-Phase 32:
+	-Header: Now, note the color SWATCHES next to the TIMELINES
+	-Footer: Tap/click anywhere to continue
+-Phase 33:
+	-Header: They change the color of the screen
+	-Footer: Tap/click anywhere to continue
+-Phase 34:
+	-Header: I promise this is important
+	-Footer: Make your first TARGET from your HAND
+-Phase 35:
+	-Header: When made, a TARGET's color is set to the screen's
+	-Footer: Make your second TARGET the same color as the first
+-Phase 36:
+	-Header: Make both TARGETS the same color, and your next TARGETS are a SQUIRGLE!
+	-Footer: Tap/click anywhere to continue
+-Phase 37:
+	-Header: SQUIRGLES are special TARGETS with special benefits
+	-Footer: Make both TARGETS in the SQUIRGLE from your HAND
+-Phase 38:
+	-Header: Making a SQUIRGLE from your HAND resets your TIMELINES!
+	-Footer: Tap/click anywhere to continue
+-Phase 39:
+	-Header: Resetting your TIMELINES gives you more time to play.
+	-Footer: Tap/click anywhere to continue
+-Phase 40:
+	-Header: More time = higher score
+	-Footer: Tap/click anywhere to continue
+-Phase 41:
+	-Header: Get a SCORE of [score to unlock base] in SQUIRGLE mode to unlock another BASE
+	-Footer: Tap/click anywhere to continue
+-Phase 42:
+	-Header: You have to be playing with your largest unlocked BASE, though
+	-Footer: Tap/click anywhere to continue
+-Phase 43:
+	-Header: You can always play this or other tutorials again
+	-Footer: Tap/click anywhere to continue
+-Phase 44:
+	-Header: They can be found under the main menu's [?] section
+	-Footer: Tap/click anywhere to continue
+-Phase 45:
+	-Header: I think you're ready to SQUIRGLE unfettered. Good luck!
+	-Footer: Tap/click anywhere to SQUIRGLE without restrictions 
+	
+Battle tutorial text:
+-Phase 1:
+	-Header: Welcome to the BATTLE tutorial!
+	-Footer: Tap/click anywhere to begin
+-Phase 2:
+	-Header: That shape's your HAND
+	-Footer: Tap/click anywhere to continue
+-Phase 3:
+	-Header: That top shape's your OPPONENT'S HAND
+	-Footer: Tap/click anywhere to continue
+-Phase 4 :
+	-Header: In the lower right's your PAUSE button
+	-Footer: Tap/click anywhere to continue
+-Phase 5:
+	-Header: That new button's a POINT INPUT
+	-Footer: Press it
+-Phase 6:
+	-Header: Your INPUTS change your HAND
+	-Footer: Add another POINT
+-Phase 7:
+	-Header: Killin' it
+	-Footer: Keep adding POINTS
+-Phase 8:
+	-Header: Looks like your HAND ROLLED OVER to a smaller shape
+	-Footer: Tap/click anywhere to continue
+-Phase 9
+	-Header: Seems you're in a BASE of [BASE number], or [name of BASE]
+	-Footer: Tap/click anywhere to continue
+-Phase 10:
+	-Header: You can't make your HAND bigger than your BASE!
+	-Footer: Tap/click anywhere to continue
+-Phase 11:
+	-Header: So your HAND ROLLS OVER when it surpasses [name of BASE]
+	-Footer: Tap/click anywhere to continue
+-Phase 12:
+	-Header: Speaking of [name of BASE], you're ready for all the INPUTS
+	-Footer: Add a LINE
+-Phase 13:
+	-Header: POINT + LINE = TRIANGLE. Easy
+	-Footer: Make a SQUARE
+-Phase 14:
+	-Header: Bravo! Let's see if you can get this one.
+	-Footer: Make a LINE
+-Phase 15:
+	-Header: Fantastic. Making use of the ROLLOVER. I like it
+	-Footer: Make a LINE...again
+-phase 16:
+	-Header: Yep, adding your BASE makes any shape from itself
+	-Footer: Tap/click anywhere to continue
+-Phase 17:
+	-Header: Time for a new element. Those shapes are your TARGETS
+	-Footer: Tap/click anywhere to continue
+-Phase 18:
+	-Header: Glowing things tend to be important in games
+	-Footer: Make the glowing TARGET from your HAND
+-Phase 19:
+	-Header: The TARGET you just made is now next to your HAND
+	-Footer: Tap/click anywhere to continue
+-Phase 20:
+	-Header: This gives you a good idea of your performance
+	-Footer: Tap/click anywhere to continue
+-Phase 21:
+	-Header: Looks like there's one more glowing TARGET, though
+	-Footer: Make the other glowing TARGET from your HAND
+-Phase 22:
+	-Header: Awesome! making both of your TARGETS increased your OPPONENT'S BURST
+	-Footer: Tap/click anywhere to continue
+-Phase 23
+	-Header: The BURST meter is what determines victory in BATTLE
+	-Footer: Tap/click anywhere to continue
+-Phase 24:
+	-Header: If you fill up your OPPONENT'S BURST, you win!
+	-Footer: Tap/click anywhere to continue
+-Phase 25:
+	-Header: If your OPPONENT fills up your BURST, you lose...
+	-Footer: Tap/click anywhere to continue
+-Phase 26:
+	-Header: If time runs out, the player with the lowest BURST wins
+	-Footer: Tap/click anywhere to continue
+-Phase 27:
+	-Header: I think we can loosen the reins a bit
+	-Footer: Get your OPPONENT'S BURST to 5 notches. Mistakes are now permitted
+-Phase 28:
+	-Header: Wonderful! Remember that incorrect INPUTS actually increase YOUR BURST
+	-Footer: Tap/click anywhere to continue
+-Phase 29:
+	-Header: At this point in the tutorial, BURSTS can't exceed 5
+	-Footer: Tap/click anywhere to continue
+-Phase 30:
+	-Header: Last lesson! See those white lines to the left?
+	-Footer: Tap/click anywhere to continue
+-Phase 31:
+	-Header: Those are your TIMELINES. When they deplete, it's GAME OVER
+	-Footer: Tap/click anywhere to continue
+-Phase 32:
+	-Header: While we're still learning, only the first TIMELINE depletes
+	-Footer: Tap/click anywhere to continue
+-Phase 33:
+	-Header: Now, note the color SWATCHES next to the TIMELINES
+	-Footer: Tap/click anywhere to continue
+-Phase 34:
+	-Header: They change the color of the screen
+	-Footer: Tap/click anywhere to continue
+-Phase 35:
+	-Header: I promise this is important
+	-Footer: Make your first TARGET from your HAND
+-Phase 36:
+	-Header: When made, a TARGET's color is set to the screen's
+	-Footer: Make your second TARGET the same color as the first
+-Phase 37:
+	-Header: Make both TARGETS the same color, and your next TARGETS are a SQUIRGLE!
+	-Footer: Tap/click anywhere to continue
+-Phase 38:
+	-Header: SQUIRGLES are special TARGETS with special benefits
+	-Footer: Make both TARGETS in the SQUIRGLE from your HAND
+-Phase 39
+	-Header: Making a SQUIRGLE from your HAND increases your OPPONENT'S BURST by 3!
+	-Footer: Tap/click anywhere to continue
+-Phase 40:
+	-Header: And it also lowers your BURST by 5!
+	-Footer: Tap/click anywhere to continue
+-Phase 41:
+	-Header: SQUIRGLES can quickly turn the tide of a close BATTLE
+	-Footer: Tap/click anywhere to continue
+-Phase 42:
+	-Header: You can always play this or other tutorials again
+	-Footer: Tap/click anywhere to continue
+-Phase 43:
+	-Header: They can be found under the main menu's [?] section
+	-Footer: Tap/click anywhere to continue
+-Phase 44:
+	-Header: I think you're ready to BATTLE unfettered.
+	-Footer: Tap/click anywhere to continue
+-Phase 45:
+	-Header: After this point, your OPPONENT will play as well. Good luck!
+	-Footer: Tap/click anywhere to BATTLE your OPPONENT without restrictions
+	
+Time attack tutorial text:
+-Phase 1:
+	-Header: Welcome to the TIME ATTACK tutorial!
+	-Footer: Tap/click anywhere to begin
+-Phase 2:
+	-Header: That shape's your HAND
+	-Footer: Tap/click anywhere to continue
+-Phase 3:
+	-Header: On the right's your PAUSE button
+	-Footer: Tap/click anywhere to continue
+-Phase 4:
+	-Header: That new button's a POINT INPUT
+	-Footer: Press it
+-Phase 5:
+	-Header: Your INPUTS change your HAND
+	-Footer: Add another POINT
+-Phase 6:
+	-Header: Killin' it
+	-Footer: Keep adding POINTS
+-Phase 7:
+	-Header: Looks like your HAND ROLLED OVER to a smaller shape
+	-Footer: Tap/click anywhere to continue
+-Phase 8:
+	-Header: Seems your in a BASE of [BASE number], or [name of BASE]
+	-Footer: Tap/click anywhere to continue
+-Phase 9:
+	-Header: You can't make your HAND bigger than your BASE!
+	-Footer: Tap/click anywhere to continue
+-Phase 10:
+	-Header: So your HAND ROLLS OVER when it surpasses [name of BASE]
+	-Footer: Tap/click anywhere to continue
+-Phase 11:
+	-Header: Speaking of [name of BASE], you're ready for all the INPUTS
+	-Footer: Add a LINE
+-Phase 12:
+	-Header: POINT + LINE = TRIANGLE. Easy
+	-Footer: Make a SQUARE
+-Phase 13:
+	-Header: Bravo! Let's see if you can get this one.
+	-Footer: Make a LINE
+-Phase 14:
+	-Header: Fantastic. Making use of the ROLLOVER. I like it
+	-Footer: Make a LINE...again
+-phase 15:
+	-Header: Yep, adding your BASE makes any shape from itself
+	-Footer: Tap/click anywhere to continue
+-Phase 16:
+	-Header: Time for a new element. Those shapes are your TARGETS
+	-Footer: Tap/click anywhere to continue
+-Phase 17:
+	-Header: Glowing things tend to be important in games
+	-Footer: Make the glowing TARGET from your HAND
+-Phase 18:
+	-Header: The TARGET you just made is now next to your HAND
+	-Footer: Tap/click anywhere to continue
+-Phase 19:
+	-Header: This gives you a good idea of your performance
+	-Footer: Tap/click anywhere to continue
+-Phase 20:
+	-Header: Looks like there's one more glowing TARGET, though
+	-Footer: Make the other glowing TARGET from your HAND
+-Phase 21:
+	-Header: Awesome! making both of your TARGETS increased your SCORE
+	-Footer: Get a SCORE of 3
+-Phase 22:
+	-Header: Notice that your SCORE jumped from 1 to 3
+	-Footer: Tap/click anywhere to continue
+-Phase 23:
+	-Header: This is because your SCORE increases by your MULTIPLIER
+	-Footer: Tap/click anywhere to continue
+-Phase 24:
+	-Header: Your MULTIPLIER is the number underneath your SCORE ([MULTIPLIER value with "X"])
+	-Footer: Tap/click anywhere to continue
+-Phase 25:
+	-Header: Your MULTIPLIER also increases after making two targets
+	-Footer: Get a MULTIPLIER of 5
+-Phase 26:
+	-Header: Brilliant! Note that your MULTIPLIER can't exceed 5
+	-Footer: Tap/click anywhere to continue
+-Phase 27:
+	-Header: I think we can loosen the reins a bit
+	-Footer: Reach a SCORE of 30. Mistakes are now permitted
+-Phase 28:
+	-Header: Wonderful! Remember that incorrect INPUTS lower your SCORE and MULTIPLIER
+	-Footer: Tap/click anywhere to continue
+-Phase 29:
+	-Header: Last lesson! See those white lines to the left?
+	-Footer: Tap/click anywhere to continue
+-Phase 30:
+	-Header: Those are your TIMELINES. When they deplete, it's GAME OVER
+	-Footer: Tap/click anywhere to continue
+-Phase 31:
+	-Header: While we're still learning, only the first TIMELINE depletes
+	-Footer: Tap/click anywhere to continue
+-Phase 32:
+	-Header: In a full game, you set the play time
+	-Footer: Tap/click anywhere to continue
+-Phase 33:
+	-Header: The TIMELINES will then deplete after 1, 3, or 5 minutes
+	-Footeer: Tap/click anywhere to continue
+-Phase 34:
+	-Header: You can always play this or other tutorials again
+	-Footer: Tap/click anywhere to continue
+-Phase 35:
+	-Header: They can be found under the main menu's [?] section
+	-Footer: Tap/click anywhere to continue
+-Phase 36:
+	-Header: I think you're ready to TIME ATTACK unfettered. Good luck!
+	-Footer: Tap/click anywhere to TIME ATTACK without restrictions 
+	
+Time battle tutorial text:
+-Phase 1:
+	-Header: Welcome to the TIME BATTLE tutorial!
+	-Footer: Tap/click anywhere to begin
+-Phase 2:
+	-Header: That shape's your HAND
+	-Footer: Tap/click anywhere to continue
+-Phase 3:
+	-Header: That top shape's your OPPONENT'S HAND
+	-Footer: Tap/click anywhere to continue
+-Phase 4 :
+	-Header: In the lower right's your PAUSE button
+	-Footer: Tap/click anywhere to continue
+-Phase 5:
+	-Header: That new button's a POINT INPUT
+	-Footer: Press it
+-Phase 6:
+	-Header: Your INPUTS change your HAND
+	-Footer: Add another POINT
+-Phase 7:
+	-Header: Killin' it
+	-Footer: Keep adding POINTS
+-Phase 8:
+	-Header: Looks like your HAND ROLLED OVER to a smaller shape
+	-Footer: Tap/click anywhere to continue
+-Phase 9
+	-Header: Seems you're in a BASE of [BASE number], or [name of BASE]
+	-Footer: Tap/click anywhere to continue
+-Phase 10:
+	-Header: You can't make your HAND bigger than your BASE!
+	-Footer: Tap/click anywhere to continue
+-Phase 11:
+	-Header: So your HAND ROLLS OVER when it surpasses [name of BASE]
+	-Footer: Tap/click anywhere to continue
+-Phase 12:
+	-Header: Speaking of [name of BASE], you're ready for all the INPUTS
+	-Footer: Add a LINE
+-Phase 13:
+	-Header: POINT + LINE = TRIANGLE. Easy
+	-Footer: Make a SQUARE
+-Phase 14:
+	-Header: Bravo! Let's see if you can get this one.
+	-Footer: Make a LINE
+-Phase 15:
+	-Header: Fantastic. Making use of the ROLLOVER. I like it
+	-Footer: Make a LINE...again
+-phase 16:
+	-Header: Yep, adding your BASE makes any shape from itself
+	-Footer: Tap/click anywhere to continue
+-Phase 17:
+	-Header: Time for a new element. Those shapes are your TARGETS
+	-Footer: Tap/click anywhere to continue
+-Phase 18:
+	-Header: Glowing things tend to be important in games
+	-Footer: Make the glowing TARGET from your HAND
+-Phase 19:
+	-Header: The TARGET you just made is now next to your HAND
+	-Footer: Tap/click anywhere to continue
+-Phase 20:
+	-Header: This gives you a good idea of your performance
+	-Footer: Tap/click anywhere to continue
+-Phase 21:
+	-Header: Looks like there's one more glowing TARGET, though
+	-Footer: Make the other glowing TARGET from your HAND
+-Phase 22:
+	-Header: Awesome! making both of your TARGETS increased your SCORE
+	-Footer: Tap/click anywhere to continue
+-Phase 23
+	-Header: Your SCORE is what determines victory in TIME BATTLE
+	-Footer: Tap/click anywhere to continue
+-Phase 24:
+	-Header: When time runs out, your SCORE'S compared with your OPPONENT'S
+	-Footer: Tap/click anywhere to continue
+-Phase 25:
+	-Header: If your SCORE'S higher, you win
+	-Footer: Tap/click anywhere to continue
+-Phase 26:
+	-Header: If your SCORE'S lower, you lose
+	-Footer: Get a SCORE of 3
+-Phase 27:
+	-Header: Notice that your SCORE jumped from 1 to 3
+	-Footer: Tap/click anywhere to continue
+-Phase 28:
+	-Header: This is because your SCORE increases by your MULTIPLIER
+	-Footer: Tap/click anywhere to continue
+-Phase 29
+	-Header: Your MULTIPLIER is the number underneath your SCORE ([MULTIPLIER value with "X"])
+	-Footer: Tap/click anywhere to continue
+-Phase 30:
+	-Header: Your MULTIPLIER also increases after making two targets
+	-Footer: Get a MULTIPLIER of 5
+-Phase 31:
+	-Header: Brilliant! Note that your MULTIPLIER can't exceed 5
+	-Footer: Tap/click anywhere to continue
+-Phase 32:
+	-Header: I think we can loosen the reins a bit
+	-Footer: Reach a SCORE of 30. Mistakes are now permitted
+-Phase 33:
+	-Header: Wonderful! Remember that incorrect INPUTS lower your SCORE and MULTIPLIER
+	-Footer: Tap/click anywhere to continue
+-Phase 34:
+	-Header: Last lesson! See those white lines to the left?
+	-Footer: Tap/click anywhere to continue
+-Phase 35:
+	-Header: Those are your TIMELINES. When they deplete, it's GAME OVER
+	-Footer: Tap/click anywhere to continue
+-Phase 36:
+	-Header: While we're still learning, only the first TIMELINE depletes
+	-Footer: Tap/click anywhere to continue
+-Phase 37:
+	-Header: In a full game, you set the play time
+	-Footer: Tap/click anywhere to continue
+-Phase 38:
+	-Header: The TIMELINES will then deplete after 1, 3, or 5 minutes
+	-Footeer: Tap/click anywhere to continue
+-Phase 39:
+	-Header: You can always play this or other tutorials again
+	-Footer: Tap/click anywhere to continue
+-Phase 40:
+	-Header: They can be found under the main menu's [?] section
+	-Footer: Tap/click anywhere to continue
+-Phase 41:
+	-Header: I think you're ready to TIME BATTLE unfettered.
+	-Footer: Tap/click anywhere to continue
+-Phase 42:
+	-Header: After this point, your OPPONENT will play as well. Good luck!
+	-Footer: Tap/click anywhere to TIME BATTLE your OPPONENT without restrictions
+	
+Tutorial design
+	public static int SHOW_NO_PLAYER_INPUTS = 0
+	public static int SHOW_PLAYER_POINT_INPUT = 1
+	public static int SHOW_ALL_PLAYER_INPUTS = 2
+	
+	public static String TAP = "Tap"
+	public static String CLICK = "Click"
+
+	int numPhases
+	int phase
+	int gameplayType
+	int showPlayerInputs
+	
+	boolean correctInput
+	
+	String tapOrClick
+	
+	Label.LabelStyle labelStyle
+	Label headerLabel
+	Label footerLabel
+	
+	String squirgleHeaderCorrectPhase1
+	String squirgleHeaderCorrectPhase2
+	String squirgleHeaderCorrectPhase3
+	String squirgleHeaderCorrectPhase4
+	String squirgleHeaderCorrectPhase5
+	String squirgleHeaderCorrectPhase6
+	String squirgleHeaderCorrectPhase7
+	String squirgleHeaderCorrectPhase8
+	String squirgleHeaderCorrectPhase9
+	String squirgleHeaderCorrectPhase10
+	String squirgleHeaderCorrectPhase11
+	String squirgleHeaderCorrectPhase12
+	String squirgleHeaderCorrectPhase13
+	String squirgleHeaderCorrectPhase14
+	String squirgleHeaderCorrectPhase15
+	String squirgleHeaderCorrectPhase16
+	String squirgleHeaderCorrectPhase17
+	String squirgleHeaderCorrectPhase18
+	String squirgleHeaderCorrectPhase19
+	String squirgleHeaderCorrectPhase20
+	String squirgleHeaderCorrectPhase21
+	String squirgleHeaderCorrectPhase22
+	String squirgleHeaderCorrectPhase23
+	String squirgleHeaderCorrectPhase24
+	String squirgleHeaderCorrectPhase25
+	String squirgleHeaderCorrectPhase26
+	String squirgleHeaderCorrectPhase27
+	String squirgleHeaderCorrectPhase28
+	String squirgleHeaderCorrectPhase29
+	String squirgleHeaderCorrectPhase30
+	String squirgleHeaderCorrectPhase31
+	String squirgleHeaderCorrectPhase32
+	String squirgleHeaderCorrectPhase33
+	String squirgleHeaderCorrectPhase34
+	String squirgleHeaderCorrectPhase35
+	String squirgleHeaderCorrectPhase36
+	String squirgleHeaderCorrectPhase37
+	String squirgleHeaderCorrectPhase38
+	String squirgleHeaderCorrectPhase39
+	String squirgleHeaderCorrectPhase40
+	String squirgleHeaderCorrectPhase41
+	String squirgleHeaderCorrectPhase42
+	String squirgleHeaderCorrectPhase43
+	String squirgleHeaderCorrectPhase44
+	String squirgleHeaderCorrectPhase45
+	
+	String squirgleHeaderIncorrectPhase1
+	String squirgleHeaderIncorrectPhase2
+	String squirgleHeaderIncorrectPhase3
+	String squirgleHeaderIncorrectPhase4
+	String squirgleHeaderIncorrectPhase5
+	String squirgleHeaderIncorrectPhase6
+	String squirgleHeaderIncorrectPhase7
+	String squirgleHeaderIncorrectPhase8
+	String squirgleHeaderIncorrectPhase9
+	String squirgleHeaderIncorrectPhase10
+	String squirgleHeaderIncorrectPhase11
+	String squirgleHeaderIncorrectPhase12
+	String squirgleHeaderIncorrectPhase13
+	String squirgleHeaderIncorrectPhase14
+	String squirgleHeaderIncorrectPhase15
+	String squirgleHeaderIncorrectPhase16
+	String squirgleHeaderIncorrectPhase17
+	String squirgleHeaderIncorrectPhase18
+	String squirgleHeaderIncorrectPhase19
+	String squirgleHeaderIncorrectPhase20
+	String squirgleHeaderIncorrectPhase21
+	String squirgleHeaderIncorrectPhase22
+	String squirgleHeaderIncorrectPhase23
+	String squirgleHeaderIncorrectPhase24
+	String squirgleHeaderIncorrectPhase25
+	String squirgleHeaderIncorrectPhase26
+	String squirgleHeaderIncorrectPhase27
+	String squirgleHeaderIncorrectPhase28
+	String squirgleHeaderIncorrectPhase29
+	String squirgleHeaderIncorrectPhase30
+	String squirgleHeaderIncorrectPhase31
+	String squirgleHeaderIncorrectPhase32
+	String squirgleHeaderIncorrectPhase33
+	String squirgleHeaderIncorrectPhase34
+	String squirgleHeaderIncorrectPhase35
+	String squirgleHeaderIncorrectPhase36
+	String squirgleHeaderIncorrectPhase37
+	String squirgleHeaderIncorrectPhase38
+	String squirgleHeaderIncorrectPhase39
+	String squirgleHeaderIncorrectPhase40
+	String squirgleHeaderIncorrectPhase41
+	String squirgleHeaderIncorrectPhase42
+	String squirgleHeaderIncorrectPhase43
+	String squirgleHeaderIncorrectPhase44
+	String squirgleHeaderIncorrectPhase45
+	
+	String squirgleFooterCorrectPhase1
+	String squirgleFooterCorrectPhase2
+	String squirgleFooterCorrectPhase3
+	String squirgleFooterCorrectPhase4
+	String squirgleFooterCorrectPhase5
+	String squirgleFooterCorrectPhase6
+	String squirgleFooterCorrectPhase7
+	String squirgleFooterCorrectPhase8
+	String squirgleFooterCorrectPhase9
+	String squirgleFooterCorrectPhase10
+	String squirgleFooterCorrectPhase11
+	String squirgleFooterCorrectPhase12
+	String squirgleFooterCorrectPhase13
+	String squirgleFooterCorrectPhase14
+	String squirgleFooterCorrectPhase15
+	String squirgleFooterCorrectPhase16
+	String squirgleFooterCorrectPhase17
+	String squirgleFooterCorrectPhase18
+	String squirgleFooterCorrectPhase19
+	String squirgleFooterCorrectPhase20
+	String squirgleFooterCorrectPhase21
+	String squirgleFooterCorrectPhase22
+	String squirgleFooterCorrectPhase23
+	String squirgleFooterCorrectPhase24
+	String squirgleFooterCorrectPhase25
+	String squirgleFooterCorrectPhase26
+	String squirgleFooterCorrectPhase27
+	String squirgleFooterCorrectPhase28
+	String squirgleFooterCorrectPhase29
+	String squirgleFooterCorrectPhase30
+	String squirgleFooterCorrectPhase31
+	String squirgleFooterCorrectPhase32
+	String squirgleFooterCorrectPhase33
+	String squirgleFooterCorrectPhase34
+	String squirgleFooterCorrectPhase35
+	String squirgleFooterCorrectPhase36
+	String squirgleFooterCorrectPhase37
+	String squirgleFooterCorrectPhase38
+	String squirgleFooterCorrectPhase39
+	String squirgleFooterCorrectPhase40
+	String squirgleFooterCorrectPhase41
+	String squirgleFooterCorrectPhase42
+	String squirgleFooterCorrectPhase43
+	String squirgleFooterCorrectPhase44
+	String squirgleFooterCorrectPhase45
+	
+	String squirgleFooterIncorrectPhase1
+	String squirgleFooterIncorrectPhase2
+	String squirgleFooterIncorrectPhase3
+	String squirgleFooterIncorrectPhase4
+	String squirgleFooterIncorrectPhase5
+	String squirgleFooterIncorrectPhase6
+	String squirgleFooterIncorrectPhase7
+	String squirgleFooterIncorrectPhase8
+	String squirgleFooterIncorrectPhase9
+	String squirgleFooterIncorrectPhase10
+	String squirgleFooterIncorrectPhase11
+	String squirgleFooterIncorrectPhase12
+	String squirgleFooterIncorrectPhase13
+	String squirgleFooterIncorrectPhase14
+	String squirgleFooterIncorrectPhase15
+	String squirgleFooterIncorrectPhase16
+	String squirgleFooterIncorrectPhase17
+	String squirgleFooterIncorrectPhase18
+	String squirgleFooterIncorrectPhase19
+	String squirgleFooterIncorrectPhase20
+	String squirgleFooterIncorrectPhase21
+	String squirgleFooterIncorrectPhase22
+	String squirgleFooterIncorrectPhase23
+	String squirgleFooterIncorrectPhase24
+	String squirgleFooterIncorrectPhase25
+	String squirgleFooterIncorrectPhase26
+	String squirgleFooterIncorrectPhase27
+	String squirgleFooterIncorrectPhase28
+	String squirgleFooterIncorrectPhase29
+	String squirgleFooterIncorrectPhase30
+	String squirgleFooterIncorrectPhase31
+	String squirgleFooterIncorrectPhase32
+	String squirgleFooterIncorrectPhase33
+	String squirgleFooterIncorrectPhase34
+	String squirgleFooterIncorrectPhase35
+	String squirgleFooterIncorrectPhase36
+	String squirgleFooterIncorrectPhase37
+	String squirgleFooterIncorrectPhase38
+	String squirgleFooterIncorrectPhase39
+	String squirgleFooterIncorrectPhase40
+	String squirgleFooterIncorrectPhase41
+	String squirgleFooterIncorrectPhase42
+	String squirgleFooterIncorrectPhase43
+	String squirgleFooterIncorrectPhase44
+	String squirgleFooterIncorrectPhase45
+	
+	String battleHeaderCorrectPhase1
+	String battleHeaderCorrectPhase2
+	String battleHeaderCorrectPhase3
+	String battleHeaderCorrectPhase4
+	String battleHeaderCorrectPhase5
+	String battleHeaderCorrectPhase6
+	String battleHeaderCorrectPhase7
+	String battleHeaderCorrectPhase8
+	String battleHeaderCorrectPhase9
+	String battleHeaderCorrectPhase10
+	String battleHeaderCorrectPhase11
+	String battleHeaderCorrectPhase12
+	String battleHeaderCorrectPhase13
+	String battleHeaderCorrectPhase14
+	String battleHeaderCorrectPhase15
+	String battleHeaderCorrectPhase16
+	String battleHeaderCorrectPhase17
+	String battleHeaderCorrectPhase18
+	String battleHeaderCorrectPhase19
+	String battleHeaderCorrectPhase20
+	String battleHeaderCorrectPhase21
+	String battleHeaderCorrectPhase22
+	String battleHeaderCorrectPhase23
+	String battleHeaderCorrectPhase24
+	String battleHeaderCorrectPhase25
+	String battleHeaderCorrectPhase26
+	String battleHeaderCorrectPhase27
+	String battleHeaderCorrectPhase28
+	String battleHeaderCorrectPhase29
+	String battleHeaderCorrectPhase30
+	String battleHeaderCorrectPhase31
+	String battleHeaderCorrectPhase32
+	String battleHeaderCorrectPhase33
+	String battleHeaderCorrectPhase34
+	String battleHeaderCorrectPhase35
+	String battleHeaderCorrectPhase36
+	String battleHeaderCorrectPhase37
+	String battleHeaderCorrectPhase38
+	String battleHeaderCorrectPhase39
+	String battleHeaderCorrectPhase40
+	String battleHeaderCorrectPhase41
+	String battleHeaderCorrectPhase42
+	String battleHeaderCorrectPhase43
+	String battleHeaderCorrectPhase44
+	String battleHeaderCorrectPhase45
+	
+	String battleHeaderIncorrectPhase1
+	String battleHeaderIncorrectPhase2
+	String battleHeaderIncorrectPhase3
+	String battleHeaderIncorrectPhase4
+	String battleHeaderIncorrectPhase5
+	String battleHeaderIncorrectPhase6
+	String battleHeaderIncorrectPhase7
+	String battleHeaderIncorrectPhase8
+	String battleHeaderIncorrectPhase9
+	String battleHeaderIncorrectPhase10
+	String battleHeaderIncorrectPhase11
+	String battleHeaderIncorrectPhase12
+	String battleHeaderIncorrectPhase13
+	String battleHeaderIncorrectPhase14
+	String battleHeaderIncorrectPhase15
+	String battleHeaderIncorrectPhase16
+	String battleHeaderIncorrectPhase17
+	String battleHeaderIncorrectPhase18
+	String battleHeaderIncorrectPhase19
+	String battleHeaderIncorrectPhase20
+	String battleHeaderIncorrectPhase21
+	String battleHeaderIncorrectPhase22
+	String battleHeaderIncorrectPhase23
+	String battleHeaderIncorrectPhase24
+	String battleHeaderIncorrectPhase25
+	String battleHeaderIncorrectPhase26
+	String battleHeaderIncorrectPhase27
+	String battleHeaderIncorrectPhase28
+	String battleHeaderIncorrectPhase29
+	String battleHeaderIncorrectPhase30
+	String battleHeaderIncorrectPhase31
+	String battleHeaderIncorrectPhase32
+	String battleHeaderIncorrectPhase33
+	String battleHeaderIncorrectPhase34
+	String battleHeaderIncorrectPhase35
+	String battleHeaderIncorrectPhase36
+	String battleHeaderIncorrectPhase37
+	String battleHeaderIncorrectPhase38
+	String battleHeaderIncorrectPhase39
+	String battleHeaderIncorrectPhase40
+	String battleHeaderIncorrectPhase41
+	String battleHeaderIncorrectPhase42
+	String battleHeaderIncorrectPhase43
+	String battleHeaderIncorrectPhase44
+	String battleHeaderIncorrectPhase45
+	
+	String battleFooterCorrectPhase1
+	String battleFooterCorrectPhase2
+	String battleFooterCorrectPhase3
+	String battleFooterCorrectPhase4
+	String battleFooterCorrectPhase5
+	String battleFooterCorrectPhase6
+	String battleFooterCorrectPhase7
+	String battleFooterCorrectPhase8
+	String battleFooterCorrectPhase9
+	String battleFooterCorrectPhase10
+	String battleFooterCorrectPhase11
+	String battleFooterCorrectPhase12
+	String battleFooterCorrectPhase13
+	String battleFooterCorrectPhase14
+	String battleFooterCorrectPhase15
+	String battleFooterCorrectPhase16
+	String battleFooterCorrectPhase17
+	String battleFooterCorrectPhase18
+	String battleFooterCorrectPhase19
+	String battleFooterCorrectPhase20
+	String battleFooterCorrectPhase21
+	String battleFooterCorrectPhase22
+	String battleFooterCorrectPhase23
+	String battleFooterCorrectPhase24
+	String battleFooterCorrectPhase25
+	String battleFooterCorrectPhase26
+	String battleFooterCorrectPhase27
+	String battleFooterCorrectPhase28
+	String battleFooterCorrectPhase29
+	String battleFooterCorrectPhase30
+	String battleFooterCorrectPhase31
+	String battleFooterCorrectPhase32
+	String battleFooterCorrectPhase33
+	String battleFooterCorrectPhase34
+	String battleFooterCorrectPhase35
+	String battleFooterCorrectPhase36
+	String battleFooterCorrectPhase37
+	String battleFooterCorrectPhase38
+	String battleFooterCorrectPhase39
+	String battleFooterCorrectPhase40
+	String battleFooterCorrectPhase41
+	String battleFooterCorrectPhase42
+	String battleFooterCorrectPhase43
+	String battleFooterCorrectPhase44
+	String battleFooterCorrectPhase45
+	
+	String battleFooterIncorrectPhase1
+	String battleFooterIncorrectPhase2
+	String battleFooterIncorrectPhase3
+	String battleFooterIncorrectPhase4
+	String battleFooterIncorrectPhase5
+	String battleFooterIncorrectPhase6
+	String battleFooterIncorrectPhase7
+	String battleFooterIncorrectPhase8
+	String battleFooterIncorrectPhase9
+	String battleFooterIncorrectPhase10
+	String battleFooterIncorrectPhase11
+	String battleFooterIncorrectPhase12
+	String battleFooterIncorrectPhase13
+	String battleFooterIncorrectPhase14
+	String battleFooterIncorrectPhase15
+	String battleFooterIncorrectPhase16
+	String battleFooterIncorrectPhase17
+	String battleFooterIncorrectPhase18
+	String battleFooterIncorrectPhase19
+	String battleFooterIncorrectPhase20
+	String battleFooterIncorrectPhase21
+	String battleFooterIncorrectPhase22
+	String battleFooterIncorrectPhase23
+	String battleFooterIncorrectPhase24
+	String battleFooterIncorrectPhase25
+	String battleFooterIncorrectPhase26
+	String battleFooterIncorrectPhase27
+	String battleFooterIncorrectPhase28
+	String battleFooterIncorrectPhase29
+	String battleFooterIncorrectPhase30
+	String battleFooterIncorrectPhase31
+	String battleFooterIncorrectPhase32
+	String battleFooterIncorrectPhase33
+	String battleFooterIncorrectPhase34
+	String battleFooterIncorrectPhase35
+	String battleFooterIncorrectPhase36
+	String battleFooterIncorrectPhase37
+	String battleFooterIncorrectPhase38
+	String battleFooterIncorrectPhase39
+	String battleFooterIncorrectPhase40
+	String battleFooterIncorrectPhase41
+	String battleFooterIncorrectPhase42
+	String battleFooterIncorrectPhase43
+	String battleFooterIncorrectPhase44
+	String battleFooterIncorrectPhase45
+	
+	String timeAttackHeaderCorrectPhase1
+	String timeAttackHeaderCorrectPhase2
+	String timeAttackHeaderCorrectPhase3
+	String timeAttackHeaderCorrectPhase4
+	String timeAttackHeaderCorrectPhase5
+	String timeAttackHeaderCorrectPhase6
+	String timeAttackHeaderCorrectPhase7
+	String timeAttackHeaderCorrectPhase8
+	String timeAttackHeaderCorrectPhase9
+	String timeAttackHeaderCorrectPhase10
+	String timeAttackHeaderCorrectPhase11
+	String timeAttackHeaderCorrectPhase12
+	String timeAttackHeaderCorrectPhase13
+	String timeAttackHeaderCorrectPhase14
+	String timeAttackHeaderCorrectPhase15
+	String timeAttackHeaderCorrectPhase16
+	String timeAttackHeaderCorrectPhase17
+	String timeAttackHeaderCorrectPhase18
+	String timeAttackHeaderCorrectPhase19
+	String timeAttackHeaderCorrectPhase20
+	String timeAttackHeaderCorrectPhase21
+	String timeAttackHeaderCorrectPhase22
+	String timeAttackHeaderCorrectPhase23
+	String timeAttackHeaderCorrectPhase24
+	String timeAttackHeaderCorrectPhase25
+	String timeAttackHeaderCorrectPhase26
+	String timeAttackHeaderCorrectPhase27
+	String timeAttackHeaderCorrectPhase28
+	String timeAttackHeaderCorrectPhase29
+	String timeAttackHeaderCorrectPhase30
+	String timeAttackHeaderCorrectPhase31
+	String timeAttackHeaderCorrectPhase32
+	String timeAttackHeaderCorrectPhase33
+	String timeAttackHeaderCorrectPhase34
+	String timeAttackHeaderCorrectPhase35
+	String timeAttackHeaderCorrectPhase36
+	
+	String timeAttackHeaderIncorrectPhase1
+	String timeAttackHeaderIncorrectPhase2
+	String timeAttackHeaderIncorrectPhase3
+	String timeAttackHeaderIncorrectPhase4
+	String timeAttackHeaderIncorrectPhase5
+	String timeAttackHeaderIncorrectPhase6
+	String timeAttackHeaderIncorrectPhase7
+	String timeAttackHeaderIncorrectPhase8
+	String timeAttackHeaderIncorrectPhase9
+	String timeAttackHeaderIncorrectPhase10
+	String timeAttackHeaderIncorrectPhase11
+	String timeAttackHeaderIncorrectPhase12
+	String timeAttackHeaderIncorrectPhase13
+	String timeAttackHeaderIncorrectPhase14
+	String timeAttackHeaderIncorrectPhase15
+	String timeAttackHeaderIncorrectPhase16
+	String timeAttackHeaderIncorrectPhase17
+	String timeAttackHeaderIncorrectPhase18
+	String timeAttackHeaderIncorrectPhase19
+	String timeAttackHeaderIncorrectPhase20
+	String timeAttackHeaderIncorrectPhase21
+	String timeAttackHeaderIncorrectPhase22
+	String timeAttackHeaderIncorrectPhase23
+	String timeAttackHeaderIncorrectPhase24
+	String timeAttackHeaderIncorrectPhase25
+	String timeAttackHeaderIncorrectPhase26
+	String timeAttackHeaderIncorrectPhase27
+	String timeAttackHeaderIncorrectPhase28
+	String timeAttackHeaderIncorrectPhase29
+	String timeAttackHeaderIncorrectPhase30
+	String timeAttackHeaderIncorrectPhase31
+	String timeAttackHeaderIncorrectPhase32
+	String timeAttackHeaderIncorrectPhase33
+	String timeAttackHeaderIncorrectPhase34
+	String timeAttackHeaderIncorrectPhase35
+	String timeAttackHeaderIncorrectPhase36
+	
+	String timeAttackFooterCorrectPhase1
+	String timeAttackFooterCorrectPhase2
+	String timeAttackFooterCorrectPhase3
+	String timeAttackFooterCorrectPhase4
+	String timeAttackFooterCorrectPhase5
+	String timeAttackFooterCorrectPhase6
+	String timeAttackFooterCorrectPhase7
+	String timeAttackFooterCorrectPhase8
+	String timeAttackFooterCorrectPhase9
+	String timeAttackFooterCorrectPhase10
+	String timeAttackFooterCorrectPhase11
+	String timeAttackFooterCorrectPhase12
+	String timeAttackFooterCorrectPhase13
+	String timeAttackFooterCorrectPhase14
+	String timeAttackFooterCorrectPhase15
+	String timeAttackFooterCorrectPhase16
+	String timeAttackFooterCorrectPhase17
+	String timeAttackFooterCorrectPhase18
+	String timeAttackFooterCorrectPhase19
+	String timeAttackFooterCorrectPhase20
+	String timeAttackFooterCorrectPhase21
+	String timeAttackFooterCorrectPhase22
+	String timeAttackFooterCorrectPhase23
+	String timeAttackFooterCorrectPhase24
+	String timeAttackFooterCorrectPhase25
+	String timeAttackFooterCorrectPhase26
+	String timeAttackFooterCorrectPhase27
+	String timeAttackFooterCorrectPhase28
+	String timeAttackFooterCorrectPhase29
+	String timeAttackFooterCorrectPhase30
+	String timeAttackFooterCorrectPhase31
+	String timeAttackFooterCorrectPhase32
+	String timeAttackFooterCorrectPhase33
+	String timeAttackFooterCorrectPhase34
+	String timeAttackFooterCorrectPhase35
+	String timeAttackFooterCorrectPhase36
+	
+	String timeAttackFooterIncorrectPhase1
+	String timeAttackFooterIncorrectPhase2
+	String timeAttackFooterIncorrectPhase3
+	String timeAttackFooterIncorrectPhase4
+	String timeAttackFooterIncorrectPhase5
+	String timeAttackFooterIncorrectPhase6
+	String timeAttackFooterIncorrectPhase7
+	String timeAttackFooterIncorrectPhase8
+	String timeAttackFooterIncorrectPhase9
+	String timeAttackFooterIncorrectPhase10
+	String timeAttackFooterIncorrectPhase11
+	String timeAttackFooterIncorrectPhase12
+	String timeAttackFooterIncorrectPhase13
+	String timeAttackFooterIncorrectPhase14
+	String timeAttackFooterIncorrectPhase15
+	String timeAttackFooterIncorrectPhase16
+	String timeAttackFooterIncorrectPhase17
+	String timeAttackFooterIncorrectPhase18
+	String timeAttackFooterIncorrectPhase19
+	String timeAttackFooterIncorrectPhase20
+	String timeAttackFooterIncorrectPhase21
+	String timeAttackFooterIncorrectPhase22
+	String timeAttackFooterIncorrectPhase23
+	String timeAttackFooterIncorrectPhase24
+	String timeAttackFooterIncorrectPhase25
+	String timeAttackFooterIncorrectPhase26
+	String timeAttackFooterIncorrectPhase27
+	String timeAttackFooterIncorrectPhase28
+	String timeAttackFooterIncorrectPhase29
+	String timeAttackFooterIncorrectPhase30
+	String timeAttackFooterIncorrectPhase31
+	String timeAttackFooterIncorrectPhase32
+	String timeAttackFooterIncorrectPhase33
+	String timeAttackFooterIncorrectPhase34
+	String timeAttackFooterIncorrectPhase35
+	String timeAttackFooterIncorrectPhase36
+	
+	String timeBattleHeaderCorrectPhase1
+	String timeBattleHeaderCorrectPhase2
+	String timeBattleHeaderCorrectPhase3
+	String timeBattleHeaderCorrectPhase4
+	String timeBattleHeaderCorrectPhase5
+	String timeBattleHeaderCorrectPhase6
+	String timeBattleHeaderCorrectPhase7
+	String timeBattleHeaderCorrectPhase8
+	String timeBattleHeaderCorrectPhase9
+	String timeBattleHeaderCorrectPhase10
+	String timeBattleHeaderCorrectPhase11
+	String timeBattleHeaderCorrectPhase12
+	String timeBattleHeaderCorrectPhase13
+	String timeBattleHeaderCorrectPhase14
+	String timeBattleHeaderCorrectPhase15
+	String timeBattleHeaderCorrectPhase16
+	String timeBattleHeaderCorrectPhase17
+	String timeBattleHeaderCorrectPhase18
+	String timeBattleHeaderCorrectPhase19
+	String timeBattleHeaderCorrectPhase20
+	String timeBattleHeaderCorrectPhase21
+	String timeBattleHeaderCorrectPhase22
+	String timeBattleHeaderCorrectPhase23
+	String timeBattleHeaderCorrectPhase24
+	String timeBattleHeaderCorrectPhase25
+	String timeBattleHeaderCorrectPhase26
+	String timeBattleHeaderCorrectPhase27
+	String timeBattleHeaderCorrectPhase28
+	String timeBattleHeaderCorrectPhase29
+	String timeBattleHeaderCorrectPhase30
+	String timeBattleHeaderCorrectPhase31
+	String timeBattleHeaderCorrectPhase32
+	String timeBattleHeaderCorrectPhase33
+	String timeBattleHeaderCorrectPhase34
+	String timeBattleHeaderCorrectPhase35
+	String timeBattleHeaderCorrectPhase36
+	String timeBattleHeaderCorrectPhase37
+	String timeBattleHeaderCorrectPhase38
+	String timeBattleHeaderCorrectPhase39
+	String timeBattleHeaderCorrectPhase40
+	String timeBattleHeaderCorrectPhase41
+	String timeBattleHeaderCorrectPhase42
+	
+	String timeBattleHeaderIncorrectPhase1
+	String timeBattleHeaderIncorrectPhase2
+	String timeBattleHeaderIncorrectPhase3
+	String timeBattleHeaderIncorrectPhase4
+	String timeBattleHeaderIncorrectPhase5
+	String timeBattleHeaderIncorrectPhase6
+	String timeBattleHeaderIncorrectPhase7
+	String timeBattleHeaderIncorrectPhase8
+	String timeBattleHeaderIncorrectPhase9
+	String timeBattleHeaderIncorrectPhase10
+	String timeBattleHeaderIncorrectPhase11
+	String timeBattleHeaderIncorrectPhase12
+	String timeBattleHeaderIncorrectPhase13
+	String timeBattleHeaderIncorrectPhase14
+	String timeBattleHeaderIncorrectPhase15
+	String timeBattleHeaderIncorrectPhase16
+	String timeBattleHeaderIncorrectPhase17
+	String timeBattleHeaderIncorrectPhase18
+	String timeBattleHeaderIncorrectPhase19
+	String timeBattleHeaderIncorrectPhase20
+	String timeBattleHeaderIncorrectPhase21
+	String timeBattleHeaderIncorrectPhase22
+	String timeBattleHeaderIncorrectPhase23
+	String timeBattleHeaderIncorrectPhase24
+	String timeBattleHeaderIncorrectPhase25
+	String timeBattleHeaderIncorrectPhase26
+	String timeBattleHeaderIncorrectPhase27
+	String timeBattleHeaderIncorrectPhase28
+	String timeBattleHeaderIncorrectPhase29
+	String timeBattleHeaderIncorrectPhase30
+	String timeBattleHeaderIncorrectPhase31
+	String timeBattleHeaderIncorrectPhase32
+	String timeBattleHeaderIncorrectPhase33
+	String timeBattleHeaderIncorrectPhase34
+	String timeBattleHeaderIncorrectPhase35
+	String timeBattleHeaderIncorrectPhase36
+	String timeBattleHeaderIncorrectPhase37
+	String timeBattleHeaderIncorrectPhase38
+	String timeBattleHeaderIncorrectPhase39
+	String timeBattleHeaderIncorrectPhase40
+	String timeBattleHeaderIncorrectPhase41
+	String timeBattleHeaderIncorrectPhase42
+	
+	String timeBattleFooterCorrectPhase1
+	String timeBattleFooterCorrectPhase2
+	String timeBattleFooterCorrectPhase3
+	String timeBattleFooterCorrectPhase4
+	String timeBattleFooterCorrectPhase5
+	String timeBattleFooterCorrectPhase6
+	String timeBattleFooterCorrectPhase7
+	String stimeBattleFooterCorrectPhase8
+	String timeBattleFooterCorrectPhase9
+	String timeBattleFooterCorrectPhase10
+	String timeBattleFooterCorrectPhase11
+	String timeBattleFooterCorrectPhase12
+	String timeBattleFooterCorrectPhase13
+	String timeBattleFooterCorrectPhase14
+	String timeBattleFooterCorrectPhase15
+	String timeBattleFooterCorrectPhase16
+	String timeBattleFooterCorrectPhase17
+	String timeBattleFooterCorrectPhase18
+	String timeBattleFooterCorrectPhase19
+	String timeBattleFooterCorrectPhase20
+	String timeBattleFooterCorrectPhase21
+	String timeBattleFooterCorrectPhase22
+	String timeBattleFooterCorrectPhase23
+	String timeBattleFooterCorrectPhase24
+	String timeBattleFooterCorrectPhase25
+	String timeBattleFooterCorrectPhase26
+	String timeBattleFooterCorrectPhase27
+	String timeBattleFooterCorrectPhase28
+	String timeBattleFooterCorrectPhase29
+	String timeBattleFooterCorrectPhase30
+	String timeBattleFooterCorrectPhase31
+	String timeBattleFooterCorrectPhase32
+	String timeBattleFooterCorrectPhase33
+	String timeBattleFooterCorrectPhase34
+	String timeBattleFooterCorrectPhase35
+	String timeBattleFooterCorrectPhase36
+	String timeBattleFooterCorrectPhase37
+	String timeBattleFooterCorrectPhase38
+	String timeBattleFooterCorrectPhase39
+	String timeBattleFooterCorrectPhase40
+	String timeBattleFooterCorrectPhase41
+	String timeBattleFooterCorrectPhase42
+	
+	String timeBattleFooterIncorrectPhase1
+	String timeBattleFooterIncorrectPhase2
+	String timeBattleFooterIncorrectPhase3
+	String timeBattleFooterIncorrectPhase4
+	String timeBattleFooterIncorrectPhase5
+	String timeBattleFooterIncorrectPhase6
+	String timeBattleFooterIncorrectPhase7
+	String timeBattleFooterIncorrectPhase8
+	String timeBattleFooterIncorrectPhase9
+	String timeBattleFooterIncorrectPhase10
+	String timeBattleFooterIncorrectPhase11
+	String timeBattleFooterIncorrectPhase12
+	String timeBattleFooterIncorrectPhase13
+	String timeBattleFooterIncorrectPhase14
+	String timeBattleFooterIncorrectPhase15
+	String timeBattleFooterIncorrectPhase16
+	String timeBattleFooterIncorrectPhase17
+	String timeBattleFooterIncorrectPhase18
+	String timeBattleFooterIncorrectPhase19
+	String timeBattleFooterIncorrectPhase20
+	String timeBattleFooterIncorrectPhase21
+	String timeBattleFooterIncorrectPhase22
+	String timeBattleFooterIncorrectPhase23
+	String timeBattleFooterIncorrectPhase24
+	String timeBattleFooterIncorrectPhase25
+	String timeBattleFooterIncorrectPhase26
+	String timeBattleFooterIncorrectPhase27
+	String timeBattleFooterIncorrectPhase28
+	String timeBattleFooterIncorrectPhase29
+	String timeBattleFooterIncorrectPhase30
+	String timeBattleFooterIncorrectPhase31
+	String timeBattleFooterIncorrectPhase32
+	String timeBattleFooterIncorrectPhase33
+	String timeBattleFooterIncorrectPhase34
+	String timeBattleFooterIncorrectPhase35
+	String timeBattleFooterIncorrectPhase36
+	String timeBattleFooterIncorrectPhase37
+	String timeBattleFooterIncorrectPhase38
+	String timeBattleFooterIncorrectPhase39
+	String timeBattleFooterIncorrectPhase40
+	String timeBattleFooterIncorrectPhase41
+	String timeBattleFooterIncorrectPhase42
+	
+	List<String> squirgleHeaderAndFooterCorrectPhase1
+	List<String> squirgleHeaderAndFooterCorrectPhase2
+	List<String> squirgleHeaderAndFooterCorrectPhase3
+	List<String> squirgleHeaderAndFooterCorrectPhase4
+	List<String> squirgleHeaderAndFooterCorrectPhase5
+	List<String> squirgleHeaderAndFooterCorrectPhase6
+	List<String> squirgleHeaderAndFooterCorrectPhase7
+	List<String> squirgleHeaderAndFooterCorrectPhase8
+	List<String> squirgleHeaderAndFooterCorrectPhase9
+	List<String> squirgleHeaderAndFooterCorrectPhase10
+	List<String> squirgleHeaderAndFooterCorrectPhase11
+	List<String> squirgleHeaderAndFooterCorrectPhase12
+	List<String> squirgleHeaderAndFooterCorrectPhase13
+	List<String> squirgleHeaderAndFooterCorrectPhase14
+	List<String> squirgleHeaderAndFooterCorrectPhase15
+	List<String> squirgleHeaderAndFooterCorrectPhase16
+	List<String> squirgleHeaderAndFooterCorrectPhase17
+	List<String> squirgleHeaderAndFooterCorrectPhase18
+	List<String> squirgleHeaderAndFooterCorrectPhase19
+	List<String> squirgleHeaderAndFooterCorrectPhase20
+	List<String> squirgleHeaderAndFooterCorrectPhase21
+	List<String> squirgleHeaderAndFooterCorrectPhase22
+	List<String> squirgleHeaderAndFooterCorrectPhase23
+	List<String> squirgleHeaderAndFooterCorrectPhase24
+	List<String> squirgleHeaderAndFooterCorrectPhase25
+	List<String> squirgleHeaderAndFooterCorrectPhase26
+	List<String> squirgleHeaderAndFooterCorrectPhase27
+	List<String> squirgleHeaderAndFooterCorrectPhase28
+	List<String> squirgleHeaderAndFooterCorrectPhase29
+	List<String> squirgleHeaderAndFooterCorrectPhase30
+	List<String> squirgleHeaderAndFooterCorrectPhase31
+	List<String> squirgleHeaderAndFooterCorrectPhase32
+	List<String> squirgleHeaderAndFooterCorrectPhase33
+	List<String> squirgleHeaderAndFooterCorrectPhase34
+	List<String> squirgleHeaderAndFooterCorrectPhase35
+	List<String> squirgleHeaderAndFooterCorrectPhase36
+	List<String> squirgleHeaderAndFooterCorrectPhase37
+	List<String> squirgleHeaderAndFooterCorrectPhase38
+	List<String> squirgleHeaderAndFooterCorrectPhase39
+	List<String> squirgleHeaderAndFooterCorrectPhase40
+	List<String> squirgleHeaderAndFooterCorrectPhase41
+	List<String> squirgleHeaderAndFooterCorrectPhase42
+	List<String> squirgleHeaderAndFooterCorrectPhase43
+	List<String> squirgleHeaderAndFooterCorrectPhase44
+	List<String> squirgleHeaderAndFooterCorrectPhase45
+	
+	List<String> squirgleHeaderAndFooterIncorrectPhase1
+	List<String> squirgleHeaderAndFooterIncorrectPhase2
+	List<String> squirgleHeaderAndFooterIncorrectPhase3
+	List<String> squirgleHeaderAndFooterIncorrectPhase4
+	List<String> squirgleHeaderAndFooterIncorrectPhase5
+	List<String> squirgleHeaderAndFooterIncorrectPhase6
+	List<String> squirgleHeaderAndFooterIncorrectPhase7
+	List<String> squirgleHeaderAndFooterIncorrectPhase8
+	List<String> squirgleHeaderAndFooterIncorrectPhase9
+	List<String> squirgleHeaderAndFooterIncorrectPhase10
+	List<String> squirgleHeaderAndFooterIncorrectPhase11
+	List<String> squirgleHeaderAndFooterIncorrectPhase12
+	List<String> squirgleHeaderAndFooterIncorrectPhase13
+	List<String> squirgleHeaderAndFooterIncorrectPhase14
+	List<String> squirgleHeaderAndFooterIncorrectPhase15
+	List<String> squirgleHeaderAndFooterIncorrectPhase16
+	List<String> squirgleHeaderAndFooterIncorrectPhase17
+	List<String> squirgleHeaderAndFooterIncorrectPhase18
+	List<String> squirgleHeaderAndFooterIncorrectPhase19
+	List<String> squirgleHeaderAndFooterIncorrectPhase20
+	List<String> squirgleHeaderAndFooterIncorrectPhase21
+	List<String> squirgleHeaderAndFooterIncorrectPhase22
+	List<String> squirgleHeaderAndFooterIncorrectPhase23
+	List<String> squirgleHeaderAndFooterIncorrectPhase24
+	List<String> squirgleHeaderAndFooterIncorrectPhase25
+	List<String> squirgleHeaderAndFooterIncorrectPhase26
+	List<String> squirgleHeaderAndFooterIncorrectPhase27
+	List<String> squirgleHeaderAndFooterIncorrectPhase28
+	List<String> squirgleHeaderAndFooterIncorrectPhase29
+	List<String> squirgleHeaderAndFooterIncorrectPhase30
+	List<String> squirgleHeaderAndFooterIncorrectPhase31
+	List<String> squirgleHeaderAndFooterIncorrectPhase32
+	List<String> squirgleHeaderAndFooterIncorrectPhase33
+	List<String> squirgleHeaderAndFooterIncorrectPhase34
+	List<String> squirgleHeaderAndFooterIncorrectPhase35
+	List<String> squirgleHeaderAndFooterIncorrectPhase36
+	List<String> squirgleHeaderAndFooterIncorrectPhase37
+	List<String> squirgleHeaderAndFooterIncorrectPhase38
+	List<String> squirgleHeaderAndFooterIncorrectPhase39
+	List<String> squirgleHeaderAndFooterIncorrectPhase40
+	List<String> squirgleHeaderAndFooterIncorrectPhase41
+	List<String> squirgleHeaderAndFooterIncorrectPhase42
+	List<String> squirgleHeaderAndFooterIncorrectPhase43
+	List<String> squirgleHeaderAndFooterIncorrectPhase44
+	List<String> squirgleHeaderAndFooterIncorrectPhase45
+	
+	List<String> battleHeaderAndFooterCorrectPhase1
+	List<String> battleHeaderAndFooterCorrectPhase2
+	List<String> battleHeaderAndFooterCorrectPhase3
+	List<String> battleHeaderAndFooterCorrectPhase4
+	List<String> battleHeaderAndFooterCorrectPhase5
+	List<String> battleHeaderAndFooterCorrectPhase6
+	List<String> battleHeaderAndFooterCorrectPhase7
+	List<String> battleHeaderAndFooterCorrectPhase8
+	List<String> battleHeaderAndFooterCorrectPhase9
+	List<String> battleHeaderAndFooterCorrectPhase10
+	List<String> battleHeaderAndFooterCorrectPhase11
+	List<String> battleHeaderAndFooterCorrectPhase12
+	List<String> battleHeaderAndFooterCorrectPhase13
+	List<String> battleHeaderAndFooterCorrectPhase14
+	List<String> battleHeaderAndFooterCorrectPhase15
+	List<String> battleHeaderAndFooterCorrectPhase16
+	List<String> battleHeaderAndFooterCorrectPhase17
+	List<String> battleHeaderAndFooterCorrectPhase18
+	List<String> battleHeaderAndFooterCorrectPhase19
+	List<String> battleHeaderAndFooterCorrectPhase20
+	List<String> battleHeaderAndFooterCorrectPhase21
+	List<String> battleHeaderAndFooterCorrectPhase22
+	List<String> battleHeaderAndFooterCorrectPhase23
+	List<String> battleHeaderAndFooterCorrectPhase24
+	List<String> battleHeaderAndFooterCorrectPhase25
+	List<String> battleHeaderAndFooterCorrectPhase26
+	List<String> battleHeaderAndFooterCorrectPhase27
+	List<String> battleHeaderAndFooterCorrectPhase28
+	List<String> battleHeaderAndFooterCorrectPhase29
+	List<String> battleHeaderAndFooterCorrectPhase30
+	List<String> battleHeaderAndFooterCorrectPhase31
+	List<String> battleHeaderAndFooterCorrectPhase32
+	List<String> battleHeaderAndFooterCorrectPhase33
+	List<String> battleHeaderAndFooterCorrectPhase34
+	List<String> battleHeaderAndFooterCorrectPhase35
+	List<String> battleHeaderAndFooterCorrectPhase36
+	List<String> battleHeaderAndFooterCorrectPhase37
+	List<String> battleHeaderAndFooterCorrectPhase38
+	List<String> battleHeaderAndFooterCorrectPhase39
+	List<String> battleHeaderAndFooterCorrectPhase40
+	List<String> battleHeaderAndFooterCorrectPhase41
+	List<String> battleHeaderAndFooterCorrectPhase42
+	List<String> battleHeaderAndFooterCorrectPhase43
+	List<String> battleHeaderAndFooterCorrectPhase44
+	List<String> battleHeaderAndFooterCorrectPhase45
+	
+	List<String> battleHeaderAndFooterIncorrectPhase1
+	List<String> battleHeaderAndFooterIncorrectPhase2
+	List<String> battleHeaderAndFooterIncorrectPhase3
+	List<String> battleHeaderAndFooterIncorrectPhase4
+	List<String> battleHeaderAndFooterIncorrectPhase5
+	List<String> battleHeaderAndFooterIncorrectPhase6
+	List<String> battleHeaderAndFooterIncorrectPhase7
+	List<String> battleHeaderAndFooterIncorrectPhase8
+	List<String> battleHeaderAndFooterIncorrectPhase9
+	List<String> battleHeaderAndFooterIncorrectPhase10
+	List<String> battleHeaderAndFooterIncorrectPhase11
+	List<String> battleHeaderAndFooterIncorrectPhase12
+	List<String> battleHeaderAndFooterIncorrectPhase13
+	List<String> battleHeaderAndFooterIncorrectPhase14
+	List<String> battleHeaderAndFooterIncorrectPhase15
+	List<String> battleHeaderAndFooterIncorrectPhase16
+	List<String> battleHeaderAndFooterIncorrectPhase17
+	List<String> battleHeaderAndFooterIncorrectPhase18
+	List<String> battleHeaderAndFooterIncorrectPhase19
+	List<String> battleHeaderAndFooterIncorrectPhase20
+	List<String> battleHeaderAndFooterIncorrectPhase21
+	List<String> battleHeaderAndFooterIncorrectPhase22
+	List<String> battleHeaderAndFooterIncorrectPhase23
+	List<String> battleHeaderAndFooterIncorrectPhase24
+	List<String> battleHeaderAndFooterIncorrectPhase25
+	List<String> battleHeaderAndFooterIncorrectPhase26
+	List<String> battleHeaderAndFooterIncorrectPhase27
+	List<String> battleHeaderAndFooterIncorrectPhase28
+	List<String> battleHeaderAndFooterIncorrectPhase29
+	List<String> battleHeaderAndFooterIncorrectPhase30
+	List<String> battleHeaderAndFooterIncorrectPhase31
+	List<String> battleHeaderAndFooterIncorrectPhase32
+	List<String> battleHeaderAndFooterIncorrectPhase33
+	List<String> battleHeaderAndFooterIncorrectPhase34
+	List<String> battleHeaderAndFooterIncorrectPhase35
+	List<String> battleHeaderAndFooterIncorrectPhase36
+	List<String> battleHeaderAndFooterIncorrectPhase37
+	List<String> battleHeaderAndFooterIncorrectPhase38
+	List<String> battleHeaderAndFooterIncorrectPhase39
+	List<String> battleHeaderAndFooterIncorrectPhase40
+	List<String> battleHeaderAndFooterIncorrectPhase41
+	List<String> battleHeaderAndFooterIncorrectPhase42
+	List<String> battleHeaderAndFooterIncorrectPhase43
+	List<String> battleHeaderAndFooterIncorrectPhase44
+	List<String> battleHeaderAndFooterIncorrectPhase45
+	
+	List<String> timeAttackHeaderAndFooterCorrectPhase1
+	List<String> timeAttackHeaderAndFooterCorrectPhase2
+	List<String> timeAttackHeaderAndFooterCorrectPhase3
+	List<String> timeAttackHeaderAndFooterCorrectPhase4
+	List<String> timeAttackHeaderAndFooterCorrectPhase5
+	List<String> timeAttackHeaderAndFooterCorrectPhase6
+	List<String> timeAttackHeaderAndFooterCorrectPhase7
+	List<String> timeAttackHeaderAndFooterCorrectPhase8
+	List<String> timeAttackHeaderAndFooterCorrectPhase9
+	List<String> timeAttackHeaderAndFooterCorrectPhase10
+	List<String> timeAttackHeaderAndFooterCorrectPhase11
+	List<String> timeAttackHeaderAndFooterCorrectPhase12
+	List<String> timeAttackHeaderAndFooterCorrectPhase13
+	List<String> timeAttackHeaderAndFooterCorrectPhase14
+	List<String> timeAttackHeaderAndFooterCorrectPhase15
+	List<String> timeAttackHeaderAndFooterCorrectPhase16
+	List<String> timeAttackHeaderAndFooterCorrectPhase17
+	List<String> timeAttackHeaderAndFooterCorrectPhase18
+	List<String> timeAttackHeaderAndFooterCorrectPhase19
+	List<String> timeAttackHeaderAndFooterCorrectPhase20
+	List<String> timeAttackHeaderAndFooterCorrectPhase21
+	List<String> timeAttackHeaderAndFooterCorrectPhase22
+	List<String> timeAttackHeaderAndFooterCorrectPhase23
+	List<String> timeAttackHeaderAndFooterCorrectPhase24
+	List<String> timeAttackHeaderAndFooterCorrectPhase25
+	List<String> timeAttackHeaderAndFooterCorrectPhase26
+	List<String> timeAttackHeaderAndFooterCorrectPhase27
+	List<String> timeAttackHeaderAndFooterCorrectPhase28
+	List<String> timeAttackHeaderAndFooterCorrectPhase29
+	List<String> timeAttackHeaderAndFooterCorrectPhase30
+	List<String> timeAttackHeaderAndFooterCorrectPhase31
+	List<String> timeAttackHeaderAndFooterCorrectPhase32
+	List<String> timeAttackHeaderAndFooterCorrectPhase33
+	List<String> timeAttackHeaderAndFooterCorrectPhase34
+	List<String> timeAttackHeaderAndFooterCorrectPhase35
+	List<String> timeAttackHeaderAndFooterCorrectPhase36
+	
+	List<String> timeAttackHeaderAndFooterIncorrectPhase1
+	List<String> timeAttackHeaderAndFooterIncorrectPhase2
+	List<String> timeAttackHeaderAndFooterIncorrectPhase3
+	List<String> timeAttackHeaderAndFooterIncorrectPhase4
+	List<String> timeAttackHeaderAndFooterIncorrectPhase5
+	List<String> timeAttackHeaderAndFooterIncorrectPhase6
+	List<String> timeAttackHeaderAndFooterIncorrectPhase7
+	List<String> timeAttackHeaderAndFooterIncorrectPhase8
+	List<String> timeAttackHeaderAndFooterIncorrectPhase9
+	List<String> timeAttackHeaderAndFooterIncorrectPhase10
+	List<String> timeAttackHeaderAndFooterIncorrectPhase11
+	List<String> timeAttackHeaderAndFooterIncorrectPhase12
+	List<String> timeAttackHeaderAndFooterIncorrectPhase13
+	List<String> timeAttackHeaderAndFooterIncorrectPhase14
+	List<String> timeAttackHeaderAndFooterIncorrectPhase15
+	List<String> timeAttackHeaderAndFooterIncorrectPhase16
+	List<String> timeAttackHeaderAndFooterIncorrectPhase17
+	List<String> timeAttackHeaderAndFooterIncorrectPhase18
+	List<String> timeAttackHeaderAndFooterIncorrectPhase19
+	List<String> timeAttackHeaderAndFooterIncorrectPhase20
+	List<String> timeAttackHeaderAndFooterIncorrectPhase21
+	List<String> timeAttackHeaderAndFooterIncorrectPhase22
+	List<String> timeAttackHeaderAndFooterIncorrectPhase23
+	List<String> timeAttackHeaderAndFooterIncorrectPhase24
+	List<String> timeAttackHeaderAndFooterIncorrectPhase25
+	List<String> timeAttackHeaderAndFooterIncorrectPhase26
+	List<String> timeAttackHeaderAndFooterIncorrectPhase27
+	List<String> timeAttackHeaderAndFooterIncorrectPhase28
+	List<String> timeAttackHeaderAndFooterIncorrectPhase29
+	List<String> timeAttackHeaderAndFooterIncorrectPhase30
+	List<String> timeAttackHeaderAndFooterIncorrectPhase31
+	List<String> timeAttackHeaderAndFooterIncorrectPhase32
+	List<String> timeAttackHeaderAndFooterIncorrectPhase33
+	List<String> timeAttackHeaderAndFooterIncorrectPhase34
+	List<String> timeAttackHeaderAndFooterIncorrectPhase35
+	List<String> timeAttackHeaderAndFooterIncorrectPhase36
+	
+	List<String> timeBattleHeaderAndFooterCorrectPhase1
+	List<String> timeBattleHeaderAndFooterCorrectPhase2
+	List<String> timeBattleHeaderAndFooterCorrectPhase3
+	List<String> timeBattleHeaderAndFooterCorrectPhase4
+	List<String> timeBattleHeaderAndFooterCorrectPhase5
+	List<String> timeBattleHeaderAndFooterCorrectPhase6
+	List<String> timeBattleHeaderAndFooterCorrectPhase7
+	List<String> timeBattleHeaderAndFooterCorrectPhase8
+	List<String> timeBattleHeaderAndFooterCorrectPhase9
+	List<String> timeBattleHeaderAndFooterCorrectPhase10
+	List<String> timeBattleHeaderAndFooterCorrectPhase11
+	List<String> timeBattleHeaderAndFooterCorrectPhase12
+	List<String> timeBattleHeaderAndFooterCorrectPhase13
+	List<String> timeBattleHeaderAndFooterCorrectPhase14
+	List<String> timeBattleHeaderAndFooterCorrectPhase15
+	List<String> timeBattleHeaderAndFooterCorrectPhase16
+	List<String> timeBattleHeaderAndFooterCorrectPhase17
+	List<String> timeBattleHeaderAndFooterCorrectPhase18
+	List<String> timeBattleHeaderAndFooterCorrectPhase19
+	List<String> timeBattleHeaderAndFooterCorrectPhase20
+	List<String> timeBattleHeaderAndFooterCorrectPhase21
+	List<String> timeBattleHeaderAndFooterCorrectPhase22
+	List<String> timeBattleHeaderAndFooterCorrectPhase23
+	List<String> timeBattleHeaderAndFooterCorrectPhase24
+	List<String> timeBattleHeaderAndFooterCorrectPhase25
+	List<String> timeBattleHeaderAndFooterCorrectPhase26
+	List<String> timeBattleHeaderAndFooterCorrectPhase27
+	List<String> timeBattleHeaderAndFooterCorrectPhase28
+	List<String> timeBattleHeaderAndFooterCorrectPhase29
+	List<String> timeBattleHeaderAndFooterCorrectPhase30
+	List<String> timeBattleHeaderAndFooterCorrectPhase31
+	List<String> timeBattleHeaderAndFooterCorrectPhase32
+	List<String> timeBattleHeaderAndFooterCorrectPhase33
+	List<String> timeBattleHeaderAndFooterCorrectPhase34
+	List<String> timeBattleHeaderAndFooterCorrectPhase35
+	List<String> timeBattleHeaderAndFooterCorrectPhase36
+	List<String> timeBattleHeaderAndFooterCorrectPhase37
+	List<String> timeBattleHeaderAndFooterCorrectPhase38
+	List<String> timeBattleHeaderAndFooterCorrectPhase39
+	List<String> timeBattleHeaderAndFooterCorrectPhase40
+	List<String> timeBattleHeaderAndFooterCorrectPhase41
+	List<String> timeBattleHeaderAndFooterCorrectPhase42
+	
+	List<String> timeBattleHeaderAndFooterIncorrectPhase1
+	List<String> timeBattleHeaderAndFooterIncorrectPhase2
+	List<String> timeBattleHeaderAndFooterIncorrectPhase3
+	List<String> timeBattleHeaderAndFooterIncorrectPhase4
+	List<String> timeBattleHeaderAndFooterIncorrectPhase5
+	List<String> timeBattleHeaderAndFooterIncorrectPhase6
+	List<String> timeBattleHeaderAndFooterIncorrectPhase7
+	List<String> timeBattleHeaderAndFooterIncorrectPhase8
+	List<String> timeBattleHeaderAndFooterIncorrectPhase9
+	List<String> timeBattleHeaderAndFooterIncorrectPhase10
+	List<String> timeBattleHeaderAndFooterIncorrectPhase11
+	List<String> timeBattleHeaderAndFooterIncorrectPhase12
+	List<String> timeBattleHeaderAndFooterIncorrectPhase13
+	List<String> timeBattleHeaderAndFooterIncorrectPhase14
+	List<String> timeBattleHeaderAndFooterIncorrectPhase15
+	List<String> timeBattleHeaderAndFooterIncorrectPhase16
+	List<String> timeBattleHeaderAndFooterIncorrectPhase17
+	List<String> timeBattleHeaderAndFooterIncorrectPhase18
+	List<String> timeBattleHeaderAndFooterIncorrectPhase19
+	List<String> timeBattleHeaderAndFooterIncorrectPhase20
+	List<String> timeBattleHeaderAndFooterIncorrectPhase21
+	List<String> timeBattleHeaderAndFooterIncorrectPhase22
+	List<String> timeBattleHeaderAndFooterIncorrectPhase23
+	List<String> timeBattleHeaderAndFooterIncorrectPhase24
+	List<String> timeBattleHeaderAndFooterIncorrectPhase25
+	List<String> timeBattleHeaderAndFooterIncorrectPhase26
+	List<String> timeBattleHeaderAndFooterIncorrectPhase27
+	List<String> timeBattleHeaderAndFooterIncorrectPhase28
+	List<String> timeBattleHeaderAndFooterIncorrectPhase29
+	List<String> timeBattleHeaderAndFooterIncorrectPhase30
+	List<String> timeBattleHeaderAndFooterIncorrectPhase31
+	List<String> timeBattleHeaderAndFooterIncorrectPhase32
+	List<String> timeBattleHeaderAndFooterIncorrectPhase33
+	List<String> timeBattleHeaderAndFooterIncorrectPhase34
+	List<String> timeBattleHeaderAndFooterIncorrectPhase35
+	List<String> timeBattleHeaderAndFooterIncorrectPhase36
+	List<String> timeBattleHeaderAndFooterIncorrectPhase37
+	List<String> timeBattleHeaderAndFooterIncorrectPhase38
+	List<String> timeBattleHeaderAndFooterIncorrectPhase39
+	List<String> timeBattleHeaderAndFooterIncorrectPhase40
+	List<String> timeBattleHeaderAndFooterIncorrectPhase41
+	List<String> timeBattleHeaderAndFooterIncorrectPhase42
+	
+	List<List<String>> squirgleHeadersAndFootersCorrect
+	List<List<String>> squirgleHeadersAndFootersIncorrect
+	List<List<String>> battleHeadersAndFootersCorrect
+	List<List<String>> battleHeadersAndFootersIncorrect
+	List<List<String>> timeAttackHeadersAndFootersCorrect
+	List<List<String>> timeAttackHeadersAndFootersIncorrect
+	List<List<String>> timeBattleHeadersAndFootersCorrect
+	List<List<String>> timeBattleHeadersAndFootersIncorrect
+	
+	Map<boolean, List<List<String>>> correctInputMapSquirgle
+	Map<boolean, List<List<String>>> correctInputMapBattle
+	Map<boolean, List<List<String>>> correctInputMapTimeAttack
+	Map<boolean, List<List<String>>> correctInputMapTimeBattle
+	Map<int, Map<boolean, List<List<String>>>> gameplayTypeMap
+
+	--
+	
+	if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+		numPhases = 46;
+	} else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+		numPhases = 46;
+	} else if(gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
+		numPhases = 37;
+	} else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+		numPhases = 43;
+	}
+	phase = 1
+	this.gameplayType = gameplayType
+	int showPlayerInputs = SHOW_NO_PLAYER_INPUTS
+	
+	correctInput = true
+	
+	String tapOrClick = game.desktop ? CLICK : TAP
+	
+	labelStyle = new Label.LabelStyle();
+	labelStyle.font = game.fontTutorialHelp;
+	labelStyle.fontColor = blackAndWhite ? Color.WHITE : Color.BLACK;
+	headerLabel = new Label(getCurrentHeaderText(), labelStyle);
+	headerLabel.setSize(...);
+	headerLabel.setPosition(...);
+	headerLabel.setAlignment(Align.center);
+	headerLabel.setWrap(true);
+	headerLabel.setVisible(true);
+	footerLabel = new Label(getCurrentFooterText(), labelStyle);
+	footerLabel.setSize(...);
+	footerLabel.setPosition(...);
+	footerLabel.setAlignment(Align.center);
+	footerLabel.setWrap(true);
+	footerLabel.setVisible(true);
+	
+	squirgleHeaderCorrectPhase1 = ""
+	squirgleHeaderCorrectPhase2 = ""
+	squirgleHeaderCorrectPhase3 = ""
+	squirgleHeaderCorrectPhase4 = ""
+	squirgleHeaderCorrectPhase5 = ""
+	squirgleHeaderCorrectPhase6 = ""
+	squirgleHeaderCorrectPhase7 = ""
+	squirgleHeaderCorrectPhase8 = ""
+	squirgleHeaderCorrectPhase9 = ""
+	squirgleHeaderCorrectPhase10 = ""
+	squirgleHeaderCorrectPhase11 = ""
+	squirgleHeaderCorrectPhase12 = ""
+	squirgleHeaderCorrectPhase13 = ""
+	squirgleHeaderCorrectPhase14 = ""
+	squirgleHeaderCorrectPhase15 = ""
+	squirgleHeaderCorrectPhase16 = ""
+	squirgleHeaderCorrectPhase17 = ""
+	squirgleHeaderCorrectPhase18 = ""
+	squirgleHeaderCorrectPhase19 = ""
+	squirgleHeaderCorrectPhase20 = ""
+	squirgleHeaderCorrectPhase21 = ""
+	squirgleHeaderCorrectPhase22 = ""
+	squirgleHeaderCorrectPhase23 = ""
+	squirgleHeaderCorrectPhase24 = ""
+	squirgleHeaderCorrectPhase25 = ""
+	squirgleHeaderCorrectPhase26 = ""
+	squirgleHeaderCorrectPhase27 = ""
+	squirgleHeaderCorrectPhase28 = ""
+	squirgleHeaderCorrectPhase29 = ""
+	squirgleHeaderCorrectPhase30 = ""
+	squirgleHeaderCorrectPhase31 = ""
+	squirgleHeaderCorrectPhase32 = ""
+	squirgleHeaderCorrectPhase33 = ""
+	squirgleHeaderCorrectPhase34 = ""
+	squirgleHeaderCorrectPhase35 = ""
+	squirgleHeaderCorrectPhase36 = ""
+	squirgleHeaderCorrectPhase37 = ""
+	squirgleHeaderCorrectPhase38 = ""
+	squirgleHeaderCorrectPhase39 = ""
+	squirgleHeaderCorrectPhase40 = ""
+	squirgleHeaderCorrectPhase41 = ""
+	squirgleHeaderCorrectPhase42 = ""
+	squirgleHeaderCorrectPhase43 = ""
+	squirgleHeaderCorrectPhase44 = ""
+	squirgleHeaderCorrectPhase45 = ""
+	
+	squirgleHeaderIncorrectPhase1 = ""
+	squirgleHeaderIncorrectPhase2 = ""
+	squirgleHeaderIncorrectPhase3 = ""
+	squirgleHeaderIncorrectPhase4 = ""
+	squirgleHeaderIncorrectPhase5 = ""
+	squirgleHeaderIncorrectPhase6 = ""
+	squirgleHeaderIncorrectPhase7 = ""
+	squirgleHeaderIncorrectPhase8 = ""
+	squirgleHeaderIncorrectPhase9 = ""
+	squirgleHeaderIncorrectPhase10 = ""
+	squirgleHeaderIncorrectPhase11 = ""
+	squirgleHeaderIncorrectPhase12 = ""
+	squirgleHeaderIncorrectPhase13 = ""
+	squirgleHeaderIncorrectPhase14 = ""
+	squirgleHeaderIncorrectPhase15 = ""
+	squirgleHeaderIncorrectPhase16 = ""
+	squirgleHeaderIncorrectPhase17 = ""
+	squirgleHeaderIncorrectPhase18 = ""
+	squirgleHeaderIncorrectPhase19 = ""
+	squirgleHeaderIncorrectPhase20 = ""
+	squirgleHeaderIncorrectPhase21 = ""
+	squirgleHeaderIncorrectPhase22 = ""
+	squirgleHeaderIncorrectPhase23 = ""
+	squirgleHeaderIncorrectPhase24 = ""
+	squirgleHeaderIncorrectPhase25 = ""
+	squirgleHeaderIncorrectPhase26 = ""
+	squirgleHeaderIncorrectPhase27 = ""
+	squirgleHeaderIncorrectPhase28 = ""
+	squirgleHeaderIncorrectPhase29 = ""
+	squirgleHeaderIncorrectPhase30 = ""
+	squirgleHeaderIncorrectPhase31 = ""
+	squirgleHeaderIncorrectPhase32 = ""
+	squirgleHeaderIncorrectPhase33 = ""
+	squirgleHeaderIncorrectPhase34 = ""
+	squirgleHeaderIncorrectPhase35 = ""
+	squirgleHeaderIncorrectPhase36 = ""
+	squirgleHeaderIncorrectPhase37 = ""
+	squirgleHeaderIncorrectPhase38 = ""
+	squirgleHeaderIncorrectPhase39 = ""
+	squirgleHeaderIncorrectPhase40 = ""
+	squirgleHeaderIncorrectPhase41 = ""
+	squirgleHeaderIncorrectPhase42 = ""
+	squirgleHeaderIncorrectPhase43 = ""
+	squirgleHeaderIncorrectPhase44 = ""
+	squirgleHeaderIncorrectPhase45 = ""
+	
+	squirgleFooterCorrectPhase1 = ""
+	squirgleFooterCorrectPhase2 = ""
+	squirgleFooterCorrectPhase3 = ""
+	squirgleFooterCorrectPhase4 = ""
+	squirgleFooterCorrectPhase5 = ""
+	squirgleFooterCorrectPhase6 = ""
+	squirgleFooterCorrectPhase7 = ""
+	squirgleFooterCorrectPhase8 = ""
+	squirgleFooterCorrectPhase9 = ""
+	squirgleFooterCorrectPhase10 = ""
+	squirgleFooterCorrectPhase11 = ""
+	squirgleFooterCorrectPhase12 = ""
+	squirgleFooterCorrectPhase13 = ""
+	squirgleFooterCorrectPhase14 = ""
+	squirgleFooterCorrectPhase15 = ""
+	squirgleFooterCorrectPhase16 = ""
+	squirgleFooterCorrectPhase17 = ""
+	squirgleFooterCorrectPhase18 = ""
+	squirgleFooterCorrectPhase19 = ""
+	squirgleFooterCorrectPhase20 = ""
+	squirgleFooterCorrectPhase21 = ""
+	squirgleFooterCorrectPhase22 = ""
+	squirgleFooterCorrectPhase23 = ""
+	squirgleFooterCorrectPhase24 = ""
+	squirgleFooterCorrectPhase25 = ""
+	squirgleFooterCorrectPhase26 = ""
+	squirgleFooterCorrectPhase27 = ""
+	squirgleFooterCorrectPhase28 = ""
+	squirgleFooterCorrectPhase29 = ""
+	squirgleFooterCorrectPhase30 = ""
+	squirgleFooterCorrectPhase31 = ""
+	squirgleFooterCorrectPhase32 = ""
+	squirgleFooterCorrectPhase33 = ""
+	squirgleFooterCorrectPhase34 = ""
+	squirgleFooterCorrectPhase35 = ""
+	squirgleFooterCorrectPhase36 = ""
+	squirgleFooterCorrectPhase37 = ""
+	squirgleFooterCorrectPhase38 = ""
+	squirgleFooterCorrectPhase39 = ""
+	squirgleFooterCorrectPhase40 = ""
+	squirgleFooterCorrectPhase41 = ""
+	squirgleFooterCorrectPhase42 = ""
+	squirgleFooterCorrectPhase43 = ""
+	squirgleFooterCorrectPhase44 = ""
+	squirgleFooterCorrectPhase45 = ""
+	
+	squirgleFooterIncorrectPhase1 = ""
+	squirgleFooterIncorrectPhase2 = ""
+	squirgleFooterIncorrectPhase3 = ""
+	squirgleFooterIncorrectPhase4 = ""
+	squirgleFooterIncorrectPhase5 = ""
+	squirgleFooterIncorrectPhase6 = ""
+	squirgleFooterIncorrectPhase7 = ""
+	squirgleFooterIncorrectPhase8 = ""
+	squirgleFooterIncorrectPhase9 = ""
+	squirgleFooterIncorrectPhase10 = ""
+	squirgleFooterIncorrectPhase11 = ""
+	squirgleFooterIncorrectPhase12 = ""
+	squirgleFooterIncorrectPhase13 = ""
+	squirgleFooterIncorrectPhase14 = ""
+	squirgleFooterIncorrectPhase15 = ""
+	squirgleFooterIncorrectPhase16 = ""
+	squirgleFooterIncorrectPhase17 = ""
+	squirgleFooterIncorrectPhase18 = ""
+	squirgleFooterIncorrectPhase19 = ""
+	squirgleFooterIncorrectPhase20 = ""
+	squirgleFooterIncorrectPhase21 = ""
+	squirgleFooterIncorrectPhase22 = ""
+	squirgleFooterIncorrectPhase23 = ""
+	squirgleFooterIncorrectPhase24 = ""
+	squirgleFooterIncorrectPhase25 = ""
+	squirgleFooterIncorrectPhase26 = ""
+	squirgleFooterIncorrectPhase27 = ""
+	squirgleFooterIncorrectPhase28 = ""
+	squirgleFooterIncorrectPhase29 = ""
+	squirgleFooterIncorrectPhase30 = ""
+	squirgleFooterIncorrectPhase31 = ""
+	squirgleFooterIncorrectPhase32 = ""
+	squirgleFooterIncorrectPhase33 = ""
+	squirgleFooterIncorrectPhase34 = ""
+	squirgleFooterIncorrectPhase35 = ""
+	squirgleFooterIncorrectPhase36 = ""
+	squirgleFooterIncorrectPhase37 = ""
+	squirgleFooterIncorrectPhase38 = ""
+	squirgleFooterIncorrectPhase39 = ""
+	squirgleFooterIncorrectPhase40 = ""
+	squirgleFooterIncorrectPhase41 = ""
+	squirgleFooterIncorrectPhase42 = ""
+	squirgleFooterIncorrectPhase43 = ""
+	squirgleFooterIncorrectPhase44 = ""
+	squirgleFooterIncorrectPhase45 = ""
+	
+	battleHeaderCorrectPhase1 = ""
+	battleHeaderCorrectPhase2 = ""
+	battleHeaderCorrectPhase3 = ""
+	battleHeaderCorrectPhase4 = ""
+	battleHeaderCorrectPhase5 = ""
+	battleHeaderCorrectPhase6 = ""
+	battleHeaderCorrectPhase7 = ""
+	battleHeaderCorrectPhase8 = ""
+	battleHeaderCorrectPhase9 = ""
+	battleHeaderCorrectPhase10 = ""
+	battleHeaderCorrectPhase11 = ""
+	battleHeaderCorrectPhase12 = ""
+	battleHeaderCorrectPhase13 = ""
+	battleHeaderCorrectPhase14 = ""
+	battleHeaderCorrectPhase15 = ""
+	battleHeaderCorrectPhase16 = ""
+	battleHeaderCorrectPhase17 = ""
+	battleHeaderCorrectPhase18 = ""
+	battleHeaderCorrectPhase19 = ""
+	battleHeaderCorrectPhase20 = ""
+	battleHeaderCorrectPhase21 = ""
+	battleHeaderCorrectPhase22 = ""
+	battleHeaderCorrectPhase23 = ""
+	battleHeaderCorrectPhase24 = ""
+	battleHeaderCorrectPhase25 = ""
+	battleHeaderCorrectPhase26 = ""
+	battleHeaderCorrectPhase27 = ""
+	battleHeaderCorrectPhase28 = ""
+	battleHeaderCorrectPhase29 = ""
+	battleHeaderCorrectPhase30 = ""
+	battleHeaderCorrectPhase31 = ""
+	battleHeaderCorrectPhase32 = ""
+	battleHeaderCorrectPhase33 = ""
+	battleHeaderCorrectPhase34 = ""
+	battleHeaderCorrectPhase35 = ""
+	battleHeaderCorrectPhase36 = ""
+	battleHeaderCorrectPhase37 = ""
+	battleHeaderCorrectPhase38 = ""
+	battleHeaderCorrectPhase39 = ""
+	battleHeaderCorrectPhase40 = ""
+	battleHeaderCorrectPhase41 = ""
+	battleHeaderCorrectPhase42 = ""
+	battleHeaderCorrectPhase43 = ""
+	battleHeaderCorrectPhase44 = ""
+	battleHeaderCorrectPhase45 = ""
+	
+	battleHeaderIncorrectPhase1 = ""
+	battleHeaderIncorrectPhase2 = ""
+	battleHeaderIncorrectPhase3 = ""
+	battleHeaderIncorrectPhase4 = ""
+	battleHeaderIncorrectPhase5 = ""
+	battleHeaderIncorrectPhase6 = ""
+	battleHeaderIncorrectPhase7 = ""
+	battleHeaderIncorrectPhase8 = ""
+	battleHeaderIncorrectPhase9 = ""
+	battleHeaderIncorrectPhase10 = ""
+	battleHeaderIncorrectPhase11 = ""
+	battleHeaderIncorrectPhase12 = ""
+	battleHeaderIncorrectPhase13 = ""
+	battleHeaderIncorrectPhase14 = ""
+	battleHeaderIncorrectPhase15 = ""
+	battleHeaderIncorrectPhase16 = ""
+	battleHeaderIncorrectPhase17 = ""
+	battleHeaderIncorrectPhase18 = ""
+	battleHeaderIncorrectPhase19 = ""
+	battleHeaderIncorrectPhase20 = ""
+	battleHeaderIncorrectPhase21 = ""
+	battleHeaderIncorrectPhase22 = ""
+	battleHeaderIncorrectPhase23 = ""
+	battleHeaderIncorrectPhase24 = ""
+	battleHeaderIncorrectPhase25 = ""
+	battleHeaderIncorrectPhase26 = ""
+	battleHeaderIncorrectPhase27 = ""
+	battleHeaderIncorrectPhase28 = ""
+	battleHeaderIncorrectPhase29 = ""
+	battleHeaderIncorrectPhase30 = ""
+	battleHeaderIncorrectPhase31 = ""
+	battleHeaderIncorrectPhase32 = ""
+	battleHeaderIncorrectPhase33 = ""
+	battleHeaderIncorrectPhase34 = ""
+	battleHeaderIncorrectPhase35 = ""
+	battleHeaderIncorrectPhase36 = ""
+	battleHeaderIncorrectPhase37 = ""
+	battleHeaderIncorrectPhase38 = ""
+	battleHeaderIncorrectPhase39 = ""
+	battleHeaderIncorrectPhase40 = ""
+	battleHeaderIncorrectPhase41 = ""
+	battleHeaderIncorrectPhase42 = ""
+	battleHeaderIncorrectPhase43 = ""
+	battleHeaderIncorrectPhase44 = ""
+	battleHeaderIncorrectPhase45 = ""
+	
+	battleFooterCorrectPhase1 = ""
+	battleFooterCorrectPhase2 = ""
+	battleFooterCorrectPhase3 = ""
+	battleFooterCorrectPhase4 = ""
+	battleFooterCorrectPhase5 = ""
+	battleFooterCorrectPhase6 = ""
+	battleFooterCorrectPhase7 = ""
+	battleFooterCorrectPhase8 = ""
+	battleFooterCorrectPhase9 = ""
+	battleFooterCorrectPhase10 = ""
+	battleFooterCorrectPhase11 = ""
+	battleFooterCorrectPhase12 = ""
+	battleFooterCorrectPhase13 = ""
+	battleFooterCorrectPhase14 = ""
+	battleFooterCorrectPhase15 = ""
+	battleFooterCorrectPhase16 = ""
+	battleFooterCorrectPhase17 = ""
+	battleFooterCorrectPhase18 = ""
+	battleFooterCorrectPhase19 = ""
+	battleFooterCorrectPhase20 = ""
+	battleFooterCorrectPhase21 = ""
+	battleFooterCorrectPhase22 = ""
+	battleFooterCorrectPhase23 = ""
+	battleFooterCorrectPhase24 = ""
+	battleFooterCorrectPhase25 = ""
+	battleFooterCorrectPhase26 = ""
+	battleFooterCorrectPhase27 = ""
+	battleFooterCorrectPhase28 = ""
+	battleFooterCorrectPhase29 = ""
+	battleFooterCorrectPhase30 = ""
+	battleFooterCorrectPhase31 = ""
+	battleFooterCorrectPhase32 = ""
+	battleFooterCorrectPhase33 = ""
+	battleFooterCorrectPhase34 = ""
+	battleFooterCorrectPhase35 = ""
+	battleFooterCorrectPhase36 = ""
+	battleFooterCorrectPhase37 = ""
+	battleFooterCorrectPhase38 = ""
+	battleFooterCorrectPhase39 = ""
+	battleFooterCorrectPhase40 = ""
+	battleFooterCorrectPhase41 = ""
+	battleFooterCorrectPhase42 = ""
+	battleFooterCorrectPhase43 = ""
+	battleFooterCorrectPhase44 = ""
+	battleFooterCorrectPhase45 = ""
+	
+	battleFooterIncorrectPhase1 = ""
+	battleFooterIncorrectPhase2 = ""
+	battleFooterIncorrectPhase3 = ""
+	battleFooterIncorrectPhase4 = ""
+	battleFooterIncorrectPhase5 = ""
+	battleFooterIncorrectPhase6 = ""
+	battleFooterIncorrectPhase7 = ""
+	battleFooterIncorrectPhase8 = ""
+	battleFooterIncorrectPhase9 = ""
+	battleFooterIncorrectPhase10 = ""
+	battleFooterIncorrectPhase11 = ""
+	battleFooterIncorrectPhase12 = ""
+	battleFooterIncorrectPhase13 = ""
+	battleFooterIncorrectPhase14 = ""
+	battleFooterIncorrectPhase15 = ""
+	battleFooterIncorrectPhase16 = ""
+	battleFooterIncorrectPhase17 = ""
+	battleFooterIncorrectPhase18 = ""
+	battleFooterIncorrectPhase19 = ""
+	battleFooterIncorrectPhase20 = ""
+	battleFooterIncorrectPhase21 = ""
+	battleFooterIncorrectPhase22 = ""
+	battleFooterIncorrectPhase23 = ""
+	battleFooterIncorrectPhase24 = ""
+	battleFooterIncorrectPhase25 = ""
+	battleFooterIncorrectPhase26 = ""
+	battleFooterIncorrectPhase27 = ""
+	battleFooterIncorrectPhase28 = ""
+	battleFooterIncorrectPhase29 = ""
+	battleFooterIncorrectPhase30 = ""
+	battleFooterIncorrectPhase31 = ""
+	battleFooterIncorrectPhase32 = ""
+	battleFooterIncorrectPhase33 = ""
+	battleFooterIncorrectPhase34 = ""
+	battleFooterIncorrectPhase35 = ""
+	battleFooterIncorrectPhase36 = ""
+	battleFooterIncorrectPhase37 = ""
+	battleFooterIncorrectPhase38 = ""
+	battleFooterIncorrectPhase39 = ""
+	battleFooterIncorrectPhase40 = ""
+	battleFooterIncorrectPhase41 = ""
+	battleFooterIncorrectPhase42 = ""
+	battleFooterIncorrectPhase43 = ""
+	battleFooterIncorrectPhase44 = ""
+	battleFooterIncorrectPhase45 = ""
+	
+	timeAttackHeaderCorrectPhase1 = ""
+	timeAttackHeaderCorrectPhase2 = ""
+	timeAttackHeaderCorrectPhase3 = ""
+	timeAttackHeaderCorrectPhase4 = ""
+	timeAttackHeaderCorrectPhase5 = ""
+	timeAttackHeaderCorrectPhase6 = ""
+	timeAttackHeaderCorrectPhase7 = ""
+	timeAttackHeaderCorrectPhase8 = ""
+	timeAttackHeaderCorrectPhase9 = ""
+	timeAttackHeaderCorrectPhase10 = ""
+	timeAttackHeaderCorrectPhase11 = ""
+	timeAttackHeaderCorrectPhase12 = ""
+	timeAttackHeaderCorrectPhase13 = ""
+	timeAttackHeaderCorrectPhase14 = ""
+	timeAttackHeaderCorrectPhase15 = ""
+	timeAttackHeaderCorrectPhase16 = ""
+	timeAttackHeaderCorrectPhase17 = ""
+	timeAttackHeaderCorrectPhase18 = ""
+	timeAttackHeaderCorrectPhase19 = ""
+	timeAttackHeaderCorrectPhase20 = ""
+	timeAttackHeaderCorrectPhase21 = ""
+	timeAttackHeaderCorrectPhase22 = ""
+	timeAttackHeaderCorrectPhase23 = ""
+	timeAttackHeaderCorrectPhase24 = ""
+	timeAttackHeaderCorrectPhase25 = ""
+	timeAttackHeaderCorrectPhase26 = ""
+	timeAttackHeaderCorrectPhase27 = ""
+	timeAttackHeaderCorrectPhase28 = ""
+	timeAttackHeaderCorrectPhase29 = ""
+	timeAttackHeaderCorrectPhase30 = ""
+	timeAttackHeaderCorrectPhase31 = ""
+	timeAttackHeaderCorrectPhase32 = ""
+	timeAttackHeaderCorrectPhase33 = ""
+	timeAttackHeaderCorrectPhase34 = ""
+	timeAttackHeaderCorrectPhase35 = ""
+	timeAttackHeaderCorrectPhase36 = ""
+	
+	timeAttackHeaderIncorrectPhase1 = ""
+	timeAttackHeaderIncorrectPhase2 = ""
+	timeAttackHeaderIncorrectPhase3 = ""
+	timeAttackHeaderIncorrectPhase4 = ""
+	timeAttackHeaderIncorrectPhase5 = ""
+	timeAttackHeaderIncorrectPhase6 = ""
+	timeAttackHeaderIncorrectPhase7 = ""
+	timeAttackHeaderIncorrectPhase8 = ""
+	timeAttackHeaderIncorrectPhase9 = ""
+	timeAttackHeaderIncorrectPhase10 = ""
+	timeAttackHeaderIncorrectPhase11 = ""
+	timeAttackHeaderIncorrectPhase12 = ""
+	timeAttackHeaderIncorrectPhase13 = ""
+	timeAttackHeaderIncorrectPhase14 = ""
+	timeAttackHeaderIncorrectPhase15 = ""
+	timeAttackHeaderIncorrectPhase16 = ""
+	timeAttackHeaderIncorrectPhase17 = ""
+	timeAttackHeaderIncorrectPhase18 = ""
+	timeAttackHeaderIncorrectPhase19 = ""
+	timeAttackHeaderIncorrectPhase20 = ""
+	timeAttackHeaderIncorrectPhase21 = ""
+	timeAttackHeaderIncorrectPhase22 = ""
+	timeAttackHeaderIncorrectPhase23 = ""
+	timeAttackHeaderIncorrectPhase24 = ""
+	timeAttackHeaderIncorrectPhase25 = ""
+	timeAttackHeaderIncorrectPhase26 = ""
+	timeAttackHeaderIncorrectPhase27 = ""
+	timeAttackHeaderIncorrectPhase28 = ""
+	timeAttackHeaderIncorrectPhase29 = ""
+	timeAttackHeaderIncorrectPhase30 = ""
+	timeAttackHeaderIncorrectPhase31 = ""
+	timeAttackHeaderIncorrectPhase32 = ""
+	timeAttackHeaderIncorrectPhase33 = ""
+	timeAttackHeaderIncorrectPhase34 = ""
+	timeAttackHeaderIncorrectPhase35 = ""
+	timeAttackHeaderIncorrectPhase36 = ""
+	
+	timeAttackFooterCorrectPhase1 = ""
+	timeAttackFooterCorrectPhase2 = ""
+	timeAttackFooterCorrectPhase3 = ""
+	timeAttackFooterCorrectPhase4 = ""
+	timeAttackFooterCorrectPhase5 = ""
+	timeAttackFooterCorrectPhase6 = ""
+	timeAttackFooterCorrectPhase7 = ""
+	timeAttackFooterCorrectPhase8 = ""
+	timeAttackFooterCorrectPhase9 = ""
+	timeAttackFooterCorrectPhase10 = ""
+	timeAttackFooterCorrectPhase11 = ""
+	timeAttackFooterCorrectPhase12 = ""
+	timeAttackFooterCorrectPhase13 = ""
+	timeAttackFooterCorrectPhase14 = ""
+	timeAttackFooterCorrectPhase15 = ""
+	timeAttackFooterCorrectPhase16 = ""
+	timeAttackFooterCorrectPhase17 = ""
+	timeAttackFooterCorrectPhase18 = ""
+	timeAttackFooterCorrectPhase19 = ""
+	timeAttackFooterCorrectPhase20 = ""
+	timeAttackFooterCorrectPhase21 = ""
+	timeAttackFooterCorrectPhase22 = ""
+	timeAttackFooterCorrectPhase23 = ""
+	timeAttackFooterCorrectPhase24 = ""
+	timeAttackFooterCorrectPhase25 = ""
+	timeAttackFooterCorrectPhase26 = ""
+	timeAttackFooterCorrectPhase27 = ""
+	timeAttackFooterCorrectPhase28 = ""
+	timeAttackFooterCorrectPhase29 = ""
+	timeAttackFooterCorrectPhase30 = ""
+	timeAttackFooterCorrectPhase31 = ""
+	timeAttackFooterCorrectPhase32 = ""
+	timeAttackFooterCorrectPhase33 = ""
+	timeAttackFooterCorrectPhase34 = ""
+	timeAttackFooterCorrectPhase35 = ""
+	timeAttackFooterCorrectPhase36 = ""
+	
+	timeAttackFooterIncorrectPhase1 = ""
+	timeAttackFooterIncorrectPhase2 = ""
+	timeAttackFooterIncorrectPhase3 = ""
+	timeAttackFooterIncorrectPhase4 = ""
+	timeAttackFooterIncorrectPhase5 = ""
+	timeAttackFooterIncorrectPhase6 = ""
+	timeAttackFooterIncorrectPhase7 = ""
+	timeAttackFooterIncorrectPhase8 = ""
+	timeAttackFooterIncorrectPhase9 = ""
+	timeAttackFooterIncorrectPhase10 = ""
+	timeAttackFooterIncorrectPhase11 = ""
+	timeAttackFooterIncorrectPhase12 = ""
+	timeAttackFooterIncorrectPhase13 = ""
+	timeAttackFooterIncorrectPhase14 = ""
+	timeAttackFooterIncorrectPhase15 = ""
+	timeAttackFooterIncorrectPhase16 = ""
+	timeAttackFooterIncorrectPhase17 = ""
+	timeAttackFooterIncorrectPhase18 = ""
+	timeAttackFooterIncorrectPhase19 = ""
+	timeAttackFooterIncorrectPhase20 = ""
+	timeAttackFooterIncorrectPhase21 = ""
+	timeAttackFooterIncorrectPhase22 = ""
+	timeAttackFooterIncorrectPhase23 = ""
+	timeAttackFooterIncorrectPhase24 = ""
+	timeAttackFooterIncorrectPhase25 = ""
+	timeAttackFooterIncorrectPhase26 = ""
+	timeAttackFooterIncorrectPhase27 = ""
+	timeAttackFooterIncorrectPhase28 = ""
+	timeAttackFooterIncorrectPhase29 = ""
+	timeAttackFooterIncorrectPhase30 = ""
+	timeAttackFooterIncorrectPhase31 = ""
+	timeAttackFooterIncorrectPhase32 = ""
+	timeAttackFooterIncorrectPhase33 = ""
+	timeAttackFooterIncorrectPhase34 = ""
+	timeAttackFooterIncorrectPhase35 = ""
+	timeAttackFooterIncorrectPhase36 = ""
+	
+	timeBattleHeaderCorrectPhase1 = ""
+	timeBattleHeaderCorrectPhase2 = ""
+	timeBattleHeaderCorrectPhase3 = ""
+	timeBattleHeaderCorrectPhase4 = ""
+	timeBattleHeaderCorrectPhase5 = ""
+	timeBattleHeaderCorrectPhase6 = ""
+	timeBattleHeaderCorrectPhase7 = ""
+	timeBattleHeaderCorrectPhase8 = ""
+	timeBattleHeaderCorrectPhase9 = ""
+	timeBattleHeaderCorrectPhase10 = ""
+	timeBattleHeaderCorrectPhase11 = ""
+	timeBattleHeaderCorrectPhase12 = ""
+	timeBattleHeaderCorrectPhase13 = ""
+	timeBattleHeaderCorrectPhase14 = ""
+	timeBattleHeaderCorrectPhase15 = ""
+	timeBattleHeaderCorrectPhase16 = ""
+	timeBattleHeaderCorrectPhase17 = ""
+	timeBattleHeaderCorrectPhase18 = ""
+	timeBattleHeaderCorrectPhase19 = ""
+	timeBattleHeaderCorrectPhase20 = ""
+	timeBattleHeaderCorrectPhase21 = ""
+	timeBattleHeaderCorrectPhase22 = ""
+	timeBattleHeaderCorrectPhase23 = ""
+	timeBattleHeaderCorrectPhase24 = ""
+	timeBattleHeaderCorrectPhase25 = ""
+	timeBattleHeaderCorrectPhase26 = ""
+	timeBattleHeaderCorrectPhase27 = ""
+	timeBattleHeaderCorrectPhase28 = ""
+	timeBattleHeaderCorrectPhase29 = ""
+	timeBattleHeaderCorrectPhase30 = ""
+	timeBattleHeaderCorrectPhase31 = ""
+	timeBattleHeaderCorrectPhase32 = ""
+	timeBattleHeaderCorrectPhase33 = ""
+	timeBattleHeaderCorrectPhase34 = ""
+	timeBattleHeaderCorrectPhase35 = ""
+	timeBattleHeaderCorrectPhase36 = ""
+	timeBattleHeaderCorrectPhase37 = ""
+	timeBattleHeaderCorrectPhase38 = ""
+	timeBattleHeaderCorrectPhase39 = ""
+	timeBattleHeaderCorrectPhase40 = ""
+	timeBattleHeaderCorrectPhase41 = ""
+	timeBattleHeaderCorrectPhase42 = ""
+	
+	timeBattleHeaderIncorrectPhase1 = ""
+	timeBattleHeaderIncorrectPhase2 = ""
+	timeBattleHeaderIncorrectPhase3 = ""
+	timeBattleHeaderIncorrectPhase4 = ""
+	timeBattleHeaderIncorrectPhase5 = ""
+	timeBattleHeaderIncorrectPhase6 = ""
+	timeBattleHeaderIncorrectPhase7 = ""
+	timeBattleHeaderIncorrectPhase8 = ""
+	timeBattleHeaderIncorrectPhase9 = ""
+	timeBattleHeaderIncorrectPhase10 = ""
+	timeBattleHeaderIncorrectPhase11 = ""
+	timeBattleHeaderIncorrectPhase12 = ""
+	timeBattleHeaderIncorrectPhase13 = ""
+	timeBattleHeaderIncorrectPhase14 = ""
+	timeBattleHeaderIncorrectPhase15 = ""
+	timeBattleHeaderIncorrectPhase16 = ""
+	timeBattleHeaderIncorrectPhase17 = ""
+	timeBattleHeaderIncorrectPhase18 = ""
+	timeBattleHeaderIncorrectPhase19 = ""
+	timeBattleHeaderIncorrectPhase20 = ""
+	timeBattleHeaderIncorrectPhase21 = ""
+	timeBattleHeaderIncorrectPhase22 = ""
+	timeBattleHeaderIncorrectPhase23 = ""
+	timeBattleHeaderIncorrectPhase24 = ""
+	timeBattleHeaderIncorrectPhase25 = ""
+	timeBattleHeaderIncorrectPhase26 = ""
+	timeBattleHeaderIncorrectPhase27 = ""
+	timeBattleHeaderIncorrectPhase28 = ""
+	timeBattleHeaderIncorrectPhase29 = ""
+	timeBattleHeaderIncorrectPhase30 = ""
+	timeBattleHeaderIncorrectPhase31 = ""
+	timeBattleHeaderIncorrectPhase32 = ""
+	timeBattleHeaderIncorrectPhase33 = ""
+	timeBattleHeaderIncorrectPhase34 = ""
+	timeBattleHeaderIncorrectPhase35 = ""
+	timeBattleHeaderIncorrectPhase36 = ""
+	timeBattleHeaderIncorrectPhase37 = ""
+	timeBattleHeaderIncorrectPhase38 = ""
+	timeBattleHeaderIncorrectPhase39 = ""
+	timeBattleHeaderIncorrectPhase40 = ""
+	timeBattleHeaderIncorrectPhase41 = ""
+	timeBattleHeaderIncorrectPhase42 = ""
+	
+	timeBattleFooterCorrectPhase1 = ""
+	timeBattleFooterCorrectPhase2 = ""
+	timeBattleFooterCorrectPhase3 = ""
+	timeBattleFooterCorrectPhase4 = ""
+	timeBattleFooterCorrectPhase5 = ""
+	timeBattleFooterCorrectPhase6 = ""
+	timeBattleFooterCorrectPhase7 = ""
+	stimeBattleFooterCorrectPhase8 = ""
+	timeBattleFooterCorrectPhase9 = ""
+	timeBattleFooterCorrectPhase10 = ""
+	timeBattleFooterCorrectPhase11 = ""
+	timeBattleFooterCorrectPhase12 = ""
+	timeBattleFooterCorrectPhase13 = ""
+	timeBattleFooterCorrectPhase14 = ""
+	timeBattleFooterCorrectPhase15 = ""
+	timeBattleFooterCorrectPhase16 = ""
+	timeBattleFooterCorrectPhase17 = ""
+	timeBattleFooterCorrectPhase18 = ""
+	timeBattleFooterCorrectPhase19 = ""
+	timeBattleFooterCorrectPhase20 = ""
+	timeBattleFooterCorrectPhase21 = ""
+	timeBattleFooterCorrectPhase22 = ""
+	timeBattleFooterCorrectPhase23 = ""
+	timeBattleFooterCorrectPhase24 = ""
+	timeBattleFooterCorrectPhase25 = ""
+	timeBattleFooterCorrectPhase26 = ""
+	timeBattleFooterCorrectPhase27 = ""
+	timeBattleFooterCorrectPhase28 = ""
+	timeBattleFooterCorrectPhase29 = ""
+	timeBattleFooterCorrectPhase30 = ""
+	timeBattleFooterCorrectPhase31 = ""
+	timeBattleFooterCorrectPhase32 = ""
+	timeBattleFooterCorrectPhase33 = ""
+	timeBattleFooterCorrectPhase34 = ""
+	timeBattleFooterCorrectPhase35 = ""
+	timeBattleFooterCorrectPhase36 = ""
+	timeBattleFooterCorrectPhase37 = ""
+	timeBattleFooterCorrectPhase38 = ""
+	timeBattleFooterCorrectPhase39 = ""
+	timeBattleFooterCorrectPhase40 = ""
+	timeBattleFooterCorrectPhase41 = ""
+	timeBattleFooterCorrectPhase42 = ""
+	
+	timeBattleFooterIncorrectPhase1 = ""
+	timeBattleFooterIncorrectPhase2 = ""
+	timeBattleFooterIncorrectPhase3 = ""
+	timeBattleFooterIncorrectPhase4 = ""
+	timeBattleFooterIncorrectPhase5 = ""
+	timeBattleFooterIncorrectPhase6 = ""
+	timeBattleFooterIncorrectPhase7 = ""
+	timeBattleFooterIncorrectPhase8 = ""
+	timeBattleFooterIncorrectPhase9 = ""
+	timeBattleFooterIncorrectPhase10 = ""
+	timeBattleFooterIncorrectPhase11 = ""
+	timeBattleFooterIncorrectPhase12 = ""
+	timeBattleFooterIncorrectPhase13 = ""
+	timeBattleFooterIncorrectPhase14 = ""
+	timeBattleFooterIncorrectPhase15 = ""
+	timeBattleFooterIncorrectPhase16 = ""
+	timeBattleFooterIncorrectPhase17 = ""
+	timeBattleFooterIncorrectPhase18 = ""
+	timeBattleFooterIncorrectPhase19 = ""
+	timeBattleFooterIncorrectPhase20 = ""
+	timeBattleFooterIncorrectPhase21 = ""
+	timeBattleFooterIncorrectPhase22 = ""
+	timeBattleFooterIncorrectPhase23 = ""
+	timeBattleFooterIncorrectPhase24 = ""
+	timeBattleFooterIncorrectPhase25 = ""
+	timeBattleFooterIncorrectPhase26 = ""
+	timeBattleFooterIncorrectPhase27 = ""
+	timeBattleFooterIncorrectPhase28 = ""
+	timeBattleFooterIncorrectPhase29 = ""
+	timeBattleFooterIncorrectPhase30 = ""
+	timeBattleFooterIncorrectPhase31 = ""
+	timeBattleFooterIncorrectPhase32 = ""
+	timeBattleFooterIncorrectPhase33 = ""
+	timeBattleFooterIncorrectPhase34 = ""
+	timeBattleFooterIncorrectPhase35 = ""
+	timeBattleFooterIncorrectPhase36 = ""
+	timeBattleFooterIncorrectPhase37 = ""
+	timeBattleFooterIncorrectPhase38 = ""
+	timeBattleFooterIncorrectPhase39 = ""
+	timeBattleFooterIncorrectPhase40 = ""
+	timeBattleFooterIncorrectPhase41 = ""
+	timeBattleFooterIncorrectPhase42 = ""
+	
+	squirgleHeaderAndFooterCorrectPhase1.add(squirgleHeaderCorrectPhase1)
+	squirgleHeaderAndFooterCorrectPhase1.add(squirgleFooterCorrectPhase1);
+	squirgleHeaderAndFooterCorrectPhase2.add(squirgleHeaderCorrectPhase2)
+	squirgleHeaderAndFooterCorrectPhase2.add(squirgleFooterCorrectPhase2);
+	squirgleHeaderAndFooterCorrectPhase3.add(squirgleHeaderCorrectPhase3)
+	squirgleHeaderAndFooterCorrectPhase3.add(squirgleFooterCorrectPhase3);
+	squirgleHeaderAndFooterCorrectPhase4.add(squirgleHeaderCorrectPhase4)
+	squirgleHeaderAndFooterCorrectPhase4.add(squirgleFooterCorrectPhase4);
+	squirgleHeaderAndFooterCorrectPhase5.add(squirgleHeaderCorrectPhase5)
+	squirgleHeaderAndFooterCorrectPhase5.add(squirgleFooterCorrectPhase5);
+	squirgleHeaderAndFooterCorrectPhase6.add(squirgleHeaderCorrectPhase6)
+	squirgleHeaderAndFooterCorrectPhase6.add(squirgleFooterCorrectPhase6);
+	squirgleHeaderAndFooterCorrectPhase7.add(squirgleHeaderCorrectPhase7)
+	squirgleHeaderAndFooterCorrectPhase7.add(squirgleFooterCorrectPhase7);
+	squirgleHeaderAndFooterCorrectPhase8.add(squirgleHeaderCorrectPhase8)
+	squirgleHeaderAndFooterCorrectPhase8.add(squirgleFooterCorrectPhase8);
+	squirgleHeaderAndFooterCorrectPhase9.add(squirgleHeaderCorrectPhase9)
+	squirgleHeaderAndFooterCorrectPhase9.add(squirgleFooterCorrectPhase9);
+	squirgleHeaderAndFooterCorrectPhase10.add(squirgleHeaderCorrectPhase10)
+	squirgleHeaderAndFooterCorrectPhase10.add(squirgleFooterCorrectPhase10);
+	squirgleHeaderAndFooterCorrectPhase11.add(squirgleHeaderCorrectPhase11)
+	squirgleHeaderAndFooterCorrectPhase11.add(squirgleFooterCorrectPhase11);
+	squirgleHeaderAndFooterCorrectPhase12.add(squirgleHeaderCorrectPhase12)
+	squirgleHeaderAndFooterCorrectPhase12.add(squirgleFooterCorrectPhase12);
+	squirgleHeaderAndFooterCorrectPhase13.add(squirgleHeaderCorrectPhase13)
+	squirgleHeaderAndFooterCorrectPhase13.add(squirgleFooterCorrectPhase13);
+	squirgleHeaderAndFooterCorrectPhase14.add(squirgleHeaderCorrectPhase14)
+	squirgleHeaderAndFooterCorrectPhase14.add(squirgleFooterCorrectPhase14);
+	squirgleHeaderAndFooterCorrectPhase15.add(squirgleHeaderCorrectPhase15)
+	squirgleHeaderAndFooterCorrectPhase15.add(squirgleFooterCorrectPhase15);
+	squirgleHeaderAndFooterCorrectPhase16.add(squirgleHeaderCorrectPhase16)
+	squirgleHeaderAndFooterCorrectPhase16.add(squirgleFooterCorrectPhase16);
+	squirgleHeaderAndFooterCorrectPhase17.add(squirgleHeaderCorrectPhase17)
+	squirgleHeaderAndFooterCorrectPhase17.add(squirgleFooterCorrectPhase17);
+	squirgleHeaderAndFooterCorrectPhase18.add(squirgleHeaderCorrectPhase18)
+	squirgleHeaderAndFooterCorrectPhase18.add(squirgleFooterCorrectPhase18);
+	squirgleHeaderAndFooterCorrectPhase19.add(squirgleHeaderCorrectPhase19)
+	squirgleHeaderAndFooterCorrectPhase19.add(squirgleFooterCorrectPhase19);
+	squirgleHeaderAndFooterCorrectPhase20.add(squirgleHeaderCorrectPhase20)
+	squirgleHeaderAndFooterCorrectPhase20.add(squirgleFooterCorrectPhase20);
+	squirgleHeaderAndFooterCorrectPhase21.add(squirgleHeaderCorrectPhase21)
+	squirgleHeaderAndFooterCorrectPhase21.add(squirgleFooterCorrectPhase21);
+	squirgleHeaderAndFooterCorrectPhase22.add(squirgleHeaderCorrectPhase22)
+	squirgleHeaderAndFooterCorrectPhase22.add(squirgleFooterCorrectPhase22);
+	squirgleHeaderAndFooterCorrectPhase23.add(squirgleHeaderCorrectPhase23)
+	squirgleHeaderAndFooterCorrectPhase23.add(squirgleFooterCorrectPhase23);
+	squirgleHeaderAndFooterCorrectPhase24.add(squirgleHeaderCorrectPhase24)
+	squirgleHeaderAndFooterCorrectPhase24.add(squirgleFooterCorrectPhase24);
+	squirgleHeaderAndFooterCorrectPhase25.add(squirgleHeaderCorrectPhase25)
+	squirgleHeaderAndFooterCorrectPhase25.add(squirgleFooterCorrectPhase25);
+	squirgleHeaderAndFooterCorrectPhase26.add(squirgleHeaderCorrectPhase26)
+	squirgleHeaderAndFooterCorrectPhase26.add(squirgleFooterCorrectPhase26);
+	squirgleHeaderAndFooterCorrectPhase27.add(squirgleHeaderCorrectPhase27)
+	squirgleHeaderAndFooterCorrectPhase27.add(squirgleFooterCorrectPhase27);
+	squirgleHeaderAndFooterCorrectPhase28.add(squirgleHeaderCorrectPhase28)
+	squirgleHeaderAndFooterCorrectPhase28.add(squirgleFooterCorrectPhase28);
+	squirgleHeaderAndFooterCorrectPhase29.add(squirgleHeaderCorrectPhase29)
+	squirgleHeaderAndFooterCorrectPhase29.add(squirgleFooterCorrectPhase29);
+	squirgleHeaderAndFooterCorrectPhase30.add(squirgleHeaderCorrectPhase30)
+	squirgleHeaderAndFooterCorrectPhase30.add(squirgleFooterCorrectPhase30);
+	squirgleHeaderAndFooterCorrectPhase31.add(squirgleHeaderCorrectPhase31)
+	squirgleHeaderAndFooterCorrectPhase31.add(squirgleFooterCorrectPhase31);
+	squirgleHeaderAndFooterCorrectPhase32.add(squirgleHeaderCorrectPhase32)
+	squirgleHeaderAndFooterCorrectPhase32.add(squirgleFooterCorrectPhase32);
+	squirgleHeaderAndFooterCorrectPhase33.add(squirgleHeaderCorrectPhase33)
+	squirgleHeaderAndFooterCorrectPhase33.add(squirgleFooterCorrectPhase33);
+	squirgleHeaderAndFooterCorrectPhase34.add(squirgleHeaderCorrectPhase34)
+	squirgleHeaderAndFooterCorrectPhase34.add(squirgleFooterCorrectPhase34);
+	squirgleHeaderAndFooterCorrectPhase35.add(squirgleHeaderCorrectPhase35)
+	squirgleHeaderAndFooterCorrectPhase35.add(squirgleFooterCorrectPhase35);
+	squirgleHeaderAndFooterCorrectPhase36.add(squirgleHeaderCorrectPhase36)
+	squirgleHeaderAndFooterCorrectPhase36.add(squirgleFooterCorrectPhase36);
+	squirgleHeaderAndFooterCorrectPhase37.add(squirgleHeaderCorrectPhase37)
+	squirgleHeaderAndFooterCorrectPhase37.add(squirgleFooterCorrectPhase37);
+	squirgleHeaderAndFooterCorrectPhase38.add(squirgleHeaderCorrectPhase38)
+	squirgleHeaderAndFooterCorrectPhase38.add(squirgleFooterCorrectPhase38);
+	squirgleHeaderAndFooterCorrectPhase39.add(squirgleHeaderCorrectPhase39)
+	squirgleHeaderAndFooterCorrectPhase39.add(squirgleFooterCorrectPhase39);
+	squirgleHeaderAndFooterCorrectPhase40.add(squirgleHeaderCorrectPhase40)
+	squirgleHeaderAndFooterCorrectPhase40.add(squirgleFooterCorrectPhase40);
+	squirgleHeaderAndFooterCorrectPhase41.add(squirgleHeaderCorrectPhase41)
+	squirgleHeaderAndFooterCorrectPhase41.add(squirgleFooterCorrectPhase41);
+	squirgleHeaderAndFooterCorrectPhase42.add(squirgleHeaderCorrectPhase42)
+	squirgleHeaderAndFooterCorrectPhase42.add(squirgleFooterCorrectPhase42);
+	squirgleHeaderAndFooterCorrectPhase43.add(squirgleHeaderCorrectPhase43)
+	squirgleHeaderAndFooterCorrectPhase43.add(squirgleFooterCorrectPhase43);
+	squirgleHeaderAndFooterCorrectPhase44.add(squirgleHeaderCorrectPhase44)
+	squirgleHeaderAndFooterCorrectPhase44.add(squirgleFooterCorrectPhase44);
+	squirgleHeaderAndFooterCorrectPhase45.add(squirgleHeaderCorrectPhase45)
+	squirgleHeaderAndFooterCorrectPhase45.add(squirgleFooterCorrectPhase45);
+	
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase1);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase2);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase3);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase4);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase5);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase6);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase7);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase8);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase9);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase10);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase11);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase12);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase13);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase14);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase15);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase16);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase17);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase18);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase19);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase20);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase21);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase22);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase23);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase24);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase25);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase26);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase27);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase28);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase29);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase30);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase31);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase32);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase33;
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase34);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase35);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase36;
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase37);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase38);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase39);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase40);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase41);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase42;
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase43;
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase44);
+	squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase45);
+	
+	squirgleHeaderAndFooterIncorrectPhase1.add(squirgleHeaderIncorrectPhase1)
+	squirgleHeaderAndFooterIncorrectPhase1.add(squirgleFooterIncorrectPhase1);
+	squirgleHeaderAndFooterIncorrectPhase2.add(squirgleHeaderIncorrectPhase2)
+	squirgleHeaderAndFooterIncorrectPhase2.add(squirgleFooterIncorrectPhase2);
+	squirgleHeaderAndFooterIncorrectPhase3.add(squirgleHeaderIncorrectPhase3)
+	squirgleHeaderAndFooterIncorrectPhase3.add(squirgleFooterIncorrectPhase3);
+	squirgleHeaderAndFooterIncorrectPhase4.add(squirgleHeaderIncorrectPhase4)
+	squirgleHeaderAndFooterIncorrectPhase4.add(squirgleFooterIncorrectPhase4);
+	squirgleHeaderAndFooterIncorrectPhase5.add(squirgleHeaderIncorrectPhase5)
+	squirgleHeaderAndFooterIncorrectPhase5.add(squirgleFooterIncorrectPhase5);
+	squirgleHeaderAndFooterIncorrectPhase6.add(squirgleHeaderIncorrectPhase6)
+	squirgleHeaderAndFooterIncorrectPhase6.add(squirgleFooterIncorrectPhase6);
+	squirgleHeaderAndFooterIncorrectPhase7.add(squirgleHeaderIncorrectPhase7)
+	squirgleHeaderAndFooterIncorrectPhase7.add(squirgleFooterIncorrectPhase7);
+	squirgleHeaderAndFooterIncorrectPhase8.add(squirgleHeaderIncorrectPhase8)
+	squirgleHeaderAndFooterIncorrectPhase8.add(squirgleFooterIncorrectPhase8);
+	squirgleHeaderAndFooterIncorrectPhase9.add(squirgleHeaderIncorrectPhase9)
+	squirgleHeaderAndFooterIncorrectPhase9.add(squirgleFooterIncorrectPhase9);
+	squirgleHeaderAndFooterIncorrectPhase10.add(squirgleHeaderIncorrectPhase10)
+	squirgleHeaderAndFooterIncorrectPhase10.add(squirgleFooterIncorrectPhase10);
+	squirgleHeaderAndFooterIncorrectPhase11.add(squirgleHeaderIncorrectPhase11)
+	squirgleHeaderAndFooterIncorrectPhase11.add(squirgleFooterIncorrectPhase11);
+	squirgleHeaderAndFooterIncorrectPhase12.add(squirgleHeaderIncorrectPhase12)
+	squirgleHeaderAndFooterIncorrectPhase12.add(squirgleFooterIncorrectPhase12);
+	squirgleHeaderAndFooterIncorrectPhase13.add(squirgleHeaderIncorrectPhase13)
+	squirgleHeaderAndFooterIncorrectPhase13.add(squirgleFooterIncorrectPhase13);
+	squirgleHeaderAndFooterIncorrectPhase14.add(squirgleHeaderIncorrectPhase14)
+	squirgleHeaderAndFooterIncorrectPhase14.add(squirgleFooterIncorrectPhase14);
+	squirgleHeaderAndFooterIncorrectPhase15.add(squirgleHeaderIncorrectPhase15)
+	squirgleHeaderAndFooterIncorrectPhase15.add(squirgleFooterIncorrectPhase15);
+	squirgleHeaderAndFooterIncorrectPhase16.add(squirgleHeaderIncorrectPhase16)
+	squirgleHeaderAndFooterIncorrectPhase16.add(squirgleFooterIncorrectPhase16);
+	squirgleHeaderAndFooterIncorrectPhase17.add(squirgleHeaderIncorrectPhase17)
+	squirgleHeaderAndFooterIncorrectPhase17.add(squirgleFooterIncorrectPhase17);
+	squirgleHeaderAndFooterIncorrectPhase18.add(squirgleHeaderIncorrectPhase18)
+	squirgleHeaderAndFooterIncorrectPhase18.add(squirgleFooterIncorrectPhase18);
+	squirgleHeaderAndFooterIncorrectPhase19.add(squirgleHeaderIncorrectPhase19)
+	squirgleHeaderAndFooterIncorrectPhase19.add(squirgleFooterIncorrectPhase19);
+	squirgleHeaderAndFooterIncorrectPhase20.add(squirgleHeaderIncorrectPhase20)
+	squirgleHeaderAndFooterIncorrectPhase20.add(squirgleFooterIncorrectPhase20);
+	squirgleHeaderAndFooterIncorrectPhase21.add(squirgleHeaderIncorrectPhase21)
+	squirgleHeaderAndFooterIncorrectPhase21.add(squirgleFooterIncorrectPhase21);
+	squirgleHeaderAndFooterIncorrectPhase22.add(squirgleHeaderIncorrectPhase22)
+	squirgleHeaderAndFooterIncorrectPhase22.add(squirgleFooterIncorrectPhase22);
+	squirgleHeaderAndFooterIncorrectPhase23.add(squirgleHeaderIncorrectPhase23)
+	squirgleHeaderAndFooterIncorrectPhase23.add(squirgleFooterIncorrectPhase23);
+	squirgleHeaderAndFooterIncorrectPhase24.add(squirgleHeaderIncorrectPhase24)
+	squirgleHeaderAndFooterIncorrectPhase24.add(squirgleFooterIncorrectPhase24);
+	squirgleHeaderAndFooterIncorrectPhase25.add(squirgleHeaderIncorrectPhase25)
+	squirgleHeaderAndFooterIncorrectPhase25.add(squirgleFooterIncorrectPhase25);
+	squirgleHeaderAndFooterIncorrectPhase26.add(squirgleHeaderIncorrectPhase26)
+	squirgleHeaderAndFooterIncorrectPhase26.add(squirgleFooterIncorrectPhase26);
+	squirgleHeaderAndFooterIncorrectPhase27.add(squirgleHeaderIncorrectPhase27)
+	squirgleHeaderAndFooterIncorrectPhase27.add(squirgleFooterIncorrectPhase27);
+	squirgleHeaderAndFooterIncorrectPhase28.add(squirgleHeaderIncorrectPhase28)
+	squirgleHeaderAndFooterIncorrectPhase28.add(squirgleFooterIncorrectPhase28);
+	squirgleHeaderAndFooterIncorrectPhase29.add(squirgleHeaderIncorrectPhase29)
+	squirgleHeaderAndFooterIncorrectPhase29.add(squirgleFooterIncorrectPhase29);
+	squirgleHeaderAndFooterIncorrectPhase30.add(squirgleHeaderIncorrectPhase30)
+	squirgleHeaderAndFooterIncorrectPhase30.add(squirgleFooterIncorrectPhase30);
+	squirgleHeaderAndFooterIncorrectPhase31.add(squirgleHeaderIncorrectPhase31)
+	squirgleHeaderAndFooterIncorrectPhase31.add(squirgleFooterIncorrectPhase31);
+	squirgleHeaderAndFooterIncorrectPhase32.add(squirgleHeaderIncorrectPhase32)
+	squirgleHeaderAndFooterIncorrectPhase32.add(squirgleFooterIncorrectPhase32);
+	squirgleHeaderAndFooterIncorrectPhase33.add(squirgleHeaderIncorrectPhase33)
+	squirgleHeaderAndFooterIncorrectPhase33.add(squirgleFooterIncorrectPhase33);
+	squirgleHeaderAndFooterIncorrectPhase34.add(squirgleHeaderIncorrectPhase34)
+	squirgleHeaderAndFooterIncorrectPhase34.add(squirgleFooterIncorrectPhase34);
+	squirgleHeaderAndFooterIncorrectPhase35.add(squirgleHeaderIncorrectPhase35)
+	squirgleHeaderAndFooterIncorrectPhase35.add(squirgleFooterIncorrectPhase35);
+	squirgleHeaderAndFooterIncorrectPhase36.add(squirgleHeaderIncorrectPhase36)
+	squirgleHeaderAndFooterIncorrectPhase36.add(squirgleFooterIncorrectPhase36);
+	squirgleHeaderAndFooterIncorrectPhase37.add(squirgleHeaderIncorrectPhase37)
+	squirgleHeaderAndFooterIncorrectPhase37.add(squirgleFooterIncorrectPhase37);
+	squirgleHeaderAndFooterIncorrectPhase38.add(squirgleHeaderIncorrectPhase38)
+	squirgleHeaderAndFooterIncorrectPhase38.add(squirgleFooterIncorrectPhase38);
+	squirgleHeaderAndFooterIncorrectPhase39.add(squirgleHeaderIncorrectPhase39)
+	squirgleHeaderAndFooterIncorrectPhase39.add(squirgleFooterIncorrectPhase39);
+	squirgleHeaderAndFooterIncorrectPhase40.add(squirgleHeaderIncorrectPhase40)
+	squirgleHeaderAndFooterIncorrectPhase40.add(squirgleFooterIncorrectPhase40);
+	squirgleHeaderAndFooterIncorrectPhase41.add(squirgleHeaderIncorrectPhase41)
+	squirgleHeaderAndFooterIncorrectPhase41.add(squirgleFooterIncorrectPhase41);
+	squirgleHeaderAndFooterIncorrectPhase42.add(squirgleHeaderIncorrectPhase42)
+	squirgleHeaderAndFooterIncorrectPhase42.add(squirgleFooterIncorrectPhase42);
+	squirgleHeaderAndFooterIncorrectPhase43.add(squirgleHeaderIncorrectPhase43)
+	squirgleHeaderAndFooterIncorrectPhase43.add(squirgleFooterIncorrectPhase43);
+	squirgleHeaderAndFooterIncorrectPhase44.add(squirgleHeaderIncorrectPhase44)
+	squirgleHeaderAndFooterIncorrectPhase44.add(squirgleFooterIncorrectPhase44);
+	squirgleHeaderAndFooterIncorrectPhase45.add(squirgleHeaderIncorrectPhase45)
+	squirgleHeaderAndFooterIncorrectPhase45.add(squirgleFooterIncorrectPhase45);
+	
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase1);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase2);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase3);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase4);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase5);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase6);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase7);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase8);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase9);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase10);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase11);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase12);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase13);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase14);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase15);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase16);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase17);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase18);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase19);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase20);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase21);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase22);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase23);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase24);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase25);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase26);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase27);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase28);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase29);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase30);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase31);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase32);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase33;
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase34);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase35);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase36;
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase37);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase38);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase39);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase40);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase41);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase42;
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase43;
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase44);
+	squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase45);
+	
+	battleHeaderAndFooterCorrectPhase1.add(battleHeaderCorrectPhase1)
+	battleHeaderAndFooterCorrectPhase1.add(battleFooterCorrectPhase1);
+	battleHeaderAndFooterCorrectPhase2.add(battleHeaderCorrectPhase2)
+	battleHeaderAndFooterCorrectPhase2.add(battleFooterCorrectPhase2);
+	battleHeaderAndFooterCorrectPhase3.add(battleHeaderCorrectPhase3)
+	battleHeaderAndFooterCorrectPhase3.add(battleFooterCorrectPhase3);
+	battleHeaderAndFooterCorrectPhase4.add(battleHeaderCorrectPhase4)
+	battleHeaderAndFooterCorrectPhase4.add(battleFooterCorrectPhase4);
+	battleHeaderAndFooterCorrectPhase5.add(battleHeaderCorrectPhase5)
+	battleHeaderAndFooterCorrectPhase5.add(battleFooterCorrectPhase5);
+	battleHeaderAndFooterCorrectPhase6.add(battleHeaderCorrectPhase6)
+	battleHeaderAndFooterCorrectPhase6.add(battleFooterCorrectPhase6);
+	battleHeaderAndFooterCorrectPhase7.add(battleHeaderCorrectPhase7)
+	battleHeaderAndFooterCorrectPhase7.add(battleFooterCorrectPhase7);
+	battleHeaderAndFooterCorrectPhase8.add(battleHeaderCorrectPhase8)
+	battleHeaderAndFooterCorrectPhase8.add(battleFooterCorrectPhase8);
+	battleHeaderAndFooterCorrectPhase9.add(battleHeaderCorrectPhase9)
+	battleHeaderAndFooterCorrectPhase9.add(battleFooterCorrectPhase9);
+	battleHeaderAndFooterCorrectPhase10.add(battleHeaderCorrectPhase10)
+	battleHeaderAndFooterCorrectPhase10.add(battleFooterCorrectPhase10);
+	battleHeaderAndFooterCorrectPhase11.add(battleHeaderCorrectPhase11)
+	battleHeaderAndFooterCorrectPhase11.add(battleFooterCorrectPhase11);
+	battleHeaderAndFooterCorrectPhase12.add(battleHeaderCorrectPhase12)
+	battleHeaderAndFooterCorrectPhase12.add(battleFooterCorrectPhase12);
+	battleHeaderAndFooterCorrectPhase13.add(battleHeaderCorrectPhase13)
+	battleHeaderAndFooterCorrectPhase13.add(battleFooterCorrectPhase13);
+	battleHeaderAndFooterCorrectPhase14.add(battleHeaderCorrectPhase14)
+	battleHeaderAndFooterCorrectPhase14.add(battleFooterCorrectPhase14);
+	battleHeaderAndFooterCorrectPhase15.add(battleHeaderCorrectPhase15)
+	battleHeaderAndFooterCorrectPhase15.add(battleFooterCorrectPhase15);
+	battleHeaderAndFooterCorrectPhase16.add(battleHeaderCorrectPhase16)
+	battleHeaderAndFooterCorrectPhase16.add(battleFooterCorrectPhase16);
+	battleHeaderAndFooterCorrectPhase17.add(battleHeaderCorrectPhase17)
+	battleHeaderAndFooterCorrectPhase17.add(battleFooterCorrectPhase17);
+	battleHeaderAndFooterCorrectPhase18.add(battleHeaderCorrectPhase18)
+	battleHeaderAndFooterCorrectPhase18.add(battleFooterCorrectPhase18);
+	battleHeaderAndFooterCorrectPhase19.add(battleHeaderCorrectPhase19)
+	battleHeaderAndFooterCorrectPhase19.add(battleFooterCorrectPhase19);
+	battleHeaderAndFooterCorrectPhase20.add(battleHeaderCorrectPhase20)
+	battleHeaderAndFooterCorrectPhase20.add(battleFooterCorrectPhase20);
+	battleHeaderAndFooterCorrectPhase21.add(battleHeaderCorrectPhase21)
+	battleHeaderAndFooterCorrectPhase21.add(battleFooterCorrectPhase21);
+	battleHeaderAndFooterCorrectPhase22.add(battleHeaderCorrectPhase22)
+	battleHeaderAndFooterCorrectPhase22.add(battleFooterCorrectPhase22);
+	battleHeaderAndFooterCorrectPhase23.add(battleHeaderCorrectPhase23)
+	battleHeaderAndFooterCorrectPhase23.add(battleFooterCorrectPhase23);
+	battleHeaderAndFooterCorrectPhase24.add(battleHeaderCorrectPhase24)
+	battleHeaderAndFooterCorrectPhase24.add(battleFooterCorrectPhase24);
+	battleHeaderAndFooterCorrectPhase25.add(battleHeaderCorrectPhase25)
+	battleHeaderAndFooterCorrectPhase25.add(battleFooterCorrectPhase25);
+	battleHeaderAndFooterCorrectPhase26.add(battleHeaderCorrectPhase26)
+	battleHeaderAndFooterCorrectPhase26.add(battleFooterCorrectPhase26);
+	battleHeaderAndFooterCorrectPhase27.add(battleHeaderCorrectPhase27)
+	battleHeaderAndFooterCorrectPhase27.add(battleFooterCorrectPhase27);
+	battleHeaderAndFooterCorrectPhase28.add(battleHeaderCorrectPhase28)
+	battleHeaderAndFooterCorrectPhase28.add(battleFooterCorrectPhase28);
+	battleHeaderAndFooterCorrectPhase29.add(battleHeaderCorrectPhase29)
+	battleHeaderAndFooterCorrectPhase29.add(battleFooterCorrectPhase29);
+	battleHeaderAndFooterCorrectPhase30.add(battleHeaderCorrectPhase30)
+	battleHeaderAndFooterCorrectPhase30.add(battleFooterCorrectPhase30);
+	battleHeaderAndFooterCorrectPhase31.add(battleHeaderCorrectPhase31)
+	battleHeaderAndFooterCorrectPhase31.add(battleFooterCorrectPhase31);
+	battleHeaderAndFooterCorrectPhase32.add(battleHeaderCorrectPhase32)
+	battleHeaderAndFooterCorrectPhase32.add(battleFooterCorrectPhase32);
+	battleHeaderAndFooterCorrectPhase33.add(battleHeaderCorrectPhase33)
+	battleHeaderAndFooterCorrectPhase33.add(battleFooterCorrectPhase33);
+	battleHeaderAndFooterCorrectPhase34.add(battleHeaderCorrectPhase34)
+	battleHeaderAndFooterCorrectPhase34.add(battleFooterCorrectPhase34);
+	battleHeaderAndFooterCorrectPhase35.add(battleHeaderCorrectPhase35)
+	battleHeaderAndFooterCorrectPhase35.add(battleFooterCorrectPhase35);
+	battleHeaderAndFooterCorrectPhase36.add(battleHeaderCorrectPhase36)
+	battleHeaderAndFooterCorrectPhase36.add(battleFooterCorrectPhase36);
+	battleHeaderAndFooterCorrectPhase37.add(battleHeaderCorrectPhase37)
+	battleHeaderAndFooterCorrectPhase37.add(battleFooterCorrectPhase37);
+	battleHeaderAndFooterCorrectPhase38.add(battleHeaderCorrectPhase38)
+	battleHeaderAndFooterCorrectPhase38.add(battleFooterCorrectPhase38);
+	battleHeaderAndFooterCorrectPhase39.add(battleHeaderCorrectPhase39)
+	battleHeaderAndFooterCorrectPhase39.add(battleFooterCorrectPhase39);
+	battleHeaderAndFooterCorrectPhase40.add(battleHeaderCorrectPhase40)
+	battleHeaderAndFooterCorrectPhase40.add(battleFooterCorrectPhase40);
+	battleHeaderAndFooterCorrectPhase41.add(battleHeaderCorrectPhase41)
+	battleHeaderAndFooterCorrectPhase41.add(battleFooterCorrectPhase41);
+	battleHeaderAndFooterCorrectPhase42.add(battleHeaderCorrectPhase42)
+	battleHeaderAndFooterCorrectPhase42.add(battleFooterCorrectPhase42);
+	battleHeaderAndFooterCorrectPhase43.add(battleHeaderCorrectPhase43)
+	battleHeaderAndFooterCorrectPhase43.add(battleFooterCorrectPhase43);
+	battleHeaderAndFooterCorrectPhase44.add(battleHeaderCorrectPhase44)
+	battleHeaderAndFooterCorrectPhase44.add(battleFooterCorrectPhase44);
+	battleHeaderAndFooterCorrectPhase45.add(battleHeaderCorrectPhase45)
+	battleHeaderAndFooterCorrectPhase45.add(battleFooterCorrectPhase45);
+	
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase1);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase2);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase3);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase4);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase5);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase6);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase7);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase8);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase9);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase10);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase11);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase12);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase13);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase14);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase15);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase16);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase17);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase18);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase19);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase20);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase21);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase22);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase23);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase24);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase25);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase26);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase27);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase28);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase29);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase30);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase31);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase32);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase33;
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase34);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase35);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase36;
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase37);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase38);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase39);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase40);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase41);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase42;
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase43;
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase44);
+	battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase45);
+	
+	battleHeaderAndFooterIncorrectPhase1.add(battleHeaderIncorrectPhase1)
+	battleHeaderAndFooterIncorrectPhase1.add(battleFooterIncorrectPhase1);
+	battleHeaderAndFooterIncorrectPhase2.add(battleHeaderIncorrectPhase2)
+	battleHeaderAndFooterIncorrectPhase2.add(battleFooterIncorrectPhase2);
+	battleHeaderAndFooterIncorrectPhase3.add(battleHeaderIncorrectPhase3)
+	battleHeaderAndFooterIncorrectPhase3.add(battleFooterIncorrectPhase3);
+	battleHeaderAndFooterIncorrectPhase4.add(battleHeaderIncorrectPhase4)
+	battleHeaderAndFooterIncorrectPhase4.add(battleFooterIncorrectPhase4);
+	battleHeaderAndFooterIncorrectPhase5.add(battleHeaderIncorrectPhase5)
+	battleHeaderAndFooterIncorrectPhase5.add(battleFooterIncorrectPhase5);
+	battleHeaderAndFooterIncorrectPhase6.add(battleHeaderIncorrectPhase6)
+	battleHeaderAndFooterIncorrectPhase6.add(battleFooterIncorrectPhase6);
+	battleHeaderAndFooterIncorrectPhase7.add(battleHeaderIncorrectPhase7)
+	battleHeaderAndFooterIncorrectPhase7.add(battleFooterIncorrectPhase7);
+	battleHeaderAndFooterIncorrectPhase8.add(battleHeaderIncorrectPhase8)
+	battleHeaderAndFooterIncorrectPhase8.add(battleFooterIncorrectPhase8);
+	battleHeaderAndFooterIncorrectPhase9.add(battleHeaderIncorrectPhase9)
+	battleHeaderAndFooterIncorrectPhase9.add(battleFooterIncorrectPhase9);
+	battleHeaderAndFooterIncorrectPhase10.add(battleHeaderIncorrectPhase10)
+	battleHeaderAndFooterIncorrectPhase10.add(battleFooterIncorrectPhase10);
+	battleHeaderAndFooterIncorrectPhase11.add(battleHeaderIncorrectPhase11)
+	battleHeaderAndFooterIncorrectPhase11.add(battleFooterIncorrectPhase11);
+	battleHeaderAndFooterIncorrectPhase12.add(battleHeaderIncorrectPhase12)
+	battleHeaderAndFooterIncorrectPhase12.add(battleFooterIncorrectPhase12);
+	battleHeaderAndFooterIncorrectPhase13.add(battleHeaderIncorrectPhase13)
+	battleHeaderAndFooterIncorrectPhase13.add(battleFooterIncorrectPhase13);
+	battleHeaderAndFooterIncorrectPhase14.add(battleHeaderIncorrectPhase14)
+	battleHeaderAndFooterIncorrectPhase14.add(battleFooterIncorrectPhase14);
+	battleHeaderAndFooterIncorrectPhase15.add(battleHeaderIncorrectPhase15)
+	battleHeaderAndFooterIncorrectPhase15.add(battleFooterIncorrectPhase15);
+	battleHeaderAndFooterIncorrectPhase16.add(battleHeaderIncorrectPhase16)
+	battleHeaderAndFooterIncorrectPhase16.add(battleFooterIncorrectPhase16);
+	battleHeaderAndFooterIncorrectPhase17.add(battleHeaderIncorrectPhase17)
+	battleHeaderAndFooterIncorrectPhase17.add(battleFooterIncorrectPhase17);
+	battleHeaderAndFooterIncorrectPhase18.add(battleHeaderIncorrectPhase18)
+	battleHeaderAndFooterIncorrectPhase18.add(battleFooterIncorrectPhase18);
+	battleHeaderAndFooterIncorrectPhase19.add(battleHeaderIncorrectPhase19)
+	battleHeaderAndFooterIncorrectPhase19.add(battleFooterIncorrectPhase19);
+	battleHeaderAndFooterIncorrectPhase20.add(battleHeaderIncorrectPhase20)
+	battleHeaderAndFooterIncorrectPhase20.add(battleFooterIncorrectPhase20);
+	battleHeaderAndFooterIncorrectPhase21.add(battleHeaderIncorrectPhase21)
+	battleHeaderAndFooterIncorrectPhase21.add(battleFooterIncorrectPhase21);
+	battleHeaderAndFooterIncorrectPhase22.add(battleHeaderIncorrectPhase22)
+	battleHeaderAndFooterIncorrectPhase22.add(battleFooterIncorrectPhase22);
+	battleHeaderAndFooterIncorrectPhase23.add(battleHeaderIncorrectPhase23)
+	battleHeaderAndFooterIncorrectPhase23.add(battleFooterIncorrectPhase23);
+	battleHeaderAndFooterIncorrectPhase24.add(battleHeaderIncorrectPhase24)
+	battleHeaderAndFooterIncorrectPhase24.add(battleFooterIncorrectPhase24);
+	battleHeaderAndFooterIncorrectPhase25.add(battleHeaderIncorrectPhase25)
+	battleHeaderAndFooterIncorrectPhase25.add(battleFooterIncorrectPhase25);
+	battleHeaderAndFooterIncorrectPhase26.add(battleHeaderIncorrectPhase26)
+	battleHeaderAndFooterIncorrectPhase26.add(battleFooterIncorrectPhase26);
+	battleHeaderAndFooterIncorrectPhase27.add(battleHeaderIncorrectPhase27)
+	battleHeaderAndFooterIncorrectPhase27.add(battleFooterIncorrectPhase27);
+	battleHeaderAndFooterIncorrectPhase28.add(battleHeaderIncorrectPhase28)
+	battleHeaderAndFooterIncorrectPhase28.add(battleFooterIncorrectPhase28);
+	battleHeaderAndFooterIncorrectPhase29.add(battleHeaderIncorrectPhase29)
+	battleHeaderAndFooterIncorrectPhase29.add(battleFooterIncorrectPhase29);
+	battleHeaderAndFooterIncorrectPhase30.add(battleHeaderIncorrectPhase30)
+	battleHeaderAndFooterIncorrectPhase30.add(battleFooterIncorrectPhase30);
+	battleHeaderAndFooterIncorrectPhase31.add(battleHeaderIncorrectPhase31)
+	battleHeaderAndFooterIncorrectPhase31.add(battleFooterIncorrectPhase31);
+	battleHeaderAndFooterIncorrectPhase32.add(battleHeaderIncorrectPhase32)
+	battleHeaderAndFooterIncorrectPhase32.add(battleFooterIncorrectPhase32);
+	battleHeaderAndFooterIncorrectPhase33.add(battleHeaderIncorrectPhase33)
+	battleHeaderAndFooterIncorrectPhase33.add(battleFooterIncorrectPhase33);
+	battleHeaderAndFooterIncorrectPhase34.add(battleHeaderIncorrectPhase34)
+	battleHeaderAndFooterIncorrectPhase34.add(battleFooterIncorrectPhase34);
+	battleHeaderAndFooterIncorrectPhase35.add(battleHeaderIncorrectPhase35)
+	battleHeaderAndFooterIncorrectPhase35.add(battleFooterIncorrectPhase35);
+	battleHeaderAndFooterIncorrectPhase36.add(battleHeaderIncorrectPhase36)
+	battleHeaderAndFooterIncorrectPhase36.add(battleFooterIncorrectPhase36);
+	battleHeaderAndFooterIncorrectPhase37.add(battleHeaderIncorrectPhase37)
+	battleHeaderAndFooterIncorrectPhase37.add(battleFooterIncorrectPhase37);
+	battleHeaderAndFooterIncorrectPhase38.add(battleHeaderIncorrectPhase38)
+	battleHeaderAndFooterIncorrectPhase38.add(battleFooterIncorrectPhase38);
+	battleHeaderAndFooterIncorrectPhase39.add(battleHeaderIncorrectPhase39)
+	battleHeaderAndFooterIncorrectPhase39.add(battleFooterIncorrectPhase39);
+	battleHeaderAndFooterIncorrectPhase40.add(battleHeaderIncorrectPhase40)
+	battleHeaderAndFooterIncorrectPhase40.add(battleFooterIncorrectPhase40);
+	battleHeaderAndFooterIncorrectPhase41.add(battleHeaderIncorrectPhase41)
+	battleHeaderAndFooterIncorrectPhase41.add(battleFooterIncorrectPhase41);
+	battleHeaderAndFooterIncorrectPhase42.add(battleHeaderIncorrectPhase42)
+	battleHeaderAndFooterIncorrectPhase42.add(battleFooterIncorrectPhase42);
+	battleHeaderAndFooterIncorrectPhase43.add(battleHeaderIncorrectPhase43)
+	battleHeaderAndFooterIncorrectPhase43.add(battleFooterIncorrectPhase43);
+	battleHeaderAndFooterIncorrectPhase44.add(battleHeaderIncorrectPhase44)
+	battleHeaderAndFooterIncorrectPhase44.add(battleFooterIncorrectPhase44);
+	battleHeaderAndFooterIncorrectPhase45.add(battleHeaderIncorrectPhase45)
+	battleHeaderAndFooterIncorrectPhase45.add(battleFooterIncorrectPhase45);
+	
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase1);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase2);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase3);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase4);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase5);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase6);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase7);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase8);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase9);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase10);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase11);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase12);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase13);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase14);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase15);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase16);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase17);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase18);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase19);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase20);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase21);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase22);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase23);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase24);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase25);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase26);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase27);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase28);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase29);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase30);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase31);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase32);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase33;
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase34);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase35);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase36;
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase37);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase38);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase39);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase40);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase41);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase42;
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase43;
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase44);
+	battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase45);
+	
+	timeAttackHeaderAndFooterCorrectPhase1.add(timeAttackHeaderCorrectPhase1)
+	timeAttackHeaderAndFooterCorrectPhase1.add(timeAttackFooterCorrectPhase1);
+	timeAttackHeaderAndFooterCorrectPhase2.add(timeAttackHeaderCorrectPhase2)
+	timeAttackHeaderAndFooterCorrectPhase2.add(timeAttackFooterCorrectPhase2);
+	timeAttackHeaderAndFooterCorrectPhase3.add(timeAttackHeaderCorrectPhase3)
+	timeAttackHeaderAndFooterCorrectPhase3.add(timeAttackFooterCorrectPhase3);
+	timeAttackHeaderAndFooterCorrectPhase4.add(timeAttackHeaderCorrectPhase4)
+	timeAttackHeaderAndFooterCorrectPhase4.add(timeAttackFooterCorrectPhase4);
+	timeAttackHeaderAndFooterCorrectPhase5.add(timeAttackHeaderCorrectPhase5)
+	timeAttackHeaderAndFooterCorrectPhase5.add(timeAttackFooterCorrectPhase5);
+	timeAttackHeaderAndFooterCorrectPhase6.add(timeAttackHeaderCorrectPhase6)
+	timeAttackHeaderAndFooterCorrectPhase6.add(timeAttackFooterCorrectPhase6);
+	timeAttackHeaderAndFooterCorrectPhase7.add(timeAttackHeaderCorrectPhase7)
+	timeAttackHeaderAndFooterCorrectPhase7.add(timeAttackFooterCorrectPhase7);
+	timeAttackHeaderAndFooterCorrectPhase8.add(timeAttackHeaderCorrectPhase8)
+	timeAttackHeaderAndFooterCorrectPhase8.add(timeAttackFooterCorrectPhase8);
+	timeAttackHeaderAndFooterCorrectPhase9.add(timeAttackHeaderCorrectPhase9)
+	timeAttackHeaderAndFooterCorrectPhase9.add(timeAttackFooterCorrectPhase9);
+	timeAttackHeaderAndFooterCorrectPhase10.add(timeAttackHeaderCorrectPhase10)
+	timeAttackHeaderAndFooterCorrectPhase10.add(timeAttackFooterCorrectPhase10);
+	timeAttackHeaderAndFooterCorrectPhase11.add(timeAttackHeaderCorrectPhase11)
+	timeAttackHeaderAndFooterCorrectPhase11.add(timeAttackFooterCorrectPhase11);
+	timeAttackHeaderAndFooterCorrectPhase12.add(timeAttackHeaderCorrectPhase12)
+	timeAttackHeaderAndFooterCorrectPhase12.add(timeAttackFooterCorrectPhase12);
+	timeAttackHeaderAndFooterCorrectPhase13.add(timeAttackHeaderCorrectPhase13)
+	timeAttackHeaderAndFooterCorrectPhase13.add(timeAttackFooterCorrectPhase13);
+	timeAttackHeaderAndFooterCorrectPhase14.add(timeAttackHeaderCorrectPhase14)
+	timeAttackHeaderAndFooterCorrectPhase14.add(timeAttackFooterCorrectPhase14);
+	timeAttackHeaderAndFooterCorrectPhase15.add(timeAttackHeaderCorrectPhase15)
+	timeAttackHeaderAndFooterCorrectPhase15.add(timeAttackFooterCorrectPhase15);
+	timeAttackHeaderAndFooterCorrectPhase16.add(timeAttackHeaderCorrectPhase16)
+	timeAttackHeaderAndFooterCorrectPhase16.add(timeAttackFooterCorrectPhase16);
+	timeAttackHeaderAndFooterCorrectPhase17.add(timeAttackHeaderCorrectPhase17)
+	timeAttackHeaderAndFooterCorrectPhase17.add(timeAttackFooterCorrectPhase17);
+	timeAttackHeaderAndFooterCorrectPhase18.add(timeAttackHeaderCorrectPhase18)
+	timeAttackHeaderAndFooterCorrectPhase18.add(timeAttackFooterCorrectPhase18);
+	timeAttackHeaderAndFooterCorrectPhase19.add(timeAttackHeaderCorrectPhase19)
+	timeAttackHeaderAndFooterCorrectPhase19.add(timeAttackFooterCorrectPhase19);
+	timeAttackHeaderAndFooterCorrectPhase20.add(timeAttackHeaderCorrectPhase20)
+	timeAttackHeaderAndFooterCorrectPhase20.add(timeAttackFooterCorrectPhase20);
+	timeAttackHeaderAndFooterCorrectPhase21.add(timeAttackHeaderCorrectPhase21)
+	timeAttackHeaderAndFooterCorrectPhase21.add(timeAttackFooterCorrectPhase21);
+	timeAttackHeaderAndFooterCorrectPhase22.add(timeAttackHeaderCorrectPhase22)
+	timeAttackHeaderAndFooterCorrectPhase22.add(timeAttackFooterCorrectPhase22);
+	timeAttackHeaderAndFooterCorrectPhase23.add(timeAttackHeaderCorrectPhase23)
+	timeAttackHeaderAndFooterCorrectPhase23.add(timeAttackFooterCorrectPhase23);
+	timeAttackHeaderAndFooterCorrectPhase24.add(timeAttackHeaderCorrectPhase24)
+	timeAttackHeaderAndFooterCorrectPhase24.add(timeAttackFooterCorrectPhase24);
+	timeAttackHeaderAndFooterCorrectPhase25.add(timeAttackHeaderCorrectPhase25)
+	timeAttackHeaderAndFooterCorrectPhase25.add(timeAttackFooterCorrectPhase25);
+	timeAttackHeaderAndFooterCorrectPhase26.add(timeAttackHeaderCorrectPhase26)
+	timeAttackHeaderAndFooterCorrectPhase26.add(timeAttackFooterCorrectPhase26);
+	timeAttackHeaderAndFooterCorrectPhase27.add(timeAttackHeaderCorrectPhase27)
+	timeAttackHeaderAndFooterCorrectPhase27.add(timeAttackFooterCorrectPhase27);
+	timeAttackHeaderAndFooterCorrectPhase28.add(timeAttackHeaderCorrectPhase28)
+	timeAttackHeaderAndFooterCorrectPhase28.add(timeAttackFooterCorrectPhase28);
+	timeAttackHeaderAndFooterCorrectPhase29.add(timeAttackHeaderCorrectPhase29)
+	timeAttackHeaderAndFooterCorrectPhase29.add(timeAttackFooterCorrectPhase29);
+	timeAttackHeaderAndFooterCorrectPhase30.add(timeAttackHeaderCorrectPhase30)
+	timeAttackHeaderAndFooterCorrectPhase30.add(timeAttackFooterCorrectPhase30);
+	timeAttackHeaderAndFooterCorrectPhase31.add(timeAttackHeaderCorrectPhase31)
+	timeAttackHeaderAndFooterCorrectPhase31.add(timeAttackFooterCorrectPhase31);
+	timeAttackHeaderAndFooterCorrectPhase32.add(timeAttackHeaderCorrectPhase32)
+	timeAttackHeaderAndFooterCorrectPhase32.add(timeAttackFooterCorrectPhase32);
+	timeAttackHeaderAndFooterCorrectPhase33.add(timeAttackHeaderCorrectPhase33)
+	timeAttackHeaderAndFooterCorrectPhase33.add(timeAttackFooterCorrectPhase33);
+	timeAttackHeaderAndFooterCorrectPhase34.add(timeAttackHeaderCorrectPhase34)
+	timeAttackHeaderAndFooterCorrectPhase34.add(timeAttackFooterCorrectPhase34);
+	timeAttackHeaderAndFooterCorrectPhase35.add(timeAttackHeaderCorrectPhase35)
+	timeAttackHeaderAndFooterCorrectPhase35.add(timeAttackFooterCorrectPhase35);
+	timeAttackHeaderAndFooterCorrectPhase36.add(timeAttackHeaderCorrectPhase36)
+	timeAttackHeaderAndFooterCorrectPhase36.add(timeAttackFooterCorrectPhase36);
+	
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase1);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase2);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase3);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase4);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase5);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase6);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase7);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase8);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase9);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase10);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase11);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase12);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase13);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase14);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase15);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase16);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase17);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase18);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase19);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase20);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase21);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase22);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase23);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase24);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase25);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase26);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase27);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase28);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase29);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase30);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase31);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase32);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase33;
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase34);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase35);
+	timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase36;
+	
+	timeAttackHeaderAndFooterIncorrectPhase1.add(timeAttackHeaderIncorrectPhase1)
+	timeAttackHeaderAndFooterIncorrectPhase1.add(timeAttackFooterIncorrectPhase1);
+	timeAttackHeaderAndFooterIncorrectPhase2.add(timeAttackHeaderIncorrectPhase2)
+	timeAttackHeaderAndFooterIncorrectPhase2.add(timeAttackFooterIncorrectPhase2);
+	timeAttackHeaderAndFooterIncorrectPhase3.add(timeAttackHeaderIncorrectPhase3)
+	timeAttackHeaderAndFooterIncorrectPhase3.add(timeAttackFooterIncorrectPhase3);
+	timeAttackHeaderAndFooterIncorrectPhase4.add(timeAttackHeaderIncorrectPhase4)
+	timeAttackHeaderAndFooterIncorrectPhase4.add(timeAttackFooterIncorrectPhase4);
+	timeAttackHeaderAndFooterIncorrectPhase5.add(timeAttackHeaderIncorrectPhase5)
+	timeAttackHeaderAndFooterIncorrectPhase5.add(timeAttackFooterIncorrectPhase5);
+	timeAttackHeaderAndFooterIncorrectPhase6.add(timeAttackHeaderIncorrectPhase6)
+	timeAttackHeaderAndFooterIncorrectPhase6.add(timeAttackFooterIncorrectPhase6);
+	timeAttackHeaderAndFooterIncorrectPhase7.add(timeAttackHeaderIncorrectPhase7)
+	timeAttackHeaderAndFooterIncorrectPhase7.add(timeAttackFooterIncorrectPhase7);
+	timeAttackHeaderAndFooterIncorrectPhase8.add(timeAttackHeaderIncorrectPhase8)
+	timeAttackHeaderAndFooterIncorrectPhase8.add(timeAttackFooterIncorrectPhase8);
+	timeAttackHeaderAndFooterIncorrectPhase9.add(timeAttackHeaderIncorrectPhase9)
+	timeAttackHeaderAndFooterIncorrectPhase9.add(timeAttackFooterIncorrectPhase9);
+	timeAttackHeaderAndFooterIncorrectPhase10.add(timeAttackHeaderIncorrectPhase10)
+	timeAttackHeaderAndFooterIncorrectPhase10.add(timeAttackFooterIncorrectPhase10);
+	timeAttackHeaderAndFooterIncorrectPhase11.add(timeAttackHeaderIncorrectPhase11)
+	timeAttackHeaderAndFooterIncorrectPhase11.add(timeAttackFooterIncorrectPhase11);
+	timeAttackHeaderAndFooterIncorrectPhase12.add(timeAttackHeaderIncorrectPhase12)
+	timeAttackHeaderAndFooterIncorrectPhase12.add(timeAttackFooterIncorrectPhase12);
+	timeAttackHeaderAndFooterIncorrectPhase13.add(timeAttackHeaderIncorrectPhase13)
+	timeAttackHeaderAndFooterIncorrectPhase13.add(timeAttackFooterIncorrectPhase13);
+	timeAttackHeaderAndFooterIncorrectPhase14.add(timeAttackHeaderIncorrectPhase14)
+	timeAttackHeaderAndFooterIncorrectPhase14.add(timeAttackFooterIncorrectPhase14);
+	timeAttackHeaderAndFooterIncorrectPhase15.add(timeAttackHeaderIncorrectPhase15)
+	timeAttackHeaderAndFooterIncorrectPhase15.add(timeAttackFooterIncorrectPhase15);
+	timeAttackHeaderAndFooterIncorrectPhase16.add(timeAttackHeaderIncorrectPhase16)
+	timeAttackHeaderAndFooterIncorrectPhase16.add(timeAttackFooterIncorrectPhase16);
+	timeAttackHeaderAndFooterIncorrectPhase17.add(timeAttackHeaderIncorrectPhase17)
+	timeAttackHeaderAndFooterIncorrectPhase17.add(timeAttackFooterIncorrectPhase17);
+	timeAttackHeaderAndFooterIncorrectPhase18.add(timeAttackHeaderIncorrectPhase18)
+	timeAttackHeaderAndFooterIncorrectPhase18.add(timeAttackFooterIncorrectPhase18);
+	timeAttackHeaderAndFooterIncorrectPhase19.add(timeAttackHeaderIncorrectPhase19)
+	timeAttackHeaderAndFooterIncorrectPhase19.add(timeAttackFooterIncorrectPhase19);
+	timeAttackHeaderAndFooterIncorrectPhase20.add(timeAttackHeaderIncorrectPhase20)
+	timeAttackHeaderAndFooterIncorrectPhase20.add(timeAttackFooterIncorrectPhase20);
+	timeAttackHeaderAndFooterIncorrectPhase21.add(timeAttackHeaderIncorrectPhase21)
+	timeAttackHeaderAndFooterIncorrectPhase21.add(timeAttackFooterIncorrectPhase21);
+	timeAttackHeaderAndFooterIncorrectPhase22.add(timeAttackHeaderIncorrectPhase22)
+	timeAttackHeaderAndFooterIncorrectPhase22.add(timeAttackFooterIncorrectPhase22);
+	timeAttackHeaderAndFooterIncorrectPhase23.add(timeAttackHeaderIncorrectPhase23)
+	timeAttackHeaderAndFooterIncorrectPhase23.add(timeAttackFooterIncorrectPhase23);
+	timeAttackHeaderAndFooterIncorrectPhase24.add(timeAttackHeaderIncorrectPhase24)
+	timeAttackHeaderAndFooterIncorrectPhase24.add(timeAttackFooterIncorrectPhase24);
+	timeAttackHeaderAndFooterIncorrectPhase25.add(timeAttackHeaderIncorrectPhase25)
+	timeAttackHeaderAndFooterIncorrectPhase25.add(timeAttackFooterIncorrectPhase25);
+	timeAttackHeaderAndFooterIncorrectPhase26.add(timeAttackHeaderIncorrectPhase26)
+	timeAttackHeaderAndFooterIncorrectPhase26.add(timeAttackFooterIncorrectPhase26);
+	timeAttackHeaderAndFooterIncorrectPhase27.add(timeAttackHeaderIncorrectPhase27)
+	timeAttackHeaderAndFooterIncorrectPhase27.add(timeAttackFooterIncorrectPhase27);
+	timeAttackHeaderAndFooterIncorrectPhase28.add(timeAttackHeaderIncorrectPhase28)
+	timeAttackHeaderAndFooterIncorrectPhase28.add(timeAttackFooterIncorrectPhase28);
+	timeAttackHeaderAndFooterIncorrectPhase29.add(timeAttackHeaderIncorrectPhase29)
+	timeAttackHeaderAndFooterIncorrectPhase29.add(timeAttackFooterIncorrectPhase29);
+	timeAttackHeaderAndFooterIncorrectPhase30.add(timeAttackHeaderIncorrectPhase30)
+	timeAttackHeaderAndFooterIncorrectPhase30.add(timeAttackFooterIncorrectPhase30);
+	timeAttackHeaderAndFooterIncorrectPhase31.add(timeAttackHeaderIncorrectPhase31)
+	timeAttackHeaderAndFooterIncorrectPhase31.add(timeAttackFooterIncorrectPhase31);
+	timeAttackHeaderAndFooterIncorrectPhase32.add(timeAttackHeaderIncorrectPhase32)
+	timeAttackHeaderAndFooterIncorrectPhase32.add(timeAttackFooterIncorrectPhase32);
+	timeAttackHeaderAndFooterIncorrectPhase33.add(timeAttackHeaderIncorrectPhase33)
+	timeAttackHeaderAndFooterIncorrectPhase33.add(timeAttackFooterIncorrectPhase33);
+	timeAttackHeaderAndFooterIncorrectPhase34.add(timeAttackHeaderIncorrectPhase34)
+	timeAttackHeaderAndFooterIncorrectPhase34.add(timeAttackFooterIncorrectPhase34);
+	timeAttackHeaderAndFooterIncorrectPhase35.add(timeAttackHeaderIncorrectPhase35)
+	timeAttackHeaderAndFooterIncorrectPhase35.add(timeAttackFooterIncorrectPhase35);
+	timeAttackHeaderAndFooterIncorrectPhase36.add(timeAttackHeaderIncorrectPhase36)
+	timeAttackHeaderAndFooterIncorrectPhase36.add(timeAttackFooterIncorrectPhase36);
+	
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase1);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase2);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase3);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase4);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase5);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase6);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase7);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase8);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase9);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase10);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase11);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase12);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase13);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase14);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase15);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase16);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase17);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase18);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase19);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase20);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase21);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase22);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase23);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase24);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase25);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase26);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase27);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase28);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase29);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase30);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase31);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase32);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase33;
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase34);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase35);
+	timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase36;
+	
+	timeBattleHeaderAndFooterCorrectPhase1.add(timeBattleHeaderCorrectPhase1)
+	timeBattleHeaderAndFooterCorrectPhase1.add(timeBattleFooterCorrectPhase1);
+	timeBattleHeaderAndFooterCorrectPhase2.add(timeBattleHeaderCorrectPhase2)
+	timeBattleHeaderAndFooterCorrectPhase2.add(timeBattleFooterCorrectPhase2);
+	timeBattleHeaderAndFooterCorrectPhase3.add(timeBattleHeaderCorrectPhase3)
+	timeBattleHeaderAndFooterCorrectPhase3.add(timeBattleFooterCorrectPhase3);
+	timeBattleHeaderAndFooterCorrectPhase4.add(timeBattleHeaderCorrectPhase4)
+	timeBattleHeaderAndFooterCorrectPhase4.add(timeBattleFooterCorrectPhase4);
+	timeBattleHeaderAndFooterCorrectPhase5.add(timeBattleHeaderCorrectPhase5)
+	timeBattleHeaderAndFooterCorrectPhase5.add(timeBattleFooterCorrectPhase5);
+	timeBattleHeaderAndFooterCorrectPhase6.add(timeBattleHeaderCorrectPhase6)
+	timeBattleHeaderAndFooterCorrectPhase6.add(timeBattleFooterCorrectPhase6);
+	timeBattleHeaderAndFooterCorrectPhase7.add(timeBattleHeaderCorrectPhase7)
+	timeBattleHeaderAndFooterCorrectPhase7.add(timeBattleFooterCorrectPhase7);
+	timeBattleHeaderAndFooterCorrectPhase8.add(timeBattleHeaderCorrectPhase8)
+	timeBattleHeaderAndFooterCorrectPhase8.add(timeBattleFooterCorrectPhase8);
+	timeBattleHeaderAndFooterCorrectPhase9.add(timeBattleHeaderCorrectPhase9)
+	timeBattleHeaderAndFooterCorrectPhase9.add(timeBattleFooterCorrectPhase9);
+	timeBattleHeaderAndFooterCorrectPhase10.add(timeBattleHeaderCorrectPhase10)
+	timeBattleHeaderAndFooterCorrectPhase10.add(timeBattleFooterCorrectPhase10);
+	timeBattleHeaderAndFooterCorrectPhase11.add(timeBattleHeaderCorrectPhase11)
+	timeBattleHeaderAndFooterCorrectPhase11.add(timeBattleFooterCorrectPhase11);
+	timeBattleHeaderAndFooterCorrectPhase12.add(timeBattleHeaderCorrectPhase12)
+	timeBattleHeaderAndFooterCorrectPhase12.add(timeBattleFooterCorrectPhase12);
+	timeBattleHeaderAndFooterCorrectPhase13.add(timeBattleHeaderCorrectPhase13)
+	timeBattleHeaderAndFooterCorrectPhase13.add(timeBattleFooterCorrectPhase13);
+	timeBattleHeaderAndFooterCorrectPhase14.add(timeBattleHeaderCorrectPhase14)
+	timeBattleHeaderAndFooterCorrectPhase14.add(timeBattleFooterCorrectPhase14);
+	timeBattleHeaderAndFooterCorrectPhase15.add(timeBattleHeaderCorrectPhase15)
+	timeBattleHeaderAndFooterCorrectPhase15.add(timeBattleFooterCorrectPhase15);
+	timeBattleHeaderAndFooterCorrectPhase16.add(timeBattleHeaderCorrectPhase16)
+	timeBattleHeaderAndFooterCorrectPhase16.add(timeBattleFooterCorrectPhase16);
+	timeBattleHeaderAndFooterCorrectPhase17.add(timeBattleHeaderCorrectPhase17)
+	timeBattleHeaderAndFooterCorrectPhase17.add(timeBattleFooterCorrectPhase17);
+	timeBattleHeaderAndFooterCorrectPhase18.add(timeBattleHeaderCorrectPhase18)
+	timeBattleHeaderAndFooterCorrectPhase18.add(timeBattleFooterCorrectPhase18);
+	timeBattleHeaderAndFooterCorrectPhase19.add(timeBattleHeaderCorrectPhase19)
+	timeBattleHeaderAndFooterCorrectPhase19.add(timeBattleFooterCorrectPhase19);
+	timeBattleHeaderAndFooterCorrectPhase20.add(timeBattleHeaderCorrectPhase20)
+	timeBattleHeaderAndFooterCorrectPhase20.add(timeBattleFooterCorrectPhase20);
+	timeBattleHeaderAndFooterCorrectPhase21.add(timeBattleHeaderCorrectPhase21)
+	timeBattleHeaderAndFooterCorrectPhase21.add(timeBattleFooterCorrectPhase21);
+	timeBattleHeaderAndFooterCorrectPhase22.add(timeBattleHeaderCorrectPhase22)
+	timeBattleHeaderAndFooterCorrectPhase22.add(timeBattleFooterCorrectPhase22);
+	timeBattleHeaderAndFooterCorrectPhase23.add(timeBattleHeaderCorrectPhase23)
+	timeBattleHeaderAndFooterCorrectPhase23.add(timeBattleFooterCorrectPhase23);
+	timeBattleHeaderAndFooterCorrectPhase24.add(timeBattleHeaderCorrectPhase24)
+	timeBattleHeaderAndFooterCorrectPhase24.add(timeBattleFooterCorrectPhase24);
+	timeBattleHeaderAndFooterCorrectPhase25.add(timeBattleHeaderCorrectPhase25)
+	timeBattleHeaderAndFooterCorrectPhase25.add(timeBattleFooterCorrectPhase25);
+	timeBattleHeaderAndFooterCorrectPhase26.add(timeBattleHeaderCorrectPhase26)
+	timeBattleHeaderAndFooterCorrectPhase26.add(timeBattleFooterCorrectPhase26);
+	timeBattleHeaderAndFooterCorrectPhase27.add(timeBattleHeaderCorrectPhase27)
+	timeBattleHeaderAndFooterCorrectPhase27.add(timeBattleFooterCorrectPhase27);
+	timeBattleHeaderAndFooterCorrectPhase28.add(timeBattleHeaderCorrectPhase28)
+	timeBattleHeaderAndFooterCorrectPhase28.add(timeBattleFooterCorrectPhase28);
+	timeBattleHeaderAndFooterCorrectPhase29.add(timeBattleHeaderCorrectPhase29)
+	timeBattleHeaderAndFooterCorrectPhase29.add(timeBattleFooterCorrectPhase29);
+	timeBattleHeaderAndFooterCorrectPhase30.add(timeBattleHeaderCorrectPhase30)
+	timeBattleHeaderAndFooterCorrectPhase30.add(timeBattleFooterCorrectPhase30);
+	timeBattleHeaderAndFooterCorrectPhase31.add(timeBattleHeaderCorrectPhase31)
+	timeBattleHeaderAndFooterCorrectPhase31.add(timeBattleFooterCorrectPhase31);
+	timeBattleHeaderAndFooterCorrectPhase32.add(timeBattleHeaderCorrectPhase32)
+	timeBattleHeaderAndFooterCorrectPhase32.add(timeBattleFooterCorrectPhase32);
+	timeBattleHeaderAndFooterCorrectPhase33.add(timeBattleHeaderCorrectPhase33)
+	timeBattleHeaderAndFooterCorrectPhase33.add(timeBattleFooterCorrectPhase33);
+	timeBattleHeaderAndFooterCorrectPhase34.add(timeBattleHeaderCorrectPhase34)
+	timeBattleHeaderAndFooterCorrectPhase34.add(timeBattleFooterCorrectPhase34);
+	timeBattleHeaderAndFooterCorrectPhase35.add(timeBattleHeaderCorrectPhase35)
+	timeBattleHeaderAndFooterCorrectPhase35.add(timeBattleFooterCorrectPhase35);
+	timeBattleHeaderAndFooterCorrectPhase36.add(timeBattleHeaderCorrectPhase36)
+	timeBattleHeaderAndFooterCorrectPhase36.add(timeBattleFooterCorrectPhase36);
+	timeBattleHeaderAndFooterCorrectPhase37.add(timeBattleHeaderCorrectPhase37)
+	timeBattleHeaderAndFooterCorrectPhase37.add(timeBattleFooterCorrectPhase37);
+	timeBattleHeaderAndFooterCorrectPhase38.add(timeBattleHeaderCorrectPhase38)
+	timeBattleHeaderAndFooterCorrectPhase38.add(timeBattleFooterCorrectPhase38);
+	timeBattleHeaderAndFooterCorrectPhase39.add(timeBattleHeaderCorrectPhase39)
+	timeBattleHeaderAndFooterCorrectPhase39.add(timeBattleFooterCorrectPhase39);
+	timeBattleHeaderAndFooterCorrectPhase40.add(timeBattleHeaderCorrectPhase40)
+	timeBattleHeaderAndFooterCorrectPhase40.add(timeBattleFooterCorrectPhase40);
+	timeBattleHeaderAndFooterCorrectPhase41.add(timeBattleHeaderCorrectPhase41)
+	timeBattleHeaderAndFooterCorrectPhase41.add(timeBattleFooterCorrectPhase41);
+	timeBattleHeaderAndFooterCorrectPhase42.add(timeBattleHeaderCorrectPhase42)
+	timeBattleHeaderAndFooterCorrectPhase42.add(timeBattleFooterCorrectPhase42);
+	
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase1);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase2);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase3);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase4);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase5);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase6);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase7);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase8);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase9);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase10);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase11);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase12);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase13);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase14);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase15);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase16);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase17);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase18);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase19);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase20);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase21);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase22);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase23);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase24);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase25);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase26);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase27);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase28);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase29);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase30);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase31);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase32);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase33;
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase34);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase35);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase36;
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase37);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase38);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase39);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase40);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase41);
+	timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase42;
+	
+	timeBattleHeaderAndFooterIncorrectPhase1.add(timeBattleHeaderIncorrectPhase1)
+	timeBattleHeaderAndFooterIncorrectPhase1.add(timeBattleFooterIncorrectPhase1);
+	timeBattleHeaderAndFooterIncorrectPhase2.add(timeBattleHeaderIncorrectPhase2)
+	timeBattleHeaderAndFooterIncorrectPhase2.add(timeBattleFooterIncorrectPhase2);
+	timeBattleHeaderAndFooterIncorrectPhase3.add(timeBattleHeaderIncorrectPhase3)
+	timeBattleHeaderAndFooterIncorrectPhase3.add(timeBattleFooterIncorrectPhase3);
+	timeBattleHeaderAndFooterIncorrectPhase4.add(timeBattleHeaderIncorrectPhase4)
+	timeBattleHeaderAndFooterIncorrectPhase4.add(timeBattleFooterIncorrectPhase4);
+	timeBattleHeaderAndFooterIncorrectPhase5.add(timeBattleHeaderIncorrectPhase5)
+	timeBattleHeaderAndFooterIncorrectPhase5.add(timeBattleFooterIncorrectPhase5);
+	timeBattleHeaderAndFooterIncorrectPhase6.add(timeBattleHeaderIncorrectPhase6)
+	timeBattleHeaderAndFooterIncorrectPhase6.add(timeBattleFooterIncorrectPhase6);
+	timeBattleHeaderAndFooterIncorrectPhase7.add(timeBattleHeaderIncorrectPhase7)
+	timeBattleHeaderAndFooterIncorrectPhase7.add(timeBattleFooterIncorrectPhase7);
+	timeBattleHeaderAndFooterIncorrectPhase8.add(timeBattleHeaderIncorrectPhase8)
+	timeBattleHeaderAndFooterIncorrectPhase8.add(timeBattleFooterIncorrectPhase8);
+	timeBattleHeaderAndFooterIncorrectPhase9.add(timeBattleHeaderIncorrectPhase9)
+	timeBattleHeaderAndFooterIncorrectPhase9.add(timeBattleFooterIncorrectPhase9);
+	timeBattleHeaderAndFooterIncorrectPhase10.add(timeBattleHeaderIncorrectPhase10)
+	timeBattleHeaderAndFooterIncorrectPhase10.add(timeBattleFooterIncorrectPhase10);
+	timeBattleHeaderAndFooterIncorrectPhase11.add(timeBattleHeaderIncorrectPhase11)
+	timeBattleHeaderAndFooterIncorrectPhase11.add(timeBattleFooterIncorrectPhase11);
+	timeBattleHeaderAndFooterIncorrectPhase12.add(timeBattleHeaderIncorrectPhase12)
+	timeBattleHeaderAndFooterIncorrectPhase12.add(timeBattleFooterIncorrectPhase12);
+	timeBattleHeaderAndFooterIncorrectPhase13.add(timeBattleHeaderIncorrectPhase13)
+	timeBattleHeaderAndFooterIncorrectPhase13.add(timeBattleFooterIncorrectPhase13);
+	timeBattleHeaderAndFooterIncorrectPhase14.add(timeBattleHeaderIncorrectPhase14)
+	timeBattleHeaderAndFooterIncorrectPhase14.add(timeBattleFooterIncorrectPhase14);
+	timeBattleHeaderAndFooterIncorrectPhase15.add(timeBattleHeaderIncorrectPhase15)
+	timeBattleHeaderAndFooterIncorrectPhase15.add(timeBattleFooterIncorrectPhase15);
+	timeBattleHeaderAndFooterIncorrectPhase16.add(timeBattleHeaderIncorrectPhase16)
+	timeBattleHeaderAndFooterIncorrectPhase16.add(timeBattleFooterIncorrectPhase16);
+	timeBattleHeaderAndFooterIncorrectPhase17.add(timeBattleHeaderIncorrectPhase17)
+	timeBattleHeaderAndFooterIncorrectPhase17.add(timeBattleFooterIncorrectPhase17);
+	timeBattleHeaderAndFooterIncorrectPhase18.add(timeBattleHeaderIncorrectPhase18)
+	timeBattleHeaderAndFooterIncorrectPhase18.add(timeBattleFooterIncorrectPhase18);
+	timeBattleHeaderAndFooterIncorrectPhase19.add(timeBattleHeaderIncorrectPhase19)
+	timeBattleHeaderAndFooterIncorrectPhase19.add(timeBattleFooterIncorrectPhase19);
+	timeBattleHeaderAndFooterIncorrectPhase20.add(timeBattleHeaderIncorrectPhase20)
+	timeBattleHeaderAndFooterIncorrectPhase20.add(timeBattleFooterIncorrectPhase20);
+	timeBattleHeaderAndFooterIncorrectPhase21.add(timeBattleHeaderIncorrectPhase21)
+	timeBattleHeaderAndFooterIncorrectPhase21.add(timeBattleFooterIncorrectPhase21);
+	timeBattleHeaderAndFooterIncorrectPhase22.add(timeBattleHeaderIncorrectPhase22)
+	timeBattleHeaderAndFooterIncorrectPhase22.add(timeBattleFooterIncorrectPhase22);
+	timeBattleHeaderAndFooterIncorrectPhase23.add(timeBattleHeaderIncorrectPhase23)
+	timeBattleHeaderAndFooterIncorrectPhase23.add(timeBattleFooterIncorrectPhase23);
+	timeBattleHeaderAndFooterIncorrectPhase24.add(timeBattleHeaderIncorrectPhase24)
+	timeBattleHeaderAndFooterIncorrectPhase24.add(timeBattleFooterIncorrectPhase24);
+	timeBattleHeaderAndFooterIncorrectPhase25.add(timeBattleHeaderIncorrectPhase25)
+	timeBattleHeaderAndFooterIncorrectPhase25.add(timeBattleFooterIncorrectPhase25);
+	timeBattleHeaderAndFooterIncorrectPhase26.add(timeBattleHeaderIncorrectPhase26)
+	timeBattleHeaderAndFooterIncorrectPhase26.add(timeBattleFooterIncorrectPhase26);
+	timeBattleHeaderAndFooterIncorrectPhase27.add(timeBattleHeaderIncorrectPhase27)
+	timeBattleHeaderAndFooterIncorrectPhase27.add(timeBattleFooterIncorrectPhase27);
+	timeBattleHeaderAndFooterIncorrectPhase28.add(timeBattleHeaderIncorrectPhase28)
+	timeBattleHeaderAndFooterIncorrectPhase28.add(timeBattleFooterIncorrectPhase28);
+	timeBattleHeaderAndFooterIncorrectPhase29.add(timeBattleHeaderIncorrectPhase29)
+	timeBattleHeaderAndFooterIncorrectPhase29.add(timeBattleFooterIncorrectPhase29);
+	timeBattleHeaderAndFooterIncorrectPhase30.add(timeBattleHeaderIncorrectPhase30)
+	timeBattleHeaderAndFooterIncorrectPhase30.add(timeBattleFooterIncorrectPhase30);
+	timeBattleHeaderAndFooterIncorrectPhase31.add(timeBattleHeaderIncorrectPhase31)
+	timeBattleHeaderAndFooterIncorrectPhase31.add(timeBattleFooterIncorrectPhase31);
+	timeBattleHeaderAndFooterIncorrectPhase32.add(timeBattleHeaderIncorrectPhase32)
+	timeBattleHeaderAndFooterIncorrectPhase32.add(timeBattleFooterIncorrectPhase32);
+	timeBattleHeaderAndFooterIncorrectPhase33.add(timeBattleHeaderIncorrectPhase33)
+	timeBattleHeaderAndFooterIncorrectPhase33.add(timeBattleFooterIncorrectPhase33);
+	timeBattleHeaderAndFooterIncorrectPhase34.add(timeBattleHeaderIncorrectPhase34)
+	timeBattleHeaderAndFooterIncorrectPhase34.add(timeBattleFooterIncorrectPhase34);
+	timeBattleHeaderAndFooterIncorrectPhase35.add(timeBattleHeaderIncorrectPhase35)
+	timeBattleHeaderAndFooterIncorrectPhase35.add(timeBattleFooterIncorrectPhase35);
+	timeBattleHeaderAndFooterIncorrectPhase36.add(timeBattleHeaderIncorrectPhase36)
+	timeBattleHeaderAndFooterIncorrectPhase36.add(timeBattleFooterIncorrectPhase36);
+	timeBattleHeaderAndFooterIncorrectPhase37.add(timeBattleHeaderIncorrectPhase37)
+	timeBattleHeaderAndFooterIncorrectPhase37.add(timeBattleFooterIncorrectPhase37);
+	timeBattleHeaderAndFooterIncorrectPhase38.add(timeBattleHeaderIncorrectPhase38)
+	timeBattleHeaderAndFooterIncorrectPhase38.add(timeBattleFooterIncorrectPhase38);
+	timeBattleHeaderAndFooterIncorrectPhase39.add(timeBattleHeaderIncorrectPhase39)
+	timeBattleHeaderAndFooterIncorrectPhase39.add(timeBattleFooterIncorrectPhase39);
+	timeBattleHeaderAndFooterIncorrectPhase40.add(timeBattleHeaderIncorrectPhase40)
+	timeBattleHeaderAndFooterIncorrectPhase40.add(timeBattleFooterIncorrectPhase40);
+	timeBattleHeaderAndFooterIncorrectPhase41.add(timeBattleHeaderIncorrectPhase41)
+	timeBattleHeaderAndFooterIncorrectPhase41.add(timeBattleFooterIncorrectPhase41);
+	timeBattleHeaderAndFooterIncorrectPhase42.add(timeBattleHeaderIncorrectPhase42)
+	timeBattleHeaderAndFooterIncorrectPhase42.add(timeBattleFooterIncorrectPhase42);
+	
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase1);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase2);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase3);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase4);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase5);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase6);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase7);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase8);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase9);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase10);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase11);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase12);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase13);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase14);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase15);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase16);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase17);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase18);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase19);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase20);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase21);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase22);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase23);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase24);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase25);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase26);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase27);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase28);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase29);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase30);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase31);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase32);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase33;
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase34);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase35);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase36;
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase37);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase38);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase39);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase40);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase41);
+	timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase42;
+	
+	correctInputMapSquirgle = new HashMap<boolean, List<List<String>>>()
+	correctInputMapBattle = new HashMap<boolean, List<List<String>>>()
+	correctInputMapTimeAttack = new HashMap<boolean, List<List<String>>>()
+	correctInputMapTimeBattle = new HashMap<boolean, List<List<String>>>()
+	gameplayTypeMap = new HashMap<int, Map<boolean, List<List<String>>>>()
+	
+	correctInputMapSquirgle.put(true, squirgleHeadersAndFootersCorrect)
+	correctInputMapSquirgle.put(false, squirgleHeadersAndFootersIncorrect)
+	
+	correctInputMapBattle.put(true, battleHeadersAndFootersCorrect)
+	correctInputMapBattle.put(false, battleHeadersAndFootersIncorrect)
+	
+	correctInputMapTimeAttack.put(true, timeAttackHeadersAndFootersCorrect)
+	correctInputMapTimeAttack.put(false, timeAttackHeadersAndFootersIncorrect)
+	
+	correctInputMapTimeBattle.put(true, timeBattleHeadersAndFootersCorrect)
+	correctInputMapTimeBattle.put(false, timeBattleHeadersAndFootersIncorrect)
+	
+	gameplayTypeMap.put(Squirgle.GAMEPLAY_SQUIRGLE, correctInputMapSquirgle)
+	gameplayTypeMap.put(Squirgle.GAMEPLAY_BATTLE, correctInputMapBattle)
+	gameplayTypeMap.put(Squirgle.GAMEPLAY_TIME_ATTACK, correctInputMapTimeAttack)
+	gameplayTypeMap.put(Squirgle.GAMEPLAY_TIME_BATTLE, correctInputMapTimeBattle)
+	
+	--
+	
+	public boolean allowMistakes() {
+		if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+			return phase >= 32;
+		} else {
+			return phase >= 27;
+		}
+	}
+	
+	public boolean tapAnywhereToProgress() {
+		return footer.contains(tapOrClick + " anywhere");
+	}
+	
+	public boolean unrestrictedPlay() {
+		return phase >= numPhases;
+	}
+	
+	public boolean showPlayerHand() {
+		return phase >= 2;
+	}
+	
+	public boolean showPause() {
+		if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+			return phase >= 3;
+		} else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+			return phase >= 4;
+		} else if(gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
+			return phase >= 3;
+		} else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+			return phase >= 4;
+		}
+		return false;
+	}
+	
+	public boolean showPlayerTargets() {
+		if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+			return phase >= 16;
+		} else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+			return phase >= 17;
+		} else if(gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
+			return phase >= 16;
+		} else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+			return phase >= 17;
+		}
+		return false;
+	}
+	
+	public boolean showPlayerScore() {
+		if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+			return phase >= 21;
+		} else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+			return phase >= 22;
+		} else if(gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
+			return phase >= 21;
+		} else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+			return phase >= 22;
+		}
+		return false;
+	}
+	
+	public boolean showPlayerMultiplier() {
+		if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+			return phase >= 23;
+		} else if(gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
+			return phase >= 23;
+		} else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+			return phase >= 28;
+		}
+		return false;
+	}
+	
+	public boolean showOpponentHand() {
+		return phase >= 3;
+	}
+	
+	public boolean showOpponentScore() {
+		if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+			return phase >= 22;
+		} else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+			return phase >= 24;
+		}
+		return false;
+	}
+	
+	public boolean showBackgroundColorShapeListAndTimelines() {
+		if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+			return phase >= 29;
+		} else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+			return phase >= 30;
+		} else if(gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
+			return phase >= 29;
+		} else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
+			return phase >= 34;
+		}
+		return false;
+	}
+	
+	public String getCurrentHeaderText() {
+		return gameplayTypeMap.get(gameplayType).get(correctInput).get(phase - 1).get(0);
+	}
+	
+	public String getCurrentFooterText() {
+		return gameplayTypeMap.get(gameplayType).get(correctInput).get(phase - 1).get(1);
+	}
