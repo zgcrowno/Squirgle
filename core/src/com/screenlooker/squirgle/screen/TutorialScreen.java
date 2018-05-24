@@ -3602,7 +3602,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 phase++;
             }
         } else if(secondScorePhase()) {
-            if(scoreToUse >= 30) {
+            if(scoreToUse >= 20) {
                 phase++;
             }
         } else if(thirdTargetPhase()) {
@@ -4643,7 +4643,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackFooterPhase24 = tapOrClick + " anywhere to continue";
         timeAttackFooterPhase25 = "Get a MULTIPLIER of 5";
         timeAttackFooterPhase26 = tapOrClick + " anywhere to continue";
-        timeAttackFooterPhase27 = "Reach a SCORE of 30. Mistakes are now permitted";
+        timeAttackFooterPhase27 = "Reach a SCORE of 20. Mistakes are now permitted";
         timeAttackFooterPhase28 = tapOrClick + " anywhere to continue";
         timeAttackFooterPhase29 = tapOrClick + " anywhere to continue";
         timeAttackFooterPhase30 = tapOrClick + " anywhere to continue";
@@ -4771,7 +4771,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleFooterPhase29 = tapOrClick + " anywhere to continue";
         timeBattleFooterPhase30 = "Get a MULTIPLIER of 5";
         timeBattleFooterPhase31 = tapOrClick + " anywhere to continue";
-        timeBattleFooterPhase32 = "Reach a SCORE of 30. Mistakes are now permitted";
+        timeBattleFooterPhase32 = "Reach a SCORE of 20. Mistakes are now permitted";
         timeBattleFooterPhase33 = tapOrClick + " anywhere to continue";
         timeBattleFooterPhase34 = tapOrClick + " anywhere to continue";
         timeBattleFooterPhase35 = tapOrClick + " anywhere to continue";
