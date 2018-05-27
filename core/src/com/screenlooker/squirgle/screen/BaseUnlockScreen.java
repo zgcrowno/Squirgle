@@ -206,9 +206,9 @@ public class BaseUnlockScreen implements Screen, InputProcessor {
 
     public void stopMusic() {
         if(game.usePhases) {
-            for (int i = 0; i < GameplayScreen.NUM_MUSIC_PHASES; i++) {
-                game.trackMapPhase.get(game.track).get(i).stop();
-            }
+//            for (int i = 0; i < GameplayScreen.NUM_MUSIC_PHASES; i++) {
+//                game.trackMapPhase.get(game.track).get(i).stop();
+//            }
         } else {
             game.trackMapFull.get(game.track).stop();
         }

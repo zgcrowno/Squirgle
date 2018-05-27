@@ -740,11 +740,11 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     public void playMusic() {
         if(game.usePhases) {
-            if(!game.trackMapPhase.get(game.track).get(0).isPlaying()) {
-                for (int i = 0; i < NUM_MUSIC_PHASES; i++) {
-                    game.trackMapPhase.get(game.track).get(i).play();
-                }
-            }
+//            if(!game.trackMapPhase.get(game.track).get(0).isPlaying()) {
+//                for (int i = 0; i < NUM_MUSIC_PHASES; i++) {
+//                    game.trackMapPhase.get(game.track).get(i).play();
+//                }
+//            }
         } else {
             if(!game.trackMapFull.get(game.track).isPlaying()) {
                 game.trackMapFull.get(game.track).play();
@@ -754,9 +754,9 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     public void stopMusic() {
         if(game.usePhases) {
-            for (int i = 0; i < NUM_MUSIC_PHASES; i++) {
-                game.trackMapPhase.get(game.track).get(i).stop();
-            }
+//            for (int i = 0; i < NUM_MUSIC_PHASES; i++) {
+//                game.trackMapPhase.get(game.track).get(i).stop();
+//            }
         } else {
             game.trackMapFull.get(game.track).stop();
         }
