@@ -207,7 +207,8 @@ public class Squirgle extends Game {
 
 		playedBefore = save.getBoolean(SAVE_PLAYED_BEFORE, false);
 		beatenBefore = save.getBoolean(SAVE_BEATEN_BEFORE, false);
-		usePhases = save.getBoolean(SAVE_USE_PHASES, false);
+		//usePhases = save.getBoolean(SAVE_USE_PHASES, false);
+		usePhases = false; //Removed Full/Split music functionality; now always Full.
 
 		gameplayType = GAMEPLAY_SQUIRGLE;
 		base = 4;

@@ -384,8 +384,8 @@ public class PreGameScreen implements Screen, InputProcessor {
         buttonList = new ArrayList<Button>();
         buttonList.add(playButton);
         buttonList.add(musicButton);
-        buttonList.add(musicFullButton);
-        buttonList.add(musicSplitButton);
+//        buttonList.add(musicFullButton);
+//        buttonList.add(musicSplitButton);
         buttonList.add(musicPointillismButton);
         buttonList.add(musicLineageButton);
         buttonList.add(musicTriTheWaltzButton);
