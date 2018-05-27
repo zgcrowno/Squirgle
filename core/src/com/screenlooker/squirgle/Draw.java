@@ -2366,18 +2366,18 @@ public class Draw {
                     game.camera.viewportHeight,
                     game.camera.viewportWidth,
                     game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS);
-            if(splitScreen) {
-                game.shapeRendererFilled.triangle(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
-                        game.camera.viewportHeight,
-                        game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS - polypRadius,
-                        game.camera.viewportHeight - polypRadius,
-                        game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + polypRadius,
-                        game.camera.viewportHeight - polypRadius);
-            }
-            game.shapeRendererLine.line(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
-                    game.camera.viewportHeight,
-                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + polypRadius,
-                    game.camera.viewportHeight - polypRadius);
+//            if(splitScreen) {
+//                game.shapeRendererFilled.triangle(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
+//                        game.camera.viewportHeight,
+//                        game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS - polypRadius,
+//                        game.camera.viewportHeight - polypRadius,
+//                        game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + polypRadius,
+//                        game.camera.viewportHeight - polypRadius);
+//            }
+//            game.shapeRendererLine.line(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
+//                    game.camera.viewportHeight,
+//                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + polypRadius,
+//                    game.camera.viewportHeight - polypRadius);
         } else {
             game.shapeRendererFilled.triangle(0,
                     game.camera.viewportHeight / 2,
@@ -2385,18 +2385,18 @@ public class Draw {
                     game.camera.viewportHeight / 2,
                     0,
                     (game.camera.viewportHeight / 2) + GameplayScreen.TARGET_RADIUS);
-            if(splitScreen) {
-                game.shapeRendererFilled.triangle(GameplayScreen.TARGET_RADIUS,
-                        game.camera.viewportHeight / 2,
-                        GameplayScreen.TARGET_RADIUS + polypRadius,
-                        (game.camera.viewportHeight / 2) + polypRadius,
-                        GameplayScreen.TARGET_RADIUS - polypRadius,
-                        (game.camera.viewportHeight / 2) + polypRadius);
-            }
-            game.shapeRendererLine.line(GameplayScreen.TARGET_RADIUS,
-                    game.camera.viewportHeight / 2,
-                    GameplayScreen.TARGET_RADIUS - polypRadius,
-                    (game.camera.viewportHeight / 2) + polypRadius);
+//            if(splitScreen) {
+//                game.shapeRendererFilled.triangle(GameplayScreen.TARGET_RADIUS,
+//                        game.camera.viewportHeight / 2,
+//                        GameplayScreen.TARGET_RADIUS + polypRadius,
+//                        (game.camera.viewportHeight / 2) + polypRadius,
+//                        GameplayScreen.TARGET_RADIUS - polypRadius,
+//                        (game.camera.viewportHeight / 2) + polypRadius);
+//            }
+//            game.shapeRendererLine.line(GameplayScreen.TARGET_RADIUS,
+//                    game.camera.viewportHeight / 2,
+//                    GameplayScreen.TARGET_RADIUS - polypRadius,
+//                    (game.camera.viewportHeight / 2) + polypRadius);
         }
         if(splitScreen) {
             game.shapeRendererFilled.triangle(game.camera.viewportWidth,
@@ -2405,16 +2405,16 @@ public class Draw {
                     game.camera.viewportHeight / 2,
                     game.camera.viewportWidth,
                     (game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS);
-            game.shapeRendererFilled.triangle(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
-                    game.camera.viewportHeight / 2,
-                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS - polypRadius,
-                    (game.camera.viewportHeight / 2) - polypRadius,
-                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + polypRadius,
-                    (game.camera.viewportHeight / 2) - polypRadius);
-            game.shapeRendererLine.line(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
-                    game.camera.viewportHeight / 2,
-                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + polypRadius,
-                    (game.camera.viewportHeight / 2) - polypRadius);
+//            game.shapeRendererFilled.triangle(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
+//                    game.camera.viewportHeight / 2,
+//                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS - polypRadius,
+//                    (game.camera.viewportHeight / 2) - polypRadius,
+//                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + polypRadius,
+//                    (game.camera.viewportHeight / 2) - polypRadius);
+//            game.shapeRendererLine.line(game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS,
+//                    game.camera.viewportHeight / 2,
+//                    game.camera.viewportWidth - GameplayScreen.TARGET_RADIUS + polypRadius,
+//                    (game.camera.viewportHeight / 2) - polypRadius);
         }
     }
 
