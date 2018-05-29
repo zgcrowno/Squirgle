@@ -3598,7 +3598,6 @@ public class TutorialScreen implements Screen, InputProcessor {
                 phase++;
             }
         } else if(firstScorePhase()) {
-            System.out.println("here");
             if(useSaturation) {
                 if(saturationP2 >= 5) {
                     phase++;
