@@ -199,7 +199,6 @@ public class TutorialScreen implements Screen, InputProcessor {
     boolean inputTouchedGameplayP1;
     boolean inputTouchedGameplayP2;
     boolean inputTouchedResults;
-    private Color targetArcColor;
     private Color clearColor;
     private int phase;
     private int score;
@@ -1335,7 +1334,22 @@ public class TutorialScreen implements Screen, InputProcessor {
                 drawTargetArcs();
                 game.draw.drawInputButtonsTutorial(splitScreen, local, unrestrictedPlay(), numPlayerInputs(), backgroundColorShape.getColor(), game);
                 if(showBackgroundColorShapeListAndTimelines()) {
-                    game.draw.drawBackgroundColorShapeListTutorial(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, clearColor);
+                    //Ensuring that color needed to make squirgle is always in backgroundColorShapeList so player isn't waiting around in tutorial forever
+                    Color backgroundColorShapeColorToAdd;
+                    if(splitScreen) {
+                        if(currentTargetShapeP1.equals(outsideTargetShapeP1) && !ColorUtils.listContainsShapeOfFillColor(backgroundColorShapeList, targetShapeListP1.get(0).getColor())) {
+                            backgroundColorShapeColorToAdd = targetShapeListP1.get(0).getColor();
+                        } else {
+                            backgroundColorShapeColorToAdd = null;
+                        }
+                    } else {
+                        if(currentTargetShape.equals(outsideTargetShape) && !ColorUtils.listContainsShapeOfFillColor(backgroundColorShapeList, targetShapeList.get(0).getColor())) {
+                            backgroundColorShapeColorToAdd = targetShapeList.get(0).getColor();
+                        } else {
+                            backgroundColorShapeColorToAdd = null;
+                        }
+                    }
+                    game.draw.drawBackgroundColorShapeListTutorial(splitScreen, blackAndWhite, local, backgroundColorShapeList, backgroundColorShape, backgroundColorShapeColorToAdd, clearColor);
                     game.draw.drawTimelines(splitScreen, local, splitScreen ? dummyPromptForTimelines : promptShape, backgroundColorShapeList);
                 }
                 game.draw.drawScoreTrianglesTutorial(splitScreen, local, showPlayerScore(), showOpponentScore(), backgroundColorShape.getColor());
@@ -2251,26 +2265,26 @@ public class TutorialScreen implements Screen, InputProcessor {
     public void drawTargetArcs() {
         if(!splitScreen) {
             if(showPlayerTargets()) {
-                game.draw.drawArcTutorial(0, game.camera.viewportHeight, targetArcStart, targetArcColor);
+                game.draw.drawArcTutorial(0, game.camera.viewportHeight, targetArcStart, backgroundColorShape.getColor());
                 if (targetArcStart > -Draw.NINETY_ONE_DEGREES) {
                     targetArcStart -= TARGET_ARC_SPEED;
                 }
             }
         } else {
             if(showPlayerTargets()) {
-                game.draw.drawArcTutorial(0, game.camera.viewportHeight / 2, targetArcStartP1, targetArcColor);
+                game.draw.drawArcTutorial(0, game.camera.viewportHeight / 2, targetArcStartP1, backgroundColorShape.getColor());
                 if (targetArcStartP1 > -Draw.NINETY_ONE_DEGREES) {
                     targetArcStartP1 -= TARGET_ARC_SPEED;
                 }
             }
             if(unrestrictedPlay()) {
                 if (local) {
-                    game.draw.drawArcTutorial(game.camera.viewportWidth, game.camera.viewportHeight / 2, targetArcStartP2, targetArcColor);
+                    game.draw.drawArcTutorial(game.camera.viewportWidth, game.camera.viewportHeight / 2, targetArcStartP2, backgroundColorShape.getColor());
                     if (targetArcStartP2 > Draw.NINETY_ONE_DEGREES) {
                         targetArcStartP2 -= TARGET_ARC_SPEED;
                     }
                 } else {
-                    game.draw.drawArcTutorial(0, game.camera.viewportHeight, targetArcStartP2, targetArcColor);
+                    game.draw.drawArcTutorial(0, game.camera.viewportHeight, targetArcStartP2, backgroundColorShape.getColor());
                     if (targetArcStartP2 > -Draw.NINETY_ONE_DEGREES) {
                         targetArcStartP2 -= TARGET_ARC_SPEED;
                     }
@@ -3060,7 +3074,6 @@ public class TutorialScreen implements Screen, InputProcessor {
                             new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                                     game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
                     targetArcStart = Draw.NINETY_ONE_DEGREES;
-                    targetArcColor = priorShapeList.get(priorShapeList.size() - TWO_SHAPES_AGO).getColor();
                 } else {
                     outsideTargetShape.setShape(MathUtils.random(game.base - 1));
                     outsideTargetShape.setColor(Color.BLACK);
@@ -3147,7 +3160,6 @@ public class TutorialScreen implements Screen, InputProcessor {
                             new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                                     game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
                     targetArcStartP1 = Draw.NINETY_ONE_DEGREES;
-                    targetArcColor = priorShapeListP1.get(priorShapeListP1.size() - TWO_SHAPES_AGO).getColor();
                 } else {
                     outsideTargetShapeP1.setShape(MathUtils.random(game.base - 1));
                     outsideTargetShapeP1.setColor(Color.BLACK);
@@ -3243,7 +3255,6 @@ public class TutorialScreen implements Screen, InputProcessor {
                     } else {
                         targetArcStartP2 = Draw.NINETY_ONE_DEGREES;
                     }
-                    targetArcColor = priorShapeListP2.get(priorShapeListP2.size() - TWO_SHAPES_AGO).getColor();
                 } else {
                     outsideTargetShapeP2.setShape(MathUtils.random(game.base - 1));
                     outsideTargetShapeP2.setColor(Color.BLACK);
@@ -4200,7 +4211,6 @@ public class TutorialScreen implements Screen, InputProcessor {
         inputTouchedGameplayP1 = false;
         inputTouchedGameplayP2 = false;
         inputTouchedResults = false;
-        targetArcColor = new Color();
         clearColor = new Color(backgroundColorShape.getColor());
         phase = 1;
         score = 1;
@@ -4385,7 +4395,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleFooterPhase24 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase25 = "Get a MULTIPLIER of 5";
         squirgleFooterPhase26 = tapOrClick + " anywhere to continue";
-        squirgleFooterPhase27 = "Reach a SCORE of 30. Mistakes are now permitted";
+        squirgleFooterPhase27 = "Reach a SCORE of 20. Mistakes are now permitted";
         squirgleFooterPhase28 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase29 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase30 = tapOrClick + " anywhere to continue";

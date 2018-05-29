@@ -197,7 +197,6 @@ public class GameplayScreen implements Screen, InputProcessor {
     boolean inputTouchedGameplayP1;
     boolean inputTouchedGameplayP2;
     boolean inputTouchedResults;
-    private Color targetArcColor;
     private Color clearColor;
     private int score;
     private int scoreP1;
@@ -1460,22 +1459,22 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     public void drawTargetArcs() {
         if(!splitScreen) {
-            game.draw.drawArc(0, game.camera.viewportHeight, targetArcStart, targetArcColor);
+            game.draw.drawArc(0, game.camera.viewportHeight, targetArcStart, backgroundColorShape.getColor());
             if (targetArcStart > -Draw.NINETY_ONE_DEGREES) {
                 targetArcStart -= TARGET_ARC_SPEED;
             }
         } else {
-            game.draw.drawArc(0, game.camera.viewportHeight / 2, targetArcStartP1, targetArcColor);
+            game.draw.drawArc(0, game.camera.viewportHeight / 2, targetArcStartP1, backgroundColorShape.getColor());
             if(targetArcStartP1 > -Draw.NINETY_ONE_DEGREES) {
                 targetArcStartP1 -= TARGET_ARC_SPEED;
             }
             if(local && !game.desktop) {
-                game.draw.drawArc(game.camera.viewportWidth, game.camera.viewportHeight / 2, targetArcStartP2, targetArcColor);
+                game.draw.drawArc(game.camera.viewportWidth, game.camera.viewportHeight / 2, targetArcStartP2, backgroundColorShape.getColor());
                 if(targetArcStartP2 > Draw.NINETY_ONE_DEGREES) {
                     targetArcStartP2 -= TARGET_ARC_SPEED;
                 }
             } else {
-                game.draw.drawArc(0, game.camera.viewportHeight, targetArcStartP2, targetArcColor);
+                game.draw.drawArc(0, game.camera.viewportHeight, targetArcStartP2, backgroundColorShape.getColor());
                 if(targetArcStartP2 > -Draw.NINETY_ONE_DEGREES) {
                     targetArcStartP2 -= TARGET_ARC_SPEED;
                 }
@@ -2268,7 +2267,6 @@ public class GameplayScreen implements Screen, InputProcessor {
                             new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                                     game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
                     targetArcStart = Draw.NINETY_ONE_DEGREES;
-                    targetArcColor = priorShapeList.get(priorShapeList.size() - TWO_SHAPES_AGO).getColor();
                 } else {
                     outsideTargetShape.setShape(MathUtils.random(game.base - 1));
                     outsideTargetShape.setColor(Color.BLACK);
@@ -2353,7 +2351,6 @@ public class GameplayScreen implements Screen, InputProcessor {
                             new Vector2(TARGET_RADIUS / TARGET_RADIUS_DIVISOR,
                                     game.camera.viewportHeight - (TARGET_RADIUS / TARGET_RADIUS_DIVISOR))));
                     targetArcStartP1 = Draw.NINETY_ONE_DEGREES;
-                    targetArcColor = priorShapeListP1.get(priorShapeListP1.size() - TWO_SHAPES_AGO).getColor();
                 } else {
                     outsideTargetShapeP1.setShape(MathUtils.random(game.base - 1));
                     outsideTargetShapeP1.setColor(Color.BLACK);
@@ -2445,7 +2442,6 @@ public class GameplayScreen implements Screen, InputProcessor {
                     } else {
                         targetArcStartP2 = Draw.NINETY_ONE_DEGREES;
                     }
-                    targetArcColor = priorShapeListP2.get(priorShapeListP2.size() - TWO_SHAPES_AGO).getColor();
                 } else {
                     outsideTargetShapeP2.setShape(MathUtils.random(game.base - 1));
                     outsideTargetShapeP2.setColor(Color.BLACK);
@@ -2958,7 +2954,6 @@ public class GameplayScreen implements Screen, InputProcessor {
         inputTouchedGameplayP1 = false;
         inputTouchedGameplayP2 = false;
         inputTouchedResults = false;
-        targetArcColor = new Color();
         clearColor = new Color(backgroundColorShape.getColor());
         score = 0;
         scoreP1 = 0;

@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.ColorAction;
 import com.screenlooker.squirgle.Shape;
 
 import java.awt.color.ColorSpace;
+import java.util.List;
 
 public class ColorUtils {
 
@@ -39,6 +40,15 @@ public class ColorUtils {
         }
 
         return null;
+    }
+
+    public static boolean listContainsShapeOfFillColor(List<Shape> shapeList, Color color) {
+        for(Shape shape : shapeList) {
+            if(shape.getFillColor().equals(color)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static void transitionColor(Shape passedShape) {

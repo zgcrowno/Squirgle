@@ -1201,7 +1201,7 @@ public class Draw {
         Color symbolColor = resultsColor.equals(Color.WHITE) ? Color.BLACK : Color.WHITE;
 
         //Replay
-        drawReplaySymbol(inputPlaySpawn.x, inputPlaySpawn.y, GameplayScreen.INPUT_RADIUS, symbolColor, resultsColor);
+        drawReplaySymbol(inputPlaySpawn.x, inputPlaySpawn.y, TutorialScreen.INPUT_RADIUS, symbolColor, resultsColor);
 
         //Home
         game.shapeRendererFilled.setColor(resultsColor);
@@ -2125,7 +2125,7 @@ public class Draw {
         }
     }
 
-    public void drawBackgroundColorShapeListTutorial(boolean splitScreen, boolean blackAndWhite, boolean localMobile, List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color clearColor) {
+    public void drawBackgroundColorShapeListTutorial(boolean splitScreen, boolean blackAndWhite, boolean localMobile, List<Shape> backgroundColorShapeList, Shape backgroundColorShape, Color backgroundColorShapeColorToAdd, Color clearColor) {
         for (int i = 0; i < backgroundColorShapeList.size(); i++) {
             Shape shape = backgroundColorShapeList.get(i);
             drawShape(false, shape);
@@ -2168,7 +2168,7 @@ public class Draw {
                         new Shape(Shape.SQUARE,
                                 newRadius,
                                 blackAndWhite ? Color.BLACK : Color.WHITE,
-                                blackAndWhite ? Color.BLACK : ColorUtils.randomColor(),
+                                blackAndWhite ? Color.BLACK : backgroundColorShapeColorToAdd != null ? backgroundColorShapeColorToAdd : ColorUtils.randomColor(),
                                 newRadius / LINE_WIDTH_DIVISOR,
                                 new Vector2(TutorialScreen.BACKGROUND_COLOR_SHAPE_LIST_MIN_X,
                                         TutorialScreen.BACKGROUND_COLOR_SHAPE_LIST_MAX_Y)));

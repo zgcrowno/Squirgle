@@ -16,10 +16,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.*;
-import com.screenlooker.squirgle.screen.LoadingScreen;
-import com.screenlooker.squirgle.screen.MainMenuScreen;
-import com.screenlooker.squirgle.screen.SplashScreen;
-import com.screenlooker.squirgle.screen.TutorialScreen;
+import com.screenlooker.squirgle.screen.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -267,7 +264,11 @@ public class Squirgle extends Game {
 
 		generator.dispose();
 
-		this.setScreen(new SplashScreen(this));
+		if(Gdx.app.getType().equals(Application.ApplicationType.iOS)) {
+			this.setScreen(new EpilepsyWarningScreen(this));
+		} else {
+			this.setScreen(new SplashScreen(this));
+		}
 	}
 
 	public void render() { super.render(); }
