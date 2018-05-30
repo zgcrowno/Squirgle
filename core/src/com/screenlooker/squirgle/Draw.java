@@ -1189,12 +1189,12 @@ public class Draw {
         //Home
         game.shapeRendererFilled.setColor(resultsColor);
         game.shapeRendererFilled.circle(inputHomeSpawn.x, inputHomeSpawn.y, GameplayScreen.INPUT_RADIUS);
-        drawBackButton(inputHomeSpawn.x, inputHomeSpawn.y, GameplayScreen.INPUT_RADIUS / 2, (GameplayScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, symbolColor);
+        drawMenuSymbol(inputHomeSpawn.x, inputHomeSpawn.y, GameplayScreen.INPUT_RADIUS / 2, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, symbolColor);
 
         //Exit
         game.shapeRendererFilled.setColor(resultsColor);
         game.shapeRendererFilled.circle(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS);
-        drawStopSymbol(inputExitSpawn.x, inputExitSpawn.y, GameplayScreen.INPUT_RADIUS, symbolColor);
+        drawStopSymbol(inputExitSpawn.x, inputExitSpawn.y, (3 * GameplayScreen.INPUT_RADIUS) / 4, symbolColor);
     }
 
     public void drawResultsInputButtonsTutorial(Color resultsColor, Vector2 inputPlaySpawn, Vector2 inputHomeSpawn, Vector2 inputExitSpawn) {
@@ -1206,12 +1206,12 @@ public class Draw {
         //Home
         game.shapeRendererFilled.setColor(resultsColor);
         game.shapeRendererFilled.circle(inputHomeSpawn.x, inputHomeSpawn.y, TutorialScreen.INPUT_RADIUS);
-        drawBackButton(inputHomeSpawn.x, inputHomeSpawn.y, TutorialScreen.INPUT_RADIUS / 2, (TutorialScreen.INPUT_RADIUS / 2) / LINE_WIDTH_DIVISOR, symbolColor);
+        drawMenuSymbol(inputHomeSpawn.x, inputHomeSpawn.y, TutorialScreen.INPUT_RADIUS / 2, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, symbolColor);
 
         //Exit
         game.shapeRendererFilled.setColor(resultsColor);
         game.shapeRendererFilled.circle(inputExitSpawn.x, inputExitSpawn.y, TutorialScreen.INPUT_RADIUS);
-        drawStopSymbol(inputExitSpawn.x, inputExitSpawn.y, TutorialScreen.INPUT_RADIUS, symbolColor);
+        drawStopSymbol(inputExitSpawn.x, inputExitSpawn.y, (3 * TutorialScreen.INPUT_RADIUS) / 4, symbolColor);
     }
 
     public void drawEquation(boolean localMobilePlayer2, String player, Shape lastShapeTouched, Shape lastPromptShape, Shape lastTargetShape, float equationWidth) {
@@ -2677,6 +2677,23 @@ public class Draw {
                 triangleRadius / 20,
                 primaryColor);
 
+    }
+
+    public void drawMenuSymbol(float x, float y, float radius, float lineWidth, Color color) {
+        game.shapeRendererFilled.setColor(color);
+
+        //Draw circular edges
+        game.shapeRendererFilled.circle(x - radius + (lineWidth / 2), y, lineWidth / 2);
+        game.shapeRendererFilled.circle(x + radius - (lineWidth / 2), y, lineWidth / 2);
+        game.shapeRendererFilled.circle(x - radius + (lineWidth / 2), y + radius - (lineWidth / 2), lineWidth / 2);
+        game.shapeRendererFilled.circle(x + radius - (lineWidth / 2), y + radius - (lineWidth / 2), lineWidth / 2);
+        game.shapeRendererFilled.circle(x - radius + (lineWidth / 2), y - radius + (lineWidth / 2), lineWidth / 2);
+        game.shapeRendererFilled.circle(x + radius - (lineWidth / 2), y - radius + (lineWidth / 2), lineWidth / 2);
+
+        //Draw rectangles
+        game.shapeRendererFilled.rectLine(x - radius + (lineWidth / 2), y, x + radius - (lineWidth / 2), y, lineWidth);
+        game.shapeRendererFilled.rectLine(x - radius + (lineWidth / 2), y + radius - (lineWidth / 2), x + radius - (lineWidth / 2), y + radius - (lineWidth / 2), lineWidth);
+        game.shapeRendererFilled.rectLine(x - radius + (lineWidth / 2), y - radius + (lineWidth / 2), x + radius - (lineWidth / 2), y - radius + (lineWidth / 2), lineWidth);
     }
 
     public void drawDash(float x, float y, float width, Color color) {
