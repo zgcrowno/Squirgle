@@ -80,6 +80,24 @@ public class TutorialScreen implements Screen, InputProcessor {
     public static Vector2 INPUT_PLAY_SPAWN;
     public static Vector2 INPUT_HOME_SPAWN;
     public static Vector2 INPUT_EXIT_SPAWN;
+    public static Vector2 SCORE_TRANSITION_POSITIVE_VECTOR_1_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_POSITIVE_VECTOR_2_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_POSITIVE_VECTOR_3_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_POSITIVE_P1_VECTOR_1_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_POSITIVE_P1_VECTOR_2_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_POSITIVE_P1_VECTOR_3_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_POSITIVE_P2_VECTOR_1_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_POSITIVE_P2_VECTOR_3_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_NEGATIVE_VECTOR_1_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_NEGATIVE_VECTOR_2_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_NEGATIVE_VECTOR_3_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_NEGATIVE_P1_VECTOR_1_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_NEGATIVE_P1_VECTOR_2_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_NEGATIVE_P1_VECTOR_3_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_NEGATIVE_P2_VECTOR_1_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_NEGATIVE_P2_VECTOR_2_DEFAULT;
+    public static Vector2 SCORE_TRANSITION_NEGATIVE_P2_VECTOR_3_DEFAULT;
 
     private final static int PAUSE_BACK = 0;
     private final static int PAUSE_QUIT = 1;
@@ -110,6 +128,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private final static float MULTIPLIER_Y_DIVISOR = 1.25f;
     private final static float PROMPT_INCREASE_ADDITIVE = .0001f;
     private final static float SQUIRGLE_OPACITY_DECREMENT = .03f;
+    private final static float SCORE_TRANSITION_INCREMENT = 20f;
 
     public final static String TAP = "Tap";
     public final static String CLICK = "Click";
@@ -127,6 +146,24 @@ public class TutorialScreen implements Screen, InputProcessor {
     private float targetArcStart;
     private float targetArcStartP1;
     private float targetArcStartP2;
+    private Vector2 scoreTransitionPositiveVector1;
+    private Vector2 scoreTransitionPositiveVector2;
+    private Vector2 scoreTransitionPositiveVector3;
+    private Vector2 scoreTransitionPositiveP1Vector1;
+    private Vector2 scoreTransitionPositiveP1Vector2;
+    private Vector2 scoreTransitionPositiveP1Vector3;
+    private Vector2 scoreTransitionPositiveP2Vector1;
+    private Vector2 scoreTransitionPositiveP2Vector2;
+    private Vector2 scoreTransitionPositiveP2Vector3;
+    private Vector2 scoreTransitionNegativeVector1;
+    private Vector2 scoreTransitionNegativeVector2;
+    private Vector2 scoreTransitionNegativeVector3;
+    private Vector2 scoreTransitionNegativeP1Vector1;
+    private Vector2 scoreTransitionNegativeP1Vector2;
+    private Vector2 scoreTransitionNegativeP1Vector3;
+    private Vector2 scoreTransitionNegativeP2Vector1;
+    private Vector2 scoreTransitionNegativeP2Vector2;
+    private Vector2 scoreTransitionNegativeP2Vector3;
     private float squirgleOpacity;
     private float squirgleOpacityP1;
     private float squirgleOpacityP2;
@@ -1364,6 +1401,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                         game.draw.drawSaturationIncrementsTutorial(local, backgroundColorShape.getColor());
                     }
                 }
+                drawScoreTransitions();
                 if(showPause()) {
                     game.draw.drawPauseInputTutorial(splitScreen, local, game);
                 }
@@ -2293,6 +2331,228 @@ public class TutorialScreen implements Screen, InputProcessor {
         }
     }
 
+    public void drawScoreTransitions() {
+        game.shapeRendererFilled.setColor(backgroundColorShape.getColor());
+        if(!splitScreen) {
+            boolean defaultPositive = scoreTransitionPositiveVector1.equals(SCORE_TRANSITION_POSITIVE_VECTOR_1_DEFAULT)
+                    && scoreTransitionPositiveVector2.equals(SCORE_TRANSITION_POSITIVE_VECTOR_2_DEFAULT)
+                    && scoreTransitionPositiveVector3.equals(SCORE_TRANSITION_POSITIVE_VECTOR_3_DEFAULT);
+            boolean defaultNegative = scoreTransitionNegativeVector1.equals(SCORE_TRANSITION_NEGATIVE_VECTOR_1_DEFAULT)
+                    && scoreTransitionNegativeVector2.equals(SCORE_TRANSITION_NEGATIVE_VECTOR_2_DEFAULT)
+                    && scoreTransitionNegativeVector3.equals(SCORE_TRANSITION_NEGATIVE_VECTOR_3_DEFAULT);
+
+            //Positive
+            if(!defaultPositive) {
+                game.shapeRendererFilled.triangle(scoreTransitionPositiveVector1.x,
+                        scoreTransitionPositiveVector1.y,
+                        scoreTransitionPositiveVector2.x,
+                        scoreTransitionPositiveVector2.y,
+                        scoreTransitionPositiveVector3.x,
+                        scoreTransitionPositiveVector3.y);
+                if(scoreTransitionPositiveVector2.x < SCORE_TRANSITION_POSITIVE_VECTOR_2_DEFAULT.x
+                        || scoreTransitionPositiveVector2.y < SCORE_TRANSITION_POSITIVE_VECTOR_2_DEFAULT.y) {
+                    scoreTransitionPositiveVector2.x += SCORE_TRANSITION_INCREMENT;
+                    scoreTransitionPositiveVector2.y += SCORE_TRANSITION_INCREMENT;
+                } else {
+                    scoreTransitionPositiveVector2.set(SCORE_TRANSITION_POSITIVE_VECTOR_2_DEFAULT);
+                    if(scoreTransitionPositiveVector1.x < SCORE_TRANSITION_POSITIVE_VECTOR_1_DEFAULT.x) {
+                        scoreTransitionPositiveVector1.x += SCORE_TRANSITION_INCREMENT;
+                    } else {
+                        scoreTransitionPositiveVector1.set(SCORE_TRANSITION_POSITIVE_VECTOR_1_DEFAULT);
+                    }
+                    if(scoreTransitionPositiveVector3.y < SCORE_TRANSITION_POSITIVE_VECTOR_3_DEFAULT.y) {
+                        scoreTransitionPositiveVector3.y += SCORE_TRANSITION_INCREMENT;
+                    } else {
+                        scoreTransitionPositiveVector3.set(SCORE_TRANSITION_POSITIVE_VECTOR_3_DEFAULT);
+                    }
+                }
+            }
+
+            //Negative
+            if(!defaultNegative) {
+                game.shapeRendererFilled.triangle(scoreTransitionNegativeVector1.x,
+                        scoreTransitionNegativeVector1.y,
+                        scoreTransitionNegativeVector2.x,
+                        scoreTransitionNegativeVector2.y,
+                        scoreTransitionNegativeVector3.x,
+                        scoreTransitionNegativeVector3.y);
+                if(scoreTransitionNegativeVector1.x > SCORE_TRANSITION_NEGATIVE_VECTOR_1_DEFAULT.x
+                        || scoreTransitionNegativeVector3.y > SCORE_TRANSITION_NEGATIVE_VECTOR_3_DEFAULT.y) {
+                    scoreTransitionNegativeVector1.x -= SCORE_TRANSITION_INCREMENT;
+                    scoreTransitionNegativeVector3.y -= SCORE_TRANSITION_INCREMENT;
+                } else {
+                    scoreTransitionNegativeVector1.set(SCORE_TRANSITION_NEGATIVE_VECTOR_1_DEFAULT);
+                    scoreTransitionNegativeVector3.set(SCORE_TRANSITION_NEGATIVE_VECTOR_3_DEFAULT);
+                    if(scoreTransitionNegativeVector2.x > SCORE_TRANSITION_NEGATIVE_VECTOR_2_DEFAULT.x
+                            || scoreTransitionNegativeVector2.y > SCORE_TRANSITION_NEGATIVE_VECTOR_2_DEFAULT.y) {
+                        scoreTransitionNegativeVector2.x -= SCORE_TRANSITION_INCREMENT;
+                        scoreTransitionNegativeVector2.y -= SCORE_TRANSITION_INCREMENT;
+                    } else {
+                        scoreTransitionNegativeVector2.set(SCORE_TRANSITION_NEGATIVE_VECTOR_2_DEFAULT);
+                    }
+                }
+            }
+        } else {
+            //P1
+            boolean defaultPositiveP1 = scoreTransitionPositiveP1Vector1.equals(SCORE_TRANSITION_POSITIVE_P1_VECTOR_1_DEFAULT)
+                    && scoreTransitionPositiveP1Vector2.equals(SCORE_TRANSITION_POSITIVE_P1_VECTOR_2_DEFAULT)
+                    && scoreTransitionPositiveP1Vector3.equals(SCORE_TRANSITION_POSITIVE_P1_VECTOR_3_DEFAULT);
+            boolean defaultNegativeP1 = scoreTransitionNegativeP1Vector1.equals(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_1_DEFAULT)
+                    && scoreTransitionNegativeP1Vector2.equals(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_2_DEFAULT)
+                    && scoreTransitionNegativeP1Vector3.equals(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_3_DEFAULT);
+
+            //Positive
+            if(!defaultPositiveP1) {
+                game.shapeRendererFilled.triangle(scoreTransitionPositiveP1Vector1.x,
+                        scoreTransitionPositiveP1Vector1.y,
+                        scoreTransitionPositiveP1Vector2.x,
+                        scoreTransitionPositiveP1Vector2.y,
+                        scoreTransitionPositiveP1Vector3.x,
+                        scoreTransitionPositiveP1Vector3.y);
+                if(scoreTransitionPositiveP1Vector2.x < SCORE_TRANSITION_POSITIVE_P1_VECTOR_2_DEFAULT.x
+                        || scoreTransitionPositiveP1Vector2.y < SCORE_TRANSITION_POSITIVE_P1_VECTOR_2_DEFAULT.y) {
+                    scoreTransitionPositiveP1Vector2.x += SCORE_TRANSITION_INCREMENT;
+                    scoreTransitionPositiveP1Vector2.y += SCORE_TRANSITION_INCREMENT;
+                } else {
+                    scoreTransitionPositiveP1Vector2.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_2_DEFAULT);
+                    if(scoreTransitionPositiveP1Vector1.x < SCORE_TRANSITION_POSITIVE_P1_VECTOR_1_DEFAULT.x) {
+                        scoreTransitionPositiveP1Vector1.x += SCORE_TRANSITION_INCREMENT;
+                    } else {
+                        scoreTransitionPositiveP1Vector1.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_1_DEFAULT);
+                    }
+                    if(scoreTransitionPositiveP1Vector3.y < SCORE_TRANSITION_POSITIVE_P1_VECTOR_3_DEFAULT.y) {
+                        scoreTransitionPositiveP1Vector3.y += SCORE_TRANSITION_INCREMENT;
+                    } else {
+                        scoreTransitionPositiveP1Vector3.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_3_DEFAULT);
+                    }
+                }
+            }
+
+            //Negative
+            if(!defaultNegativeP1) {
+                game.shapeRendererFilled.triangle(scoreTransitionNegativeP1Vector1.x,
+                        scoreTransitionNegativeP1Vector1.y,
+                        scoreTransitionNegativeP1Vector2.x,
+                        scoreTransitionNegativeP1Vector2.y,
+                        scoreTransitionNegativeP1Vector3.x,
+                        scoreTransitionNegativeP1Vector3.y);
+                if(scoreTransitionNegativeP1Vector1.x > SCORE_TRANSITION_NEGATIVE_P1_VECTOR_1_DEFAULT.x
+                        || scoreTransitionNegativeP1Vector3.y > SCORE_TRANSITION_NEGATIVE_P1_VECTOR_3_DEFAULT.y) {
+                    scoreTransitionNegativeP1Vector1.x -= SCORE_TRANSITION_INCREMENT;
+                    scoreTransitionNegativeP1Vector3.y -= SCORE_TRANSITION_INCREMENT;
+                } else {
+                    scoreTransitionNegativeP1Vector1.set(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_1_DEFAULT);
+                    scoreTransitionNegativeP1Vector3.set(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_3_DEFAULT);
+                    if(scoreTransitionNegativeP1Vector2.x > SCORE_TRANSITION_NEGATIVE_P1_VECTOR_2_DEFAULT.x
+                            || scoreTransitionNegativeP1Vector2.y > SCORE_TRANSITION_NEGATIVE_P1_VECTOR_2_DEFAULT.y) {
+                        scoreTransitionNegativeP1Vector2.x -= SCORE_TRANSITION_INCREMENT;
+                        scoreTransitionNegativeP1Vector2.y -= SCORE_TRANSITION_INCREMENT;
+                    } else {
+                        scoreTransitionNegativeP1Vector2.set(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_2_DEFAULT);
+                    }
+                }
+            }
+
+            //P2
+            boolean defaultPositiveP2 = scoreTransitionPositiveP2Vector1.equals(SCORE_TRANSITION_POSITIVE_P2_VECTOR_1_DEFAULT)
+                    && scoreTransitionPositiveP2Vector2.equals(SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT)
+                    && scoreTransitionPositiveP2Vector3.equals(SCORE_TRANSITION_POSITIVE_P2_VECTOR_3_DEFAULT);
+            boolean defaultNegativeP2 = scoreTransitionNegativeP2Vector1.equals(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_1_DEFAULT)
+                    && scoreTransitionNegativeP2Vector2.equals(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_2_DEFAULT)
+                    && scoreTransitionNegativeP2Vector3.equals(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_3_DEFAULT);
+
+            //Positive
+            if(!defaultPositiveP2) {
+                game.shapeRendererFilled.triangle(scoreTransitionPositiveP2Vector1.x,
+                        scoreTransitionPositiveP2Vector1.y,
+                        scoreTransitionPositiveP2Vector2.x,
+                        scoreTransitionPositiveP2Vector2.y,
+                        scoreTransitionPositiveP2Vector3.x,
+                        scoreTransitionPositiveP2Vector3.y);
+                if(local && !game.desktop) {
+                    if (scoreTransitionPositiveP2Vector2.x > SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT.x
+                            || scoreTransitionPositiveP2Vector2.y > SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT.y) {
+                        scoreTransitionPositiveP2Vector2.x -= SCORE_TRANSITION_INCREMENT;
+                        scoreTransitionPositiveP2Vector2.y -= SCORE_TRANSITION_INCREMENT;
+                    } else {
+                        scoreTransitionPositiveP2Vector2.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT);
+                        if (scoreTransitionPositiveP2Vector1.x > SCORE_TRANSITION_POSITIVE_P2_VECTOR_1_DEFAULT.x) {
+                            scoreTransitionPositiveP2Vector1.x -= SCORE_TRANSITION_INCREMENT;
+                        } else {
+                            scoreTransitionPositiveP2Vector1.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_1_DEFAULT);
+                        }
+                        if (scoreTransitionPositiveP2Vector3.y > SCORE_TRANSITION_POSITIVE_P2_VECTOR_3_DEFAULT.y) {
+                            scoreTransitionPositiveP2Vector3.y -= SCORE_TRANSITION_INCREMENT;
+                        } else {
+                            scoreTransitionPositiveP2Vector3.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_3_DEFAULT);
+                        }
+                    }
+                } else {
+                    if (scoreTransitionPositiveP2Vector2.x < SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT.x
+                            || scoreTransitionPositiveP2Vector2.y < SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT.y) {
+                        scoreTransitionPositiveP2Vector2.x += SCORE_TRANSITION_INCREMENT;
+                        scoreTransitionPositiveP2Vector2.y += SCORE_TRANSITION_INCREMENT;
+                    } else {
+                        scoreTransitionPositiveP2Vector2.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT);
+                        if (scoreTransitionPositiveP2Vector1.x < SCORE_TRANSITION_POSITIVE_P2_VECTOR_1_DEFAULT.x) {
+                            scoreTransitionPositiveP2Vector1.x += SCORE_TRANSITION_INCREMENT;
+                        } else {
+                            scoreTransitionPositiveP2Vector1.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_1_DEFAULT);
+                        }
+                        if (scoreTransitionPositiveP2Vector3.y < SCORE_TRANSITION_POSITIVE_P2_VECTOR_3_DEFAULT.y) {
+                            scoreTransitionPositiveP2Vector3.y += SCORE_TRANSITION_INCREMENT;
+                        } else {
+                            scoreTransitionPositiveP2Vector3.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_3_DEFAULT);
+                        }
+                    }
+                }
+            }
+
+            //Negative
+            if(!defaultNegativeP2) {
+                game.shapeRendererFilled.triangle(scoreTransitionNegativeP2Vector1.x,
+                        scoreTransitionNegativeP2Vector1.y,
+                        scoreTransitionNegativeP2Vector2.x,
+                        scoreTransitionNegativeP2Vector2.y,
+                        scoreTransitionNegativeP2Vector3.x,
+                        scoreTransitionNegativeP2Vector3.y);
+                if(local && !game.desktop) {
+                    if (scoreTransitionNegativeP2Vector1.x < SCORE_TRANSITION_NEGATIVE_P2_VECTOR_1_DEFAULT.x
+                            || scoreTransitionNegativeP2Vector3.y < SCORE_TRANSITION_NEGATIVE_P2_VECTOR_3_DEFAULT.y) {
+                        scoreTransitionNegativeP2Vector1.x += SCORE_TRANSITION_INCREMENT;
+                        scoreTransitionNegativeP2Vector3.y += SCORE_TRANSITION_INCREMENT;
+                    } else {
+                        scoreTransitionNegativeP2Vector1.set(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_1_DEFAULT);
+                        scoreTransitionNegativeP2Vector3.set(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_3_DEFAULT);
+                        if (scoreTransitionNegativeP2Vector2.x < SCORE_TRANSITION_NEGATIVE_P2_VECTOR_2_DEFAULT.x
+                                || scoreTransitionNegativeP2Vector2.y < SCORE_TRANSITION_NEGATIVE_P2_VECTOR_2_DEFAULT.y) {
+                            scoreTransitionNegativeP2Vector2.x += SCORE_TRANSITION_INCREMENT;
+                            scoreTransitionNegativeP2Vector2.y += SCORE_TRANSITION_INCREMENT;
+                        } else {
+                            scoreTransitionNegativeP2Vector2.set(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_2_DEFAULT);
+                        }
+                    }
+                } else {
+                    if (scoreTransitionNegativeP2Vector1.x > SCORE_TRANSITION_NEGATIVE_P2_VECTOR_1_DEFAULT.x
+                            || scoreTransitionNegativeP2Vector3.y > SCORE_TRANSITION_NEGATIVE_P2_VECTOR_3_DEFAULT.y) {
+                        scoreTransitionNegativeP2Vector1.x -= SCORE_TRANSITION_INCREMENT;
+                        scoreTransitionNegativeP2Vector3.y -= SCORE_TRANSITION_INCREMENT;
+                    } else {
+                        scoreTransitionNegativeP2Vector1.set(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_1_DEFAULT);
+                        scoreTransitionNegativeP2Vector3.set(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_3_DEFAULT);
+                        if (scoreTransitionNegativeP2Vector2.x > SCORE_TRANSITION_NEGATIVE_P2_VECTOR_2_DEFAULT.x
+                                || scoreTransitionNegativeP2Vector2.y > SCORE_TRANSITION_NEGATIVE_P2_VECTOR_2_DEFAULT.y) {
+                            scoreTransitionNegativeP2Vector2.x -= SCORE_TRANSITION_INCREMENT;
+                            scoreTransitionNegativeP2Vector2.y -= SCORE_TRANSITION_INCREMENT;
+                        } else {
+                            scoreTransitionNegativeP2Vector2.set(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_2_DEFAULT);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public void increasePromptRadius() {
         if(!paused) {
             promptShape.setRadius(gameOver ? promptShape.getRadius() * promptIncrease : promptShape.getRadius() + (promptIncrease / 2));
@@ -3050,6 +3310,9 @@ public class TutorialScreen implements Screen, InputProcessor {
                 targetShapesMatched = 0;
                 if(showPlayerScore()) {
                     score += multiplier;
+                    scoreTransitionPositiveVector1.set(SCORE_TRANSITION_NEGATIVE_VECTOR_1_DEFAULT);
+                    scoreTransitionPositiveVector2.set(SCORE_TRANSITION_NEGATIVE_VECTOR_2_DEFAULT);
+                    scoreTransitionPositiveVector3.set(SCORE_TRANSITION_NEGATIVE_VECTOR_3_DEFAULT);
                     if (multiplier < MAX_MULTIPLIER) {
                         multiplier++;
                     }
@@ -3135,6 +3398,9 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if(showPlayerScore()) {
                     if (!useSaturation) {
                         scoreP1 += multiplierP1;
+                        scoreTransitionPositiveP1Vector1.set(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_1_DEFAULT);
+                        scoreTransitionPositiveP1Vector2.set(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_2_DEFAULT);
+                        scoreTransitionPositiveP1Vector3.set(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_3_DEFAULT);
                         if (multiplierP1 < MAX_MULTIPLIER) {
                             multiplierP1++;
                         }
@@ -3188,12 +3454,21 @@ public class TutorialScreen implements Screen, InputProcessor {
                     if(useSaturation) {
                         saturationP1 -= 5;
                         saturationP2 += 3;
+                        scoreTransitionPositiveP1Vector1.set(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_1_DEFAULT);
+                        scoreTransitionPositiveP1Vector2.set(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_2_DEFAULT);
+                        scoreTransitionPositiveP1Vector3.set(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_3_DEFAULT);
+                        scoreTransitionNegativeP2Vector1.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_1_DEFAULT);
+                        scoreTransitionNegativeP2Vector2.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT);
+                        scoreTransitionNegativeP2Vector3.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_3_DEFAULT);
                         squirgleOpacityP1 = 1;
                     }
                     game.stats.incrementNumSquirgles(gameplayType, game.base, game.difficulty);
                 } else if(useSaturation) {
                     if(showPlayerScore()) {
                         saturationP2++;
+                        scoreTransitionNegativeP2Vector1.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_1_DEFAULT);
+                        scoreTransitionNegativeP2Vector2.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT);
+                        scoreTransitionNegativeP2Vector3.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_3_DEFAULT);
                     }
                 }
                 currentTargetShapeP1 = targetShapeListP1.get(0);
@@ -3226,6 +3501,9 @@ public class TutorialScreen implements Screen, InputProcessor {
                 if(showPlayerScore()) {
                     if (!useSaturation) {
                         scoreP2 += multiplierP2;
+                        scoreTransitionPositiveP2Vector1.set(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_1_DEFAULT);
+                        scoreTransitionPositiveP2Vector2.set(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_2_DEFAULT);
+                        scoreTransitionPositiveP2Vector3.set(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_3_DEFAULT);
                         if (multiplierP2 < MAX_MULTIPLIER) {
                             multiplierP2++;
                         }
@@ -3283,6 +3561,12 @@ public class TutorialScreen implements Screen, InputProcessor {
                     if(useSaturation) {
                         saturationP2 -= 5;
                         saturationP1 += 3;
+                        scoreTransitionPositiveP2Vector1.set(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_1_DEFAULT);
+                        scoreTransitionPositiveP2Vector2.set(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_2_DEFAULT);
+                        scoreTransitionPositiveP2Vector3.set(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_3_DEFAULT);
+                        scoreTransitionNegativeP1Vector1.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_1_DEFAULT);
+                        scoreTransitionNegativeP1Vector2.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_2_DEFAULT);
+                        scoreTransitionNegativeP1Vector3.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_3_DEFAULT);
                         squirgleOpacityP2 = 1;
                     }
                     game.stats.incrementNumSquirgles(gameplayType, game.base, game.difficulty);
@@ -3290,6 +3574,9 @@ public class TutorialScreen implements Screen, InputProcessor {
                     if(showPlayerScore()) {
                         if (useSaturation) {
                             saturationP1++;
+                            scoreTransitionNegativeP1Vector1.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_1_DEFAULT);
+                            scoreTransitionNegativeP1Vector2.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_2_DEFAULT);
+                            scoreTransitionNegativeP1Vector3.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_3_DEFAULT);
                         }
                     }
                 }
@@ -3325,26 +3612,41 @@ public class TutorialScreen implements Screen, InputProcessor {
 //            }
                 if (score > 0) {
                     score--;
+                    scoreTransitionNegativeVector1.set(SCORE_TRANSITION_POSITIVE_VECTOR_1_DEFAULT);
+                    scoreTransitionNegativeVector2.set(SCORE_TRANSITION_POSITIVE_VECTOR_2_DEFAULT);
+                    scoreTransitionNegativeVector3.set(SCORE_TRANSITION_POSITIVE_VECTOR_3_DEFAULT);
                 }
                 multiplier = 1;
             } else if (player.equals(P1)) {
                 if (useSaturation) {
                     saturationP1++;
+                    scoreTransitionNegativeP1Vector1.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_1_DEFAULT);
+                    scoreTransitionNegativeP1Vector2.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_2_DEFAULT);
+                    scoreTransitionNegativeP1Vector3.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_3_DEFAULT);
                     keepSaturationsInBounds();
                 } else {
                     multiplierP1 = 1;
                     if (scoreP1 > 0) {
                         scoreP1--;
+                        scoreTransitionNegativeP1Vector1.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_1_DEFAULT);
+                        scoreTransitionNegativeP1Vector2.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_2_DEFAULT);
+                        scoreTransitionNegativeP1Vector3.set(SCORE_TRANSITION_POSITIVE_P1_VECTOR_3_DEFAULT);
                     }
                 }
             } else if (player.equals(P2)) {
                 if (useSaturation) {
                     saturationP2++;
+                    scoreTransitionNegativeP2Vector1.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_1_DEFAULT);
+                    scoreTransitionNegativeP2Vector2.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT);
+                    scoreTransitionNegativeP2Vector3.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_3_DEFAULT);
                     keepSaturationsInBounds();
                 } else {
                     multiplierP2 = 1;
                     if (scoreP2 > 0) {
                         scoreP2--;
+                        scoreTransitionNegativeP2Vector1.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_1_DEFAULT);
+                        scoreTransitionNegativeP2Vector2.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT);
+                        scoreTransitionNegativeP2Vector3.set(SCORE_TRANSITION_POSITIVE_P2_VECTOR_3_DEFAULT);
                     }
                 }
             }
@@ -4011,6 +4313,24 @@ public class TutorialScreen implements Screen, InputProcessor {
         INPUT_PLAY_SPAWN = new Vector2(game.camera.viewportWidth / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         INPUT_HOME_SPAWN = new Vector2((2 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
         INPUT_EXIT_SPAWN = new Vector2((3 * game.camera.viewportWidth) / 4, (Draw.INPUT_DISTANCE_OFFSET * INPUT_RADIUS));
+        SCORE_TRANSITION_POSITIVE_VECTOR_1_DEFAULT = new Vector2(game.camera.viewportWidth, game.camera.viewportHeight);
+        SCORE_TRANSITION_POSITIVE_VECTOR_2_DEFAULT = new Vector2(game.camera.viewportWidth, game.camera.viewportHeight);
+        SCORE_TRANSITION_POSITIVE_VECTOR_3_DEFAULT = new Vector2(game.camera.viewportWidth, game.camera.viewportHeight);
+        SCORE_TRANSITION_POSITIVE_P1_VECTOR_1_DEFAULT = new Vector2(game.camera.viewportWidth, game.camera.viewportHeight / 2);
+        SCORE_TRANSITION_POSITIVE_P1_VECTOR_2_DEFAULT = new Vector2(game.camera.viewportWidth, game.camera.viewportHeight / 2);
+        SCORE_TRANSITION_POSITIVE_P1_VECTOR_3_DEFAULT = new Vector2(game.camera.viewportWidth, game.camera.viewportHeight / 2);
+        SCORE_TRANSITION_POSITIVE_P2_VECTOR_1_DEFAULT = local && !game.desktop ? new Vector2(0, game.camera.viewportHeight / 2) : new Vector2(game.camera.viewportWidth, game.camera.viewportHeight);
+        SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT = local && !game.desktop ? new Vector2(0, game.camera.viewportHeight / 2) : new Vector2(game.camera.viewportWidth, game.camera.viewportHeight);
+        SCORE_TRANSITION_POSITIVE_P2_VECTOR_3_DEFAULT = local && !game.desktop ? new Vector2(0, game.camera.viewportHeight / 2) : new Vector2(game.camera.viewportWidth, game.camera.viewportHeight);
+        SCORE_TRANSITION_NEGATIVE_VECTOR_1_DEFAULT = new Vector2(game.camera.viewportWidth - TARGET_RADIUS, game.camera.viewportHeight);
+        SCORE_TRANSITION_NEGATIVE_VECTOR_2_DEFAULT = new Vector2(game.camera.viewportWidth - (TARGET_RADIUS / 2), game.camera.viewportHeight - (TARGET_RADIUS / 2));
+        SCORE_TRANSITION_NEGATIVE_VECTOR_3_DEFAULT = new Vector2(game.camera.viewportWidth, game.camera.viewportHeight - TARGET_RADIUS);
+        SCORE_TRANSITION_NEGATIVE_P1_VECTOR_1_DEFAULT = new Vector2(game.camera.viewportWidth - TARGET_RADIUS, game.camera.viewportHeight / 2);
+        SCORE_TRANSITION_NEGATIVE_P1_VECTOR_2_DEFAULT = new Vector2(game.camera.viewportWidth - (TARGET_RADIUS / 2), (game.camera.viewportHeight / 2) - (TARGET_RADIUS / 2));
+        SCORE_TRANSITION_NEGATIVE_P1_VECTOR_3_DEFAULT = new Vector2(game.camera.viewportWidth, (game.camera.viewportHeight / 2) - TARGET_RADIUS);
+        SCORE_TRANSITION_NEGATIVE_P2_VECTOR_1_DEFAULT = local && !game.desktop ? new Vector2(TARGET_RADIUS, game.camera.viewportHeight / 2) : new Vector2(game.camera.viewportWidth - TARGET_RADIUS, game.camera.viewportHeight);
+        SCORE_TRANSITION_NEGATIVE_P2_VECTOR_2_DEFAULT = local && !game.desktop ? new Vector2(TARGET_RADIUS / 2, (game.camera.viewportHeight / 2) + (TARGET_RADIUS / 2)) : new Vector2(game.camera.viewportWidth - (TARGET_RADIUS / 2), game.camera.viewportHeight - (TARGET_RADIUS / 2));
+        SCORE_TRANSITION_NEGATIVE_P2_VECTOR_3_DEFAULT = local && !game.desktop ? new Vector2(0, (game.camera.viewportHeight / 2) + TARGET_RADIUS) : new Vector2(game.camera.viewportWidth, game.camera.viewportHeight - TARGET_RADIUS);
     }
 
     public void setUpNonFinalNonStaticData() {
@@ -4041,6 +4361,24 @@ public class TutorialScreen implements Screen, InputProcessor {
         targetArcStart = -Draw.NINETY_ONE_DEGREES;
         targetArcStartP1 = -Draw.NINETY_ONE_DEGREES;
         targetArcStartP2 = local ? Draw.NINETY_ONE_DEGREES : -Draw.NINETY_ONE_DEGREES;
+        scoreTransitionPositiveVector1 = new Vector2(SCORE_TRANSITION_POSITIVE_VECTOR_1_DEFAULT);
+        scoreTransitionPositiveVector2 = new Vector2(SCORE_TRANSITION_POSITIVE_VECTOR_2_DEFAULT);
+        scoreTransitionPositiveVector3 = new Vector2(SCORE_TRANSITION_POSITIVE_VECTOR_3_DEFAULT);
+        scoreTransitionPositiveP1Vector1 = new Vector2(SCORE_TRANSITION_POSITIVE_P1_VECTOR_1_DEFAULT);
+        scoreTransitionPositiveP1Vector2 = new Vector2(SCORE_TRANSITION_POSITIVE_P1_VECTOR_2_DEFAULT);
+        scoreTransitionPositiveP1Vector3 = new Vector2(SCORE_TRANSITION_POSITIVE_P1_VECTOR_3_DEFAULT);
+        scoreTransitionPositiveP2Vector1 = new Vector2(SCORE_TRANSITION_POSITIVE_P2_VECTOR_1_DEFAULT);
+        scoreTransitionPositiveP2Vector2 = new Vector2(SCORE_TRANSITION_POSITIVE_P2_VECTOR_2_DEFAULT);
+        scoreTransitionPositiveP2Vector3 = new Vector2(SCORE_TRANSITION_POSITIVE_P2_VECTOR_3_DEFAULT);
+        scoreTransitionNegativeVector1 = new Vector2(SCORE_TRANSITION_NEGATIVE_VECTOR_1_DEFAULT);
+        scoreTransitionNegativeVector2 = new Vector2(SCORE_TRANSITION_NEGATIVE_VECTOR_2_DEFAULT);
+        scoreTransitionNegativeVector3 = new Vector2(SCORE_TRANSITION_NEGATIVE_VECTOR_3_DEFAULT);
+        scoreTransitionNegativeP1Vector1 = new Vector2(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_1_DEFAULT);
+        scoreTransitionNegativeP1Vector2 = new Vector2(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_2_DEFAULT);
+        scoreTransitionNegativeP1Vector3 = new Vector2(SCORE_TRANSITION_NEGATIVE_P1_VECTOR_3_DEFAULT);
+        scoreTransitionNegativeP2Vector1 = new Vector2(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_1_DEFAULT);
+        scoreTransitionNegativeP2Vector2 = new Vector2(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_2_DEFAULT);
+        scoreTransitionNegativeP2Vector3 = new Vector2(SCORE_TRANSITION_NEGATIVE_P2_VECTOR_3_DEFAULT);
         squirgleOpacity = 0;
         squirgleOpacityP1 = 0;
         squirgleOpacityP2 = 0;
