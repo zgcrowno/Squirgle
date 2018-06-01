@@ -5377,6 +5377,7 @@ public class Button {
                     } else {
                         game.setScreen(new GameplayScreen(game, game.gameplayType));
                     }
+                    game.updateSave(Squirgle.SAVE_DIFFICULTY, game.difficulty);
                     return true;
                 }
                 case BUTTON_SQUARE : {
