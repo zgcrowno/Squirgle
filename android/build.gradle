@@ -21,7 +21,7 @@ android {
         applicationId "com.screenlooker.squirgle"
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 7 //This needs to be incremented every time I want to add a new APK to the Google Play Console
+        versionCode 8 //This needs to be incremented every time I want to add a new APK to the Google Play Console
         versionName "1.0" //Maybe this should match?
         multiDexEnabled true
     }

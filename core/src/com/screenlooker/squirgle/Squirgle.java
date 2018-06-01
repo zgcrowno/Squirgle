@@ -77,9 +77,9 @@ public class Squirgle extends Game {
 	public final static String MUSIC_TITLE_ROCTOPUS = "ROCTOPUS";
 	public final static String MUSIC_TITLE_NONPLUSSED = "NONPLUSSED";
 
-	public final static String DIFFICULTY_EASY = "EASY";
-	public final static String DIFFICULTY_MEDIUM = "MEDIUM";
-	public final static String DIFFICULTY_HARD = "HARD";
+	public final static String DIFFICULTY_EASY = "POP";
+	public final static String DIFFICULTY_MEDIUM = "ROCK";
+	public final static String DIFFICULTY_HARD = "JAZZ";
 
 	public final static String HARDCORE_ENABLED = "ENABLED";
 	public final static String HARDCORE_DISABLED = "DISABLED";
@@ -264,11 +264,7 @@ public class Squirgle extends Game {
 
 		generator.dispose();
 
-		if(Gdx.app.getType().equals(Application.ApplicationType.iOS)) {
-			this.setScreen(new EpilepsyWarningScreen(this));
-		} else {
-			this.setScreen(new SplashScreen(this));
-		}
+		this.setScreen(new SplashScreen(this));
 	}
 
 	public void render() { super.render(); }
