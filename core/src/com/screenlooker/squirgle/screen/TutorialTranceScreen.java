@@ -158,7 +158,7 @@ public class TutorialTranceScreen implements Screen, InputProcessor {
 
         if(!paused) {
             if((System.currentTimeMillis() - timeSinceTouched) / ONE_THOUSAND < PAUSE_INPUT_DISAPPEARANCE_TIME) {
-                game.draw.drawPauseInputTutorialTrance(game);
+                game.draw.drawPauseInputTutorialTrance(Color.BLACK, game);
             }
             if(phase < PHASE_TWO) {
                 game.draw.drawHelpInputTrance();

@@ -1403,7 +1403,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                 }
                 drawScoreTransitions();
                 if(showPause()) {
-                    game.draw.drawPauseInputTutorial(splitScreen, local, game);
+                    game.draw.drawPauseInputTutorial(splitScreen, backgroundColorShape.getColor(), game);
                 }
             }
         }

@@ -2571,45 +2571,63 @@ public class Draw {
         }
     }
 
-    public void drawPauseInput(boolean splitScreen, boolean localMobile, Squirgle game) {
+    public void drawPauseInput(boolean splitScreen, Color backgroundColor, Squirgle game) {
         float inputRadius = splitScreen && game.widthGreater ? game.camera.viewportWidth / 40 : game.camera.viewportWidth / 20;
         float lineRadius = inputRadius / 2;
 
+        game.shapeRendererLine.setColor(backgroundColor);
         if(!splitScreen) {
             drawPoint(game.camera.viewportWidth, (game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2), inputRadius, Color.WHITE);
             drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), (game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2), inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
+
+            game.shapeRendererLine.circle(game.camera.viewportWidth, (game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2), inputRadius);
         } else {
             drawPoint(game.camera.viewportWidth, ((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2), inputRadius, Color.WHITE);
             drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), ((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2), inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
+
+            game.shapeRendererLine.circle(game.camera.viewportWidth, ((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - GameplayScreen.TARGET_RADIUS) - (GameplayScreen.INPUT_POINT_SPAWN.y + GameplayScreen.INPUT_RADIUS)) / 2), inputRadius);
         }
 
     }
 
-    public void drawPauseInputTutorial(boolean splitScreen, boolean local, Squirgle game) {
+    public void drawPauseInputTutorial(boolean splitScreen, Color backgroundColor, Squirgle game) {
         float inputRadius = splitScreen && game.widthGreater ? game.camera.viewportWidth / 40 : game.camera.viewportWidth / 20;
 
+        game.shapeRendererLine.setColor(backgroundColor);
         if(!splitScreen) {
             drawPoint(game.camera.viewportWidth, (game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS) - (TutorialScreen.INPUT_POINT_SPAWN.y + TutorialScreen.INPUT_RADIUS)) / 2), inputRadius, Color.WHITE);
             drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), (game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS) - (TutorialScreen.INPUT_POINT_SPAWN.y + TutorialScreen.INPUT_RADIUS)) / 2), inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
+
+            game.shapeRendererLine.circle(game.camera.viewportWidth, (game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS) - (((game.camera.viewportHeight - TutorialScreen.TARGET_RADIUS) - (TutorialScreen.INPUT_POINT_SPAWN.y + TutorialScreen.INPUT_RADIUS)) / 2), inputRadius);
         } else {
             drawPoint(game.camera.viewportWidth, ((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS) - (TutorialScreen.INPUT_POINT_SPAWN.y + TutorialScreen.INPUT_RADIUS)) / 2), inputRadius, Color.WHITE);
             drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), ((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS) - (TutorialScreen.INPUT_POINT_SPAWN.y + TutorialScreen.INPUT_RADIUS)) / 2), inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
+
+            game.shapeRendererLine.circle(game.camera.viewportWidth, ((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS) - ((((game.camera.viewportHeight / 2) - TutorialScreen.TARGET_RADIUS) - (TutorialScreen.INPUT_POINT_SPAWN.y + TutorialScreen.INPUT_RADIUS)) / 2), inputRadius);
         }
 
     }
 
-    public void drawPauseInputTrance(Squirgle game) {
+    public void drawPauseInputTrance(Color backgroundColor, Squirgle game) {
         float inputRadius = game.camera.viewportWidth / 20;
+
+        game.shapeRendererLine.setColor(backgroundColor);
 
         drawPoint(game.camera.viewportWidth, game.camera.viewportHeight / 2, inputRadius, Color.WHITE);
         drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), game.camera.viewportHeight / 2, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
+
+        game.shapeRendererLine.circle(game.camera.viewportWidth, game.camera.viewportHeight / 2, inputRadius);
     }
 
-    public void drawPauseInputTutorialTrance(Squirgle game) {
+    public void drawPauseInputTutorialTrance(Color backgroundColor, Squirgle game) {
         float inputRadius = game.camera.viewportWidth / 20;
+
+        game.shapeRendererLine.setColor(backgroundColor);
 
         drawPoint(game.camera.viewportWidth, (game.camera.viewportHeight / 2) + inputRadius, inputRadius, Color.WHITE);
         drawPauseSymbol(game.camera.viewportWidth - (inputRadius / 2), (game.camera.viewportHeight / 2) + inputRadius, inputRadius / 2, (inputRadius / 2) / LINE_WIDTH_DIVISOR, Color.BLACK);
+
+        game.shapeRendererLine.circle(game.camera.viewportWidth, (game.camera.viewportHeight / 2) + inputRadius, inputRadius);
 
     }
 

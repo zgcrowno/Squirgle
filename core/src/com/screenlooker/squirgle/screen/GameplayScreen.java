@@ -469,7 +469,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                 }
                 drawScoreTransitions();
                 //TODO: Draw another pause input for local multiplayer
-                game.draw.drawPauseInput(splitScreen, local, game);
+                game.draw.drawPauseInput(splitScreen, backgroundColorShape.getColor(), game);
             }
         }
 
