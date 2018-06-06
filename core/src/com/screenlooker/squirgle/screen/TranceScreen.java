@@ -116,7 +116,7 @@ public class TranceScreen implements Screen, InputProcessor {
         }
 
         if(!paused && (System.currentTimeMillis() - timeSinceTouched) / ONE_THOUSAND < PAUSE_INPUT_DISAPPEARANCE_TIME) {
-            game.draw.drawPauseInputTrance(game);
+            game.draw.drawPauseInputTrance(Color.BLACK, game);
         }
 
         if(game.desktop) {
