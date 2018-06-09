@@ -120,7 +120,7 @@ public class MenuHelpTutorialBattleScreen implements Screen, InputProcessor {
         game.resetInstanceData();
 
         //TODO: Make sure this is being determined by inputShapeRadius instead of viewport width in ALL screens
-        game.setUpFontDifficulty(MathUtils.round(game.camera.viewportWidth / FONT_DIFFICULTY_SIZE_DIVISOR));
+//        game.setUpFontDifficulty(MathUtils.round(game.camera.viewportWidth / FONT_DIFFICULTY_SIZE_DIVISOR));
 
         Gdx.input.setInputProcessor(this);
 
@@ -139,8 +139,8 @@ public class MenuHelpTutorialBattleScreen implements Screen, InputProcessor {
         inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 2) : (inputWidth / 2);
 
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
-        game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
-        game.setUpFontTrackType(MathUtils.round(inputShapeRadius / FONT_TRACK_TYPE_DIVISOR));
+//        game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
+//        game.setUpFontTrackType(MathUtils.round(inputShapeRadius / FONT_TRACK_TYPE_DIVISOR));
 
         touchPoint = new Vector3();
 

@@ -144,7 +144,7 @@ public class StatsScreen implements Screen, InputProcessor {
         game.setUpFontStats(MathUtils.round(inputShapeRadius / FONT_STATS_SIZE_DIVISOR));
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
         game.setUpFontOptions(MathUtils.round(inputWidth / FONT_OPTIONS_SIZE_DIVISOR));
-        game.setUpFontNumPlayers(MathUtils.round(symbolRadius / 3));
+        //game.setUpFontNumPlayers(MathUtils.round(symbolRadius / 3));
 
         touchPoint = new Vector3();
 

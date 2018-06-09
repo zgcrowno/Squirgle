@@ -54,7 +54,7 @@ public class CreditsScreen implements Screen, InputProcessor {
     private static final String HARRISON_PALMER = "HARRISON PALMER";
     private static final String SELAH_SNOWDEN = "SELAH SNOWDEN";
     private static final String SQUIRGLER_SUPREME = "SQUIRGLER SUPREME";
-    private static final String YOU_SILLY = "YOU!";
+    private static final String YOU = "YOU!";
     private static final String SO_THANK_YOU = "SO THANK YOU";
     private static final String AND_KEEP_SQUIRGLIN = "AND KEEP SQUIRGLIN'";
 
@@ -120,7 +120,7 @@ public class CreditsScreen implements Screen, InputProcessor {
         stringList.add(SELAH_SNOWDEN);
         stringList.add(CODY_WILLIAMS);
         stringList.add(SQUIRGLER_SUPREME);
-        stringList.add(YOU_SILLY);
+        stringList.add(YOU);
         stringList.add(SO_THANK_YOU);
         stringList.add(AND_KEEP_SQUIRGLIN);
 
