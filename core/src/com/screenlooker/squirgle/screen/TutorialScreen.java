@@ -333,6 +333,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String squirgleHeaderCorrectPhase43;
     private String squirgleHeaderCorrectPhase44;
     private String squirgleHeaderCorrectPhase45;
+    private String squirgleHeaderCorrectPhase46;
 
     private String squirgleHeaderIncorrectPhase1;
     private String squirgleHeaderIncorrectPhase2;
@@ -379,6 +380,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String squirgleHeaderIncorrectPhase43;
     private String squirgleHeaderIncorrectPhase44;
     private String squirgleHeaderIncorrectPhase45;
+    private String squirgleHeaderIncorrectPhase46;
 
     private String squirgleFooterPhase1;
     private String squirgleFooterPhase2;
@@ -425,6 +427,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String squirgleFooterPhase43;
     private String squirgleFooterPhase44;
     private String squirgleFooterPhase45;
+    private String squirgleFooterPhase46;
 
     private String battleHeaderCorrectPhase1;
     private String battleHeaderCorrectPhase2;
@@ -471,6 +474,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String battleHeaderCorrectPhase43;
     private String battleHeaderCorrectPhase44;
     private String battleHeaderCorrectPhase45;
+    private String battleHeaderCorrectPhase46;
 
     private String battleHeaderIncorrectPhase1;
     private String battleHeaderIncorrectPhase2;
@@ -517,6 +521,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String battleHeaderIncorrectPhase43;
     private String battleHeaderIncorrectPhase44;
     private String battleHeaderIncorrectPhase45;
+    private String battleHeaderIncorrectPhase46;
 
     private String battleFooterPhase1;
     private String battleFooterPhase2;
@@ -563,6 +568,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String battleFooterPhase43;
     private String battleFooterPhase44;
     private String battleFooterPhase45;
+    private String battleFooterPhase46;
 
     private String timeAttackHeaderCorrectPhase1;
     private String timeAttackHeaderCorrectPhase2;
@@ -600,6 +606,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String timeAttackHeaderCorrectPhase34;
     private String timeAttackHeaderCorrectPhase35;
     private String timeAttackHeaderCorrectPhase36;
+    private String timeAttackHeaderCorrectPhase37;
 
     private String timeAttackHeaderIncorrectPhase1;
     private String timeAttackHeaderIncorrectPhase2;
@@ -637,6 +644,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String timeAttackHeaderIncorrectPhase34;
     private String timeAttackHeaderIncorrectPhase35;
     private String timeAttackHeaderIncorrectPhase36;
+    private String timeAttackHeaderIncorrectPhase37;
 
     private String timeAttackFooterPhase1;
     private String timeAttackFooterPhase2;
@@ -674,6 +682,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String timeAttackFooterPhase34;
     private String timeAttackFooterPhase35;
     private String timeAttackFooterPhase36;
+    private String timeAttackFooterPhase37;
 
     private String timeBattleHeaderCorrectPhase1;
     private String timeBattleHeaderCorrectPhase2;
@@ -717,6 +726,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String timeBattleHeaderCorrectPhase40;
     private String timeBattleHeaderCorrectPhase41;
     private String timeBattleHeaderCorrectPhase42;
+    private String timeBattleHeaderCorrectPhase43;
 
     private String timeBattleHeaderIncorrectPhase1;
     private String timeBattleHeaderIncorrectPhase2;
@@ -760,6 +770,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String timeBattleHeaderIncorrectPhase40;
     private String timeBattleHeaderIncorrectPhase41;
     private String timeBattleHeaderIncorrectPhase42;
+    private String timeBattleHeaderIncorrectPhase43;
 
     private String timeBattleFooterPhase1;
     private String timeBattleFooterPhase2;
@@ -803,6 +814,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private String timeBattleFooterPhase40;
     private String timeBattleFooterPhase41;
     private String timeBattleFooterPhase42;
+    private String timeBattleFooterPhase43;
 
     private List<String> squirgleHeaderAndFooterCorrectPhase1;
     private List<String> squirgleHeaderAndFooterCorrectPhase2;
@@ -849,6 +861,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private List<String> squirgleHeaderAndFooterCorrectPhase43;
     private List<String> squirgleHeaderAndFooterCorrectPhase44;
     private List<String> squirgleHeaderAndFooterCorrectPhase45;
+    private List<String> squirgleHeaderAndFooterCorrectPhase46;
 
     private List<String> squirgleHeaderAndFooterIncorrectPhase1;
     private List<String> squirgleHeaderAndFooterIncorrectPhase2;
@@ -895,6 +908,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private List<String> squirgleHeaderAndFooterIncorrectPhase43;
     private List<String> squirgleHeaderAndFooterIncorrectPhase44;
     private List<String> squirgleHeaderAndFooterIncorrectPhase45;
+    private List<String> squirgleHeaderAndFooterIncorrectPhase46;
 
     private List<String> battleHeaderAndFooterCorrectPhase1;
     private List<String> battleHeaderAndFooterCorrectPhase2;
@@ -941,6 +955,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private List<String> battleHeaderAndFooterCorrectPhase43;
     private List<String> battleHeaderAndFooterCorrectPhase44;
     private List<String> battleHeaderAndFooterCorrectPhase45;
+    private List<String> battleHeaderAndFooterCorrectPhase46;
 
     private List<String> battleHeaderAndFooterIncorrectPhase1;
     private List<String> battleHeaderAndFooterIncorrectPhase2;
@@ -987,6 +1002,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private List<String> battleHeaderAndFooterIncorrectPhase43;
     private List<String> battleHeaderAndFooterIncorrectPhase44;
     private List<String> battleHeaderAndFooterIncorrectPhase45;
+    private List<String> battleHeaderAndFooterIncorrectPhase46;
 
     private List<String> timeAttackHeaderAndFooterCorrectPhase1;
     private List<String> timeAttackHeaderAndFooterCorrectPhase2;
@@ -1024,6 +1040,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private List<String> timeAttackHeaderAndFooterCorrectPhase34;
     private List<String> timeAttackHeaderAndFooterCorrectPhase35;
     private List<String> timeAttackHeaderAndFooterCorrectPhase36;
+    private List<String> timeAttackHeaderAndFooterCorrectPhase37;
 
     private List<String> timeAttackHeaderAndFooterIncorrectPhase1;
     private List<String> timeAttackHeaderAndFooterIncorrectPhase2;
@@ -1061,6 +1078,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private List<String> timeAttackHeaderAndFooterIncorrectPhase34;
     private List<String> timeAttackHeaderAndFooterIncorrectPhase35;
     private List<String> timeAttackHeaderAndFooterIncorrectPhase36;
+    private List<String> timeAttackHeaderAndFooterIncorrectPhase37;
 
     private List<String> timeBattleHeaderAndFooterCorrectPhase1;
     private List<String> timeBattleHeaderAndFooterCorrectPhase2;
@@ -1104,6 +1122,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private List<String> timeBattleHeaderAndFooterCorrectPhase40;
     private List<String> timeBattleHeaderAndFooterCorrectPhase41;
     private List<String> timeBattleHeaderAndFooterCorrectPhase42;
+    private List<String> timeBattleHeaderAndFooterCorrectPhase43;
 
     private List<String> timeBattleHeaderAndFooterIncorrectPhase1;
     private List<String> timeBattleHeaderAndFooterIncorrectPhase2;
@@ -1147,6 +1166,7 @@ public class TutorialScreen implements Screen, InputProcessor {
     private List<String> timeBattleHeaderAndFooterIncorrectPhase40;
     private List<String> timeBattleHeaderAndFooterIncorrectPhase41;
     private List<String> timeBattleHeaderAndFooterIncorrectPhase42;
+    private List<String> timeBattleHeaderAndFooterIncorrectPhase43;
 
     private List<List<String>> squirgleHeadersAndFootersCorrect;
     private List<List<String>> squirgleHeadersAndFootersIncorrect;
@@ -1181,12 +1201,12 @@ public class TutorialScreen implements Screen, InputProcessor {
         setUpNonFinalStaticData();
 
         //TODO: Eventually set this in render using delta? See maintainSpeed() in TimeAttackScreen
-        game.draw.setColorListSpeed(((BACKGROUND_COLOR_SHAPE_LIST_HEIGHT * NUM_TIMELINES) / game.FPS) / game.ONE_MINUTE);
+        game.draw.setColorListSpeed(((BACKGROUND_COLOR_SHAPE_LIST_HEIGHT * NUM_TIMELINES) / game.FPS) / game.THIRTY_SECONDS);
 
         setUpNonFinalNonStaticData();
 
         game.setUpFontScore(MathUtils.round(game.camera.viewportWidth / FONT_SCORE_SIZE_DIVISOR));
-        game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
+        //game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
         game.setUpFontSquirgle(MathUtils.round(game.camera.viewportWidth / FONT_SQUIRGLE_SIZE_DIVISOR));
         game.setUpFontButton(MathUtils.round(PAUSE_INPUT_WIDTH > PAUSE_INPUT_HEIGHT_MIDDLE ? (PAUSE_INPUT_HEIGHT_MIDDLE / 2) / 2.75f : (PAUSE_INPUT_WIDTH / 2) / 2.75f));
 
@@ -2625,7 +2645,7 @@ public class TutorialScreen implements Screen, InputProcessor {
                     game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.timeAttackNumSeconds * actualFPS * game.FPS));
                 } else {
                     //We're in Battle mode here
-                    game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.ONE_MINUTE * actualFPS * game.FPS));
+                    game.draw.setColorListSpeed((NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT) / (game.THIRTY_SECONDS * actualFPS * game.FPS));
                 }
                 promptIncrease = (game.widthOrHeightSmaller * (game.draw.getColorListSpeed() / (NUM_TIMELINES * BACKGROUND_COLOR_SHAPE_LIST_HEIGHT))) / 2;
             }
@@ -3934,13 +3954,13 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public boolean allowMistakes() {
         if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-            return phase >= 27 && phase != 35;
+            return phase >= 28 && phase != 36;
         } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
-            return phase >= 27 && phase != 36;
+            return phase >= 28 && phase != 37;
         } else if(gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
-            return phase >= 27;
+            return phase >= 28;
         } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
-            return phase >= 32;
+            return phase >= 33;
         }
         return false;
     }
@@ -3995,17 +4015,17 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public boolean showPlayerScore() {
         if(splitScreen) {
-            return phase >= 22;
+            return phase >= 23;
         } else {
-            return phase >= 21;
+            return phase >= 22;
         }
     }
 
     public boolean showPlayerMultiplier() {
         if(splitScreen) {
-            return phase >= 28;
+            return phase >= 29;
         } else {
-            return phase >= 23;
+            return phase >= 24;
         }
     }
 
@@ -4015,20 +4035,20 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public boolean showOpponentScore() {
         if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
-            return phase >= 22;
+            return phase >= 23;
         } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
-            return phase >= 24;
+            return phase >= 25;
         }
         return false;
     }
 
     public boolean showBackgroundColorShapeListAndTimelines() {
         if(!splitScreen) {
-            return phase >= 29;
-        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
             return phase >= 30;
+        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+            return phase >= 31;
         } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
-            return phase >= 34;
+            return phase >= 35;
         }
         return false;
     }
@@ -4099,28 +4119,28 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public boolean secondTargetPhase() {
         if(!splitScreen) {
-            return phase == 20;
-        } else {
             return phase == 21;
+        } else {
+            return phase == 22;
         }
     }
 
     public boolean firstScorePhase() {
         if(!splitScreen) {
-            return phase == 21;
+            return phase == 22;
         } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
-            return phase == 27;
+            return phase == 28;
         } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
-            return phase == 26;
+            return phase == 27;
         }
         return false;
     }
 
     public boolean firstMultiplierPhase() {
         if(!splitScreen) {
-            return phase == 25;
+            return phase == 26;
         } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
-            return phase == 30;
+            return phase == 31;
         } else {
             return false;
         }
@@ -4128,25 +4148,15 @@ public class TutorialScreen implements Screen, InputProcessor {
 
     public boolean secondScorePhase() {
         if(!splitScreen) {
-            return phase == 27;
+            return phase == 28;
         } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
-            return phase == 32;
+            return phase == 33;
         } else {
             return false;
         }
     }
 
     public boolean thirdTargetPhase() {
-        if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-            return phase == 34;
-        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
-            return phase == 35;
-        } else {
-            return false;
-        }
-    }
-
-    public boolean fourthTargetPhase() {
         if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
             return phase == 35;
         } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
@@ -4156,11 +4166,21 @@ public class TutorialScreen implements Screen, InputProcessor {
         }
     }
 
+    public boolean fourthTargetPhase() {
+        if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
+            return phase == 36;
+        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+            return phase == 37;
+        } else {
+            return false;
+        }
+    }
+
     public boolean firstSquirglePhase() {
         if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-            return phase == 37;
-        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
             return phase == 38;
+        } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
+            return phase == 39;
         } else {
             return false;
         }
@@ -4586,13 +4606,13 @@ public class TutorialScreen implements Screen, InputProcessor {
         primaryShapeAtThresholdP2 = primaryShapeP2.getRadius() >= primaryShapeThreshold;
 
         if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
-            numPhases = 46;
+            numPhases = 47;
         } else if(gameplayType == Squirgle.GAMEPLAY_BATTLE) {
-            numPhases = 46;
+            numPhases = 47;
         } else if(gameplayType == Squirgle.GAMEPLAY_TIME_ATTACK) {
-            numPhases = 37;
+            numPhases = 38;
         } else if(gameplayType == Squirgle.GAMEPLAY_TIME_BATTLE) {
-            numPhases = 43;
+            numPhases = 44;
         }
 
         correctInput = true;
@@ -4633,32 +4653,33 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleHeaderCorrectPhase17 = "Glowing things tend to be important in games";
         squirgleHeaderCorrectPhase18 = "The TARGET you just made is now next to your new, randomly generated HAND";
         squirgleHeaderCorrectPhase19 = "This gives you a good idea of your performance";
-        squirgleHeaderCorrectPhase20 = "Looks like there's one more glowing TARGET, though";
-        squirgleHeaderCorrectPhase21 = "Awesome! Making both of your TARGETS increased your SCORE";
-        squirgleHeaderCorrectPhase22 = "Notice that your SCORE jumped from 1 to 3";
-        squirgleHeaderCorrectPhase23 = "This is because your SCORE increases by your MULTIPLIER";
-        squirgleHeaderCorrectPhase24 = "Your MULTIPLIER is the number underneath your SCORE (X#)";
-        squirgleHeaderCorrectPhase25 = "Your MULTIPLIER also increases after making two TARGETS";
-        squirgleHeaderCorrectPhase26 = "Brilliant! Note that your MULTIPLIER can't exceed 5";
-        squirgleHeaderCorrectPhase27 = "I think we can loosen the reins a bit";
-        squirgleHeaderCorrectPhase28 = "Wonderful! Remember that incorrect INPUTS lower your SCORE and MULTIPLIER";
-        squirgleHeaderCorrectPhase29 = "Last lesson! See those white lines to the left?";
-        squirgleHeaderCorrectPhase30 = "Those are your TIMELINES. When they deplete, it's GAME OVER";
-        squirgleHeaderCorrectPhase31 = "While we're still learning, only the first TIMELINE depletes";
-        squirgleHeaderCorrectPhase32 = "Now, note the color SWATCHES next to the TIMELINES";
-        squirgleHeaderCorrectPhase33 = "They change the color of the screen";
-        squirgleHeaderCorrectPhase34 = "I promise this is important";
-        squirgleHeaderCorrectPhase35 = "When made, a TARGET's color is set to the screen's";
-        squirgleHeaderCorrectPhase36 = "Make both TARGETS the same color, and your next TARGETS are a SQUIRGLE!";
-        squirgleHeaderCorrectPhase37 = "SQUIRGLES are special TARGETS with special benefits";
-        squirgleHeaderCorrectPhase38 = "Making a SQUIRGLE from your HAND resets your TIMELINES!";
-        squirgleHeaderCorrectPhase39 = "Resetting your TIMELINES gives you more time to play";
-        squirgleHeaderCorrectPhase40 = "More time = higher SCORE";
-        squirgleHeaderCorrectPhase41 = "get a SCORE of " + Squirgle.SCORE_TO_UNLOCK_NEW_BASE + " in SQUIRGLE mode to unlock another BASE";
-        squirgleHeaderCorrectPhase42 = "You have to be playing with your largest unlocked BASE, though";
-        squirgleHeaderCorrectPhase43 = "You can always play this or other tutorials again";
-        squirgleHeaderCorrectPhase44 = "They can be found under the main menu's [?] section";
-        squirgleHeaderCorrectPhase45 = "I think you're ready to SQUIRGLE unfettered. Good luck!";
+        squirgleHeaderCorrectPhase20 = "Note that your HAND is always white and hollow";
+        squirgleHeaderCorrectPhase21 = "Looks like there's one more glowing TARGET, though";
+        squirgleHeaderCorrectPhase22 = "Awesome! Making both of your TARGETS increased your SCORE";
+        squirgleHeaderCorrectPhase23 = "Notice that your SCORE jumped from 1 to 3";
+        squirgleHeaderCorrectPhase24 = "This is because your SCORE increases by your MULTIPLIER";
+        squirgleHeaderCorrectPhase25 = "Your MULTIPLIER is the number underneath your SCORE (X#)";
+        squirgleHeaderCorrectPhase26 = "Your MULTIPLIER also increases after making two TARGETS";
+        squirgleHeaderCorrectPhase27 = "Brilliant! Note that your MULTIPLIER can't exceed 5";
+        squirgleHeaderCorrectPhase28 = "I think we can loosen the reins a bit";
+        squirgleHeaderCorrectPhase29 = "Wonderful! Remember that incorrect INPUTS lower your SCORE and MULTIPLIER";
+        squirgleHeaderCorrectPhase30 = "Last lesson! See those white lines to the left?";
+        squirgleHeaderCorrectPhase31 = "Those are your TIMELINES. When they deplete, it's GAME OVER";
+        squirgleHeaderCorrectPhase32 = "While we're still learning, only the first TIMELINE depletes";
+        squirgleHeaderCorrectPhase33 = "Now, note the color SWATCHES next to the TIMELINES";
+        squirgleHeaderCorrectPhase34 = "They change the color of the screen";
+        squirgleHeaderCorrectPhase35 = "I promise this is important";
+        squirgleHeaderCorrectPhase36 = "When made, a TARGET's color is set to the screen's";
+        squirgleHeaderCorrectPhase37 = "Make both TARGETS the same color, and your next TARGETS are a SQUIRGLE!";
+        squirgleHeaderCorrectPhase38 = "SQUIRGLES are special TARGETS with special benefits";
+        squirgleHeaderCorrectPhase39 = "Making a SQUIRGLE from your HAND resets your TIMELINES!";
+        squirgleHeaderCorrectPhase40 = "Resetting your TIMELINES gives you more time to play";
+        squirgleHeaderCorrectPhase41 = "More time = higher SCORE";
+        squirgleHeaderCorrectPhase42 = "get a SCORE of " + Squirgle.SCORE_TO_UNLOCK_NEW_BASE + " in SQUIRGLE mode to unlock another BASE";
+        squirgleHeaderCorrectPhase43 = "You have to be playing with your largest unlocked BASE, though";
+        squirgleHeaderCorrectPhase44 = "You can always play this or other tutorials again";
+        squirgleHeaderCorrectPhase45 = "They can be found under the main menu's [?] section";
+        squirgleHeaderCorrectPhase46 = "I think you're ready to SQUIRGLE unfettered. Good luck!";
 
         squirgleHeaderIncorrectPhase1 = "";
         squirgleHeaderIncorrectPhase2 = "";
@@ -4679,25 +4700,25 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleHeaderIncorrectPhase17 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         squirgleHeaderIncorrectPhase18 = "";
         squirgleHeaderIncorrectPhase19 = "";
-        squirgleHeaderIncorrectPhase20 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
+        squirgleHeaderIncorrectPhase20 = "";
         squirgleHeaderIncorrectPhase21 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        squirgleHeaderIncorrectPhase22 = "";
+        squirgleHeaderIncorrectPhase22 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         squirgleHeaderIncorrectPhase23 = "";
         squirgleHeaderIncorrectPhase24 = "";
-        squirgleHeaderIncorrectPhase25 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        squirgleHeaderIncorrectPhase26 = "";
-        squirgleHeaderIncorrectPhase27 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        squirgleHeaderIncorrectPhase28 = "";
+        squirgleHeaderIncorrectPhase25 = "";
+        squirgleHeaderIncorrectPhase26 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
+        squirgleHeaderIncorrectPhase27 = "";
+        squirgleHeaderIncorrectPhase28 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         squirgleHeaderIncorrectPhase29 = "";
         squirgleHeaderIncorrectPhase30 = "";
         squirgleHeaderIncorrectPhase31 = "";
         squirgleHeaderIncorrectPhase32 = "";
         squirgleHeaderIncorrectPhase33 = "";
-        squirgleHeaderIncorrectPhase34 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        squirgleHeaderIncorrectPhase35 = "Wait until the screen's color matches your first TARGET's, then add the correct INPUT";
-        squirgleHeaderIncorrectPhase36 = "";
-        squirgleHeaderIncorrectPhase37 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        squirgleHeaderIncorrectPhase38 = "";
+        squirgleHeaderIncorrectPhase34 = "";
+        squirgleHeaderIncorrectPhase35 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
+        squirgleHeaderIncorrectPhase36 = "Wait until the screen's color matches your first TARGET's, then add the correct INPUT";
+        squirgleHeaderIncorrectPhase37 = "";
+        squirgleHeaderIncorrectPhase38 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         squirgleHeaderIncorrectPhase39 = "";
         squirgleHeaderIncorrectPhase40 = "";
         squirgleHeaderIncorrectPhase41 = "";
@@ -4705,6 +4726,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleHeaderIncorrectPhase43 = "";
         squirgleHeaderIncorrectPhase44 = "";
         squirgleHeaderIncorrectPhase45 = "";
+        squirgleHeaderIncorrectPhase46 = "";
 
         squirgleFooterPhase1 = tapOrClick + " anywhere to begin";
         squirgleFooterPhase2 = tapOrClick + " anywhere to continue";
@@ -4725,32 +4747,33 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleFooterPhase17 = "Make the glowing TARGET from your HAND";
         squirgleFooterPhase18 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase19 = tapOrClick + " anywhere to continue";
-        squirgleFooterPhase20 = "Make the other glowing TARGET from your HAND";
-        squirgleFooterPhase21 = "Get a SCORE of 3";
-        squirgleFooterPhase22 = tapOrClick + " anywhere to continue";
+        squirgleFooterPhase20 = tapOrClick + " anywhere to continue";
+        squirgleFooterPhase21 = "Make the other glowing TARGET from your HAND";
+        squirgleFooterPhase22 = "Get a SCORE of 3";
         squirgleFooterPhase23 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase24 = tapOrClick + " anywhere to continue";
-        squirgleFooterPhase25 = "Get a MULTIPLIER of 5";
-        squirgleFooterPhase26 = tapOrClick + " anywhere to continue";
-        squirgleFooterPhase27 = "Reach a SCORE of 20. Mistakes are now permitted";
-        squirgleFooterPhase28 = tapOrClick + " anywhere to continue";
+        squirgleFooterPhase25 = tapOrClick + " anywhere to continue";
+        squirgleFooterPhase26 = "Get a MULTIPLIER of 5";
+        squirgleFooterPhase27 = tapOrClick + " anywhere to continue";
+        squirgleFooterPhase28 = "Reach a SCORE of 20. Mistakes are now permitted";
         squirgleFooterPhase29 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase30 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase31 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase32 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase33 = tapOrClick + " anywhere to continue";
-        squirgleFooterPhase34 = "Make your first TARGET from your HAND";
-        squirgleFooterPhase35 = "Make your second TARGET the same color as the first";
-        squirgleFooterPhase36 = tapOrClick + " anywhere to continue";
-        squirgleFooterPhase37 = "Make both TARGETS in the SQUIRGLE from your HAND";
-        squirgleFooterPhase38 = tapOrClick + " anywhere to continue";
+        squirgleFooterPhase34 = tapOrClick + " anywhere to continue";
+        squirgleFooterPhase35 = "Make your first TARGET from your HAND";
+        squirgleFooterPhase36 = "Make your second TARGET the same color as the first";
+        squirgleFooterPhase37 = tapOrClick + " anywhere to continue";
+        squirgleFooterPhase38 = "Make both TARGETS in the SQUIRGLE from your HAND";
         squirgleFooterPhase39 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase40 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase41 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase42 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase43 = tapOrClick + " anywhere to continue";
         squirgleFooterPhase44 = tapOrClick + " anywhere to continue";
-        squirgleFooterPhase45 = tapOrClick + " anywhere to SQUIRGLE without restrictions";
+        squirgleFooterPhase45 = tapOrClick + " anywhere to continue";
+        squirgleFooterPhase46 = tapOrClick + " anywhere to SQUIRGLE without restrictions";
 
         battleHeaderCorrectPhase1 = "Welcome to the BATTLE tutorial!";
         battleHeaderCorrectPhase2 = "That shape's your HAND";
@@ -4772,31 +4795,32 @@ public class TutorialScreen implements Screen, InputProcessor {
         battleHeaderCorrectPhase18 = "Glowing things tend to be important in games";
         battleHeaderCorrectPhase19 = "The TARGET you just made is now next to your new, randomly generated HAND";
         battleHeaderCorrectPhase20 = "This gives you a good idea of your performance";
-        battleHeaderCorrectPhase21 = "Looks like there's one more glowing TARGET, though";
-        battleHeaderCorrectPhase22 = "Awesome! Making both of your TARGETS increased your OPPONENT's BURST";
-        battleHeaderCorrectPhase23 = "The BURST meter is what determines victory in BATTLE";
-        battleHeaderCorrectPhase24 = "If you fill up your OPPONENT's BURST, you win!";
-        battleHeaderCorrectPhase25 = "If your OPPONENT fills up your BURST, you lose...";
-        battleHeaderCorrectPhase26 = "If time runs out, the player with the lowest BURST wins";
-        battleHeaderCorrectPhase27 = "I think we can loosen the reins a bit";
-        battleHeaderCorrectPhase28 = "Wonderful! Remember that incorrect INPUTS actually increase YOUR BURST";
-        battleHeaderCorrectPhase29 = "At this point in the tutorial, BURSTS can't exceed 5";
-        battleHeaderCorrectPhase30 = "Last lesson! See those white lines in the lower left?";
-        battleHeaderCorrectPhase31 = "Those are your TIMELINES. When they deplete, it's GAME OVER";
-        battleHeaderCorrectPhase32 = "While we're still learning, only the first TIMELINE depletes";
-        battleHeaderCorrectPhase33 = "Now, note the color SWATCHES next to the TIMELINES";
-        battleHeaderCorrectPhase34 = "They change the color of the screen";
-        battleHeaderCorrectPhase35 = "I promise this is important";
-        battleHeaderCorrectPhase36 = "When made, a TARGET's color is set to the screen's";
-        battleHeaderCorrectPhase37 = "Make both TARGETS the same color, and your next TARGETS are a SQUIRGLE!";
-        battleHeaderCorrectPhase38 = "SQUIRGLES are special TARGETS with special benefits";
-        battleHeaderCorrectPhase39 = "Making a SQUIRGLE from your HAND increases your OPPONENT's BURST by 3!";
-        battleHeaderCorrectPhase40 = "And it also lowers your BURST by 5!";
-        battleHeaderCorrectPhase41 = "SQUIRGLES can quickly turn the tide of a close BATTLE";
-        battleHeaderCorrectPhase42 = "You can always play this or other tutorials again";
-        battleHeaderCorrectPhase43 = "They can be found under the main menu's [?] section";
-        battleHeaderCorrectPhase44 = "I think you're ready to BATTLE unfettered";
-        battleHeaderCorrectPhase45 = "After this point, your OPPONENT will play as well. Good luck!";
+        battleHeaderCorrectPhase21 = "Note that your HAND is always white and hollow";
+        battleHeaderCorrectPhase22 = "Looks like there's one more glowing TARGET, though";
+        battleHeaderCorrectPhase23 = "Awesome! Making both of your TARGETS increased your OPPONENT's BURST";
+        battleHeaderCorrectPhase24 = "The BURST meter is what determines victory in BATTLE";
+        battleHeaderCorrectPhase25 = "If you fill up your OPPONENT's BURST, you win!";
+        battleHeaderCorrectPhase26 = "If your OPPONENT fills up your BURST, you lose...";
+        battleHeaderCorrectPhase27 = "If time runs out, the player with the lowest BURST wins";
+        battleHeaderCorrectPhase28 = "I think we can loosen the reins a bit";
+        battleHeaderCorrectPhase29 = "Wonderful! Remember that incorrect INPUTS actually increase YOUR BURST";
+        battleHeaderCorrectPhase30 = "At this point in the tutorial, BURSTS can't exceed 5";
+        battleHeaderCorrectPhase31 = "Last lesson! See those white lines in the lower left?";
+        battleHeaderCorrectPhase32 = "Those are your TIMELINES. When they deplete, it's GAME OVER";
+        battleHeaderCorrectPhase33 = "While we're still learning, only the first TIMELINE depletes";
+        battleHeaderCorrectPhase34 = "Now, note the color SWATCHES next to the TIMELINES";
+        battleHeaderCorrectPhase35 = "They change the color of the screen";
+        battleHeaderCorrectPhase36 = "I promise this is important";
+        battleHeaderCorrectPhase37 = "When made, a TARGET's color is set to the screen's";
+        battleHeaderCorrectPhase38 = "Make both TARGETS the same color, and your next TARGETS are a SQUIRGLE!";
+        battleHeaderCorrectPhase39 = "SQUIRGLES are special TARGETS with special benefits";
+        battleHeaderCorrectPhase40 = "Making a SQUIRGLE from your HAND increases your OPPONENT's BURST by 3!";
+        battleHeaderCorrectPhase41 = "And it also lowers your BURST by 5!";
+        battleHeaderCorrectPhase42 = "SQUIRGLES can quickly turn the tide of a close BATTLE";
+        battleHeaderCorrectPhase43 = "You can always play this or other tutorials again";
+        battleHeaderCorrectPhase44 = "They can be found under the main menu's [?] section";
+        battleHeaderCorrectPhase45 = "I think you're ready to BATTLE unfettered";
+        battleHeaderCorrectPhase46 = "After this point, your OPPONENT will play as well. Good luck!";
 
         battleHeaderIncorrectPhase1 = "";
         battleHeaderIncorrectPhase2 = "";
@@ -4818,31 +4842,32 @@ public class TutorialScreen implements Screen, InputProcessor {
         battleHeaderIncorrectPhase18 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         battleHeaderIncorrectPhase19 = "";
         battleHeaderIncorrectPhase20 = "";
-        battleHeaderIncorrectPhase21 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        battleHeaderIncorrectPhase22 = "";
+        battleHeaderIncorrectPhase21 = "";
+        battleHeaderIncorrectPhase22 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         battleHeaderIncorrectPhase23 = "";
         battleHeaderIncorrectPhase24 = "";
         battleHeaderIncorrectPhase25 = "";
         battleHeaderIncorrectPhase26 = "";
-        battleHeaderIncorrectPhase27 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        battleHeaderIncorrectPhase28 = "";
+        battleHeaderIncorrectPhase27 = "";
+        battleHeaderIncorrectPhase28 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         battleHeaderIncorrectPhase29 = "";
         battleHeaderIncorrectPhase30 = "";
         battleHeaderIncorrectPhase31 = "";
         battleHeaderIncorrectPhase32 = "";
         battleHeaderIncorrectPhase33 = "";
         battleHeaderIncorrectPhase34 = "";
-        battleHeaderIncorrectPhase35 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        battleHeaderIncorrectPhase36 = "Wait until the screen's color matches your first TARGET's, then add the correct INPUT";
-        battleHeaderIncorrectPhase37 = "";
-        battleHeaderIncorrectPhase38 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        battleHeaderIncorrectPhase39 = "";
+        battleHeaderIncorrectPhase35 = "";
+        battleHeaderIncorrectPhase36 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
+        battleHeaderIncorrectPhase37 = "Wait until the screen's color matches your first TARGET's, then add the correct INPUT";
+        battleHeaderIncorrectPhase38 = "";
+        battleHeaderIncorrectPhase39 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         battleHeaderIncorrectPhase40 = "";
         battleHeaderIncorrectPhase41 = "";
+        battleHeaderIncorrectPhase41 = "";
         battleHeaderIncorrectPhase42 = "";
-        battleHeaderIncorrectPhase43 = "";
         battleHeaderIncorrectPhase44 = "";
         battleHeaderIncorrectPhase45 = "";
+        battleHeaderIncorrectPhase46 = "";
 
         battleFooterPhase1 = tapOrClick + " anywhere to begin";
         battleFooterPhase2 = tapOrClick + " anywhere to continue";
@@ -4864,31 +4889,32 @@ public class TutorialScreen implements Screen, InputProcessor {
         battleFooterPhase18 = "Make the glowing TARGET from your HAND";
         battleFooterPhase19 = tapOrClick + " anywhere to continue";
         battleFooterPhase20 = tapOrClick + " anywhere to continue";
-        battleFooterPhase21 = "Make the other glowing TARGET from your HAND";
-        battleFooterPhase22 = tapOrClick + " anywhere to continue";
+        battleFooterPhase21 = tapOrClick + " anywhere to continue";
+        battleFooterPhase22 = "Make the other glowing TARGET from your HAND";
         battleFooterPhase23 = tapOrClick + " anywhere to continue";
         battleFooterPhase24 = tapOrClick + " anywhere to continue";
         battleFooterPhase25 = tapOrClick + " anywhere to continue";
         battleFooterPhase26 = tapOrClick + " anywhere to continue";
-        battleFooterPhase27 = "Get your OPPONENT's BURST to 5 notches. Mistakes are now permitted";
-        battleFooterPhase28 = tapOrClick + " anywhere to continue";
+        battleFooterPhase27 = tapOrClick + " anywhere to continue";
+        battleFooterPhase28 = "Get your OPPONENT's BURST to 5 notches. Mistakes are now permitted";
         battleFooterPhase29 = tapOrClick + " anywhere to continue";
         battleFooterPhase30 = tapOrClick + " anywhere to continue";
         battleFooterPhase31 = tapOrClick + " anywhere to continue";
         battleFooterPhase32 = tapOrClick + " anywhere to continue";
         battleFooterPhase33 = tapOrClick + " anywhere to continue";
         battleFooterPhase34 = tapOrClick + " anywhere to continue";
-        battleFooterPhase35 = "Make your first TARGET from your HAND";
-        battleFooterPhase36 = "Make your second TARGET the same color as the first";
-        battleFooterPhase37 = tapOrClick + " anywhere to continue";
-        battleFooterPhase38 = "Make both TARGETS in the SQUIRGLE from your HAND";
-        battleFooterPhase39 = tapOrClick + " anywhere to continue";
+        battleFooterPhase35 = tapOrClick + " anywhere to continue";
+        battleFooterPhase36 = "Make your first TARGET from your HAND";
+        battleFooterPhase37 = "Make your second TARGET the same color as the first";
+        battleFooterPhase38 = tapOrClick + " anywhere to continue";
+        battleFooterPhase39 = "Make both TARGETS in the SQUIRGLE from your HAND";
         battleFooterPhase40 = tapOrClick + " anywhere to continue";
         battleFooterPhase41 = tapOrClick + " anywhere to continue";
         battleFooterPhase42 = tapOrClick + " anywhere to continue";
         battleFooterPhase43 = tapOrClick + " anywhere to continue";
         battleFooterPhase44 = tapOrClick + " anywhere to continue";
-        battleFooterPhase45 = tapOrClick + " anywhere to BATTLE your OPPONENT without restrictions";
+        battleFooterPhase45 = tapOrClick + " anywhere to continue";
+        battleFooterPhase46 = tapOrClick + " anywhere to BATTLE your OPPONENT without restrictions";
 
         timeAttackHeaderCorrectPhase1 = "Welcome to the TIME ATTACK tutorial!";
         timeAttackHeaderCorrectPhase2 = "That shape's your HAND";
@@ -4909,23 +4935,24 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackHeaderCorrectPhase17 = "Glowing things tend to be important in games";
         timeAttackHeaderCorrectPhase18 = "The TARGET you just made is now next to your new, randomly generated HAND";
         timeAttackHeaderCorrectPhase19 = "This gives you a good idea of your performance";
-        timeAttackHeaderCorrectPhase20 = "Looks like there's one more glowing TARGET, though";
-        timeAttackHeaderCorrectPhase21 = "Awesome! Making both of your TARGETS increased your SCORE";
-        timeAttackHeaderCorrectPhase22 = "Notice that your SCORE jumped from 1 to 3";
-        timeAttackHeaderCorrectPhase23 = "This is because your SCORE increases by your MULTIPLIER";
-        timeAttackHeaderCorrectPhase24 = "Your MULTIPLIER is the number underneath your SCORE (X#)";
-        timeAttackHeaderCorrectPhase25 = "Your MULTIPLIER also increases after making two TARGETS";
-        timeAttackHeaderCorrectPhase26 = "Brilliant! Note that your MULTIPLIER can't exceed 5";
-        timeAttackHeaderCorrectPhase27 = "I think we can loosen the reins a bit";
-        timeAttackHeaderCorrectPhase28 = "Wonderful! Remember that incorrect INPUTS lower your SCORE and MULTIPLIER";
-        timeAttackHeaderCorrectPhase29 = "Last lesson! See those white lines to the left?";
-        timeAttackHeaderCorrectPhase30 = "Those are your TIMELINES. When they deplete, it's GAME OVER";
-        timeAttackHeaderCorrectPhase31 = "While we're still learning, only the first TIMELINE depletes";
-        timeAttackHeaderCorrectPhase32 = "In a full game, you set the play time";
-        timeAttackHeaderCorrectPhase33 = "The TIMELINES will then deplete after 1, 3, or 5 minutes";
-        timeAttackHeaderCorrectPhase34 = "You can always play this or other tutorials again";
-        timeAttackHeaderCorrectPhase35 = "They can be found under the main menu's [?] section";
-        timeAttackHeaderCorrectPhase36 = "I think you're ready to TIME ATTACK unfettered. Good luck!";
+        timeAttackHeaderCorrectPhase20 = "Note that your HAND is always white and hollow";
+        timeAttackHeaderCorrectPhase21 = "Looks like there's one more glowing TARGET, though";
+        timeAttackHeaderCorrectPhase22 = "Awesome! Making both of your TARGETS increased your SCORE";
+        timeAttackHeaderCorrectPhase23 = "Notice that your SCORE jumped from 1 to 3";
+        timeAttackHeaderCorrectPhase24 = "This is because your SCORE increases by your MULTIPLIER";
+        timeAttackHeaderCorrectPhase25 = "Your MULTIPLIER is the number underneath your SCORE (X#)";
+        timeAttackHeaderCorrectPhase26 = "Your MULTIPLIER also increases after making two TARGETS";
+        timeAttackHeaderCorrectPhase27 = "Brilliant! Note that your MULTIPLIER can't exceed 5";
+        timeAttackHeaderCorrectPhase28 = "I think we can loosen the reins a bit";
+        timeAttackHeaderCorrectPhase29 = "Wonderful! Remember that incorrect INPUTS lower your SCORE and MULTIPLIER";
+        timeAttackHeaderCorrectPhase30 = "Last lesson! See those white lines to the left?";
+        timeAttackHeaderCorrectPhase31 = "Those are your TIMELINES. When they deplete, it's GAME OVER";
+        timeAttackHeaderCorrectPhase32 = "While we're still learning, only the first TIMELINE depletes";
+        timeAttackHeaderCorrectPhase33 = "In a full game, you set the play time";
+        timeAttackHeaderCorrectPhase34 = "The TIMELINES will then deplete after 1, 3, or 5 minutes";
+        timeAttackHeaderCorrectPhase35 = "You can always play this or other tutorials again";
+        timeAttackHeaderCorrectPhase36 = "They can be found under the main menu's [?] section";
+        timeAttackHeaderCorrectPhase37 = "I think you're ready to TIME ATTACK unfettered. Good luck!";
 
         timeAttackHeaderIncorrectPhase1 = "";
         timeAttackHeaderIncorrectPhase2 = "";
@@ -4946,15 +4973,15 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackHeaderIncorrectPhase17 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         timeAttackHeaderIncorrectPhase18 = "";
         timeAttackHeaderIncorrectPhase19 = "";
-        timeAttackHeaderIncorrectPhase20 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
+        timeAttackHeaderIncorrectPhase20 = "";
         timeAttackHeaderIncorrectPhase21 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        timeAttackHeaderIncorrectPhase22 = "";
+        timeAttackHeaderIncorrectPhase22 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         timeAttackHeaderIncorrectPhase23 = "";
         timeAttackHeaderIncorrectPhase24 = "";
-        timeAttackHeaderIncorrectPhase25 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        timeAttackHeaderIncorrectPhase26 = "";
-        timeAttackHeaderIncorrectPhase27 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        timeAttackHeaderIncorrectPhase28 = "";
+        timeAttackHeaderIncorrectPhase25 = "";
+        timeAttackHeaderIncorrectPhase26 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
+        timeAttackHeaderIncorrectPhase27 = "";
+        timeAttackHeaderIncorrectPhase28 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         timeAttackHeaderIncorrectPhase29 = "";
         timeAttackHeaderIncorrectPhase30 = "";
         timeAttackHeaderIncorrectPhase31 = "";
@@ -4963,6 +4990,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackHeaderIncorrectPhase34 = "";
         timeAttackHeaderIncorrectPhase35 = "";
         timeAttackHeaderIncorrectPhase36 = "";
+        timeAttackHeaderIncorrectPhase37 = "";
 
         timeAttackFooterPhase1 = tapOrClick + " anywhere to begin";
         timeAttackFooterPhase2 = tapOrClick + " anywhere to continue";
@@ -4983,15 +5011,15 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackFooterPhase17 = "Make the glowing TARGET from your HAND";
         timeAttackFooterPhase18 = tapOrClick + " anywhere to continue";
         timeAttackFooterPhase19 = tapOrClick + " anywhere to continue";
-        timeAttackFooterPhase20 = "Make the other glowing TARGET from your HAND";
-        timeAttackFooterPhase21 = "Get a SCORE of 3";
-        timeAttackFooterPhase22 = tapOrClick + " anywhere to continue";
+        timeAttackFooterPhase20 = tapOrClick + " anywhere to continue";
+        timeAttackFooterPhase21 = "Make the other glowing TARGET from your HAND";
+        timeAttackFooterPhase22 = "Get a SCORE of 3";
         timeAttackFooterPhase23 = tapOrClick + " anywhere to continue";
         timeAttackFooterPhase24 = tapOrClick + " anywhere to continue";
-        timeAttackFooterPhase25 = "Get a MULTIPLIER of 5";
-        timeAttackFooterPhase26 = tapOrClick + " anywhere to continue";
-        timeAttackFooterPhase27 = "Reach a SCORE of 20. Mistakes are now permitted";
-        timeAttackFooterPhase28 = tapOrClick + " anywhere to continue";
+        timeAttackFooterPhase25 = tapOrClick + " anywhere to continue";
+        timeAttackFooterPhase26 = "Get a MULTIPLIER of 5";
+        timeAttackFooterPhase27 = tapOrClick + " anywhere to continue";
+        timeAttackFooterPhase28 = "Reach a SCORE of 20. Mistakes are now permitted";
         timeAttackFooterPhase29 = tapOrClick + " anywhere to continue";
         timeAttackFooterPhase30 = tapOrClick + " anywhere to continue";
         timeAttackFooterPhase31 = tapOrClick + " anywhere to continue";
@@ -4999,7 +5027,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackFooterPhase33 = tapOrClick + " anywhere to continue";
         timeAttackFooterPhase34 = tapOrClick + " anywhere to continue";
         timeAttackFooterPhase35 = tapOrClick + " anywhere to continue";
-        timeAttackFooterPhase36 = tapOrClick + " anywhere to TIME ATTACK without restrictions";
+        timeAttackFooterPhase36 = tapOrClick + " anywhere to continue";
+        timeAttackFooterPhase37 = tapOrClick + " anywhere to TIME ATTACK without restrictions";
 
         timeBattleHeaderCorrectPhase1 = "Welcome to the TIME BATTLE tutorial!";
         timeBattleHeaderCorrectPhase2 = "That shape's your HAND";
@@ -5021,28 +5050,29 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleHeaderCorrectPhase18 = "Glowing things tend to be important in games";
         timeBattleHeaderCorrectPhase19 = "The TARGET you just made is now next to your new, randomly generated HAND";
         timeBattleHeaderCorrectPhase20 = "This gives you a good idea of your performance";
-        timeBattleHeaderCorrectPhase21 = "Looks like there's one more glowing TARGET, though";
-        timeBattleHeaderCorrectPhase22 = "Awesome! Making both of your TARGETS increased your SCORE";
-        timeBattleHeaderCorrectPhase23 = "Your SCORE is what determines victory in TIME BATTLE";
-        timeBattleHeaderCorrectPhase24 = "When time runs out, your SCORE's compared with your OPPONENT's";
-        timeBattleHeaderCorrectPhase25 = "If your SCORE's higher, you win!";
-        timeBattleHeaderCorrectPhase26 = "If your SCORE's lower, you lose...";
-        timeBattleHeaderCorrectPhase27 = "Notice that your SCORE jumped from 1 to 3";
-        timeBattleHeaderCorrectPhase28 = "This is because your SCORE increases by your MULTIPLIER";
-        timeBattleHeaderCorrectPhase29 = "Your MULTIPLIER is the number underneath your SCORE (X#)";
-        timeBattleHeaderCorrectPhase30 = "Your MULTIPLIER also increases after making two TARGETS";
-        timeBattleHeaderCorrectPhase31 = "Brilliant! Note that your MULTIPLIER can't exceed 5";
-        timeBattleHeaderCorrectPhase32 = "I think we can loosen the reins a bit";
-        timeBattleHeaderCorrectPhase33 = "Wonderful! Remember that incorrect INPUTS lower your SCORE and MULTIPLIER";
-        timeBattleHeaderCorrectPhase34 = "Last lesson! See those white lines to the left?";
-        timeBattleHeaderCorrectPhase35 = "Those are your TIMELINES. When they deplete, it's GAME OVER";
-        timeBattleHeaderCorrectPhase36 = "While we're still learning, only the first TIMELINE depletes";
-        timeBattleHeaderCorrectPhase37 = "In a full game, you set the play time";
-        timeBattleHeaderCorrectPhase38 = "The TIMELINES will then deplete after 1, 3, or 5 minutes";
-        timeBattleHeaderCorrectPhase39 = "You can always play this or other tutorials again";
-        timeBattleHeaderCorrectPhase40 = "They can be found under the main menu's [?] section";
-        timeBattleHeaderCorrectPhase41 = "I think you're ready to TIME BATTLE unfettered";
-        timeBattleHeaderCorrectPhase42 = "After this point, your OPPONENT will play as well. Good luck!";
+        timeBattleHeaderCorrectPhase21 = "Note that your HAND is always white and hollow";
+        timeBattleHeaderCorrectPhase22 = "Looks like there's one more glowing TARGET, though";
+        timeBattleHeaderCorrectPhase23 = "Awesome! Making both of your TARGETS increased your SCORE";
+        timeBattleHeaderCorrectPhase24 = "Your SCORE is what determines victory in TIME BATTLE";
+        timeBattleHeaderCorrectPhase25 = "When time runs out, your SCORE's compared with your OPPONENT's";
+        timeBattleHeaderCorrectPhase26 = "If your SCORE's higher, you win!";
+        timeBattleHeaderCorrectPhase27 = "If your SCORE's lower, you lose...";
+        timeBattleHeaderCorrectPhase28 = "Notice that your SCORE jumped from 1 to 3";
+        timeBattleHeaderCorrectPhase29 = "This is because your SCORE increases by your MULTIPLIER";
+        timeBattleHeaderCorrectPhase30 = "Your MULTIPLIER is the number underneath your SCORE (X#)";
+        timeBattleHeaderCorrectPhase31 = "Your MULTIPLIER also increases after making two TARGETS";
+        timeBattleHeaderCorrectPhase32 = "Brilliant! Note that your MULTIPLIER can't exceed 5";
+        timeBattleHeaderCorrectPhase33 = "I think we can loosen the reins a bit";
+        timeBattleHeaderCorrectPhase34 = "Wonderful! Remember that incorrect INPUTS lower your SCORE and MULTIPLIER";
+        timeBattleHeaderCorrectPhase35 = "Last lesson! See those white lines to the left?";
+        timeBattleHeaderCorrectPhase36 = "Those are your TIMELINES. When they deplete, it's GAME OVER";
+        timeBattleHeaderCorrectPhase37 = "While we're still learning, only the first TIMELINE depletes";
+        timeBattleHeaderCorrectPhase38 = "In a full game, you set the play time";
+        timeBattleHeaderCorrectPhase39 = "The TIMELINES will then deplete after 1, 3, or 5 minutes";
+        timeBattleHeaderCorrectPhase40 = "You can always play this or other tutorials again";
+        timeBattleHeaderCorrectPhase41 = "They can be found under the main menu's [?] section";
+        timeBattleHeaderCorrectPhase42 = "I think you're ready to TIME BATTLE unfettered";
+        timeBattleHeaderCorrectPhase43 = "After this point, your OPPONENT will play as well. Good luck!";
 
         timeBattleHeaderIncorrectPhase1 = "";
         timeBattleHeaderIncorrectPhase2 = "";
@@ -5064,19 +5094,19 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleHeaderIncorrectPhase18 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         timeBattleHeaderIncorrectPhase19 = "";
         timeBattleHeaderIncorrectPhase20 = "";
-        timeBattleHeaderIncorrectPhase21 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        timeBattleHeaderIncorrectPhase22 = "";
+        timeBattleHeaderIncorrectPhase21 = "";
+        timeBattleHeaderIncorrectPhase22 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         timeBattleHeaderIncorrectPhase23 = "";
         timeBattleHeaderIncorrectPhase24 = "";
         timeBattleHeaderIncorrectPhase25 = "";
-        timeBattleHeaderIncorrectPhase26 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        timeBattleHeaderIncorrectPhase27 = "";
+        timeBattleHeaderIncorrectPhase26 = "";
+        timeBattleHeaderIncorrectPhase27 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         timeBattleHeaderIncorrectPhase28 = "";
         timeBattleHeaderIncorrectPhase29 = "";
-        timeBattleHeaderIncorrectPhase30 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        timeBattleHeaderIncorrectPhase31 = "";
-        timeBattleHeaderIncorrectPhase32 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
-        timeBattleHeaderIncorrectPhase33 = "";
+        timeBattleHeaderIncorrectPhase30 = "";
+        timeBattleHeaderIncorrectPhase31 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
+        timeBattleHeaderIncorrectPhase32 = "";
+        timeBattleHeaderIncorrectPhase33 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
         timeBattleHeaderIncorrectPhase34 = "";
         timeBattleHeaderIncorrectPhase35 = "";
         timeBattleHeaderIncorrectPhase36 = "";
@@ -5086,6 +5116,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleHeaderIncorrectPhase40 = "";
         timeBattleHeaderIncorrectPhase41 = "";
         timeBattleHeaderIncorrectPhase42 = "";
+        timeBattleHeaderIncorrectPhase43 = "";
 
         timeBattleFooterPhase1 = tapOrClick + " anywhere to begin";
         timeBattleFooterPhase2 = tapOrClick + " anywhere to continue";
@@ -5107,19 +5138,19 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleFooterPhase18 = "Make the glowing TARGET from your HAND";
         timeBattleFooterPhase19 = tapOrClick + " anywhere to continue";
         timeBattleFooterPhase20 = tapOrClick + " anywhere to continue";
-        timeBattleFooterPhase21 = "Make the other glowing TARGET from your HAND";
-        timeBattleFooterPhase22 = tapOrClick + " anywhere to continue";
+        timeBattleFooterPhase21 = tapOrClick + " anywhere to continue";
+        timeBattleFooterPhase22 = "Make the other glowing TARGET from your HAND";
         timeBattleFooterPhase23 = tapOrClick + " anywhere to continue";
         timeBattleFooterPhase24 = tapOrClick + " anywhere to continue";
         timeBattleFooterPhase25 = tapOrClick + " anywhere to continue";
-        timeBattleFooterPhase26 = "Get a SCORE of 3";
-        timeBattleFooterPhase27 = tapOrClick + " anywhere to continue";
+        timeBattleFooterPhase26 = tapOrClick + " anywhere to continue";
+        timeBattleFooterPhase27 = "Get a SCORE of 3";
         timeBattleFooterPhase28 = tapOrClick + " anywhere to continue";
         timeBattleFooterPhase29 = tapOrClick + " anywhere to continue";
-        timeBattleFooterPhase30 = "Get a MULTIPLIER of 5";
-        timeBattleFooterPhase31 = tapOrClick + " anywhere to continue";
-        timeBattleFooterPhase32 = "Reach a SCORE of 20. Mistakes are now permitted";
-        timeBattleFooterPhase33 = tapOrClick + " anywhere to continue";
+        timeBattleFooterPhase30 = tapOrClick + " anywhere to continue";
+        timeBattleFooterPhase31 = "Get a MULTIPLIER of 5";
+        timeBattleFooterPhase32 = tapOrClick + " anywhere to continue";
+        timeBattleFooterPhase33 = "Reach a SCORE of 20. Mistakes are now permitted";
         timeBattleFooterPhase34 = tapOrClick + " anywhere to continue";
         timeBattleFooterPhase35 = tapOrClick + " anywhere to continue";
         timeBattleFooterPhase36 = tapOrClick + " anywhere to continue";
@@ -5128,7 +5159,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleFooterPhase39 = tapOrClick + " anywhere to continue";
         timeBattleFooterPhase40 = tapOrClick + " anywhere to continue";
         timeBattleFooterPhase41 = tapOrClick + " anywhere to continue";
-        timeBattleFooterPhase42 = tapOrClick + " anywhere to TIME BATTLE without restrictions";
+        timeBattleFooterPhase42 = tapOrClick + " anywhere to continue";
+        timeBattleFooterPhase43 = tapOrClick + " anywhere to TIME BATTLE without restrictions";
 
         squirgleHeaderAndFooterCorrectPhase1 = new ArrayList<String>();
         squirgleHeaderAndFooterCorrectPhase2 = new ArrayList<String>();
@@ -5175,6 +5207,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleHeaderAndFooterCorrectPhase43 = new ArrayList<String>();
         squirgleHeaderAndFooterCorrectPhase44 = new ArrayList<String>();
         squirgleHeaderAndFooterCorrectPhase45 = new ArrayList<String>();
+        squirgleHeaderAndFooterCorrectPhase46 = new ArrayList<String>();
 
         squirgleHeaderAndFooterCorrectPhase1.add(squirgleHeaderCorrectPhase1);
         squirgleHeaderAndFooterCorrectPhase1.add(squirgleFooterPhase1);
@@ -5266,6 +5299,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleHeaderAndFooterCorrectPhase44.add(squirgleFooterPhase44);
         squirgleHeaderAndFooterCorrectPhase45.add(squirgleHeaderCorrectPhase45);
         squirgleHeaderAndFooterCorrectPhase45.add(squirgleFooterPhase45);
+        squirgleHeaderAndFooterCorrectPhase46.add(squirgleHeaderCorrectPhase46);
+        squirgleHeaderAndFooterCorrectPhase46.add(squirgleFooterPhase46);
 
         squirgleHeadersAndFootersCorrect = new ArrayList<List<String>>();
 
@@ -5314,6 +5349,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase43);
         squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase44);
         squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase45);
+        squirgleHeadersAndFootersCorrect.add(squirgleHeaderAndFooterCorrectPhase46);
 
         squirgleHeaderAndFooterIncorrectPhase1 = new ArrayList<String>();
         squirgleHeaderAndFooterIncorrectPhase2 = new ArrayList<String>();
@@ -5360,6 +5396,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleHeaderAndFooterIncorrectPhase43 = new ArrayList<String>();
         squirgleHeaderAndFooterIncorrectPhase44 = new ArrayList<String>();
         squirgleHeaderAndFooterIncorrectPhase45 = new ArrayList<String>();
+        squirgleHeaderAndFooterIncorrectPhase46 = new ArrayList<String>();
 
         squirgleHeaderAndFooterIncorrectPhase1.add(squirgleHeaderIncorrectPhase1);
         squirgleHeaderAndFooterIncorrectPhase1.add(squirgleFooterPhase1);
@@ -5451,6 +5488,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleHeaderAndFooterIncorrectPhase44.add(squirgleFooterPhase44);
         squirgleHeaderAndFooterIncorrectPhase45.add(squirgleHeaderIncorrectPhase45);
         squirgleHeaderAndFooterIncorrectPhase45.add(squirgleFooterPhase45);
+        squirgleHeaderAndFooterIncorrectPhase46.add(squirgleHeaderIncorrectPhase46);
+        squirgleHeaderAndFooterIncorrectPhase46.add(squirgleFooterPhase46);
 
         squirgleHeadersAndFootersIncorrect = new ArrayList<List<String>>();
 
@@ -5499,6 +5538,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase43);
         squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase44);
         squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase45);
+        squirgleHeadersAndFootersIncorrect.add(squirgleHeaderAndFooterIncorrectPhase46);
 
         battleHeaderAndFooterCorrectPhase1 = new ArrayList<String>();
         battleHeaderAndFooterCorrectPhase2 = new ArrayList<String>();
@@ -5545,6 +5585,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         battleHeaderAndFooterCorrectPhase43 = new ArrayList<String>();
         battleHeaderAndFooterCorrectPhase44 = new ArrayList<String>();
         battleHeaderAndFooterCorrectPhase45 = new ArrayList<String>();
+        battleHeaderAndFooterCorrectPhase46 = new ArrayList<String>();
 
         battleHeaderAndFooterCorrectPhase1.add(battleHeaderCorrectPhase1);
         battleHeaderAndFooterCorrectPhase1.add(battleFooterPhase1);
@@ -5636,6 +5677,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         battleHeaderAndFooterCorrectPhase44.add(battleFooterPhase44);
         battleHeaderAndFooterCorrectPhase45.add(battleHeaderCorrectPhase45);
         battleHeaderAndFooterCorrectPhase45.add(battleFooterPhase45);
+        battleHeaderAndFooterCorrectPhase46.add(battleHeaderCorrectPhase46);
+        battleHeaderAndFooterCorrectPhase46.add(battleFooterPhase46);
 
         battleHeadersAndFootersCorrect = new ArrayList<List<String>>();
 
@@ -5684,6 +5727,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase43);
         battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase44);
         battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase45);
+        battleHeadersAndFootersCorrect.add(battleHeaderAndFooterCorrectPhase46);
 
         battleHeaderAndFooterIncorrectPhase1 = new ArrayList<String>();
         battleHeaderAndFooterIncorrectPhase2 = new ArrayList<String>();
@@ -5730,6 +5774,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         battleHeaderAndFooterIncorrectPhase43 = new ArrayList<String>();
         battleHeaderAndFooterIncorrectPhase44 = new ArrayList<String>();
         battleHeaderAndFooterIncorrectPhase45 = new ArrayList<String>();
+        battleHeaderAndFooterIncorrectPhase46 = new ArrayList<String>();
 
         battleHeaderAndFooterIncorrectPhase1.add(battleHeaderIncorrectPhase1);
         battleHeaderAndFooterIncorrectPhase1.add(battleFooterPhase1);
@@ -5821,6 +5866,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         battleHeaderAndFooterIncorrectPhase44.add(battleFooterPhase44);
         battleHeaderAndFooterIncorrectPhase45.add(battleHeaderIncorrectPhase45);
         battleHeaderAndFooterIncorrectPhase45.add(battleFooterPhase45);
+        battleHeaderAndFooterIncorrectPhase46.add(battleHeaderIncorrectPhase46);
+        battleHeaderAndFooterIncorrectPhase46.add(battleFooterPhase46);
 
         battleHeadersAndFootersIncorrect = new ArrayList<List<String>>();
 
@@ -5869,6 +5916,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase43);
         battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase44);
         battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase45);
+        battleHeadersAndFootersIncorrect.add(battleHeaderAndFooterIncorrectPhase46);
 
         timeAttackHeaderAndFooterCorrectPhase1 = new ArrayList<String>();
         timeAttackHeaderAndFooterCorrectPhase2 = new ArrayList<String>();
@@ -5906,6 +5954,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackHeaderAndFooterCorrectPhase34 = new ArrayList<String>();
         timeAttackHeaderAndFooterCorrectPhase35 = new ArrayList<String>();
         timeAttackHeaderAndFooterCorrectPhase36 = new ArrayList<String>();
+        timeAttackHeaderAndFooterCorrectPhase37 = new ArrayList<String>();
 
         timeAttackHeaderAndFooterCorrectPhase1.add(timeAttackHeaderCorrectPhase1);
         timeAttackHeaderAndFooterCorrectPhase1.add(timeAttackFooterPhase1);
@@ -5979,6 +6028,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackHeaderAndFooterCorrectPhase35.add(timeAttackFooterPhase35);
         timeAttackHeaderAndFooterCorrectPhase36.add(timeAttackHeaderCorrectPhase36);
         timeAttackHeaderAndFooterCorrectPhase36.add(timeAttackFooterPhase36);
+        timeAttackHeaderAndFooterCorrectPhase37.add(timeAttackHeaderCorrectPhase37);
+        timeAttackHeaderAndFooterCorrectPhase37.add(timeAttackFooterPhase37);
 
         timeAttackHeadersAndFootersCorrect = new ArrayList<List<String>>();
 
@@ -6018,6 +6069,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase34);
         timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase35);
         timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase36);
+        timeAttackHeadersAndFootersCorrect.add(timeAttackHeaderAndFooterCorrectPhase37);
 
         timeAttackHeaderAndFooterIncorrectPhase1 = new ArrayList<String>();
         timeAttackHeaderAndFooterIncorrectPhase2 = new ArrayList<String>();
@@ -6055,6 +6107,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackHeaderAndFooterIncorrectPhase34 = new ArrayList<String>();
         timeAttackHeaderAndFooterIncorrectPhase35 = new ArrayList<String>();
         timeAttackHeaderAndFooterIncorrectPhase36 = new ArrayList<String>();
+        timeAttackHeaderAndFooterIncorrectPhase37 = new ArrayList<String>();
 
         timeAttackHeaderAndFooterIncorrectPhase1.add(timeAttackHeaderIncorrectPhase1);
         timeAttackHeaderAndFooterIncorrectPhase1.add(timeAttackFooterPhase1);
@@ -6128,6 +6181,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackHeaderAndFooterIncorrectPhase35.add(timeAttackFooterPhase35);
         timeAttackHeaderAndFooterIncorrectPhase36.add(timeAttackHeaderIncorrectPhase36);
         timeAttackHeaderAndFooterIncorrectPhase36.add(timeAttackFooterPhase36);
+        timeAttackHeaderAndFooterIncorrectPhase37.add(timeAttackHeaderIncorrectPhase37);
+        timeAttackHeaderAndFooterIncorrectPhase37.add(timeAttackFooterPhase37);
 
         timeAttackHeadersAndFootersIncorrect = new ArrayList<List<String>>();
 
@@ -6167,6 +6222,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase34);
         timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase35);
         timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase36);
+        timeAttackHeadersAndFootersIncorrect.add(timeAttackHeaderAndFooterIncorrectPhase37);
 
         timeBattleHeaderAndFooterCorrectPhase1 = new ArrayList<String>();
         timeBattleHeaderAndFooterCorrectPhase2 = new ArrayList<String>();
@@ -6210,6 +6266,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleHeaderAndFooterCorrectPhase40 = new ArrayList<String>();
         timeBattleHeaderAndFooterCorrectPhase41 = new ArrayList<String>();
         timeBattleHeaderAndFooterCorrectPhase42 = new ArrayList<String>();
+        timeBattleHeaderAndFooterCorrectPhase43 = new ArrayList<String>();
 
         timeBattleHeaderAndFooterCorrectPhase1.add(timeBattleHeaderCorrectPhase1);
         timeBattleHeaderAndFooterCorrectPhase1.add(timeBattleFooterPhase1);
@@ -6295,6 +6352,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleHeaderAndFooterCorrectPhase41.add(timeBattleFooterPhase41);
         timeBattleHeaderAndFooterCorrectPhase42.add(timeBattleHeaderCorrectPhase42);
         timeBattleHeaderAndFooterCorrectPhase42.add(timeBattleFooterPhase42);
+        timeBattleHeaderAndFooterCorrectPhase43.add(timeBattleHeaderCorrectPhase43);
+        timeBattleHeaderAndFooterCorrectPhase43.add(timeBattleFooterPhase43);
 
         timeBattleHeadersAndFootersCorrect = new ArrayList<List<String>>();
 
@@ -6340,6 +6399,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase40);
         timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase41);
         timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase42);
+        timeBattleHeadersAndFootersCorrect.add(timeBattleHeaderAndFooterCorrectPhase43);
 
         timeBattleHeaderAndFooterIncorrectPhase1 = new ArrayList<String>();
         timeBattleHeaderAndFooterIncorrectPhase2 = new ArrayList<String>();
@@ -6383,6 +6443,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleHeaderAndFooterIncorrectPhase40 = new ArrayList<String>();
         timeBattleHeaderAndFooterIncorrectPhase41 = new ArrayList<String>();
         timeBattleHeaderAndFooterIncorrectPhase42 = new ArrayList<String>();
+        timeBattleHeaderAndFooterIncorrectPhase43 = new ArrayList<String>();
 
         timeBattleHeaderAndFooterIncorrectPhase1.add(timeBattleHeaderIncorrectPhase1);
         timeBattleHeaderAndFooterIncorrectPhase1.add(timeBattleFooterPhase1);
@@ -6468,6 +6529,8 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleHeaderAndFooterIncorrectPhase41.add(timeBattleFooterPhase41);
         timeBattleHeaderAndFooterIncorrectPhase42.add(timeBattleHeaderIncorrectPhase42);
         timeBattleHeaderAndFooterIncorrectPhase42.add(timeBattleFooterPhase42);
+        timeBattleHeaderAndFooterIncorrectPhase43.add(timeBattleHeaderIncorrectPhase43);
+        timeBattleHeaderAndFooterIncorrectPhase43.add(timeBattleFooterPhase43);
 
         timeBattleHeadersAndFootersIncorrect = new ArrayList<List<String>>();
 
@@ -6513,6 +6576,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase40);
         timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase41);
         timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase42);
+        timeBattleHeadersAndFootersIncorrect.add(timeBattleHeaderAndFooterIncorrectPhase43);
 
         correctInputMapSquirgle = new HashMap<Boolean, List<List<String>>>();
         correctInputMapBattle = new HashMap<Boolean, List<List<String>>>();

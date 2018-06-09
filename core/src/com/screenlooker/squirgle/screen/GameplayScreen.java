@@ -303,7 +303,7 @@ public class GameplayScreen implements Screen, InputProcessor {
         setUpNonFinalNonStaticData();
 
         game.setUpFontScore(MathUtils.round(game.camera.viewportWidth / FONT_SCORE_SIZE_DIVISOR));
-        game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
+        //game.setUpFontTarget(MathUtils.round(game.camera.viewportWidth / FONT_TARGET_SIZE_DIVISOR));
         game.setUpFontSquirgle(MathUtils.round(game.camera.viewportWidth / FONT_SQUIRGLE_SIZE_DIVISOR));
         game.setUpFontSkip(MathUtils.round(game.camera.viewportWidth / FONT_SKIP_SIZE_DIVISOR));
         game.setUpFontButton(MathUtils.round(PAUSE_INPUT_WIDTH > PAUSE_INPUT_HEIGHT_MIDDLE ? (PAUSE_INPUT_HEIGHT_MIDDLE / 2) / 2.75f : (PAUSE_INPUT_WIDTH / 2) / 2.75f));
