@@ -136,7 +136,7 @@ public class EpilepsyWarningScreen implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-        //atlas.dispose();
+
     }
 
     @Override

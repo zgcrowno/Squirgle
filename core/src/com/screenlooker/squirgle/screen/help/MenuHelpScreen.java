@@ -25,17 +25,6 @@ public class MenuHelpScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
-    private final static int BASE_4 = 0;
-    private final static int BASE_5 = 1;
-    private final static int BASE_6 = 2;
-    private final static int BASE_7 = 3;
-    private final static int BASE_8 = 4;
-    private final static int BASE_9 = 5;
-    private final static int COLOR = 6;
-    private final static int STATS = 7;
-    private final static int PLAY = 8;
-    private final static int BACK = 9;
-
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
@@ -60,17 +49,6 @@ public class MenuHelpScreen implements Screen, InputProcessor {
     private Color tutorialColor;
     private Color creditsColor;
     private Color backColor;
-
-    private boolean base4Touched;
-    private boolean base5Touched;
-    private boolean base6Touched;
-    private boolean base7Touched;
-    private boolean base8Touched;
-    private boolean base9Touched;
-    private boolean colorTouched;
-    private boolean statsTouched;
-    private boolean playTouched;
-    private boolean backTouched;
 
     private Button additionButton;
     private Button statsButton;
@@ -107,17 +85,6 @@ public class MenuHelpScreen implements Screen, InputProcessor {
         tutorialColor = ColorUtils.COLOR_ORANGE;
         creditsColor = ColorUtils.COLOR_VERMILLION;
         backColor = ColorUtils.COLOR_REDDISH_PURPLE;
-
-        base4Touched = false;
-        base5Touched = false;
-        base6Touched = false;
-        base7Touched = false;
-        base8Touched = false;
-        base9Touched = false;
-        colorTouched = false;
-        statsTouched = false;
-        playTouched = false;
-        backTouched = false;
 
         additionButton = new Button((2 * game.partitionSize) + inputWidth,
                 (4 * game.partitionSize) + (3 * inputHeightBase),

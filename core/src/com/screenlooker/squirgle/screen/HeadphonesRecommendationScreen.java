@@ -141,7 +141,7 @@ public class HeadphonesRecommendationScreen implements Screen, InputProcessor {
 
     @Override
     public void dispose() {
-        //atlas.dispose();
+
     }
 
     @Override

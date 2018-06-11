@@ -32,14 +32,6 @@ public class BaseSelectScreen implements Screen, InputProcessor {
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
-    public final static int NUM_TIME_INPUT_ELEMENTS = 4;
-    public final static int NUM_DIFFICULTY_INPUT_ELEMENTS = 4;
-
-    private final static float FONT_DIFFICULTY_SIZE_DIVISOR = 35f;
-    private final static float FONT_TRACK_NAME_DIVISOR = 6.5f;
-    private final static float FONT_TRACK_TYPE_DIVISOR = 2f;
-    private final static float FONT_TIME_DIVISOR = 1.2f;
-    private final static float FONT_OPTIONS_SIZE_DIVISOR = 7f;
 
     private int gameplayType;
     private int numMiddleInputsVertical;
@@ -106,7 +98,6 @@ public class BaseSelectScreen implements Screen, InputProcessor {
         inputShapeRadius = inputWidth > inputHeightMiddle ? (inputHeightMiddle / 2) : (inputWidth / 2);
 
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
-        //game.setUpFontOptions(MathUtils.round(inputWidth / FONT_OPTIONS_SIZE_DIVISOR));
         game.setUpFontNumPlayers(MathUtils.round(symbolRadius / 3));
 
         touchPoint = new Vector3();

@@ -51,8 +51,6 @@ public class MenuHelpAdditionScreen implements Screen, InputProcessor {
     private Color base8Color;
     private Color base9Color;
     private Color colorColor;
-    private Color statsColor;
-    private Color playColor;
     private Color backColor;
 
     Button colorButton;

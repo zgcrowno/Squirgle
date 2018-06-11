@@ -25,8 +25,6 @@ public class MenuHelpAdditionBaseScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
-    private final static int BACK = 0;
-
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
@@ -46,8 +44,6 @@ public class MenuHelpAdditionBaseScreen implements Screen, InputProcessor {
     private Vector3 touchPoint;
 
     private Color backColor;
-
-    private boolean backTouched;
 
     private Button backButton;
 
@@ -79,8 +75,6 @@ public class MenuHelpAdditionBaseScreen implements Screen, InputProcessor {
         touchPoint = new Vector3();
 
         backColor = ColorUtils.COLOR_REDDISH_PURPLE;
-
-        backTouched = false;
 
         backButton = new Button(game.camera.viewportWidth - game.partitionSize - inputWidth,
                 game.partitionSize,

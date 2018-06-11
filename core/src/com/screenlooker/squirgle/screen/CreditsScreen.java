@@ -73,7 +73,6 @@ public class CreditsScreen implements Screen, InputProcessor {
     private float veilOpacity;
     private float textOpacity;
 
-    private long startTime;
     private long timeSinceTouched;
 
     private List<String> stringList;
@@ -95,7 +94,6 @@ public class CreditsScreen implements Screen, InputProcessor {
         this.shapeResumeRadius = shapePauseRadius + ((RADIUS_INCREMENT * game.FPS) * 2);
         this.veilOpacity = 0;
         this.textOpacity = 0;
-        this.startTime = System.currentTimeMillis();
         this.timeSinceTouched = SKIP_TEXT_DISAPPEARANCE_TIME;
         this.stringList = new ArrayList<String>();
         this.shapeList = new ArrayList<Shape>();

@@ -26,10 +26,6 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
-    private final static int BATTLE = 0;
-    private final static int TIME_BATTLE = 1;
-    private final static int BACK = 2;
-
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
@@ -61,11 +57,6 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
     private List<Shape> squirgleShapeListBattleTwo;
 
     private Shape squirglePromptBattleOne;
-    private Shape squirglePromptBattleTwo;
-
-    private boolean battleTouched;
-    private boolean timeBattleTouched;
-    private boolean backTouched;
 
     private Button battleButton;
     private Button timeBattleButton;
@@ -101,10 +92,6 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
         timeBattleColor = ColorUtils.COLOR_BLUE;
         backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
-        battleTouched = false;
-        timeBattleTouched = false;
-        backTouched = false;
-
         squareColor = ColorUtils.randomTransitionColor();
         circleColor = ColorUtils.randomTransitionColor();
         triangleColor = ColorUtils.randomTransitionColor();
@@ -128,12 +115,6 @@ public class MenuTypeMultiplayerLocalScreen implements Screen, InputProcessor {
                 null,
                 (inputShapeRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2((game.camera.viewportWidth / 2) - (inputWidth / 4), ((3 * game.camera.viewportHeight) / 4) + (inputHeightType / 4) - squirgleHeightOffset));
-        squirglePromptBattleTwo = new Shape(Shape.TRIANGLE,
-                inputShapeRadius / 2,
-                triangleColor,
-                null,
-                (inputShapeRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2((game.camera.viewportWidth / 2) + (inputWidth / 4), ((3 * game.camera.viewportHeight) / 4) - (inputHeightType / 4)));
 
         battleButton = new Button((2 * game.partitionSize) + inputWidth,
                 (2 * game.partitionSize) + inputHeightType,

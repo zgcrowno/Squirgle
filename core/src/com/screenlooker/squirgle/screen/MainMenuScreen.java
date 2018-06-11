@@ -59,11 +59,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
 
     private Shape squirglePrompt;
 
-    private boolean optionsTouched;
-    private boolean playTouched;
-    private boolean helpTouched;
-    private boolean quitTouched;
-
     private Button playButton;
     private Button optionsButton;
     private Button helpButton;
@@ -119,11 +114,6 @@ public class MainMenuScreen implements Screen, InputProcessor {
                 null,
                 squirgleRadius / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(game.camera.viewportWidth / 2, ((3 * game.camera.viewportHeight) / 4) - squirgleHeightOffset));
-
-        optionsTouched = false;
-        playTouched = false;
-        helpTouched = false;
-        quitTouched = false;
 
         playButton = new Button(game.partitionSize,
                 (2 * game.partitionSize) + inputHeight,

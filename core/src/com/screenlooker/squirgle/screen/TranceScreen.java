@@ -30,14 +30,12 @@ public class TranceScreen implements Screen, InputProcessor {
     private final static int PAUSE_BACK = 0;
     private final static int PAUSE_QUIT = 1;
 
-    private final static int NUM_MUSIC_PHASES = 3;
     private final static int SHAPE_SIZE_LIMIT_MULTIPLIER = 15;
     private final static int PAUSE_INPUT_DISAPPEARANCE_TIME = 5;
     private final static int ONE_THOUSAND = 1000;
 
     private float promptIncrease;
     private Shape promptShape;
-    private Shape lastPromptShape;
     private List<Shape> priorShapeList;
     private Vector3 touchPoint;
     boolean pauseTouched;
@@ -427,7 +425,6 @@ public class TranceScreen implements Screen, InputProcessor {
                 INIT_PROMPT_RADIUS / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(game.camera.viewportWidth / 2,
                         game.camera.viewportHeight / 2));
-        lastPromptShape = new Shape(Shape.POINT, promptShape.getRadius(), Color.BLACK, Color.BLACK, GameplayScreen.INPUT_RADIUS / Draw.LINE_WIDTH_DIVISOR, promptShape.getCoordinates());
         priorShapeList = new ArrayList<Shape>();
         for(int i = 0; i < 40; i++) {
             if(i % 2 == 0) {
