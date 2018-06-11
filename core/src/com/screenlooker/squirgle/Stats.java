@@ -412,7 +412,6 @@ public class Stats {
 
     public static final String SAVE_TIME_PLAYED_TRANCE = "timePlayedTrance";
     public static final String SAVE_NUM_TIMES_PLAYED_TRANCE = "numTimesPlayedTrance";
-    public static final String SAVE_LONGEST_RUN_TRANCE = "longestRunTrance";
     public static final String SAVE_NUM_TIMES_PLAYED_POINTILLISM_TRANCE = "numTimesPlayedPointillismTrance";
     public static final String SAVE_NUM_TIMES_PLAYED_LINEAGE_TRANCE = "numTimesPlayedLineageTrance";
     public static final String SAVE_NUM_TIMES_PLAYED_TRI_THE_WALTZ_TRANCE = "numTimesPlayedTriTheWaltzTrance";

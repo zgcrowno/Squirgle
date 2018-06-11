@@ -24,10 +24,6 @@ public class MenuTypeScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
-    private final static int SINGLE_PLAYER = 0;
-    private final static int MULTIPLAYER_LOCAL = 1;
-    private final static int BACK = 2;
-
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
@@ -50,10 +46,6 @@ public class MenuTypeScreen implements Screen, InputProcessor {
     private Color singlePlayerColor;
     private Color multiplayerLocalColor;
     private Color backColor;
-
-    private boolean singlePlayerTouched;
-    private boolean multiplayerLocalTouched;
-    private boolean backTouched;
 
     private Button singlePlayerButton;
     private Button multiplayerLocalButton;
@@ -86,10 +78,6 @@ public class MenuTypeScreen implements Screen, InputProcessor {
         singlePlayerColor = ColorUtils.COLOR_SKY_BLUE;
         multiplayerLocalColor = ColorUtils.COLOR_BLUE;
         backColor = ColorUtils.COLOR_REDDISH_PURPLE;
-
-        singlePlayerTouched = false;
-        multiplayerLocalTouched = false;
-        backTouched = false;
 
         singlePlayerButton = new Button((2 * game.partitionSize) + inputWidth,
                 (2 * game.partitionSize) + inputHeightType,

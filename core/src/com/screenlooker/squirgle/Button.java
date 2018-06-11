@@ -4597,7 +4597,6 @@ public class Button {
                     game.updateSave(game.SAVE_VOLUME, game.volume);
                     game.updateSave(game.SAVE_FX_VOLUME, game.fxVolume);
                     game.updateSave(game.SAVE_P2_CONTROLS, game.p2Controls);
-                    //game.updateSave(game.SAVE_HARDCORE, game.hardcore);
                     game.setScreen(new MainMenuScreen(game, containerColor));
                     return true;
                 }
@@ -4934,6 +4933,7 @@ public class Button {
                 case BUTTON_HELP_TUTORIAL_BATTLE_SQUARE : {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 4;
@@ -4945,6 +4945,7 @@ public class Button {
                 case BUTTON_HELP_TUTORIAL_BATTLE_PENTAGON : {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 5;
@@ -4956,6 +4957,7 @@ public class Button {
                 case BUTTON_HELP_TUTORIAL_BATTLE_HEXAGON : {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 6;
@@ -4967,6 +4969,7 @@ public class Button {
                 case BUTTON_HELP_TUTORIAL_BATTLE_SEPTAGON : {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 7;
@@ -4978,6 +4981,7 @@ public class Button {
                 case BUTTON_HELP_TUTORIAL_BATTLE_OCTAGON : {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 8;
@@ -4989,6 +4993,7 @@ public class Button {
                 case BUTTON_HELP_TUTORIAL_BATTLE_NONAGON : {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 9;
@@ -5076,6 +5081,7 @@ public class Button {
                 case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SQUARE : {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 4;
@@ -5087,6 +5093,7 @@ public class Button {
                 case BUTTON_HELP_TUTORIAL_TIME_BATTLE_PENTAGON : {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 5;
@@ -5098,6 +5105,7 @@ public class Button {
                 case BUTTON_HELP_TUTORIAL_TIME_BATTLE_HEXAGON : {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 6;
@@ -5109,6 +5117,7 @@ public class Button {
                 case BUTTON_HELP_TUTORIAL_TIME_BATTLE_SEPTAGON : {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 7;
@@ -5120,6 +5129,7 @@ public class Button {
                 case BUTTON_HELP_TUTORIAL_TIME_BATTLE_OCTAGON : {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 8;
@@ -5131,6 +5141,7 @@ public class Button {
                 case BUTTON_HELP_TUTORIAL_TIME_BATTLE_NONAGON : {
                     game.usePhases = false;
                     game.track = Squirgle.MUSIC_LINEAGE;
+                    game.difficulty = Squirgle.DIFFICULTY_MEDIUM;
                     game.trackMapFull.get(game.MUSIC_THEME_FROM_SQUIRGLE).stop();
                     game.confirmSound.play((float) (game.fxVolume / 10.0));
                     game.base = 9;

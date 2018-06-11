@@ -32,24 +32,9 @@ public class StatsScreen implements Screen, InputProcessor {
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
-    public final static int NUM_TIME_INPUT_ELEMENTS = 4;
-    public final static int NUM_DIFFICULTY_INPUT_ELEMENTS = 4;
 
-    private final static float FONT_DIFFICULTY_SIZE_DIVISOR = 35f;
-    private final static float FONT_TRACK_NAME_DIVISOR = 6.5f;
-    private final static float FONT_TRACK_TYPE_DIVISOR = 2f;
-    private final static float FONT_TIME_DIVISOR = 1.2f;
     private final static float FONT_OPTIONS_SIZE_DIVISOR = 7f;
     private final static float FONT_STATS_SIZE_DIVISOR = 4.5f;
-
-    private final static String TIME_PLAYED = "TIME PLAYED: ";
-    private final static String NUM_SQUIRGLES = "SQUIRGLES: ";
-    private final static String FAVORITE_BASE = "FAVORITE BASE: ";
-    private final static String FAVORITE_MODE = "FAVORITE MODE: ";
-    private final static String FAVORITE_TRACK = "FAVORITE TRACK: ";
-    private final static String HOURS = "h";
-    private final static String MINUTES = "m";
-    private final static String SECONDS = "s";
 
     private int gameplayType;
     private int numMiddleInputsVertical;
@@ -70,10 +55,8 @@ public class StatsScreen implements Screen, InputProcessor {
     private Vector3 touchPoint;
 
     private Color backColor;
-    private Color musicColor;
     private Color timeColor;
     private Color difficultyColor;
-    private Color playColor;
     private Color squareColor;
     private Color circleColor;
     private Color triangleColor;
@@ -144,7 +127,6 @@ public class StatsScreen implements Screen, InputProcessor {
         game.setUpFontStats(MathUtils.round(inputShapeRadius / FONT_STATS_SIZE_DIVISOR));
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
         game.setUpFontOptions(MathUtils.round(inputWidth / FONT_OPTIONS_SIZE_DIVISOR));
-        //game.setUpFontNumPlayers(MathUtils.round(symbolRadius / 3));
 
         touchPoint = new Vector3();
 

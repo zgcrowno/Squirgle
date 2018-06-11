@@ -25,8 +25,6 @@ public class MenuHelpAdditionColorScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
-    private final static int BACK = 0;
-
     private final static int NUM_INPUTS_HORIZONTAL = 9;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
@@ -54,8 +52,6 @@ public class MenuHelpAdditionColorScreen implements Screen, InputProcessor {
     private List<Shape> squirgleShapeList;
 
     private Shape squirglePrompt;
-
-    private boolean backTouched;
 
     private Button backButton;
 
@@ -105,8 +101,6 @@ public class MenuHelpAdditionColorScreen implements Screen, InputProcessor {
                 null,
                 symbolRadius / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2());
-
-        backTouched = false;
 
         backButton = new Button(game.camera.viewportWidth - game.partitionSize - inputWidth,
                 game.partitionSize,

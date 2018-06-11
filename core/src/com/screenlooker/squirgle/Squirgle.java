@@ -29,8 +29,6 @@ public class Squirgle extends Game {
 	public static float ASPECT_RATIO;
 
 	public final static int PARTITION_DIVISOR = 80;
-	public final static int LINE_WIDTH = 20;
-	public final static int END_LINE_WIDTH_INCREASE = 2;
 	public final static int FPS = 60;
 	public final static int MAX_POSSIBLE_BASE = 9;
 	public final static int SCORE_TO_UNLOCK_NEW_BASE = 50;
@@ -101,7 +99,6 @@ public class Squirgle extends Game {
 	public final static String SAVE_DIFFICULTY = "difficulty";
 	public final static String SAVE_HARDCORE = "hardcore";
 
-	public final static String TARGET = "TARGET";
 	public final static String HAND = "HAND";
 
 	public AssetManager manager;
@@ -170,18 +167,8 @@ public class Squirgle extends Game {
 	public Sound correctInputSound;
 	public Sound incorrectInputSound;
 	public Sound gameOverSound;
-//	public List<Music> pointillismPhaseList;
-//	public List<Music> lineagePhaseList;
-//	public List<Music> triTheWaltzPhaseList;
-//	public List<Music> squaredOffPhaseList;
-//	public List<Music> pentUpPhaseList;
-//	public List<Music> hexidecibelPhaseList;
-//	public List<Music> interseptorPhaseList;
-//	public List<Music> roctopusPhaseList;
-//	public List<Music> nonplussedPhaseList;
 	public List<String> musicTitleList;
 	public Map<Integer, Music> trackMapFull;
-//	public Map<Integer, List<Music>> trackMapPhase;
 
 	public void create() {
 		//These catches prevent the back and menu keys from interfering with the game
@@ -204,7 +191,6 @@ public class Squirgle extends Game {
 
 		playedBefore = save.getBoolean(SAVE_PLAYED_BEFORE, false);
 		beatenBefore = save.getBoolean(SAVE_BEATEN_BEFORE, false);
-		//usePhases = save.getBoolean(SAVE_USE_PHASES, false);
 		usePhases = false; //Removed Full/Split music functionality; now always Full.
 
 		gameplayType = GAMEPLAY_SQUIRGLE;
@@ -240,23 +226,11 @@ public class Squirgle extends Game {
 		correctInputSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Correct Input Sound.ogg"));
 		incorrectInputSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Incorrect Input Sound.ogg"));
 		gameOverSound = Gdx.audio.newSound(Gdx.files.internal("sounds/fx/Game Over Sound.ogg"));
-//		pointillismPhaseList = new ArrayList<Music>();
-//		lineagePhaseList = new ArrayList<Music>();
-//		triTheWaltzPhaseList = new ArrayList<Music>();
-//		squaredOffPhaseList = new ArrayList<Music>();
-//		pentUpPhaseList = new ArrayList<Music>();
-//		hexidecibelPhaseList = new ArrayList<Music>();
-//		interseptorPhaseList = new ArrayList<Music>();
-//		roctopusPhaseList = new ArrayList<Music>();
-//		nonplussedPhaseList = new ArrayList<Music>();
 		musicTitleList = new ArrayList<String>();
 		trackMapFull = new HashMap<Integer, Music>();
-//		trackMapPhase = new HashMap<Integer, List<Music>>();
 
 		//This hides the cursor (so I can replace it with a custom one) on desktop
 		Gdx.input.setCursorCatched(true);
-
-		//manager.load("images/planarGazerLogoSpritesheet.atlas", TextureAtlas.class);
 
 		setUpMusicTitleList();
 
@@ -322,15 +296,9 @@ public class Squirgle extends Game {
 		disconfirmSound.dispose();
 		gameOverSound.dispose();
 		generator.dispose();
-		//manager.dispose();
 		for(int i = 0; i < trackMapFull.size(); i++) {
 			trackMapFull.get(i).dispose();
 		}
-//		for(int i = 0; i < trackMapPhase.size(); i++) {
-//			for(int j = 0; j < trackMapPhase.get(i).size(); j++) {
-//				trackMapPhase.get(i).get(j).dispose();
-//			}
-//		}
 	}
 
 	public void resetInstanceData() {
@@ -346,28 +314,12 @@ public class Squirgle extends Game {
 		fontLoading = generator.generateFont(parameter);
 	}
 
-	public void setUpFontVolume(int size) {
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+#\"";
-		fontVolume = generator.generateFont(parameter);
-	}
-
 	public void setUpFontScore(int size) {
 		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
 		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
 		parameter.size = size;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+#\"";
 		fontScore = generator.generateFont(parameter);
-	}
-
-	public void setUpFontTarget(int size) {
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+#\"";
-		fontTarget = generator.generateFont(parameter);
 	}
 
 	public void setUpFontSquirgle(int size) {
@@ -392,30 +344,6 @@ public class Squirgle extends Game {
 		parameter.size = size;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+#\"";
 		fontTrackType = generator.generateFont(parameter);
-	}
-
-	public void setUpFontTime(int size) {
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+#\"";
-		fontTime = generator.generateFont(parameter);
-	}
-
-	public void setUpFontDifficulty(int size) {
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+#\"";
-		fontDifficulty = generator.generateFont(parameter);
-	}
-
-	public void setUpFontPlayer(int size) {
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+#\"";
-		fontPlayer = generator.generateFont(parameter);
 	}
 
 	public void setUpFontStats(int size) {
@@ -448,14 +376,6 @@ public class Squirgle extends Game {
 		parameter.size = size;
 		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+#\"";
 		fontButton = generator.generateFont(parameter);
-	}
-
-	public void setUpFontHardcore(int size) {
-		generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/UltraCondensedSansSerif.ttf"));
-		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-		parameter.size = size;
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!',()><?:;/-[]|=%+#\"";
-		fontHardcore = generator.generateFont(parameter);
 	}
 
 	public void setUpFontOptions(int size) {
@@ -531,153 +451,45 @@ public class Squirgle extends Game {
 		pointillism.setLooping(true);
 		trackMapFull.put(MUSIC_POINTILLISM, pointillism);
 
-		//pointillism (phases)
-//		Music pointillismPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Pointillism (Phase 1).ogg"));
-//		Music pointillismPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Pointillism (Phase 2).ogg"));
-//		Music pointillismPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Pointillism (Phase 3).ogg"));
-//		pointillismPhase1.setLooping(true);
-//		pointillismPhase2.setLooping(true);
-//		pointillismPhase3.setLooping(true);
-//		pointillismPhaseList.add(pointillismPhase1);
-//		pointillismPhaseList.add(pointillismPhase2);
-//		pointillismPhaseList.add(pointillismPhase3);
-//		trackMapPhase.put(MUSIC_POINTILLISM, pointillismPhaseList);
-
 		//lineage (full)
 		Music lineage = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Full).ogg"));
 		lineage.setLooping(true);
 		trackMapFull.put(MUSIC_LINEAGE, lineage);
-
-		//lineage (phases)
-//		Music lineagePhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Phase 1).ogg"));
-//		Music lineagePhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Phase 2).ogg"));
-//		Music lineagePhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Lineage (Phase 3).ogg"));
-//		lineagePhase1.setLooping(true);
-//		lineagePhase2.setLooping(true);
-//		lineagePhase3.setLooping(true);
-//		lineagePhaseList.add(lineagePhase1);
-//		lineagePhaseList.add(lineagePhase2);
-//		lineagePhaseList.add(lineagePhase3);
-//		trackMapPhase.put(MUSIC_LINEAGE, lineagePhaseList);
 
 		//triTheWaltz (full)
 		Music triTheWaltz = Gdx.audio.newMusic(Gdx.files.internal("music/Tri the Waltz (Full).ogg"));
 		triTheWaltz.setLooping(true);
 		trackMapFull.put(MUSIC_TRI_THE_WALTZ, triTheWaltz);
 
-		//triTheWaltz (phases)
-//		Music triTheWaltzPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Tri the Waltz (Phase 1).ogg"));
-//		Music triTheWaltzPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Tri the Waltz (Phase 2).ogg"));
-//		Music triTheWaltzPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Tri the Waltz (Phase 3).ogg"));
-//		triTheWaltzPhase1.setLooping(true);
-//		triTheWaltzPhase2.setLooping(true);
-//		triTheWaltzPhase3.setLooping(true);
-//		triTheWaltzPhaseList.add(triTheWaltzPhase1);
-//		triTheWaltzPhaseList.add(triTheWaltzPhase2);
-//		triTheWaltzPhaseList.add(triTheWaltzPhase3);
-//		trackMapPhase.put(MUSIC_TRI_THE_WALTZ, triTheWaltzPhaseList);
-
 		//squaredOff (full)
 		Music squaredOff = Gdx.audio.newMusic(Gdx.files.internal("music/Squared Off (Full).ogg"));
 		squaredOff.setLooping(true);
 		trackMapFull.put(MUSIC_SQUARED_OFF, squaredOff);
-
-		//squaredOff (phases)
-//		Music squaredOffPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Squared Off (Phase 1).ogg"));
-//		Music squaredOffPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Squared Off (Phase 2).ogg"));
-//		Music squaredOffPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Squared Off (Phase 3).ogg"));
-//		squaredOffPhase1.setLooping(true);
-//		squaredOffPhase2.setLooping(true);
-//		squaredOffPhase3.setLooping(true);
-//		squaredOffPhaseList.add(squaredOffPhase1);
-//		squaredOffPhaseList.add(squaredOffPhase2);
-//		squaredOffPhaseList.add(squaredOffPhase3);
-//		trackMapPhase.put(MUSIC_SQUARED_OFF, squaredOffPhaseList);
 
 		//pentUp (full)
 		Music pentUp = Gdx.audio.newMusic(Gdx.files.internal("music/Pent Up (Full).ogg"));
 		pentUp.setLooping(true);
 		trackMapFull.put(MUSIC_PENT_UP, pentUp);
 
-		//pentUp (phases)
-//		Music pentUpPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Pent Up (Phase 1).ogg"));
-//		Music pentUpPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Pent Up (Phase 2).ogg"));
-//		Music pentUpPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Pent Up (Phase 3).ogg"));
-//		pentUpPhase1.setLooping(true);
-//		pentUpPhase2.setLooping(true);
-//		pentUpPhase3.setLooping(true);
-//		pentUpPhaseList.add(pentUpPhase1);
-//		pentUpPhaseList.add(pentUpPhase2);
-//		pentUpPhaseList.add(pentUpPhase3);
-//		trackMapPhase.put(MUSIC_PENT_UP, pentUpPhaseList);
-
 		//hexidecibel (full)
 		Music hexidecibel = Gdx.audio.newMusic(Gdx.files.internal("music/Hexidecibel (Full).ogg"));
 		hexidecibel.setLooping(true);
 		trackMapFull.put(MUSIC_HEXIDECIBEL, hexidecibel);
-
-		//hexidecibel (phases)
-//		Music hexidecibelPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Hexidecibel (Phase 1).ogg"));
-//		Music hexidecibelPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Hexidecibel (Phase 2).ogg"));
-//		Music hexidecibelPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Hexidecibel (Phase 3).ogg"));
-//		hexidecibelPhase1.setLooping(true);
-//		hexidecibelPhase2.setLooping(true);
-//		hexidecibelPhase3.setLooping(true);
-//		hexidecibelPhaseList.add(hexidecibelPhase1);
-//		hexidecibelPhaseList.add(hexidecibelPhase2);
-//		hexidecibelPhaseList.add(hexidecibelPhase3);
-//		trackMapPhase.put(MUSIC_HEXIDECIBEL, hexidecibelPhaseList);
 
 		//interseptor (full)
 		Music interseptor = Gdx.audio.newMusic(Gdx.files.internal("music/Interseptor (Full).ogg"));
 		interseptor.setLooping(true);
 		trackMapFull.put(MUSIC_INTERSEPTOR, interseptor);
 
-		//interseptor (phases)
-//		Music interseptorPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Interseptor (Phase 1).ogg"));
-//		Music interseptorPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Interseptor (Phase 2).ogg"));
-//		Music interseptorPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Interseptor (Phase 3).ogg"));
-//		interseptorPhase1.setLooping(true);
-//		interseptorPhase2.setLooping(true);
-//		interseptorPhase3.setLooping(true);
-//		interseptorPhaseList.add(interseptorPhase1);
-//		interseptorPhaseList.add(interseptorPhase2);
-//		interseptorPhaseList.add(interseptorPhase3);
-//		trackMapPhase.put(MUSIC_INTERSEPTOR, interseptorPhaseList);
-
 		//roctopus (full)
 		Music roctopus = Gdx.audio.newMusic(Gdx.files.internal("music/Roctopus (Full).ogg"));
 		roctopus.setLooping(true);
 		trackMapFull.put(MUSIC_ROCTOPUS, roctopus);
 
-		//roctopus (phases)
-//		Music roctopusPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Roctopus (Phase 1).ogg"));
-//		Music roctopusPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Roctopus (Phase 2).ogg"));
-//		Music roctopusPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Roctopus (Phase 3).ogg"));
-//		roctopusPhase1.setLooping(true);
-//		roctopusPhase2.setLooping(true);
-//		roctopusPhase3.setLooping(true);
-//		roctopusPhaseList.add(roctopusPhase1);
-//		roctopusPhaseList.add(roctopusPhase2);
-//		roctopusPhaseList.add(roctopusPhase3);
-//		trackMapPhase.put(MUSIC_ROCTOPUS, roctopusPhaseList);
-
 		//nonplussed (full)
 		Music nonplussed = Gdx.audio.newMusic(Gdx.files.internal("music/Nonplussed (Full).ogg"));
 		nonplussed.setLooping(true);
 		trackMapFull.put(MUSIC_NONPLUSSED, nonplussed);
-
-		//nonplussed (phases)
-//		Music nonplussedPhase1 = Gdx.audio.newMusic(Gdx.files.internal("music/Nonplussed (Phase 1).ogg"));
-//		Music nonplussedPhase2 = Gdx.audio.newMusic(Gdx.files.internal("music/Nonplussed (Phase 2).ogg"));
-//		Music nonplussedPhase3 = Gdx.audio.newMusic(Gdx.files.internal("music/Nonplussed (Phase 3).ogg"));
-//		nonplussedPhase1.setLooping(true);
-//		nonplussedPhase2.setLooping(true);
-//		nonplussedPhase3.setLooping(true);
-//		nonplussedPhaseList.add(nonplussedPhase1);
-//		nonplussedPhaseList.add(nonplussedPhase2);
-//		nonplussedPhaseList.add(nonplussedPhase3);
-//		trackMapPhase.put(MUSIC_NONPLUSSED, nonplussedPhaseList);
 	}
 
 	public void updateSave(String key, Object val) {

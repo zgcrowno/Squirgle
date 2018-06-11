@@ -36,10 +36,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
-    public final static int NUM_SOUND_INPUT_ELEMENTS = 4;
 
-    private final static float FONT_VOLUME_SIZE_DIVISOR = 30f;
-    private final static float FONT_HARDCORE_SIZE_DIVISOR = 45f;
     private final static float FONT_OPTIONS_SIZE_DIVISOR = 7f;
     private static float FONT_TUTORIAL_HELP_SIZE_MULTIPLIER;
 
@@ -59,16 +56,12 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private Color volumeColor;
     private Color fxVolumeColor;
     private Color p2ControlsColor;
-    private Color hardcoreColor;
     private Color wipeDataColor;
     private Color backColor;
 
-    private boolean volumeDownChevronTouched;
-    private boolean volumeUpChevronTouched;
     private boolean helpConfirmTouched;
     private boolean helpDisconfirmTouched;
     private boolean nonHelpTouched;
-    private boolean backTouched;
 
     private Button volumeButton;
     private Button volumeWavesButton;
@@ -82,10 +75,6 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
     private Button p2ControlsDPadButton;
     private Button p2ControlsChevronDownButton;
     private Button p2ControlsChevronUpButton;
-    private Button hardcoreButton;
-    private Button hardcoreSkullButton;
-    private Button hardcoreChevronDownButton;
-    private Button hardcoreChevronUpButton;
     private Button wipeDataButton;
     private Button backButton;
 
@@ -135,13 +124,8 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         volumeColor = ColorUtils.COLOR_ORANGE;
         fxVolumeColor = ColorUtils.COLOR_VERMILLION;
         p2ControlsColor = ColorUtils.COLOR_BLUISH_GREEN;
-        hardcoreColor = ColorUtils.COLOR_SKY_BLUE;
         wipeDataColor = ColorUtils.COLOR_BLUE;
         backColor = ColorUtils.COLOR_REDDISH_PURPLE;
-
-        volumeDownChevronTouched = false;
-        volumeUpChevronTouched = false;
-        backTouched = false;
 
         volumeButton = new Button((2 * game.partitionSize) + inputWidth,
                 game.camera.viewportHeight - game.partitionSize - inputHeightMiddle,
@@ -239,38 +223,6 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 p2ControlsColor,
                 Color.BLACK,
                 game);
-//        hardcoreButton = new Button((2 * game.partitionSize) + inputWidth,
-//                (2 * game.partitionSize) + inputHeightMiddle,
-//                inputWidth,
-//                inputHeightMiddle,
-//                Button.BUTTON_HARDCORE,
-//                hardcoreColor,
-//                Color.BLACK,
-//                game);
-//        hardcoreSkullButton = new Button(hardcoreButton.symbolX - (((2 * hardcoreButton.symbolRadius) / 3) / 2),
-//                hardcoreButton.symbolY + hardcoreButton.symbolRadius - ((2 * hardcoreButton.symbolRadius) / 3),
-//                (2 * hardcoreButton.symbolRadius) / 3,
-//                (2 * hardcoreButton.symbolRadius) / 3,
-//                Button.BUTTON_HARDCORE_SKULL,
-//                hardcoreColor,
-//                Color.BLACK,
-//                game);
-//        hardcoreChevronDownButton = new Button(hardcoreButton.x,
-//                hardcoreButton.symbolY + hardcoreButton.symbolRadius - ((5 * hardcoreButton.symbolRadius) / 3),
-//                (2 * hardcoreButton.symbolRadius) / 3,
-//                (2 * hardcoreButton.symbolRadius) / 3,
-//                Button.BUTTON_HARDCORE_CHEVRON_DOWN,
-//                hardcoreColor,
-//                Color.BLACK,
-//                game);
-//        hardcoreChevronUpButton = new Button(hardcoreButton.x + hardcoreButton.width - ((2 * hardcoreButton.symbolRadius) / 3),
-//                hardcoreButton.symbolY + hardcoreButton.symbolRadius - ((5 * hardcoreButton.symbolRadius) / 3),
-//                (2 * hardcoreButton.symbolRadius) / 3,
-//                (2 * hardcoreButton.symbolRadius) / 3,
-//                Button.BUTTON_HARDCORE_CHEVRON_UP,
-//                hardcoreColor,
-//                Color.BLACK,
-//                game);
         wipeDataButton = new Button((2 * game.partitionSize) + inputWidth,
                 game.partitionSize,
                 inputWidth,
@@ -303,10 +255,6 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
             buttonList.add(p2ControlsChevronDownButton);
             buttonList.add(p2ControlsChevronUpButton);
         }
-//        buttonList.add(hardcoreButton);
-//        buttonList.add(hardcoreSkullButton);
-//        buttonList.add(hardcoreChevronDownButton);
-//        buttonList.add(hardcoreChevronUpButton);
         buttonList.add(wipeDataButton);
         buttonList.add(backButton);
 

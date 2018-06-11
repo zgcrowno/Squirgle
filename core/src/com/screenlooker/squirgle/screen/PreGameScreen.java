@@ -32,13 +32,9 @@ public class PreGameScreen implements Screen, InputProcessor {
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
-    public final static int NUM_TIME_INPUT_ELEMENTS = 4;
-    public final static int NUM_DIFFICULTY_INPUT_ELEMENTS = 4;
 
-    private final static float FONT_DIFFICULTY_SIZE_DIVISOR = 35f;
     private final static float FONT_TRACK_NAME_DIVISOR = 6.5f;
     private final static float FONT_TRACK_TYPE_DIVISOR = 2f;
-    private final static float FONT_TIME_DIVISOR = 1.2f;
     private final static float FONT_OPTIONS_SIZE_DIVISOR = 7f;
 
     private int gameplayType;
@@ -77,8 +73,6 @@ public class PreGameScreen implements Screen, InputProcessor {
     private Shape squirglePromptBattleTwo;
 
     private Button musicButton;
-    private Button musicFullButton;
-    private Button musicSplitButton;
     private Button musicPointillismButton;
     private Button musicLineageButton;
     private Button musicTriTheWaltzButton;
@@ -220,22 +214,6 @@ public class PreGameScreen implements Screen, InputProcessor {
         game.setUpFontTrackType(MathUtils.round(musicButton.symbolRadius / FONT_TRACK_TYPE_DIVISOR));
         game.setUpFontTrackName(MathUtils.round(musicButton.symbolRadius / FONT_TRACK_NAME_DIVISOR));
 
-        musicFullButton = new Button((3 * game.partitionSize) + inputWidth,
-                game.partitionSize + game.layout.height + (((inputHeightMiddle - game.layout.height) - (musicButton.symbolRadius * 2)) / 2) + ((3 * (musicButton.symbolRadius * 2)) / 4) - ((3 * game.fontTrackType.getCapHeight()) / 4),
-                (inputWidth / 2) - game.partitionSize - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
-                game.fontTrackType.getCapHeight() + (game.fontTrackType.getCapHeight() / 5),
-                Button.BUTTON_MUSIC_FULL,
-                musicColor,
-                Color.BLACK,
-                game);
-        musicSplitButton = new Button((3 * game.partitionSize) + inputWidth,
-                game.partitionSize + game.layout.height + (((inputHeightMiddle - game.layout.height) - (musicButton.symbolRadius * 2)) / 2) + ((2 * (musicButton.symbolRadius * 2)) / 4) - ((3 * game.fontTrackType.getCapHeight()) / 4),
-                (inputWidth / 2) - game.partitionSize - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
-                game.fontTrackType.getCapHeight() + (game.fontTrackType.getCapHeight() / 5),
-                Button.BUTTON_MUSIC_SPLIT,
-                musicColor,
-                Color.BLACK,
-                game);
         musicPointillismButton = new Button(game.camera.viewportWidth / 2 + ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
                 musicButton.symbolY + musicButton.symbolRadius - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2) - (((musicButton.symbolY + musicButton.symbolRadius - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2)) - (musicButton.symbolY - ((3 * musicButton.symbolRadius) / 4))) / 9),
                 (inputWidth / 2) - game.partitionSize - ((musicButton.symbolRadius / Draw.LINE_WIDTH_DIVISOR) / 2),
@@ -384,8 +362,6 @@ public class PreGameScreen implements Screen, InputProcessor {
         buttonList = new ArrayList<Button>();
         buttonList.add(playButton);
         buttonList.add(musicButton);
-//        buttonList.add(musicFullButton);
-//        buttonList.add(musicSplitButton);
         buttonList.add(musicPointillismButton);
         buttonList.add(musicLineageButton);
         buttonList.add(musicTriTheWaltzButton);

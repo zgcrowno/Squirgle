@@ -26,30 +26,12 @@ public class MenuHelpTutorialBattleScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
-    private final static int BASE_4 = 0;
-    private final static int BASE_5 = 1;
-    private final static int BASE_6 = 2;
-    private final static int BASE_7 = 3;
-    private final static int BASE_8 = 4;
-    private final static int BASE_9 = 5;
-    private final static int BACK = 6;
-    private final static int MUSIC = 7;
-    private final static int MUSIC_TYPE = 8;
-    private final static int MUSIC_NAME = 9;
-    private final static int DIFFICULTY = 10;
-
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
-    private final static int NUM_DIFFICULTY_INPUT_ELEMENTS = 4;
-
-    private final static float FONT_DIFFICULTY_SIZE_DIVISOR = 35f;
-
-    private final static float FONT_TRACK_NAME_DIVISOR = 6.5f;
-    private final static float FONT_TRACK_TYPE_DIVISOR = 2f;
 
     private int numberOfBaseInputs;
 
@@ -61,7 +43,6 @@ public class MenuHelpTutorialBattleScreen implements Screen, InputProcessor {
     private float inputHeightBack;
 
     private float symbolRadius;
-    private float squirgleHeightOffset;
 
     private float inputShapeRadius;
 
@@ -74,38 +55,15 @@ public class MenuHelpTutorialBattleScreen implements Screen, InputProcessor {
     private Color base8Color;
     private Color base9Color;
     private Color backColor;
-    private Color musicColor;
     private Color squareColor;
     private Color circleColor;
     private Color triangleColor;
-    private Color difficultyColor;
 
     private List<Shape> squirgleShapeListBattleOne;
     private List<Shape> squirgleShapeListBattleTwo;
 
     private Shape squirglePromptBattleOne;
     private Shape squirglePromptBattleTwo;
-
-    private boolean base4Touched;
-    private boolean base5Touched;
-    private boolean base6Touched;
-    private boolean base7Touched;
-    private boolean base8Touched;
-    private boolean base9Touched;
-    private boolean backTouched;
-    private boolean musicTypeFullTouched;
-    private boolean musicTypeSplitTouched;
-    private boolean musicNamePointillismTouched;
-    private boolean musicNameLineageTouched;
-    private boolean musicNameTriTheWaltzTouched;
-    private boolean musicNameSquaredOffTouched;
-    private boolean musicNamePentUpTouched;
-    private boolean musicNameHexidecibelTouched;
-    private boolean musicNameInterseptorTouched;
-    private boolean musicNameRoctopusTouched;
-    private boolean musicNameNonplussedTouched;
-    private boolean difficultyDownChevronTouched;
-    private boolean difficultyUpChevronTouched;
 
     private Button backButton;
 
@@ -119,9 +77,6 @@ public class MenuHelpTutorialBattleScreen implements Screen, InputProcessor {
 
         game.resetInstanceData();
 
-        //TODO: Make sure this is being determined by inputShapeRadius instead of viewport width in ALL screens
-//        game.setUpFontDifficulty(MathUtils.round(game.camera.viewportWidth / FONT_DIFFICULTY_SIZE_DIVISOR));
-
         Gdx.input.setInputProcessor(this);
 
         numberOfBaseInputs = game.maxBase - game.minBase + 1;
@@ -134,13 +89,10 @@ public class MenuHelpTutorialBattleScreen implements Screen, InputProcessor {
         inputHeightBack = game.camera.viewportHeight - (game.partitionSize * NUM_RIGHT_PARTITIONS_VERTICAL);
 
         symbolRadius = inputWidth > inputHeightBack ? inputHeightBack / 2 : inputWidth / 2;
-        squirgleHeightOffset = symbolRadius / 4;
 
         inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 2) : (inputWidth / 2);
 
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
-//        game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
-//        game.setUpFontTrackType(MathUtils.round(inputShapeRadius / FONT_TRACK_TYPE_DIVISOR));
 
         touchPoint = new Vector3();
 
@@ -151,18 +103,6 @@ public class MenuHelpTutorialBattleScreen implements Screen, InputProcessor {
         base8Color = ColorUtils.COLOR_SKY_BLUE;
         base9Color = ColorUtils.COLOR_REDDISH_PURPLE;
         backColor = ColorUtils.COLOR_REDDISH_PURPLE;
-        musicColor = ColorUtils.randomColor();
-        difficultyColor = ColorUtils.randomColor();
-
-        base4Touched = false;
-        base5Touched = false;
-        base6Touched = false;
-        base7Touched = false;
-        base8Touched = false;
-        base9Touched = false;
-        backTouched = false;
-        difficultyDownChevronTouched = false;
-        difficultyUpChevronTouched = false;
 
         squareColor = ColorUtils.randomTransitionColor();
         circleColor = ColorUtils.randomTransitionColor();

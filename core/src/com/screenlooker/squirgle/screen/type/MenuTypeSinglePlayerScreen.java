@@ -26,13 +26,6 @@ public class MenuTypeSinglePlayerScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
-    private final static int SQUIRGLE = 0;
-    private final static int BATTLE = 1;
-    private final static int TIME_ATTACK = 2;
-    private final static int TIME_BATTLE = 3;
-    private final static int TRANCE = 4;
-    private final static int BACK = 5;
-
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
@@ -68,15 +61,6 @@ public class MenuTypeSinglePlayerScreen implements Screen, InputProcessor {
     private List<Shape> squirgleShapeListBattleTwo;
 
     private Shape squirglePrompt;
-    private Shape squirglePromptBattleOne;
-    private Shape squirglePromptBattleTwo;
-
-    private boolean squirgleTouched;
-    private boolean battleTouched;
-    private boolean timeAttackTouched;
-    private boolean timeBattleTouched;
-    private boolean tranceTouched;
-    private boolean backTouched;
 
     private Button squirgleButton;
     private Button battleButton;
@@ -118,13 +102,6 @@ public class MenuTypeSinglePlayerScreen implements Screen, InputProcessor {
         tranceColor = ColorUtils.COLOR_BLUISH_GREEN;
         backColor = ColorUtils.COLOR_REDDISH_PURPLE;
 
-        squirgleTouched = false;
-        battleTouched = false;
-        timeAttackTouched = false;
-        timeBattleTouched = false;
-        tranceTouched = false;
-        backTouched = false;
-
         squareColor = ColorUtils.randomTransitionColor();
         circleColor = ColorUtils.randomTransitionColor();
         triangleColor = ColorUtils.randomTransitionColor();
@@ -151,18 +128,6 @@ public class MenuTypeSinglePlayerScreen implements Screen, InputProcessor {
                 null,
                 inputShapeRadius / Draw.LINE_WIDTH_DIVISOR,
                 new Vector2(game.camera.viewportWidth / 2, ((9 * game.camera.viewportHeight) / 10) - squirgleHeightOffset));
-        squirglePromptBattleOne = new Shape(Shape.TRIANGLE,
-                inputShapeRadius / 2,
-                triangleColor,
-                null,
-                (inputShapeRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2((game.camera.viewportWidth / 2) - (inputWidth / 4), ((7 * game.camera.viewportHeight) / 10) + (inputHeightType / 4) - squirgleHeightOffset));
-        squirglePromptBattleTwo = new Shape(Shape.TRIANGLE,
-                inputShapeRadius / 2,
-                triangleColor,
-                null,
-                (inputShapeRadius / 2) / Draw.LINE_WIDTH_DIVISOR,
-                new Vector2((game.camera.viewportWidth / 2) + (inputWidth / 4), ((7 * game.camera.viewportHeight) / 10) - (inputHeightType / 4)));
 
         squirgleButton = new Button((2 * game.partitionSize) + inputWidth,
                 (5 * game.partitionSize) + (4 * inputHeightType),

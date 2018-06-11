@@ -26,26 +26,12 @@ public class MenuHelpTutorialSquirgleScreen implements Screen, InputProcessor {
 
     final Squirgle game;
 
-    private final static int BASE_4 = 0;
-    private final static int BASE_5 = 1;
-    private final static int BASE_6 = 2;
-    private final static int BASE_7 = 3;
-    private final static int BASE_8 = 4;
-    private final static int BASE_9 = 5;
-    private final static int BACK = 6;
-    private final static int MUSIC = 7;
-    private final static int MUSIC_TYPE = 8;
-    private final static int MUSIC_NAME = 9;
-
     private final static int NUM_INPUTS_HORIZONTAL = 3;
     private final static int NUM_LEFT_INPUTS_VERTICAL = 1;
     private final static int NUM_RIGHT_INPUTS_VERTICAL = 1;
     private final static int NUM_PARTITIONS_HORIZONTAL = NUM_INPUTS_HORIZONTAL + 1;
     private final static int NUM_LEFT_PARTITIONS_VERTICAL = NUM_LEFT_INPUTS_VERTICAL + 1;
     private final static int NUM_RIGHT_PARTITIONS_VERTICAL = NUM_RIGHT_INPUTS_VERTICAL + 1;
-
-    private final static float FONT_TRACK_NAME_DIVISOR = 6.5f;
-    private final static float FONT_TRACK_TYPE_DIVISOR = 2f;
 
     private int numberOfBaseInputs;
 
@@ -70,7 +56,6 @@ public class MenuHelpTutorialSquirgleScreen implements Screen, InputProcessor {
     private Color base8Color;
     private Color base9Color;
     private Color backColor;
-    private Color musicColor;
     private Color squareColor;
     private Color circleColor;
     private Color triangleColor;
@@ -78,25 +63,6 @@ public class MenuHelpTutorialSquirgleScreen implements Screen, InputProcessor {
     private List<Shape> squirgleShapeList;
 
     private Shape squirglePrompt;
-
-    private boolean base4Touched;
-    private boolean base5Touched;
-    private boolean base6Touched;
-    private boolean base7Touched;
-    private boolean base8Touched;
-    private boolean base9Touched;
-    private boolean backTouched;
-    private boolean musicTypeFullTouched;
-    private boolean musicTypeSplitTouched;
-    private boolean musicNamePointillismTouched;
-    private boolean musicNameLineageTouched;
-    private boolean musicNameTriTheWaltzTouched;
-    private boolean musicNameSquaredOffTouched;
-    private boolean musicNamePentUpTouched;
-    private boolean musicNameHexidecibelTouched;
-    private boolean musicNameInterseptorTouched;
-    private boolean musicNameRoctopusTouched;
-    private boolean musicNameNonplussedTouched;
 
     private Button backButton;
 
@@ -127,8 +93,6 @@ public class MenuHelpTutorialSquirgleScreen implements Screen, InputProcessor {
         inputShapeRadius = inputWidth > inputHeightBase ? (inputHeightBase / 2) : (inputWidth / 2);
 
         game.setUpFontButton(MathUtils.round(inputShapeRadius / 2.75f));
-//        game.setUpFontTrackName(MathUtils.round(inputShapeRadius / FONT_TRACK_NAME_DIVISOR));
-//        game.setUpFontTrackType(MathUtils.round(inputShapeRadius / FONT_TRACK_TYPE_DIVISOR));
 
         touchPoint = new Vector3();
 
@@ -139,15 +103,6 @@ public class MenuHelpTutorialSquirgleScreen implements Screen, InputProcessor {
         base8Color = ColorUtils.COLOR_SKY_BLUE;
         base9Color = ColorUtils.COLOR_REDDISH_PURPLE;
         backColor = ColorUtils.COLOR_REDDISH_PURPLE;
-        musicColor = ColorUtils.randomColor();
-
-        base4Touched = false;
-        base5Touched = false;
-        base6Touched = false;
-        base7Touched = false;
-        base8Touched = false;
-        base9Touched = false;
-        backTouched = false;
 
         squareColor = ColorUtils.randomTransitionColor();
         circleColor = ColorUtils.randomTransitionColor();
