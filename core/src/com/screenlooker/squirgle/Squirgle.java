@@ -16,7 +16,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.*;
+import com.codedisaster.steamworks.SteamAPI;
+import com.codedisaster.steamworks.SteamException;
+import com.codedisaster.steamworks.SteamUserStats;
+import com.codedisaster.steamworks.SteamUserStatsCallback;
 import com.screenlooker.squirgle.screen.*;
+import com.screenlooker.squirgle.steam.Achievements;
+import com.screenlooker.squirgle.steam.SquirgleUserStatsCallback;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -170,7 +176,24 @@ public class Squirgle extends Game {
 	public List<String> musicTitleList;
 	public Map<Integer, Music> trackMapFull;
 
+	public SteamUserStats steamUserStats;
+
 	public void create() {
+		//Initialize the Steam API
+		try {
+			if (!SteamAPI.init()) {
+				// Steamworks initialization error, e.g. Steam client not running
+				Gdx.app.log("failure", "Steamworks initialization error, e.g. Steam client not running");
+			}
+		} catch (SteamException e) {
+			// Error extracting or loading native libraries
+			Gdx.app.log("error", e.getMessage());
+		}
+		steamUserStats = new SteamUserStats(new SquirgleUserStatsCallback());
+		//steamUserStats.setAchievement("Squared Off");
+		//steamUserStats.clearAchievement("Squared Off");
+
+
 		//These catches prevent the back and menu keys from interfering with the game
 		Gdx.input.setCatchBackKey(true);
 		Gdx.input.setCatchMenuKey(true);
@@ -299,6 +322,8 @@ public class Squirgle extends Game {
 		for(int i = 0; i < trackMapFull.size(); i++) {
 			trackMapFull.get(i).dispose();
 		}
+		steamUserStats.dispose();
+		SteamAPI.shutdown();
 	}
 
 	public void resetInstanceData() {
@@ -516,5 +541,38 @@ public class Squirgle extends Game {
 		updateSave(SAVE_MAX_BASE, base);
 
 		stats.wipeSave();
+	}
+
+	public void clearAllAchievements() {
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_SQUARED_OFF);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_PENT_UP);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_HEXIDECIBEL);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_INTERSEPTOR);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_ROCTOPUS);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_NONPLUSSED);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_QUADRIRADERAL);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_FOUR_THE_MEMORIES);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_FIVE_FINGERED_VISCOUNT);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_THE_SACRAPENT);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_SIX_SHOOTER);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_OEDIPUS_HEX);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_EXSEPTION_TO_THE_COOL);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_SEPTER_OF_WEALTH_AND_POWER);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_OCT_IN);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_INSEIGHTABLE);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_NONARYDICULOUS);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_WHATS_YOURS_IS_NINE);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_HUMBLE_BEGINNINGS);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_EARLY_APPOINTMENT);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_ON_DOWN_THE_LINE);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_TRI_HARD);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_SQUARE_BREED);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_STAYING_AFTER_5);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_BETTER_THAN_HEX);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_THE_SEVENTERTAINER);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_EIGHT_FOR_LIFE);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_NUMBER_9);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_CANT_REPLACE_THE_FEAR);
+		steamUserStats.clearAchievement(Achievements.ACHIEVEMENT_MAKE_NAN_CRY);
 	}
 }

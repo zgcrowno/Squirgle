@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
+import com.codedisaster.steamworks.SteamAPI;
 import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Squirgle;
 import com.screenlooker.squirgle.util.InputUtils;
@@ -84,6 +85,11 @@ public class SplashScreen implements Screen, InputProcessor {
         }
 
         InputUtils.keepCursorInBounds(game);
+
+        //Steam callbacks
+        if (SteamAPI.isSteamRunning()) {
+            SteamAPI.runCallbacks();
+        }
     }
 
     @Override

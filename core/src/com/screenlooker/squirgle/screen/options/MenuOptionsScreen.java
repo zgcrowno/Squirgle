@@ -13,6 +13,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
+import com.codedisaster.steamworks.SteamAPI;
 import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
@@ -330,6 +331,11 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
         }
 
         InputUtils.keepCursorInBounds(game);
+
+        //Steam callbacks
+        if (SteamAPI.isSteamRunning()) {
+            SteamAPI.runCallbacks();
+        }
     }
 
     @Override
@@ -414,6 +420,8 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 game.confirmSound.play((float) (game.fxVolume / 10.0));
                 game.wipeSave();
                 game.showWipeDataPrompt = false;
+                game.clearAllAchievements(); //TODO: Remove this!!!
+                game.steamUserStats.storeStats(); //TODO: And this!!!
             } else if(helpDisconfirmTouched || nonHelpTouched) {
                 game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                 game.showWipeDataPrompt = false;

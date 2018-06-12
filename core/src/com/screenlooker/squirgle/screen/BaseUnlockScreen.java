@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.codedisaster.steamworks.SteamAPI;
 import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
@@ -124,6 +125,11 @@ public class BaseUnlockScreen implements Screen, InputProcessor {
         }
 
         InputUtils.keepCursorInBounds(game);
+
+        //Steam callbacks
+        if (SteamAPI.isSteamRunning()) {
+            SteamAPI.runCallbacks();
+        }
     }
 
     @Override

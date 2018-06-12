@@ -12,4 +12,5 @@ eclipse.project {
 
 dependencies {
     compile 'com.badlogicgames.gdx:gdx-backend-android:1.9.6'
+    compile 'com.code-disaster.steamworks4j:steamworks4j:1.7.0'
 }

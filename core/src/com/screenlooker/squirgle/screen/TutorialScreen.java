@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.Align;
+import com.codedisaster.steamworks.SteamAPI;
 import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
@@ -1480,6 +1481,11 @@ public class TutorialScreen implements Screen, InputProcessor {
         }
 
         InputUtils.keepCursorInBounds(game);
+
+        //Steam callbacks
+        if (SteamAPI.isSteamRunning()) {
+            SteamAPI.runCallbacks();
+        }
     }
 
     @Override

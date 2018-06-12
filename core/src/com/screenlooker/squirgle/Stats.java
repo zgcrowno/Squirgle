@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
 import com.screenlooker.squirgle.screen.GameplayScreen;
+import com.screenlooker.squirgle.steam.Achievements;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -1375,6 +1376,32 @@ public class Stats {
                 + numSquirglesBattleNonagonMedium
                 + numSquirglesBattleNonagonHard;
         game.updateSave(SAVE_NUM_SQUIRGLES, numSquirgles);
+
+        //Update Steam achievements
+        if(numSquirgles >= 1000) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_CANT_REPLACE_THE_FEAR);
+        } else if(numSquirgles >= 900) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_NUMBER_9);
+        } else if(numSquirgles >= 800) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_EIGHT_FOR_LIFE);
+        } else if(numSquirgles >= 700) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_THE_SEVENTERTAINER);
+        } else if(numSquirgles >= 600) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_BETTER_THAN_HEX);
+        } else if(numSquirgles >= 500) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_STAYING_AFTER_5);
+        } else if(numSquirgles >= 400) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_SQUARE_BREED);
+        } else if(numSquirgles >= 300) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_TRI_HARD);
+        } else if(numSquirgles >= 200) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_ON_DOWN_THE_LINE);
+        } else if(numSquirgles >= 100) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_EARLY_APPOINTMENT);
+        } else if(numSquirgles >= 1) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_HUMBLE_BEGINNINGS);
+        }
+        game.steamUserStats.storeStats();
     }
 
     public boolean updateLongestRun(long newAmount, int base) {
@@ -1546,36 +1573,84 @@ public class Stats {
     public boolean updateHighestScore(long newScore, int gameplayType, int base, int gameLength, String difficulty) {
         if(gameplayType == Squirgle.GAMEPLAY_SQUIRGLE) {
             if(base == 4) {
+                //Update Steam achievements
+                if(newScore >= 200) {
+                    game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_FOUR_THE_MEMORIES);
+                } else if(newScore >= 100) {
+                    game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_QUADRIRADERAL);
+                }
+                game.steamUserStats.storeStats();
+
                 if(newScore > highestScoreSquirgleSquare) {
                     highestScoreSquirgleSquare = newScore;
                     game.updateSave(SAVE_HIGHEST_SCORE_SQUIRGLE_SQUARE, highestScoreSquirgleSquare);
                     return true;
                 }
             } else if(base == 5) {
+                //Update Steam achievements
+                if(newScore >= 200) {
+                    game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_THE_SACRAPENT);
+                } else if(newScore >= 100) {
+                    game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_FIVE_FINGERED_VISCOUNT);
+                }
+                game.steamUserStats.storeStats();
+
                 if(newScore > highestScoreSquirglePentagon) {
                     highestScoreSquirglePentagon = newScore;
                     game.updateSave(SAVE_HIGHEST_SCORE_SQUIRGLE_PENTAGON, highestScoreSquirglePentagon);
                     return true;
                 }
             } else if(base == 6) {
+                //Update Steam achievements
+                if(newScore >= 200) {
+                    game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_OEDIPUS_HEX);
+                } else if(newScore >= 100) {
+                    game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_SIX_SHOOTER);
+                }
+                game.steamUserStats.storeStats();
+
                 if(newScore > highestScoreSquirgleHexagon) {
                     highestScoreSquirgleHexagon = newScore;
                     game.updateSave(SAVE_HIGHEST_SCORE_SQUIRGLE_HEXAGON, highestScoreSquirgleHexagon);
                     return true;
                 }
             } else if(base == 7) {
+                //Update Steam achievements
+                if(newScore >= 200) {
+                    game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_SEPTER_OF_WEALTH_AND_POWER);
+                } else if(newScore >= 100) {
+                    game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_EXSEPTION_TO_THE_COOL);
+                }
+                game.steamUserStats.storeStats();
+
                 if(newScore > highestScoreSquirgleSeptagon) {
                     highestScoreSquirgleSeptagon = newScore;
                     game.updateSave(SAVE_HIGHEST_SCORE_SQUIRGLE_SEPTAGON, highestScoreSquirgleSeptagon);
                     return true;
                 }
             } else if(base == 8) {
+                //Update Steam achievements
+                if(newScore >= 200) {
+                    game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_INSEIGHTABLE);
+                } else if(newScore >= 100) {
+                    game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_OCT_IN);
+                }
+                game.steamUserStats.storeStats();
+
                 if(newScore > highestScoreSquirgleOctagon) {
                     highestScoreSquirgleOctagon = newScore;
                     game.updateSave(SAVE_HIGHEST_SCORE_SQUIRGLE_OCTAGON, highestScoreSquirgleOctagon);
                     return true;
                 }
             } else if(base == 9) {
+                //Update Steam achievements
+                if(newScore >= 200) {
+                    game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_WHATS_YOURS_IS_NINE);
+                } else if(newScore >= 100) {
+                    game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_NONARYDICULOUS);
+                }
+                game.steamUserStats.storeStats();
+
                 if(newScore > highestScoreSquirgleNonagon) {
                     highestScoreSquirgleNonagon = newScore;
                     game.updateSave(SAVE_HIGHEST_SCORE_SQUIRGLE_NONAGON, highestScoreSquirgleNonagon);

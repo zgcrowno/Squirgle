@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
+import com.codedisaster.steamworks.SteamAPI;
 import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Squirgle;
@@ -183,6 +184,11 @@ public class MenuHelpScreen implements Screen, InputProcessor {
         }
 
         InputUtils.keepCursorInBounds(game);
+
+        //Steam callbacks
+        if (SteamAPI.isSteamRunning()) {
+            SteamAPI.runCallbacks();
+        }
     }
 
     @Override

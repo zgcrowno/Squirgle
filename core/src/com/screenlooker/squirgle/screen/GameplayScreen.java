@@ -8,10 +8,12 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.codedisaster.steamworks.SteamAPI;
 import com.screenlooker.squirgle.Button;
 import com.screenlooker.squirgle.Draw;
 import com.screenlooker.squirgle.Shape;
 import com.screenlooker.squirgle.Squirgle;
+import com.screenlooker.squirgle.steam.Achievements;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
 import com.screenlooker.squirgle.util.InputUtils;
@@ -515,6 +517,11 @@ public class GameplayScreen implements Screen, InputProcessor {
         }
 
         InputUtils.keepCursorInBounds(game);
+
+        //Steam callbacks
+        if (SteamAPI.isSteamRunning()) {
+            SteamAPI.runCallbacks();
+        }
     }
 
     @Override
@@ -1700,6 +1707,11 @@ public class GameplayScreen implements Screen, InputProcessor {
                         } else {
                             passedBackgroundColor = Color.BLACK;
                         }
+
+                        //Update Steam achievements
+                        game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_NONPLUSSED);
+                        game.steamUserStats.storeStats();
+
                         game.setScreen(new CreditsScreen(game, passedBackgroundColor));
                         dispose();
                     } else {
@@ -2624,6 +2636,21 @@ public class GameplayScreen implements Screen, InputProcessor {
         } else {
             passedBackgroundColor = Color.BLACK;
         }
+
+        //Update Steam achievements
+        if(game.maxBase == 5) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_SQUARED_OFF);
+        } else if(game.maxBase == 6) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_PENT_UP);
+        } else if(game.maxBase == 7) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_HEXIDECIBEL);
+        } else if(game.maxBase == 8) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_INTERSEPTOR);
+        } else if(game.maxBase == 9) {
+            game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_ROCTOPUS);
+        }
+        game.steamUserStats.storeStats();
+
         game.setScreen(new BaseUnlockScreen(game, passedBackgroundColor));
         dispose();
     }

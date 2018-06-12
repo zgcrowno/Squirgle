@@ -9,6 +9,7 @@ import com.screenlooker.squirgle.screen.*;
 import com.screenlooker.squirgle.screen.help.*;
 import com.screenlooker.squirgle.screen.options.MenuOptionsScreen;
 import com.screenlooker.squirgle.screen.type.*;
+import com.screenlooker.squirgle.steam.Achievements;
 import com.screenlooker.squirgle.util.ColorUtils;
 import com.screenlooker.squirgle.util.FontUtils;
 
@@ -4598,6 +4599,13 @@ public class Button {
                     game.updateSave(game.SAVE_FX_VOLUME, game.fxVolume);
                     game.updateSave(game.SAVE_P2_CONTROLS, game.p2Controls);
                     game.setScreen(new MainMenuScreen(game, containerColor));
+
+                    //Update Steam achievements
+                    if(game.volume == 0) {
+                        game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_MAKE_NAN_CRY);
+                        game.steamUserStats.storeStats();
+                    }
+
                     return true;
                 }
                 case BUTTON_HELP_ADDITION : {

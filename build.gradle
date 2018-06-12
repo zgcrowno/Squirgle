@@ -50,6 +50,7 @@ project(":desktop") {
         compile "de.tomgrill.gdxdialogs:gdx-dialogs-desktop:1.2.1"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop"
+        compile "com.code-disaster.steamworks4j:steamworks4j:1.7.0"
     }
 }
 
