@@ -421,7 +421,7 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 game.wipeSave();
                 game.showWipeDataPrompt = false;
 //                game.clearAllAchievements();
-//                game.steamUserStats.storeStats(); 
+//                game.steamUserStats.storeStats();
             } else if(helpDisconfirmTouched || nonHelpTouched) {
                 game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                 game.showWipeDataPrompt = false;
