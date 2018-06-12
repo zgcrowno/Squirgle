@@ -420,8 +420,8 @@ public class MenuOptionsScreen implements Screen, InputProcessor {
                 game.confirmSound.play((float) (game.fxVolume / 10.0));
                 game.wipeSave();
                 game.showWipeDataPrompt = false;
-                game.clearAllAchievements(); //TODO: Remove this!!!
-                game.steamUserStats.storeStats(); //TODO: And this!!!
+//                game.clearAllAchievements();
+//                game.steamUserStats.storeStats(); 
             } else if(helpDisconfirmTouched || nonHelpTouched) {
                 game.disconfirmSound.play((float) (game.fxVolume / 10.0));
                 game.showWipeDataPrompt = false;
