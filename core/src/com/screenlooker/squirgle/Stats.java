@@ -1380,25 +1380,35 @@ public class Stats {
         //Update Steam achievements
         if(numSquirgles >= 1000) {
             game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_CANT_REPLACE_THE_FEAR);
-        } else if(numSquirgles >= 900) {
+        }
+        if(numSquirgles >= 900) {
             game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_NUMBER_9);
-        } else if(numSquirgles >= 800) {
+        }
+        if(numSquirgles >= 800) {
             game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_EIGHT_FOR_LIFE);
-        } else if(numSquirgles >= 700) {
+        }
+        if(numSquirgles >= 700) {
             game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_THE_SEVENTERTAINER);
-        } else if(numSquirgles >= 600) {
+        }
+        if(numSquirgles >= 600) {
             game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_BETTER_THAN_HEX);
-        } else if(numSquirgles >= 500) {
+        }
+        if(numSquirgles >= 500) {
             game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_STAYING_AFTER_5);
-        } else if(numSquirgles >= 400) {
+        }
+        if(numSquirgles >= 400) {
             game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_SQUARE_BREED);
-        } else if(numSquirgles >= 300) {
+        }
+        if(numSquirgles >= 300) {
             game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_TRI_HARD);
-        } else if(numSquirgles >= 200) {
+        }
+        if(numSquirgles >= 200) {
             game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_ON_DOWN_THE_LINE);
-        } else if(numSquirgles >= 100) {
+        }
+        if(numSquirgles >= 100) {
             game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_EARLY_APPOINTMENT);
-        } else if(numSquirgles >= 1) {
+        }
+        if(numSquirgles >= 1) {
             game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_HUMBLE_BEGINNINGS);
         }
         game.steamUserStats.storeStats();
@@ -1576,7 +1586,8 @@ public class Stats {
                 //Update Steam achievements
                 if(newScore >= 200) {
                     game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_FOUR_THE_MEMORIES);
-                } else if(newScore >= 100) {
+                }
+                if(newScore >= 100) {
                     game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_QUADRIRADERAL);
                 }
                 game.steamUserStats.storeStats();
@@ -1590,7 +1601,8 @@ public class Stats {
                 //Update Steam achievements
                 if(newScore >= 200) {
                     game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_THE_SACRAPENT);
-                } else if(newScore >= 100) {
+                }
+                if(newScore >= 100) {
                     game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_FIVE_FINGERED_VISCOUNT);
                 }
                 game.steamUserStats.storeStats();
@@ -1604,7 +1616,8 @@ public class Stats {
                 //Update Steam achievements
                 if(newScore >= 200) {
                     game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_OEDIPUS_HEX);
-                } else if(newScore >= 100) {
+                }
+                if(newScore >= 100) {
                     game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_SIX_SHOOTER);
                 }
                 game.steamUserStats.storeStats();
@@ -1618,7 +1631,8 @@ public class Stats {
                 //Update Steam achievements
                 if(newScore >= 200) {
                     game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_SEPTER_OF_WEALTH_AND_POWER);
-                } else if(newScore >= 100) {
+                }
+                if(newScore >= 100) {
                     game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_EXSEPTION_TO_THE_COOL);
                 }
                 game.steamUserStats.storeStats();
@@ -1632,7 +1646,8 @@ public class Stats {
                 //Update Steam achievements
                 if(newScore >= 200) {
                     game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_INSEIGHTABLE);
-                } else if(newScore >= 100) {
+                }
+                if(newScore >= 100) {
                     game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_OCT_IN);
                 }
                 game.steamUserStats.storeStats();
@@ -1646,7 +1661,8 @@ public class Stats {
                 //Update Steam achievements
                 if(newScore >= 200) {
                     game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_WHATS_YOURS_IS_NINE);
-                } else if(newScore >= 100) {
+                }
+                if(newScore >= 100) {
                     game.steamUserStats.setAchievement(Achievements.ACHIEVEMENT_NONARYDICULOUS);
                 }
                 game.steamUserStats.storeStats();
