@@ -1692,6 +1692,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         shouldUnlockNewBase = true;
                         unlockNewBase();
                     } else if(!game.beatenBefore) {
+                        shouldUnlockNewBase = true; //Setting to true here simply to prevent results text from being displayed
                         game.beatenBefore = true;
                         game.updateSave(game.SAVE_BEATEN_BEFORE, game.beatenBefore);
                         Color passedBackgroundColor = new Color();
@@ -1700,6 +1701,7 @@ public class GameplayScreen implements Screen, InputProcessor {
                         } else {
                             passedBackgroundColor = Color.BLACK;
                         }
+                        stopMusic();
                         game.setScreen(new CreditsScreen(game, passedBackgroundColor));
                         dispose();
                     } else {

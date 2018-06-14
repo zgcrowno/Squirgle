@@ -16,6 +16,11 @@ public class Shape {
     public static final int NONAGON = 8;
     public static final int CIRCLE = 9;
 
+    public static final float PENTAGON_ROTATION = 0.315f;
+    public static final float SEPTAGON_ROTATION = 0.675f;
+    public static final float OCTAGON_ROTATION = 0.393f;
+    public static final float NONAGON_ROTATION = 0.173f;
+
     //TODO: Determine whether or not these are actually going to be used, and if so, implement them. If not, get rid of the associated instance data.
     public static final String POINT_PREFIX = "P";
     public static final String POINT_SUFFIX = "T";
@@ -46,6 +51,7 @@ public class Shape {
     private Color fillColor;
     private float lineWidth;
     private Vector2 coordinates;
+    private float rotation;
 
     public Shape() {
         this.shape = CIRCLE;
@@ -57,6 +63,7 @@ public class Shape {
         this.fillColor = Color.WHITE;
         this.lineWidth = radius / Draw.LINE_WIDTH_DIVISOR;
         this.coordinates = new Vector2();
+        this.rotation = 0;
     }
 
     public Shape(int shape, float radius, Color color, Color fillColor, float lineWidth, Vector2 coordinates) {
@@ -68,6 +75,17 @@ public class Shape {
         this.fillColor = fillColor;
         this.lineWidth = lineWidth;
         this.coordinates = coordinates;
+        if(shape == PENTAGON) {
+            this.rotation = PENTAGON_ROTATION;
+        } else if(shape == SEPTAGON) {
+            this.rotation = SEPTAGON_ROTATION;
+        } else if(shape == OCTAGON) {
+            this.rotation = OCTAGON_ROTATION;
+        } else if(shape == NONAGON) {
+            this.rotation = NONAGON_ROTATION;
+        } else {
+            this.rotation = 0;
+        }
     }
 
     public int getShape() { return shape; }
@@ -108,6 +126,14 @@ public class Shape {
     public Vector2 getCoordinates() { return coordinates; }
 
     public void setCoordinates(Vector2 coordinates) { this.coordinates = coordinates; }
+
+    public float getRotation() {
+        return rotation;
+    }
+
+    public void setRotation(float rotation) {
+        this.rotation = rotation;
+    }
 
     public void determineName(int shape) {
         switch (shape) {

@@ -218,35 +218,35 @@ public class CreditsScreen implements Screen, InputProcessor {
                         currentShape.getRadius(),
                         currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR,
                         shapeRotation,
-                        Color.BLACK);
+                        !backgroundColor.equals(Color.BLACK) ? Color.BLACK : Color.WHITE);
             } else if (currentShape.getShape() == Shape.HEXAGON) {
                 game.draw.drawHexagon(currentShape.getCoordinates().x,
                         currentShape.getCoordinates().y,
                         currentShape.getRadius(),
                         currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR,
                         shapeRotation,
-                        Color.BLACK);
+                        !backgroundColor.equals(Color.BLACK) ? Color.BLACK : Color.WHITE);
             } else if (currentShape.getShape() == Shape.SEPTAGON) {
                 game.draw.drawSeptagon(currentShape.getCoordinates().x,
                         currentShape.getCoordinates().y,
                         currentShape.getRadius(),
                         currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR,
                         shapeRotation,
-                        Color.BLACK);
+                        !backgroundColor.equals(Color.BLACK) ? Color.BLACK : Color.WHITE);
             } else if (currentShape.getShape() == Shape.OCTAGON) {
                 game.draw.drawOctagon(currentShape.getCoordinates().x,
                         currentShape.getCoordinates().y,
                         currentShape.getRadius(),
                         currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR,
                         shapeRotation,
-                        Color.BLACK);
+                        !backgroundColor.equals(Color.BLACK) ? Color.BLACK : Color.WHITE);
             } else if (currentShape.getShape() == Shape.NONAGON) {
                 game.draw.drawNonagon(currentShape.getCoordinates().x,
                         currentShape.getCoordinates().y,
                         currentShape.getRadius(),
                         currentShape.getRadius() / Draw.LINE_WIDTH_DIVISOR,
                         shapeRotation,
-                        Color.BLACK);
+                        !backgroundColor.equals(Color.BLACK) ? Color.BLACK : Color.WHITE);
             }
         } else {
             fadeOutMusic();
