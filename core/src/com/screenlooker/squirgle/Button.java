@@ -697,7 +697,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.PENTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -715,7 +715,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.SEPTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -724,7 +724,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.OCTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -733,7 +733,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.NONAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -958,7 +958,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.PENTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -976,7 +976,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.SEPTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -985,7 +985,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.OCTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -994,7 +994,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.NONAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1019,7 +1019,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.PENTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1037,7 +1037,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.SEPTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1046,7 +1046,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.OCTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1055,7 +1055,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.NONAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1080,7 +1080,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.PENTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1098,7 +1098,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.SEPTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1107,7 +1107,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.OCTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1116,7 +1116,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.NONAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1141,7 +1141,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.PENTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1159,7 +1159,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.SEPTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1168,7 +1168,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.OCTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1177,7 +1177,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.NONAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1394,7 +1394,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.PENTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1412,7 +1412,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.SEPTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1421,7 +1421,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.OCTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1430,7 +1430,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.NONAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1463,7 +1463,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.PENTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1481,7 +1481,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.SEPTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1490,7 +1490,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.OCTAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -1499,7 +1499,7 @@ public class Button {
                         symbolY,
                         symbolRadius,
                         symbolRadius / Draw.LINE_WIDTH_DIVISOR,
-                        0,
+                        Shape.NONAGON_ROTATION,
                         containedColor);
                 break;
             }
@@ -5397,6 +5397,7 @@ public class Button {
                         game.setScreen(new GameplayScreen(game, game.gameplayType));
                     }
                     game.updateSave(Squirgle.SAVE_DIFFICULTY, game.difficulty);
+                    game.updateSave(game.SAVE_TRACK, game.track);
                     return true;
                 }
                 case BUTTON_SQUARE : {
