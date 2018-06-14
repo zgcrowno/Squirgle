@@ -501,7 +501,7 @@ public class Draw {
                     shape.setRadius((priorShape.getRadius() / 2) - priorShape.getLineWidth());
                 } else if (priorShape.getShape() != Shape.CIRCLE) {
                     //The inradius of a regular polygon with n > 3 sides is equal to its apothem, which is defined by [apothem = radius * MathUtils.cos(MathUtils.PI / sides)]
-                    shape.setRadius((priorShape.getRadius() * MathUtils.cos(MathUtils.PI / (priorShape.getShape() + 1))) - (1.4f * priorShape.getLineWidth()));
+                    shape.setRadius((priorShape.getRadius() * MathUtils.cos(MathUtils.PI / (priorShape.getShape() + 1))) - (1.5f * priorShape.getLineWidth()));
                 }
             }
         }
