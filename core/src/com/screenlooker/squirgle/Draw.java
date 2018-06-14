@@ -226,7 +226,7 @@ public class Draw {
                         promptShape.getCoordinates().y,
                         promptShape.getRadius(),
                         promptShape.getLineWidth(),
-                        0,
+                        Shape.PENTAGON_ROTATION,
                         promptShape.getColor());
                 if(!isNonGameplay) {
                     if(!isTarget) {
@@ -235,14 +235,14 @@ public class Draw {
                                 promptShape.getCoordinates().y,
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
-                                0,
+                                Shape.PENTAGON_ROTATION,
                                 backgroundColorShape.getColor());
                     } else if(targetShapesMatched == 1) {
                         drawPentagon(promptShape.getCoordinates().x,
                                 promptShape.getCoordinates().y,
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
-                                0,
+                                Shape.PENTAGON_ROTATION,
                                 backgroundColorShape.getColor());
                     }
                 }
@@ -278,7 +278,7 @@ public class Draw {
                         promptShape.getCoordinates().y,
                         promptShape.getRadius(),
                         promptShape.getLineWidth(),
-                        0,
+                        Shape.SEPTAGON_ROTATION,
                         promptShape.getColor());
                 if(!isNonGameplay) {
                     if(!isTarget) {
@@ -287,14 +287,14 @@ public class Draw {
                                 promptShape.getCoordinates().y,
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
-                                0,
+                                Shape.SEPTAGON_ROTATION,
                                 backgroundColorShape.getColor());
                     } else if(targetShapesMatched == 1) {
                         drawSeptagon(promptShape.getCoordinates().x,
                                 promptShape.getCoordinates().y,
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
-                                0,
+                                Shape.SEPTAGON_ROTATION,
                                 backgroundColorShape.getColor());
                     }
                 }
@@ -304,7 +304,7 @@ public class Draw {
                         promptShape.getCoordinates().y,
                         promptShape.getRadius(),
                         promptShape.getLineWidth(),
-                        0,
+                        Shape.OCTAGON_ROTATION,
                         promptShape.getColor());
                 if(!isNonGameplay) {
                     if(!isTarget) {
@@ -313,14 +313,14 @@ public class Draw {
                                 promptShape.getCoordinates().y,
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
-                                0,
+                                Shape.OCTAGON_ROTATION,
                                 backgroundColorShape.getColor());
                     } else if(targetShapesMatched == 1) {
                         drawOctagon(promptShape.getCoordinates().x,
                                 promptShape.getCoordinates().y,
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
-                                0,
+                                Shape.OCTAGON_ROTATION,
                                 backgroundColorShape.getColor());
                     }
                 }
@@ -330,7 +330,7 @@ public class Draw {
                         promptShape.getCoordinates().y,
                         promptShape.getRadius(),
                         promptShape.getLineWidth(),
-                        0,
+                        Shape.NONAGON_ROTATION,
                         promptShape.getColor());
                 if(!isNonGameplay) {
                     if(!isTarget) {
@@ -339,14 +339,14 @@ public class Draw {
                                 promptShape.getCoordinates().y,
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
-                                0,
+                                Shape.NONAGON_ROTATION,
                                 backgroundColorShape.getColor());
                     } else if(targetShapesMatched == 1) {
                         drawNonagon(promptShape.getCoordinates().x,
                                 promptShape.getCoordinates().y,
                                 promptShape.getRadius() - (promptShape.getLineWidth() / 2),
                                 promptShape.getLineWidth() / 2,
-                                0,
+                                Shape.NONAGON_ROTATION,
                                 backgroundColorShape.getColor());
                     }
                 }
@@ -402,7 +402,7 @@ public class Draw {
                         shape.getCoordinates().y,
                         shape.getRadius(),
                         shape.getLineWidth(),
-                        0,
+                        Shape.PENTAGON_ROTATION,
                         shape.getColor());
                 break;
             case Shape.HEXAGON :
@@ -418,7 +418,7 @@ public class Draw {
                         shape.getCoordinates().y,
                         shape.getRadius(),
                         shape.getLineWidth(),
-                        0,
+                        Shape.SEPTAGON_ROTATION,
                         shape.getColor());
                 break;
             case Shape.OCTAGON :
@@ -426,7 +426,7 @@ public class Draw {
                         shape.getCoordinates().y,
                         shape.getRadius(),
                         shape.getLineWidth(),
-                        0,
+                        Shape.OCTAGON_ROTATION,
                         shape.getColor());
                 break;
             case Shape.NONAGON :
@@ -434,7 +434,7 @@ public class Draw {
                         shape.getCoordinates().y,
                         shape.getRadius(),
                         shape.getLineWidth(),
-                        0,
+                        Shape.NONAGON_ROTATION,
                         shape.getColor());
                 break;
         }
@@ -579,7 +579,7 @@ public class Draw {
                     shape.setRadius((priorShape.getRadius() / 2) - priorShape.getLineWidth());
                 } else if (priorShape.getShape() != Shape.CIRCLE) {
                     //The inradius of a regular polygon with n > 3 sides is equal to its apothem, which is defined by [apothem = radius * MathUtils.cos(MathUtils.PI / sides)]
-                    shape.setRadius((priorShape.getRadius() * MathUtils.cos(MathUtils.PI / (priorShape.getShape() + 1))) - (1.4f * priorShape.getLineWidth()));
+                    shape.setRadius((priorShape.getRadius() * MathUtils.cos(MathUtils.PI / (priorShape.getShape() + 1))) - (1.5f * priorShape.getLineWidth()));
                 }
 
                 //Only draw the shape if it's large enough to be relevant
@@ -879,13 +879,13 @@ public class Draw {
             game.shapeRendererFilled.setColor(Color.WHITE);
             if(!splitScreen) {
                 game.shapeRendererFilled.circle(GameplayScreen.INPUT_PENTAGON_SPAWN.x, GameplayScreen.INPUT_PENTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS);
-                drawPentagon(GameplayScreen.INPUT_PENTAGON_SPAWN.x, GameplayScreen.INPUT_PENTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                drawPentagon(GameplayScreen.INPUT_PENTAGON_SPAWN.x, GameplayScreen.INPUT_PENTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.PENTAGON_ROTATION, Color.BLACK);
                 game.shapeRendererLine.circle(GameplayScreen.INPUT_PENTAGON_SPAWN.x, GameplayScreen.INPUT_PENTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS);
             } else {
                 game.shapeRendererFilled.circle(GameplayScreen.INPUT_PENTAGON_SPAWN_P1.x, GameplayScreen.INPUT_PENTAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS);
                 game.shapeRendererFilled.circle(GameplayScreen.INPUT_PENTAGON_SPAWN_P2.x, GameplayScreen.INPUT_PENTAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS);
-                drawPentagon(GameplayScreen.INPUT_PENTAGON_SPAWN_P1.x, GameplayScreen.INPUT_PENTAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                drawPentagon(GameplayScreen.INPUT_PENTAGON_SPAWN_P2.x, GameplayScreen.INPUT_PENTAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                drawPentagon(GameplayScreen.INPUT_PENTAGON_SPAWN_P1.x, GameplayScreen.INPUT_PENTAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.PENTAGON_ROTATION, Color.BLACK);
+                drawPentagon(GameplayScreen.INPUT_PENTAGON_SPAWN_P2.x, GameplayScreen.INPUT_PENTAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.PENTAGON_ROTATION, Color.BLACK);
                 game.shapeRendererLine.circle(GameplayScreen.INPUT_PENTAGON_SPAWN_P1.x, GameplayScreen.INPUT_PENTAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS);
                 game.shapeRendererLine.circle(GameplayScreen.INPUT_PENTAGON_SPAWN_P2.x, GameplayScreen.INPUT_PENTAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS);
             }
@@ -913,13 +913,13 @@ public class Draw {
             game.shapeRendererFilled.setColor(Color.WHITE);
             if(!splitScreen) {
                 game.shapeRendererFilled.circle(GameplayScreen.INPUT_SEPTAGON_SPAWN.x, GameplayScreen.INPUT_SEPTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS);
-                drawSeptagon(GameplayScreen.INPUT_SEPTAGON_SPAWN.x, GameplayScreen.INPUT_SEPTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                drawSeptagon(GameplayScreen.INPUT_SEPTAGON_SPAWN.x, GameplayScreen.INPUT_SEPTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.SEPTAGON_ROTATION, Color.BLACK);
                 game.shapeRendererLine.circle(GameplayScreen.INPUT_SEPTAGON_SPAWN.x, GameplayScreen.INPUT_SEPTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS);
             } else {
                 game.shapeRendererFilled.circle(GameplayScreen.INPUT_SEPTAGON_SPAWN_P1.x, GameplayScreen.INPUT_SEPTAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS);
                 game.shapeRendererFilled.circle(GameplayScreen.INPUT_SEPTAGON_SPAWN_P2.x, GameplayScreen.INPUT_SEPTAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS);
-                drawSeptagon(GameplayScreen.INPUT_SEPTAGON_SPAWN_P1.x, GameplayScreen.INPUT_SEPTAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                drawSeptagon(GameplayScreen.INPUT_SEPTAGON_SPAWN_P2.x, GameplayScreen.INPUT_SEPTAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                drawSeptagon(GameplayScreen.INPUT_SEPTAGON_SPAWN_P1.x, GameplayScreen.INPUT_SEPTAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.SEPTAGON_ROTATION, Color.BLACK);
+                drawSeptagon(GameplayScreen.INPUT_SEPTAGON_SPAWN_P2.x, GameplayScreen.INPUT_SEPTAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.SEPTAGON_ROTATION, Color.BLACK);
                 game.shapeRendererLine.circle(GameplayScreen.INPUT_SEPTAGON_SPAWN_P1.x, GameplayScreen.INPUT_SEPTAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS);
                 game.shapeRendererLine.circle(GameplayScreen.INPUT_SEPTAGON_SPAWN_P2.x, GameplayScreen.INPUT_SEPTAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS);
             }
@@ -930,13 +930,13 @@ public class Draw {
             game.shapeRendererFilled.setColor(Color.WHITE);
             if(!splitScreen) {
                 game.shapeRendererFilled.circle(GameplayScreen.INPUT_OCTAGON_SPAWN.x, GameplayScreen.INPUT_OCTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS);
-                drawOctagon(GameplayScreen.INPUT_OCTAGON_SPAWN.x, GameplayScreen.INPUT_OCTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                drawOctagon(GameplayScreen.INPUT_OCTAGON_SPAWN.x, GameplayScreen.INPUT_OCTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.OCTAGON_ROTATION, Color.BLACK);
                 game.shapeRendererLine.circle(GameplayScreen.INPUT_OCTAGON_SPAWN.x, GameplayScreen.INPUT_OCTAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS);
             } else {
                 game.shapeRendererFilled.circle(GameplayScreen.INPUT_OCTAGON_SPAWN_P1.x, GameplayScreen.INPUT_OCTAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS);
                 game.shapeRendererFilled.circle(GameplayScreen.INPUT_OCTAGON_SPAWN_P2.x, GameplayScreen.INPUT_OCTAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS);
-                drawOctagon(GameplayScreen.INPUT_OCTAGON_SPAWN_P1.x, GameplayScreen.INPUT_OCTAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                drawOctagon(GameplayScreen.INPUT_OCTAGON_SPAWN_P2.x, GameplayScreen.INPUT_OCTAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                drawOctagon(GameplayScreen.INPUT_OCTAGON_SPAWN_P1.x, GameplayScreen.INPUT_OCTAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.OCTAGON_ROTATION, Color.BLACK);
+                drawOctagon(GameplayScreen.INPUT_OCTAGON_SPAWN_P2.x, GameplayScreen.INPUT_OCTAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.OCTAGON_ROTATION, Color.BLACK);
                 game.shapeRendererLine.circle(GameplayScreen.INPUT_OCTAGON_SPAWN_P1.x, GameplayScreen.INPUT_OCTAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS);
                 game.shapeRendererLine.circle(GameplayScreen.INPUT_OCTAGON_SPAWN_P2.x, GameplayScreen.INPUT_OCTAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS);
             }
@@ -947,13 +947,13 @@ public class Draw {
             game.shapeRendererFilled.setColor(Color.WHITE);
             if(!splitScreen) {
                 game.shapeRendererFilled.circle(GameplayScreen.INPUT_NONAGON_SPAWN.x, GameplayScreen.INPUT_NONAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS);
-                drawNonagon(GameplayScreen.INPUT_NONAGON_SPAWN.x, GameplayScreen.INPUT_NONAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                drawNonagon(GameplayScreen.INPUT_NONAGON_SPAWN.x, GameplayScreen.INPUT_NONAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.NONAGON_ROTATION, Color.BLACK);
                 game.shapeRendererLine.circle(GameplayScreen.INPUT_NONAGON_SPAWN.x, GameplayScreen.INPUT_NONAGON_SPAWN.y, GameplayScreen.INPUT_RADIUS);
             } else {
                 game.shapeRendererFilled.circle(GameplayScreen.INPUT_NONAGON_SPAWN_P1.x, GameplayScreen.INPUT_NONAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS);
                 game.shapeRendererFilled.circle(GameplayScreen.INPUT_NONAGON_SPAWN_P2.x, GameplayScreen.INPUT_NONAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS);
-                drawNonagon(GameplayScreen.INPUT_NONAGON_SPAWN_P1.x, GameplayScreen.INPUT_NONAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
-                drawNonagon(GameplayScreen.INPUT_NONAGON_SPAWN_P2.x, GameplayScreen.INPUT_NONAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                drawNonagon(GameplayScreen.INPUT_NONAGON_SPAWN_P1.x, GameplayScreen.INPUT_NONAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.NONAGON_ROTATION, Color.BLACK);
+                drawNonagon(GameplayScreen.INPUT_NONAGON_SPAWN_P2.x, GameplayScreen.INPUT_NONAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS, GameplayScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.NONAGON_ROTATION, Color.BLACK);
                 game.shapeRendererLine.circle(GameplayScreen.INPUT_NONAGON_SPAWN_P1.x, GameplayScreen.INPUT_NONAGON_SPAWN_P1.y, GameplayScreen.INPUT_RADIUS);
                 game.shapeRendererLine.circle(GameplayScreen.INPUT_NONAGON_SPAWN_P2.x, GameplayScreen.INPUT_NONAGON_SPAWN_P2.y, GameplayScreen.INPUT_RADIUS);
             }
@@ -1065,19 +1065,19 @@ public class Draw {
             if(!splitScreen) {
                 if(numPlayerInputs > 4) {
                     game.shapeRendererFilled.circle(TutorialScreen.INPUT_PENTAGON_SPAWN.x, TutorialScreen.INPUT_PENTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-                    drawPentagon(TutorialScreen.INPUT_PENTAGON_SPAWN.x, TutorialScreen.INPUT_PENTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    drawPentagon(TutorialScreen.INPUT_PENTAGON_SPAWN.x, TutorialScreen.INPUT_PENTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.PENTAGON_ROTATION, Color.BLACK);
                     game.shapeRendererLine.circle(TutorialScreen.INPUT_PENTAGON_SPAWN.x, TutorialScreen.INPUT_PENTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
                 }
             } else {
                 if(numPlayerInputs > 4) {
                     game.shapeRendererFilled.circle(TutorialScreen.INPUT_PENTAGON_SPAWN_P1.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                    drawPentagon(TutorialScreen.INPUT_PENTAGON_SPAWN_P1.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    drawPentagon(TutorialScreen.INPUT_PENTAGON_SPAWN_P1.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.PENTAGON_ROTATION, Color.BLACK);
                     game.shapeRendererLine.circle(TutorialScreen.INPUT_PENTAGON_SPAWN_P1.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
                 }
                 if(unrestrictedPlay) {
                     game.shapeRendererFilled.setColor(Color.WHITE);
                     game.shapeRendererFilled.circle(TutorialScreen.INPUT_PENTAGON_SPAWN_P2.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
-                    drawPentagon(TutorialScreen.INPUT_PENTAGON_SPAWN_P2.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    drawPentagon(TutorialScreen.INPUT_PENTAGON_SPAWN_P2.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.PENTAGON_ROTATION, Color.BLACK);
                     game.shapeRendererLine.circle(TutorialScreen.INPUT_PENTAGON_SPAWN_P2.x, TutorialScreen.INPUT_PENTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
                 }
             }
@@ -1113,19 +1113,19 @@ public class Draw {
             if(!splitScreen) {
                 if(numPlayerInputs > 6) {
                     game.shapeRendererFilled.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN.x, TutorialScreen.INPUT_SEPTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-                    drawSeptagon(TutorialScreen.INPUT_SEPTAGON_SPAWN.x, TutorialScreen.INPUT_SEPTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    drawSeptagon(TutorialScreen.INPUT_SEPTAGON_SPAWN.x, TutorialScreen.INPUT_SEPTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.SEPTAGON_ROTATION, Color.BLACK);
                     game.shapeRendererLine.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN.x, TutorialScreen.INPUT_SEPTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
                 }
             } else {
                 if(numPlayerInputs > 6) {
                     game.shapeRendererFilled.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                    drawSeptagon(TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    drawSeptagon(TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.SEPTAGON_ROTATION, Color.BLACK);
                     game.shapeRendererLine.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
                 }
                 if(unrestrictedPlay) {
                     game.shapeRendererFilled.setColor(Color.WHITE);
                     game.shapeRendererFilled.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
-                    drawSeptagon(TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    drawSeptagon(TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.SEPTAGON_ROTATION, Color.BLACK);
                     game.shapeRendererLine.circle(TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.x, TutorialScreen.INPUT_SEPTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
                 }
             }
@@ -1137,19 +1137,19 @@ public class Draw {
             if(!splitScreen) {
                 if(numPlayerInputs > 7) {
                     game.shapeRendererFilled.circle(TutorialScreen.INPUT_OCTAGON_SPAWN.x, TutorialScreen.INPUT_OCTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-                    drawOctagon(TutorialScreen.INPUT_OCTAGON_SPAWN.x, TutorialScreen.INPUT_OCTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    drawOctagon(TutorialScreen.INPUT_OCTAGON_SPAWN.x, TutorialScreen.INPUT_OCTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.OCTAGON_ROTATION, Color.BLACK);
                     game.shapeRendererLine.circle(TutorialScreen.INPUT_OCTAGON_SPAWN.x, TutorialScreen.INPUT_OCTAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
                 }
             } else {
                 if(numPlayerInputs > 7) {
                     game.shapeRendererFilled.circle(TutorialScreen.INPUT_OCTAGON_SPAWN_P1.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                    drawOctagon(TutorialScreen.INPUT_OCTAGON_SPAWN_P1.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    drawOctagon(TutorialScreen.INPUT_OCTAGON_SPAWN_P1.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.OCTAGON_ROTATION, Color.BLACK);
                     game.shapeRendererLine.circle(TutorialScreen.INPUT_OCTAGON_SPAWN_P1.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
                 }
                 if(unrestrictedPlay) {
                     game.shapeRendererFilled.setColor(Color.WHITE);
                     game.shapeRendererFilled.circle(TutorialScreen.INPUT_OCTAGON_SPAWN_P2.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
-                    drawOctagon(TutorialScreen.INPUT_OCTAGON_SPAWN_P2.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    drawOctagon(TutorialScreen.INPUT_OCTAGON_SPAWN_P2.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.OCTAGON_ROTATION, Color.BLACK);
                     game.shapeRendererLine.circle(TutorialScreen.INPUT_OCTAGON_SPAWN_P2.x, TutorialScreen.INPUT_OCTAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
                 }
             }
@@ -1161,19 +1161,19 @@ public class Draw {
             if(!splitScreen) {
                 if(numPlayerInputs > 8) {
                     game.shapeRendererFilled.circle(TutorialScreen.INPUT_NONAGON_SPAWN.x, TutorialScreen.INPUT_NONAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
-                    drawNonagon(TutorialScreen.INPUT_NONAGON_SPAWN.x, TutorialScreen.INPUT_NONAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    drawNonagon(TutorialScreen.INPUT_NONAGON_SPAWN.x, TutorialScreen.INPUT_NONAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.NONAGON_ROTATION, Color.BLACK);
                     game.shapeRendererLine.circle(TutorialScreen.INPUT_NONAGON_SPAWN.x, TutorialScreen.INPUT_NONAGON_SPAWN.y, TutorialScreen.INPUT_RADIUS);
                 }
             } else {
                 if(numPlayerInputs > 8) {
                     game.shapeRendererFilled.circle(TutorialScreen.INPUT_NONAGON_SPAWN_P1.x, TutorialScreen.INPUT_NONAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
-                    drawNonagon(TutorialScreen.INPUT_NONAGON_SPAWN_P1.x, TutorialScreen.INPUT_NONAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    drawNonagon(TutorialScreen.INPUT_NONAGON_SPAWN_P1.x, TutorialScreen.INPUT_NONAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.NONAGON_ROTATION, Color.BLACK);
                     game.shapeRendererLine.circle(TutorialScreen.INPUT_NONAGON_SPAWN_P1.x, TutorialScreen.INPUT_NONAGON_SPAWN_P1.y, TutorialScreen.INPUT_RADIUS);
                 }
                 if(unrestrictedPlay) {
                     game.shapeRendererFilled.setColor(Color.WHITE);
                     game.shapeRendererFilled.circle(TutorialScreen.INPUT_NONAGON_SPAWN_P2.x, TutorialScreen.INPUT_NONAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
-                    drawNonagon(TutorialScreen.INPUT_NONAGON_SPAWN_P2.x, TutorialScreen.INPUT_NONAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, 0, Color.BLACK);
+                    drawNonagon(TutorialScreen.INPUT_NONAGON_SPAWN_P2.x, TutorialScreen.INPUT_NONAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS, TutorialScreen.INPUT_RADIUS / LINE_WIDTH_DIVISOR, Shape.NONAGON_ROTATION, Color.BLACK);
                     game.shapeRendererLine.circle(TutorialScreen.INPUT_NONAGON_SPAWN_P2.x, TutorialScreen.INPUT_NONAGON_SPAWN_P2.y, TutorialScreen.INPUT_RADIUS);
                 }
             }
