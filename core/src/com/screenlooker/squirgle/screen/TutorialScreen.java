@@ -4336,7 +4336,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         squirgleHeaderIncorrectPhase11 = "Not that one; " + tapOrClick.toLowerCase() + " the LINE INPUT";
         squirgleHeaderIncorrectPhase12 = "Here's a hint: 3 + 1 = 4...TRIANGLE + ? = SQUARE";
         squirgleHeaderIncorrectPhase13 = "If LINE > HAND, add [LINE - HAND].\nOtherwise, add [" + baseName + " - HAND + LINE]";
-        squirgleHeaderIncorrectPhase14 = "Here's a hint: shape + " + baseName + " = shape";
+        squirgleHeaderIncorrectPhase14 = "Here's a hint: HAND + " + baseName + " = HAND";
         squirgleHeaderIncorrectPhase15 = "";
         squirgleHeaderIncorrectPhase16 = "";
         squirgleHeaderIncorrectPhase17 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
@@ -4478,7 +4478,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         battleHeaderIncorrectPhase12 = "Not that one; " + tapOrClick.toLowerCase() + " the LINE INPUT";
         battleHeaderIncorrectPhase13 = "Here's a hint: 3 + 1 = 4...TRIANGLE + ? = SQUARE";
         battleHeaderIncorrectPhase14 = "If LINE > HAND, add [LINE - HAND].\nOtherwise, add [" + baseName + " - HAND + LINE]";
-        battleHeaderIncorrectPhase15 = "Here's a hint: shape + " + baseName + " = shape";
+        battleHeaderIncorrectPhase15 = "Here's a hint: HAND + " + baseName + " = HAND";
         battleHeaderIncorrectPhase16 = "";
         battleHeaderIncorrectPhase17 = "";
         battleHeaderIncorrectPhase18 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
@@ -4610,7 +4610,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeAttackHeaderIncorrectPhase11 = "Not that one; " + tapOrClick.toLowerCase() + " the LINE INPUT";
         timeAttackHeaderIncorrectPhase12 = "Here's a hint: 3 + 1 = 4...TRIANGLE + ? = SQUARE";
         timeAttackHeaderIncorrectPhase13 = "If LINE > HAND, add [LINE - HAND].\nOtherwise, add [" + baseName + " - HAND + LINE]";
-        timeAttackHeaderIncorrectPhase14 = "Here's a hint: shape + " + baseName + " = shape";
+        timeAttackHeaderIncorrectPhase14 = "Here's a hint: HAND + " + baseName + " = HAND";
         timeAttackHeaderIncorrectPhase15 = "";
         timeAttackHeaderIncorrectPhase16 = "";
         timeAttackHeaderIncorrectPhase17 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
@@ -4731,7 +4731,7 @@ public class TutorialScreen implements Screen, InputProcessor {
         timeBattleHeaderIncorrectPhase12 = "Not that one; " + tapOrClick.toLowerCase() + " the LINE INPUT";
         timeBattleHeaderIncorrectPhase13 = "Here's a hint: 3 + 1 = 4...TRIANGLE + ? = SQUARE";
         timeBattleHeaderIncorrectPhase14 = "If LINE > HAND, add [LINE - HAND].\nOtherwise, add [" + baseName + " - HAND + LINE]";
-        timeBattleHeaderIncorrectPhase15 = "Here's a hint: shape + " + baseName + " = shape";
+        timeBattleHeaderIncorrectPhase15 = "Here's a hint: HAND + " + baseName + " = HAND";
         timeBattleHeaderIncorrectPhase16 = "";
         timeBattleHeaderIncorrectPhase17 = "";
         timeBattleHeaderIncorrectPhase18 = "If TARGET > HAND, add [TARGET - HAND].\nOtherwise, add [" + baseName + " - HAND + TARGET]";
