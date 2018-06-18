@@ -566,26 +566,32 @@ public class GameplayScreen implements Screen, InputProcessor {
 
         if(!paused && !showResults && (System.currentTimeMillis() - timeSinceTouched) / ONE_THOUSAND < SKIP_TEXT_DISAPPEARANCE_TIME) {
             List<Shape> priorShapeListToUse = new ArrayList<Shape>();
+            Shape primaryShapeToUse = new Shape();
             if(!splitScreen) {
                 priorShapeListToUse = priorShapeList;
+                primaryShapeToUse = primaryShape;
             } else if(useSaturation) {
                 if(saturationP1 > saturationP2) {
                     priorShapeListToUse = priorShapeListP2;
+                    primaryShapeToUse = primaryShapeP2;
                 } else {
                     priorShapeListToUse = priorShapeListP1;
+                    primaryShapeToUse = primaryShapeP1;
                 }
             } else {
                 if(scoreP1 >= scoreP2) {
                     priorShapeListToUse = priorShapeListP1;
+                    primaryShapeToUse = primaryShapeP1;
                 } else {
                     priorShapeListToUse = priorShapeListP2;
+                    primaryShapeToUse = primaryShapeP2;
                 }
             }
 
             if (priorShapeListToUse.size() > 0 && (priorShapeListToUse.get(0).getShape() == Shape.LINE || priorShapeListToUse.get(0).getShape() == Shape.POINT)) {
-                clearColor = primaryShape.getColor();
+                clearColor = primaryShapeToUse.getColor();
             } else if(priorShapeListToUse.size() > 0) {
-                clearColor = blackAndWhite ? Color.WHITE : Color.BLACK;
+                clearColor = priorShapeListToUse.get(1).getColor();
             } else {
                 clearColor = backgroundColorShape.getColor();
             }
