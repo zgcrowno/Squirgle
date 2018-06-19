@@ -1936,41 +1936,41 @@ public class GameplayScreen implements Screen, InputProcessor {
 
     public void determineKeyedInput(int keycode) {
         if(!splitScreen) {
-            pointTouched = keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1;
-            lineTouched = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2;
-            triangleTouched = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3;
-            squareTouched = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4;
-            pentagonTouched = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && game.base >= 5;
-            hexagonTouched = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && game.base >= 6;
-            septagonTouched = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && game.base >= 7;
-            octagonTouched = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && game.base >= 8;
-            nonagonTouched = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && game.base >= 9;
+            pointTouched = keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1 || keycode == Input.Keys.END;
+            lineTouched = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2 || keycode == Input.Keys.DPAD_DOWN;
+            triangleTouched = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3 || keycode == Input.Keys.PAGE_DOWN;
+            squareTouched = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4 || keycode == Input.Keys.DPAD_LEFT;
+            pentagonTouched = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5 || keycode == Input.Keys.DPAD_CENTER || keycode == Input.Keys.UNKNOWN) && game.base >= 5;
+            hexagonTouched = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6 || keycode == Input.Keys.DPAD_RIGHT) && game.base >= 6;
+            septagonTouched = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7 || keycode == Input.Keys.HOME) && game.base >= 7;
+            octagonTouched = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8 || keycode == Input.Keys.DPAD_UP) && game.base >= 8;
+            nonagonTouched = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9 || keycode == Input.Keys.PAGE_UP) && game.base >= 9;
             playTouched = pointTouched;
             homeTouched = lineTouched;
             exitTouched = triangleTouched;
         } else {
-            pointTouchedP1 = keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1;
-            lineTouchedP1 = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2;
-            triangleTouchedP1 = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3;
-            squareTouchedP1 = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4;
-            pentagonTouchedP1 = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && game.base >= 5;
-            hexagonTouchedP1 = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && game.base >= 6;
-            septagonTouchedP1 = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && game.base >= 7;
-            octagonTouchedP1 = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && game.base >= 8;
-            nonagonTouchedP1 = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && game.base >= 9;
+            pointTouchedP1 = keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1 || keycode == Input.Keys.END;
+            lineTouchedP1 = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2 || keycode == Input.Keys.DPAD_DOWN;
+            triangleTouchedP1 = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3 || keycode == Input.Keys.PAGE_DOWN;
+            squareTouchedP1 = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4 || keycode == Input.Keys.DPAD_LEFT;
+            pentagonTouchedP1 = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5 || keycode == Input.Keys.DPAD_CENTER || keycode == Input.Keys.UNKNOWN) && game.base >= 5;
+            hexagonTouchedP1 = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6 || keycode == Input.Keys.DPAD_RIGHT) && game.base >= 6;
+            septagonTouchedP1 = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7 || keycode == Input.Keys.HOME) && game.base >= 7;
+            octagonTouchedP1 = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8 || keycode == Input.Keys.DPAD_UP) && game.base >= 8;
+            nonagonTouchedP1 = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9 || keycode == Input.Keys.PAGE_UP) && game.base >= 9;
             playTouched = pointTouchedP1;
             homeTouched = lineTouchedP1;
             exitTouched = triangleTouchedP1;
             if(multiplayer) {
-                pointTouchedP2 = keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1;
-                lineTouchedP2 = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2;
-                triangleTouchedP2 = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3;
-                squareTouchedP2 = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4;
-                pentagonTouchedP2 = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5) && game.base >= 5;
-                hexagonTouchedP2 = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6) && game.base >= 6;
-                septagonTouchedP2 = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7) && game.base >= 7;
-                octagonTouchedP2 = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8) && game.base >= 8;
-                nonagonTouchedP2 = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9) && game.base >= 9;
+                pointTouchedP2 = keycode == Input.Keys.NUM_1 || keycode == Input.Keys.NUMPAD_1 || keycode == Input.Keys.END;
+                lineTouchedP2 = keycode == Input.Keys.NUM_2 || keycode == Input.Keys.NUMPAD_2 || keycode == Input.Keys.DPAD_DOWN;
+                triangleTouchedP2 = keycode == Input.Keys.NUM_3 || keycode == Input.Keys.NUMPAD_3 || keycode == Input.Keys.PAGE_DOWN;
+                squareTouchedP2 = keycode == Input.Keys.NUM_4 || keycode == Input.Keys.NUMPAD_4 || keycode == Input.Keys.DPAD_LEFT;
+                pentagonTouchedP2 = (keycode == Input.Keys.NUM_5 || keycode == Input.Keys.NUMPAD_5 || keycode == Input.Keys.DPAD_CENTER || keycode == Input.Keys.UNKNOWN) && game.base >= 5;
+                hexagonTouchedP2 = (keycode == Input.Keys.NUM_6 || keycode == Input.Keys.NUMPAD_6 || keycode == Input.Keys.DPAD_RIGHT) && game.base >= 6;
+                septagonTouchedP2 = (keycode == Input.Keys.NUM_7 || keycode == Input.Keys.NUMPAD_7 || keycode == Input.Keys.HOME) && game.base >= 7;
+                octagonTouchedP2 = (keycode == Input.Keys.NUM_8 || keycode == Input.Keys.NUMPAD_8 || keycode == Input.Keys.DPAD_UP) && game.base >= 8;
+                nonagonTouchedP2 = (keycode == Input.Keys.NUM_9 || keycode == Input.Keys.NUMPAD_9 || keycode == Input.Keys.PAGE_UP) && game.base >= 9;
                 inputTouchedGameplayP2 = pointTouchedP2 || lineTouchedP2 || triangleTouchedP2 || squareTouchedP2 || pentagonTouchedP2 || hexagonTouchedP2 || septagonTouchedP2 || octagonTouchedP2 || nonagonTouchedP2;
             }
         }
